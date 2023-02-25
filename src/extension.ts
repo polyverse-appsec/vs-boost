@@ -1,26 +1,33 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { SampleKernel } from './controller';
+import { SampleContentSerializer } from './serializer';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+const NOTEBOOK_TYPE = 'test-notebook-serializer';
+
 export function activate(context: vscode.ExtensionContext) {
+	context.subscriptions.push(vscode.commands.registerCommand('notebook-serializer-sample.createJsonNotebook', async () => {
+		const language = 'json';
+		const defaultValue = `{ "hello_world": 123 }`;
+		const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Code, defaultValue, language);
+		const data = new vscode.NotebookData([cell]);
+		data.metadata = {
+			custom: {
+				cells: [],
+				metadata: {
+					orig_nbformat: 4
+				},
+				nbformat: 4,
+				nbformat_minor: 2
+			}
+		};
+		const doc = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, data);
+		await vscode.window.showNotebookDocument(doc);
+	}));
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "vs-boost" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('vs-boost.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Polyverse Boost Visual Studio Code Extension!');
-	});
-
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(
+		vscode.workspace.registerNotebookSerializer(
+			NOTEBOOK_TYPE, new SampleContentSerializer(), { transientOutputs: true }
+		),
+		new SampleKernel()
+	);
 }
-
-// This method is called when your extension is deactivated
-export function deactivate() {}
