@@ -17,7 +17,7 @@ interface RawNotebookCell {
 	editable?: boolean;
 }
 
-export class SampleContentSerializer implements vscode.NotebookSerializer {
+export class BoostContentSerializer implements vscode.NotebookSerializer {
 	public readonly label: string = 'My Sample Content Serializer';
 
 	public async deserializeNotebook(data: Uint8Array, token: vscode.CancellationToken): Promise<vscode.NotebookData> {

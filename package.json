@@ -1,8 +1,8 @@
 {
-  "name": "notebook-serializer-sample",
-  "displayName": "notebook-serializer-sample",
-  "description": "Notebook using Serializer API sample",
-  "publisher": "vscode-samples",
+  "name": "polyverse-boost-notebook",
+  "displayName": "polyverse-boost-notebook",
+  "description": "VS Code extension Polyverse Boost: Automatic Application Modernization",
+  "publisher": "Polyverse",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.74.0"
@@ -11,24 +11,24 @@
     "Other"
   ],
   "activationEvents": [
-    "onNotebook:test-notebook-serializer",
-	"onCommand:notebook-serializer-sample.createJsonNotebook"
+    "onNotebook:boost-notebook",
+	"onCommand:polyverse-boost-notebook.createJsonNotebook"
   ],
   "main": "./out/extension.js",
   "contributes": {
 	"commands": [
 		{
-			"command": "notebook-serializer-sample.createJsonNotebook",
-			"title": "Create JSON Notebook"
+			"command": "polyverse-boost-notebook.createJsonNotebook",
+			"title": "Create Polyverse Boost Notebook"
 		}
 	],
     "notebooks": [
       {
-        "type": "test-notebook-serializer",
-        "displayName": "Sample Notebook",
+        "type": "polyverse-boost-notebook",
+        "displayName": "Boost Notebook",
         "selector": [
           {
-            "filenamePattern": "*.sample-json-notebook"
+            "filenamePattern": "*.boost-notebook"
           }
         ]
       }

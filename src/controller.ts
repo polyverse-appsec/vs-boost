@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
 
-export class SampleKernel {
-	private readonly _id = 'test-notebook-serializer-kernel';
-	private readonly _label = 'Sample Notebook Kernel';
+export class BoostKernel {
+	private readonly _id = 'polyverse-boost-notebook-kernel';
+	private readonly _label = 'Polyverse Boost Notebook Kernel';
 	private readonly _supportedLanguages = ['json'];
 
 	private _executionOrder = 0;
@@ -11,7 +11,7 @@ export class SampleKernel {
 	constructor() {
 
 		this._controller = vscode.notebooks.createNotebookController(this._id,
-			'test-notebook-serializer',
+			'polyverse-boost-notebook-serializer',
 			this._label);
 
 		this._controller.supportedLanguages = this._supportedLanguages;
