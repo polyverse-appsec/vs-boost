@@ -41,7 +41,8 @@
 			"notebook/toolbar": [
 				{
 					"command": "polyverse-boost-notebook.loadCodeFile",
-          "when": "notebookType == 'polyverse-boost-notebook'"
+          "when": "notebookType == 'polyverse-boost-notebook'",
+          "group": "notebook"
 				}
 			]
 		}

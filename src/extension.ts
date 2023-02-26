@@ -55,6 +55,24 @@ export function activate(context: vscode.ExtensionContext) {
 			const language = 'typescript';
 			const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Code, fileContents.toString(), language);
 
+			const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
+			if (currentNotebook) {
+				const edit = new vscode.WorkspaceEdit();
+
+				// Use .set to add one or more edits to the notebook
+				edit.set(currentNotebook.uri, [
+					// Create an edit that inserts one or more cells after the first cell in the notebook
+					vscode.NotebookEdit.insertCells(/* index */ 1, [
+						cell
+					]),
+
+					// Additional notebook edits...
+				]);
+				await vscode.workspace.applyEdit(edit);
+			}
+
+  	
+
 		}
 	}));
 }
