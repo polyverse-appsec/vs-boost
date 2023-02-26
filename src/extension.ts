@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { BoostKernel } from './controller';
 import { BoostContentSerializer } from './serializer';
+import { splitCode } from './split';	
 
 const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 
@@ -51,9 +52,20 @@ export function activate(context: vscode.ExtensionContext) {
 			// Use the vscode.workspace.fs.readFile method to read the contents of the file
 			const fileContents = await vscode.workspace.fs.readFile(fileUri[0]);
 
-			// Create a new cell with the contents of the file
-			const language = 'typescript';
-			const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Code, fileContents.toString(), language);
+			// turn fileContents into a string and call splitCode
+			const fileContentsString = fileContents.toString();
+			const splitCodeResult = splitCode(fileContentsString);
+
+			// set the language to c to start
+			const language = 'c';
+
+			//now loop through the splitCodeResult and create a cell for each item, adding to an array of cells
+			const cells = [];
+
+			for (let i = 0; i < splitCodeResult.length; i++) {
+				const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Code, splitCodeResult[i], language);
+				cells.push(cell);
+			}
 
 			const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
 			if (currentNotebook) {
@@ -62,9 +74,7 @@ export function activate(context: vscode.ExtensionContext) {
 				// Use .set to add one or more edits to the notebook
 				edit.set(currentNotebook.uri, [
 					// Create an edit that inserts one or more cells after the first cell in the notebook
-					vscode.NotebookEdit.insertCells(/* index */ 1, [
-						cell
-					]),
+					vscode.NotebookEdit.insertCells(/* index */ 1, cells),
 
 					// Additional notebook edits...
 				]);
