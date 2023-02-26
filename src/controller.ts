@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 export class BoostKernel {
 	private readonly _id = 'polyverse-boost-notebook-kernel';
 	private readonly _label = 'Polyverse Boost Notebook Kernel';
-	private readonly _supportedLanguages = ['json'];
+	private readonly _supportedLanguages = ['c', 'cpp', 'csharp', 'fsharp', 'go', 'java', 'javascript', 'php', 'python', 'ruby', 'rust', 'scala', 'swift', 'typescript', 'fortran', 'julia', 'powershell', 'r', 'sql', 'vb'];
 
 	private _executionOrder = 0;
 	private readonly _controller: vscode.NotebookController;
