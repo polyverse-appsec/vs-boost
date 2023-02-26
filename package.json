@@ -16,12 +16,16 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
-	"commands": [
-		{
-			"command": "polyverse-boost-notebook.createJsonNotebook",
-			"title": "Create Polyverse Boost Notebook"
-		}
-	],
+    "commands": [
+      {
+        "command": "polyverse-boost-notebook.createJsonNotebook",
+        "title": "Create Polyverse Boost Notebook"
+      },
+      {
+        "command": "polyverse-boost-notebook.loadCodeFile",
+        "title": "Analyze File with Polyverse Boost"
+      }
+    ],
     "notebooks": [
       {
         "type": "polyverse-boost-notebook",
@@ -32,7 +36,15 @@
           }
         ]
       }
-    ]
+    ],
+    "menus": {
+			"notebook/toolbar": [
+				{
+					"command": "polyverse-boost-notebook.loadCodeFile",
+          "when": "notebookType == 'polyverse-boost-notebook'"
+				}
+			]
+		}
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
