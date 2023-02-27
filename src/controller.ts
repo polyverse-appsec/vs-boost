@@ -11,7 +11,7 @@ export class BoostKernel {
 	constructor() {
 
 		this._controller = vscode.notebooks.createNotebookController(this._id,
-			'polyverse-boost-notebook-serializer',
+			'polyverse-boost-notebook',
 			this._label);
 
 		this._controller.supportedLanguages = this._supportedLanguages;
