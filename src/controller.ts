@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 export class BoostKernel {
 	private readonly _id = 'polyverse-boost-notebook-kernel';
 	private readonly _label = 'Polyverse Boost Notebook Kernel';
-	private readonly _supportedLanguages = ['c', 'cpp', 'csharp', 'fsharp', 'go', 'java', 'javascript', 'php', 'python', 'ruby', 'rust', 'scala', 'swift', 'typescript', 'fortran', 'julia', 'powershell', 'r', 'sql', 'vb'];
+	private readonly _supportedLanguages = [];
 
 	private _executionOrder = 0;
 	private readonly _controller: vscode.NotebookController;
@@ -36,9 +36,18 @@ export class BoostKernel {
 		execution.start(Date.now());
 
 		try {
-			execution.replaceOutput([new vscode.NotebookCellOutput([
-				vscode.NotebookCellOutputItem.json(JSON.parse(cell.document.getText()))
-			])]);
+			//make an array of CellOputputItems with the type NotebookCellOutputItem
+
+			const outputItems: vscode.NotebookCellOutputItem[] = [];
+			// push a new CellOutputItem with the json parsed text of the cell with the markdown string of "this is a test"
+			outputItems.push(vscode.NotebookCellOutputItem.text('#this is a test of markdown', 'text/markdown'));
+			// push a new CellOutputItem with the json parsed text of the cell
+			outputItems.push(vscode.NotebookCellOutputItem.text('print(\'this is the code.\')', 'text/html'));
+
+			// create a new NotebookCellOutput with the outputItems array
+			const output = new vscode.NotebookCellOutput(outputItems);
+
+			execution.replaceOutput(output);
 
 			execution.end(true, Date.now());
 		} catch (err) {
