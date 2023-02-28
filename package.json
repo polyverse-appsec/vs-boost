@@ -12,7 +12,7 @@
   ],
   "activationEvents": [
     "onNotebook:boost-notebook",
-	"onCommand:polyverse-boost-notebook.createJsonNotebook"
+    "onCommand:polyverse-boost-notebook.createJsonNotebook"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -38,14 +38,14 @@
       }
     ],
     "menus": {
-			"notebook/toolbar": [
-				{
-					"command": "polyverse-boost-notebook.loadCodeFile",
+      "notebook/toolbar": [
+        {
+          "command": "polyverse-boost-notebook.loadCodeFile",
           "when": "notebookType == 'polyverse-boost-notebook'",
           "group": "notebook"
-				}
-			]
-		}
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -62,5 +62,8 @@
     "eslint": "^7.27.0",
     "mocha": "^10.2.0",
     "typescript": "^4.3.2"
+  },
+  "dependencies": {
+    "axios": "^1.3.4"
   }
 }
