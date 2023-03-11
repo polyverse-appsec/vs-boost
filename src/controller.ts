@@ -64,7 +64,16 @@ export class BoostKernel {
 			// push a new CellOutputItem with the json parsed text of the cell with the markdown string of "this is a test"
 			outputItems.push(vscode.NotebookCellOutputItem.text('Summary of code: ' + summarydata.explanation, 'text/markdown'));
 			// push a new CellOutputItem with the json parsed text of the cell
-			outputItems.push(vscode.NotebookCellOutputItem.text(generatedCode.code, 'text/plain'));
+			// TODO: turn this to the language of the generated code
+			/* VS Code will render these mimetypes as code in a built-in editor:
+
+			text/x-json
+			text/x-javascript
+			text/x-html
+			text/x-rust
+			... text/x-LANGUAGE_ID for any other built-in or installed languages.*/
+
+			outputItems.push(vscode.NotebookCellOutputItem.text(generatedCode.code, 'text/x-python'));
 
 			// create a new NotebookCellOutput with the outputItems array
 			const output = new vscode.NotebookCellOutput(outputItems);
