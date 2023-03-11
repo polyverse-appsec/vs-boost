@@ -81,6 +81,27 @@ export class BoostKernel {
 			execution.replaceOutput(output);
 
 			execution.end(true, Date.now());
+
+			console.log('done, trying to add cell');
+			// now try to add a new cell to the notebook with the generated summary
+			const newCell = new vscode.NotebookCellData(vscode.NotebookCellKind.Markup, summarydata.explanation, 'markdown');
+			const cells = [newCell];
+
+			const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
+			if (currentNotebook) {
+				const edit = new vscode.WorkspaceEdit();
+				console.log('adding cell')
+				// Use .set to add one or more edits to the notebook
+				edit.set(currentNotebook.uri, [
+					// Create an edit that inserts one or more cells after the first cell in the notebook
+					vscode.NotebookEdit.insertCells(cell.index + 1, cells),
+
+					// Additional notebook edits...
+				]);
+				await vscode.workspace.applyEdit(edit);
+				console.log('added cell')
+			}
+
 		} catch (err) {
 			execution.replaceOutput([new vscode.NotebookCellOutput([
 				vscode.NotebookCellOutputItem.error(err as Error)
