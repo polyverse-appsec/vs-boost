@@ -91,7 +91,11 @@ export class BoostKernel {
 			// now try to add a new cell to the notebook with the generated summary
 			const newCell = new vscode.NotebookCellData(vscode.NotebookCellKind.Code, summarydata.explanation, 'markdown');
 			const cells = [newCell];
-			newCell.metadata = {"id": currentId, "type": "generatedCode"};
+			newCell.metadata = {
+				"id": currentId, 
+				"type": "generatedCode",
+				"originalCode": code
+			};
 
 			const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
 			if (currentNotebook) {
@@ -154,7 +158,7 @@ export class BoostKernel {
 			console.log(summarydata);
 
 			// now take the summary and using axios send it to localhost:8080/generate/python with the summary in a json object summary=summary
-			const response2 = await axios.post('http://localhost:8080/generate/python', { explanation: summarydata });
+			const response2 = await axios.post('http://localhost:8080/generate/python', { explanation: summarydata, originalCode: cell.metadata.originalCode });
 
 			const generatedCode = await response2.data;
 
