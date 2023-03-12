@@ -64,6 +64,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 			for (let i = 0; i < splitCodeResult.length; i++) {
 				const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Code, splitCodeResult[i], language);
+				cell.metadata = {"id": i};
 				cells.push(cell);
 			}
 

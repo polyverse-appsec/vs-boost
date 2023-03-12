@@ -36,6 +36,8 @@ export class BoostKernel {
 		execution.executionOrder = ++this._executionOrder;
 		execution.start(Date.now());
 
+		const currentId = cell.metadata.id;
+
 		try {
 			//make an array of CellOputputItems with the type NotebookCellOutputItem
 
@@ -86,18 +88,28 @@ export class BoostKernel {
 			// now try to add a new cell to the notebook with the generated summary
 			const newCell = new vscode.NotebookCellData(vscode.NotebookCellKind.Markup, summarydata.explanation, 'markdown');
 			const cells = [newCell];
+			newCell.metadata = {"id": currentId};
 
 			const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
 			if (currentNotebook) {
 				const edit = new vscode.WorkspaceEdit();
 				console.log('adding cell')
 				// Use .set to add one or more edits to the notebook
-				edit.set(currentNotebook.uri, [
-					// Create an edit that inserts one or more cells after the first cell in the notebook
-					vscode.NotebookEdit.insertCells(cell.index + 1, cells),
-
-					// Additional notebook edits...
-				]);
+				const nextCell = currentNotebook.getCells()[cell.index + 1];
+				//if the next cell exists and has the same metadata, then it's one of ours and we should
+				//replace it with the new cell
+				if (nextCell && nextCell.metadata.id === currentId) {
+					const range = new vscode.NotebookRange(cell.index + 1, cell.index + 2);
+					edit.set(currentNotebook.uri, [
+						// Create an edit that inserts one or more cells after the first cell in the notebook
+						vscode.NotebookEdit.replaceCells(range, cells)
+					]);
+				} else {
+					edit.set(currentNotebook.uri, [
+						// Create an edit that inserts one or more cells after the first cell in the notebook
+						vscode.NotebookEdit.insertCells(cell.index + 1, cells),
+					]);
+				}
 				await vscode.workspace.applyEdit(edit);
 				console.log('added cell')
 			}
