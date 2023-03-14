@@ -36,7 +36,16 @@ export function activate(context: vscode.ExtensionContext) {
 	loadCodeFileButton.text = "$(file-directory) Load Code File";
 	loadCodeFileButton.command = 'polyverse-boost-notebook.loadCodeFile';
 	loadCodeFileButton.show();
-
+	
+	// register the select language command
+	context.subscriptions.push(vscode.commands.registerCommand('polyverse-boost-notebook.selectOutputLanguage', async () => {
+		// Use the vscode.window.showQuickPick method to let the user select a language
+		const language = await vscode.window.showQuickPick(['c', 'cpp', 'python'], {
+			canPickMany: false,
+			placeHolder: 'Select a language'
+		});
+		vscode.window.showInformationMessage(`Got: ${language}`);
+	}));
 	// Register a command to handle the button click
 	context.subscriptions.push(vscode.commands.registerCommand('polyverse-boost-notebook.loadCodeFile', async () => {
 		// Use the vscode.window.showOpenDialog method to let the user select a file
