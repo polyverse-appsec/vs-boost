@@ -36,6 +36,9 @@ export class BoostKernel {
 
 	private async _doExecution(cell: vscode.NotebookCell): Promise<void> {
 
+		// make sure we're authorized
+		// if not, run the authorization cell
+		const session = await this._doAuthorizationExecution(cell);
 		// we basically run two executions, one for the original code to generate a summary
 		// and one for the generated code
 
@@ -170,5 +173,18 @@ export class BoostKernel {
 			])]);
 			execution.end(false, Date.now());
 		}
-	}	
+	}
+	private async _doAuthorizationExecution(cell: vscode.NotebookCell): Promise<vscode.AuthenticationSession | undefined> {
+		const GITHUB_AUTH_PROVIDER_ID = 'github';
+		// The GitHub Authentication Provider accepts the scopes described here:
+		// https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/
+		const SCOPES = ['user:email'];
+
+
+		const session = await vscode.authentication.getSession(GITHUB_AUTH_PROVIDER_ID, SCOPES, { createIfNone: true });
+		console.log("just got session: \n");
+		console.log(session);
+
+		return session;
+	}
 }

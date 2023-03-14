@@ -70,6 +70,7 @@ export function activate(context: vscode.ExtensionContext) {
 			const fileContentsString = fileContents.toString();
 			const splitCodeResult = splitCode(fileContentsString);
 
+	
 			// set the language to c to start
 			const language = 'c';
 
@@ -99,5 +100,5 @@ export function activate(context: vscode.ExtensionContext) {
   	
 
 		}
-	}));
+	}));	
 }
