@@ -39,24 +39,31 @@ export class BoostKernel {
 		// make sure we're authorized
 		// if not, run the authorization cell
 		const session = await this._doAuthorizationExecution(cell);
+
+		//if not authorized, return
+		if (!session) {
+			return;
+		}
+
 		// we basically run two executions, one for the original code to generate a summary
 		// and one for the generated code
 
+		
 		// if the cell is original code, run the summary generation
 		if (cell.metadata.type === 'originalCode') {
-			this._doSummaryExecution(cell)
+			this._doSummaryExecution(cell, session)
 				.then((summaryCell) => {
 					if( summaryCell	){
-						this._doGeneratedCodeExecution(summaryCell);
+						this._doGeneratedCodeExecution(summaryCell, session);
 					}
 				});
 		} else if (cell.metadata.type === 'generatedCode') {
 			// if the cell is generated code, run the generated code
-			this._doGeneratedCodeExecution(cell);
+			this._doGeneratedCodeExecution(cell, session);
 		}
 	}
 
-	private async _doSummaryExecution(cell: vscode.NotebookCell): Promise<vscode.NotebookCell | undefined>{
+	private async _doSummaryExecution(cell: vscode.NotebookCell, session: vscode.AuthenticationSession): Promise<vscode.NotebookCell | undefined>{
 
 		const execution = this._controller.createNotebookCellExecution(cell);
 
@@ -72,7 +79,7 @@ export class BoostKernel {
 			const code = cell.document.getText();
 
 			// using axios, make a web POST call to localhost:8080/explain with the code as in a json object code=code
-			const response = await axios.post('http://localhost:8080/explain', { code: code });
+			const response = await axios.post('http://localhost:8080/explain', { code: code, session: session.accessToken });
 
 
 			const summarydata = response.data;
@@ -121,7 +128,7 @@ export class BoostKernel {
 		return undefined;
 	}
 
-	private async _doGeneratedCodeExecution(cell: vscode.NotebookCell): Promise<void> {
+	private async _doGeneratedCodeExecution(cell: vscode.NotebookCell, session: vscode.AuthenticationSession): Promise<void> {
 
 		//if cell is undefined or metadata is undefined, return
 		if (!cell || !cell.metadata) {
@@ -152,7 +159,8 @@ export class BoostKernel {
 			console.log(summarydata);
 
 			// now take the summary and using axios send it to localhost:8080/generate/python with the summary in a json object summary=summary
-			const response2 = await axios.post('http://localhost:8080/generate/' + outputLanguage, { explanation: summarydata, originalCode: cell.metadata.originalCode });
+			const response2 = await axios.post('http://localhost:8080/generate/' + outputLanguage, 
+				{ explanation: summarydata, originalCode: cell.metadata.originalCode, session: session.accessToken });
 
 			const generatedCode = await response2.data;
 
