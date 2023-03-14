@@ -137,6 +137,15 @@ export class BoostKernel {
 		if (!cell || !cell.metadata) {
 			return;
 		}
+		//get the outputLanguage from the metadata on the notebook editor, default to python
+		let outputLanguage = vscode.window.activeNotebookEditor?.notebook.metadata.outputLanguage;
+		//if outputLanguage is undefined, set it to python
+		if (!outputLanguage) {
+			vscode.window.showInformationMessage(`No output language set, defaulting to python`);
+			outputLanguage = 'python';
+		}
+	
+		vscode.window.showInformationMessage(`Got: ${outputLanguage}`);
 		const currentId = cell.metadata.id;
 		const execution = this._controller.createNotebookCellExecution(cell);
 

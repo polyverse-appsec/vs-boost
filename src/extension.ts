@@ -11,16 +11,6 @@ export function activate(context: vscode.ExtensionContext) {
 		const defaultValue = `{ "hello_world": 123 }`;
 		const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Code, defaultValue, language);
 		const data = new vscode.NotebookData([cell]);
-		data.metadata = {
-			custom: {
-				cells: [],
-				metadata: {
-					orig_nbformat: 4
-				},
-				nbformat: 4,
-				nbformat_minor: 2
-			}
-		};
 		const doc = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, data);
 		await vscode.window.showNotebookDocument(doc);
 	}));
@@ -33,18 +23,33 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 	// Create a new status bar item with a button
 	const loadCodeFileButton = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-	loadCodeFileButton.text = "$(file-directory) Load Code File";
+	loadCodeFileButton.text = "Boost: Load Code File";
 	loadCodeFileButton.command = 'polyverse-boost-notebook.loadCodeFile';
 	loadCodeFileButton.show();
+
+	const selectOutputLanguageButton = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+	selectOutputLanguageButton.text = "Boost: Select Output Language (current: Python)";
+	selectOutputLanguageButton.command = 'polyverse-boost-notebook.selectOutputLanguage';
+	selectOutputLanguageButton.show();
 	
 	// register the select language command
 	context.subscriptions.push(vscode.commands.registerCommand('polyverse-boost-notebook.selectOutputLanguage', async () => {
 		// Use the vscode.window.showQuickPick method to let the user select a language
-		const language = await vscode.window.showQuickPick(['c', 'cpp', 'python'], {
+		const language = await vscode.window.showQuickPick(['python', 'ruby', 'rust', 'javascript', 'typescript', 'csharp' ], {
 			canPickMany: false,
 			placeHolder: 'Select a language'
 		});
-		vscode.window.showInformationMessage(`Got: ${language}`);
+		//put the language in the metadata
+		const editor = vscode.window.activeNotebookEditor;
+		
+		const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
+		if (currentNotebook) {
+			const edit = new vscode.WorkspaceEdit();
+			edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({outputLanguage: language})]);
+			await vscode.workspace.applyEdit(edit);
+			//now update the status bar item
+			selectOutputLanguageButton.text = "Boost: Select Output Language (current: " + language + ")";
+		}
 	}));
 	// Register a command to handle the button click
 	context.subscriptions.push(vscode.commands.registerCommand('polyverse-boost-notebook.loadCodeFile', async () => {
