@@ -73,18 +73,7 @@ export class BoostKernel {
 
 
 			const summarydata = response.data;
-			// print the response to the console
-			console.log(summarydata);
-/*
-			const outputItems: vscode.NotebookCellOutputItem[] = [];
-			// push a new CellOutputItem with the json parsed text of the cell with the markdown string of "this is a test"
-			outputItems.push(vscode.NotebookCellOutputItem.text('Summary of code: ' + summarydata.explanation, 'text/markdown'));
 
-			// create a new NotebookCellOutput with the outputItems array
-			const output = new vscode.NotebookCellOutput(outputItems);
-
-			execution.replaceOutput(output);
-*/
 			execution.end(true, Date.now());
 
 			console.log('done, trying to add cell');
@@ -100,7 +89,6 @@ export class BoostKernel {
 			const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
 			if (currentNotebook) {
 				const edit = new vscode.WorkspaceEdit();
-				console.log('adding cell')
 				// Use .set to add one or more edits to the notebook
 				const nextCell = currentNotebook.getCells()[cell.index + 1];
 				//if the next cell exists and has the same metadata, then it's one of ours and we should
@@ -119,7 +107,6 @@ export class BoostKernel {
 				}
 				await vscode.workspace.applyEdit(edit);
 				return currentNotebook.getCells()[cell.index + 1];
-				console.log('added cell')
 			}
 			return undefined;
 		} catch (err) {
@@ -158,36 +145,17 @@ export class BoostKernel {
 			// get the code from the cell
 			const summarydata = cell.document.getText();
 
-			// using axios, make a web POST call to localhost:8080/explain with the code as in a json object code=code
-			//const response = await axios.post('http://localhost:8080/explain', { code: code });
-
-
-			//const summarydata = response.data;
 			// print the response to the console
 			console.log(summarydata);
 
 			// now take the summary and using axios send it to localhost:8080/generate/python with the summary in a json object summary=summary
-			const response2 = await axios.post('http://localhost:8080/generate/python', { explanation: summarydata, originalCode: cell.metadata.originalCode });
+			const response2 = await axios.post('http://localhost:8080/generate/' + outputLanguage, { explanation: summarydata, originalCode: cell.metadata.originalCode });
 
 			const generatedCode = await response2.data;
 
-			// print the response to the console
-			console.log(generatedCode);
-
-
-
 			const outputItems: vscode.NotebookCellOutputItem[] = [];
-		
-			// TODO: turn this to the language of the generated code
-			/* VS Code will render these mimetypes as code in a built-in editor:
 
-			text/x-json
-			text/x-javascript
-			text/x-html
-			text/x-rust
-			... text/x-LANGUAGE_ID for any other built-in or installed languages.*/
-
-			outputItems.push(vscode.NotebookCellOutputItem.text(generatedCode.code, 'text/x-python'));
+			outputItems.push(vscode.NotebookCellOutputItem.text(generatedCode.code, 'text/x-' + outputLanguage));
 
 			// create a new NotebookCellOutput with the outputItems array
 			const output = new vscode.NotebookCellOutput(outputItems);
