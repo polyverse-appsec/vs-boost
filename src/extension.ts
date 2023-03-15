@@ -35,7 +35,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// register the select language command
 	context.subscriptions.push(vscode.commands.registerCommand('polyverse-boost-notebook.selectOutputLanguage', async () => {
 		// Use the vscode.window.showQuickPick method to let the user select a language
-		const language = await vscode.window.showQuickPick(['python', 'ruby', 'rust', 'javascript', 'typescript', 'csharp' ], {
+		const language = await vscode.window.showQuickPick(['python', 'ruby', 'swift', 'rust', 'javascript', 'typescript', 'csharp' ], {
 			canPickMany: false,
 			placeHolder: 'Select a language'
 		});
