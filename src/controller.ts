@@ -166,7 +166,13 @@ export class BoostKernel {
 
 			const outputItems: vscode.NotebookCellOutputItem[] = [];
 
-			outputItems.push(vscode.NotebookCellOutputItem.text(generatedCode.code, 'text/x-' + outputLanguage));
+			//quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
+			let mimetype = 'text/x-' + outputLanguage;
+			if(generatedCode.code.includes('```')){
+				mimetype = 'text/markdown';
+			} 
+
+			outputItems.push(vscode.NotebookCellOutputItem.text(generatedCode.code, mimetype));
 
 			// create a new NotebookCellOutput with the outputItems array
 			const output = new vscode.NotebookCellOutput(outputItems);
