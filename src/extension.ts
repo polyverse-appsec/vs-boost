@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { BoostKernel } from './controller';
 import { BoostContentSerializer } from './serializer';
-import { splitCode } from './split';	
+import { parseFunctions } from './split';	
 
 const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 
@@ -68,17 +68,15 @@ export function activate(context: vscode.ExtensionContext) {
 
 			// turn fileContents into a string and call splitCode
 			const fileContentsString = fileContents.toString();
-			const splitCodeResult = splitCode(fileContentsString);
+			const [languageId, splitCodeResult] = parseFunctions(fileUri[0].toString(), fileContentsString);
 
-	
-			// set the language to c to start
-			const language = 'c';
+
 
 			//now loop through the splitCodeResult and create a cell for each item, adding to an array of cells
 			const cells = [];
 
 			for (let i = 0; i < splitCodeResult.length; i++) {
-				const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Code, splitCodeResult[i], language);
+				const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Code, splitCodeResult[i], languageId);
 				cell.metadata = {"id": i, "type": "originalCode"};
 				cells.push(cell);
 			}
