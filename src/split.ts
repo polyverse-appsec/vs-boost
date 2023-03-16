@@ -196,36 +196,49 @@ function parseGoFunctions(code: string): string[] {
   const functions: string[] = [];
   let currentFunction = '';
   let depth = 0;
+  let inFunction = false;
 
   for (const line of lines) {
-      const trimmedLine = line.trim();
+    const trimmedLine = line.trim();
 
-      if (trimmedLine.startsWith('func ')) {
-          depth++;
-          if (depth === 1) {
-              if (currentFunction) {
-                  functions.push(currentFunction);
-              }
-              currentFunction = line;
-          } else {
-              currentFunction += '\n' + line;
-          }
-      } else if (trimmedLine.endsWith('}')) {
-          depth--;
-          currentFunction += '\n' + line;
-          if (depth === 0) {
-              functions.push(currentFunction);
-              currentFunction = '';
-          }
+    if (trimmedLine.startsWith('func ')) {
+      if (!inFunction) {
+        inFunction = true;
+        if (currentFunction) {
+          functions.push(currentFunction);
+        }
+        currentFunction = line;
       } else {
-          currentFunction += '\n' + line;
+        currentFunction += '\n' + line;
       }
-  }
-  if (currentFunction) {
+    } else {
+      currentFunction += '\n' + line;
+    }
+
+    // Count opening and closing braces to track the depth
+    for (const char of trimmedLine) {
+      if (char === '{') {
+        depth++;
+      } else if (char === '}') {
+        depth--;
+      }
+    }
+
+    // If depth is 0 and we are in a function, push the currentFunction and reset it
+    if (depth === 0 && inFunction) {
       functions.push(currentFunction);
+      currentFunction = '';
+      inFunction = false;
+    }
   }
+
+  if (currentFunction) {
+    functions.push(currentFunction);
+  }
+
   return functions;
 }
+
 
 function parseObjCMethods(code: string): string[] {
   const lines = code.split('\n');
