@@ -274,36 +274,46 @@ function parseObjCMethods(code: string): string[] {
 
 function parseRubyFunctions(code: string): string[] {
   const lines = code.split('\n');
-  const functions: string[] = [];
-  let currentFunction = '';
+  const blocks: string[] = [];
+  let currentBlock = '';
   let depth = 0;
 
+  const blockStartKeywords = /^(def|class|module|if|elsif|unless|while|until|for|case|begin|do)\b/;
+  const blockEndKeyword = /^end\b/;
+
   for (const line of lines) {
-      if (line.trim().startsWith('def ')) {
-          depth++;
-          if (depth === 1) {
-              if (currentFunction) {
-                  functions.push(currentFunction);
-              }
-              currentFunction = line;
-          } else {
-              currentFunction += '\n' + line;
-          }
-      } else if (line.trim() === 'end') {
-          depth--;
-          if (depth === 0) {
-              currentFunction += '\n' + line;
-              functions.push(currentFunction);
-              currentFunction = '';
-          } else {
-              currentFunction += '\n' + line;
-          }
+    const trimmedLine = line.trim();
+    if (blockStartKeywords.test(trimmedLine)) {
+      depth++;
+      if (depth === 1) {
+        if (currentBlock) {
+          blocks.push(currentBlock);
+        }
+        currentBlock = line;
       } else {
-          currentFunction += '\n' + line;
+        currentBlock += '\n' + line;
       }
+    } else if (blockEndKeyword.test(trimmedLine)) {
+      depth--;
+      if (depth === 0) {
+        currentBlock += '\n' + line;
+        blocks.push(currentBlock);
+        currentBlock = '';
+      } else {
+        currentBlock += '\n' + line;
+      }
+    } else {
+      currentBlock += '\n' + line;
+    }
   }
-  return functions;
+  // If currentBlock is not empty, it means that the code does not end with 'end', add it to the blocks
+  if (currentBlock) {
+    blocks.push(currentBlock);
+  }
+
+  return blocks;
 }
+
 
 function parsePythonFunctions(code: string): string[] {
   const lines = code.split('\n');
