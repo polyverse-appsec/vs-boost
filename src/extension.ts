@@ -83,12 +83,14 @@ export function activate(context: vscode.ExtensionContext) {
 
 			const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
 			if (currentNotebook) {
+				// get the range of the cells in the notebook
+				const range = new vscode.NotebookRange(0, currentNotebook.cellCount);
 				const edit = new vscode.WorkspaceEdit();
-
+				
 				// Use .set to add one or more edits to the notebook
 				edit.set(currentNotebook.uri, [
 					// Create an edit that inserts one or more cells after the first cell in the notebook
-					vscode.NotebookEdit.insertCells(/* index */ 1, cells),
+					vscode.NotebookEdit.replaceCells(range, cells),
 
 					// Additional notebook edits...
 				]);
