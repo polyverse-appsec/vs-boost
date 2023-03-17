@@ -23,11 +23,13 @@
       },
       {
         "command": "polyverse-boost-notebook.loadCodeFile",
-        "title": "Analyze File with Polyverse Boost"
+        "title": "Boost: Load File",
+        "icon": "$(file-code)"        
       },
       {
         "command": "polyverse-boost-notebook.selectOutputLanguage",
-        "title": "Select Output Language for Polyverse Boost"
+        "title": "Boost: Select Output Language",
+        "icon": "$(code)"
       }
     ],
     "notebooks": [
@@ -46,12 +48,12 @@
         {
           "command": "polyverse-boost-notebook.loadCodeFile",
           "when": "notebookType == 'polyverse-boost-notebook'",
-          "group": "notebook"
+          "group": "navigation"
         },
         {
           "command": "polyverse-boost-notebook.selectOutputLanguage",
           "when": "notebookType == 'polyverse-boost-notebook'",
-          "group": "notebook"
+          "group": "navigation"
         }
       ]
     }
