@@ -17,7 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		vscode.workspace.registerNotebookSerializer(
-			NOTEBOOK_TYPE, new BoostContentSerializer(), { transientOutputs: true }
+			NOTEBOOK_TYPE, new BoostContentSerializer(), { transientOutputs: false }
 		),
 		new BoostKernel()
 	);

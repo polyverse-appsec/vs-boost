@@ -86,7 +86,6 @@ export class BoostKernel {
 
 			execution.end(true, Date.now());
 
-			console.log('done, trying to add cell');
 			// now try to add a new cell to the notebook with the generated summary
 			const newCell = new vscode.NotebookCellData(vscode.NotebookCellKind.Code, summarydata.explanation, 'markdown');
 			const cells = [newCell];
@@ -138,11 +137,11 @@ export class BoostKernel {
 		let outputLanguage = vscode.window.activeNotebookEditor?.notebook.metadata.outputLanguage;
 		//if outputLanguage is undefined, set it to python
 		if (!outputLanguage) {
-			vscode.window.showInformationMessage(`No output language set, defaulting to python`);
+			//vscode.window.showInformationMessage(`No output language set, defaulting to python`);
 			outputLanguage = 'python';
 		}
 	
-		vscode.window.showInformationMessage(`Got: ${outputLanguage}`);
+		//vscode.window.showInformationMessage(`Got: ${outputLanguage}`);
 		const currentId = cell.metadata.id;
 		const execution = this._controller.createNotebookCellExecution(cell);
 
@@ -154,9 +153,6 @@ export class BoostKernel {
 
 			// get the code from the cell
 			const summarydata = cell.document.getText();
-
-			// print the response to the console
-			console.log(summarydata);
 
 			// now take the summary and using axios send it to localhost:8080/generate/python with the summary in a json object summary=summary
 			const response2 = await axios.post('http://localhost:8080/generate/' + outputLanguage, 
@@ -196,8 +192,6 @@ export class BoostKernel {
 
 
 		const session = await vscode.authentication.getSession(GITHUB_AUTH_PROVIDER_ID, SCOPES, { createIfNone: true });
-		console.log("just got session: \n");
-		console.log(session);
 
 		return session;
 	}

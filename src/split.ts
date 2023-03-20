@@ -37,8 +37,6 @@ function splitCode(code: string): string[] {
       chunkCount++;
     }
   
-    console.log(`Split ${chunkCount} chunks.`, chunks);
-  
     return chunks;
   }
   
