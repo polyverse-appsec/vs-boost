@@ -2,13 +2,14 @@ import * as vscode from 'vscode';
 import { BoostKernel } from './controller';
 import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
+import instructions from './instructions.json';
 
 const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 
 export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('polyverse-boost-notebook.createJsonNotebook', async () => {
-		const language = 'json';
-		const defaultValue = `{ "hello_world": 123 }`;
+		const language = 'markdown';
+		const defaultValue = instructions.markdown;
 		const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Code, defaultValue, language);
 		const data = new vscode.NotebookData([cell]);
 		const doc = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, data);

@@ -26,8 +26,9 @@ export class BoostKernel {
 
 	private _executeAll(cells: vscode.NotebookCell[], _notebook: vscode.NotebookDocument, _controller: vscode.NotebookController): void {
 		for (const cell of cells) {
-			//if the cell is generated code, don't run it by default, the original code cell will run it
-			if (cell.metadata.type === 'generatedCode') {
+			//if the cell is generated code, don't run it by default, the original code cell will run it, unless it
+			//is the only cell in array of cells being run, in which case, run it
+			if (cell.metadata.type === 'generatedCode' && cells.length > 1) {
 				return;
 			}
 			this._doExecution(cell);
