@@ -80,7 +80,7 @@ export class BoostKernel {
 			const code = cell.document.getText();
 
 			// using axios, make a web POST call to localhost:8080/explain with the code as in a json object code=code
-			const response = await axios.post('http://localhost:8080/explain', { code: code, session: session.accessToken });
+			const response = await axios.post('https://polyverseapi.com/explain', { code: code, session: session.accessToken });
 
 
 			const summarydata = response.data;
@@ -156,7 +156,7 @@ export class BoostKernel {
 			const summarydata = cell.document.getText();
 
 			// now take the summary and using axios send it to localhost:8080/generate/python with the summary in a json object summary=summary
-			const response2 = await axios.post('http://localhost:8080/generate/' + outputLanguage, 
+			const response2 = await axios.post('https://polyverseapi.com/generate/' + outputLanguage, 
 				{ explanation: summarydata, originalCode: cell.metadata.originalCode, session: session.accessToken });
 
 			const generatedCode = await response2.data;
