@@ -1,6 +1,15 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
 
+//set a helper variable of the base url.  this should eventually be a config setting
+const baseUrl = 'https://y1v33c740m.execute-api.us-west-2.amazonaws.com/api/';
+//const baseUrl = 'http://127.0.0.1:8000/';
+const explainUrl = 'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
+const analyzeUrl = 'https://iyn66vkb6lmlcb4log6d3ah7d40axgqu.lambda-url.us-west-2.on.aws/';
+const testgenUrl = 'https://gylbelpkobvont6vpxp4ihw5fm0iwnto.lambda-url.us-west-2.on.aws/';
+const generateUrl = 'https://ukkqda6zl22nd752blcqlv3rum0ziwnq.lambda-url.us-west-2.on.aws/';
+
+
 export class BoostKernel {
 	private readonly _id = 'polyverse-boost-notebook-kernel';
 	private readonly _label = 'Polyverse Boost Notebook Kernel';
@@ -80,7 +89,7 @@ export class BoostKernel {
 			const code = cell.document.getText();
 
 			// using axios, make a web POST call to localhost:8080/explain with the code as in a json object code=code
-			const response = await axios.post('https://polyverseapi.com/explain', { code: code, session: session.accessToken });
+			const response = await axios.post(explainUrl, { code: code, session: session.accessToken });
 
 
 			const summarydata = response.data;
@@ -156,8 +165,8 @@ export class BoostKernel {
 			const summarydata = cell.document.getText();
 
 			// now take the summary and using axios send it to localhost:8080/generate/python with the summary in a json object summary=summary
-			const response2 = await axios.post('https://polyverseapi.com/generate/' + outputLanguage, 
-				{ explanation: summarydata, originalCode: cell.metadata.originalCode, session: session.accessToken });
+			const response2 = await axios.post(generateUrl, 
+				{ explanation: summarydata, originalCode: cell.metadata.originalCode, session: session.accessToken, outputLanguage: outputLanguage });
 
 			const generatedCode = await response2.data;
 
