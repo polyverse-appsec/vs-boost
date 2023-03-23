@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { BoostKernel } from './controller';
+import { BoostAnalyzeKernel } from './analyze_controller';
 import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
 import instructions from './instructions.json';
@@ -20,7 +21,8 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.workspace.registerNotebookSerializer(
 			NOTEBOOK_TYPE, new BoostContentSerializer(), { transientOutputs: false }
 		),
-		new BoostKernel()
+		new BoostKernel(),
+		new BoostAnalyzeKernel()
 	);
 	// Create a new status bar item with a button
 	const loadCodeFileButton = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
