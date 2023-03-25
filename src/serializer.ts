@@ -11,7 +11,7 @@ interface RawNotebookData {
 }
 
 interface RawNotebookCell {
-	language: string;
+	languageId: string;
 	value: string;
 	kind: vscode.NotebookCellKind;
 	editable?: boolean;
@@ -19,15 +19,20 @@ interface RawNotebookCell {
 	metadata?: any;
 }
 
+interface SerializedNotebookCellOutput {
+	items: {
+		mime: string;
+		data: string;
+	}[];
+	metadata?: any;
+}
+
 interface SerializedNotebookCell {
-    language: string;
+    languageId: string;
     value: string;
     kind: vscode.NotebookCellKind;
     editable?: boolean;
-    outputs?: {
-            mimeType: string;
-            value: string;
-        }[];
+    outputs?: SerializedNotebookCellOutput[];
     metadata?: any;
 }
 
@@ -37,72 +42,75 @@ interface SerializedNotebook {
 
 
 export class BoostContentSerializer implements vscode.NotebookSerializer {
-	public readonly label: string = 'My Sample Content Serializer';
+    public readonly label: string = 'My Sample Content Serializer';
 
-	public async deserializeNotebook(data: Uint8Array, token: vscode.CancellationToken): Promise<vscode.NotebookData> {
-		const contents = new TextDecoder().decode(data); // convert to String
+    public async deserializeNotebook(data: Uint8Array, token: vscode.CancellationToken): Promise<vscode.NotebookData> {
+        // if the file is empty, return an empty array of cells
+        if (data.byteLength === 0) {
+            return new vscode.NotebookData([]);
+        }
+        const contents = new TextDecoder().decode(data); // convert to String
 
-		// Read file contents
-		let raw: RawNotebookData;
-		try {
-			raw = <RawNotebookData>JSON.parse(contents);
-		} catch {
-			raw = { cells: [] };
-		}
+        // Read file contents
+        let raw: RawNotebookData;
+        try {
+            raw = <RawNotebookData>JSON.parse(contents);
+        } catch {
+            raw = { cells: [] };
+        }
 
-		// Create array of Notebook cells for the VS Code API from file contents
-		const cells = raw.cells.map(item => {
-			const cellData = new vscode.NotebookCellData(
-				item.kind,
-				item.value,
-				item.language
-			);
-			cellData.outputs = item.outputs?.map((output: any) => {
-				const outputItems = output.items?.map((outputItem: any) => {
-					return new vscode.NotebookCellOutputItem(outputItem.value, outputItem.mimeType);
-				}) ?? [];
-				return new vscode.NotebookCellOutput(outputItems);
-			});
-			cellData.metadata = item.metadata;
-			return cellData;
-		});
-		
-		
+        // Create array of Notebook cells for the VS Code API from file contents
+        const cells = raw.cells.map(item => {
+            const cellData = new vscode.NotebookCellData(
+                item.kind,
+                item.value,
+                item.languageId
+            );
+            cellData.outputs = (item.outputs ?? []).map((output: vscode.NotebookCellOutput) => {
+                const outputItems = output.items.map((outputItem: any) => {
+                    return new vscode.NotebookCellOutputItem(new TextEncoder().encode(outputItem.data), outputItem.mime);
+                });
+                return new vscode.NotebookCellOutput(outputItems, output.metadata);
+            });
+            cellData.metadata = item.metadata;
+            return cellData;
+        });
 
-		return new vscode.NotebookData(cells);
-	}
+        return new vscode.NotebookData(cells);
+    }
 
-	public async serializeNotebook(data: vscode.NotebookData, token: vscode.CancellationToken): Promise<Uint8Array> {
-		// Map the Notebook data into the format we want to save the Notebook data as
-		const contents: SerializedNotebook = { cells: [] };
+    public async serializeNotebook(data: vscode.NotebookData, token: vscode.CancellationToken): Promise<Uint8Array> {
+        // Map the Notebook data into the format we want to save the Notebook data as
+        const contents: SerializedNotebook = { cells: [] };
 
-		for (const cell of data.cells) {
-			// Check if any output item has an error mimeType
-			const hasErrorOutput = cell.outputs?.some(output =>
-				output.items.some(outputItem => outputItem.mime === 'application/vnd.code.notebook.error')
-			);
-		
-			// Skip serialization if the cell has error outputs
-			if (!hasErrorOutput) {
-				contents.cells.push({
-					kind: cell.kind,
-					language: cell.languageId,
-					value: cell.value,
-					outputs: cell.outputs?.flatMap(output => 
-						output.items.map(outputItem => ({
-							mimeType: outputItem.mime,
-							value: new TextDecoder().decode(outputItem.data),
-						}))
-					),
-					metadata: cell.metadata,
-				});
-			}
-		}
+        for (const cell of data.cells) {
+            // Check if any output item has an error mimeType
+            const hasErrorOutput = cell.outputs?.some(output =>
+                output.items.some(outputItem => outputItem.mime === 'application/vnd.code.notebook.error')
+            );
 
-		const ret = new TextEncoder().encode(JSON.stringify(contents, null, 4));
-		//convert from Uit8Array to string
+            // Skip serialization if the cell has error outputs
+            if (!hasErrorOutput) {
+                contents.cells.push({
+                    kind: cell.kind,
+                    languageId: cell.languageId,
+                    value: cell.value,
+                    outputs: cell.outputs?.map(output => {
+                        const items = output.items.map(outputItem => ({
+                            mime: outputItem.mime,
+                            data: new TextDecoder().decode(outputItem.data),
+                        }));
+                        return { items, metadata: output.metadata };
+                    }),
+                    metadata: cell.metadata,
+                });
+            }
+        }
 
-		console.log("serialized: ", JSON.stringify(contents, null, 4));
-		return ret;
-	}
+        const ret = new TextEncoder().encode(JSON.stringify(contents, null, 4));
+        //convert from Uit8Array to string
+
+        console.log("serialized: ", JSON.stringify(contents, null, 4));
+        return ret;
+    }
 }
