@@ -75,7 +75,7 @@ export class BoostTestgenKernel {
 		let outputLanguage = cell.document.languageId;
 
 		//if outputLanguage is undefined, set it to python
-		let framework = vscode.window.activeNotebookEditor?.notebook.metadata.framework;
+		let framework = vscode.window.activeNotebookEditor?.notebook.metadata.testFramework;
 
 		if (!outputLanguage) {
 			//vscode.window.showInformationMessage(`No output language set, defaulting to python`);

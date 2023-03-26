@@ -17,11 +17,31 @@
   ],
   "icon": "resources/polyverse_vs_boost_logo.jpg",
   "activationEvents": [
-    "onNotebook:boost-notebook",
+    "onNotebook:polyverse-boost-notebook",
     "onCommand:polyverse-boost-notebook.createJsonNotebook"
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "Polyverse Boost",
+      "properties": {
+        "polyverse-boost-notebook.defaultDir": {
+          "type": "string",
+          "default": ".boost",
+          "description": "Default directory for Polyverse Boost notebook save files"
+        },
+        "polyverse-boost-notebook.outputLanguage": {
+          "type": "string",
+          "default": "python",
+          "description": "Default output language for Polyverse Boost automatic code conversion"
+        },
+        "polyverse-boost-notebook.testFramework": {
+          "type": "string",
+          "default": "pytest",
+          "description": "Default test framework for Polyverse Boost automatic test code generation"
+        }
+      }
+    },
     "commands": [
       {
         "command": "polyverse-boost-notebook.createJsonNotebook",
@@ -59,17 +79,17 @@
         {
           "command": "polyverse-boost-notebook.loadCodeFile",
           "when": "notebookType == 'polyverse-boost-notebook'",
-          "group": "navigation"
+          "group": "navigation@1"
         },
         {
           "command": "polyverse-boost-notebook.selectOutputLanguage",
           "when": "notebookType == 'polyverse-boost-notebook'",
-          "group": "navigation"
+          "group": "navigation@2"
         },
         {
           "command": "polyverse-boost-notebook.selectTestFramework",
           "when": "notebookType == 'polyverse-boost-notebook'",
-          "group": "navigation"
+          "group": "navigation@3"
         }
       ]
     }

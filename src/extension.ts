@@ -14,6 +14,14 @@ export function activate(context: vscode.ExtensionContext) {
 		const defaultValue = instructions.markdown;
 		const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Code, defaultValue, language);
 		const data = new vscode.NotebookData([cell]);
+		// get the defaults
+		const settings = vscode.workspace.getConfiguration('polyverse-boost-notebook');
+
+		data.metadata = {};
+		data.metadata.outputLanguage = settings.outputLanguage;
+		data.metadata.testFramework = settings.testFramework;
+		data.metadata.defaultDir = settings.defaultDir;
+
 		const doc = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, data);
 		await vscode.window.showNotebookDocument(doc);
 	}));
@@ -26,16 +34,21 @@ export function activate(context: vscode.ExtensionContext) {
 		new BoostAnalyzeKernel(),
 		new BoostTestgenKernel()
 	);
-	// Create a new status bar item with a button
-	const loadCodeFileButton = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-	loadCodeFileButton.text = "Boost: Load Code File";
-	loadCodeFileButton.command = 'polyverse-boost-notebook.loadCodeFile';
-	loadCodeFileButton.show();
+	// get the defaults
+	const settings = vscode.workspace.getConfiguration('polyverse-boost-notebook');
+	const outputLanguage = settings.outputLanguage;
+	const testFramework = settings.testFramework;
 
 	const selectOutputLanguageButton = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-	selectOutputLanguageButton.text = "Boost: Conversion Output Language (current: Python)";
+	selectOutputLanguageButton.text = "Boost: Conversion Output Language is " + outputLanguage;
 	selectOutputLanguageButton.command = 'polyverse-boost-notebook.selectOutputLanguage';
 	selectOutputLanguageButton.show();
+
+	// Create a new status bar item with a button
+	const selectTestFramework = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+	selectTestFramework.text = "Boost: Test Framework is " + testFramework;
+	selectTestFramework.command = 'polyverse-boost-notebook.selectTestFramework';
+	selectTestFramework.show();
 	
 	// register the select language command
 	context.subscriptions.push(vscode.commands.registerCommand('polyverse-boost-notebook.selectOutputLanguage', async () => {
@@ -53,7 +66,7 @@ export function activate(context: vscode.ExtensionContext) {
 			edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({outputLanguage: language})]);
 			await vscode.workspace.applyEdit(edit);
 			//now update the status bar item
-			selectOutputLanguageButton.text = "Boost: Conversion Output Language (current: " + language + ")";
+			selectOutputLanguageButton.text = "Boost: Conversion Output Language is " + language;
 		}
 	}));
 
@@ -64,7 +77,7 @@ export function activate(context: vscode.ExtensionContext) {
 		const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
 		let framework = "pytest";
 		if (currentNotebook) {
-			framework = currentNotebook.metadata.framework;
+			framework = currentNotebook.metadata.testFramework;
 		}
 		// Use the vscode.window.showQuickPick method to let the user select a framework
 		framework = await vscode.window.showInputBox({
@@ -75,8 +88,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 		if (currentNotebook) {
 			const edit = new vscode.WorkspaceEdit();
-			edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({framework: framework})]);
+			edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({testFramework: framework})]);
 			await vscode.workspace.applyEdit(edit);
+			selectTestFramework.text = "Boost: Test Framework is " + framework;
 		}
 	}));
 	// Register a command to handle the button click
