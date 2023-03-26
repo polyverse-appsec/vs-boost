@@ -23,13 +23,18 @@
       },
       {
         "command": "polyverse-boost-notebook.loadCodeFile",
-        "title": "Boost: Load File",
+        "title": "Load File to Convert",
         "icon": "$(file-code)"        
       },
       {
         "command": "polyverse-boost-notebook.selectOutputLanguage",
-        "title": "Boost: Select Output Language",
+        "title": "Conversion Output Language",
         "icon": "$(code)"
+      },
+      {
+        "command": "polyverse-boost-notebook.selectTestFramework",
+        "title": "Select Test Framework",
+        "icon": "$(checklist)"
       }
     ],
     "notebooks": [
@@ -52,6 +57,11 @@
         },
         {
           "command": "polyverse-boost-notebook.selectOutputLanguage",
+          "when": "notebookType == 'polyverse-boost-notebook'",
+          "group": "navigation"
+        },
+        {
+          "command": "polyverse-boost-notebook.selectTestFramework",
           "when": "notebookType == 'polyverse-boost-notebook'",
           "group": "navigation"
         }

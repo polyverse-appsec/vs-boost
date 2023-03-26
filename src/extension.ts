@@ -33,7 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
 	loadCodeFileButton.show();
 
 	const selectOutputLanguageButton = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-	selectOutputLanguageButton.text = "Boost: Select Output Language (current: Python)";
+	selectOutputLanguageButton.text = "Boost: Conversion Output Language (current: Python)";
 	selectOutputLanguageButton.command = 'polyverse-boost-notebook.selectOutputLanguage';
 	selectOutputLanguageButton.show();
 	
@@ -53,7 +53,30 @@ export function activate(context: vscode.ExtensionContext) {
 			edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({outputLanguage: language})]);
 			await vscode.workspace.applyEdit(edit);
 			//now update the status bar item
-			selectOutputLanguageButton.text = "Boost: Select Output Language (current: " + language + ")";
+			selectOutputLanguageButton.text = "Boost: Conversion Output Language (current: " + language + ")";
+		}
+	}));
+
+	// register the select framework command
+	context.subscriptions.push(vscode.commands.registerCommand('polyverse-boost-notebook.selectTestFramework', async () => {
+
+		//first get the framework from the metadata
+		const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
+		let framework = "pytest";
+		if (currentNotebook) {
+			framework = currentNotebook.metadata.framework;
+		}
+		// Use the vscode.window.showQuickPick method to let the user select a framework
+		framework = await vscode.window.showInputBox({
+			prompt: 'Enter a testing framework',
+			placeHolder: framework
+		})?? framework;
+		//put the framework in the metadata
+
+		if (currentNotebook) {
+			const edit = new vscode.WorkspaceEdit();
+			edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({framework: framework})]);
+			await vscode.workspace.applyEdit(edit);
 		}
 	}));
 	// Register a command to handle the button click
@@ -101,9 +124,6 @@ export function activate(context: vscode.ExtensionContext) {
 				]);
 				await vscode.workspace.applyEdit(edit);
 			}
-
-  	
-
 		}
 	}));	
 }

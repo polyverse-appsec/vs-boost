@@ -71,14 +71,19 @@ export class BoostTestgenKernel {
 		if (!cell || !cell.metadata) {
 			return;
 		}
-		//get the outputLanguage from the metadata on the notebook editor, default to python
-		let outputLanguage = vscode.window.activeNotebookEditor?.notebook.metadata.outputLanguage;
+		//get the outputLanguage from the language set on the cell, NOT the language set on the notebook
+		let outputLanguage = cell.document.languageId;
+
 		//if outputLanguage is undefined, set it to python
-		let framework = '';
+		let framework = vscode.window.activeNotebookEditor?.notebook.metadata.framework;
+
 		if (!outputLanguage) {
 			//vscode.window.showInformationMessage(`No output language set, defaulting to python`);
 			outputLanguage = 'python';
-			framework = 'pytest';
+		}
+
+		if (!framework) {
+			framework = '';
 		}
 	
 		//vscode.window.showInformationMessage(`Got: ${outputLanguage}`);
