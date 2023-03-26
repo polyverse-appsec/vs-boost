@@ -1,15 +1,21 @@
 {
   "name": "polyverse-boost-notebook",
-  "displayName": "polyverse-boost-notebook",
-  "description": "VS Code extension Polyverse Boost: Automatic Application Modernization",
-  "publisher": "Polyverse",
+  "displayName": "Polyverse Boost: Automatic Application Modernization",
+  "description": "VS Code extension for Polyverse Boost: Automatic Application Modernization",
+  "publisher": "Polyverse Corporation",
+  "license": "SEE LICENSE IN LICENSE",
   "version": "0.0.2",
   "engines": {
     "vscode": "^1.74.0"
   },
   "categories": [
+    "Machine Learning",
+    "Testing",
+    "Notebooks",
+    "Programming Languages",
     "Other"
   ],
+  "icon": "resources/polyverse_vs_boost_logo.jpg",
   "activationEvents": [
     "onNotebook:boost-notebook",
     "onCommand:polyverse-boost-notebook.createJsonNotebook"
