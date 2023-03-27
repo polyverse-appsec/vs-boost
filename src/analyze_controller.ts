@@ -103,7 +103,7 @@ export class BoostAnalyzeKernel {
 			//quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
 			let mimetype = 'text/markdown';
 
-			outputItems.push(vscode.NotebookCellOutputItem.text(analysis.analysis, mimetype));
+			outputItems.push(vscode.NotebookCellOutputItem.text("### Boost Code Analysis\n" + analysis.analysis, mimetype));
 
 			// we will have one NotebookCellOutput per type of output.
 			// first scan the existing outputs of the cell and see if we already have an output of this type
@@ -122,7 +122,7 @@ export class BoostAnalyzeKernel {
 			execution.end(true, Date.now());
 
 		} catch (err) {
-			execution.replaceOutput([new vscode.NotebookCellOutput([
+			execution.appendOutput([new vscode.NotebookCellOutput([
 				vscode.NotebookCellOutputItem.error(err as Error)
 			])]);
 			execution.end(false, Date.now());

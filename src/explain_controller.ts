@@ -10,9 +10,9 @@ const testgenUrl = 'https://gylbelpkobvont6vpxp4ihw5fm0iwnto.lambda-url.us-west-
 const generateUrl = 'https://ukkqda6zl22nd752blcqlv3rum0ziwnq.lambda-url.us-west-2.on.aws/';
 
 
-export class BoostTestgenKernel {
-	private readonly _id = 'polyverse-boost-testgen-kernel';
-	private readonly _label = 'Polyverse Boost: Generate Test Cases for Code';
+export class BoostExplainKernel {
+	private readonly _id = 'polyverse-boost-explain-kernel';
+	private readonly _label = 'Polyverse Boost: Explain Code';
 	private readonly _supportedLanguages = [];
 
 	private _executionOrder = 0;
@@ -35,11 +35,6 @@ export class BoostTestgenKernel {
 
 	private _executeAll(cells: vscode.NotebookCell[], _notebook: vscode.NotebookDocument, _controller: vscode.NotebookController): void {
 		for (const cell of cells) {
-			//if the cell is generated code, don't run it by default, the original code cell will run it, unless it
-			//is the only cell in array of cells being run, in which case, run it
-			if (cell.metadata.type === 'generatedCode' && cells.length > 1) {
-				return;
-			}
 			this._doExecution(cell);
 		}
 	}
@@ -61,33 +56,17 @@ export class BoostTestgenKernel {
 		
 		// if the cell is original code, run the summary generation
 		if (cell.metadata.type === 'originalCode') {
-			this._doTestgenExecution(cell, session);
+			this._doExplainExecution(cell, session);
 		} 
 	}
 
-	private async _doTestgenExecution(cell: vscode.NotebookCell, session: vscode.AuthenticationSession): Promise<void> {
+	private async _doExplainExecution(cell: vscode.NotebookCell, session: vscode.AuthenticationSession): Promise<void> {
 
 		//if cell is undefined or metadata is undefined, return
 		if (!cell || !cell.metadata) {
 			return;
 		}
-		//get the outputLanguage from the language set on the cell, NOT the language set on the notebook
-		let outputLanguage = cell.document.languageId;
 
-		//if outputLanguage is undefined, set it to python
-		let framework = vscode.window.activeNotebookEditor?.notebook.metadata.testFramework;
-
-		if (!outputLanguage) {
-			//vscode.window.showInformationMessage(`No output language set, defaulting to python`);
-			outputLanguage = 'python';
-		}
-
-		if (!framework) {
-			framework = '';
-		}
-	
-		//vscode.window.showInformationMessage(`Got: ${outputLanguage}`);
-		const currentId = cell.metadata.id;
 		const execution = this._controller.createNotebookCellExecution(cell);
 
 		execution.executionOrder = ++this._executionOrder;
@@ -99,34 +78,29 @@ export class BoostTestgenKernel {
 			// get the code from the cell
 			const code = cell.document.getText();
 
-			// now take the summary and using axios send it to localhost:8080/generate/python with the summary in a json object summary=summary
-			const response2 = await axios.post(testgenUrl, 
-				{ code: code, session: session.accessToken, language: outputLanguage, framework: framework});
+			// using axios, make a web POST call to localhost:8080/explain with the code as in a json object code=code
+			const response = await axios.post(explainUrl, { code: code, session: session.accessToken });
 
-			const testgen = await response2.data;
+
+			const summarydata = response.data;
 
 			const outputItems: vscode.NotebookCellOutputItem[] = [];
 
-			//quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
-			let mimetype = 'text/x-' + outputLanguage;
-			let header = '';
-			if(testgen.testcode.includes('```')){
-				mimetype = 'text/markdown';
-				header = '### Boost Test Generation\n';
-			} 
+			const mimetype = 'text/markdown';
+ 
 
-			outputItems.push(vscode.NotebookCellOutputItem.text(header + testgen.testcode, mimetype));
+			outputItems.push(vscode.NotebookCellOutputItem.text("### Boost Code Explanation\n" + summarydata.explanation, mimetype));
 
 			// we will have one NotebookCellOutput per type of output.
 			// first scan the existing outputs of the cell and see if we already have an output of this type
 			// if so, replace it
 			let existingOutputs = cell.outputs;
-			let existingOutput = existingOutputs.find(output => output.metadata?.outputType === 'testGeneration');
+			let existingOutput = existingOutputs.find(output => output.metadata?.outputType === 'explainCode');
 			if (existingOutput) {
 				execution.replaceOutputItems(outputItems, existingOutput);
 			} else {
 				// create a new NotebookCellOutput with the outputItems array
-				const output = new vscode.NotebookCellOutput(outputItems, { outputType: 'testGeneration' });
+				const output = new vscode.NotebookCellOutput(outputItems, { outputType: 'explainCode' });
 
 				execution.appendOutput(output);
 			}

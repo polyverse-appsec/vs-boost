@@ -49,7 +49,7 @@
       },
       {
         "command": "polyverse-boost-notebook.loadCodeFile",
-        "title": "Load File to Convert",
+        "title": "Load File for Boost",
         "icon": "$(file-code)"        
       },
       {

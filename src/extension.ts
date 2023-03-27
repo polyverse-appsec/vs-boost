@@ -1,7 +1,10 @@
 import * as vscode from 'vscode';
-import { BoostKernel } from './controller';
+
 import { BoostAnalyzeKernel } from './analyze_controller';
 import { BoostTestgenKernel } from './testgen_controller';
+import { BoostConvertKernel } from './convert_controller';
+import { BoostExplainKernel } from './explain_controller';
+
 import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
 import instructions from './instructions.json';
@@ -30,7 +33,8 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.workspace.registerNotebookSerializer(
 			NOTEBOOK_TYPE, new BoostContentSerializer(), { transientOutputs: false }
 		),
-		new BoostKernel(),
+		new BoostConvertKernel(),
+		new BoostExplainKernel(),
 		new BoostAnalyzeKernel(),
 		new BoostTestgenKernel()
 	);
