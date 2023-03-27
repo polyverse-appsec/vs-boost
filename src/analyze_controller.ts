@@ -105,10 +105,19 @@ export class BoostAnalyzeKernel {
 
 			outputItems.push(vscode.NotebookCellOutputItem.text(analysis.analysis, mimetype));
 
-			// create a new NotebookCellOutput with the outputItems array
-			const output = new vscode.NotebookCellOutput(outputItems);
+			// we will have one NotebookCellOutput per type of output.
+			// first scan the existing outputs of the cell and see if we already have an output of this type
+			// if so, replace it
+			let existingOutputs = cell.outputs;
+			let existingOutput = existingOutputs.find(output => output.metadata?.outputType === 'bugAnalysis');
+			if (existingOutput) {
+				execution.replaceOutputItems(outputItems, existingOutput);
+			} else {
+				// create a new NotebookCellOutput with the outputItems array
+				const output = new vscode.NotebookCellOutput(outputItems, { outputType: 'bugAnalysis' });
 
-			execution.replaceOutput(output);
+				execution.appendOutput(output);
+			}
 
 			execution.end(true, Date.now());
 
