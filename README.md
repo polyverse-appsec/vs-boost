@@ -13,3 +13,9 @@ This is a very simple extension sample demonstrating the use of the notebook ser
  1. Hit `F5` to build+debug
  1. Run the command "Create JSON Notebook"
  1. Add and edit cells, and click the run button to invoke the controller
+
+
+## Test Packaging
+
+To create a distributable package, just run 
+vsce package
