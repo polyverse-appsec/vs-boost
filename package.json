@@ -2,7 +2,7 @@
   "name": "polyverse-boost-notebook",
   "displayName": "Polyverse Boost: Automatic Application Modernization",
   "description": "VS Code extension for Polyverse Boost: Automatic Application Modernization",
-  "publisher": "Polyverse Corporation",
+  "publisher": "polyversecorporation",
   "license": "SEE LICENSE IN LICENSE",
   "version": "0.0.4",
   "engines": {
