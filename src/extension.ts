@@ -25,6 +25,15 @@ export function activate(context: vscode.ExtensionContext) {
 		data.metadata.testFramework = settings.testFramework;
 		data.metadata.defaultDir = settings.defaultDir;
 
+		//print the workspace folders
+		/*
+		console.log("workspace folders: ", vscode.workspace.workspaceFolders);
+		const workspaceFolders = vscode.workspace.workspaceFolders;
+		if (workspaceFolders) {
+			for (const folder of workspaceFolders) {
+				console.log(folder.uri.path);
+			}
+		}*/
 		const doc = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, data);
 		await vscode.window.showNotebookDocument(doc);
 	}));
