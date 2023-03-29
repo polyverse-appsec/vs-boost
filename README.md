@@ -40,5 +40,5 @@ If you encounter any issues or have questions, please refer to our [documentatio
 
 ## About Polyverse
 
-Founded in 2015 by Alex Gounares, former CTO of AOL and Microsoft Online, and Bill Gate's technology advisor, Polyverse Corporation has been delivering state-of-the-art cybersecurity tools to the Fortune 500 and the US Government. Our mission is to empower developers with cutting-edge solutions to keep their code safe from sophisticated attacks.
+Founded in 2015 by Alex Gounares, former CTO of AOL and Microsoft Online, and Bill Gates' technology advisor, Polyverse Corporation has been delivering state-of-the-art cybersecurity tools to the Fortune 500 and the US Government. Our mission is to empower developers with cutting-edge solutions to keep their code safe from sophisticated attacks.
 
