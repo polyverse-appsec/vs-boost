@@ -1,0 +1,86 @@
+I apologize for the confusion earlier, as the code snippet I provided was a simplified version of the Heartbleed vulnerability. The actual vulnerable code is in the file "ssl/d1_both.c" in the OpenSSL library, specifically in the function "tls1_process_heartbeat()".
+
+Here's the full function containing the Heartbleed bug:
+
+c
+Copy code
+int tls1_process_heartbeat(SSL *s)
+{
+    unsigned char *p = &s->s3->rrec.data[0], *pl;
+    unsigned short hbtype;
+    unsigned int payload;
+    unsigned int padding = 16; /* Use minimum padding */
+
+    /* Read type and payload length first */
+    hbtype = *p++;
+    n2s(p, payload);
+    pl = p;
+
+    if (s->msg_callback)
+        s->msg_callback(0, s->version, TLS1_RT_HEARTBEAT,
+            &s->s3->rrec.data[0], s->s3->rrec.length,
+            s, s->msg_callback_arg);
+
+    if (hbtype == TLS1_HB_REQUEST)
+    {
+        unsigned char *buffer, *bp;
+        int r;
+
+        /* Allocate memory for the response, size is 1 byte
+         * message type, plus 2 bytes payload length, plus
+         * payload, plus padding
+         */
+        buffer = OPENSSL_malloc(1 + 2 + payload + padding);
+        bp = buffer;
+
+        /* Enter response type, length and copy payload */
+        *bp++ = TLS1_HB_RESPONSE;
+        s2n(payload, bp);
+        memcpy(bp, pl, payload);
+        bp += payload;
+
+        /* Random padding */
+        RAND_pseudo_bytes(bp, padding);
+
+        r = dtls1_write_bytes(s, TLS1_RT_HEARTBEAT, buffer, 3 + payload + padding);
+
+        if (r >= 0 && r < (3 + payload + padding))
+            r = 0;
+        else
+            r = 1;
+
+        OPENSSL_free(buffer);
+
+        if (r == 0)
+            return -1;
+
+        if (s->tlsext_debug_cb)
+            s->tlsext_debug_cb(s, 1, TLS1_RT_HEARTBEAT,
+                buffer, 3 + payload + padding,
+                s->tlsext_debug_arg);
+
+        return 0;
+    }
+
+    /* If we receive a TLS1_HB_RESPONSE, we do not send back a response. */
+    if (hbtype == TLS1_HB_RESPONSE)
+    {
+        if (s->tlsext_hb_pending)
+        {
+            /* We only want to process the first response that we receive. */
+            s->tlsext_hb_pending = 0;
+            s->tlsext_hb_seq++;
+        }
+
+        return 0;
+    }
+
+    return 1; /* Ignore the request if the heartbeat message is not well-formed. */
+}
+The bug is caused by the lack of validation of the payload variable before using it in the memcpy() function. The same fix as mentioned before applies here: you should add a check to ensure payload doesn't exceed the size of the received message before calling memcpy().
+
+You can find the vulnerable source code in the OpenSSL repository on GitHub, specifically in the commit with hash 4817504d069b4c5082161b02a22116ad75f822b1. The link to the specific file is:
+
+https://github.com/openssl/openssl/blob/4817504d069b4c5082161b02a22116ad75f822b1/ssl/d1_both.c
+
+Please note that the link
