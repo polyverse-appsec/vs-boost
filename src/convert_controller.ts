@@ -74,6 +74,7 @@ export class BoostConvertKernel {
 			outputLanguage = 'python';
 		}
 
+		vscode.window.showInformationMessage(`Output Language is ` + outputLanguage);
 	
 		//vscode.window.showInformationMessage(`Got: ${outputLanguage}`);
 		const currentId = cell.metadata.id;
@@ -118,7 +119,7 @@ export class BoostConvertKernel {
 			// now we need to generate the code
 			// now take the summary and using axios send it to localhost:8080/generate/python with the summary in a json object summary=summary
 			const response2 = await axios.post(generateUrl, 
-				{ explanation: summarydata.explanation, originalCode: code, session: session.accessToken, outputLanguage: outputLanguage });
+				{ explanation: summarydata.explanation, originalCode: code, session: session.accessToken, language: outputLanguage });
 
 			const generatedCode = await response2.data;
 

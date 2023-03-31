@@ -110,7 +110,6 @@ export class BoostContentSerializer implements vscode.NotebookSerializer {
         const ret = new TextEncoder().encode(JSON.stringify(contents, null, 4));
         //convert from Uit8Array to string
 
-        console.log("serialized: ", JSON.stringify(contents, null, 4));
         return ret;
     }
 }
