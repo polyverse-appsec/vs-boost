@@ -15,6 +15,7 @@
     "Programming Languages",
     "Other"
   ],
+  "galleryBanner.color": "#ff6600",
   "icon": "resources/polyverse_vs_boost_logo.jpg",
   "activationEvents": [
     "onNotebook:polyverse-boost-notebook",
