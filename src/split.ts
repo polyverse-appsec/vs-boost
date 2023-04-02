@@ -101,6 +101,7 @@ export function parseFunctions(filename: string, code: string): [string, string[
         "ruby": parseRubyFunctions,
         "php": parsePhpFunctions,
         "vb": parseVbFunctions,
+				// eslint-disable-next-line @typescript-eslint/naming-convention
         "objective-c": parseObjCMethods,
         "go": parseGoFunctions,
     };
