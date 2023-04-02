@@ -13,7 +13,6 @@
 		"esModuleInterop": true
 	},
 	"exclude": [
-		".vscode-test",
-		"src/test"
+		".vscode-test"
 	]
 }
