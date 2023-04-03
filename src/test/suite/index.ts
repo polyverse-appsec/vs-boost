@@ -1,6 +1,7 @@
 import path from 'path';
 import glob from 'glob';
 import Mocha from 'mocha';
+import { shuffle } from 'lodash';
 
 export function run(): Promise<void> {
 	// Create the mocha test
@@ -17,8 +18,15 @@ export function run(): Promise<void> {
 				return e(err);
 			}
 
-			// Add files to the test suite
-			files.forEach(f => mocha.addFile(path.resolve(testsRoot, f)));
+            // shuffle the files so we don't have any ordering effects in tests
+            const shuffledFiles = shuffle(files);
+            
+            // add files in randomized order to test suite - so we catch any ordering
+            //    effects in tests
+            shuffledFiles.forEach((file: string) => mocha.addFile(path.resolve(testsRoot, file)));
+
+            // Add files to the test suite
+//			files.forEach(f => mocha.addFile(path.resolve(testsRoot, f)));
 
 			try {
 				// Run the mocha test

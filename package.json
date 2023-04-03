@@ -105,6 +105,7 @@
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",
+    "@types/lodash": "4.14.192",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
     "@types/vscode": "^1.77.0",
@@ -113,6 +114,7 @@
     "@vscode/test-electron": "^2.3.0",
     "eslint": "^8.36.0",
     "glob": "^8.1.0",
+    "lodash": "^4.17.21",
     "mocha": "^10.2.0",
     "typescript": "^4.9.5",
     "vscode-extension-tester": "^5.5.1"
