@@ -35,3 +35,5 @@ Run tests by executing:
 2. npm run test
 
 Note: Full integration tests will also download the latest stable Visual Studio Code - for consistency of test environment.
+
+Integration Tests check if each command exists, and performs a simple command verification (i.e. verify command can be run successfully)
