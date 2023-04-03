@@ -113,6 +113,7 @@ export function activate(context: vscode.ExtensionContext) {
 			canSelectMany: false,
 			openLabel: 'Load Code File',
 			filters: {
+				// eslint-disable-next-line @typescript-eslint/naming-convention
 				'All Files': ['*']
 			}
 		});
