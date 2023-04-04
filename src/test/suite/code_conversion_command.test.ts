@@ -41,7 +41,7 @@ suite('Convert Code Command', function() {
     showOpenDialogMock = sinon.mock(vscode.window);
 
     const testCodePath = path.resolve(__dirname, '../../test/resources/');
-    const unsupportedExtensions = ['.o', '.out', '.s', '.typescript', 'resources', '.c'];
+    const unsupportedExtensions = ['.php','.o', '.out', '.s', '.typescript', 'resources', '.c'];
 
     // Get all files in the folder
     const allFiles = fs.readdirSync(testCodePath);
@@ -51,6 +51,12 @@ suite('Convert Code Command', function() {
         const ext = path.extname(file);
         return ext !== "" && !unsupportedExtensions.includes(ext);
     });
+
+    // this should never happen, but if the test data/source isn't found, let's
+    // just fail hard and fast
+    if (filteredFiles.length === 0) {
+        assert.fail('No files found in test/resources folder');
+    }
 
     const randomIndex = Math.floor(Math.random() * filteredFiles.length);
     const randomFile = path.resolve(testCodePath,filteredFiles[randomIndex]);

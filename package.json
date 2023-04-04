@@ -1,10 +1,14 @@
 {
   "name": "polyverse-boost-notebook",
   "displayName": "Polyverse Boost: Automatic Application Modernization",
-  "description": "VS Code extension for Polyverse Boost: Automatic Application Modernization",
+  "description": "Polyverse Boost Application Modernization tool uses AI and source code analysis to find code bugs, security defects, generation documentation and convert to modern programming languages.",
   "publisher": "polyversecorporation",
   "license": "SEE LICENSE IN LICENSE",
-  "version": "0.0.5",
+  "homepage": "https://www.polyverse.com/boost/",
+  "bugs": {
+    "email": "support@polyverse.com"
+  },
+  "version": "0.9.0",
   "engines": {
     "vscode": "^1.77.0"
   },
@@ -12,14 +16,12 @@
     "Machine Learning",
     "Testing",
     "Notebooks",
-    "Programming Languages",
-    "Other"
+    "Programming Languages"
   ],
-  "galleryBanner.color": "#ff6600",
+  "galleryBanner.color": "#F5F5F5",
   "icon": "resources/polyverse_vs_boost_logo.jpg",
   "activationEvents": [
-    "onNotebook:polyverse-boost-notebook",
-    "onCommand:polyverse-boost-notebook.createJsonNotebook"
+    "onNotebook:polyverse-boost-notebook"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -96,14 +98,32 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
+    "clean": "rm -rf out",
+
+    "build-instructions": "bash ./build_instructions.sh raw_instructions.md >./src/instructions.json",
+
+    "compile": "npm run build-instructions && tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "copy:test-data": "cp -R src/test/resources out/test/resources",
-    "pretest": "npm run compile && npm run lint && npm run copy:test-data",
+
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
-  },
+
+    "copy:test-data": "mkdir -p out/test && cp -R src/test/resources out/test/resources",
+    "pretest": "npm run clean && npm run compile && npm run lint && npm run copy:test-data",
+    
+    "esbuild-base": "npm run build-instructions && esbuild ./src/*.ts --outdir=./out/ --bundle --external:vscode --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+
+    "esbuild-pretest": "npm run clean && npm run esbuild && npm run lint && npm run copy:test-data",
+
+    "test": "node ./out/test/runTest.js",
+
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+
+    "prepublish-pretest": "npm run clean && npm run vscode:prepublish && npm run copy:test-data",
+
+    "package": "vsce package --allow-missing-repository --out ./out/"
+},
   "devDependencies": {
     "@types/glob": "^8.1.0",
     "@types/lodash": "4.14.192",
@@ -114,6 +134,7 @@
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
     "@vscode/test-electron": "^2.3.0",
+    "esbuild": "^0.17.15",
     "eslint": "^8.36.0",
     "glob": "^8.1.0",
     "lodash": "^4.17.21",
