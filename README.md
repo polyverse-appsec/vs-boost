@@ -1,34 +1,102 @@
 # Polyverse Boost Visual Studio Extension
 
+*Legacy code got you down?*
+*Boost can convert your code to a modern language in one click!*
+Boost has powerful, AI-driven tools. In minutes you can take your legacy C, C++, C#, Java, .NET or PHP code (and many others) and convert it to over a dozen modern languages.
+
+
 Transform, secure, and enhance your code with AI-driven analysis, all in one powerful extension - *Polyverse Boost*.
 
-## Features
+![Boost Modernization](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-02-27_at_5.22.27_PM.jpg?width=500)
+
+![Boost Supported Programming Languages](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-02-24_at_10.39.04_PM.jpg?width=500)
+
+## How about converting your old C code to Python?
+
+![Boost Analyzes and Transforms your Code](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_6.56.34_PM.jpg?width=500)
+
+Boost analyzes and transforms your code
+Boost's AI tools analyze, document and explain code
+
+Quickly scan your code for security vulnerabilities
+
+Convert your code to a new, modern language
+
+Create test cases for your code
+
+## Is your code...
+![Is your code old and brittle?](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-19_at_12.34.29_PM.jpg?width=500)
+
+Old, unstable and brittle? Monolithic and hard to support?
+
+Easy to copy and expensive to run? Bound to an old language, server or data center?
+
+## Product Features
 
 * **Automated Code Conversion**: Convert legacy code to new programming languages using AI.
+
+![Code Conversion and Modernization](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_4.27.00_PM.jpg?width=500)
+
 * **Security Vulnerability Analysis**: Detect security vulnerabilities in your code.
+Boost will analyze your code and for the latest security vulnerabilities, critical defects and potential bugs, including buffer overflows, SQL injection, and more. Then it will provide recommended fixes or advice on how to mitigate the risk.
+
+![Security and Defect analysis](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_4.24.26_PM.jpg?width=500)
+
 * **Test Case Generation**: Automatically create test cases for your code.
+Load your code and Boost will analyze the code, supply a test framework and generate test cases for you to use.
+
+![Test Case Generation](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_4.28.34_PM.jpg?width=500)
+
 * **Code Description**: Get an English description of your code to better understand its functionality.
+Boost will create a detailed, step-by-step explanation of your code and break it down into all of it's core functionality.
+
+![Code Explanation](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_4.23.07_PM.jpg?width=500)
+
 * **Easy Organization**: Functions are placed in separate cells for better navigation.
 
 ## Quick Start
 
 ### Prequesites
 1. **Setup your Boost License** by contacting [Polyverse](https://polyverse.com/pages/boost-visual-studio) to get a free trial license key, or purchase a license key directly from the [Polyverse Store](https://polyverse.com/pages/boost-buy-visual-studio).
+
 2. **Setup a [GitHub.com[(https://GitHub.com) account** - to link your Polyverse license to your email address.
 
 ### Installation
 1. **Install the Boost Modernization extension** from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Polyverse.polyverse-boost). NOTE: A restart of Visual Studio Code may be required.
-2. **Create your first Boost Notebook** - using the Command dropdown and selecting `Create Polyverse Boost Notebook` (Ctrl+Shift+P or Cmd+Shift+P on Mac) 
-3. **Load your Source Code**: Use the `Boost: Load File` command to parse your source code into Boost Notebook cells so you can review and edit.
-4. **Select Your Modernization Process**: Use the `Boost: Select Kernel` command to choose from available AI-enhanced processing:
+
+2. **Authorize and Link Your GitHub.com account with Boost** The first time you launch Boost, you may need to Allow and Authorize Boost to access GitHub.com. This is only required to link your license to your email address. If you have not already done so, you will need to create a GitHub.com account.
+
+   ![GitHub.com account access authorization](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_10.03.32_PM.jpg?width=500)
+
+3. **Create your first Boost Notebook** - using the Command dropdown and selecting `Create Polyverse Boost Notebook` (Ctrl+Shift+P or Cmd+Shift+P on Mac) 
+
+   ![Create Boost Notebook](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-26_at_5.40.18_PM.jpg?width=500)
+
+4. **Load your Source Code**: Use the `Boost: Load File` command to parse your source code into Boost Notebook cells so you can review and edit.
+
+5. **Select Your Modernization Process**: Use the `Boost: Select Kernel` command to choose from available AI-enhanced processing:
+
+   ![Select Your Processing Task](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-26_at_5.52.28_PM.jpg?width=500)
+  
   * **Analyze Code for Bugs, Defects and Security Vulnerabilities** select `Analyze code for security vulnerabilities`
   * **Modernize Code to a newer language** select `Convert Legacy Code to New Code`
   * **Generate Test Cases** select `Generate Test Cases for code`
   * **Generation Code Documentation** select `Explain code`
 
-5. _NOTE: For Code Conversion only_ **Choose Your New Programming Language**: select `Boost: Select Output Language` and choose from supported languages, including Python, Java, C\#, C++, TypeScript, and JavaScript.
-6. **Run the AI-enabled Analysis and Processing**: For full file analysis across all Cells, click the Boost button `run-all`. Or select a single Boost Notebook cell and click the Boost button `run`.
-7. **Review the Results**: Each Boost Notebook cell will contain the results of the AI-enhanced processing.
+   ![Available Processing Tasks](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_10.26.59_PM.jpg?width=500)
+
+
+6. _NOTE: For Code Conversion only_ **Choose Your New Programming Language**: select `Boost: Select Output Language` and choose from supported languages, including Python, Java, C\#, C++, TypeScript, and JavaScript.
+
+    ![Select Your Output Language](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_9.41.57_PM.jpg?width=500)
+
+
+7. **Run the AI-enabled Analysis and Processing**: For full file analysis across all Cells, click the Boost button `run-all`. Or select a single Boost Notebook cell and click the Boost button `run`.
+
+    ![Analyze a single cell](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_1.45.43_PM.jpg?width=500)
+
+
+8. **Review the Results**: Each Boost Notebook cell will contain the results of the AI-enhanced processing.
   * **For Defect and Security Analysis**, you can edit the code in each Cell and re-run the analysis to see the results.
   * **For Code Conversion**, you can review the new code in each Cell for integration into your new modernized project.
   * **For Documentation**, you can read the documentation to better understand legacy code, review for architectural or potential redesign, and to better understand how the original code actually worked.
@@ -61,7 +129,7 @@ Configure Polyverse Boost extension settings in the Visual Studio settings, unde
  * A: Make sure you have a valid Boost license key. You can get a free trial license key by contacting [Polyverse](https://polyverse.com/pages/boost-visual-studio) or purchase a license key directly from the [Polyverse Store](https://polyverse.com/pages/boost-buy-visual-studio).
 
  * Q: What languages are supported for code conversion?
- * A: Most modern programming languages are supported, including: Python, Ruby, Golang, Swift, Visual Basic, Java, C\#, C++, TypeScript, and JavaScript.
+ * A: Most modern programming languages are supported, including: Python, Rust, Ruby, Golang, Swift, Visual Basic, Java, C\#, C++, TypeScript, and JavaScript.
 
  * Q: I don't have a [GitHub.com](GitHub.com) account. Can I still use the Boost extension?
  * A: You must your email address registered with a valid [GitHub.com](GitHub.com) account. You do not need to store any source code on GitHub.com, but you do need to have a valid verified email so we can confirm your license key at runtime.
