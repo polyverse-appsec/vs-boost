@@ -6,8 +6,8 @@
   "license": "SEE LICENSE IN LICENSE",
   "homepage": "https://www.polyverse.com/boost/",
   "bugs": {
-    "email":"support@polyverse.com"
-},
+    "email": "support@polyverse.com"
+  },
   "version": "0.9.0",
   "engines": {
     "vscode": "^1.77.0"
@@ -98,14 +98,30 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
+    "clean": "rm -rf out",
+
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "copy:test-data": "cp -R src/test/resources out/test/resources",
-    "pretest": "npm run compile && npm run lint && npm run copy:test-data",
+
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
-  },
+
+    "copy:test-data": "mkdir -p out/test && cp -R src/test/resources out/test/resources",
+    "pretest": "npm run clean && npm run compile && npm run lint && npm run copy:test-data",
+    
+    "esbuild-base": "esbuild ./src/*.ts --outdir=./out/ --bundle --external:vscode --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+
+    "esbuild-pretest": "npm run clean && npm run esbuild && npm run lint && npm run copy:test-data",
+
+    "test": "node ./out/test/runTest.js",
+
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+
+    "prepublish-pretest": "npm run clean && npm run vscode:prepublish && npm run copy:test-data",
+
+    "package": "vsce package --allow-missing-repository --out ./out/"
+},
   "devDependencies": {
     "@types/glob": "^8.1.0",
     "@types/lodash": "4.14.192",
@@ -116,6 +132,7 @@
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
     "@vscode/test-electron": "^2.3.0",
+    "esbuild": "^0.17.15",
     "eslint": "^8.36.0",
     "glob": "^8.1.0",
     "lodash": "^4.17.21",

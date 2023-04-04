@@ -6,6 +6,7 @@ Polyverse Boost Automatic Application Modernization
 ## Version 0.9.0: April 4, 2023
 ### Enhancements
 - Improvements to Marketplace display of product installation and usage instructions
+- Significantly reduced Extension package size and increased startup time
 
 ## Version 0.8.0: March 27, 2023
 ### Enhancements

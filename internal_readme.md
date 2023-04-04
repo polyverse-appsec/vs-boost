@@ -2,6 +2,52 @@
 
 Boost plugin for Visual Studio Code is built using TypeScript, JavaScript and Visual Studio Code extensions
 
+## Quick Start
+### Commands
+`npm run` command is used for most build and test
+ * `clean` Deletes all output build and test data and source and binaries
+
+ * `compile` Compiles the product source
+ * `watch` Enables Visual Studio to build in background continuously
+
+ * `lint` Runs lint across product source
+
+ * `copy:test-data` Copies all test source and data to the output test run folder
+ * `pretest` Preps the product code to be built and linted and tested
+
+* `esbuild-base` Builds the product with collapsed files (smaller size)
+* `esbuild` Builds the product with source mapping for debugging
+* `esbuild-watch` Enables Visual Studio to build in background
+
+* `esbuild-pretest` Preps the product code to be built and linted and tested with smaller size
+
+* `test` Runs all automated integration tests once
+
+* `vscode:prepublish` Runs minify to shrink the product code to the
+smallest - before publishing to marketplace
+
+* `prepublish-pretest` Preps the product code to be built in micro/min size and tested
+
+* `package` Builds a VSIX package for local or internal sharing and testing
+
+### So you want to be productive quickly
+
+To do easy and quick build and test
+1. `npm run pretest`
+2. `npm run test` or `./test_loop.sh` to run tests many times in loop randomly
+
+To do compacted build and test (e.g. optimized file size)
+1. `npm run esbuild-pretest`
+2. `npm run test` or `./test_loop.sh` to run tests many times in loop randomly
+
+To do packaging and test and publishing
+1. `npm run prepublish-pretest`
+2. `npm run test` or `./test_loop.sh` to run tests many times in loop randomly
+
+To publish internally and testing
+1. `npm run package`
+2. Manual install and test of VSIX package
+
 ## Source/Project structure
 
 * `package.json` - defines the referenced libraries, build/test commands, plugin description,
@@ -30,6 +76,12 @@ Build of the Boost plugin is performed by running npm compile - a script defined
 The goal is to automate our builds by setting up [Continuous Integration](https://code.visualstudio.com/api/working-with-extensions/continuous-integration).
 
 We improve startup time and reduce file size by [bundling our extension](https://code.visualstudio.com/api/working-with-extensions/bundling-extension)
+Specifically we use esbuild - which can partially obfuscate our code by removing whitespace
+and creating coded variable and function names to reduce size.
+For now - this is only used when publishing to marketplace.
+It also means we'll likely want to add the telemetry/error reporting logic to the product
+to improve supportability.
+
 ## Versioning
 Versioning of the Boost plugin is stored in package.json
 We generally increment the build (0.0.x) on changes to the product.
@@ -63,6 +115,12 @@ Run tests by executing:
 1. npm run pretest
 2. npm run test
 
+Or to run integration Tests with Package/Min
+1. npm run esbuild-pretest
+2. npm run test
+
+Note: In both cases, *pretest will clean/erase the output folder and rebuild everything
+
 Note: Full integration tests will also download the latest stable Visual Studio Code - for consistency of test environment.
 
 Integration Tests check if each command exists, and performs a simple command verification (i.e. verify command can be run successfully)
@@ -70,10 +128,20 @@ Integration Tests check if each command exists, and performs a simple command ve
 ### Debugging live tests
 * Open the debug viewlet (`Ctrl+Shift+D` or `Cmd+Shift+D` on Mac) and from the launch configuration dropdown pick `Extension Tests`.
 * Press `F5` to run the tests in a new window with your extension loaded.
+* Run your command from the command palette by pressing (Ctrl+Shift+P or Cmd+Shift+P on Mac)
+* Commands are listed under Boost
+* Set breakpoints in your code to debug your extension.
+* Find output from your extension in the debug console.
+
 * See the output of the test result in the debug console.
 * Make changes to `src/test/suite/extension.test.ts` or create new test files inside the `test/suite` folder.
   * The provided test runner will only consider files matching the name pattern `**.test.ts`.
   * You can create folders inside the `test` folder to structure your tests any way you want.
+
+### Packaging for Local or Internal Sharing
+To create a single package file of the Boost code to share or test - without using the Marketplace publishing - use the vsce package command.
+vsce is the Packaging and Publishing command - e.g. Visual Studio Code Extension (VSCE)
+To install it: `npm install -g @vscode/vsce`
 
 ### Publishing to Marketplace
 * We [publish Boost extension](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) on the VS Code extension marketplace manually - synchronized with
