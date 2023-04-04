@@ -2,13 +2,42 @@
 
 Boost plugin for Visual Studio Code is built using TypeScript, JavaScript and Visual Studio Code extensions
 
+## Source/Project structure
+
+* `package.json` - defines the referenced libraries, build/test commands, plugin description,
+versioning, icon and key Visual Studio Code extensions (Commands)
+* `src/extension.ts` - this is the main file where Boost commands are implemented
+  * The file exports two functions, `activate`, which is called the very first time your extension is activated (in this case by executing the command). Inside the `activate` function we call `registerCommand` for all commands. We also export 'deactivate' for
+  cleanup tasks on shutdown (though none occur today)
+* `src/*_controller.ts` TypeScript code that implements the controllers that perform
+   each command, and make calls to the Boost Service API then update the Notebook cells.
+  `instructions.json` is the user instructions shown on install/activation.
+  `split.ts` is TypeScript code used to parse / split source files into functions before
+   processing in the cloud-based service API
+* `.vscode/launch.json` commands that VSC shows to you for debugging live or running tests
+* `.vscode/tasks.json` commands that tell VSC to build in foreground and background when source changes
+* `tsconfig.json` config for the TypeScript compiler when building the product code
+Note that TypeScript is compiled into JavaScript for deployment into VSC
+* `README.md` markdown that is shown in the Marketplace to explain the Boost plugin
+
+* `src/test/*` all the test code - see below
+
+
 ## Development
 
 ## Build
 Build of the Boost plugin is performed by running npm compile - a script defined in package.json
+The goal is to automate our builds by setting up [Continuous Integration](https://code.visualstudio.com/api/working-with-extensions/continuous-integration).
 
+We improve startup time and reduce file size by [bundling our extension](https://code.visualstudio.com/api/working-with-extensions/bundling-extension)
 ## Versioning
 Versioning of the Boost plugin is stored in package.json
+We generally increment the build (0.0.x) on changes to the product.
+Eventually we'll likely use automated build versioning in CI/CD
+For now - the minor rev is only done when publishing.
+
+## UX Guidelines for Extensions
+* [Follow UX guidelines](https://code.visualstudio.com/api/ux-guidelines/overview) to create extensions that seamlessly integrate with VS Code's native interface and patterns.
 
 ## Test
 
@@ -37,3 +66,15 @@ Run tests by executing:
 Note: Full integration tests will also download the latest stable Visual Studio Code - for consistency of test environment.
 
 Integration Tests check if each command exists, and performs a simple command verification (i.e. verify command can be run successfully)
+
+### Debugging live tests
+* Open the debug viewlet (`Ctrl+Shift+D` or `Cmd+Shift+D` on Mac) and from the launch configuration dropdown pick `Extension Tests`.
+* Press `F5` to run the tests in a new window with your extension loaded.
+* See the output of the test result in the debug console.
+* Make changes to `src/test/suite/extension.test.ts` or create new test files inside the `test/suite` folder.
+  * The provided test runner will only consider files matching the name pattern `**.test.ts`.
+  * You can create folders inside the `test` folder to structure your tests any way you want.
+
+### Publishing to Marketplace
+* We [publish Boost extension](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) on the VS Code extension marketplace manually - synchronized with
+critical fixes, major new features or a joint marketing/customer milestone.
