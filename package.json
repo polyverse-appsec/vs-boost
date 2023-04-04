@@ -100,7 +100,9 @@
   "scripts": {
     "clean": "rm -rf out",
 
-    "compile": "tsc -p ./",
+    "build-instructions": "bash ./build_instructions.sh raw_instructions.md >./src/instructions.json",
+
+    "compile": "npm run build-instructions && tsc -p ./",
     "watch": "tsc -watch -p ./",
 
     "lint": "eslint src --ext ts",
@@ -108,7 +110,7 @@
     "copy:test-data": "mkdir -p out/test && cp -R src/test/resources out/test/resources",
     "pretest": "npm run clean && npm run compile && npm run lint && npm run copy:test-data",
     
-    "esbuild-base": "esbuild ./src/*.ts --outdir=./out/ --bundle --external:vscode --format=cjs --platform=node",
+    "esbuild-base": "npm run build-instructions && esbuild ./src/*.ts --outdir=./out/ --bundle --external:vscode --format=cjs --platform=node",
     "esbuild": "npm run esbuild-base --sourcemap",
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
 

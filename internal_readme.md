@@ -7,6 +7,8 @@ Boost plugin for Visual Studio Code is built using TypeScript, JavaScript and Vi
 `npm run` command is used for most build and test
  * `clean` Deletes all output build and test data and source and binaries
 
+ * `build-instructions` Builds the src/instructions.json file using raw markdown
+
  * `compile` Compiles the product source
  * `watch` Enables Visual Studio to build in background continuously
 
