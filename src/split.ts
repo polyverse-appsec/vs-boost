@@ -1,3 +1,5 @@
+const OPENAI_API_PARAMETER_PAYLOAD_MAX = 4000;
+
 function splitCode(code: string): string[] {
   const chunks: string[] = [];
   const lines = code.split('\n');
@@ -9,9 +11,20 @@ function splitCode(code: string): string[] {
 
   for (const line of lines) {
     currentChunk += line + '\n';
-    lineno++;
+    lineno++; // for debugging purposes only - to see what line we are parsing
 
-    if (currentChunk.split(' ').length > 2000 || currentChunk.length > 4000) {
+    // do a sanity check to see if there are more than 2000 space delimited tokens
+    //    in this source chunk. If so, we call that a parsing limit and break the chunk
+    // Or if the overall chunk is greater than 4000 characters, we break it up.
+    // This sanity check is due to OpenAI not accepting payloads at the API level
+    //    larger than 4000 characters
+
+    // for future improvement (maybe soon?), we should rejoin the chunks, then
+    //     come up with a simple shorthand version to show in the cell (e.g. function foo() { ... })
+    //     and then explain the function or content is beyond the limits of current support
+    //     so the function cannot be explained, parsed or refactored
+    if (currentChunk.split(' ').length > (OPENAI_API_PARAMETER_PAYLOAD_MAX / 2) ||
+        currentChunk.length > OPENAI_API_PARAMETER_PAYLOAD_MAX) {
       chunks.push(currentChunk);
       currentChunk = '';
       chunkCount++;
