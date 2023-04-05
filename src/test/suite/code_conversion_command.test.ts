@@ -41,7 +41,7 @@ suite('Convert Code Command', function() {
     showOpenDialogMock = sinon.mock(vscode.window);
 
     const testCodePath = path.resolve(__dirname, '../../test/resources/');
-    const unsupportedExtensions = ['.php','.o', '.out', '.s', '.typescript', 'resources', '.c'];
+    const unsupportedExtensions = ['.o', '.out', '.s', '.typescript', 'resources', '.c'];
 
     // Get all files in the folder
     const allFiles = fs.readdirSync(testCodePath);
