@@ -5,8 +5,6 @@ import axios from 'axios';
 
 //const baseUrl = 'http://127.0.0.1:8000/';
 const explainUrl = 'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
-const analyzeUrl = 'https://iyn66vkb6lmlcb4log6d3ah7d40axgqu.lambda-url.us-west-2.on.aws/';
-const testgenUrl = 'https://gylbelpkobvont6vpxp4ihw5fm0iwnto.lambda-url.us-west-2.on.aws/';
 const generateUrl = 'https://ukkqda6zl22nd752blcqlv3rum0ziwnq.lambda-url.us-west-2.on.aws/';
 
 
@@ -81,6 +79,8 @@ export class BoostConvertKernel {
 		const execution = this._controller.createNotebookCellExecution(cell);
 
 		execution.executionOrder = ++this._executionOrder;
+        let successfulExecution = true;
+
 		execution.start(Date.now());
 
 		try {
@@ -149,22 +149,20 @@ export class BoostConvertKernel {
 				execution.appendOutput(output);
 			}
 
-
-			execution.end(true, Date.now());
-
 		} catch (err) {
+            successfulExecution = false;
 			execution.appendOutput([new vscode.NotebookCellOutput([
 				vscode.NotebookCellOutputItem.error(err as Error)
 			])]);
-			execution.end(false, Date.now());
 		}
+
+        execution.end(successfulExecution, Date.now());
 	}
 	private async _doAuthorizationExecution(cell: vscode.NotebookCell): Promise<vscode.AuthenticationSession | undefined> {
 		const GITHUB_AUTH_PROVIDER_ID = 'github';
 		// The GitHub Authentication Provider accepts the scopes described here:
 		// https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/
 		const SCOPES = ['user:email'];
-
 
 		const session = await vscode.authentication.getSession(GITHUB_AUTH_PROVIDER_ID, SCOPES, { createIfNone: true });
 
