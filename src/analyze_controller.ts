@@ -4,10 +4,7 @@ import axios from 'axios';
 //set a helper variable of the base url.  this should eventually be a config setting
 const baseUrl = 'https://y1v33c740m.execute-api.us-west-2.amazonaws.com/api/';
 //const baseUrl = 'http://127.0.0.1:8000/';
-const explainUrl = 'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
 const analyzeUrl = 'https://iyn66vkb6lmlcb4log6d3ah7d40axgqu.lambda-url.us-west-2.on.aws/';
-const testgenUrl = 'https://gylbelpkobvont6vpxp4ihw5fm0iwnto.lambda-url.us-west-2.on.aws/';
-const generateUrl = 'https://ukkqda6zl22nd752blcqlv3rum0ziwnq.lambda-url.us-west-2.on.aws/';
 
 
 export class BoostAnalyzeKernel {
