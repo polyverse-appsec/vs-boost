@@ -5,7 +5,7 @@ import axios from 'axios';
 const baseUrl = 'https://y1v33c740m.execute-api.us-west-2.amazonaws.com/api/';
 //const baseUrl = 'http://127.0.0.1:8000/';
 const analyzeUrl = 'https://iyn66vkb6lmlcb4log6d3ah7d40axgqu.lambda-url.us-west-2.on.aws/';
-
+const outputTypeBugAnalysis = 'bugAnalysis';
 
 export class BoostAnalyzeKernel {
 	private readonly _id = 'polyverse-boost-analyze-kernel';
@@ -32,8 +32,8 @@ export class BoostAnalyzeKernel {
 
 	private _executeAll(cells: vscode.NotebookCell[], _notebook: vscode.NotebookDocument, _controller: vscode.NotebookController): void {
 		for (const cell of cells) {
-			//if the cell is generated code, don't run it by default, the original code cell will run it, unless it
-			//is the only cell in array of cells being run, in which case, run it
+			//if the cell is generated code, don't run it by default, the original code cell will
+			// run it, unless it is the only cell in array of cells being run, in which case, run it
 			if (cell.metadata.type === 'generatedCode' && cells.length > 1) {
 				return;
 			}
@@ -81,6 +81,7 @@ export class BoostAnalyzeKernel {
 		const execution = this._controller.createNotebookCellExecution(cell);
 
 		execution.executionOrder = ++this._executionOrder;
+        let successfulExecution = true;
 		execution.start(Date.now());
 
 		try {
@@ -89,7 +90,8 @@ export class BoostAnalyzeKernel {
 			// get the code from the cell
 			const code = cell.document.getText();
 
-			// now take the summary and using axios send it to localhost:8080/generate/python with the summary in a json object summary=summary
+			// now take the summary and using axios send it to Boost web service
+            //    with the summary in a json object summary=summary
 			const response2 = await axios.post(analyzeUrl, 
 				{ code: code, session: session.accessToken});
 
@@ -106,31 +108,29 @@ export class BoostAnalyzeKernel {
 			// first scan the existing outputs of the cell and see if we already have an output of this type
 			// if so, replace it
 			let existingOutputs = cell.outputs;
-			let existingOutput = existingOutputs.find(output => output.metadata?.outputType === 'bugAnalysis');
+			let existingOutput = existingOutputs.find(output => output.metadata?.outputType === outputTypeBugAnalysis);
 			if (existingOutput) {
 				execution.replaceOutputItems(outputItems, existingOutput);
 			} else {
 				// create a new NotebookCellOutput with the outputItems array
-				const output = new vscode.NotebookCellOutput(outputItems, { outputType: 'bugAnalysis' });
+				const output = new vscode.NotebookCellOutput(outputItems, { outputType: outputTypeBugAnalysis });
 
 				execution.appendOutput(output);
 			}
 
-			execution.end(true, Date.now());
-
 		} catch (err) {
+            successfulExecution = false;
 			execution.appendOutput([new vscode.NotebookCellOutput([
 				vscode.NotebookCellOutputItem.error(err as Error)
 			])]);
-			execution.end(false, Date.now());
 		}
+        execution.end(successfulExecution, Date.now());
 	}
 	private async _doAuthorizationExecution(cell: vscode.NotebookCell): Promise<vscode.AuthenticationSession | undefined> {
 		const GITHUB_AUTH_PROVIDER_ID = 'github';
 		// The GitHub Authentication Provider accepts the scopes described here:
 		// https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/
 		const SCOPES = ['user:email'];
-
 
 		const session = await vscode.authentication.getSession(GITHUB_AUTH_PROVIDER_ID, SCOPES, { createIfNone: true });
 

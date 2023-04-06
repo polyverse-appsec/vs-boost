@@ -30,10 +30,14 @@ export class BoostTestgenKernel {
 		this._controller.dispose();
 	}
 
-	private _executeAll(cells: vscode.NotebookCell[], _notebook: vscode.NotebookDocument, _controller: vscode.NotebookController): void {
+	private _executeAll(
+        cells: vscode.NotebookCell[],
+        _notebook: vscode.NotebookDocument,
+        _controller: vscode.NotebookController): void {
+
 		for (const cell of cells) {
-			//if the cell is generated code, don't run it by default, the original code cell will run it, unless it
-			//is the only cell in array of cells being run, in which case, run it
+			// if the cell is generated code, don't run it by default, the original code cell will
+			//   run it, unless it is the only cell in array of cells being run, in which case, run it
 			if (cell.metadata.type === 'generatedCode' && cells.length > 1) {
 				return;
 			}
@@ -55,7 +59,6 @@ export class BoostTestgenKernel {
 		// we basically run two executions, one for the original code to generate a summary
 		// and one for the generated code
 
-		
 		// if the cell is original code, run the summary generation
 		if (cell.metadata.type === 'originalCode') {
 			this._doTestgenExecution(cell, session);
@@ -88,6 +91,7 @@ export class BoostTestgenKernel {
 		const execution = this._controller.createNotebookCellExecution(cell);
 
 		execution.executionOrder = ++this._executionOrder;
+        let successfulExecution = true;
 		execution.start(Date.now());
 
 		try {
@@ -96,7 +100,7 @@ export class BoostTestgenKernel {
 			// get the code from the cell
 			const code = cell.document.getText();
 
-			// now take the summary and using axios send it to localhost:8080/generate/python with the summary in a json object summary=summary
+			// now take the summary and using axios send it to Boost web service with the summary in a json object summary=summary
 			const response2 = await axios.post(testgenUrl, 
 				{ code: code, session: session.accessToken, language: outputLanguage, framework: framework});
 
@@ -128,14 +132,13 @@ export class BoostTestgenKernel {
 				execution.appendOutput(output);
 			}
 
-			execution.end(true, Date.now());
-
 		} catch (err) {
+            successfulExecution = false;
 			execution.appendOutput([new vscode.NotebookCellOutput([
 				vscode.NotebookCellOutputItem.error(err as Error)
 			])]);
-			execution.end(false, Date.now());
 		}
+        execution.end(successfulExecution, Date.now());
 	}
 	private async _doAuthorizationExecution(cell: vscode.NotebookCell): Promise<vscode.AuthenticationSession | undefined> {
 		const GITHUB_AUTH_PROVIDER_ID = 'github';

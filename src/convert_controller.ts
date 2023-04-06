@@ -92,13 +92,11 @@ export class BoostConvertKernel {
 			// using axios, make a web POST call to localhost:8080/explain with the code as in a json object code=code
 			const response = await axios.post(explainUrl, { code: code, session: session.accessToken });
 
-
 			const summarydata = response.data;
 
 			const outputItems: vscode.NotebookCellOutputItem[] = [];
 
 			const mimetype = 'text/markdown';
-	
 
 			outputItems.push(vscode.NotebookCellOutputItem.text("### Boost Code Explanation\n" + summarydata.explanation, mimetype));
 
@@ -117,7 +115,9 @@ export class BoostConvertKernel {
 			}
 
 			// now we need to generate the code
-			// now take the summary and using axios send it to localhost:8080/generate/python with the summary in a json object summary=summary
+
+			// now take the summary and using axios send it to Boost web service with the summary
+            //      in a json object summary=summary
 			const response2 = await axios.post(generateUrl, 
 				{ explanation: summarydata.explanation, originalCode: code, session: session.accessToken, language: outputLanguage });
 
