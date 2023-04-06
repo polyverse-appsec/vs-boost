@@ -139,40 +139,8 @@ export function parseFunctions(filename: string, code: string): [string, string[
 }
 
 function parsePhpFunctions(code: string): string[] {
-  const lines = code.split('\n');
-  const functions: string[] = [];
-  let currentFunction = '';
-  let depth = 0;
-
-  for (const line of lines) {
-      const trimmedLine = line.trim();
-
-      if (trimmedLine.startsWith('function ')) {
-          depth++;
-          if (depth === 1) {
-              if (currentFunction) {
-                  functions.push(currentFunction);
-              }
-              currentFunction = line;
-          } else {
-              currentFunction += '\n' + line;
-          }
-      } else if (trimmedLine.endsWith('}')) {
-          depth--;
-          currentFunction += '\n' + line;
-          if (depth === 0) {
-              functions.push(currentFunction);
-              currentFunction = '';
-          }
-      } else {
-          currentFunction += '\n' + line;
-      }
-  }
-  if (currentFunction) {
-      functions.push(currentFunction);
-  }
-  return functions;
-}
+    return parseBracketyLanguage(code, 'function');
+} 
 
 function parseVbFunctions(code: string): string[] {
   const lines = code.split('\n');
@@ -211,6 +179,10 @@ function parseVbFunctions(code: string): string[] {
 }
 
 function parseGoFunctions(code: string): string[] {
+    return parseBracketyLanguage(code, 'func');
+}
+
+function parseBracketyLanguage(code: string, functionName: string): string[] {
   const lines = code.split('\n');
   const functions: string[] = [];
   let currentFunction = '';
@@ -220,10 +192,10 @@ function parseGoFunctions(code: string): string[] {
   for (const line of lines) {
     const trimmedLine = line.trim();
 
-    if (trimmedLine.startsWith('func ')) {
+    if (trimmedLine.startsWith(functionName + ' ')) {
       if (!inFunction) {
         inFunction = true;
-        if (currentFunction) {
+        if (currentFunction && currentFunction.trim() !== '') {
           functions.push(currentFunction);
         }
         currentFunction = line;
