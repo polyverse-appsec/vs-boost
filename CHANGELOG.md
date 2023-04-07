@@ -3,6 +3,15 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 0.9.1: April 6, 2023
+### Enhancements
+- Improved messages when reloading or replacing existing source code.
+- User-added Cells with code can now be submitted for Explanation.
+
+### Bug Fixes
+- Fixed handling of nested brackets/braces in Python code
+- Do not create whitespace only Cells
+
 ## Version 0.9.0: April 4, 2023
 ### Enhancements
 - Improvements to Marketplace display of product installation and usage instructions

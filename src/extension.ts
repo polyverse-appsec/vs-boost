@@ -158,6 +158,33 @@ function registerOpenCodeFile(context: vscode.ExtensionContext,
 	// Register a command to handle the button click
 	context.subscriptions.push(vscode.commands.registerCommand(
         NOTEBOOK_TYPE + '.loadCodeFile', async () => {
+
+        // Get all the cells in the newly created notebook
+        const notebookEditor = vscode.window.activeNotebookEditor;
+        // this should never happen, if it does, we are doing Notebook operations without a Notebook
+        if (notebookEditor === undefined) {
+            return; 
+        }
+    
+        // see if the user added any data to the cells - since reloading will destroy it
+        const existingCells = notebookEditor.notebook.getCells();
+        let userEnteredData = false;
+        existingCells.forEach((notebookCell) => {
+            if (notebookCell.metadata === undefined &&
+                notebookCell.document.getText().trim() === "") {
+                    userEnteredData = true;
+            }
+        });
+
+        if (userEnteredData) {
+            vscode.window.showWarningMessage(
+                'Existing User-entered data in Cells will be discarded upon loading a new file.');
+        }
+        else if (existingCells.length > 0) {
+            vscode.window.showInformationMessage(
+                'Previously loaded code will be discarded upon loading a new file.');
+        }
+
 		// Use the vscode.window.showOpenDialog method to let the user select a file
 		const fileUri = await vscode.window.showOpenDialog({
 			canSelectMany: false,
