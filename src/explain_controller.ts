@@ -98,7 +98,6 @@ export class BoostExplainKernel {
 			// using axios, make a web POST call to Boost Service with the code as in a json object code=code
 			const response = await axios.post(explainUrl, { code: code, session: session.accessToken });
 
-
 			const summarydata = response.data;
 
 			const outputItems: vscode.NotebookCellOutputItem[] = [];

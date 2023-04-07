@@ -6,7 +6,7 @@ Polyverse Boost Automatic Application Modernization
 ## Version 0.9.1: April 6, 2023
 ### Enhancements
 - Improved messages when reloading or replacing existing source code.
-- User-added Cells with code can now be submitted for Explanation.
+- User-added Cells with code can now be submitted for all Boost kernels.
 
 ### Bug Fixes
 - Fixed handling of nested brackets/braces in Python code

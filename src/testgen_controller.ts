@@ -30,35 +30,57 @@ export class BoostTestgenKernel {
 		this._controller.dispose();
 	}
 
-	private _executeAll(
-        cells: vscode.NotebookCell[],
-        _notebook: vscode.NotebookDocument,
-        _controller: vscode.NotebookController): void {
+	private async _executeAll(cells: vscode.NotebookCell[], _notebook: vscode.NotebookDocument, _controller: vscode.NotebookController): Promise<void> {
+		// make sure we're authorized
+		// if not, run the authorization cell
+		const session = await this._doAuthorizationExecution();
 
-		for (const cell of cells) {
-			// if the cell is generated code, don't run it by default, the original code cell will
-			//   run it, unless it is the only cell in array of cells being run, in which case, run it
+        for (const cell of cells) {
+			//if the cell is generated code, don't run it by default, the original code cell will
+			// run it, unless it is the only cell in array of cells being run, in which case, run it
 			if (cell.metadata.type === 'generatedCode' && cells.length > 1) {
 				return;
 			}
-			this._doExecution(cell);
+			this._doExecution(cell, session);
 		}
 	}
 
-	private async _doExecution(cell: vscode.NotebookCell): Promise<void> {
+	private async _doExecution(cell: vscode.NotebookCell, session : vscode.AuthenticationSession) : Promise<void> {
 
-		// make sure we're authorized
-		// if not, run the authorization cell
-		const session = await this._doAuthorizationExecution(cell);
-
-		//if not authorized, return
+        // if not authorized, retry
+        if (!session) {
+		    session = await this._doAuthorizationExecution();
+        }
+		//if still not authorized, give up
 		if (!session) {
 			return;
 		}
 
+        //if cell is undefined or metadata is undefined, seems like this should never happen
+        //  since all cells have metadata
+        if (!cell || !cell.metadata) {
+            return;
+        }
+
+        // if no useful text to explain, skip it
+        const code = cell.document.getText();
+
+        if (code.trim().length === 0) {
+            return;
+        } else if (!cell.metadata.type) {
+            const reinitialized = await this._initializeMetaData(cell);
+            if (!reinitialized) {
+
+                vscode.window.showInformationMessage(
+                    'Unable to parse contents of Cell');
+                return;
+            }
+        }
+
 		// we basically run two executions, one for the original code to generate a summary
 		// and one for the generated code
 
+		
 		// if the cell is original code, run the summary generation
 		if (cell.metadata.type === 'originalCode') {
 			this._doTestgenExecution(cell, session);
@@ -67,11 +89,7 @@ export class BoostTestgenKernel {
 
 	private async _doTestgenExecution(cell: vscode.NotebookCell, session: vscode.AuthenticationSession): Promise<void> {
 
-		//if cell is undefined or metadata is undefined, return
-		if (!cell || !cell.metadata) {
-			return;
-		}
-		//get the outputLanguage from the language set on the cell, NOT the language set on the notebook
+        //get the outputLanguage from the language set on the cell, NOT the language set on the notebook
 		let outputLanguage = cell.document.languageId;
 
 		//if outputLanguage is undefined, set it to python
@@ -140,7 +158,8 @@ export class BoostTestgenKernel {
 		}
         execution.end(successfulExecution, Date.now());
 	}
-	private async _doAuthorizationExecution(cell: vscode.NotebookCell): Promise<vscode.AuthenticationSession | undefined> {
+
+	private async _doAuthorizationExecution(): Promise<vscode.AuthenticationSession> {
 		const GITHUB_AUTH_PROVIDER_ID = 'github';
 		// The GitHub Authentication Provider accepts the scopes described here:
 		// https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/
@@ -150,4 +169,41 @@ export class BoostTestgenKernel {
 
 		return session;
 	}
+
+    private async _initializeMetaData(cell: vscode.NotebookCell) : Promise<boolean> {
+
+        const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
+        if (currentNotebook === undefined) {
+            return false;
+        }
+    
+        const edit = new vscode.WorkspaceEdit();
+        let foundCell = undefined;
+        let i = 0;
+        for  (; i < currentNotebook.cellCount; i++) {
+            if (currentNotebook.cellAt(i) === cell) {
+                foundCell = currentNotebook.cellAt(i);
+                break;
+            }
+        }
+    
+        const newCellData = new vscode.NotebookCellData(vscode.NotebookCellKind.Code,
+            cell.document.getText(), cell.document.languageId);
+        newCellData.metadata = {"id": i, "type": "originalCode"};
+    
+        // Use .set to add one or more edits to the notebook
+        edit.set(currentNotebook.uri, [
+            
+            // Create an edit that replaces this cell with the same cell + set metadata
+            vscode.NotebookEdit.updateCellMetadata(i, newCellData.metadata)
+    
+        ]);
+        // Additional notebook edits...
+    
+        await vscode.workspace.applyEdit(edit);
+    
+        // Update the cell reference to the new cell from the replacement so the caller can use it
+        cell = currentNotebook.cellAt(i);
+        return true;
+    }
 }
