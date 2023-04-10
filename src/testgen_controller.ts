@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
-import { DEBUG_BOOST_LAMBDA_LOCALLY } from './extension';
+import { DEBUG_BOOST_LAMBDA_LOCALLY } from './base_controller';
 
 //set a helper variable of the base url.  this should eventually be a config setting
 const testgenUrl = DEBUG_BOOST_LAMBDA_LOCALLY?

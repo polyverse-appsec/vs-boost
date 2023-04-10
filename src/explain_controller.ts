@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
-import { DEBUG_BOOST_LAMBDA_LOCALLY } from './extension';
+import { DEBUG_BOOST_LAMBDA_LOCALLY } from './base_controller';
 
 //set a helper variable of the base url.  this should eventually be a config setting
 
@@ -71,7 +71,7 @@ export class BoostExplainKernel {
         if (code.trim().length === 0) {
             return;
         } else if (!cell.metadata.type) {
-            const reinitialized = await _initializeMetaData(cell);
+            const reinitialized = await this._initializeMetaData(cell);
             if (!reinitialized) {
 
                 vscode.window.showInformationMessage(
@@ -90,48 +90,69 @@ export class BoostExplainKernel {
         session: vscode.AuthenticationSession): Promise<void> {
 		const execution = this._controller.createNotebookCellExecution(cell);
 
+        let successfullyCompleted = true;
 		execution.executionOrder = ++this._executionOrder;
 		execution.start(Date.now());
 
-		try {
-            // get the code from the cell
-            const code = cell.document.getText();
+        // get the code from the cell
+        const code = cell.document.getText();
 
-			// using axios, make a web POST call to Boost Service with the code as in a json object code=code
-			const response = await axios.post(explainUrl, { code: code, session: session.accessToken });
+        // using axios, make a web POST call to Boost Service with the code as in a json object code=code
+        let response;
+        let serviceError : Error | null = null;
+        try {
+            response = await axios.post(explainUrl, { code: code, session: "blahblahblah"/*session.accessToken */});
+        } catch (err : any) {
+            successfullyCompleted = false;
+            if (err.response && err.response.status === 401) {
+                serviceError = new Error("Unable to use your GitHub authorized account to access the Boost Cloud Service. Please check your GitHub account settings, and try again.");
+            } else {
+                serviceError = err as Error;
+            }
+        }
 
-			const summarydata = response.data;
+        try {
+            const summarydata = response? response.data: null;
 
-			const outputItems: vscode.NotebookCellOutputItem[] = [];
+            const outputItems: vscode.NotebookCellOutputItem[] = [];
 
-			const mimetype = 'text/markdown';
- 
+            const mimetype = 'text/markdown';
 
-			outputItems.push(vscode.NotebookCellOutputItem.text("### Boost Code Explanation\n" + summarydata.explanation, mimetype));
+            outputItems.push(successfullyCompleted?
+                vscode.NotebookCellOutputItem.text(
+                "### Boost Code Explanation\n" + summarydata.explanation, mimetype):
+                vscode.NotebookCellOutputItem.error(serviceError as Error));
+        
 
-			// we will have one NotebookCellOutput per type of output.
-			// first scan the existing outputs of the cell and see if we already have an output of this type
-			// if so, replace it
-			let existingOutputs = cell.outputs;
-			let existingOutput = existingOutputs.find(output => output.metadata?.outputType === 'explainCode');
-			if (existingOutput) {
-				execution.replaceOutputItems(outputItems, existingOutput);
-			} else {
-				// create a new NotebookCellOutput with the outputItems array
-				const output = new vscode.NotebookCellOutput(outputItems, { outputType: 'explainCode' });
+            // we will have one NotebookCellOutput per type of output.
+            // first scan the existing outputs of the cell and see if we already have an output of this type
+            // if so, replace it
+            let existingOutputs = cell.outputs;
+            let existingOutput = existingOutputs.find(output => output.metadata?.outputType === 'explainCode');
+            if (existingOutput) {
+                execution.replaceOutputItems(outputItems, existingOutput);
+            } else {
+                // create a new NotebookCellOutput with the outputItems array
+                const output = new vscode.NotebookCellOutput(outputItems, { outputType: 'explainCode' });
 
-				execution.appendOutput(output);
-			}
+                execution.appendOutput(output);
+            }
 
-			execution.end(true, Date.now());
-
-		} catch (err) {
-			execution.appendOutput([new vscode.NotebookCellOutput([
-				vscode.NotebookCellOutputItem.error(err as Error)
-			])]);
-			execution.end(false, Date.now());
-		}
+        } catch (err) {
+            successfullyCompleted = false;
+            this._writeUnhandledError(execution, err);
+        }
+        finally {
+            execution.end(successfullyCompleted, Date.now());
+        }
 	}
+
+    private _writeUnhandledError(execution: vscode.NotebookCellExecution, err: unknown) {
+        execution.appendOutput([new vscode.NotebookCellOutput([
+            vscode.NotebookCellOutputItem.error(err as Error)
+        ])]);
+    }
+
 	private async _doAuthorizationExecution(): Promise<vscode.AuthenticationSession> {
 		const GITHUB_AUTH_PROVIDER_ID = 'github';
 		// The GitHub Authentication Provider accepts the scopes described here:
@@ -143,41 +164,41 @@ export class BoostExplainKernel {
 
 		return session;
 	}
-}
-async function _initializeMetaData(cell: vscode.NotebookCell) : Promise<boolean> {
 
-    const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
-    if (currentNotebook === undefined) {
-        return false;
-    }
+    private async _initializeMetaData(cell: vscode.NotebookCell) : Promise<boolean> {
 
-    const edit = new vscode.WorkspaceEdit();
-    let foundCell = undefined;
-    let i = 0;
-    for  (; i < currentNotebook.cellCount; i++) {
-        if (currentNotebook.cellAt(i) === cell) {
-            foundCell = currentNotebook.cellAt(i);
-            break;
+        const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
+        if (currentNotebook === undefined) {
+            return false;
         }
+
+        const edit = new vscode.WorkspaceEdit();
+        let foundCell = undefined;
+        let i = 0;
+        for  (; i < currentNotebook.cellCount; i++) {
+            if (currentNotebook.cellAt(i) === cell) {
+                foundCell = currentNotebook.cellAt(i);
+                break;
+            }
+        }
+
+        const newCellData = new vscode.NotebookCellData(vscode.NotebookCellKind.Code,
+            cell.document.getText(), cell.document.languageId);
+        newCellData.metadata = {"id": i, "type": "originalCode"};
+
+        // Use .set to add one or more edits to the notebook
+        edit.set(currentNotebook.uri, [
+            
+            // Create an edit that replaces this cell with the same cell + set metadata
+            vscode.NotebookEdit.updateCellMetadata(i, newCellData.metadata)
+
+        ]);
+        // Additional notebook edits...
+
+        await vscode.workspace.applyEdit(edit);
+
+        // Update the cell reference to the new cell from the replacement so the caller can use it
+        cell = currentNotebook.cellAt(i);
+        return true;
     }
-
-    const newCellData = new vscode.NotebookCellData(vscode.NotebookCellKind.Code,
-        cell.document.getText(), cell.document.languageId);
-    newCellData.metadata = {"id": i, "type": "originalCode"};
-
-    // Use .set to add one or more edits to the notebook
-    edit.set(currentNotebook.uri, [
-        
-        // Create an edit that replaces this cell with the same cell + set metadata
-        vscode.NotebookEdit.updateCellMetadata(i, newCellData.metadata)
-
-    ]);
-    // Additional notebook edits...
-
-    await vscode.workspace.applyEdit(edit);
-
-    // Update the cell reference to the new cell from the replacement so the caller can use it
-    cell = currentNotebook.cellAt(i);
-    return true;
 }
-
