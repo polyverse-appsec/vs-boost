@@ -127,6 +127,16 @@ Note: Full integration tests will also download the latest stable Visual Studio 
 
 Integration Tests check if each command exists, and performs a simple command verification (i.e. verify command can be run successfully)
 
+### Debugging Boost Service API (locally)
+If you want to debug the Boost Service API locally, go into extension.ts and change the following line:
+```
+export const DEBUG_BOOST_LAMBDA_LOCALLY = true;
+```
+This will use localhost port/IP address for the Boost Service API.
+This is useful if you are making changes to the Boost Service API and want to test the Client side local.
+
+Note: We may want to look at a runtime configuration option in the future.
+
 ### Debugging live tests
 * Open the debug viewlet (`Ctrl+Shift+D` or `Cmd+Shift+D` on Mac) and from the launch configuration dropdown pick `Extension Tests`.
 * Press `F5` to run the tests in a new window with your extension loaded.

@@ -1,12 +1,17 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
+import { DEBUG_BOOST_LAMBDA_LOCALLY } from './extension';
 
 //set a helper variable of the base url.  this should eventually be a config setting
 
-//const baseUrl = 'http://127.0.0.1:8000/';
-const explainUrl = 'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
-const generateUrl = 'https://ukkqda6zl22nd752blcqlv3rum0ziwnq.lambda-url.us-west-2.on.aws/';
+// for debugging locally with Chalice
+const explainUrl = DEBUG_BOOST_LAMBDA_LOCALLY?
+    'http://127.0.0.1:8000/explain':
+    'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
 
+const generateUrl = DEBUG_BOOST_LAMBDA_LOCALLY?
+    'http://127.0.0.1:8000/generate':
+    'https://ukkqda6zl22nd752blcqlv3rum0ziwnq.lambda-url.us-west-2.on.aws/';
 
 export class BoostConvertKernel {
 	private readonly _id = 'polyverse-boost-convert-kernel';

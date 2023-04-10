@@ -1,10 +1,12 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
+import { DEBUG_BOOST_LAMBDA_LOCALLY } from './extension';
 
 //set a helper variable of the base url.  this should eventually be a config setting
-const baseUrl = 'https://y1v33c740m.execute-api.us-west-2.amazonaws.com/api/';
-//const baseUrl = 'http://127.0.0.1:8000/';
-const analyzeUrl = 'https://iyn66vkb6lmlcb4log6d3ah7d40axgqu.lambda-url.us-west-2.on.aws/';
+const analyzeUrl = DEBUG_BOOST_LAMBDA_LOCALLY?
+    'http://127.0.0.1:8000/analyze':
+    'https://iyn66vkb6lmlcb4log6d3ah7d40axgqu.lambda-url.us-west-2.on.aws/';
+
 const outputTypeBugAnalysis = 'bugAnalysis';
 
 export class BoostAnalyzeKernel {
