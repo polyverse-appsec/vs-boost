@@ -114,6 +114,7 @@ export function parseFunctions(filename: string, code: string): [string, string[
         "ruby": parseRubyFunctions,
         "php": parsePhpFunctions,
         "vb": parseVbFunctions,
+        "perl": parsePerlFunctions,
 				// eslint-disable-next-line @typescript-eslint/naming-convention
         "objective-c": parseObjCMethods,
         "go": parseGoFunctions,
@@ -136,6 +137,10 @@ export function parseFunctions(filename: string, code: string): [string, string[
     } else {
         return [languageId, splitCode(code)];
     }
+}
+
+function parsePerlFunctions(code: string): string[] {
+    return parseBracketyLanguage(code, 'sub');
 }
 
 function parsePhpFunctions(code: string): string[] {

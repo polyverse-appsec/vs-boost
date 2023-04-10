@@ -3,9 +3,11 @@
 import sys
 from collections import defaultdict
 
+
 def load_words(file_path):
     with open(file_path, 'r') as file:
         return file.read().splitlines()
+
 
 def find_anagrams(words):
     anagrams = defaultdict(list)
@@ -14,10 +16,12 @@ def find_anagrams(words):
         anagrams[sorted_word].append(word)
     return anagrams
 
+
 def print_anagrams(anagrams):
     for sorted_word, anagram_list in anagrams.items():
         if len(anagram_list) > 1:
             print(', '.join(anagram_list))
+
 
 def main():
     if len(sys.argv) != 2:
@@ -29,6 +33,6 @@ def main():
     anagrams = find_anagrams(words)
     print_anagrams(anagrams)
 
+
 if __name__ == "__main__":
     main()
-

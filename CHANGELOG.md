@@ -3,7 +3,10 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 0.9.1: April 6, 2023
+## Version 0.9.1: April 10, 2023
+
+### New Features
+- Support for Perl programming language - explaining Perl code, and converting to another language
 ### Enhancements
 - Improved messages when reloading or replacing existing source code.
 - User-added Cells with code can now be submitted for all Boost kernels.
