@@ -121,6 +121,7 @@ export class KernelControllerBase {
             response = await this.makeBoostServiceRequest(cell, code, session.accessToken);
         } catch (err : any) {
             successfullyCompleted = false;
+            serviceError = err;
         }
 
         try {
@@ -173,10 +174,19 @@ export class KernelControllerBase {
         try {
             return await this.onBoostServiceRequest(cell, code, authenticationToken);
         } catch (err : any) {
-            if (err.response && err.response.status === 401) {
-                throw new Error(
-                    "Unable to use your GitHub authorized account to access the Boost Cloud Service. " +
-                    "Please check your GitHub account settings, and try again.");
+            if (err.response) {
+                switch (err.response.status) {
+                    case 401: // authorization error - likely GitHub issue
+                        throw new Error(
+                            "Unable to use your GitHub authorized account to access the Boost Cloud Service. " +
+                            "Please check your GitHub account settings, and try again.");
+                    case 502: // bad gateway, possible timeout
+                        throw new Error(
+                            "Boost code analysis service is currently unavailable. " +
+                            "Please try your request again.");
+                    default:
+                        throw err;
+                }
             } else {
                 throw err;
             }
