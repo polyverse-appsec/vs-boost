@@ -11,8 +11,6 @@ import instructions from './instructions.json';
 
 const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 
-export const DEBUG_BOOST_LAMBDA_LOCALLY = false;
-
 export function activate(context: vscode.ExtensionContext) {
     const outputChannel = vscode.window.createOutputChannel(NOTEBOOK_TYPE);
 
