@@ -9,6 +9,7 @@ export class KernelControllerBase {
 	private _supportedLanguages = [];
     private _serviceEndpoint : string;
     private _outputType : string;
+    private _useGeneratedCodeCellOptimization : boolean;
 
 	private _executionOrder = 0;
 	private readonly _controller: vscode.NotebookController;
@@ -17,11 +18,15 @@ export class KernelControllerBase {
         kernelId : string,
         kernelLabel : string,
         serviceEndpoint : string,
-        outputType : string) {
+        outputType : string,
+        useGeneratedCodeCellOptimization : boolean) {
+            
         this.id = kernelId;
         this.kernelLabel = kernelLabel;
         this._serviceEndpoint = serviceEndpoint;
         this._outputType = outputType;
+        this._useGeneratedCodeCellOptimization = useGeneratedCodeCellOptimization;
+
 		this._controller = vscode.notebooks.createNotebookController(this.id,
 			'polyverse-boost-notebook',
 			this.kernelLabel);
@@ -50,7 +55,13 @@ export class KernelControllerBase {
 		}
 
         for (const cell of cells) {
-
+            //if the cell is generated code, don't run it by default, the original code cell will
+			// run it, unless it is the only cell in array of cells being run, in which case, run it
+			if (_useGeneratedCodeCellOptimization &&
+                cell.metadata.type === 'generatedCode' &&
+                cells.length > 1) {
+				return;
+			}
 			this._doExecution(cell, session);
 		}
 	}
