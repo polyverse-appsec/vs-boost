@@ -21,7 +21,7 @@ export class BoostTestgenKernel extends KernelControllerBase {
 	}
 
 	dispose(): void {
-		this.dispose();
+		super.dispose();
 	}
 
     async onBoostServiceRequest(
@@ -51,13 +51,13 @@ export class BoostTestgenKernel extends KernelControllerBase {
 		let outputLanguage = cell.document.languageId ?? 'python';
 
         //quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
-        if(response.testcode.includes('```')){
+        if(response.data.testcode.includes('```')){
             mimetype = 'text/markdown';
-            return '### Boost Test Generation\n' + response.testcode;
+            return '### Boost Test Generation\n' + response.data.testcode;
         }
         else {
             mimetype.str = 'text/x-' + outputLanguage;
-            return response.testcode;
+            return response.data.testcode;
         }        
     }
 }

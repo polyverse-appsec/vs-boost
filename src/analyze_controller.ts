@@ -18,7 +18,7 @@ export class BoostAnalyzeKernel extends KernelControllerBase {
 	}
 
 	dispose(): void {
-		this.dispose();
+		super.dispose();
 	}
 
     onKernelOutputItem(response: any): string {
