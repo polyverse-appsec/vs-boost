@@ -7,7 +7,7 @@ import {
 const analyzeUrl = DEBUG_BOOST_LAMBDA_LOCALLY?
     'http://127.0.0.1:8000/analyze':
     'https://iyn66vkb6lmlcb4log6d3ah7d40axgqu.lambda-url.us-west-2.on.aws/';
-export class BoostExplainKernel extends KernelControllerBase {
+export class BoostAnalyzeKernel extends KernelControllerBase {
 	constructor() {
         super(
             'polyverse-boost-analyze-kernel',
