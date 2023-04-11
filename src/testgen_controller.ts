@@ -27,8 +27,8 @@ export class BoostTestgenKernel extends KernelControllerBase {
 
     async onBoostServiceRequest(
         cell : vscode.NotebookCell,
-        code : string,
-        accessToken : string) : Promise<string>
+        serviceEndpoint : string,
+        payload : any) : Promise<string>
     {
         //get the outputLanguage from the language set on the cell, NOT the language set on the notebook
 		let outputLanguage = cell.document.languageId ?? 'python';
@@ -37,10 +37,11 @@ export class BoostTestgenKernel extends KernelControllerBase {
 		let framework = vscode.window.activeNotebookEditor?.notebook.metadata.testFramework ??
             '';
 
-        // now take the summary and using axios send it to Boost web service with
-        //  the summary in a json object summary=summary
-        return await axios.post(testgenUrl, 
-            { code: code, session: accessToken, language: outputLanguage, framework: framework});
+        //  dynamically add payload properties to send to Boost service
+        payload.language = outputLanguage;
+        payload.framework = framework;
+        return await axios.post(serviceEndpoint, 
+            payload);
 
     }
 

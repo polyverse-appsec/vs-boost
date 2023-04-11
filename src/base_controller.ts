@@ -43,6 +43,10 @@ export class KernelControllerBase {
 		this._controller.dispose();
 	}
 
+    get outputType() : string {
+        return this._outputType;
+    }
+
 	private async _executeAll(
         cells: vscode.NotebookCell[],
         _notebook: vscode.NotebookDocument,
@@ -121,7 +125,7 @@ export class KernelControllerBase {
         const code = cell.document.getText();
 
         try {
-            await this.onProcessServiceRequest(execution, cell, code, session);
+            await this.onProcessServiceRequest(execution, cell, { code: code, session: session.accessToken });
         } catch (err) {
             successfullyCompleted = false;
             this._writeUnhandledError(execution, err);
@@ -134,8 +138,7 @@ export class KernelControllerBase {
     async onProcessServiceRequest(
         execution: vscode.NotebookCellExecution,
         cell : vscode.NotebookCell,
-        code : string,
-        session : vscode.AuthenticationSession) : Promise<any>{
+        payload : any) : Promise<any>{
 
         let successfullyCompleted = true;
 
@@ -143,7 +146,7 @@ export class KernelControllerBase {
         let response;
         let serviceError : Error = new Error();
         try {
-            response = await this.makeBoostServiceRequest(cell, code, session.accessToken);
+            response = await this.makeBoostServiceRequest(cell, this._serviceEndpoint, payload);
         } catch (err : any) {
             successfullyCompleted = false;
             serviceError = err;
@@ -184,10 +187,10 @@ export class KernelControllerBase {
     
     async makeBoostServiceRequest(
         cell : vscode.NotebookCell,
-        code: string,
-        authenticationToken : string): Promise<any> {
+        serviceEndpoint : string,
+        payload : any): Promise<any> {
         try {
-            return await this.onBoostServiceRequest(cell, code, authenticationToken);
+            return await this.onBoostServiceRequest(cell, serviceEndpoint, payload);
         } catch (err : any) {
             if (err.response) {
                 switch (err.response.status) {
@@ -210,12 +213,12 @@ export class KernelControllerBase {
 
     async onBoostServiceRequest(
         cell : vscode.NotebookCell,
-        code : string,
-        authenticationToken : string,
-        extraData ?: string) : Promise<string> {
+        serviceEndpoint : string,
+        payload : any) : Promise<string> {
+
         const response = await axios.post(
-            this._serviceEndpoint,
-                { code: code, session: authenticationToken });
+            serviceEndpoint,
+            payload);
         return response.data;
     }
 
