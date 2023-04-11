@@ -10,6 +10,7 @@ export class KernelControllerBase {
     private _serviceEndpoint : string;
     private _outputType : string;
     private _useGeneratedCodeCellOptimization : boolean;
+    private useOriginalCodeCheck = false;
 
 	private _executionOrder = 0;
 	private readonly _controller: vscode.NotebookController;
@@ -19,13 +20,15 @@ export class KernelControllerBase {
         kernelLabel : string,
         serviceEndpoint : string,
         outputType : string,
-        useGeneratedCodeCellOptimization : boolean) {
+        useGeneratedCodeCellOptimization : boolean,
+        useOriginalCodeCheck : boolean) {
             
         this.id = kernelId;
         this.kernelLabel = kernelLabel;
         this._serviceEndpoint = serviceEndpoint;
         this._outputType = outputType;
         this._useGeneratedCodeCellOptimization = useGeneratedCodeCellOptimization;
+        this.useOriginalCodeCheck = useOriginalCodeCheck;
 
 		this._controller = vscode.notebooks.createNotebookController(this.id,
 			'polyverse-boost-notebook',
@@ -99,8 +102,11 @@ export class KernelControllerBase {
 
 		// we basically run two executions, one for the original code to generate a summary
 		// and one for the generated code
-        await this._doKernelExecution(cell, session);
-	}
+		// if the cell is original code, run the summary generation
+		if (!this.useOriginalCodeCheck || cell.metadata.type === 'originalCode') {
+            await this._doKernelExecution(cell, session);
+        }
+    }
 
 	private async _doKernelExecution(
         cell: vscode.NotebookCell,
@@ -114,6 +120,25 @@ export class KernelControllerBase {
         // get the code from the cell
         const code = cell.document.getText();
 
+        try {
+            await this.onProcessServiceRequest(execution, cell, code, session);
+        } catch (err) {
+            successfullyCompleted = false;
+            this._writeUnhandledError(execution, err);
+        }
+        finally {
+            execution.end(successfullyCompleted, Date.now());
+        }
+	}
+
+    async onProcessServiceRequest(
+        execution: vscode.NotebookCellExecution,
+        cell : vscode.NotebookCell,
+        code : string,
+        session : vscode.AuthenticationSession) : Promise<any>{
+
+        let successfullyCompleted = true;
+
         // using axios, make a web POST call to Boost Service with the code as in a json object code=code
         let response;
         let serviceError : Error = new Error();
@@ -124,42 +149,32 @@ export class KernelControllerBase {
             serviceError = err;
         }
 
-        try {
-            const summarydata = response? response.data: null;
+        const outputItems: vscode.NotebookCellOutputItem[] = [];
 
-            const outputItems: vscode.NotebookCellOutputItem[] = [];
+        let mimetype = { str: 'text/markdown'};
 
-            let mimetype = { str: 'text/markdown'};
+        outputItems.push(successfullyCompleted?
+            vscode.NotebookCellOutputItem.text(
+                this.onKernelOutputItem(response, cell, mimetype), mimetype.str):
+            vscode.NotebookCellOutputItem.error(serviceError as Error));
+    
 
-            outputItems.push(successfullyCompleted?
-                vscode.NotebookCellOutputItem.text(
-                    this.onKernelOutputItem(response, cell, mimetype), mimetype.str):
-                vscode.NotebookCellOutputItem.error(serviceError as Error));
-        
+        // we will have one NotebookCellOutput per type of output.
+        // first scan the existing outputs of the cell and see if we already have an output of this type
+        // if so, replace it
+        let existingOutputs = cell.outputs;
+        let existingOutput = existingOutputs.find(
+            output => output.metadata?.outputType === this._outputType);
+        if (existingOutput) {
+            execution.replaceOutputItems(outputItems, existingOutput);
+        } else {
+            // create a new NotebookCellOutput with the outputItems array
+            const output = new vscode.NotebookCellOutput(outputItems, { outputType: this._outputType });
 
-            // we will have one NotebookCellOutput per type of output.
-            // first scan the existing outputs of the cell and see if we already have an output of this type
-            // if so, replace it
-            let existingOutputs = cell.outputs;
-            let existingOutput = existingOutputs.find(
-                output => output.metadata?.outputType === this._outputType);
-            if (existingOutput) {
-                execution.replaceOutputItems(outputItems, existingOutput);
-            } else {
-                // create a new NotebookCellOutput with the outputItems array
-                const output = new vscode.NotebookCellOutput(outputItems, { outputType: this._outputType });
-
-                execution.appendOutput(output);
-            }
-
-        } catch (err) {
-            successfullyCompleted = false;
-            this._writeUnhandledError(execution, err);
+            execution.appendOutput(output);
         }
-        finally {
-            execution.end(successfullyCompleted, Date.now());
-        }
-	}
+        return response;
+    }
 
     private _writeUnhandledError(execution: vscode.NotebookCellExecution, err: unknown) {
         execution.appendOutput([new vscode.NotebookCellOutput([
@@ -196,12 +211,12 @@ export class KernelControllerBase {
     async onBoostServiceRequest(
         cell : vscode.NotebookCell,
         code : string,
-        authenticationToken : string) : Promise<string> {
+        authenticationToken : string,
+        extraData ?: string) : Promise<string> {
         const response = await axios.post(
             this._serviceEndpoint,
-            { code: code, session: authenticationToken });
+                { code: code, session: authenticationToken });
         return response.data;
-
     }
 
     onKernelOutputItem(response: any, cell : vscode.NotebookCell, mimetype : any) : string {

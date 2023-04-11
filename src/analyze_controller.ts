@@ -14,6 +14,7 @@ export class BoostAnalyzeKernel extends KernelControllerBase {
             'Polyverse Boost: Analyze Code for Security Vulnerabilities',
             analyzeUrl,
             'bugAnalysis',
+            true,
             true);
 	}
 

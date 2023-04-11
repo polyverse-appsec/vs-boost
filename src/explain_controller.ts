@@ -15,6 +15,7 @@ export class BoostExplainKernel extends KernelControllerBase {
             'Polyverse Boost: Explain Code',
             explainUrl,
             'explainCode',
+            false,
             false);
 	}
 
@@ -22,7 +23,7 @@ export class BoostExplainKernel extends KernelControllerBase {
 		super.dispose();
 	}
 
-    onKernelOutputItem(response: any): string {
+    onKernelOutputItem(response: any, mimetype : any): string {
         return "### Boost Code Explanation\n" + response.explanation;
     }
 }

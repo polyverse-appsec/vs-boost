@@ -17,6 +17,7 @@ export class BoostTestgenKernel extends KernelControllerBase {
             'Polyverse Boost: Generate Test Cases for Code',
             testgenUrl,
             'testGeneration',
+            true,
             true);
 	}
 
