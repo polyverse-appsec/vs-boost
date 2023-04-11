@@ -57,7 +57,7 @@ export class KernelControllerBase {
         for (const cell of cells) {
             //if the cell is generated code, don't run it by default, the original code cell will
 			// run it, unless it is the only cell in array of cells being run, in which case, run it
-			if (_useGeneratedCodeCellOptimization &&
+			if (this._useGeneratedCodeCellOptimization &&
                 cell.metadata.type === 'generatedCode' &&
                 cells.length > 1) {
 				return;
@@ -118,7 +118,7 @@ export class KernelControllerBase {
         let response;
         let serviceError : Error = new Error();
         try {
-            response = await this.makeBoostServiceRequest(this._serviceEndpoint, code, session.accessToken);
+            response = await this.makeBoostServiceRequest(cell, code, session.accessToken);
         } catch (err : any) {
             successfullyCompleted = false;
         }
@@ -128,11 +128,11 @@ export class KernelControllerBase {
 
             const outputItems: vscode.NotebookCellOutputItem[] = [];
 
-            const mimetype = 'text/markdown';
+            let mimetype = { str: 'text/markdown'};
 
             outputItems.push(successfullyCompleted?
                 vscode.NotebookCellOutputItem.text(
-                    this.onKernelOutputItem(response), mimetype):
+                    this.onKernelOutputItem(response, cell, mimetype), mimetype.str):
                 vscode.NotebookCellOutputItem.error(serviceError as Error));
         
 
@@ -167,14 +167,11 @@ export class KernelControllerBase {
     }
     
     async makeBoostServiceRequest(
-        explainUrl: string,
+        cell : vscode.NotebookCell,
         code: string,
         authenticationToken : string): Promise<any> {
         try {
-            const response = await axios.post(
-                explainUrl,
-                { code: code, session: authenticationToken });
-            return response.data;
+            return await this.onBoostServiceRequest(cell, code, authenticationToken);
         } catch (err : any) {
             if (err.response && err.response.status === 401) {
                 throw new Error(
@@ -186,7 +183,18 @@ export class KernelControllerBase {
         }
     }
 
-    onKernelOutputItem(response: any) : string {
+    async onBoostServiceRequest(
+        cell : vscode.NotebookCell,
+        code : string,
+        authenticationToken : string) : Promise<string> {
+        const response = await axios.post(
+            this._serviceEndpoint,
+            { code: code, session: authenticationToken });
+        return response.data;
+
+    }
+
+    onKernelOutputItem(response: any, cell : vscode.NotebookCell, mimetype : any) : string {
         throw new Error("Not implemented");
     }
 
