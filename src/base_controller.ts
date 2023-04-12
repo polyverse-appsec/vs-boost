@@ -198,6 +198,7 @@ export class KernelControllerBase {
                         throw new Error(
                             "Unable to use your GitHub authorized account to access the Boost Cloud Service. " +
                             "Please check your GitHub account settings, and try again.");
+                    case 500: // internal server error, likely OpenAI timeout/issue
                     case 502: // bad gateway, possible timeout
                         throw new Error(
                             "Boost code analysis service is currently unavailable. " +
