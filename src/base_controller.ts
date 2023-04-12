@@ -197,7 +197,8 @@ export class KernelControllerBase {
                     case 401: // authorization error - likely GitHub issue
                         throw new Error(
                             "Unable to use your GitHub authorized account to access the Boost Cloud Service. " +
-                            "Please check your GitHub account settings, and try again.");
+                            "Please check your GitHub account settings, and try again. Also note that your Polyverse " +
+                            "license must use the same email address as your GitHub account.");
                     case 500: // internal server error, likely OpenAI timeout/issue
                     case 502: // bad gateway, possible timeout
                         throw new Error(
