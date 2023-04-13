@@ -8,7 +8,7 @@
   "bugs": {
     "email": "support@polyverse.com"
   },
-  "version": "0.9.1",
+  "version": "0.9.2",
   "engines": {
     "vscode": "^1.77.0"
   },
@@ -64,6 +64,11 @@
         "command": "polyverse-boost-notebook.selectTestFramework",
         "title": "Select Test Framework",
         "icon": "$(checklist)"
+      },
+      {
+        "command": "polyverse-boost-notebook.parseFunctionsFromFile",
+        "title": "Boost Analysis from File",
+        "icon": "$(file-code)"
       }
     ],
     "notebooks": [
@@ -94,7 +99,15 @@
           "when": "notebookType == 'polyverse-boost-notebook'",
           "group": "navigation@3"
         }
-      ]
+      ],
+      "explorer/context": [
+        {
+            "command": "polyverse-boost-notebook.parseFunctionsFromFile",
+            "when":
+                "resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb",
+            "group": "navigation"
+        }
+        ]
     }
   },
   "scripts": {

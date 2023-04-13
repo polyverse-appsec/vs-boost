@@ -74,6 +74,8 @@ export function activate(context: vscode.ExtensionContext) {
 	}));
 
     registerOpenCodeFile(context, outputChannel);
+
+    registerFileRightClickAnalyzeCommand(context, outputChannel);
 }
 
 // for completeness, we provide a deactivate function - asynchronous return
@@ -195,48 +197,90 @@ function registerOpenCodeFile(context: vscode.ExtensionContext,
 			}
 		});
 
-		if (fileUri === undefined || fileUri[0] === undefined) {
+        if (fileUri === undefined || fileUri[0] === undefined) {
             return;
         }
-
-        // Use the vscode.workspace.fs.readFile method to read the contents of the file
-        const fileContents = await vscode.workspace.fs.readFile(fileUri[0]);
-
-        // turn fileContents into a string and call splitCode
-        const fileContentsString = fileContents.toString();
-        const [languageId, splitCodeResult] = parseFunctions(
-            fileUri[0].toString(),
-            fileContentsString);
-
-        //now loop through the splitCodeResult and create a cell for each item,
-        //  adding to an array of cells
-        const cells = [];
-
-        for (let i = 0; i < splitCodeResult.length; i++) {
-            const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Code,
-                splitCodeResult[i], languageId);
-            cell.metadata = {"id": i, "type": "originalCode"};
-            cells.push(cell);
+        else if (fileUri.length > 1) {
+            vscode.window.showWarningMessage(
+                'Only one source file can be loaded at a time.');
         }
-
-        const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
-        if (currentNotebook === undefined) {
-            return;
-        }
-
-        // get the range of the cells in the notebook
-        const range = new vscode.NotebookRange(0, currentNotebook.cellCount);
-        const edit = new vscode.WorkspaceEdit();
-        
-        // Use .set to add one or more edits to the notebook
-        edit.set(currentNotebook.uri, [
-            // Create an edit that inserts one or more cells after the first cell in the notebook
-            vscode.NotebookEdit.replaceCells(range, cells),
-
-            // Additional notebook edits...
-        ]);
-        await vscode.workspace.applyEdit(edit);
+    
+        parseFunctionsFromFile(fileUri[0]);
 
 	}));	
 }
 
+async function parseFunctionsFromFile(fileUri : vscode.Uri) {
+
+    // Use the vscode.workspace.fs.readFile method to read the contents of the file
+    const fileContents = await vscode.workspace.fs.readFile(fileUri);
+
+    // turn fileContents into a string and call splitCode
+    const fileContentsString = fileContents.toString();
+    const [languageId, splitCodeResult] = parseFunctions(
+        fileUri.toString(),
+        fileContentsString);
+
+    //now loop through the splitCodeResult and create a cell for each item,
+    //  adding to an array of cells
+    const cells = [];
+
+    for (let i = 0; i < splitCodeResult.length; i++) {
+        const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Code,
+            splitCodeResult[i], languageId);
+        cell.metadata = {"id": i, "type": "originalCode"};
+        cells.push(cell);
+    }
+
+    let currentNotebook = vscode.window.activeNotebookEditor?.notebook;
+    // if there is no active notebook editor, we need to find it
+    if (currentNotebook === undefined) {
+        const notebookDocuments: vscode.NotebookDocument[] = [];
+        vscode.workspace.notebookDocuments.forEach((doc) => {
+            // we're skipping non Boost notebooks
+            if (doc.notebookType !== NOTEBOOK_TYPE) {
+                return;
+            }
+            // we found multiple available Boost notebooks, so warn after first
+            if (currentNotebook !== undefined) {
+                vscode.window.showWarningMessage(
+                    'Multiple Boost Notebooks are open. Using first to load file.');
+                return;
+            }
+          
+            vscode.window.showNotebookDocument(doc, {
+                viewColumn: vscode.ViewColumn.One // set the editor column to open the notebook in
+            });
+            currentNotebook = doc;
+        });
+    }
+    // if we still failed to find an available Notebook, then warn and give up
+    if (currentNotebook === undefined) {
+        vscode.window.showWarningMessage(
+            'Missing open Boost Notebook. Please create or activate your Boost Notebook first');
+        return;
+    }
+
+    // get the range of the cells in the notebook
+    const range = new vscode.NotebookRange(0, currentNotebook.cellCount);
+    const edit = new vscode.WorkspaceEdit();
+    
+    // Use .set to add one or more edits to the notebook
+    edit.set(currentNotebook.uri, [
+        // Create an edit that replaces all the cells in the notebook with new cells created from the file
+        vscode.NotebookEdit.replaceCells(range, cells),
+
+        // Additional notebook edits...
+    ]);
+    await vscode.workspace.applyEdit(edit);
+}
+
+function registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext, outputChannel: vscode.OutputChannel) {
+
+    const disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.parseFunctionsFromFile',
+        async (uri: vscode.Uri) => {
+            await parseFunctionsFromFile(uri);
+        });
+    context.subscriptions.push(disposable);
+    vscode.window.showInformationMessage('Boost File Menu command added');
+}

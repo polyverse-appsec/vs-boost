@@ -73,6 +73,7 @@ Boost will create a detailed, step-by-step explanation of your code and break it
    ![Create Boost Notebook](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-26_at_5.40.18_PM.jpg?width=500)
 
 4. **Load your Source Code**: Use the `Boost: Load File` command to parse your source code into Boost Notebook cells so you can review and edit.
+  Alternatively, you can select any supported file in the File Explorer, right-click and select `Boost Analysis from File` command.
 
 5. **Select Your Modernization Process**: Use the `Boost: Select Kernel` command to choose from available AI-enhanced processing:
 
