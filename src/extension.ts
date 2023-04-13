@@ -234,9 +234,10 @@ async function parseFunctionsFromFile(fileUri : vscode.Uri) {
 
     let currentNotebook = vscode.window.activeNotebookEditor?.notebook;
     // if there is no active notebook editor, we need to find it
+    // Note this only happens when using right-click in explorer or a non-Notebook active editor
     if (currentNotebook === undefined) {
         const notebookDocuments: vscode.NotebookDocument[] = [];
-        vscode.workspace.notebookDocuments.forEach((doc) => {
+        vscode.workspace.notebookDocuments.forEach(async (doc) => {
             // we're skipping non Boost notebooks
             if (doc.notebookType !== NOTEBOOK_TYPE) {
                 return;
@@ -251,6 +252,7 @@ async function parseFunctionsFromFile(fileUri : vscode.Uri) {
             vscode.window.showNotebookDocument(doc, {
                 viewColumn: vscode.ViewColumn.One // set the editor column to open the notebook in
             });
+              
             currentNotebook = doc;
         });
     }
@@ -259,6 +261,16 @@ async function parseFunctionsFromFile(fileUri : vscode.Uri) {
         vscode.window.showWarningMessage(
             'Missing open Boost Notebook. Please create or activate your Boost Notebook first');
         return;
+    }
+
+    // if the Notebook has unsaved changes, prompt user before erasing them
+    if (currentNotebook.isDirty) {
+        const choice = await vscode.window.showInformationMessage(
+            "The default Boost Notebook has unsaved data in it. If you proceed, that data will likely be lost. " +
+            "Do you wish to proceed?", { "modal": true}, 'Yes', 'No');
+        if (choice !== 'Yes') {
+            return;
+        }
     }
 
     // get the range of the cells in the notebook
@@ -277,10 +289,20 @@ async function parseFunctionsFromFile(fileUri : vscode.Uri) {
 
 function registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext, outputChannel: vscode.OutputChannel) {
 
-    const disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.parseFunctionsFromFile',
+    const disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.processCurrentFile',
         async (uri: vscode.Uri) => {
+            // if we don't have a file selected, then the user didn't right click
+            //      so we need to find the current active editor, if its available
+            if (uri === undefined) {
+                if (vscode.window.activeTextEditor === undefined) {
+                    vscode.window.showWarningMessage("Unable to identify an active file to analyze.");
+                    return;
+                }
+                else {
+                    uri = vscode.window.activeTextEditor?.document.uri;
+                }
+            }
             await parseFunctionsFromFile(uri);
         });
     context.subscriptions.push(disposable);
-    vscode.window.showInformationMessage('Boost File Menu command added');
 }

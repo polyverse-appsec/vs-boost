@@ -66,7 +66,7 @@
         "icon": "$(checklist)"
       },
       {
-        "command": "polyverse-boost-notebook.parseFunctionsFromFile",
+        "command": "polyverse-boost-notebook.processCurrentFile",
         "title": "Boost Analysis from File",
         "icon": "$(file-code)"
       }
@@ -102,7 +102,7 @@
       ],
       "explorer/context": [
         {
-            "command": "polyverse-boost-notebook.parseFunctionsFromFile",
+            "command": "polyverse-boost-notebook.processCurrentFile",
             "when":
                 "resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb",
             "group": "navigation"
