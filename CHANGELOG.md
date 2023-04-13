@@ -7,6 +7,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### New Features
 - Added support for right-clicking on a file in the Explorer and selecting "Boost Analysis from File"
+- Added support for running analysis against current active window/source file by using "Boost Analysis from File" command
 - Added support for C/C++ Header file processing (e.g. .h, .hpp)
 
 ### Enhancements
