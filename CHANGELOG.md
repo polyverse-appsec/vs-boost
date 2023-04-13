@@ -3,6 +3,20 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 0.9.2: April 13, 2023
+
+### New Features
+- Added support for right-clicking on a file in the Explorer and selecting "Boost Analysis from File"
+- Added support for C/C++ Header file processing (e.g. .h, .hpp)
+
+### Enhancements
+- Improved user message for mismatch between email used for GitHub account and Polyverse license.
+- User-added Cells with code can now be submitted for all Boost kernels.
+
+### Bug Fixes
+- Fixed handling of nested brackets/braces in Python code
+- Do not create whitespace only Cells
+
 ## Version 0.9.1: April 10, 2023
 
 ### New Features
