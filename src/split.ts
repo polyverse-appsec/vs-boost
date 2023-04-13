@@ -79,6 +79,8 @@ function getVSCodeLanguageId(filename: string): string {
         "py": "python",
         "c": "c",
         "cpp": "cpp",
+        "h": "c",
+        "hpp": "cpp",
         "cs": "csharp",
         "java": "java",
         "go": "go",
