@@ -17,7 +17,7 @@ int main();
 // Types declarations
 
 // A set containing string words
-typedef std::setstd::string WordList;
+typedef std::string WordList;
 
 // A map of strings with corresponding set of strings
 typedef std::map<std::string, WordList> AnagraMap;
