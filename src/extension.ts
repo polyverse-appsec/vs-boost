@@ -9,7 +9,6 @@ import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
 import instructions from './instructions.json';
 import { forEach } from 'lodash';
-import { configurationSchema } from './boostConfiguration';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 
@@ -294,6 +293,7 @@ async function parseFunctionsFromFile(fileUri : vscode.Uri) {
 
         // Additional notebook edits...
     ]);
+
     await vscode.workspace.applyEdit(edit);
 }
 
