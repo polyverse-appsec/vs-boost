@@ -9,6 +9,7 @@ import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
 import instructions from './instructions.json';
 import { forEach } from 'lodash';
+import { configurationSchema } from './boostConfiguration';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 
@@ -385,4 +386,3 @@ function _syncProblemsInCell(cell: vscode.NotebookCell, problems: vscode.Diagnos
     // Replace the problems with the updated diagnostics
     problems.set(cellUri, diagnostics);
 }
-

@@ -6,6 +6,8 @@ import {
 import * as vscode from 'vscode';
 import axios, { AxiosResponse } from 'axios';
 import { explainUrl, explainCellMarker } from './explain_controller';
+import { NOTEBOOK_TYPE } from './extension';
+import { BoostConfiguration } from './boostConfiguration';
 
 //set a helper variable of the base url.  this should eventually be a config setting
 
@@ -59,7 +61,9 @@ export class BoostConvertKernel extends KernelControllerBase {
         }
 
         // now we need to generate the code
-        let outputLanguage = (vscode.window.activeNotebookEditor?.notebook.metadata.outputLanguage) ?? 'python';
+        // if not specified on the notebook metadata, then default to the setting in the Extension User Settings
+        let outputLanguage = (vscode.window.activeNotebookEditor?.notebook.metadata.outputLanguage) ??
+            vscode.workspace.getConfiguration(NOTEBOOK_TYPE, null).get(BoostConfiguration.defaultOutputLanguage);
         vscode.window.showInformationMessage(`Output Language is ` + outputLanguage);
 
         // now take the summary and using axios send it to Boost web service with the summary

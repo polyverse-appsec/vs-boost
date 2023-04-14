@@ -5,6 +5,8 @@ import {
     } from './base_controller';
 import * as vscode from 'vscode';
 import axios, { AxiosResponse } from 'axios';
+import { NOTEBOOK_TYPE } from './extension';
+import { BoostConfiguration } from './boostConfiguration';
 
 //set a helper variable of the base url.  this should eventually be a config setting
 const testgenUrl = DEBUG_BOOST_LAMBDA_LOCALLY?
@@ -32,7 +34,8 @@ export class BoostTestgenKernel extends KernelControllerBase {
         payload : any) : Promise<string>
     {
         //get the outputLanguage from the language set on the cell, NOT the language set on the notebook
-		let outputLanguage = cell.document.languageId ?? 'python';
+		let outputLanguage = cell.document.languageId ??
+            vscode.workspace.getConfiguration(NOTEBOOK_TYPE, null).get(BoostConfiguration.defaultOutputLanguage);
 
 		//if outputLanguage is undefined, set it to python
 		let framework = vscode.window.activeNotebookEditor?.notebook.metadata.testFramework ??
@@ -51,7 +54,8 @@ export class BoostTestgenKernel extends KernelControllerBase {
         cell : vscode.NotebookCell,
         mimetype : any): string {
         //get the outputLanguage from the language set on the cell, NOT the language set on the notebook
-		let outputLanguage = cell.document.languageId ?? 'python';
+		let outputLanguage = cell.document.languageId ??
+            vscode.workspace.getConfiguration(NOTEBOOK_TYPE, null).get(BoostConfiguration.defaultOutputLanguage);
 
         //quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
         if(response.data.testcode.includes('```')){
