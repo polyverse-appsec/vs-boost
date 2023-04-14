@@ -16,8 +16,9 @@ const generateUrl = DEBUG_BOOST_LAMBDA_LOCALLY?
 
 const markdownCodeMarker = '```';
 export class BoostConvertKernel extends KernelControllerBase {
-	constructor() {
+	constructor(collection: vscode.DiagnosticCollection) {
         super(
+            collection,
             'polyverse-boost-convert-kernel',
             'Polyverse Boost: Convert Legacy Code to New Code',
             generateUrl,

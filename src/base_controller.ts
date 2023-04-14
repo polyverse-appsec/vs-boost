@@ -1,9 +1,11 @@
 import axios from 'axios';
 import * as vscode from 'vscode';
+import { NOTEBOOK_TYPE } from './extension';
 
 export const DEBUG_BOOST_LAMBDA_LOCALLY = false;
 
 export class KernelControllerBase {
+    _problemsCollection: vscode.DiagnosticCollection;
 	id : string;
 	kernelLabel : string;
 	private _supportedLanguages = [];
@@ -16,6 +18,7 @@ export class KernelControllerBase {
 	private readonly _controller: vscode.NotebookController;
 
 	constructor(
+        problemsCollection: vscode.DiagnosticCollection,
         kernelId : string,
         kernelLabel : string,
         serviceEndpoint : string,
@@ -23,6 +26,7 @@ export class KernelControllerBase {
         useGeneratedCodeCellOptimization : boolean,
         useOriginalCodeCheck : boolean) {
             
+        this._problemsCollection = problemsCollection;
         this.id = kernelId;
         this.kernelLabel = kernelLabel;
         this._serviceEndpoint = serviceEndpoint;
@@ -128,7 +132,10 @@ export class KernelControllerBase {
             await this.onProcessServiceRequest(execution, cell, { code: code, session: session.accessToken });
         } catch (err) {
             successfullyCompleted = false;
-            this._writeUnhandledError(execution, err);
+            this._updateCellOutput(
+                execution, cell,
+                vscode.NotebookCellOutputItem.error(err as Error),
+                err);
         }
         finally {
             execution.end(successfullyCompleted, Date.now());
@@ -152,15 +159,27 @@ export class KernelControllerBase {
             serviceError = err;
         }
 
-        const outputItems: vscode.NotebookCellOutputItem[] = [];
-
+        // we wrap mimeTypes in an object so that we can pass it by reference and change it
         let mimetype = { str: 'text/markdown'};
 
-        outputItems.push(successfullyCompleted?
+        const outputItem =
+            successfullyCompleted?
             vscode.NotebookCellOutputItem.text(
                 this.onKernelOutputItem(response, cell, mimetype), mimetype.str):
-            vscode.NotebookCellOutputItem.error(serviceError as Error));
-    
+            vscode.NotebookCellOutputItem.error(serviceError as Error);
+
+        this._updateCellOutput(execution, cell, outputItem, serviceError);
+
+        return response;
+    }
+
+    private _updateCellOutput(
+        execution: vscode.NotebookCellExecution,
+        cell : vscode.NotebookCell,
+        outputItem : vscode.NotebookCellOutputItem,
+        err: unknown) {
+
+        const outputItems: vscode.NotebookCellOutputItem[] = [outputItem];
 
         // we will have one NotebookCellOutput per type of output.
         // first scan the existing outputs of the cell and see if we already have an output of this type
@@ -176,13 +195,6 @@ export class KernelControllerBase {
 
             execution.appendOutput(output);
         }
-        return response;
-    }
-
-    private _writeUnhandledError(execution: vscode.NotebookCellExecution, err: unknown) {
-        execution.appendOutput([new vscode.NotebookCellOutput([
-            vscode.NotebookCellOutputItem.error(err as Error)
-        ])]);
     }
     
     async makeBoostServiceRequest(
@@ -279,5 +291,43 @@ export class KernelControllerBase {
         const session = await vscode.authentication.getSession(GITHUB_AUTH_PROVIDER_ID, SCOPES, { createIfNone: true });
 
         return session;
+    }
+
+    // relatedUri should be the Uri of the original source file
+    updateDiagnosticProblems(
+        document: vscode.TextDocument,          // document should be the Cell's document that has the problem(s)
+        error : Error,                          // error should be the Error object that was thrown
+        severity : vscode.DiagnosticSeverity,   // severity of the problem
+        cellRange : vscode.Range,               // cellPosition should be the problematic range of the Cell in the Notebook
+        relatedUri? : vscode.Uri,               // (optional) relatedUri should be the Uri of the original source file
+        relatedRange? : vscode.Range,
+        relatedMessage? : string): void {       // (optional) relatedPosition should be the problematic area in the source file
+        
+            // if no target Cell, clear all problems
+        if (!document) {
+            this._problemsCollection.clear();
+            return;
+        }
+        // if no error, clear problems for this Cell
+        else if (!error) {
+            this._problemsCollection.delete(document.uri);
+            return;
+        }
+
+        this._problemsCollection.set(document.uri, [{
+            code: error.name,       // '<CodeBlockContextGoesHere>',
+            message: error.message, // '<BoostServiceAnalsysis>',
+            range: cellRange,
+            severity: severity,
+            source: NOTEBOOK_TYPE,
+
+            // provide context for source file
+            relatedInformation: relatedUri?[
+                new vscode.DiagnosticRelatedInformation(
+                    new vscode.Location(
+                        relatedUri, relatedRange??new vscode.Position(0,0)),
+                    relatedMessage??'Source File')
+                ]:undefined
+        }]);
     }
 }

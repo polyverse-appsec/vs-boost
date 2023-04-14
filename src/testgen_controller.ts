@@ -11,8 +11,9 @@ const testgenUrl = DEBUG_BOOST_LAMBDA_LOCALLY?
     'http://127.0.0.1:8000/testgen':
     'https://gylbelpkobvont6vpxp4ihw5fm0iwnto.lambda-url.us-west-2.on.aws/';
 export class BoostTestgenKernel extends KernelControllerBase {
-	constructor() {
+	constructor(collection: vscode.DiagnosticCollection) {
         super(
+            collection,
             'polyverse-boost-testgen-kernel',
             'Polyverse Boost: Generate Test Cases for Code',
             testgenUrl,

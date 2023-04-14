@@ -9,7 +9,7 @@ import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
 import instructions from './instructions.json';
 
-const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
+export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 
 export function activate(context: vscode.ExtensionContext) {
     const outputChannel = vscode.window.createOutputChannel(NOTEBOOK_TYPE);
@@ -94,10 +94,12 @@ function registerCreateNotebookCommand(
 
 	context.subscriptions.push(vscode.commands.registerCommand(
         NOTEBOOK_TYPE + '.createJsonNotebook', async () => {
-		const language = 'markdown';
-		const defaultValue = instructions.markdown;
-		const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Code,
-            defaultValue, language);
+
+            // we prepopulate the notebook with the instructions (as markdown)
+        const language = 'markdown';
+        const defaultInstructionData = instructions.markdown;
+		const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Markup,
+            defaultInstructionData, language);
 		const data = new vscode.NotebookData([cell]);
 		// get the defaults
 		const settings = vscode.workspace.getConfiguration(NOTEBOOK_TYPE);
@@ -107,15 +109,6 @@ function registerCreateNotebookCommand(
 		data.metadata.testFramework = settings.testFramework;
 		data.metadata.defaultDir = settings.defaultDir;
 
-		//print the workspace folders
-		/*
-		console.log("workspace folders: ", vscode.workspace.workspaceFolders);
-		const workspaceFolders = vscode.workspace.workspaceFolders;
-		if (workspaceFolders) {
-			for (const folder of workspaceFolders) {
-				console.log(folder.uri.path);
-			}
-		}*/
 		const doc = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, data);
 		await vscode.window.showNotebookDocument(doc);
 	}));}
@@ -124,15 +117,19 @@ function setupNotebookEnvironment(
     context: vscode.ExtensionContext,
     outputChannel: vscode.OutputChannel) {
 
+    // create the Problems collection
+    const collection = vscode.languages.createDiagnosticCollection(NOTEBOOK_TYPE + '.problems');
+
 	context.subscriptions.push(
 		vscode.workspace.registerNotebookSerializer(
 			NOTEBOOK_TYPE, new BoostContentSerializer(), { transientOutputs: false }
 		),
-		new BoostConvertKernel(),
-		new BoostExplainKernel(),
-		new BoostAnalyzeKernel(),
-		new BoostTestgenKernel()
+		new BoostConvertKernel(collection),
+		new BoostExplainKernel(collection),
+		new BoostAnalyzeKernel(collection),
+		new BoostTestgenKernel(collection)
 	);
+
 	// get the defaults
 	const settings = vscode.workspace.getConfiguration(NOTEBOOK_TYPE);
 	const outputLanguage = settings.outputLanguage;
@@ -264,7 +261,11 @@ async function parseFunctionsFromFile(fileUri : vscode.Uri) {
     }
 
     // if the Notebook has unsaved changes, prompt user before erasing them
-    if (currentNotebook.isDirty) {
+    if (currentNotebook.isDirty &&
+            // if there are multiple cells, or
+        (currentNotebook.cellCount > 1 ||
+            // unless there's only one cell and its the default Instructions (e.g. not code)
+        currentNotebook.cellCount === 1 && currentNotebook.cellAt(0).kind !== vscode.NotebookCellKind.Markup )) {
         const choice = await vscode.window.showInformationMessage(
             "The default Boost Notebook has unsaved data in it. If you proceed, that data will likely be lost. " +
             "Do you wish to proceed?", { "modal": true}, 'Yes', 'No');
