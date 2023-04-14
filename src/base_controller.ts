@@ -1,8 +1,13 @@
 import axios from 'axios';
 import * as vscode from 'vscode';
 import { NOTEBOOK_TYPE } from './extension';
+import { ServerResponse } from 'http';
 
 export const DEBUG_BOOST_LAMBDA_LOCALLY = false;
+
+// 0 = no service failures
+// 1...100 service failures for percent of failures
+export const GENERATE_RANDOM_SERVICE_FAILURES = 0;
 
 export class KernelControllerBase {
     _problemsCollection: vscode.DiagnosticCollection;
@@ -136,6 +141,8 @@ export class KernelControllerBase {
                 execution, cell,
                 vscode.NotebookCellOutputItem.error(err as Error),
                 err);
+            this.updateDiagnosticProblems(cell.document, err as Error, vscode.DiagnosticSeverity.Error,
+                new vscode.Range(0, 0, 0, 0));
         }
         finally {
             execution.end(successfullyCompleted, Date.now());
@@ -169,6 +176,10 @@ export class KernelControllerBase {
             vscode.NotebookCellOutputItem.error(serviceError as Error);
 
         this._updateCellOutput(execution, cell, outputItem, serviceError);
+        if (!successfullyCompleted) {
+            this.updateDiagnosticProblems(cell.document, serviceError as Error, vscode.DiagnosticSeverity.Error,
+                new vscode.Range(0, 0, 0, 0));
+        }
 
         return response;
     }
@@ -202,6 +213,10 @@ export class KernelControllerBase {
         serviceEndpoint : string,
         payload : any): Promise<any> {
         try {
+            if (GENERATE_RANDOM_SERVICE_FAILURES > 0 && (Math.floor(Math.random() * 100) > GENERATE_RANDOM_SERVICE_FAILURES)) {;
+
+                await axios.get('https://totaljunkurl/synthetic/error/');
+            }
             return await this.onBoostServiceRequest(cell, serviceEndpoint, payload);
         } catch (err : any) {
             if (err.response) {

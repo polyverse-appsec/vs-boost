@@ -8,18 +8,21 @@ import { BoostExplainKernel } from './explain_controller';
 import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
 import instructions from './instructions.json';
+import { forEach } from 'lodash';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 
 export function activate(context: vscode.ExtensionContext) {
     const outputChannel = vscode.window.createOutputChannel(NOTEBOOK_TYPE);
 
+    let problems = _setupDiagnosticProblems(context);
+
     outputChannel.appendLine('Activating Boost Notebook Extension');
 
-    registerCreateNotebookCommand(context, outputChannel);
+    registerCreateNotebookCommand(context, outputChannel, problems);
 
     const [selectOutputLanguageButton, selectTestFramework] =
-        setupNotebookEnvironment(context, outputChannel);
+        setupNotebookEnvironment(context, outputChannel, problems);
 
 	// register the select language command
 	context.subscriptions.push(vscode.commands.registerCommand(
@@ -90,7 +93,8 @@ export async function deactivate(): Promise<void> {
 
 function registerCreateNotebookCommand(
     context: vscode.ExtensionContext,
-    outputChannel: vscode.OutputChannel) {
+    outputChannel: vscode.OutputChannel,
+    problems : vscode.DiagnosticCollection) {
 
 	context.subscriptions.push(vscode.commands.registerCommand(
         NOTEBOOK_TYPE + '.createJsonNotebook', async () => {
@@ -110,24 +114,28 @@ function registerCreateNotebookCommand(
 		data.metadata.defaultDir = settings.defaultDir;
 
 		const doc = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, data);
-		await vscode.window.showNotebookDocument(doc);
+
+		const editor = await vscode.window.showNotebookDocument(doc);
 	}));}
 
 function setupNotebookEnvironment(
     context: vscode.ExtensionContext,
-    outputChannel: vscode.OutputChannel) {
+    outputChannel: vscode.OutputChannel,
+    collection: vscode.DiagnosticCollection) {
 
-    // create the Problems collection
-    const collection = vscode.languages.createDiagnosticCollection(NOTEBOOK_TYPE + '.problems');
+    let convertKernel = new BoostConvertKernel(collection);
+    let explainKernel = new BoostExplainKernel(collection);
+    let analyzeKernel = new BoostAnalyzeKernel(collection);
+    let testgenKernel = new BoostTestgenKernel(collection);
 
 	context.subscriptions.push(
 		vscode.workspace.registerNotebookSerializer(
 			NOTEBOOK_TYPE, new BoostContentSerializer(), { transientOutputs: false }
 		),
-		new BoostConvertKernel(collection),
-		new BoostExplainKernel(collection),
-		new BoostAnalyzeKernel(collection),
-		new BoostTestgenKernel(collection)
+        convertKernel,
+        analyzeKernel,
+        explainKernel,
+        testgenKernel
 	);
 
 	// get the defaults
@@ -306,4 +314,55 @@ function registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext, 
             await parseFunctionsFromFile(uri);
         });
     context.subscriptions.push(disposable);
+}
+
+function _setupDiagnosticProblems(context: vscode.ExtensionContext) : vscode.DiagnosticCollection {
+
+    // create the Problems collection
+    const problems = vscode.languages.createDiagnosticCollection(NOTEBOOK_TYPE + '.problems');
+
+    // Register an event listener for the onDidClearOutput event
+    const notebookChangeHandler: vscode.Disposable = vscode.workspace.onDidChangeNotebookDocument((event) => {
+        // Loop through each changed cell
+        for (const changedCell of event.contentChanges) {
+            for (const cell of changedCell.removedCells) {
+                // Check if the cell has any error output
+                const hasErrorOutput = cell.outputs.some((output) => {
+                    for (const item of output.items) {
+                        return item.mime === 'application/vnd.code.notebook.error';
+                    }
+                });
+                // If the cell has error output, check if there are any problems associated with it
+                if (!hasErrorOutput) {
+                    return;
+                }
+                const cellUri = cell.document.uri;
+                const thisCellProblems = problems.get(cellUri);
+                if (!thisCellProblems) {
+                    return;
+                }
+                const diagnostics: vscode.Diagnostic[] = [];
+                // Loop through each problem and check if it can still be matched to an error output
+                for (const problem of thisCellProblems) {
+                    const errorOutputIndex = cell.outputs.findIndex((output) => {
+                        for (const item of output.items) {
+                            return item.mime === 'application/vnd.code.notebook.error' &&
+                            output.metadata?.cellId === problem?.source?.toString();
+                        }
+                    });
+                    if (errorOutputIndex !== -1) {
+                        // Error output found for the problem, add it back to the diagnostics
+                        diagnostics.push(problem);
+                    }
+                }
+                // Replace the problems with the updated diagnostics
+                problems.set(cellUri, diagnostics);
+            }
+        }
+    });
+
+    // Dispose the event listener when it is no longer needed
+    context.subscriptions.push(notebookChangeHandler);
+
+    return problems;
 }
