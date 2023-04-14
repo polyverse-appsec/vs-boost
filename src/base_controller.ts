@@ -213,7 +213,7 @@ export class KernelControllerBase {
         serviceEndpoint : string,
         payload : any): Promise<any> {
         try {
-            if (GENERATE_RANDOM_SERVICE_FAILURES > 0 && (Math.floor(Math.random() * 100) > GENERATE_RANDOM_SERVICE_FAILURES)) {;
+            if (GENERATE_RANDOM_SERVICE_FAILURES > 0 && (Math.floor(Math.random() * 100) < GENERATE_RANDOM_SERVICE_FAILURES)) {;
 
                 await axios.get('https://totaljunkurl/synthetic/error/');
             }
