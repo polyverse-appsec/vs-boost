@@ -323,40 +323,20 @@ function _setupDiagnosticProblems(context: vscode.ExtensionContext) : vscode.Dia
 
     // Register an event listener for the onDidClearOutput event
     const notebookChangeHandler: vscode.Disposable = vscode.workspace.onDidChangeNotebookDocument((event) => {
-        // Loop through each changed cell
-        for (const changedCell of event.contentChanges) {
-            for (const cell of changedCell.removedCells) {
-                // Check if the cell has any error output
-                const hasErrorOutput = cell.outputs.some((output) => {
-                    for (const item of output.items) {
-                        return item.mime === 'application/vnd.code.notebook.error';
-                    }
-                });
-                // If the cell has error output, check if there are any problems associated with it
-                if (!hasErrorOutput) {
-                    return;
-                }
-                const cellUri = cell.document.uri;
-                const thisCellProblems = problems.get(cellUri);
-                if (!thisCellProblems) {
-                    return;
-                }
-                const diagnostics: vscode.Diagnostic[] = [];
-                // Loop through each problem and check if it can still be matched to an error output
-                for (const problem of thisCellProblems) {
-                    const errorOutputIndex = cell.outputs.findIndex((output) => {
-                        for (const item of output.items) {
-                            return item.mime === 'application/vnd.code.notebook.error' &&
-                            output.metadata?.cellId === problem?.source?.toString();
-                        }
-                    });
-                    if (errorOutputIndex !== -1) {
-                        // Error output found for the problem, add it back to the diagnostics
-                        diagnostics.push(problem);
-                    }
-                }
-                // Replace the problems with the updated diagnostics
-                problems.set(cellUri, diagnostics);
+    
+        // when a cell changes
+        for (const cellChange of event.cellChanges) {
+            // if no outputs changed, skip it
+            if (!cellChange.outputs) { continue;}
+            
+            _syncProblemsInCell(cellChange.cell, problems);
+        }
+
+        // when content in a cell changes - look for full deletions of cell
+        // Loop through each changed cell content
+        for (const changedContent of event.contentChanges) {
+            for (const cell of changedContent.removedCells) {
+                _syncProblemsInCell(cell, problems);
             }
         }
     });
@@ -366,3 +346,43 @@ function _setupDiagnosticProblems(context: vscode.ExtensionContext) : vscode.Dia
 
     return problems;
 }
+function _syncProblemsInCell(cell: vscode.NotebookCell, problems: vscode.DiagnosticCollection) {
+    const cellUri = cell.document.uri;
+
+    // if no problems for this cell, skip it
+    const thisCellProblems = problems.get(cellUri);
+    if (!thisCellProblems || thisCellProblems.length === 0) {
+        return;
+    }
+    
+    // Check if the cell has any error output
+    const hasErrorOutput = cell.outputs.some((output : any) => {
+        for (const item of output.items) {
+            return item.mime === 'application/vnd.code.notebook.error';
+        }
+    });
+    // If the cell has error output, check if there are any problems associated with it
+
+    // if the cell has no error output, remove all problems associated with it
+    if (!hasErrorOutput) {
+        problems.delete(cellUri);
+        return;
+    }
+    const diagnostics: vscode.Diagnostic[] = [];
+    // Loop through each problem and check if it can still be matched to an error output
+    for (const problem of thisCellProblems) {
+        const errorOutputIndex = cell.outputs.findIndex((output) => {
+            for (const item of output.items) {
+                return item.mime === 'application/vnd.code.notebook.error';//
+                //    && output.metadata?.cellId === problem?.source?.toString();
+            }
+        });
+        if (errorOutputIndex !== -1) {
+            // Error output found for the problem, add it back to the diagnostics
+            diagnostics.push(problem);
+        }
+    }
+    // Replace the problems with the updated diagnostics
+    problems.set(cellUri, diagnostics);
+}
+
