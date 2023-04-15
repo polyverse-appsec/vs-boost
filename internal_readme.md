@@ -128,14 +128,25 @@ Note: Full integration tests will also download the latest stable Visual Studio 
 Integration Tests check if each command exists, and performs a simple command verification (i.e. verify command can be run successfully)
 
 ### Debugging Boost Service API (locally)
-If you want to debug the Boost Service API locally, go into extension.ts and change the following line:
+If you want to debug the Boost Service API locally, go into the User settings (JSON) in the Visual Studio Code UI/settings
+and add the following line:
 ```
-export const DEBUG_BOOST_LAMBDA_LOCALLY = true;
+    "polyverse-boost-notebook.localServiceDebug": "true"
 ```
+Or you can set the value to false to disable. Note that a restart of visual studio may be required, since this setting is only
+read at startup.
+
 This will use localhost port/IP address for the Boost Service API.
 This is useful if you are making changes to the Boost Service API and want to test the Client side local.
 
-Note: We may want to look at a runtime configuration option in the future.
+### Fault Injection for Boost Service API
+Add this setting to the User Settings (JSON) in the Visual Studio Code UI/settings to inject faults into the Boost Service callouts
+```
+    "polyverse-boost-notebook.serviceFaultInjection": "100"
+```
+This will set a % of service faults to randomly inject. For example, 100 will result in 100% service faults, 50 will result in 50% service faults, etc.
+0 results in no faults injected, and normal behavior.
+Service faults are useful for testing error handling code when making call outs to Boost Service API from the Extension code
 
 ### Debugging live tests
 * Open the debug viewlet (`Ctrl+Shift+D` or `Cmd+Shift+D` on Mac) and from the launch configuration dropdown pick `Extension Tests`.
