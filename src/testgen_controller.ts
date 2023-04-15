@@ -39,7 +39,7 @@ export class BoostTestgenKernel extends KernelControllerBase {
 
 		//if outputLanguage is undefined, set it to python
 		let framework = vscode.window.activeNotebookEditor?.notebook.metadata.testFramework ??
-            '';
+            vscode.workspace.getConfiguration(NOTEBOOK_TYPE, null).get(BoostConfiguration.testFramework);;
 
         //  dynamically add payload properties to send to Boost service
         payload.language = outputLanguage;
