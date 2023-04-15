@@ -1,6 +1,5 @@
 import { access } from 'fs';
 import {
-    DEBUG_BOOST_LAMBDA_LOCALLY,
     KernelControllerBase
     } from './base_controller';
 import * as vscode from 'vscode';
@@ -9,7 +8,7 @@ import { NOTEBOOK_TYPE } from './extension';
 import { BoostConfiguration } from './boostConfiguration';
 
 //set a helper variable of the base url.  this should eventually be a config setting
-const testgenUrl = DEBUG_BOOST_LAMBDA_LOCALLY?
+const testgenUrl = BoostConfiguration.localServiceDebug?
     'http://127.0.0.1:8000/testgen':
     'https://gylbelpkobvont6vpxp4ihw5fm0iwnto.lambda-url.us-west-2.on.aws/';
 export class BoostTestgenKernel extends KernelControllerBase {
@@ -35,11 +34,11 @@ export class BoostTestgenKernel extends KernelControllerBase {
     {
         //get the outputLanguage from the language set on the cell, NOT the language set on the notebook
 		let outputLanguage = cell.document.languageId ??
-            vscode.workspace.getConfiguration(NOTEBOOK_TYPE, null).get(BoostConfiguration.defaultOutputLanguage);
+            BoostConfiguration.defaultOutputLanguage;
 
-		//if outputLanguage is undefined, set it to python
-		let framework = vscode.window.activeNotebookEditor?.notebook.metadata.testFramework ??
-            vscode.workspace.getConfiguration(NOTEBOOK_TYPE, null).get(BoostConfiguration.testFramework);;
+		//if outputLanguage is undefined, set it to default setting
+        let defaultFramework = BoostConfiguration.testFramework;
+		let framework = vscode.window.activeNotebookEditor?.notebook.metadata.testFramework ?? defaultFramework;
 
         //  dynamically add payload properties to send to Boost service
         payload.language = outputLanguage;
@@ -55,7 +54,7 @@ export class BoostTestgenKernel extends KernelControllerBase {
         mimetype : any): string {
         //get the outputLanguage from the language set on the cell, NOT the language set on the notebook
 		let outputLanguage = cell.document.languageId ??
-            vscode.workspace.getConfiguration(NOTEBOOK_TYPE, null).get(BoostConfiguration.defaultOutputLanguage);
+            BoostConfiguration.defaultOutputLanguage;
 
         //quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
         if(response.data.testcode.includes('```')){

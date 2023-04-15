@@ -1,6 +1,5 @@
 import { access } from 'fs';
 import {
-    DEBUG_BOOST_LAMBDA_LOCALLY,
     KernelControllerBase
     } from './base_controller';
 import * as vscode from 'vscode';
@@ -12,7 +11,7 @@ import { BoostConfiguration } from './boostConfiguration';
 //set a helper variable of the base url.  this should eventually be a config setting
 
 // for debugging locally with Chalice
-const generateUrl = DEBUG_BOOST_LAMBDA_LOCALLY?
+const generateUrl = BoostConfiguration.localServiceDebug?
     'http://127.0.0.1:8000/generate':
     'https://ukkqda6zl22nd752blcqlv3rum0ziwnq.lambda-url.us-west-2.on.aws/';
 
@@ -63,8 +62,7 @@ export class BoostConvertKernel extends KernelControllerBase {
         // now we need to generate the code
         // if not specified on the notebook metadata, then default to the setting in the Extension User Settings
         let outputLanguage = (vscode.window.activeNotebookEditor?.notebook.metadata.outputLanguage) ??
-            vscode.workspace.getConfiguration(NOTEBOOK_TYPE, null).get(BoostConfiguration.defaultOutputLanguage);
-        vscode.window.showInformationMessage(`Output Language is ` + outputLanguage);
+            BoostConfiguration.defaultOutputLanguage;
 
         // now take the summary and using axios send it to Boost web service with the summary
         //      in a json object summary=summary

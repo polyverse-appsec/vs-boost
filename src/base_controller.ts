@@ -2,12 +2,7 @@ import axios from 'axios';
 import * as vscode from 'vscode';
 import { NOTEBOOK_TYPE } from './extension';
 import { ServerResponse } from 'http';
-
-export const DEBUG_BOOST_LAMBDA_LOCALLY = false;
-
-// 0 = no service failures
-// 1...100 service failures for percent of failures
-export const GENERATE_RANDOM_SERVICE_FAILURES = 0;
+import { BoostConfiguration } from './boostConfiguration';
 
 export class KernelControllerBase {
     _problemsCollection: vscode.DiagnosticCollection;
@@ -141,7 +136,7 @@ export class KernelControllerBase {
                 execution, cell,
                 vscode.NotebookCellOutputItem.error(err as Error),
                 err);
-            this.updateDiagnosticProblems(cell.document, err as Error, vscode.DiagnosticSeverity.Error,
+            this.updateDiagnosticProblems(cell, err as Error, vscode.DiagnosticSeverity.Error,
                 new vscode.Range(0, 0, 0, 0));
         }
         finally {
@@ -165,6 +160,10 @@ export class KernelControllerBase {
             successfullyCompleted = false;
             serviceError = err;
         }
+        if (response instanceof Error) {
+            successfullyCompleted = false;
+            serviceError = response as Error;
+        }
 
         // we wrap mimeTypes in an object so that we can pass it by reference and change it
         let mimetype = { str: 'text/markdown'};
@@ -177,7 +176,7 @@ export class KernelControllerBase {
 
         this._updateCellOutput(execution, cell, outputItem, serviceError);
         if (!successfullyCompleted) {
-            this.updateDiagnosticProblems(cell.document, serviceError as Error, vscode.DiagnosticSeverity.Error,
+            this.updateDiagnosticProblems(cell, serviceError as Error, vscode.DiagnosticSeverity.Error,
                 new vscode.Range(0, 0, 0, 0));
         }
 
@@ -213,27 +212,46 @@ export class KernelControllerBase {
         serviceEndpoint : string,
         payload : any): Promise<any> {
         try {
-            if (GENERATE_RANDOM_SERVICE_FAILURES > 0 && (Math.floor(Math.random() * 100) < GENERATE_RANDOM_SERVICE_FAILURES)) {;
+            if (BoostConfiguration.serviceFaultInjection > 0 &&
+                (Math.floor(Math.random() * 100) < BoostConfiguration.serviceFaultInjection)) {;
 
-                await axios.get('https://totaljunkurl/synthetic/error/');
+                await axios.get('https://serviceFaultInjection/synthetic/error/');
             }
             return await this.onBoostServiceRequest(cell, serviceEndpoint, payload);
         } catch (err : any) {
             if (err.response) {
                 switch (err.response.status) {
                     case 400: // bad request - potential bad input from Boost extension or invalid source
-                        throw new Error(
+                        return new Error(
                             "Unable to process this source code. This can be caused by a temporary issue with the " +
                             "Boost Cloud Service, or by an issue in the source input. Please try again, and if the " +
                             "problem persists, please contact Boost Support.");
+
                     case 401: // authorization error - likely GitHub issue
-                        throw new Error(
+                        return new Error(
                             "Unable to use your GitHub authorized account to access the Boost Cloud Service. " +
                             "Please check your GitHub account settings, and try again. Also note that your Polyverse " +
                             "license must use the same email address as your GitHub account.");
                     case 500: // internal server error, likely OpenAI timeout/issue
                     case 502: // bad gateway, possible timeout
-                        throw new Error(
+                        return new Error(
+                            "Boost code analysis service is currently unavailable. " +
+                            "Please try your request again.");
+                    default:
+                        throw err;
+                }
+            } else if (err.code) {
+                switch (err.code) {
+                    case 'ECONNREFUSED': // connection refused
+                        return new Error(
+                            "Unable to connect to the Boost Cloud Service. " +
+                            "Please check your internet connection, and try again.");
+                    case 'ENOTFOUND': // service domain/endpoint not found
+                        return new Error(
+                            "Boost Cloud Service could not be resolved. " +
+                            "Please check your internet connection, and try again.");
+                    case 'ECONNRESET': // connection reset
+                        return new Error(
                             "Boost code analysis service is currently unavailable. " +
                             "Please try your request again.");
                     default:
@@ -310,7 +328,7 @@ export class KernelControllerBase {
 
     // relatedUri should be the Uri of the original source file
     updateDiagnosticProblems(
-        document: vscode.TextDocument,          // document should be the Cell's document that has the problem(s)
+        cell: vscode.NotebookCell,          // document should be the Cell's document that has the problem(s)
         error : Error,                          // error should be the Error object that was thrown
         severity : vscode.DiagnosticSeverity,   // severity of the problem
         cellRange : vscode.Range,               // cellPosition should be the problematic range of the Cell in the Notebook
@@ -319,17 +337,20 @@ export class KernelControllerBase {
         relatedMessage? : string): void {       // (optional) relatedPosition should be the problematic area in the source file
         
             // if no target Cell, clear all problems
-        if (!document) {
+        if (!cell.document) {
             this._problemsCollection.clear();
             return;
         }
         // if no error, clear problems for this Cell
         else if (!error) {
-            this._problemsCollection.delete(document.uri);
+            this._problemsCollection.delete(cell.document.uri);
             return;
         }
 
-        this._problemsCollection.set(document.uri, [{
+        if (!relatedUri) {
+            relatedUri = undefined; // cell.notebook.metadata.sourceFile;
+        }
+        this._problemsCollection.set(cell.document.uri, [{
             code: error.name,       // '<CodeBlockContextGoesHere>',
             message: error.message, // '<BoostServiceAnalsysis>',
             range: cellRange,

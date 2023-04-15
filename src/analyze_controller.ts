@@ -1,11 +1,11 @@
 import {
-    KernelControllerBase,
-    DEBUG_BOOST_LAMBDA_LOCALLY
+    KernelControllerBase
  } from './base_controller';
 import { DiagnosticCollection } from 'vscode';
+import { BoostConfiguration } from './boostConfiguration';
 
 //set a helper variable of the base url.  this should eventually be a config setting
-const analyzeUrl = DEBUG_BOOST_LAMBDA_LOCALLY?
+const analyzeUrl = BoostConfiguration.localServiceDebug?
     'http://127.0.0.1:8000/analyze':
     'https://iyn66vkb6lmlcb4log6d3ah7d40axgqu.lambda-url.us-west-2.on.aws/';
 export class BoostAnalyzeKernel extends KernelControllerBase {

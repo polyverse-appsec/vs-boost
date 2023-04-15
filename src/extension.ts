@@ -9,6 +9,7 @@ import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
 import instructions from './instructions.json';
 import { forEach } from 'lodash';
+import { BoostConfiguration } from './boostConfiguration';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 
@@ -105,13 +106,15 @@ function registerCreateNotebookCommand(
 		const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Markup,
             defaultInstructionData, language);
 		const data = new vscode.NotebookData([cell]);
+
 		// get the defaults
 		const settings = vscode.workspace.getConfiguration(NOTEBOOK_TYPE);
 
-		data.metadata = {};
-		data.metadata.outputLanguage = settings.outputLanguage;
-		data.metadata.testFramework = settings.testFramework;
-		data.metadata.defaultDir = settings.defaultDir;
+		data.metadata = {
+            outputLanguage : settings.outputLanguage,
+            testFramework : settings.testFramework,
+            defaultDir : settings.defaultDir
+        };
 
 		const doc = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, data);
 
@@ -139,9 +142,8 @@ function setupNotebookEnvironment(
 	);
 
 	// get the defaults
-	const settings = vscode.workspace.getConfiguration(NOTEBOOK_TYPE);
-	const outputLanguage = settings.outputLanguage;
-	const testFramework = settings.testFramework;
+	const outputLanguage = BoostConfiguration.defaultOutputLanguage;
+	const testFramework = BoostConfiguration.testFramework;
 
 	const selectOutputLanguageButton = vscode.window.createStatusBarItem(
         vscode.StatusBarAlignment.Left);
@@ -294,6 +296,12 @@ async function parseFunctionsFromFile(fileUri : vscode.Uri) {
         // Additional notebook edits...
     ]);
 
+    let newMetadata = {
+        ...currentNotebook.metadata,
+        sourceFile: fileUri.toString()};
+
+    // store the source file on the notebook metadata, so we can use it for problems or reverse mapping
+    edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata(newMetadata)]);
     await vscode.workspace.applyEdit(edit);
 }
 
