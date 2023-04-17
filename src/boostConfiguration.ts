@@ -28,9 +28,9 @@ export class BoostConfiguration {
         Number(Defaults.serviceFaultInjectionValue);
     }
 
-    public static get disableSerializationOfCellsContainingErrors(): boolean {
-        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.disableSerializationOfCellsContainingErrorsName)??
-            Defaults.disableSerializationOfCellsContainingErrorsValue;
+    public static get serializationOfCellsContainingErrors(): boolean {
+        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.serializationOfCellsContainingErrorsName)??
+            Defaults.serializationOfCellsContainingErrorsValue;
     }
 
     public static get useSourceFileForProblems(): boolean {
@@ -61,7 +61,7 @@ class Defaults {
     public static readonly useSourceFileForProblemsName = "useSourceFileForProblems";
     public static readonly useSourceFileForProblemsValue = true;
     
-    public static readonly disableSerializationOfCellsContainingErrorsName = "disableSerializationOfCellsContainingErrors";
-    public static readonly disableSerializationOfCellsContainingErrorsValue = false;
+    public static readonly serializationOfCellsContainingErrorsName = "serializationOfCellsContainingErrors";
+    public static readonly serializationOfCellsContainingErrorsValue = true;
 }
   
