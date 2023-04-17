@@ -86,7 +86,7 @@ export class KernelControllerBase {
 		}
         Promise.all(promises).then((results) => {
             results.forEach((result) => {
-                successfullyCompleted &&= result;
+                successfullyCompleted &&= (result ?? true);
             });
             if (!successfullyCompleted) {
                 boostLogging.error(`Error analyzing Notebook ${notebook.uri.toString()}`);
