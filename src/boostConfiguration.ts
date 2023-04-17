@@ -20,12 +20,22 @@ export class BoostConfiguration {
   
     public static get localServiceDebug(): boolean {
       return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.localServiceDebugName)??
-        Boolean(Defaults.localServiceDebugValue);
+        Defaults.localServiceDebugValue;
     }
   
     public static get serviceFaultInjection(): number {
       return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.serviceFaultInjectionName)??
         Number(Defaults.serviceFaultInjectionValue);
+    }
+
+    public static get disableSerializationOfCellsContainingErrors(): boolean {
+        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.disableSerializationOfCellsContainingErrorsName)??
+            Defaults.disableSerializationOfCellsContainingErrorsValue;
+    }
+
+    public static get useSourceFileForProblems(): boolean {
+        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.useSourceFileForProblemsName)??
+            Defaults.useSourceFileForProblemsValue;
     }
 }
 class Defaults {
@@ -42,10 +52,16 @@ class Defaults {
 
     // specify true to use the local Boost service for debugging
     public static readonly localServiceDebugName = "localServiceDebug";
-    public static readonly localServiceDebugValue = "false";
+    public static readonly localServiceDebugValue = false;
 
     // specify 0-100 for the % of service requests to randomly fail at runtime
     public static readonly serviceFaultInjectionName = "serviceFaultInjection";
     public static readonly serviceFaultInjectionValue = "0";
+
+    public static readonly useSourceFileForProblemsName = "useSourceFileForProblems";
+    public static readonly useSourceFileForProblemsValue = true;
+    
+    public static readonly disableSerializationOfCellsContainingErrorsName = "disableSerializationOfCellsContainingErrors";
+    public static readonly disableSerializationOfCellsContainingErrorsValue = false;
 }
   
