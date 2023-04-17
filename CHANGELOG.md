@@ -9,10 +9,16 @@ Polyverse Boost Automatic Application Modernization
 - Added support for right-clicking on a file in the Explorer and selecting "Boost Analysis from File"
 - Added support for running analysis against current active window/source file by using "Boost Analysis from File" command
 - Added support for C/C++ Header file processing (e.g. .h, .hpp)
+- Added support for displaying Analysis Problems in the Problems panel, including link to the source file if available
+- Added support for Output panel to display Boost logging - named "Polyverse Boost"
 
 ### Enhancements
 - Improved user message for mismatch between email used for GitHub account and Polyverse license.
 - User-added Cells with code can now be submitted for all Boost kernels.
+- Improved serialization of Notebooks to include metadata, such as output language and test framework
+- Improved error reporting to print to Output panel, and only display one Error window when "Run All" is executed
+- Improved Extension startup availability by activating when any Boost Notebook is opened or loaded on startup
+- Improved error messages for intermittent network issues to Polyverse servers
 
 ### Bug Fixes
 - Fixed handling of nested brackets/braces in Python code
