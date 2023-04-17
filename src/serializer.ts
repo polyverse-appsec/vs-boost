@@ -9,7 +9,8 @@ import { BoostConfiguration } from './boostConfiguration';
  */
 
 interface RawNotebookData {
-	cells: RawNotebookCell[]
+	cells: RawNotebookCell[],
+    metadata?: any;
 }
 
 interface RawNotebookCell {
@@ -40,6 +41,7 @@ interface SerializedNotebookCell {
 
 interface SerializedNotebook {
 	cells: SerializedNotebookCell[]
+    metadata?: any;
 }
 
 
@@ -81,12 +83,14 @@ export class BoostContentSerializer implements vscode.NotebookSerializer {
             return cellData;
         });
 
-        return new vscode.NotebookData(cells);
+        let newNotebookMetadata = new vscode.NotebookData(cells);
+        newNotebookMetadata.metadata = raw.metadata;
+        return newNotebookMetadata;
     }
 
     public async serializeNotebook(data: vscode.NotebookData, token: vscode.CancellationToken): Promise<Uint8Array> {
         // Map the Notebook data into the format we want to save the Notebook data as
-        const contents: SerializedNotebook = { cells: [] };
+        const contents: SerializedNotebook = { cells: [], metadata: data.metadata};
 
         for (const cell of data.cells) {
             if (!BoostConfiguration.serializationOfCellsContainingErrors)
@@ -117,6 +121,9 @@ export class BoostContentSerializer implements vscode.NotebookSerializer {
                 metadata: cell.metadata,
             });
         }
+
+        // serialize the notebook metadata
+        contents.metadata = data.metadata;
 
         const ret = new TextEncoder().encode(JSON.stringify(contents, null, 4));
         //convert from Uit8Array to string
