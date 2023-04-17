@@ -3,6 +3,7 @@ import * as vscode from 'vscode';
 import { NOTEBOOK_TYPE } from './extension';
 import { ServerResponse } from 'http';
 import { BoostConfiguration } from './boostConfiguration';
+import { boostLogging } from './boostLogging';
 
 export class KernelControllerBase {
     _problemsCollection: vscode.DiagnosticCollection;
@@ -53,8 +54,8 @@ export class KernelControllerBase {
 
 	private async _executeAll(
         cells: vscode.NotebookCell[],
-        _notebook: vscode.NotebookDocument,
-        _controller: vscode.NotebookController): Promise<void> {
+        notebook: vscode.NotebookDocument,
+        controller: vscode.NotebookController): Promise<void> {
 
 		// make sure we're authorized
 		// if not, run the authorization cell
@@ -65,6 +66,8 @@ export class KernelControllerBase {
 			return;
 		}
 
+        let successfullyCompleted = true;
+        const promises = [];
         for (const cell of cells) {
             //if the cell is generated code, don't run it by default, the original code cell will
 			// run it, unless it is the only cell in array of cells being run, in which case, run it
@@ -73,38 +76,52 @@ export class KernelControllerBase {
                 cells.length > 1) {
 				return;
 			}
-			this._doExecution(cell, session);
+            promises.push(
+                this._doExecution(cell, session).then((result) => {
+                    if (!result) {
+                        successfullyCompleted = false;
+                    }
+                }) as Promise<boolean>);
 		}
+        Promise.all(promises).then((results) => {
+            results.forEach((result) => {
+                successfullyCompleted &&= result;
+            });
+            if (!successfullyCompleted) {
+                boostLogging.error(`Error analyzing Notebook ${notebook.uri.toString()}`);
+            }
+            return successfullyCompleted;
+          }).catch((error) => {
+            successfullyCompleted = false;
+          });
 	}
 
-	private async _doExecution(cell: vscode.NotebookCell, session : vscode.AuthenticationSession): Promise<void> {
+	private async _doExecution(cell: vscode.NotebookCell, session : vscode.AuthenticationSession): Promise<boolean> {
         // if not authorized, retry
         if (!session) {
 		    session = await this.doAuthorizationExecution();
         }
 		//if still not authorized, give up
 		if (!session) {
-			return;
+			return false;
 		}
 
         //if cell is undefined or metadata is undefined, seems like this should never happen
         //  since all cells have metadata
         if (!cell || !cell.metadata) {
-            return;
+            return false;
         }
 
         // if no useful text to explain, skip it
         const code = cell.document.getText();
 
         if (code.trim().length === 0) {
-            return;
+            return true;
         } else if (!cell.metadata.type) {
             const reinitialized = await this.initializeMetaData(cell);
             if (!reinitialized) {
-
-                vscode.window.showInformationMessage(
-                    'Unable to parse contents of Cell');
-                return;
+                boostLogging.warn(`Unable to parse contents of Cell ${cell.document.uri.toString()}`);
+                return false;
             }
         }
 
@@ -112,13 +129,14 @@ export class KernelControllerBase {
 		// and one for the generated code
 		// if the cell is original code, run the summary generation
 		if (!this.useOriginalCodeCheck || cell.metadata.type === 'originalCode') {
-            await this._doKernelExecution(cell, session);
+            return await this._doKernelExecution(cell, session);
         }
+        return true;
     }
 
 	private async _doKernelExecution(
         cell: vscode.NotebookCell,
-        session: vscode.AuthenticationSession): Promise<void> {
+        session: vscode.AuthenticationSession): Promise<boolean> {
 		const execution = this._controller.createNotebookCellExecution(cell);
 
         let successfullyCompleted = true;
@@ -129,19 +147,25 @@ export class KernelControllerBase {
         const code = cell.document.getText();
 
         try {
-            await this.onProcessServiceRequest(execution, cell, { code: code, session: session.accessToken });
+            let response = await this.onProcessServiceRequest(execution, cell, { code: code, session: session.accessToken });
+            if (response instanceof Error) {
+                // we failed the call, but it was already logged since it didn't throw, so just report failure
+                successfullyCompleted = false;
+            }
         } catch (err) {
             successfullyCompleted = false;
             this._updateCellOutput(
                 execution, cell,
                 vscode.NotebookCellOutputItem.error(err as Error),
                 err);
+            boostLogging.error(`Error executing cell ${cell.document.uri.toString()}: ${(err as Error).message}`, false);
             this.updateDiagnosticProblems(cell, err as Error, vscode.DiagnosticSeverity.Error,
                 new vscode.Range(0, 0, 0, 0));
         }
         finally {
             execution.end(successfullyCompleted, Date.now());
         }
+        return successfullyCompleted;
 	}
 
     async onProcessServiceRequest(
@@ -176,6 +200,7 @@ export class KernelControllerBase {
 
         this._updateCellOutput(execution, cell, outputItem, serviceError);
         if (!successfullyCompleted) {
+            boostLogging.error(`Error in cell ${cell.document.uri.toString()}: ${serviceError.message}`, false);
             this.updateDiagnosticProblems(cell, serviceError as Error, vscode.DiagnosticSeverity.Error,
                 new vscode.Range(0, 0, 0, 0));
         }
@@ -214,7 +239,7 @@ export class KernelControllerBase {
         try {
             if (BoostConfiguration.serviceFaultInjection > 0 &&
                 (Math.floor(Math.random() * 100) < BoostConfiguration.serviceFaultInjection)) {;
-
+                boostLogging.debug(`Injecting fault into service request for cell ${cell.document.uri.toString()} to ${serviceEndpoint}`);
                 await axios.get('https://serviceFaultInjection/synthetic/error/');
             }
             return await this.onBoostServiceRequest(cell, serviceEndpoint, payload);
@@ -347,8 +372,8 @@ export class KernelControllerBase {
             return;
         }
 
-        if (!relatedUri) {
-            relatedUri = undefined; // cell.notebook.metadata.sourceFile;
+        if (!relatedUri && BoostConfiguration.useSourceFileForProblems) {
+            relatedUri = vscode.Uri.parse(cell.notebook.metadata.sourceFile??"file:///unknown", true);
         }
         this._problemsCollection.set(cell.document.uri, [{
             code: error.name,       // '<CodeBlockContextGoesHere>',

@@ -10,20 +10,23 @@ import { parseFunctions } from './split';
 import instructions from './instructions.json';
 import { forEach } from 'lodash';
 import { BoostConfiguration } from './boostConfiguration';
+import { BoostLogger, boostLogging } from './boostLogging';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 
 export function activate(context: vscode.ExtensionContext) {
-    const outputChannel = vscode.window.createOutputChannel(NOTEBOOK_TYPE);
+        // ensure logging is shutdown
+    context.subscriptions.push(boostLogging);
+
+        // we use a friendly name for the channel as this will be displayed to the user in the output pane
+    boostLogging.log('Activating Boost Notebook Extension');
 
     let problems = _setupDiagnosticProblems(context);
 
-    outputChannel.appendLine('Activating Boost Notebook Extension');
-
-    registerCreateNotebookCommand(context, outputChannel, problems);
-
     const [selectOutputLanguageButton, selectTestFramework] =
-        setupNotebookEnvironment(context, outputChannel, problems);
+        setupNotebookEnvironment(context, problems);
+
+    registerCreateNotebookCommand(context, problems);
 
 	// register the select language command
 	context.subscriptions.push(vscode.commands.registerCommand(
@@ -77,9 +80,13 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	}));
 
-    registerOpenCodeFile(context, outputChannel);
+    registerOpenCodeFile(context);
 
-    registerFileRightClickAnalyzeCommand(context, outputChannel);
+    registerFileRightClickAnalyzeCommand(context);
+
+    boostLogging.log('Activated Boost Notebook Extension');
+    boostLogging.info('Polyverse Boost Notebook Extension is now active');
+
 }
 
 // for completeness, we provide a deactivate function - asynchronous return
@@ -94,7 +101,6 @@ export async function deactivate(): Promise<void> {
 
 function registerCreateNotebookCommand(
     context: vscode.ExtensionContext,
-    outputChannel: vscode.OutputChannel,
     problems : vscode.DiagnosticCollection) {
 
 	context.subscriptions.push(vscode.commands.registerCommand(
@@ -123,7 +129,6 @@ function registerCreateNotebookCommand(
 
 function setupNotebookEnvironment(
     context: vscode.ExtensionContext,
-    outputChannel: vscode.OutputChannel,
     collection: vscode.DiagnosticCollection) {
 
     let convertKernel = new BoostConvertKernel(collection);
@@ -162,8 +167,7 @@ function setupNotebookEnvironment(
     return [selectOutputLanguageButton, selectTestFramework];
 }
 
-function registerOpenCodeFile(context: vscode.ExtensionContext,
-    outputChannel: vscode.OutputChannel) {
+function registerOpenCodeFile(context: vscode.ExtensionContext) {
 	// Register a command to handle the button click
 	context.subscriptions.push(vscode.commands.registerCommand(
         NOTEBOOK_TYPE + '.loadCodeFile', async () => {
@@ -186,12 +190,10 @@ function registerOpenCodeFile(context: vscode.ExtensionContext,
         });
 
         if (userEnteredData) {
-            vscode.window.showWarningMessage(
-                'Existing User-entered data in Cells will be discarded upon loading a new file.');
+            boostLogging.warn('Existing User-entered data in Cells will be discarded upon loading a new file.');
         }
         else if (existingCells.length > 0) {
-            vscode.window.showInformationMessage(
-                'Previously loaded code will be discarded upon loading a new file.');
+            boostLogging.info('Previously loaded code will be discarded upon loading a new file.');
         }
 
 		// Use the vscode.window.showOpenDialog method to let the user select a file
@@ -208,7 +210,7 @@ function registerOpenCodeFile(context: vscode.ExtensionContext,
             return;
         }
         else if (fileUri.length > 1) {
-            vscode.window.showWarningMessage(
+            boostLogging.warn(
                 'Only one source file can be loaded at a time.');
         }
     
@@ -265,7 +267,7 @@ async function parseFunctionsFromFile(fileUri : vscode.Uri) {
     }
     // if we still failed to find an available Notebook, then warn and give up
     if (currentNotebook === undefined) {
-        vscode.window.showWarningMessage(
+        boostLogging.warn(
             'Missing open Boost Notebook. Please create or activate your Boost Notebook first');
         return;
     }
@@ -305,7 +307,7 @@ async function parseFunctionsFromFile(fileUri : vscode.Uri) {
     await vscode.workspace.applyEdit(edit);
 }
 
-function registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext, outputChannel: vscode.OutputChannel) {
+function registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext, ) {
 
     const disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.processCurrentFile',
         async (uri: vscode.Uri) => {
@@ -313,7 +315,7 @@ function registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext, 
             //      so we need to find the current active editor, if its available
             if (uri === undefined) {
                 if (vscode.window.activeTextEditor === undefined) {
-                    vscode.window.showWarningMessage("Unable to identify an active file to analyze.");
+                    boostLogging.warn("Unable to identify an active file to analyze.");
                     return;
                 }
                 else {
@@ -329,6 +331,18 @@ function _setupDiagnosticProblems(context: vscode.ExtensionContext) : vscode.Dia
 
     // create the Problems collection
     const problems = vscode.languages.createDiagnosticCollection(NOTEBOOK_TYPE + '.problems');
+
+    // when the notebook is closed, we need to clear its problems as well
+    //    note that problems are tied to the cells, not the notebook
+    vscode.workspace.onDidCloseNotebookDocument((event) => {
+        if (event.notebookType !== NOTEBOOK_TYPE) {
+            return;
+        }
+
+        event.getCells().forEach((cell) => {
+            problems.delete(cell.document.uri);
+        });
+    });
 
     // Register an event listener for the onDidClearOutput event
     const notebookChangeHandler: vscode.Disposable = vscode.workspace.onDidChangeNotebookDocument((event) => {

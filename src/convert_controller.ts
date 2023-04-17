@@ -35,7 +35,7 @@ export class BoostConvertKernel extends KernelControllerBase {
     async onProcessServiceRequest(
         execution: vscode.NotebookCellExecution,
         cell: vscode.NotebookCell,
-        payload : any): Promise<void> {
+        payload : any): Promise<boolean> {
 
         // make Boost service request to get explanation of code in english (lingua franca cross-translate),
         //      preparing for conversion
@@ -96,5 +96,6 @@ export class BoostConvertKernel extends KernelControllerBase {
 
             execution.appendOutput(output);
         }
+        return true;
     }
 }
