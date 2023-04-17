@@ -356,13 +356,9 @@ function _setupDiagnosticProblems(context: vscode.ExtensionContext) :
                         return;
                     }
 
-                    // if we have a kernel for this mime type, then we can deserialize the error
-                    // NOTE: This won't work today, as we store the mimetype as error (see above)
-                    //      the kernel is registered as application/vnd.code.notebook.error
-                    // In the future, we'll need to store metadata or the outputType on the serialized
-                    //      output item, so we can deserialize it properly
-                    // let kernelBase = kernelMap.get(thisItem.mime);
-                    let kernelBase = kernelMap.get(explainCellMarker);
+                    // we use the kernel controller that was attached to this output to deserialize the error
+                    // If we can't find the kernel controller metadata, then just use the explain controller
+                    let kernelBase = kernelMap.get(output.metadata?.outputType ?? explainCellMarker);
                     if (kernelBase) {
                         kernelBase.deserializeErrorAsProblems(cell, new Error(thisItem.mime));
                     }
