@@ -357,6 +357,7 @@ export class KernelControllerBase {
         }
         // if no error, skip
         else if (!error) {
+            boostLogging.debug(`No error to deserialize for cell ${cell.document.uri.toString()}`);
             return;
         }
 

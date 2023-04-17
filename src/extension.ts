@@ -12,6 +12,7 @@ import _, { forEach } from 'lodash';
 import { BoostConfiguration } from './boostConfiguration';
 import { BoostLogger, boostLogging } from './boostLogging';
 import { KernelControllerBase } from './base_controller';
+import { TextDecoder } from 'util';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 
@@ -360,7 +361,9 @@ function _setupDiagnosticProblems(context: vscode.ExtensionContext) :
                     // If we can't find the kernel controller metadata, then just use the explain controller
                     let kernelBase = kernelMap.get(output.metadata?.outputType ?? explainCellMarker);
                     if (kernelBase) {
-                        kernelBase.deserializeErrorAsProblems(cell, new Error(thisItem.mime));
+                        let deserializedError = newErrorFromItemData(thisItem.data);
+                        
+                        kernelBase.deserializeErrorAsProblems(cell, deserializedError);
                     }
                     
                 });
@@ -446,3 +449,18 @@ function _syncProblemsInCell(cell: vscode.NotebookCell, problems: vscode.Diagnos
     // Replace the problems with the updated diagnostics
     problems.set(cellUri, diagnostics);
 }
+function newErrorFromItemData(data: Uint8Array) : Error {
+    const errorJson = new TextDecoder().decode(data);
+
+    const errorObject = JSON.parse(errorJson, (key, value) => {
+      if (key === '') {
+        const error = new Error();
+        Object.assign(error, value);
+        return error;
+      }
+      return value;
+    });
+    
+    return errorObject;
+}
+
