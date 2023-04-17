@@ -399,7 +399,7 @@ function _setupDiagnosticProblems(context: vscode.ExtensionContext) :
         // Loop through each changed cell content
         for (const changedContent of event.contentChanges) {
             for (const cell of changedContent.removedCells) {
-                _syncProblemsInCell(cell, problems);
+                _syncProblemsInCell(cell, problems, true);
             }
         }
     });
@@ -409,7 +409,10 @@ function _setupDiagnosticProblems(context: vscode.ExtensionContext) :
 
     return {problems: problems, map: kernelMap};
 }
-function _syncProblemsInCell(cell: vscode.NotebookCell, problems: vscode.DiagnosticCollection) {
+function _syncProblemsInCell(
+    cell: vscode.NotebookCell,
+    problems: vscode.DiagnosticCollection,
+    cellsBeingRemoved : boolean = false) {
     const cellUri = cell.document.uri;
 
     
@@ -441,8 +444,9 @@ function _syncProblemsInCell(cell: vscode.NotebookCell, problems: vscode.Diagnos
                 //    && output.metadata?.cellId === problem?.source?.toString();
             }
         });
-        if (errorOutputIndex !== -1) {
-            // Error output found for the problem, add it back to the diagnostics
+        // Error output found for the problem, add it back to the diagnostics
+        // unless the cell is being removed, in which case, we'll drop it (e.g. skip the re-add)
+        if (errorOutputIndex !== -1 && !cellsBeingRemoved) {
             diagnostics.push(problem);
         }
     }
