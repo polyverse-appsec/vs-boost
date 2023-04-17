@@ -3,7 +3,7 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 0.9.2: April 13, 2023
+## Version 0.9.2: April 16, 2023
 
 ### New Features
 - Added support for right-clicking on a file in the Explorer and selecting "Boost Analysis from File"
