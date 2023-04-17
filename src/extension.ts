@@ -201,7 +201,7 @@ function registerOpenCodeFile(context: vscode.ExtensionContext) {
             boostLogging.warn('Existing User-entered data in Cells will be discarded upon loading a new file.');
         }
         else if (existingCells.length > 0) {
-            boostLogging.info('Previously loaded code will be discarded upon loading a new file.');
+            boostLogging.info('Previously loaded content will be discarded upon loading a new file.');
         }
 
 		// Use the vscode.window.showOpenDialog method to let the user select a file
