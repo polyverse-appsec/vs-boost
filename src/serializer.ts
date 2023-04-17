@@ -89,7 +89,7 @@ export class BoostContentSerializer implements vscode.NotebookSerializer {
         const contents: SerializedNotebook = { cells: [] };
 
         for (const cell of data.cells) {
-            if (BoostConfiguration.serializationOfCellsContainingErrors)
+            if (!BoostConfiguration.serializationOfCellsContainingErrors)
             {
                 // Check if any output item has an error mimeType
                 const hasErrorOutput = cell.outputs?.some(output =>
