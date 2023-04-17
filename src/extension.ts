@@ -3,14 +3,15 @@ import * as vscode from 'vscode';
 import { BoostAnalyzeKernel } from './analyze_controller';
 import { BoostTestgenKernel } from './testgen_controller';
 import { BoostConvertKernel } from './convert_controller';
-import { BoostExplainKernel } from './explain_controller';
+import { BoostExplainKernel, explainCellMarker } from './explain_controller';
 
 import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
 import instructions from './instructions.json';
-import { forEach } from 'lodash';
+import _, { forEach } from 'lodash';
 import { BoostConfiguration } from './boostConfiguration';
 import { BoostLogger, boostLogging } from './boostLogging';
+import { KernelControllerBase } from './base_controller';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 
@@ -21,12 +22,12 @@ export function activate(context: vscode.ExtensionContext) {
         // we use a friendly name for the channel as this will be displayed to the user in the output pane
     boostLogging.log('Activating Boost Notebook Extension');
 
-    let problems = _setupDiagnosticProblems(context);
+    let result = _setupDiagnosticProblems(context);
 
     const [selectOutputLanguageButton, selectTestFramework] =
-        setupNotebookEnvironment(context, problems);
+        setupNotebookEnvironment(context, result.problems, result.map);
 
-    registerCreateNotebookCommand(context, problems);
+    registerCreateNotebookCommand(context, result.problems);
 
 	// register the select language command
 	context.subscriptions.push(vscode.commands.registerCommand(
@@ -129,12 +130,18 @@ function registerCreateNotebookCommand(
 
 function setupNotebookEnvironment(
     context: vscode.ExtensionContext,
-    collection: vscode.DiagnosticCollection) {
+    collection: vscode.DiagnosticCollection,
+    kernelMap : Map<string, KernelControllerBase>) {
 
+        // build a map of output types to kernels so we can reverse lookup the kernels from their output
     let convertKernel = new BoostConvertKernel(collection);
+    kernelMap.set(convertKernel.outputType, convertKernel);
     let explainKernel = new BoostExplainKernel(collection);
+    kernelMap.set(explainKernel.outputType, explainKernel);
     let analyzeKernel = new BoostAnalyzeKernel(collection);
+    kernelMap.set(analyzeKernel.outputType, analyzeKernel);
     let testgenKernel = new BoostTestgenKernel(collection);
+    kernelMap.set(testgenKernel.outputType, testgenKernel);
 
 	context.subscriptions.push(
 		vscode.workspace.registerNotebookSerializer(
@@ -327,10 +334,44 @@ function registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext, 
     context.subscriptions.push(disposable);
 }
 
-function _setupDiagnosticProblems(context: vscode.ExtensionContext) : vscode.DiagnosticCollection {
+function _setupDiagnosticProblems(context: vscode.ExtensionContext) :
+    { problems : vscode.DiagnosticCollection,
+      map : Map<string, KernelControllerBase> }
+     {
 
     // create the Problems collection
     const problems = vscode.languages.createDiagnosticCollection(NOTEBOOK_TYPE + '.problems');
+    const kernelMap = new Map<string, KernelControllerBase>();
+    // whenever we open a boost notebook, we need to re-sync the problems (in case errors were persisted with it)
+    vscode.workspace.onDidOpenNotebookDocument((event) => {
+        if (event.notebookType !== NOTEBOOK_TYPE) {
+            return;
+        }
+
+        event.getCells().forEach((cell) => {
+            cell.outputs.forEach((output) => {
+                output.items.forEach((item) => {
+                    let thisItem = item as vscode.NotebookCellOutputItem;
+                    if (thisItem.mime !== 'application/vnd.code.notebook.error') {
+                        return;
+                    }
+
+                    // if we have a kernel for this mime type, then we can deserialize the error
+                    // NOTE: This won't work today, as we store the mimetype as error (see above)
+                    //      the kernel is registered as application/vnd.code.notebook.error
+                    // In the future, we'll need to store metadata or the outputType on the serialized
+                    //      output item, so we can deserialize it properly
+                    // let kernelBase = kernelMap.get(thisItem.mime);
+                    let kernelBase = kernelMap.get(explainCellMarker);
+                    if (kernelBase) {
+                        kernelBase.deserializeErrorAsProblems(cell, new Error(thisItem.mime));
+                    }
+                    
+                });
+            });
+            _syncProblemsInCell(cell, problems);
+        });
+    });
 
     // when the notebook is closed, we need to clear its problems as well
     //    note that problems are tied to the cells, not the notebook
@@ -367,11 +408,12 @@ function _setupDiagnosticProblems(context: vscode.ExtensionContext) : vscode.Dia
     // Dispose the event listener when it is no longer needed
     context.subscriptions.push(notebookChangeHandler);
 
-    return problems;
+    return {problems: problems, map: kernelMap};
 }
 function _syncProblemsInCell(cell: vscode.NotebookCell, problems: vscode.DiagnosticCollection) {
     const cellUri = cell.document.uri;
 
+    
     // if no problems for this cell, skip it
     const thisCellProblems = problems.get(cellUri);
     if (!thisCellProblems || thisCellProblems.length === 0) {

@@ -4,6 +4,7 @@ import { NOTEBOOK_TYPE } from './extension';
 import { ServerResponse } from 'http';
 import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
+import { range } from 'lodash';
 
 export class KernelControllerBase {
     _problemsCollection: vscode.DiagnosticCollection;
@@ -159,8 +160,7 @@ export class KernelControllerBase {
                 vscode.NotebookCellOutputItem.error(err as Error),
                 err);
             boostLogging.error(`Error executing cell ${cell.document.uri.toString()}: ${(err as Error).message}`, false);
-            this.updateDiagnosticProblems(cell, err as Error, vscode.DiagnosticSeverity.Error,
-                new vscode.Range(0, 0, 0, 0));
+            this.addDiagnosticProblem(cell, err as Error);
         }
         finally {
             execution.end(successfullyCompleted, Date.now());
@@ -201,8 +201,7 @@ export class KernelControllerBase {
         this._updateCellOutput(execution, cell, outputItem, serviceError);
         if (!successfullyCompleted) {
             boostLogging.error(`Error in cell ${cell.document.uri.toString()}: ${serviceError.message}`, false);
-            this.updateDiagnosticProblems(cell, serviceError as Error, vscode.DiagnosticSeverity.Error,
-                new vscode.Range(0, 0, 0, 0));
+            this.addDiagnosticProblem(cell, serviceError as Error);
         }
 
         return response;
@@ -351,15 +350,35 @@ export class KernelControllerBase {
         return session;
     }
 
+    public deserializeErrorAsProblems(cell: vscode.NotebookCell, error: Error) {
+        // if no target Cell, skip
+        if (!cell.document) {
+            return;
+        }
+        // if no error, skip
+        else if (!error) {
+            return;
+        }
+
+        // otherwise, add/update problems for this Cell
+        this.addDiagnosticProblem(cell, error);
+    }
+
     // relatedUri should be the Uri of the original source file
-    updateDiagnosticProblems(
-        cell: vscode.NotebookCell,          // document should be the Cell's document that has the problem(s)
-        error : Error,                          // error should be the Error object that was thrown
-        severity : vscode.DiagnosticSeverity,   // severity of the problem
-        cellRange : vscode.Range,               // cellPosition should be the problematic range of the Cell in the Notebook
-        relatedUri? : vscode.Uri,               // (optional) relatedUri should be the Uri of the original source file
+    addDiagnosticProblem(
+            // document should be the Cell's document that has the problem(s)
+        cell: vscode.NotebookCell,
+            // error should be the Error object that was thrown
+        error : Error,
+            // severity of the problem
+        severity : vscode.DiagnosticSeverity = vscode.DiagnosticSeverity.Error,
+            // cellPosition should be the problematic range of the Cell in the Notebook
+        cellRange : vscode.Range = new vscode.Range(0, 0, 0, 0),
+            // (optional) relatedUri should be the Uri of the original source file
+        relatedUri? : vscode.Uri,
+              // (optional) relatedRange should be the problematic area in the source file
         relatedRange? : vscode.Range,
-        relatedMessage? : string): void {       // (optional) relatedPosition should be the problematic area in the source file
+        relatedMessage? : string): void {
         
             // if no target Cell, clear all problems
         if (!cell.document) {
@@ -374,6 +393,13 @@ export class KernelControllerBase {
 
         if (!relatedUri && BoostConfiguration.useSourceFileForProblems) {
             relatedUri = vscode.Uri.parse(cell.notebook.metadata.sourceFile??"file:///unknown", true);
+        }
+        if (!severity) {
+            severity = vscode.DiagnosticSeverity.Error;
+        }
+        if (!cellRange)
+        {
+            cellRange = new vscode.Range(0,0,0,0);
         }
         this._problemsCollection.set(cell.document.uri, [{
             code: error.name,       // '<CodeBlockContextGoesHere>',
