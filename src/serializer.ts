@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { TextDecoder, TextEncoder } from 'util';
-import { error } from 'console';
+import { boostLogging } from './boostLogging';
+import { BoostConfiguration } from './boostConfiguration';
 
 /**
  * An ultra-minimal sample provider that lets the user type in JSON, and then
@@ -58,7 +59,7 @@ export class BoostContentSerializer implements vscode.NotebookSerializer {
         try {
             raw = <RawNotebookData>JSON.parse(contents);
         } catch (err) {
-            error("Boost error parsing JSON file contents: " + (err as Error).toString());
+            boostLogging.error(`Boost error parsing JSON file contents: ${(err as Error).toString()}`);
             raw = { cells: [] };
         }
 
@@ -88,15 +89,18 @@ export class BoostContentSerializer implements vscode.NotebookSerializer {
         const contents: SerializedNotebook = { cells: [] };
 
         for (const cell of data.cells) {
-            // Check if any output item has an error mimeType
-            const hasErrorOutput = cell.outputs?.some(output =>
-                output.items.some(outputItem =>
-                    outputItem.mime === 'application/vnd.code.notebook.error')
-            );
+            if (BoostConfiguration.serializationOfCellsContainingErrors)
+            {
+                // Check if any output item has an error mimeType
+                const hasErrorOutput = cell.outputs?.some(output =>
+                    output.items.some(outputItem =>
+                        outputItem.mime === 'application/vnd.code.notebook.error')
+                );
 
-            // Skip serialization if the cell has error outputs
-            if (hasErrorOutput) {
-                continue;
+                // Skip serialization if the cell has error outputs
+                if (hasErrorOutput) {
+                    continue;
+                }
             }
 
             contents.cells.push({
