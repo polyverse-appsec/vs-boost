@@ -21,7 +21,9 @@
   "galleryBanner.color": "#F5F5F5",
   "icon": "resources/polyverse_vs_boost_logo.jpg",
   "activationEvents": [
-    "onNotebook:polyverse-boost-notebook"
+    "onNotebook:polyverse-boost-notebook",
+	"workspaceContains:*.boost-notebook",
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
