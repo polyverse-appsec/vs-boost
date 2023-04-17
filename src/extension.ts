@@ -3,6 +3,7 @@ import * as vscode from 'vscode';
 import { BoostAnalyzeKernel } from './analyze_controller';
 import { BoostTestgenKernel } from './testgen_controller';
 import { BoostConvertKernel } from './convert_controller';
+import { BoostComplianceKernel } from './compliance_controller';
 import { BoostExplainKernel, explainCellMarker } from './explain_controller';
 
 import { BoostContentSerializer } from './serializer';
@@ -143,6 +144,8 @@ function setupNotebookEnvironment(
     kernelMap.set(analyzeKernel.outputType, analyzeKernel);
     let testgenKernel = new BoostTestgenKernel(collection);
     kernelMap.set(testgenKernel.outputType, testgenKernel);
+    let complianceKernel = new BoostComplianceKernel(collection);
+    kernelMap.set(complianceKernel.outputType, complianceKernel);
 
 	context.subscriptions.push(
 		vscode.workspace.registerNotebookSerializer(
@@ -151,7 +154,8 @@ function setupNotebookEnvironment(
         convertKernel,
         analyzeKernel,
         explainKernel,
-        testgenKernel
+        testgenKernel,
+        complianceKernel
 	);
 
 	// get the defaults
