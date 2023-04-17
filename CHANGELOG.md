@@ -3,9 +3,10 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 0.9.2: April 16, 2023
+## Version 0.9.2: April 17, 2023
 
 ### New Features
+- Added support for reviewing code for Data, Privacy and Personal Info Compliance issues
 - Added support for right-clicking on a file in the Explorer and selecting "Boost Analysis from File"
 - Added support for running analysis against current active window/source file by using "Boost Analysis from File" command
 - Added support for C/C++ Header file processing (e.g. .h, .hpp)

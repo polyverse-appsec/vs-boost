@@ -38,9 +38,12 @@ Easy to copy and expensive to run? Bound to an old language, server or data cent
 ![Code Conversion and Modernization](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_4.27.00_PM.jpg?width=500)
 
 * **Security Vulnerability Analysis**: Detect security vulnerabilities in your code.
-Boost will analyze your code and for the latest security vulnerabilities, critical defects and potential bugs, including buffer overflows, SQL injection, and more. Then it will provide recommended fixes or advice on how to mitigate the risk.
+Boost will analyze your code for the latest security vulnerabilities, critical defects and potential bugs, including buffer overflows, SQL injection, and more. Then it will provide recommended fixes or advice on how to mitigate the risk.
 
 ![Security and Defect analysis](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_4.24.26_PM.jpg?width=500)
+
+* **Data and Privacy Compliance**: Detect compliance issues in your code.
+Boost will check your code for the latest data, privacy and compliance issues, including unencrypted private or personal data, mishandling of credit card info, and more. Where solutions are available, Boost will provide recommended fixes or advice on how to mitigate the risk.
 
 * **Test Case Generation**: Automatically create test cases for your code.
 Load your code and Boost will analyze the code, supply a test framework and generate test cases for you to use.
@@ -80,6 +83,7 @@ Boost will create a detailed, step-by-step explanation of your code and break it
    ![Select Your Processing Task](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-26_at_5.52.28_PM.jpg?width=500)
   
   * **Analyze Code for Bugs, Defects and Security Vulnerabilities** select `Analyze code for security vulnerabilities`
+  * **Check Code for Data, Privacy and Personal Info Compliance** select `Analyze code for security vulnerabilities`
   * **Modernize Code to a newer language** select `Convert Legacy Code to New Code`
   * **Generate Test Cases** select `Generate Test Cases for code`
   * **Generation Code Documentation** select `Explain code`
@@ -99,12 +103,14 @@ Boost will create a detailed, step-by-step explanation of your code and break it
 
 8. **Review the Results**: Each Boost Notebook cell will contain the results of the AI-enhanced processing.
   * **For Defect and Security Analysis**, you can edit the code in each Cell and re-run the analysis to see the results.
+  * **For Data Compliance**, you can edit the code in each Cell and re-run the compliance review to see the results.
   * **For Code Conversion**, you can review the new code in each Cell for integration into your new modernized project.
   * **For Documentation**, you can read the documentation to better understand legacy code, review for architectural or potential redesign, and to better understand how the original code actually worked.
   * **For Test Generation**, you can review the test cases and integrate them into your automated test harness or CI/CD/CT system.
 
 ## Command Reference
   * **Analyze Code for Bugs, Defects and Security Vulnerabilities** select `Analyze code for security vulnerabilities`
+  * **Check for Compliance with Privacy, Regulatory and Data Policies** select `Check code for data and privacy compliance`
   * **Modernize Code to a newer language** select `Convert Legacy Code to New Code`
   * **Generate Test Cases** select `Generate Test Cases for code`
   * **Generation Code Documentation** select `Explain code`
@@ -112,7 +118,7 @@ Boost will create a detailed, step-by-step explanation of your code and break it
 * `Boost Create Polyverse Boost Notebook`: Create a new Boost Notebook workspace and Cells for your analysis, review, and editing.
 * `Boost: Load File`: Load existing source files for conversion.
 * `Boost: Select Kernel`: Choose an AI-enabled analysis and modernizing task, such as code conversion, documentation generation,
-     test generation, or security vulnerability analysis.
+     test generation, data compliance, or security vulnerability analysis.
 * `Boost: Select Output Language`: Choose a new programming language for modernizing your existing code NOTE: Only required for "Convert Legacy Code to New Code".
 
 ## Extension Settings
