@@ -9,7 +9,6 @@ import { BoostExplainKernel, explainCellMarker } from './explain_controller';
 import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
 import instructions from './instructions.json';
-import _, { forEach } from 'lodash';
 import { BoostConfiguration } from './boostConfiguration';
 import { BoostLogger, boostLogging } from './boostLogging';
 import { KernelControllerBase } from './base_controller';

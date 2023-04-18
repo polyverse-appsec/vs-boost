@@ -4,11 +4,6 @@ import {
 import { DiagnosticCollection } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 
-//set a helper variable of the base url.  this should eventually be a config setting
-export const explainUrl = BoostConfiguration.localServiceDebug?
-    'http://127.0.0.1:8000/explain':
-    'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
-
 export const explainCellMarker = 'explainCode';
 
 export class BoostExplainKernel extends KernelControllerBase {
@@ -17,7 +12,6 @@ export class BoostExplainKernel extends KernelControllerBase {
             collection,
             'polyverse-boost-explain-kernel',
             'Polyverse Boost: Explain Code',
-            explainUrl,
             explainCellMarker,
             false,
             false);
@@ -26,6 +20,12 @@ export class BoostExplainKernel extends KernelControllerBase {
 	dispose(): void {
 		super.dispose();
 	}
+
+    public get serviceEndpoint(): string {
+        return BoostConfiguration.localServiceDebug?
+            'http://127.0.0.1:8000/explain':
+            'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
+    }
 
     onKernelOutputItem(response: any, mimetype : any): string {
         return "### Boost Code Explanation\n" + response.explanation;

@@ -4,16 +4,11 @@ import {
     } from './base_controller';
 import * as vscode from 'vscode';
 import axios, { AxiosResponse } from 'axios';
-import { explainUrl, explainCellMarker } from './explain_controller';
+import { explainCellMarker } from './explain_controller';
 import { NOTEBOOK_TYPE } from './extension';
 import { BoostConfiguration } from './boostConfiguration';
 
 //set a helper variable of the base url.  this should eventually be a config setting
-
-// for debugging locally with Chalice
-const generateUrl = BoostConfiguration.localServiceDebug?
-    'http://127.0.0.1:8000/generate':
-    'https://ukkqda6zl22nd752blcqlv3rum0ziwnq.lambda-url.us-west-2.on.aws/';
 
 const markdownCodeMarker = '```';
 export class BoostConvertKernel extends KernelControllerBase {
@@ -22,7 +17,6 @@ export class BoostConvertKernel extends KernelControllerBase {
             collection,
             'polyverse-boost-convert-kernel',
             'Polyverse Boost: Convert Legacy Code to New Code',
-            generateUrl,
             'generatedCode',
             false,
             true);
@@ -32,6 +26,18 @@ export class BoostConvertKernel extends KernelControllerBase {
 		super.dispose();
 	}
 
+    public get serviceEndpoint(): string {
+        return BoostConfiguration.localServiceDebug?
+            'http://127.0.0.1:8000/generate':
+            'https://ukkqda6zl22nd752blcqlv3rum0ziwnq.lambda-url.us-west-2.on.aws/';
+    }
+
+    get explainEndpoint(): string {
+        return BoostConfiguration.localServiceDebug?
+            'http://127.0.0.1:8000/explain':
+            'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
+    }
+
     async onProcessServiceRequest(
         execution: vscode.NotebookCellExecution,
         cell: vscode.NotebookCell,
@@ -39,7 +45,7 @@ export class BoostConvertKernel extends KernelControllerBase {
 
         // make Boost service request to get explanation of code in english (lingua franca cross-translate),
         //      preparing for conversion
-        const response = await this.makeBoostServiceRequest(cell, explainUrl, payload);
+        const response = await this.makeBoostServiceRequest(cell, this.explainEndpoint, payload);
 
         const summarydata = response;
         const outputItems: vscode.NotebookCellOutputItem[] = [];
@@ -70,7 +76,7 @@ export class BoostConvertKernel extends KernelControllerBase {
         payload.explanation = summarydata.explanation;
         payload.originalCode = payload.code;
         payload.language = outputLanguage;
-        const generatedCode = await this.makeBoostServiceRequest(cell, generateUrl, payload);
+        const generatedCode = await this.makeBoostServiceRequest(cell, this.serviceEndpoint, payload);
 
         //quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
         let mimetypeCode = 'text/x-' + outputLanguage;

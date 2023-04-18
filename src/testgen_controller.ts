@@ -7,17 +7,12 @@ import axios, { AxiosResponse } from 'axios';
 import { NOTEBOOK_TYPE } from './extension';
 import { BoostConfiguration } from './boostConfiguration';
 
-//set a helper variable of the base url.  this should eventually be a config setting
-const testgenUrl = BoostConfiguration.localServiceDebug?
-    'http://127.0.0.1:8000/testgen':
-    'https://gylbelpkobvont6vpxp4ihw5fm0iwnto.lambda-url.us-west-2.on.aws/';
 export class BoostTestgenKernel extends KernelControllerBase {
 	constructor(collection: vscode.DiagnosticCollection) {
         super(
             collection,
             'polyverse-boost-testgen-kernel',
             'Polyverse Boost: Generate Test Cases for Code',
-            testgenUrl,
             'testGeneration',
             true,
             true);
@@ -26,6 +21,12 @@ export class BoostTestgenKernel extends KernelControllerBase {
 	dispose(): void {
 		super.dispose();
 	}
+
+    public get serviceEndpoint(): string {
+        return BoostConfiguration.localServiceDebug?
+            'http://127.0.0.1:8000/testgen':
+            'https://gylbelpkobvont6vpxp4ihw5fm0iwnto.lambda-url.us-west-2.on.aws/';
+        }
 
     async onBoostServiceRequest(
         cell : vscode.NotebookCell,

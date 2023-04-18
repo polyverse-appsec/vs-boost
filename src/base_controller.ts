@@ -1,17 +1,14 @@
 import axios from 'axios';
 import * as vscode from 'vscode';
 import { NOTEBOOK_TYPE } from './extension';
-import { ServerResponse } from 'http';
 import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
-import { range } from 'lodash';
 
 export class KernelControllerBase {
     _problemsCollection: vscode.DiagnosticCollection;
 	id : string;
 	kernelLabel : string;
 	private _supportedLanguages = [];
-    private _serviceEndpoint : string;
     private _outputType : string;
     private _useGeneratedCodeCellOptimization : boolean;
     private useOriginalCodeCheck = false;
@@ -23,7 +20,6 @@ export class KernelControllerBase {
         problemsCollection: vscode.DiagnosticCollection,
         kernelId : string,
         kernelLabel : string,
-        serviceEndpoint : string,
         outputType : string,
         useGeneratedCodeCellOptimization : boolean,
         useOriginalCodeCheck : boolean) {
@@ -31,7 +27,6 @@ export class KernelControllerBase {
         this._problemsCollection = problemsCollection;
         this.id = kernelId;
         this.kernelLabel = kernelLabel;
-        this._serviceEndpoint = serviceEndpoint;
         this._outputType = outputType;
         this._useGeneratedCodeCellOptimization = useGeneratedCodeCellOptimization;
         this.useOriginalCodeCheck = useOriginalCodeCheck;
@@ -51,6 +46,10 @@ export class KernelControllerBase {
 
     get outputType() : string {
         return this._outputType;
+    }
+
+    get serviceEndpoint() : string {
+        throw new Error('serviceEndpoint not implemented');
     }
 
 	private async _executeAll(
@@ -179,7 +178,7 @@ export class KernelControllerBase {
         let response;
         let serviceError : Error = new Error();
         try {
-            response = await this.makeBoostServiceRequest(cell, this._serviceEndpoint, payload);
+            response = await this.makeBoostServiceRequest(cell, this.serviceEndpoint, payload);
         } catch (err : any) {
             successfullyCompleted = false;
             serviceError = err;
