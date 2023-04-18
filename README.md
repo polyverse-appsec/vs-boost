@@ -45,6 +45,10 @@ Boost will analyze your code for the latest security vulnerabilities, critical d
 * **Data and Privacy Compliance**: Detect compliance issues in your code.
 Boost will check your code for the latest data, privacy and compliance issues, including unencrypted private or personal data, mishandling of credit card info, and more. Where solutions are available, Boost will provide recommended fixes or advice on how to mitigate the risk.
 
+* **Best Practices and Code Guidelines**: Ensure your source follows best practices and code guidelines.
+Boost will evaluate your code for best practices and coding guidelines for the programming language, framework, and domain of your source code.
+Issues or exceptions to best practices will be identified. And Boost will also provide online documentation and links to help you understand the best practices and guidelines.
+
 * **Test Case Generation**: Automatically create test cases for your code.
 Load your code and Boost will analyze the code, supply a test framework and generate test cases for you to use.
 
@@ -83,7 +87,8 @@ Boost will create a detailed, step-by-step explanation of your code and break it
    ![Select Your Processing Task](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-26_at_5.52.28_PM.jpg?width=500)
   
   * **Analyze Code for Bugs, Defects and Security Vulnerabilities** select `Analyze code for security vulnerabilities`
-  * **Check Code for Data, Privacy and Personal Info Compliance** select `Analyze code for security vulnerabilities`
+  * **Check Code for Data, Privacy and Personal Info Compliance** select `Check compliance`
+  * **Evaluate source code for best practices and guidelines** select `Evaluate Code Guidelines`
   * **Modernize Code to a newer language** select `Convert Legacy Code to New Code`
   * **Generate Test Cases** select `Generate Test Cases for code`
   * **Generation Code Documentation** select `Explain code`

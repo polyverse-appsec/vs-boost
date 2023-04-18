@@ -3,7 +3,7 @@
 
 **Transform, secure, and enhance your code with AI-driven analysis, all in one powerful extension - *Polyverse Boost*.**
 
-Welcome to the Polyverse Boost Visual Studio extension! Boost is a powerful Visual Studio Code Notebook extension designed to help you automatically convert your legacy code into a new programming language, analyze code for security vulnerabilities, and generate test cases for code using AI-driven tools. In minutes you can take your legacy C, C++, C#, Java, .NET or PHP code (and many others) and convert it to over a dozen modern languages.
+Welcome to the Polyverse Boost Visual Studio extension! Boost is a powerful Visual Studio Code Notebook extension designed to help you automatically convert your legacy code into a new programming language, analyze code for security vulnerabilities, find data compliance issues, ensure your source follows best practice coding guidelines, and generate test cases for code using AI-driven tools. In minutes you can take your legacy C, C++, C#, Java, .NET or PHP code (and many others) and convert it to over a dozen modern languages.
 
 ## Quick Start
 
@@ -49,6 +49,8 @@ Welcome to the Polyverse Boost Visual Studio extension! Boost is a powerful Visu
 
 8. **Review the Results**: Each Boost Notebook cell will contain the results of the AI-enhanced processing.
   * **For Defect and Security Analysis**, you can edit the code in each Cell and re-run the analysis to see the results.
+  * **For Data Compliance**, you can review the data compliance issues in each Cell, and learn more about how your code uses data.
+  * **For Coding Guidelines**, you can review the analysis in each Cell to see how your code follows best practices, or differs from standard coding guidelines.
   * **For Code Conversion**, you can review the new code in each Cell for integration into your new modernized project.
   * **For Documentation**, you can read the documentation to better understand legacy code, review for architectural or potential redesign, and to better understand how the original code actually worked.
   * **For Test Generation**, you can review the test cases and integrate them into your automated test harness or CI/CD/CT system.

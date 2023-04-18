@@ -5,12 +5,13 @@ import { BoostTestgenKernel } from './testgen_controller';
 import { BoostConvertKernel } from './convert_controller';
 import { BoostComplianceKernel } from './compliance_controller';
 import { BoostExplainKernel, explainCellMarker } from './explain_controller';
+import { BoostCodeGuidelinesKernel } from './codeguidelines_controller';
 
 import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
 import instructions from './instructions.json';
 import { BoostConfiguration } from './boostConfiguration';
-import { BoostLogger, boostLogging } from './boostLogging';
+import { boostLogging } from './boostLogging';
 import { KernelControllerBase } from './base_controller';
 import { TextDecoder } from 'util';
 
@@ -145,6 +146,8 @@ function setupNotebookEnvironment(
     kernelMap.set(testgenKernel.outputType, testgenKernel);
     let complianceKernel = new BoostComplianceKernel(collection);
     kernelMap.set(complianceKernel.outputType, complianceKernel);
+    let guidelinesKernel = new BoostCodeGuidelinesKernel(collection);
+    kernelMap.set(guidelinesKernel.outputType, guidelinesKernel);
 
 	context.subscriptions.push(
 		vscode.workspace.registerNotebookSerializer(
@@ -154,7 +157,8 @@ function setupNotebookEnvironment(
         analyzeKernel,
         explainKernel,
         testgenKernel,
-        complianceKernel
+        complianceKernel,
+        guidelinesKernel
 	);
 
 	// get the defaults
