@@ -14,6 +14,8 @@ import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
 import { KernelControllerBase } from './base_controller';
 import { TextDecoder } from 'util';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 
@@ -229,12 +231,24 @@ function registerOpenCodeFile(context: vscode.ExtensionContext) {
                 'Only one source file can be loaded at a time.');
         }
     
-        parseFunctionsFromFile(fileUri[0]);
+        await parseFunctionsFromFile(fileUri[0], notebookEditor.notebook);
 
 	}));	
 }
 
-async function parseFunctionsFromFile(fileUri : vscode.Uri) {
+async function createNotebookFromSourceFile(fileUri : vscode.Uri) : Promise<vscode.NotebookDocument> {
+    const data = new vscode.NotebookData([]);
+    const doc = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, data);
+    await parseFunctionsFromFile(fileUri, doc);
+
+    // Serialize notebook to .boost file
+    const notebookJSON = JSON.stringify(doc);
+    const notebookPath = fileUri.fsPath + '.boost';
+    fs.writeFileSync(notebookPath, notebookJSON);
+    return doc;
+}
+
+async function parseFunctionsFromFile(fileUri : vscode.Uri, targetNotebook : vscode.NotebookDocument) {
 
     // Use the vscode.workspace.fs.readFile method to read the contents of the file
     const fileContents = await vscode.workspace.fs.readFile(fileUri);
@@ -256,43 +270,19 @@ async function parseFunctionsFromFile(fileUri : vscode.Uri) {
         cells.push(cell);
     }
 
-    let currentNotebook = vscode.window.activeNotebookEditor?.notebook;
-    // if there is no active notebook editor, we need to find it
-    // Note this only happens when using right-click in explorer or a non-Notebook active editor
-    if (currentNotebook === undefined) {
-        const notebookDocuments: vscode.NotebookDocument[] = [];
-        vscode.workspace.notebookDocuments.forEach(async (doc) => {
-            // we're skipping non Boost notebooks
-            if (doc.notebookType !== NOTEBOOK_TYPE) {
-                return;
-            }
-            // we found multiple available Boost notebooks, so warn after first
-            if (currentNotebook !== undefined) {
-                vscode.window.showWarningMessage(
-                    'Multiple Boost Notebooks are open. Using first to load file.');
-                return;
-            }
-          
-            vscode.window.showNotebookDocument(doc, {
-                viewColumn: vscode.ViewColumn.One // set the editor column to open the notebook in
-            });
-              
-            currentNotebook = doc;
-        });
-    }
     // if we still failed to find an available Notebook, then warn and give up
-    if (currentNotebook === undefined) {
+    if (targetNotebook === undefined) {
         boostLogging.warn(
             'Missing open Boost Notebook. Please create or activate your Boost Notebook first');
         return;
     }
 
     // if the Notebook has unsaved changes, prompt user before erasing them
-    if (currentNotebook.isDirty &&
+    if (targetNotebook.isDirty &&
             // if there are multiple cells, or
-        (currentNotebook.cellCount > 1 ||
+        (targetNotebook.cellCount > 1 ||
             // unless there's only one cell and its the default Instructions (e.g. not code)
-        currentNotebook.cellCount === 1 && currentNotebook.cellAt(0).kind !== vscode.NotebookCellKind.Markup )) {
+        targetNotebook.cellCount === 1 && targetNotebook.cellAt(0).kind !== vscode.NotebookCellKind.Markup )) {
         const choice = await vscode.window.showInformationMessage(
             "The default Boost Notebook has unsaved data in it. If you proceed, that data will likely be lost. " +
             "Do you wish to proceed?", { "modal": true}, 'Yes', 'No');
@@ -302,11 +292,11 @@ async function parseFunctionsFromFile(fileUri : vscode.Uri) {
     }
 
     // get the range of the cells in the notebook
-    const range = new vscode.NotebookRange(0, currentNotebook.cellCount);
+    const range = new vscode.NotebookRange(0, targetNotebook.cellCount);
     const edit = new vscode.WorkspaceEdit();
     
     // Use .set to add one or more edits to the notebook
-    edit.set(currentNotebook.uri, [
+    edit.set(targetNotebook.uri, [
         // Create an edit that replaces all the cells in the notebook with new cells created from the file
         vscode.NotebookEdit.replaceCells(range, cells),
 
@@ -314,11 +304,11 @@ async function parseFunctionsFromFile(fileUri : vscode.Uri) {
     ]);
 
     let newMetadata = {
-        ...currentNotebook.metadata,
+        ...targetNotebook.metadata,
         sourceFile: fileUri.toString()};
 
     // store the source file on the notebook metadata, so we can use it for problems or reverse mapping
-    edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata(newMetadata)]);
+    edit.set(targetNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata(newMetadata)]);
     await vscode.workspace.applyEdit(edit);
 }
 
@@ -337,7 +327,50 @@ function registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext, 
                     uri = vscode.window.activeTextEditor?.document.uri;
                 }
             }
-            await parseFunctionsFromFile(uri);
+
+            let currentNotebook = vscode.window.activeNotebookEditor?.notebook;
+            // if there is no active notebook editor, we need to find it
+            // Note this only happens when using right-click in explorer or a non-Notebook active editor
+            if (currentNotebook === undefined) {
+                const boostNotebooks: vscode.NotebookDocument[] =
+                    vscode.workspace.notebookDocuments.filter(async (doc) => {
+                    // we're skipping non Boost notebooks
+                    return (doc.notebookType === NOTEBOOK_TYPE);
+                });
+
+                // if we have more than one notebook, we need to ask user which one to use
+                if (boostNotebooks.length > 1) {
+                    let notebookNames = boostNotebooks.map((doc) => {
+                        return path.basename(vscode.Uri.parse(doc.uri.toString()).fsPath);
+                    });
+
+                    // show the user a list of available notebooks
+                    const selectedOption = await vscode.window.showQuickPick(notebookNames, {
+                        canPickMany: false,
+                        placeHolder: 'Select a Boost Notebook to use'
+                    });
+                    // if user doesn't pick anything, then just give up
+                    if (!selectedOption) {
+                        return;
+                    }
+                    // otherwise find the notebook that matches the user's selection
+                    currentNotebook = boostNotebooks.find((doc) => {
+                        return path.basename(vscode.Uri.parse(doc.uri.toString()).fsPath) === selectedOption;
+                    });
+                }
+                else if (boostNotebooks.length === 1) {
+                    // if we only have one notebook, then just use that one
+                    currentNotebook = boostNotebooks[0];
+                }
+            }
+            // if we still failed to find an available Notebook, then warn and give up
+            if (currentNotebook === undefined) {
+                boostLogging.warn(
+                    'Missing open Boost Notebook. Please create or activate your Boost Notebook first');
+                return;
+            }
+
+            await parseFunctionsFromFile(uri, currentNotebook);
         });
     context.subscriptions.push(disposable);
 }
