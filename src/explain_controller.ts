@@ -30,4 +30,9 @@ export class BoostExplainKernel extends KernelControllerBase {
     onKernelOutputItem(response: any, mimetype : any): string {
         return "### Boost Code Explanation\n" + response.explanation;
     }
+
+    localizeError(error: Error): Error {
+        error.message = "Boost Code Explanation failed: " + error.message;
+        return error;
+    }
 }

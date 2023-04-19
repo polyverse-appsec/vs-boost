@@ -29,4 +29,9 @@ export class BoostAnalyzeKernel extends KernelControllerBase {
     onKernelOutputItem(response: any): string {
         return "### Boost Code Analysis\n" + response.analysis;
     }
+
+    localizeError(error: Error): Error {
+        error.message = "Boost Code Analysis failed: " + error.message;
+        return error;
+    }
 }

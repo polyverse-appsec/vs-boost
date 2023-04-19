@@ -156,7 +156,7 @@ export class KernelControllerBase {
             successfullyCompleted = false;
             this._updateCellOutput(
                 execution, cell,
-                vscode.NotebookCellOutputItem.error(err as Error),
+                vscode.NotebookCellOutputItem.error(this.localizeError(err as Error)),
                 err);
             boostLogging.error(`Error executing cell ${cell.document.uri.toString()}: ${(err as Error).message}`, false);
             this.addDiagnosticProblem(cell, err as Error);
@@ -166,6 +166,11 @@ export class KernelControllerBase {
         }
         return successfullyCompleted;
 	}
+
+    // allow derived classes to override the error - e.g. change the error message
+    localizeError(error: Error): Error {
+        return error;
+    }
 
     async onProcessServiceRequest(
         execution: vscode.NotebookCellExecution,
@@ -195,7 +200,7 @@ export class KernelControllerBase {
             successfullyCompleted?
             vscode.NotebookCellOutputItem.text(
                 this.onKernelOutputItem(response, cell, mimetype), mimetype.str):
-            vscode.NotebookCellOutputItem.error(serviceError as Error);
+            vscode.NotebookCellOutputItem.error(this.localizeError(serviceError as Error));
 
         this._updateCellOutput(execution, cell, outputItem, serviceError);
         if (!successfullyCompleted) {

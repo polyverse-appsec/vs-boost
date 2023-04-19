@@ -30,4 +30,9 @@ export class BoostCodeGuidelinesKernel extends KernelControllerBase {
     onKernelOutputItem(response: any, mimetype : any): string {
         return "### Boost Code Guidelines Analysis\n" + response.analysis;
     }
+
+    localizeError(error: Error): Error {
+        error.message = "Boost Code Guidelines Analysis failed: " + error.message;
+        return error;
+    }
 }

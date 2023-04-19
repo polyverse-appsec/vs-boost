@@ -104,4 +104,9 @@ export class BoostConvertKernel extends KernelControllerBase {
         }
         return true;
     }
+
+    localizeError(error: Error): Error {
+        error.message = "Boost Code Conversion failed: " + error.message;
+        return error;
+    }
 }

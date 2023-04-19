@@ -6,9 +6,10 @@ Polyverse Boost Automatic Application Modernization
 ## Version 0.9.3: April 24, 2023
 
 ### New Features
-- Added support for analyzing source for best practices, coding guidelines, and recommendations
+- Added support for evaluating source for best practices, coding guidelines, and recommendations
 
 ### Enhancements
+- Errors during Boost processing now explicitly show the Kernel used in the message
 
 ### Bug Fixes
 
