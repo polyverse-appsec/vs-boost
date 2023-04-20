@@ -17,6 +17,7 @@ import { TextDecoder, TextEncoder } from 'util';
 import * as fs from 'fs';
 import * as path from 'path';
 import { GlobPattern } from 'vscode';
+import { Serializer } from 'v8';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 
@@ -263,6 +264,14 @@ function getBoostNotebookFile(sourceFile : vscode.Uri) : vscode.Uri {
 }
 
 async function createNotebookFromSourceFile(sourceFile : vscode.Uri, overwriteIfExists : boolean = true) : Promise<vscode.NotebookDocument> {
+
+    const notebookPath = getBoostNotebookFile(sourceFile);
+    const fileExists = fs.existsSync(notebookPath.fsPath);
+    if (fileExists && !overwriteIfExists) {
+        boostLogging.error(`Boost Notebook file already exists. Please delete the file and try again.\n  ${notebookPath.fsPath}`);
+        return Promise.reject(`Boost Notebook file already exists. Please delete the file and try again.\n  ${notebookPath.fsPath}`);
+    }
+
     const data = new vscode.NotebookData([]);
     const newNotebook = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, data);
 
@@ -283,13 +292,10 @@ async function createNotebookFromSourceFile(sourceFile : vscode.Uri, overwriteIf
     });
     */
 
-    const notebookPath = getBoostNotebookFile(sourceFile);
-
     // await vscode.window.showNotebookDocument(newNotebook, { preview: false, preserveFocus: false });
 
     // Save the notebook to disk
-//    await newNotebook.save();
-    const notebookData = new TextEncoder().encode(JSON.stringify(newNotebook));
+    const notebookData = await (new BoostContentSerializer()).serializeNotebookFromDoc(newNotebook);
     await vscode.workspace.fs.writeFile(notebookPath, notebookData);
     return newNotebook;
 }
