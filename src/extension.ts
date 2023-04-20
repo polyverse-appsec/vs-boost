@@ -89,6 +89,8 @@ export function activate(context: vscode.ExtensionContext) {
 
     registerFileRightClickAnalyzeCommand(context);
 
+    registerFolderRightClickAnalyzeCommand(context);
+    
     boostLogging.log('Activated Boost Notebook Extension');
     boostLogging.info('Polyverse Boost Notebook Extension is now active');
 
@@ -351,6 +353,40 @@ async function parseFunctionsFromFile(fileUri : vscode.Uri, targetNotebook : vsc
     await vscode.workspace.applyEdit(edit);
 }
 
+
+function registerFolderRightClickAnalyzeCommand(context: vscode.ExtensionContext, ) {
+
+    const disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.processCurrentFolder',
+        async (uri: vscode.Uri) => {
+            let targetFolder : string;
+            // if we don't have a folder selected, then the user didn't right click
+            //      so we need to use the workspace folder
+            if (uri === undefined) {
+                if (vscode.workspace.workspaceFolders === undefined) {
+                    boostLogging.warn(
+                        'Unable to find Workspace Folder. Please open a Project or Folder first');
+                    return;
+                }
+
+                // use first folder in workspace
+                targetFolder = vscode.workspace.workspaceFolders[0].uri.toString();
+            }
+            else {
+                targetFolder = uri.toString();
+            }
+
+            let files = await vscode.workspace.findFiles(new vscode.RelativePattern(targetFolder, '**/*.*'));
+                
+            boostLogging.debug("Found " + files.length + " files in folder: " + targetFolder);
+            files.forEach((file) => {
+                boostLogging.debug("(Simulating) Boosting file: " + files[0].toString());
+                // createNotebookFromSourceFile(vscode.Uri.file(targetFolder));
+            });
+
+        });
+    context.subscriptions.push(disposable);
+}
+
 function registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext, ) {
 
     const disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.processCurrentFile',
@@ -359,7 +395,7 @@ function registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext, 
             //      so we need to find the current active editor, if its available
             if (uri === undefined) {
                 if (vscode.window.activeTextEditor === undefined) {
-                    boostLogging.warn("Unable to identify an active file to analyze.");
+                    boostLogging.warn("Unable to identify an active file to Boost.");
                     return;
                 }
                 else {
