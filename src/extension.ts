@@ -236,16 +236,55 @@ function registerOpenCodeFile(context: vscode.ExtensionContext) {
 	}));	
 }
 
-async function createNotebookFromSourceFile(fileUri : vscode.Uri) : Promise<vscode.NotebookDocument> {
+function getBoostNotebookFile(sourceFile : vscode.Uri) : vscode.Uri {
+    // if we don't have a workspace folder, just place the Boost file in a new Boostdir - next to the source file
+
+    let boostFolder;
+    if (!vscode.workspace.workspaceFolders) {
+        boostFolder = path.dirname(sourceFile.toString());
+
+    }
+    else {
+        const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder
+        boostFolder = workspaceFolder.uri.fsPath;
+    }
+    // create the .boost folder if we need to
+    boostFolder = path.join(boostFolder, BoostConfiguration.defaultDir);
+    fs.mkdirSync(boostFolder, { recursive: true });
+
+    let boostNotebookFile = vscode.Uri.file(path.join(boostFolder, path.basename(sourceFile.toString()) + '.boost'));
+    return boostNotebookFile;
+}
+
+async function createNotebookFromSourceFile(sourceFile : vscode.Uri, overwriteIfExists : boolean = true) : Promise<vscode.NotebookDocument> {
     const data = new vscode.NotebookData([]);
-    const doc = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, data);
-    await parseFunctionsFromFile(fileUri, doc);
+    const newNotebook = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, data);
+
+    // const existingNotebook = await vscode.workspace.openNotebookDocument('myNotebook.ipynb');
+
+    // load/parse source file into new notebook
+    await parseFunctionsFromFile(sourceFile, newNotebook);
 
     // Serialize notebook to .boost file
-    const notebookJSON = JSON.stringify(doc);
-    const notebookPath = fileUri.fsPath + '.boost';
-    fs.writeFileSync(notebookPath, notebookJSON);
-    return doc;
+    /* const notebook = vscode.notebook.createNotebookDocument('notebook', vscode.NotebookCellsChangeKind.Unknown, []);
+    const uri = vscode.Uri.file('/path/to/notebook.ipynb');
+    const fileExists = fs.existsSync(uri.fsPath);
+    if (!fileExists) {
+        fs.writeFileSync(uri.fsPath, '');
+    }
+    vscode.workspace.fs.writeFile(uri, Buffer.from(JSON.stringify(notebook)), { create: true, overwrite: true }).then(() => {
+        vscode.commands.executeCommand('workbench.action.closeActiveEditor');
+    });
+    */
+
+    const notebookPath = getBoostNotebookFile(sourceFile);
+
+    await vscode.window.showNotebookDocument(newNotebook, { preview: false, preserveFocus: false });
+
+    // Save the notebook to disk
+    await newNotebook.save();
+
+    return newNotebook;
 }
 
 async function parseFunctionsFromFile(fileUri : vscode.Uri, targetNotebook : vscode.NotebookDocument) {
