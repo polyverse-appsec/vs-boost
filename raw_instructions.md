@@ -10,7 +10,7 @@ Welcome to the Polyverse Boost Visual Studio extension! Boost is a powerful Visu
 ### Prerequisites
 1. **Setup your Boost License** by contacting [Polyverse](https://polyverse.com/pages/boost-visual-studio) to get a free trial license key, or purchase a license key directly from the [Polyverse Store](https://polyverse.com/pages/boost-buy-visual-studio).
 
-2. **Setup a [GitHub.com[(https://GitHub.com) account** - to link your Polyverse license to your email address.
+2. **Setup a [GitHub.com](https://GitHub.com) account** - to link your Polyverse license to your email address.
 
 ### Installation
 1. **Install the Boost Modernization extension** from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Polyverse.polyverse-boost). NOTE: A restart of Visual Studio Code may be required.
