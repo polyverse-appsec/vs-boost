@@ -13,9 +13,10 @@ import instructions from './instructions.json';
 import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
 import { KernelControllerBase } from './base_controller';
-import { TextDecoder } from 'util';
+import { TextDecoder, TextEncoder } from 'util';
 import * as fs from 'fs';
 import * as path from 'path';
+import { GlobPattern } from 'vscode';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 
@@ -241,20 +242,23 @@ function registerOpenCodeFile(context: vscode.ExtensionContext) {
 function getBoostNotebookFile(sourceFile : vscode.Uri) : vscode.Uri {
     // if we don't have a workspace folder, just place the Boost file in a new Boostdir - next to the source file
 
-    let boostFolder;
+    let baseFolder;
     if (!vscode.workspace.workspaceFolders) {
-        boostFolder = path.dirname(sourceFile.toString());
-
+        baseFolder = path.dirname(sourceFile.toString());
     }
     else {
         const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder
-        boostFolder = workspaceFolder.uri.fsPath;
+        baseFolder = workspaceFolder.uri.fsPath;
     }
-    // create the .boost folder if we need to
-    boostFolder = path.join(boostFolder, BoostConfiguration.defaultDir);
+    // create the .boost folder if we need to - this is statically located in the workspace folder no matter which child folder is processed
+    const boostFolder = path.join(baseFolder, BoostConfiguration.defaultDir);
     fs.mkdirSync(boostFolder, { recursive: true });
 
-    let boostNotebookFile = vscode.Uri.file(path.join(boostFolder, path.basename(sourceFile.toString()) + '.boost'));
+    // get the distance from the workspace folder for the source file
+    const relativePath = path.relative(baseFolder,sourceFile.fsPath);
+    // create the .boost file path, from the new boost folder + amended relative source file path
+    const absoluteBoostNotebookFile = path.join(boostFolder, relativePath + '.boost');
+    let boostNotebookFile = vscode.Uri.file(absoluteBoostNotebookFile);
     return boostNotebookFile;
 }
 
@@ -281,11 +285,12 @@ async function createNotebookFromSourceFile(sourceFile : vscode.Uri, overwriteIf
 
     const notebookPath = getBoostNotebookFile(sourceFile);
 
-    await vscode.window.showNotebookDocument(newNotebook, { preview: false, preserveFocus: false });
+    // await vscode.window.showNotebookDocument(newNotebook, { preview: false, preserveFocus: false });
 
     // Save the notebook to disk
-    await newNotebook.save();
-
+//    await newNotebook.save();
+    const notebookData = new TextEncoder().encode(JSON.stringify(newNotebook));
+    await vscode.workspace.fs.writeFile(notebookPath, notebookData);
     return newNotebook;
 }
 
@@ -358,7 +363,7 @@ function registerFolderRightClickAnalyzeCommand(context: vscode.ExtensionContext
 
     const disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.processCurrentFolder',
         async (uri: vscode.Uri) => {
-            let targetFolder : string;
+            let targetFolder : vscode.Uri;
             // if we don't have a folder selected, then the user didn't right click
             //      so we need to use the workspace folder
             if (uri === undefined) {
@@ -369,18 +374,32 @@ function registerFolderRightClickAnalyzeCommand(context: vscode.ExtensionContext
                 }
 
                 // use first folder in workspace
-                targetFolder = vscode.workspace.workspaceFolders[0].uri.toString();
+                targetFolder = vscode.workspace.workspaceFolders[0].uri;
+                boostLogging.debug("Analyzing Project Wide source files");
             }
             else {
-                targetFolder = uri.toString();
+                targetFolder = uri;
+                boostLogging.debug("Analyzing source files in folder: " + uri.toString());
             }
 
-            let files = await vscode.workspace.findFiles(new vscode.RelativePattern(targetFolder, '**/*.*'));
+            let baseWorkspace;
+            if (vscode.workspace.workspaceFolders) {
+                baseWorkspace = vscode.workspace.workspaceFolders![0].uri;
+            } else {
+                baseWorkspace = uri;
+            }
+            // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
+            let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*.*');
+            let ignorePattern = await _buildVSCodeIgnorePattern();
+            boostLogging.debug("Skipping source files of pattern: " + ignorePattern??"none");
+            let files = await vscode.workspace.findFiles(searchPattern, ignorePattern?new vscode.RelativePattern(targetFolder, ignorePattern):"");
+
                 
-            boostLogging.debug("Found " + files.length + " files in folder: " + targetFolder);
-            files.forEach((file) => {
-                boostLogging.debug("(Simulating) Boosting file: " + files[0].toString());
-                // createNotebookFromSourceFile(vscode.Uri.file(targetFolder));
+            boostLogging.debug("Analyzing " + files.length + " files in folder: " + targetFolder);
+            files.filter((file) => {
+                
+                boostLogging.debug("Boosting file: " + file.toString());
+                createNotebookFromSourceFile(file);
             });
 
         });
@@ -581,5 +600,27 @@ function newErrorFromItemData(data: Uint8Array) : Error {
     });
     
     return errorObject;
+}
+
+async function _buildVSCodeIgnorePattern(): Promise<string | undefined> {
+    let excludeFolder : vscode.Uri | undefined = vscode.workspace.workspaceFolders?.[0]?.uri;
+    // if no workspace root folder, bail
+    if (!excludeFolder) {
+        return undefined;
+    }
+    excludeFolder = vscode.Uri.joinPath(excludeFolder, ".vscodeignore");
+    // if no ignore file, bail
+    if (!fs.existsSync(excludeFolder.fsPath)) {
+        return undefined;
+    }
+
+    const data = await fs.promises.readFile(excludeFolder.fsPath);
+    const patterns = data.toString().split(/\r?\n/).filter((line) => {
+      return line.trim() !== '' && !line.startsWith('#');
+    });
+  
+    // const exclude = '{**/node_modules/**,**/bower_components/**}';
+    const excludePatterns = "{" + patterns.join(',') + "}";
+    return excludePatterns;
 }
 
