@@ -20,6 +20,7 @@ import { GlobPattern } from 'vscode';
 import { Serializer } from 'v8';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
+export const NOTEBOOK_EXTENSION = ".boost-notebook";
 
 export function activate(context: vscode.ExtensionContext) {
         // ensure logging is shutdown
@@ -258,7 +259,7 @@ function getBoostNotebookFile(sourceFile : vscode.Uri) : vscode.Uri {
     // get the distance from the workspace folder for the source file
     const relativePath = path.relative(baseFolder,sourceFile.fsPath);
     // create the .boost file path, from the new boost folder + amended relative source file path
-    const absoluteBoostNotebookFile = path.join(boostFolder, relativePath + '.boost');
+    const absoluteBoostNotebookFile = path.join(boostFolder, relativePath + NOTEBOOK_EXTENSION);
     let boostNotebookFile = vscode.Uri.file(absoluteBoostNotebookFile);
     return boostNotebookFile;
 }
@@ -273,7 +274,7 @@ async function createNotebookFromSourceFile(sourceFile : vscode.Uri, overwriteIf
     }
 
     const data = new vscode.NotebookData([]);
-    const newNotebook = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, data);
+    const newNotebook = await createEmptyNotebook();
 
     // const existingNotebook = await vscode.workspace.openNotebookDocument('myNotebook.ipynb');
 
@@ -628,5 +629,15 @@ async function _buildVSCodeIgnorePattern(): Promise<string | undefined> {
     // const exclude = '{**/node_modules/**,**/bower_components/**}';
     const excludePatterns = "{" + patterns.join(',') + "}";
     return excludePatterns;
+}
+
+async function createEmptyNotebook() : Promise<vscode.NotebookDocument> {
+    const notebookData: vscode.NotebookData = {
+        metadata: { defaultDir : BoostConfiguration.defaultDir},
+        cells: []
+    };
+
+    const doc = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, notebookData);
+    return doc;
 }
 
