@@ -18,6 +18,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { GlobPattern } from 'vscode';
 import { Serializer } from 'v8';
+import { BoostArchitectureBlueprintKernel } from './blueprint_controller';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 export const NOTEBOOK_EXTENSION = ".boost-notebook";
@@ -155,6 +156,8 @@ function setupNotebookEnvironment(
     kernelMap.set(complianceKernel.outputType, complianceKernel);
     let guidelinesKernel = new BoostCodeGuidelinesKernel(collection);
     kernelMap.set(guidelinesKernel.outputType, guidelinesKernel);
+    let blueprintKernel = new BoostArchitectureBlueprintKernel(collection);
+    kernelMap.set(blueprintKernel.outputType, blueprintKernel);
 
 	context.subscriptions.push(
 		vscode.workspace.registerNotebookSerializer(
@@ -165,7 +168,8 @@ function setupNotebookEnvironment(
         explainKernel,
         testgenKernel,
         complianceKernel,
-        guidelinesKernel
+        guidelinesKernel,
+        blueprintKernel
 	);
 
 	// get the defaults

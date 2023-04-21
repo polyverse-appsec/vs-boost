@@ -66,6 +66,10 @@ export class KernelControllerBase {
 			return;
 		}
 
+        this.executeAll(cells, notebook, session);
+	}
+
+    executeAll(cells: vscode.NotebookCell[], notebook: vscode.NotebookDocument, session : vscode.AuthenticationSession) {
         let successfullyCompleted = true;
         const promises = [];
         for (const cell of cells) {
@@ -77,7 +81,7 @@ export class KernelControllerBase {
 				return;
 			}
             promises.push(
-                this._doExecution(notebook, cell, session).then((result) => {
+                this.doExecution(notebook, cell, session).then((result) => {
                     if (!result) {
                         successfullyCompleted = false;
                     }
@@ -94,9 +98,9 @@ export class KernelControllerBase {
           }).catch((error) => {
             successfullyCompleted = false;
           });
-	}
+    }
 
-	private async _doExecution(
+	async doExecution(
         notebook : vscode.NotebookDocument,
         cell: vscode.NotebookCell,
         session : vscode.AuthenticationSession):
