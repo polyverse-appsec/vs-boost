@@ -9,8 +9,10 @@ Polyverse Boost Automatic Application Modernization
 - Added support for processing all files in a Project via Command menu "Boost Analysis from Folder"
 - Added support for processing multiple files in a Folder via Right-Click menu "Boost Analysis from Folder"
 - Added support for .boostignore file in workspace root to exclude files from processing (during Project/Folder processing)
+- Added support for Architectural Blueprint Summary report across functions and files
 
 ### Enhancements
+- Improved error messages on some network timeouts
 
 ### Bug Fixes
 
