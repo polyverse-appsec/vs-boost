@@ -3,10 +3,12 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 0.9.3: April 24, 2023
+## Version 0.9.4: April 24, 2023
 
 ### New Features
-- Added support for processing multiple files in a project or folder in parallel
+- Added support for processing all files in a Project via Command menu "Boost Analysis from Folder"
+- Added support for processing multiple files in a Folder via Right-Click menu "Boost Analysis from Folder"
+- Added support for .boostignore file in workspace root to exclude files from processing (during Project/Folder processing)
 
 ### Enhancements
 

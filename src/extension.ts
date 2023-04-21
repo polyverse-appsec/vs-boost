@@ -276,24 +276,8 @@ async function createNotebookFromSourceFile(sourceFile : vscode.Uri, overwriteIf
     const data = new vscode.NotebookData([]);
     const newNotebook = await createEmptyNotebook();
 
-    // const existingNotebook = await vscode.workspace.openNotebookDocument('myNotebook.ipynb');
-
     // load/parse source file into new notebook
     await parseFunctionsFromFile(sourceFile, newNotebook);
-
-    // Serialize notebook to .boost file
-    /* const notebook = vscode.notebook.createNotebookDocument('notebook', vscode.NotebookCellsChangeKind.Unknown, []);
-    const uri = vscode.Uri.file('/path/to/notebook.ipynb');
-    const fileExists = fs.existsSync(uri.fsPath);
-    if (!fileExists) {
-        fs.writeFileSync(uri.fsPath, '');
-    }
-    vscode.workspace.fs.writeFile(uri, Buffer.from(JSON.stringify(notebook)), { create: true, overwrite: true }).then(() => {
-        vscode.commands.executeCommand('workbench.action.closeActiveEditor');
-    });
-    */
-
-    // await vscode.window.showNotebookDocument(newNotebook, { preview: false, preserveFocus: false });
 
     // Save the notebook to disk
     const notebookData = await (new BoostContentSerializer()).serializeNotebookFromDoc(newNotebook);
@@ -403,16 +387,22 @@ function registerFolderRightClickAnalyzeCommand(context: vscode.ExtensionContext
                 
 
             boostLogging.debug("Analyzing " + files.length + " files in folder: " + targetFolder);
-            let newNotebooks : any [] = [];
+            let newNotebookWaits : any [] = [];
             files.filter(async (file) => {
                 
                 boostLogging.debug("Boosting file: " + file.toString());
-                let newNotebook = await createNotebookFromSourceFile(file);
-                newNotebooks.push(newNotebook);
+                newNotebookWaits.push(createNotebookFromSourceFile(file));
             });
             
-            newNotebooks.forEach(async (notebook : vscode.NotebookDocument) => {
-                boostLogging.warn("Notebook was left open: " + notebook.uri.toString(), false);
+            Promise.all(newNotebookWaits).then((createdNotebooks) => {
+                // we are generally creating one new notebook during this process, but in case, we de-dupe it
+                const newNotebooks = createdNotebooks.filter((value, index, self) => {
+                    return self.indexOf(value) === index;
+                  });
+                  newNotebooks.forEach(async (notebook : vscode.NotebookDocument) => {
+                    // we let user know the new scratch notebook was created
+                    boostLogging.warn("Scratch Notebook opened: " + notebook.uri.toString(), true);
+                });
             });
 
         });
@@ -616,24 +606,28 @@ function newErrorFromItemData(data: Uint8Array) : Error {
 }
 
 async function _buildVSCodeIgnorePattern(): Promise<string | undefined> {
-    let excludeFolder : vscode.Uri | undefined = vscode.workspace.workspaceFolders?.[0]?.uri;
+    let workspaceFolder : vscode.Uri | undefined = vscode.workspace.workspaceFolders?.[0]?.uri;
     // if no workspace root folder, bail
-    if (!excludeFolder) {
-        return undefined;
-    }
-    excludeFolder = vscode.Uri.joinPath(excludeFolder, ".vscodeignore");
-    // if no ignore file, bail
-    if (!fs.existsSync(excludeFolder.fsPath)) {
+    if (!workspaceFolder) {
         return undefined;
     }
 
-    const data = await fs.promises.readFile(excludeFolder.fsPath);
-    const patterns = data.toString().split(/\r?\n/).filter((line) => {
-      return line.trim() !== '' && !line.startsWith('#');
-    });
+    // read the .vscodeignore file
+    let vscignoreFile = vscode.Uri.joinPath(workspaceFolder, ".vscodeignore");
+    let patterns = await _extractIgnorePatternsFromFile(vscignoreFile.fsPath);
+
+    // add the contents of the .boostignore file
+    let boostignoreFile = vscode.Uri.joinPath(workspaceFolder, ".boostignore");
+    patterns = patterns.concat(await _extractIgnorePatternsFromFile(boostignoreFile.fsPath));
+
     // never include the .boost folder - since that's where we store our notebooks
     if (!patterns.find((pattern) => pattern === '**/.boost/**')) {
         patterns.push('**/.boost/**');
+    }
+
+    // never include the .boostignore file since that's where we store our ignore patterns
+    if (!patterns.find((pattern) => pattern === '**/.boostignore')) {
+        patterns.push('**/.boostignore');
     }
   
     // const exclude = '{**/node_modules/**,**/bower_components/**}';
@@ -641,11 +635,26 @@ async function _buildVSCodeIgnorePattern(): Promise<string | undefined> {
     return excludePatterns;
 }
 
+async function _extractIgnorePatternsFromFile(ignoreFile : string) : Promise<string[]> {
+    // if no ignore file, bail
+    if (!fs.existsSync(ignoreFile)) {
+        return [];
+    }
+
+    const data = await fs.promises.readFile(ignoreFile);
+    const patterns = data.toString().split(/\r?\n/).filter((line) => {
+      return line.trim() !== '' && !line.startsWith('#');
+    });
+    return patterns;
+}
+
 async function createEmptyNotebook() : Promise<vscode.NotebookDocument> {
     const notebookData: vscode.NotebookData = {
         metadata: { defaultDir : BoostConfiguration.defaultDir},
         cells: []
     };
+
+    // const existingNotebook = await vscode.workspace.openNotebookDocument('myNotebook.ipynb');
 
     const doc = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, notebookData);
     return doc;
