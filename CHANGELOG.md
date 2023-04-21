@@ -15,6 +15,7 @@ Polyverse Boost Automatic Application Modernization
 - Improved error messages on some network timeouts
 
 ### Bug Fixes
+- Enable support for processing Perl Module files (*.pm)
 
 ## Version 0.9.3: April 19, 2023
 
