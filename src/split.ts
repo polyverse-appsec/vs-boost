@@ -92,6 +92,7 @@ function getVSCodeLanguageId(filename: string): string {
         "ps1": "powershell",
         "pl": "perl",
         "pm": "perl",
+        "pod": "perl",
         "groovy": "groovy",
         "lua": "lua",
         "rs": "rust",
