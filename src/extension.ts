@@ -631,6 +631,10 @@ async function _buildVSCodeIgnorePattern(): Promise<string | undefined> {
     const patterns = data.toString().split(/\r?\n/).filter((line) => {
       return line.trim() !== '' && !line.startsWith('#');
     });
+    // never include the .boost folder - since that's where we store our notebooks
+    if (!patterns.find((pattern) => pattern === '**/.boost/**')) {
+        patterns.push('**/.boost/**');
+    }
   
     // const exclude = '{**/node_modules/**,**/bower_components/**}';
     const excludePatterns = "{" + patterns.join(',') + "}";
