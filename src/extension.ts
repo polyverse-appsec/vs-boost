@@ -273,8 +273,7 @@ async function createNotebookFromSourceFile(sourceFile : vscode.Uri, overwriteIf
         return Promise.reject(`Boost Notebook file already exists. Please delete the file and try again.\n  ${notebookPath.fsPath}`);
     }
 
-    const data = new vscode.NotebookData([]);
-    const newNotebook = await createEmptyNotebook();
+    const newNotebook = await createEmptyNotebook(notebookPath);
 
     // load/parse source file into new notebook
     await parseFunctionsFromFile(sourceFile, newNotebook);
@@ -648,15 +647,19 @@ async function _extractIgnorePatternsFromFile(ignoreFile : string) : Promise<str
     return patterns;
 }
 
-async function createEmptyNotebook() : Promise<vscode.NotebookDocument> {
+async function createEmptyNotebook(filename : vscode.Uri) : Promise<vscode.NotebookDocument> {
     const notebookData: vscode.NotebookData = {
         metadata: { defaultDir : BoostConfiguration.defaultDir},
         cells: []
     };
+    const dummmyToken = new vscode.CancellationTokenSource().token;
 
-    // const existingNotebook = await vscode.workspace.openNotebookDocument('myNotebook.ipynb');
+    const notebookBlob = await (new BoostContentSerializer()).serializeNotebook(notebookData, dummmyToken);
+    await vscode.workspace.fs.writeFile(filename, notebookBlob);
 
-    const doc = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, notebookData);
-    return doc;
+    const newNotebook = await vscode.workspace.openNotebookDocument(filename);
+
+    // const doc = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, notebookData);
+    return newNotebook;
 }
 
