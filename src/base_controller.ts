@@ -77,7 +77,7 @@ export class KernelControllerBase {
 				return;
 			}
             promises.push(
-                this._doExecution(cell, session).then((result) => {
+                this._doExecution(notebook, cell, session).then((result) => {
                     if (!result) {
                         successfullyCompleted = false;
                     }
@@ -96,7 +96,12 @@ export class KernelControllerBase {
           });
 	}
 
-	private async _doExecution(cell: vscode.NotebookCell, session : vscode.AuthenticationSession): Promise<boolean> {
+	private async _doExecution(
+        notebook : vscode.NotebookDocument,
+        cell: vscode.NotebookCell,
+        session : vscode.AuthenticationSession):
+            Promise<boolean> {
+
         // if not authorized, retry
         if (!session) {
 		    session = await this.doAuthorizationExecution();
@@ -118,7 +123,7 @@ export class KernelControllerBase {
         if (code.trim().length === 0) {
             return true;
         } else if (!cell.metadata.type) {
-            const reinitialized = await this.initializeMetaData(cell);
+            const reinitialized = await this.initializeMetaData(notebook, cell);
             if (!reinitialized) {
                 boostLogging.warn(`Unable to parse contents of Cell ${cell.document.uri.toString()}`);
                 return false;
@@ -306,19 +311,20 @@ export class KernelControllerBase {
         throw new Error("Not implemented");
     }
 
-    async initializeMetaData(cell: vscode.NotebookCell) : Promise<boolean> {
+    async initializeMetaData(
+        notebook : vscode.NotebookDocument,
+        cell: vscode.NotebookCell) : Promise<boolean> {
 
-        const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
-        if (currentNotebook === undefined) {
+        if (notebook === undefined) {
             return false;
         }
 
         const edit = new vscode.WorkspaceEdit();
         let foundCell = undefined;
         let i = 0;
-        for  (; i < currentNotebook.cellCount; i++) {
-            if (currentNotebook.cellAt(i) === cell) {
-                foundCell = currentNotebook.cellAt(i);
+        for  (; i < notebook.cellCount; i++) {
+            if (notebook.cellAt(i) === cell) {
+                foundCell = notebook.cellAt(i);
                 break;
             }
         }
@@ -328,7 +334,7 @@ export class KernelControllerBase {
         newCellData.metadata = {"id": i, "type": "originalCode"};
 
         // Use .set to add one or more edits to the notebook
-        edit.set(currentNotebook.uri, [
+        edit.set(notebook.uri, [
             
             // Create an edit that replaces this cell with the same cell + set metadata
             vscode.NotebookEdit.updateCellMetadata(i, newCellData.metadata)
@@ -339,7 +345,7 @@ export class KernelControllerBase {
         await vscode.workspace.applyEdit(edit);
 
         // Update the cell reference to the new cell from the replacement so the caller can use it
-        cell = currentNotebook.cellAt(i);
+        cell = notebook.cellAt(i);
         return true;
     }
 
