@@ -264,7 +264,10 @@ function getBoostNotebookFile(sourceFile : vscode.Uri) : vscode.Uri {
     return boostNotebookFile;
 }
 
-async function createNotebookFromSourceFile(sourceFile : vscode.Uri, overwriteIfExists : boolean = true) : Promise<vscode.NotebookDocument> {
+async function createNotebookFromSourceFile(
+    sourceFile : vscode.Uri,
+    overwriteIfExists : boolean = true,
+    existingNotebook : vscode.NotebookDocument | undefined = undefined) : Promise<vscode.NotebookDocument> {
 
     const notebookPath = getBoostNotebookFile(sourceFile);
     const fileExists = fs.existsSync(notebookPath.fsPath);
@@ -273,18 +276,32 @@ async function createNotebookFromSourceFile(sourceFile : vscode.Uri, overwriteIf
         return Promise.reject(`Boost Notebook file already exists. Please delete the file and try again.\n  ${notebookPath.fsPath}`);
     }
 
-    const newNotebook = await createEmptyNotebook(notebookPath);
+    var newNotebook : vscode.NotebookDocument;
+    if (BoostConfiguration.processFoldersInASingleNotebook) {
+        if (!existingNotebook) {
+            newNotebook = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, new vscode.NotebookData([]));
+        } else {
+            newNotebook = existingNotebook;
+        }
+    } else {
+        newNotebook = await createEmptyNotebook(notebookPath);
+    }
 
     // load/parse source file into new notebook
-    await parseFunctionsFromFile(sourceFile, newNotebook);
+    await parseFunctionsFromFile(sourceFile, newNotebook, BoostConfiguration.processFoldersInASingleNotebook);
 
-    // Save the notebook to disk
-    const notebookData = await (new BoostContentSerializer()).serializeNotebookFromDoc(newNotebook);
-    await vscode.workspace.fs.writeFile(notebookPath, notebookData);
+    if (!BoostConfiguration.processFoldersInASingleNotebook) {
+        // Save the notebook to disk
+        const notebookData = await (new BoostContentSerializer()).serializeNotebookFromDoc(newNotebook);
+        await vscode.workspace.fs.writeFile(notebookPath, notebookData);
+    }
     return newNotebook;
 }
 
-async function parseFunctionsFromFile(fileUri : vscode.Uri, targetNotebook : vscode.NotebookDocument) {
+async function parseFunctionsFromFile(
+    fileUri : vscode.Uri,
+    targetNotebook : vscode.NotebookDocument,
+    appendToExistingNotebook : boolean = false) {
 
     // Use the vscode.workspace.fs.readFile method to read the contents of the file
     const fileContents = await vscode.workspace.fs.readFile(fileUri);
@@ -314,7 +331,8 @@ async function parseFunctionsFromFile(fileUri : vscode.Uri, targetNotebook : vsc
     }
 
     // if the Notebook has unsaved changes, prompt user before erasing them
-    if (targetNotebook.isDirty &&
+    if (!appendToExistingNotebook &&
+        targetNotebook.isDirty &&
             // if there are multiple cells, or
         (targetNotebook.cellCount > 1 ||
             // unless there's only one cell and its the default Instructions (e.g. not code)
@@ -330,21 +348,31 @@ async function parseFunctionsFromFile(fileUri : vscode.Uri, targetNotebook : vsc
     // get the range of the cells in the notebook
     const range = new vscode.NotebookRange(0, targetNotebook.cellCount);
     const edit = new vscode.WorkspaceEdit();
-    
-    // Use .set to add one or more edits to the notebook
-    edit.set(targetNotebook.uri, [
-        // Create an edit that replaces all the cells in the notebook with new cells created from the file
-        vscode.NotebookEdit.replaceCells(range, cells),
 
-        // Additional notebook edits...
-    ]);
+    if (appendToExistingNotebook) {
+        // Use .set to add one or more edits to the notebook
+        edit.set(targetNotebook.uri, [
+            // Create an edit that replaces all the cells in the notebook with new cells created from the file
+            vscode.NotebookEdit.insertCells(targetNotebook.cellCount, cells),
 
-    let newMetadata = {
-        ...targetNotebook.metadata,
-        sourceFile: fileUri.toString()};
+            // Additional notebook edits...
+        ]);
+    } else {
+        // Use .set to add one or more edits to the notebook
+        edit.set(targetNotebook.uri, [
+            // Create an edit that replaces all the cells in the notebook with new cells created from the file
+            vscode.NotebookEdit.replaceCells(range, cells),
 
-    // store the source file on the notebook metadata, so we can use it for problems or reverse mapping
-    edit.set(targetNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata(newMetadata)]);
+            // Additional notebook edits...
+        ]);
+
+        let newMetadata = {
+            ...targetNotebook.metadata,
+            sourceFile: fileUri.toString()};
+
+        // store the source file on the notebook metadata, so we can use it for problems or reverse mapping
+        edit.set(targetNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata(newMetadata)]);
+    }
     await vscode.workspace.applyEdit(edit);
 }
 
@@ -384,25 +412,37 @@ function registerFolderRightClickAnalyzeCommand(context: vscode.ExtensionContext
             boostLogging.debug("Skipping source files of pattern: " + ignorePattern??"none");
             let files = await vscode.workspace.findFiles(searchPattern, ignorePattern?new vscode.RelativePattern(targetFolder, ignorePattern):"");
                 
-
             boostLogging.debug("Analyzing " + files.length + " files in folder: " + targetFolder);
-            let newNotebookWaits : any [] = [];
-            files.filter(async (file) => {
-                
-                boostLogging.debug("Boosting file: " + file.toString());
-                newNotebookWaits.push(createNotebookFromSourceFile(file));
-            });
-            
-            Promise.all(newNotebookWaits).then((createdNotebooks) => {
-                // we are generally creating one new notebook during this process, but in case, we de-dupe it
-                const newNotebooks = createdNotebooks.filter((value, index, self) => {
-                    return self.indexOf(value) === index;
-                  });
-                  newNotebooks.forEach(async (notebook : vscode.NotebookDocument) => {
+            if (BoostConfiguration.processFoldersInASingleNotebook) {
+                // we're going to create a single notebook for all the files
+                let newNotebook : vscode.NotebookDocument | undefined;
+                for (const file of files) {
+                    boostLogging.debug("Boosting file: " + file.toString());
+                    newNotebook = await createNotebookFromSourceFile(file, true, newNotebook);
+                }
+                if (newNotebook) {
                     // we let user know the new scratch notebook was created
-                    boostLogging.warn("Scratch Notebook opened: " + notebook.uri.toString(), true);
+                    boostLogging.warn("Scratch Notebook opened: " + newNotebook.uri.toString(), true);
+                }
+            } else {
+                let newNotebookWaits : any [] = [];
+                files.filter(async (file) => {
+                    
+                    boostLogging.debug("Boosting file: " + file.toString());
+                    newNotebookWaits.push(createNotebookFromSourceFile(file));
                 });
-            });
+                
+                Promise.all(newNotebookWaits).then((createdNotebooks) => {
+                    // we are generally creating one new notebook during this process, but in case, we de-dupe it
+                    const newNotebooks = createdNotebooks.filter((value, index, self) => {
+                        return self.indexOf(value) === index;
+                    });
+                    newNotebooks.forEach(async (notebook : vscode.NotebookDocument) => {
+                        // we let user know the new scratch notebook was created
+                        boostLogging.debug("Boost Notebook created: " + notebook.uri.toString());
+                    });
+                });
+            }
 
         });
     context.subscriptions.push(disposable);
@@ -659,7 +699,5 @@ async function createEmptyNotebook(filename : vscode.Uri) : Promise<vscode.Noteb
 
     const newNotebook = await vscode.workspace.openNotebookDocument(filename);
 
-    // const doc = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, notebookData);
     return newNotebook;
 }
-

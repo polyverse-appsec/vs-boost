@@ -37,6 +37,11 @@ export class BoostConfiguration {
         return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.useSourceFileForProblemsName)??
             Defaults.useSourceFileForProblemsValue;
     }
+
+    public static get processFoldersInASingleNotebook(): boolean {
+        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.processFoldersInASingleNotebookName)??
+            Defaults.processFoldersInASingleNotebookValue;
+    }
 }
 class Defaults {
     public static readonly defaultOutputLanguageName = "outputLanguage";
@@ -63,5 +68,8 @@ class Defaults {
     
     public static readonly serializationOfCellsContainingErrorsName = "serializationOfCellsContainingErrors";
     public static readonly serializationOfCellsContainingErrorsValue = true;
+    
+    public static readonly processFoldersInASingleNotebookName = "processFoldersInASingleNotebook";
+    public static readonly processFoldersInASingleNotebookValue = true;
 }
   
