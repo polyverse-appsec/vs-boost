@@ -400,13 +400,19 @@ function registerFolderRightClickAnalyzeCommand(context: vscode.ExtensionContext
             let ignorePattern = await _buildVSCodeIgnorePattern();
             boostLogging.debug("Skipping source files of pattern: " + ignorePattern??"none");
             let files = await vscode.workspace.findFiles(searchPattern, ignorePattern?new vscode.RelativePattern(targetFolder, ignorePattern):"");
-
                 
+
             boostLogging.debug("Analyzing " + files.length + " files in folder: " + targetFolder);
-            files.filter((file) => {
+            let newNotebooks : any [] = [];
+            files.filter(async (file) => {
                 
                 boostLogging.debug("Boosting file: " + file.toString());
-                createNotebookFromSourceFile(file);
+                let newNotebook = await createNotebookFromSourceFile(file);
+                newNotebooks.push(newNotebook);
+            });
+            
+            newNotebooks.forEach(async (notebook : vscode.NotebookDocument) => {
+                boostLogging.warn("Notebook was left open: " + notebook.uri.toString(), false);
             });
 
         });
