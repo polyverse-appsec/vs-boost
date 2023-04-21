@@ -287,6 +287,10 @@ export class KernelControllerBase {
                         return new Error(
                             "Boost code analysis service is currently unavailable. " +
                             "Please try your request again.");
+                    case 'ETIMEOUT': // connection timeout
+                        return new Error(
+                            "Boost code analysis service is currently unavailable due to network timeout. " +
+                            "Please try your request again.");
                     default:
                         throw err;
                 }
