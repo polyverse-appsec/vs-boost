@@ -83,7 +83,7 @@ export class BoostConvertKernel extends KernelControllerBase {
         let header = '';
         if(generatedCode.code.includes(markdownCodeMarker)){
             mimetypeCode = markdownMimetype;
-            header = '### Boost Converted Code\n';
+            header = `### Boost Converted Code\nLast Updated: ${this.currentDateTime}\n`;
         } 
 
         const outputItemsCode: vscode.NotebookCellOutputItem[] = [];

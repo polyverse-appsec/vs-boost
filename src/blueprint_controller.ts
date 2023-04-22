@@ -32,8 +32,8 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
 
     readonly kernelMarkdownPrefix = "### Boost Architectural Blueprint\n";
 
-    onKernelOutputItem(response: any, mimetype : any): string {
-        return this.kernelMarkdownPrefix + response.blueprint;
+    onKernelOutputItem(response: any): string {
+        return `${this.kernelMarkdownPrefix}\nLast Updated: ${this.currentDateTime}\n\n${response.blueprint}`;
     }
 
     localizeError(error: Error): Error {
@@ -79,13 +79,14 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
             const blueprintOutput = lastCell.outputs.find(output => {
                 return (blueprintCellMarker === output.metadata?.outputType);
             });
+
             if (!blueprintOutput || blueprintOutput.items.length !== 1) {
                 boostLogging.error(`Error building Architectural Blueprint; could not find blueprint on ${seedCell.document.uri.toString()}`);
                 return; // we failed seed, just bail
             }
             let blueprint = new TextDecoder().decode(blueprintOutput.items[0].data);
-            // strip the header off the blueprint
-            blueprint = blueprint.split(this.kernelMarkdownPrefix)[1];
+            // strip the header off the blueprint - its the 3rd line
+            blueprint = blueprint.split("\n", 3)[2];
             this._lastBlueprint = blueprint;
 
             // update the blueprint in other cells

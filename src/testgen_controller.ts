@@ -60,7 +60,7 @@ export class BoostTestgenKernel extends KernelControllerBase {
         //quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
         if(response.data.testcode.includes('```')){
             mimetype = 'text/markdown';
-            return '### Boost Test Generation\n' + response.data.testcode;
+            return `### Boost Test Generation\nLast Updated: ${this.currentDateTime}\n${response.data.testcode}`;
         }
         else {
             mimetype.str = 'text/x-' + outputLanguage;

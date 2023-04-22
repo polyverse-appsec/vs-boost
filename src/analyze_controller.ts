@@ -27,7 +27,7 @@ export class BoostAnalyzeKernel extends KernelControllerBase {
 	}
 
     onKernelOutputItem(response: any): string {
-        return "### Boost Code Analysis\n" + response.analysis;
+        return `### Boost Code Analysis\nLast Updated: ${this.currentDateTime}\n${response.analysis}`;
     }
 
     localizeError(error: Error): Error {

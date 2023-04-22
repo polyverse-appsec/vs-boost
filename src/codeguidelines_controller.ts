@@ -28,7 +28,7 @@ export class BoostCodeGuidelinesKernel extends KernelControllerBase {
     }
 
     onKernelOutputItem(response: any, mimetype : any): string {
-        return "### Boost Code Guidelines Analysis\n" + response.analysis;
+        return `### Boost Code Guidelines Evaluation\nLast Updated: ${this.currentDateTime}\n${response.analysis}`;
     }
 
     localizeError(error: Error): Error {
