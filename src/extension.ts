@@ -505,9 +505,9 @@ function registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext, 
             }
             // if we still failed to find an available Notebook, then warn and give up
             if (currentNotebook === undefined) {
+                currentNotebook = await createNotebookFromSourceFile(uri);
                 boostLogging.warn(
-                    'Missing open Boost Notebook. Please create or activate your Boost Notebook first');
-                return;
+                    `No active Notebook found. Created default Notebook for: ${uri.toString()}`);
             }
 
             await parseFunctionsFromFile(uri, currentNotebook);
