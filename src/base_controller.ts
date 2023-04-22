@@ -52,6 +52,19 @@ export class KernelControllerBase {
         throw new Error('serviceEndpoint not implemented');
     }
 
+    get currentDateTime() : string {
+        return new Date().toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            timeZoneName: 'short'
+            });
+    }
+
 	private async _executeAll(
         cells: vscode.NotebookCell[],
         notebook: vscode.NotebookDocument,
@@ -254,7 +267,11 @@ export class KernelControllerBase {
                 boostLogging.debug(`Injecting fault into service request for cell ${cell.document.uri.toString()} to ${serviceEndpoint}`);
                 await axios.get('https://serviceFaultInjection/synthetic/error/');
             }
-            return await this.onBoostServiceRequest(cell, serviceEndpoint, payload);
+            let result : any = await this.onBoostServiceRequest(cell, serviceEndpoint, payload);
+            if (result.error) { // if we have an error, throw it - this is generally happens with the local service shim
+                return new Error(`Boost Service failed with a network error: ${result.error}`);
+            }
+            return result;
         } catch (err : any) {
             if (err.response) {
                 switch (err.response.status) {
