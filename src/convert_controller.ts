@@ -27,16 +27,31 @@ export class BoostConvertKernel extends KernelControllerBase {
 	}
 
     public get serviceEndpoint(): string {
-        return BoostConfiguration.localServiceDebug?
-            'http://127.0.0.1:8000/generate':
-            'https://ukkqda6zl22nd752blcqlv3rum0ziwnq.lambda-url.us-west-2.on.aws/';
+        switch (BoostConfiguration.cloudServiceStage)
+        {
+            case "local":
+                return 'http://127.0.0.1:8000/generate';
+            case 'prod':
+                return 'https://vdcg2nzj2jtzmtzzcmfwbvg4ey0jxghj.lambda-url.us-west-2.on.aws/';
+            case 'dev':
+            default:
+                return 'https://ukkqda6zl22nd752blcqlv3rum0ziwnq.lambda-url.us-west-2.on.aws/';
+        }
     }
 
     get explainEndpoint(): string {
-        return BoostConfiguration.localServiceDebug?
-            'http://127.0.0.1:8000/explain':
-            'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
+        switch (BoostConfiguration.cloudServiceStage)
+        {
+            case "local":
+                return 'http://127.0.0.1:8000/explain';
+            case 'prod':
+                return 'https://vdcg2nzj2jtzmtzzcmfwbvg4ey0jxghj.lambda-url.us-west-2.on.aws/';
+            case 'dev':
+            default:
+                return 'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
+        }
     }
+
 
     async onProcessServiceRequest(
         execution: vscode.NotebookCellExecution,

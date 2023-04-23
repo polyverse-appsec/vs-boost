@@ -22,9 +22,16 @@ export class BoostCodeGuidelinesKernel extends KernelControllerBase {
 	}
 
     public get serviceEndpoint(): string {
-        return BoostConfiguration.localServiceDebug?
-            'http://127.0.0.1:8000/codeguidelines':
-            'https://4govp5ze7uyio3kjehtarpv24u0nabhw.lambda-url.us-west-2.on.aws/';
+        switch (BoostConfiguration.cloudServiceStage)
+        {
+            case "local":
+                return 'http://127.0.0.1:8000/codeguidelines';
+            case 'prod':
+                return 'https://ssmhqxozg6ixnk5abyhnezf5ya0seyby.lambda-url.us-west-2.on.aws/';
+            case 'dev':
+            default:
+                return 'https://4govp5ze7uyio3kjehtarpv24u0nabhw.lambda-url.us-west-2.on.aws/';
+        }
     }
 
     onKernelOutputItem(response: any, mimetype : any): string {

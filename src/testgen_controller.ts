@@ -23,10 +23,17 @@ export class BoostTestgenKernel extends KernelControllerBase {
 	}
 
     public get serviceEndpoint(): string {
-        return BoostConfiguration.localServiceDebug?
-            'http://127.0.0.1:8000/testgen':
-            'https://gylbelpkobvont6vpxp4ihw5fm0iwnto.lambda-url.us-west-2.on.aws/';
+        switch (BoostConfiguration.cloudServiceStage)
+        {
+            case "local":
+                return 'http://127.0.0.1:8000/testgen';
+            case 'prod':
+                return 'https://mqxkx5m7hehbskfvrcfwctbt7y0gghab.lambda-url.us-west-2.on.aws/';
+            case 'dev':
+            default:
+                return 'https://gylbelpkobvont6vpxp4ihw5fm0iwnto.lambda-url.us-west-2.on.aws/';
         }
+    }
 
     async onBoostServiceRequest(
         cell : vscode.NotebookCell,

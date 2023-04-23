@@ -18,9 +18,9 @@ export class BoostConfiguration {
         Defaults.testFrameworkValue;
     }
   
-    public static get localServiceDebug(): boolean {
-      return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.localServiceDebugName)??
-        Defaults.localServiceDebugValue;
+    public static get cloudServiceStage(): string {
+      return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.cloudServiceStageName)??
+        Defaults.cloudServiceStageValue;
     }
   
     public static get serviceFaultInjection(): number {
@@ -56,8 +56,8 @@ class Defaults {
     public static readonly defaultDirValue = ".boost";
 
     // specify true to use the local Boost service for debugging
-    public static readonly localServiceDebugName = "localServiceDebug";
-    public static readonly localServiceDebugValue = false;
+    public static readonly cloudServiceStageName = "cloudServiceStage";
+    public static readonly cloudServiceStageValue = "dev";
 
     // specify 0-100 for the % of service requests to randomly fail at runtime
     public static readonly serviceFaultInjectionName = "serviceFaultInjection";

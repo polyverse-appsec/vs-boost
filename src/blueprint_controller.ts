@@ -25,9 +25,16 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
 	}
 
     public get serviceEndpoint(): string {
-        return BoostConfiguration.localServiceDebug?
-            'http://127.0.0.1:8000/blueprint':
-            'https://67wxr6xq76bj5jiaoct5qjzble0wfmdt.lambda-url.us-west-2.on.aws/';
+        switch (BoostConfiguration.cloudServiceStage)
+        {
+            case "local":
+                return 'http://127.0.0.1:8000/blueprint';
+            case 'prod':
+                return 'https://hb34ftyxhjnd7jvxbmlsmddct40hvrni.lambda-url.us-west-2.on.aws/';
+            case 'dev':
+            default:
+                return 'https://67wxr6xq76bj5jiaoct5qjzble0wfmdt.lambda-url.us-west-2.on.aws/';
+        }
     }
 
     readonly kernelMarkdownPrefix = "### Boost Architectural Blueprint\n";

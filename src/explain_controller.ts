@@ -22,9 +22,16 @@ export class BoostExplainKernel extends KernelControllerBase {
 	}
 
     public get serviceEndpoint(): string {
-        return BoostConfiguration.localServiceDebug?
-            'http://127.0.0.1:8000/explain':
-            'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
+        switch (BoostConfiguration.cloudServiceStage)
+        {
+            case "local":
+                return 'http://127.0.0.1:8000/explain';
+            case 'prod':
+                return 'https://vdcg2nzj2jtzmtzzcmfwbvg4ey0jxghj.lambda-url.us-west-2.on.aws/';
+            case 'dev':
+            default:
+                return 'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
+        }
     }
 
     onKernelOutputItem(response: any, mimetype : any): string {
