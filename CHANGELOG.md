@@ -16,6 +16,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Bug Fixes
 - Enable support for processing Perl Module files (*.pm)
+- Fix issue where Compliance analysis results overwrote Explanation analysis results
 
 ## Version 0.9.3: April 19, 2023
 
