@@ -4,7 +4,7 @@ import {
 import { DiagnosticCollection } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 
-export const complianceCellMarker = 'explainCode';
+export const complianceCellMarker = 'complianceCode';
 
 export class BoostComplianceKernel extends KernelControllerBase {
 	constructor(collection: DiagnosticCollection) {
