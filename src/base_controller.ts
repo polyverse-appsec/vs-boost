@@ -213,6 +213,9 @@ export class KernelControllerBase {
         if (response instanceof Error) {
             successfullyCompleted = false;
             serviceError = response as Error;
+        } else if (response.data instanceof Error) {
+            successfullyCompleted = false;
+            serviceError = response.data as Error;
         }
 
         // we wrap mimeTypes in an object so that we can pass it by reference and change it
