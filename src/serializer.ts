@@ -83,9 +83,49 @@ export class BoostContentSerializer implements vscode.NotebookSerializer {
             return cellData;
         });
 
-        let newNotebookMetadata = new vscode.NotebookData(cells);
-        newNotebookMetadata.metadata = raw.metadata;
-        return newNotebookMetadata;
+        let newNotebookData = new vscode.NotebookData(cells);
+        newNotebookData.metadata = raw.metadata;
+        return newNotebookData;
+    }
+
+    public async serializeNotebookFromDoc(doc: vscode.NotebookDocument): Promise<Uint8Array> {
+        // Map the Notebook data into the format we want to save the Notebook data as
+        const contents: SerializedNotebook = { cells: [], metadata: doc.metadata};
+
+        for (const cell of doc.getCells()) {
+            if (!BoostConfiguration.serializationOfCellsContainingErrors)
+            {
+                // Check if any output item has an error mimeType
+                const hasErrorOutput = cell.outputs?.some(output =>
+                    output.items.some(outputItem =>
+                        outputItem.mime === 'application/vnd.code.notebook.error')
+                );
+
+                // Skip serialization if the cell has error outputs
+                if (hasErrorOutput) {
+                    continue;
+                }
+            }
+
+            contents.cells.push({
+                kind: cell.kind,
+                languageId: cell.document.languageId,
+                value: cell.document.getText(),
+                outputs: cell.outputs?.map(output => {
+                    const items = output.items.map(outputItem => ({
+                        mime: outputItem.mime,
+                        data: new TextDecoder().decode(outputItem.data),
+                    }));
+                    return { items, metadata: output.metadata };
+                }),
+                metadata: cell.metadata,
+            });
+        }
+
+        const ret = new TextEncoder().encode(JSON.stringify(contents, null, 4));
+        //convert from Uit8Array to string
+
+        return ret;
     }
 
     public async serializeNotebook(data: vscode.NotebookData, token: vscode.CancellationToken): Promise<Uint8Array> {
@@ -131,3 +171,4 @@ export class BoostContentSerializer implements vscode.NotebookSerializer {
         return ret;
     }
 }
+

@@ -18,9 +18,9 @@ export class BoostConfiguration {
         Defaults.testFrameworkValue;
     }
   
-    public static get localServiceDebug(): boolean {
-      return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.localServiceDebugName)??
-        Defaults.localServiceDebugValue;
+    public static get cloudServiceStage(): string {
+      return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.cloudServiceStageName)??
+        Defaults.cloudServiceStageValue;
     }
   
     public static get serviceFaultInjection(): number {
@@ -37,6 +37,11 @@ export class BoostConfiguration {
         return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.useSourceFileForProblemsName)??
             Defaults.useSourceFileForProblemsValue;
     }
+
+    public static get processFoldersInASingleNotebook(): boolean {
+        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.processFoldersInASingleNotebookName)??
+            Defaults.processFoldersInASingleNotebookValue;
+    }
 }
 class Defaults {
     public static readonly defaultOutputLanguageName = "outputLanguage";
@@ -51,8 +56,8 @@ class Defaults {
     public static readonly defaultDirValue = ".boost";
 
     // specify true to use the local Boost service for debugging
-    public static readonly localServiceDebugName = "localServiceDebug";
-    public static readonly localServiceDebugValue = false;
+    public static readonly cloudServiceStageName = "cloudServiceStage";
+    public static readonly cloudServiceStageValue = "dev";
 
     // specify 0-100 for the % of service requests to randomly fail at runtime
     public static readonly serviceFaultInjectionName = "serviceFaultInjection";
@@ -63,5 +68,8 @@ class Defaults {
     
     public static readonly serializationOfCellsContainingErrorsName = "serializationOfCellsContainingErrors";
     public static readonly serializationOfCellsContainingErrorsValue = true;
+    
+    public static readonly processFoldersInASingleNotebookName = "processFoldersInASingleNotebook";
+    public static readonly processFoldersInASingleNotebookValue = true;
 }
   

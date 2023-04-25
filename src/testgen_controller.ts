@@ -23,10 +23,20 @@ export class BoostTestgenKernel extends KernelControllerBase {
 	}
 
     public get serviceEndpoint(): string {
-        return BoostConfiguration.localServiceDebug?
-            'http://127.0.0.1:8000/testgen':
-            'https://gylbelpkobvont6vpxp4ihw5fm0iwnto.lambda-url.us-west-2.on.aws/';
+        switch (BoostConfiguration.cloudServiceStage)
+        {
+            case "local":
+                return 'http://127.0.0.1:8000/testgen';
+            case 'dev':
+                return 'https://gylbelpkobvont6vpxp4ihw5fm0iwnto.lambda-url.us-west-2.on.aws/';
+            case "test":
+                return 'https://j33g2yst4ntz5uzxrmvkafyq5q0iysxr.lambda-url.us-west-2.on.aws/';
+            case 'staging':
+            case 'prod':
+            default:
+                return 'https://mqxkx5m7hehbskfvrcfwctbt7y0gghab.lambda-url.us-west-2.on.aws/';
         }
+    }
 
     async onBoostServiceRequest(
         cell : vscode.NotebookCell,
@@ -60,7 +70,7 @@ export class BoostTestgenKernel extends KernelControllerBase {
         //quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
         if(response.data.testcode.includes('```')){
             mimetype = 'text/markdown';
-            return '### Boost Test Generation\n' + response.data.testcode;
+            return `### Boost Test Generation\n\nLast Updated: ${this.currentDateTime}\n\n${response.data.testcode}`;
         }
         else {
             mimetype.str = 'text/x-' + outputLanguage;

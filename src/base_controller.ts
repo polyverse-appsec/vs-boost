@@ -52,6 +52,19 @@ export class KernelControllerBase {
         throw new Error('serviceEndpoint not implemented');
     }
 
+    get currentDateTime() : string {
+        return new Date().toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            timeZoneName: 'short'
+            });
+    }
+
 	private async _executeAll(
         cells: vscode.NotebookCell[],
         notebook: vscode.NotebookDocument,
@@ -66,6 +79,10 @@ export class KernelControllerBase {
 			return;
 		}
 
+        this.executeAll(cells, notebook, session);
+	}
+
+    executeAll(cells: vscode.NotebookCell[], notebook: vscode.NotebookDocument, session : vscode.AuthenticationSession) {
         let successfullyCompleted = true;
         const promises = [];
         for (const cell of cells) {
@@ -77,7 +94,7 @@ export class KernelControllerBase {
 				return;
 			}
             promises.push(
-                this._doExecution(cell, session).then((result) => {
+                this.doExecution(notebook, cell, session).then((result) => {
                     if (!result) {
                         successfullyCompleted = false;
                     }
@@ -94,9 +111,14 @@ export class KernelControllerBase {
           }).catch((error) => {
             successfullyCompleted = false;
           });
-	}
+    }
 
-	private async _doExecution(cell: vscode.NotebookCell, session : vscode.AuthenticationSession): Promise<boolean> {
+	async doExecution(
+        notebook : vscode.NotebookDocument,
+        cell: vscode.NotebookCell,
+        session : vscode.AuthenticationSession):
+            Promise<boolean> {
+
         // if not authorized, retry
         if (!session) {
 		    session = await this.doAuthorizationExecution();
@@ -118,7 +140,7 @@ export class KernelControllerBase {
         if (code.trim().length === 0) {
             return true;
         } else if (!cell.metadata.type) {
-            const reinitialized = await this.initializeMetaData(cell);
+            const reinitialized = await this.initializeMetaData(notebook, cell);
             if (!reinitialized) {
                 boostLogging.warn(`Unable to parse contents of Cell ${cell.document.uri.toString()}`);
                 return false;
@@ -191,6 +213,9 @@ export class KernelControllerBase {
         if (response instanceof Error) {
             successfullyCompleted = false;
             serviceError = response as Error;
+        } else if (response.data instanceof Error) {
+            successfullyCompleted = false;
+            serviceError = response.data as Error;
         }
 
         // we wrap mimeTypes in an object so that we can pass it by reference and change it
@@ -245,11 +270,16 @@ export class KernelControllerBase {
                 boostLogging.debug(`Injecting fault into service request for cell ${cell.document.uri.toString()} to ${serviceEndpoint}`);
                 await axios.get('https://serviceFaultInjection/synthetic/error/');
             }
-            return await this.onBoostServiceRequest(cell, serviceEndpoint, payload);
+            let result : any = await this.onBoostServiceRequest(cell, serviceEndpoint, payload);
+            if (result.error) { // if we have an error, throw it - this is generally happens with the local service shim
+                return new Error(`Boost Service failed with a network error: ${result.error}`);
+            }
+            return result;
         } catch (err : any) {
             if (err.response) {
                 switch (err.response.status) {
                     case 400: // bad request - potential bad input from Boost extension or invalid source
+                    case 500: // internal server error, likely OpenAI timeout/issue
                         return new Error(
                             "Unable to process this source code. This can be caused by a temporary issue with the " +
                             "Boost Cloud Service, or by an issue in the source input. Please try again, and if the " +
@@ -260,7 +290,6 @@ export class KernelControllerBase {
                             "Unable to use your GitHub authorized account to access the Boost Cloud Service. " +
                             "Please check your GitHub account settings, and try again. Also note that your Polyverse " +
                             "license must use the same email address as your GitHub account.");
-                    case 500: // internal server error, likely OpenAI timeout/issue
                     case 502: // bad gateway, possible timeout
                         return new Error(
                             "Boost code analysis service is currently unavailable. " +
@@ -281,6 +310,10 @@ export class KernelControllerBase {
                     case 'ECONNRESET': // connection reset
                         return new Error(
                             "Boost code analysis service is currently unavailable. " +
+                            "Please try your request again.");
+                    case 'ETIMEOUT': // connection timeout
+                        return new Error(
+                            "Boost code analysis service is currently unavailable due to network timeout. " +
                             "Please try your request again.");
                     default:
                         throw err;
@@ -306,19 +339,20 @@ export class KernelControllerBase {
         throw new Error("Not implemented");
     }
 
-    async initializeMetaData(cell: vscode.NotebookCell) : Promise<boolean> {
+    async initializeMetaData(
+        notebook : vscode.NotebookDocument,
+        cell: vscode.NotebookCell) : Promise<boolean> {
 
-        const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
-        if (currentNotebook === undefined) {
+        if (notebook === undefined) {
             return false;
         }
 
         const edit = new vscode.WorkspaceEdit();
         let foundCell = undefined;
         let i = 0;
-        for  (; i < currentNotebook.cellCount; i++) {
-            if (currentNotebook.cellAt(i) === cell) {
-                foundCell = currentNotebook.cellAt(i);
+        for  (; i < notebook.cellCount; i++) {
+            if (notebook.cellAt(i) === cell) {
+                foundCell = notebook.cellAt(i);
                 break;
             }
         }
@@ -328,7 +362,7 @@ export class KernelControllerBase {
         newCellData.metadata = {"id": i, "type": "originalCode"};
 
         // Use .set to add one or more edits to the notebook
-        edit.set(currentNotebook.uri, [
+        edit.set(notebook.uri, [
             
             // Create an edit that replaces this cell with the same cell + set metadata
             vscode.NotebookEdit.updateCellMetadata(i, newCellData.metadata)
@@ -339,7 +373,7 @@ export class KernelControllerBase {
         await vscode.workspace.applyEdit(edit);
 
         // Update the cell reference to the new cell from the replacement so the caller can use it
-        cell = currentNotebook.cellAt(i);
+        cell = notebook.cellAt(i);
         return true;
     }
 

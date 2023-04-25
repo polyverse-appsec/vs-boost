@@ -27,16 +27,38 @@ export class BoostConvertKernel extends KernelControllerBase {
 	}
 
     public get serviceEndpoint(): string {
-        return BoostConfiguration.localServiceDebug?
-            'http://127.0.0.1:8000/generate':
-            'https://ukkqda6zl22nd752blcqlv3rum0ziwnq.lambda-url.us-west-2.on.aws/';
+        switch (BoostConfiguration.cloudServiceStage)
+        {
+            case "local":
+                return 'http://127.0.0.1:8000/generate';
+            case 'dev':
+                return 'https://ukkqda6zl22nd752blcqlv3rum0ziwnq.lambda-url.us-west-2.on.aws/';
+            case "test":
+                return 'https://oiymo4efmc2u52vyf3mygcwhre0xjpsd.lambda-url.us-west-2.on.aws/';
+            case 'staging':
+            case 'prod':
+            default:
+                return 'https://vdcg2nzj2jtzmtzzcmfwbvg4ey0jxghj.lambda-url.us-west-2.on.aws/';
+        }
     }
 
+    // NOTE: This code is duplicated in explain_controller.cs
     get explainEndpoint(): string {
-        return BoostConfiguration.localServiceDebug?
-            'http://127.0.0.1:8000/explain':
-            'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
+        switch (BoostConfiguration.cloudServiceStage)
+        {
+            case "local":
+                return 'http://127.0.0.1:8000/explain';
+            case 'dev':
+                return 'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
+            case "test":
+                return 'https://r5s6cjvc43jsrqdq3axrhrceya0cumft.lambda-url.us-west-2.on.aws/';
+            case 'staging':
+            case 'prod':
+            default:
+                return 'https://vdcg2nzj2jtzmtzzcmfwbvg4ey0jxghj.lambda-url.us-west-2.on.aws/';
+        }
     }
+
 
     async onProcessServiceRequest(
         execution: vscode.NotebookCellExecution,
@@ -51,7 +73,7 @@ export class BoostConvertKernel extends KernelControllerBase {
         const outputItems: vscode.NotebookCellOutputItem[] = [];
 
         const markdownMimetype = 'text/markdown';
-        outputItems.push(vscode.NotebookCellOutputItem.text("### Boost Code Explanation\n" + summarydata.explanation, markdownMimetype));
+        outputItems.push(vscode.NotebookCellOutputItem.text("### Boost Code Explanation\n\nLast Updated: ${this.currentDateTime}\n\n" + summarydata.explanation, markdownMimetype));
 
         // we will have one NotebookCellOutput per type of output.
         // first scan the existing outputs of the cell and see if we already have an output of this type
@@ -83,7 +105,7 @@ export class BoostConvertKernel extends KernelControllerBase {
         let header = '';
         if(generatedCode.code.includes(markdownCodeMarker)){
             mimetypeCode = markdownMimetype;
-            header = '### Boost Converted Code\n';
+            header = `### Boost Converted Code\n\nLast Updated: ${this.currentDateTime}\n\n`;
         } 
 
         const outputItemsCode: vscode.NotebookCellOutputItem[] = [];

@@ -2,16 +2,23 @@ Polyverse Boost Automatic Application Modernization
 ======================
 
 # Release Notes
+
 ## Version 0.9.4: April 24, 2023
 
 ### New Features
-- N/A
+- Added support for processing all files in a Project via Command menu "Boost Analysis from Folder"
+- Added support for processing multiple files in a Folder via Right-Click menu "Boost Analysis from Folder"
+- Added support for .boostignore file in workspace root to exclude files from processing (during Project/Folder processing)
+- Added support for Architectural Blueprint Summary report across functions and files
 
 ### Enhancements
 - Improved error messages on some network timeouts
+- Source Analysis (Data Compliance, Security Vulnerabilities, etc) include links to online web resources to additional education and background
+- Test Code Generation includes links to training material on recommended test design and test framework
 
 ### Bug Fixes
-- Enable support for processing Perl Module files (*.pm, *.pod)
+- Enable support for processing Perl Module files (*.pm)
+- Fix issue where Compliance analysis results overwrote Explanation analysis results
 
 ## Version 0.9.3: April 19, 2023
 
