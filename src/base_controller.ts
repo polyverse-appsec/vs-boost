@@ -279,6 +279,7 @@ export class KernelControllerBase {
             if (err.response) {
                 switch (err.response.status) {
                     case 400: // bad request - potential bad input from Boost extension or invalid source
+                    case 500: // internal server error, likely OpenAI timeout/issue
                         return new Error(
                             "Unable to process this source code. This can be caused by a temporary issue with the " +
                             "Boost Cloud Service, or by an issue in the source input. Please try again, and if the " +
@@ -289,7 +290,6 @@ export class KernelControllerBase {
                             "Unable to use your GitHub authorized account to access the Boost Cloud Service. " +
                             "Please check your GitHub account settings, and try again. Also note that your Polyverse " +
                             "license must use the same email address as your GitHub account.");
-                    case 500: // internal server error, likely OpenAI timeout/issue
                     case 502: // bad gateway, possible timeout
                         return new Error(
                             "Boost code analysis service is currently unavailable. " +
