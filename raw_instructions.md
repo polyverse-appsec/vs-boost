@@ -3,7 +3,7 @@
 
 **Transform, secure, and enhance your code with AI-driven analysis, all in one powerful extension - *Polyverse Boost*.**
 
-Welcome to the Polyverse Boost Visual Studio extension! Boost is a powerful Visual Studio Code Notebook extension designed to help you automatically convert your legacy code into a new programming language, analyze code for security vulnerabilities, find data compliance issues, ensure your source follows best practice coding guidelines, and generate test cases for code using AI-driven tools. In minutes you can take your legacy C, C++, C#, Java, .NET or PHP code (and many others) and convert it to over a dozen modern languages.
+Welcome to the Polyverse Boost Visual Studio extension! Boost is a powerful Visual Studio Code Notebook extension designed to help you modernize, enhance and sustain your software architecture and codebase - preserving the innovations you've invested in, and providing access to the latest technology (e.g. modern programming languages, Cloud services, containerization, microservice principles, and zero-trust code). Boost provides these services by analyzing your entire product codebase, including raw source code, comments and code documentation - and producing easily consumable Architectural Blueprints. Guided by your core Architecture, Boost will help you automatically convert your legacy code into a new programming language, analyze code for security vulnerabilities, find data and privacy compliance issues, ensure your source follows best practice coding guidelines, generate test cases for code using AI-driven tools. Operating on a stronger, more modern foundation - you can then add new features and solve your customer problems with confidence and faster innovation. Boost your Architecture and Productivity with Polyverse Boost and AI!
 
 ## Quick Start
 
@@ -29,10 +29,13 @@ Welcome to the Polyverse Boost Visual Studio extension! Boost is a powerful Visu
 
    ![Select Your Processing Task](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-26_at_5.52.28_PM.jpg?width=500)
   
-  * **Analyze Code for Bugs, Defects and Security Vulnerabilities** select `Analyze code for security vulnerabilities`
-  * **Modernize Code to a newer language** select `Convert Legacy Code to New Code`
-  * **Generate Test Cases** select `Generate Test Cases for code`
-  * **Generation Code Documentation** select `Explain code`
+    * **Build a Software Architecture Blueprint** select `Architectural Blueprint Code`
+    * **Analyze Code for Bugs, Defects and Security Vulnerabilities** select `Analyze code for security vulnerabilities`
+    * **Modernize Code to a newer language** select `Convert Legacy Code to New Code`
+    * **Generate Test Cases** select `Generate Test Cases for code`
+    * **Generation Code Documentation** select `Explain code`
+    * **Analyze Code for Data Compliance** select `Check Compliance`
+    * **Evaluate Code for Coding Guidelines** select `Evaluate Code Guidelines`
 
    ![Available Processing Tasks](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_10.26.59_PM.jpg?width=500)
 
@@ -48,6 +51,7 @@ Welcome to the Polyverse Boost Visual Studio extension! Boost is a powerful Visu
 
 
 8. **Review the Results**: Each Boost Notebook cell will contain the results of the AI-enhanced processing.
+  * **For Architectural Blueprints**, you can analyze all aspects of your code and project to product a high-level Architectural Blueprint.
   * **For Defect and Security Analysis**, you can edit the code in each Cell and re-run the analysis to see the results.
   * **For Data Compliance**, you can review the data compliance issues in each Cell, and learn more about how your code uses data.
   * **For Coding Guidelines**, you can review the analysis in each Cell to see how your code follows best practices, or differs from standard coding guidelines.
