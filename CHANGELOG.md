@@ -13,6 +13,8 @@ Polyverse Boost Automatic Application Modernization
 
 ### Enhancements
 - Improved error messages on some network timeouts
+- Source Analysis (Data Compliance, Security Vulnerabilities, etc) include links to online web resources to additional education and background
+- Test Code Generation includes links to training material on recommended test design and test framework
 
 ### Bug Fixes
 - Enable support for processing Perl Module files (*.pm)
