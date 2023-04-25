@@ -40,7 +40,7 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
     readonly kernelMarkdownPrefix = "### Boost Architectural Blueprint\n";
 
     onKernelOutputItem(response: any): string {
-        return `${this.kernelMarkdownPrefix}\nLast Updated: ${this.currentDateTime}\n\n${response.blueprint}`;
+        return `${this.kernelMarkdownPrefix}\n\nLast Updated: ${this.currentDateTime}\n\n${response.blueprint}`;
     }
 
     localizeError(error: Error): Error {

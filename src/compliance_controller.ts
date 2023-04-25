@@ -35,7 +35,7 @@ export class BoostComplianceKernel extends KernelControllerBase {
     }
     
     onKernelOutputItem(response: any, mimetype : any): string {
-        return `### Boost Code Compliance Check\nLast Updated: ${this.currentDateTime}\n${response.analysis}`;
+        return `### Boost Code Compliance Check\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
     }
 
     localizeError(error: Error): Error {

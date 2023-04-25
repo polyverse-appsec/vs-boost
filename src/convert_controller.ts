@@ -66,7 +66,7 @@ export class BoostConvertKernel extends KernelControllerBase {
         const outputItems: vscode.NotebookCellOutputItem[] = [];
 
         const markdownMimetype = 'text/markdown';
-        outputItems.push(vscode.NotebookCellOutputItem.text("### Boost Code Explanation\n" + summarydata.explanation, markdownMimetype));
+        outputItems.push(vscode.NotebookCellOutputItem.text("### Boost Code Explanation\n\nLast Updated: ${this.currentDateTime}\n\n" + summarydata.explanation, markdownMimetype));
 
         // we will have one NotebookCellOutput per type of output.
         // first scan the existing outputs of the cell and see if we already have an output of this type
@@ -98,7 +98,7 @@ export class BoostConvertKernel extends KernelControllerBase {
         let header = '';
         if(generatedCode.code.includes(markdownCodeMarker)){
             mimetypeCode = markdownMimetype;
-            header = `### Boost Converted Code\nLast Updated: ${this.currentDateTime}\n`;
+            header = `### Boost Converted Code\n\nLast Updated: ${this.currentDateTime}\n\n`;
         } 
 
         const outputItemsCode: vscode.NotebookCellOutputItem[] = [];
