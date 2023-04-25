@@ -63,7 +63,7 @@ Boost will create a detailed, step-by-step explanation of your code and break it
 
 ## Quick Start
 
-### Prequesites
+### Prerequisites
 1. **Setup your Boost License** by contacting [Polyverse](https://polyverse.com/pages/boost-visual-studio) to get a free trial license key, or purchase a license key directly from the [Polyverse Store](https://polyverse.com/pages/boost-buy-visual-studio).
 
 2. **Setup a [GitHub.com[(https://GitHub.com) account** - to link your Polyverse license to your email address.
