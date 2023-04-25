@@ -136,6 +136,13 @@ and add the following line:
 Or you can set the value to "dev" or "prod" or anything else for non-local.
 This takes effect immediately at runtime for all future calls - affecting ALL calls.
 
+Possible target service stages are:
+* local - runs the Boost Service API locally on your machine
+* dev - runs the Boost Service API in the dev environment - for individual dev features
+* test - runs the Boost Service API in the test environment - for wider testing across devs/features
+* staging - runs the Boost Service API in the staging environment - for full pre-deployment validation testing
+* prod - runs the Boost Service API in the prod environment - production service, default for customers
+
 Local service will use localhost port/IP address for the Boost Service API.
 This is useful if you are making changes to the Boost Service API and want to test the Client side local.
 Use the Boost lambda server.py shim for local service debugging

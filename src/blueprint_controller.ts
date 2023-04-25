@@ -29,11 +29,14 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
         {
             case "local":
                 return 'http://127.0.0.1:8000/blueprint';
-            case 'prod':
-                return 'https://hb34ftyxhjnd7jvxbmlsmddct40hvrni.lambda-url.us-west-2.on.aws/';
             case 'dev':
-            default:
                 return 'https://67wxr6xq76bj5jiaoct5qjzble0wfmdt.lambda-url.us-west-2.on.aws/';
+            case "test":
+                return 'https://igmvzc3rb3i7ftqm5ozzhpxa5m0xzuae.lambda-url.us-west-2.on.aws/';
+            case 'staging':
+            case 'prod':
+            default:
+                return 'https://hb34ftyxhjnd7jvxbmlsmddct40hvrni.lambda-url.us-west-2.on.aws/';
         }
     }
 

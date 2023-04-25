@@ -31,24 +31,31 @@ export class BoostConvertKernel extends KernelControllerBase {
         {
             case "local":
                 return 'http://127.0.0.1:8000/generate';
-            case 'prod':
-                return 'https://vdcg2nzj2jtzmtzzcmfwbvg4ey0jxghj.lambda-url.us-west-2.on.aws/';
             case 'dev':
-            default:
                 return 'https://ukkqda6zl22nd752blcqlv3rum0ziwnq.lambda-url.us-west-2.on.aws/';
+            case "test":
+                return 'https://oiymo4efmc2u52vyf3mygcwhre0xjpsd.lambda-url.us-west-2.on.aws/';
+            case 'staging':
+            case 'prod':
+            default:
+                return 'https://vdcg2nzj2jtzmtzzcmfwbvg4ey0jxghj.lambda-url.us-west-2.on.aws/';
         }
     }
 
+    // NOTE: This code is duplicated in explain_controller.cs
     get explainEndpoint(): string {
         switch (BoostConfiguration.cloudServiceStage)
         {
             case "local":
                 return 'http://127.0.0.1:8000/explain';
-            case 'prod':
-                return 'https://vdcg2nzj2jtzmtzzcmfwbvg4ey0jxghj.lambda-url.us-west-2.on.aws/';
             case 'dev':
-            default:
                 return 'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
+            case "test":
+                return 'https://r5s6cjvc43jsrqdq3axrhrceya0cumft.lambda-url.us-west-2.on.aws/';
+            case 'staging':
+            case 'prod':
+            default:
+                return 'https://vdcg2nzj2jtzmtzzcmfwbvg4ey0jxghj.lambda-url.us-west-2.on.aws/';
         }
     }
 

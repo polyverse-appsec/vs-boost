@@ -26,12 +26,16 @@ export class BoostComplianceKernel extends KernelControllerBase {
         {
             case "local":
                 return 'http://127.0.0.1:8000/compliance';
-            case 'prod':
-                return 'https://7vtdrtujboyw4ft7af7j2aimqi0wzwzd.lambda-url.us-west-2.on.aws/';
             case 'dev':
-            default:
                 return 'https://q57gtrfpkuzquelgqtnncpjwta0nngfx.lambda-url.us-west-2.on.aws/';
+            case "test":
+                return 'https://zqawwovxykxdvcofpgyosfg3fa0hmuxw.lambda-url.us-west-2.on.aws/';
+            case 'staging':
+            case 'prod':
+            default:
+                return 'https://7vtdrtujboyw4ft7af7j2aimqi0wzwzd.lambda-url.us-west-2.on.aws/';
         }
+        
     }
     
     onKernelOutputItem(response: any, mimetype : any): string {
