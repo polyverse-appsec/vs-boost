@@ -19,6 +19,7 @@ import * as path from 'path';
 import { GlobPattern } from 'vscode';
 import { Serializer } from 'v8';
 import { BoostArchitectureBlueprintKernel } from './blueprint_controller';
+import { registerCustomerPortalCommand } from './portal';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 export const NOTEBOOK_EXTENSION = ".boost-notebook";
@@ -94,6 +95,8 @@ export function activate(context: vscode.ExtensionContext) {
     registerFileRightClickAnalyzeCommand(context);
 
     registerFolderRightClickAnalyzeCommand(context);
+
+    registerCustomerPortalCommand(context);
     
     boostLogging.log('Activated Boost Notebook Extension');
     boostLogging.info('Polyverse Boost Notebook Extension is now active');

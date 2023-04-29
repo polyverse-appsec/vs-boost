@@ -378,14 +378,7 @@ export class KernelControllerBase {
     }
 
     async doAuthorizationExecution(): Promise<vscode.AuthenticationSession> {
-        const GITHUB_AUTH_PROVIDER_ID = 'github';
-        // The GitHub Authentication Provider accepts the scopes described here:
-        // https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/
-        const SCOPES = ['user:email'];
-
-        const session = await vscode.authentication.getSession(GITHUB_AUTH_PROVIDER_ID, SCOPES, { createIfNone: true });
-
-        return session;
+        return fetchGithubSession();
     }
 
     public deserializeErrorAsProblems(cell: vscode.NotebookCell, error: Error) {
@@ -456,4 +449,15 @@ export class KernelControllerBase {
                 ]:undefined
         }]);
     }
+}
+
+export async function fetchGithubSession(): Promise<vscode.AuthenticationSession> {
+    const GITHUB_AUTH_PROVIDER_ID = 'github';
+    // The GitHub Authentication Provider accepts the scopes described here:
+    // https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/
+    const SCOPES = ['user:email'];
+
+    const session = await vscode.authentication.getSession(GITHUB_AUTH_PROVIDER_ID, SCOPES, { createIfNone: true });
+
+    return session;
 }

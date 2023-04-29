@@ -49,6 +49,10 @@
     },
     "commands": [
       {
+        "command": "polyverse-boost-notebook.customerPortal",
+        "title": "Open Polyverse Boost Customer Portal"
+      },
+      {
         "command": "polyverse-boost-notebook.createJsonNotebook",
         "title": "Create Polyverse Boost Notebook"
       },
