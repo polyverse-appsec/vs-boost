@@ -50,15 +50,15 @@
     "commands": [
       {
         "command": "polyverse-boost-notebook.customerPortal",
-        "title": "Open Polyverse Boost Customer Portal"
+        "title": "Polyverse Boost: Open Customer Portal"
       },
       {
         "command": "polyverse-boost-notebook.createJsonNotebook",
-        "title": "Create Polyverse Boost Notebook"
+        "title": "Polyverse Boost: Create Analysis Notebook"
       },
       {
         "command": "polyverse-boost-notebook.loadCodeFile",
-        "title": "Load File for Boost",
+        "title": "Polyverse Boost: Load File",
         "icon": "$(file-code)"
       },
       {
@@ -73,12 +73,12 @@
       },
       {
         "command": "polyverse-boost-notebook.processCurrentFile",
-        "title": "Boost Analysis from File",
+        "title": "Polyverse Boost: Analysis from File",
         "icon": "$(file)"
       },
       {
         "command": "polyverse-boost-notebook.processCurrentFolder",
-        "title": "Boost Analysis from Folder",
+        "title": "Polyverse Boost: Analysis from Folder",
         "icon": "$(folder)"
       }
     ],
