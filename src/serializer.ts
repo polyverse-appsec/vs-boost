@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { TextDecoder, TextEncoder } from 'util';
 import { boostLogging } from './boostLogging';
 import { BoostConfiguration } from './boostConfiguration';
-
+import * as boostnb from './jupyter_notebook';
 /**
  * An ultra-minimal sample provider that lets the user type in JSON, and then
  * outputs JSON cells. The outputs are transient and not saved to notebook file on disk.
@@ -16,34 +16,11 @@ interface RawNotebookData {
 interface RawNotebookCell {
 	languageId: string;
 	value: string;
-	kind: vscode.NotebookCellKind;
+	kind: boostnb.NotebookCellKind;
 	editable?: boolean;
-	outputs?: vscode.NotebookCellOutput[];
+	outputs?: boostnb.SerializedNotebookCellOutput[];
 	metadata?: any;
 }
-
-interface SerializedNotebookCellOutput {
-	items: {
-		mime: string;
-		data: string;
-	}[];
-	metadata?: any;
-}
-
-interface SerializedNotebookCell {
-    languageId: string;
-    value: string;
-    kind: vscode.NotebookCellKind;
-    editable?: boolean;
-    outputs?: SerializedNotebookCellOutput[];
-    metadata?: any;
-}
-
-interface SerializedNotebook {
-	cells: SerializedNotebookCell[]
-    metadata?: any;
-}
-
 
 export class BoostContentSerializer implements vscode.NotebookSerializer {
 
@@ -72,7 +49,7 @@ export class BoostContentSerializer implements vscode.NotebookSerializer {
                 item.value,
                 item.languageId
             );
-            cellData.outputs = (item.outputs ?? []).map((output: vscode.NotebookCellOutput) => {
+            cellData.outputs = (item.outputs ?? []).map((output: boostnb.SerializedNotebookCellOutput) => {
                 const outputItems = output.items.map((outputItem: any) => {
                     return new vscode.NotebookCellOutputItem(
                         new TextEncoder().encode(outputItem.data), outputItem.mime);
@@ -90,7 +67,7 @@ export class BoostContentSerializer implements vscode.NotebookSerializer {
 
     public async serializeNotebookFromDoc(doc: vscode.NotebookDocument): Promise<Uint8Array> {
         // Map the Notebook data into the format we want to save the Notebook data as
-        const contents: SerializedNotebook = { cells: [], metadata: doc.metadata};
+        const contents: boostnb.SerializedNotebook = { cells: [], metadata: doc.metadata};
 
         for (const cell of doc.getCells()) {
             if (!BoostConfiguration.serializationOfCellsContainingErrors)
@@ -130,7 +107,7 @@ export class BoostContentSerializer implements vscode.NotebookSerializer {
 
     public async serializeNotebook(data: vscode.NotebookData, token: vscode.CancellationToken): Promise<Uint8Array> {
         // Map the Notebook data into the format we want to save the Notebook data as
-        const contents: SerializedNotebook = { cells: [], metadata: data.metadata};
+        const contents: boostnb.SerializedNotebook = { cells: [], metadata: data.metadata};
 
         for (const cell of data.cells) {
             if (!BoostConfiguration.serializationOfCellsContainingErrors)
