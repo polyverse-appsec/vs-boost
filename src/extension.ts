@@ -12,7 +12,7 @@ import { parseFunctions } from './split';
 import instructions from './instructions.json';
 import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
-import { KernelControllerBase } from './base_controller';
+import { KernelControllerBase, fetchOrganizations } from './base_controller';
 import { TextDecoder, TextEncoder } from 'util';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -33,7 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     let result = _setupDiagnosticProblems(context);
 
-    const [selectOutputLanguageButton, selectTestFramework] =
+    const [selectOutputLanguageButton, selectTestFramework, selectOrgnanizationButton] =
         setupNotebookEnvironment(context, result.problems, result.map);
 
     registerCreateNotebookCommand(context, result.problems);
@@ -63,6 +63,36 @@ export function activate(context: vscode.ExtensionContext) {
                 "Boost: Conversion Output Language is " + language;
 		}
 	}));
+
+    // register the select organiation command
+    context.subscriptions.push(vscode.commands.registerCommand(
+        NOTEBOOK_TYPE + '.selectOrganization', async () => {
+        
+        // first, fetch the organizations from the portal
+        const orgs = await fetchOrganizations();
+        // Use the vscode.window.showQuickPick method to let the user select a language
+        
+        const organization = await vscode.window.showQuickPick(
+            orgs, {
+            canPickMany: false,
+            placeHolder: 'Select an organization'
+        });
+        //put the language in the metadata
+        const editor = vscode.window.activeNotebookEditor;
+        const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
+		if (currentNotebook) {
+			const edit = new vscode.WorkspaceEdit();
+			edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({
+                organization: organization})]);
+			await vscode.workspace.applyEdit(edit);
+
+			//now update the status bar item
+			selectOrgnanizationButton.text =
+                "Boost: Organization is " + organization;
+		} 
+    }));
+
+
 
 	// register the select framework command
 	context.subscriptions.push(vscode.commands.registerCommand(
@@ -193,7 +223,15 @@ function setupNotebookEnvironment(
 	selectTestFramework.command = NOTEBOOK_TYPE + '.selectTestFramework';
 	selectTestFramework.show();
 
-    return [selectOutputLanguageButton, selectTestFramework];
+    // Create a new status bar for the organization
+    const selectOrganizationButton = vscode.window.createStatusBarItem(
+        vscode.StatusBarAlignment.Left);
+    selectOrganizationButton.text = "Boost: Organization is " + "polyverse"; 
+    selectOrganizationButton.command = NOTEBOOK_TYPE + '.selectOrganization';
+    selectOrganizationButton.show();
+
+
+    return [selectOutputLanguageButton, selectTestFramework, selectOrganizationButton];
 }
 
 function registerOpenCodeFile(context: vscode.ExtensionContext) {
