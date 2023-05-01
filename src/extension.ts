@@ -238,8 +238,12 @@ function registerOpenCodeFile(context: vscode.ExtensionContext) {
             boostLogging.warn(
                 'Only one source file can be loaded at a time.');
         }
-    
-        await parseFunctionsFromFile(fileUri[0], notebookEditor.notebook);
+
+        try {
+            await parseFunctionsFromFile(fileUri[0], notebookEditor.notebook);
+        } catch (error) {
+            boostLogging.error(`Unable to Boost file:[${fileUri[0].fsPath.toString()} due to error:${error}`);
+        }
 
 	}));	
 }
@@ -280,6 +284,8 @@ async function createNotebookFromSourceFile(
         boostLogging.error(`Boost Notebook file already exists. Please delete the file and try again.\n  ${notebookPath.fsPath}`);
         return Promise.reject(`Boost Notebook file already exists. Please delete the file and try again.\n  ${notebookPath.fsPath}`);
     }
+
+    boostLogging.debug(`Boosting file: ${sourceFile.fsPath} as ${notebookPath.fsPath}`);
 
     var newNotebook : vscode.NotebookDocument | boostnb.BoostNotebook;
     if (BoostConfiguration.processFoldersInASingleNotebook) {
@@ -385,7 +391,7 @@ async function parseFunctionsFromFile(
             sourceFile: fileUri.toString()};
 
         if (targetNotebook instanceof boostnb.BoostNotebook) {
-            targetNotebook.replaceCells(cells);
+            targetNotebook.replaceCells(cells as boostnb.BoostNotebookCell[]);
         } else if (edit) {
             // Use .set to add one or more edits to the notebook
             edit.set(targetNotebook.uri, [
@@ -444,37 +450,45 @@ function registerFolderRightClickAnalyzeCommand(context: vscode.ExtensionContext
             let files = await vscode.workspace.findFiles(searchPattern, ignorePattern?new vscode.RelativePattern(targetFolder, ignorePattern):"");
                 
             boostLogging.debug("Analyzing " + files.length + " files in folder: " + targetFolder);
-            if (BoostConfiguration.processFoldersInASingleNotebook) {
-                // we're going to create a single notebook for all the files
-                let newNotebook : vscode.NotebookDocument | undefined;
-                for (const file of files) {
-                    boostLogging.debug("Boosting file: " + file.toString());
-                    newNotebook = await createNotebookFromSourceFile(file, false, true, newNotebook) as vscode.NotebookDocument;
-                }
-                if (newNotebook) {
-                    // we let user know the new scratch notebook was created
-                    boostLogging.warn("Scratch Notebook opened: " + newNotebook.uri.toString(), true);
-                }
-            } else {
-                let newNotebookWaits : any [] = [];
-                files.filter(async (file) => {
-                    
-                    boostLogging.debug("Boosting file: " + file.toString());
-                    newNotebookWaits.push(createNotebookFromSourceFile(file, true));
-                });
-                
-                Promise.all(newNotebookWaits).then((createdNotebooks) => {
-                    // we are generally creating one new notebook during this process, but in case, we de-dupe it
-                    const newNotebooks = createdNotebooks.filter((value, index, self) => {
-                        return self.indexOf(value) === index;
-                    });
-                    newNotebooks.forEach(async (notebook : boostnb.BoostNotebook) => {
+            try {
+                if (BoostConfiguration.processFoldersInASingleNotebook) {
+                    // we're going to create a single notebook for all the files
+                    let newNotebook : vscode.NotebookDocument | undefined;
+                    for (const file of files) {
+                        newNotebook = await createNotebookFromSourceFile(file, false, true, newNotebook) as vscode.NotebookDocument;
+                    }
+                    if (newNotebook) {
                         // we let user know the new scratch notebook was created
-                        boostLogging.debug("Boost Notebook created: " + notebook.uri.toString());
-                    });
-                });
-            }
+                        boostLogging.warn("Scratch Notebook opened: " + newNotebook.uri.toString(), true);
+                    }
+                } else {
+                    let newNotebookWaits : any [] = [];
 
+                    files.filter(async (file) => {
+                        
+                        newNotebookWaits.push(createNotebookFromSourceFile(file, true));
+                    });
+                    
+                    Promise.all(newNotebookWaits)
+                        .then((createdNotebooks) => {
+                            // we are generally creating one new notebook during this process, but in case, we de-dupe it
+                            const newNotebooks = createdNotebooks.filter((value, index, self) => {
+                                return self.indexOf(value) === index;
+                            });
+                            newNotebooks.forEach(async (notebook : boostnb.BoostNotebook) => {
+                                // we let user know the new scratch notebook was created
+                                boostLogging.debug("Boost Notebook created: " + notebook.uri.toString());
+                            });
+                            boostLogging.info(`${newNotebookWaits.length.toString()} Boost Notebooks created for folder ${targetFolder.path}`);
+                        })
+                        .catch((error) => {
+                        // Handle the error here
+                            boostLogging.error(`Error Boosting folder ${targetFolder.path} due Error: ${error}`);
+                        });
+                }
+            } catch (error) {
+                boostLogging.error(`Error Boosting folder ${targetFolder} due Error: ${error}`);
+            }
         });
     context.subscriptions.push(disposable);
 }
@@ -483,61 +497,66 @@ function registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext, 
 
     const disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.processCurrentFile',
         async (uri: vscode.Uri) => {
-            // if we don't have a file selected, then the user didn't right click
-            //      so we need to find the current active editor, if its available
-            if (uri === undefined) {
-                if (vscode.window.activeTextEditor === undefined) {
-                    boostLogging.warn("Unable to identify an active file to Boost.");
-                    return;
-                }
-                else {
-                    uri = vscode.window.activeTextEditor?.document.uri;
-                }
-            }
-
-            let currentNotebook = vscode.window.activeNotebookEditor?.notebook;
-            // if there is no active notebook editor, we need to find it
-            // Note this only happens when using right-click in explorer or a non-Notebook active editor
-            if (currentNotebook === undefined) {
-                const boostNotebooks: vscode.NotebookDocument[] =
-                    vscode.workspace.notebookDocuments.filter(async (doc) => {
-                    // we're skipping non Boost notebooks
-                    return (doc.notebookType === NOTEBOOK_TYPE);
-                });
-
-                // if we have more than one notebook, we need to ask user which one to use
-                if (boostNotebooks.length > 1) {
-                    let notebookNames = boostNotebooks.map((doc) => {
-                        return path.basename(vscode.Uri.parse(doc.uri.toString()).fsPath);
-                    });
-
-                    // show the user a list of available notebooks
-                    const selectedOption = await vscode.window.showQuickPick(notebookNames, {
-                        canPickMany: false,
-                        placeHolder: 'Select a Boost Notebook to use'
-                    });
-                    // if user doesn't pick anything, then just give up
-                    if (!selectedOption) {
+            try
+            {
+                // if we don't have a file selected, then the user didn't right click
+                //      so we need to find the current active editor, if its available
+                if (uri === undefined) {
+                    if (vscode.window.activeTextEditor === undefined) {
+                        boostLogging.warn("Unable to identify an active file to Boost.");
                         return;
                     }
-                    // otherwise find the notebook that matches the user's selection
-                    currentNotebook = boostNotebooks.find((doc) => {
-                        return path.basename(vscode.Uri.parse(doc.uri.toString()).fsPath) === selectedOption;
-                    });
+                    else {
+                        uri = vscode.window.activeTextEditor?.document.uri;
+                    }
                 }
-                else if (boostNotebooks.length === 1) {
-                    // if we only have one notebook, then just use that one
-                    currentNotebook = boostNotebooks[0];
-                }
-            }
-            // if we still failed to find an available Notebook, then warn and give up
-            if (currentNotebook === undefined) {
-                currentNotebook = await createNotebookFromSourceFile(uri, true) as vscode.NotebookDocument;
-                boostLogging.warn(
-                    `No active Notebook found. Created default Notebook for: ${uri.toString()}`);
-            }
 
-            await parseFunctionsFromFile(uri, currentNotebook);
+                let currentNotebook = vscode.window.activeNotebookEditor?.notebook;
+                // if there is no active notebook editor, we need to find it
+                // Note this only happens when using right-click in explorer or a non-Notebook active editor
+                if (currentNotebook === undefined) {
+                    const boostNotebooks: vscode.NotebookDocument[] =
+                        vscode.workspace.notebookDocuments.filter(async (doc) => {
+                        // we're skipping non Boost notebooks
+                        return (doc.notebookType === NOTEBOOK_TYPE);
+                    });
+
+                    // if we have more than one notebook, we need to ask user which one to use
+                    if (boostNotebooks.length > 1) {
+                        let notebookNames = boostNotebooks.map((doc) => {
+                            return path.basename(vscode.Uri.parse(doc.uri.toString()).fsPath);
+                        });
+
+                        // show the user a list of available notebooks
+                        const selectedOption = await vscode.window.showQuickPick(notebookNames, {
+                            canPickMany: false,
+                            placeHolder: 'Select a Boost Notebook to use'
+                        });
+                        // if user doesn't pick anything, then just give up
+                        if (!selectedOption) {
+                            return;
+                        }
+                        // otherwise find the notebook that matches the user's selection
+                        currentNotebook = boostNotebooks.find((doc) => {
+                            return path.basename(vscode.Uri.parse(doc.uri.toString()).fsPath) === selectedOption;
+                        });
+                    }
+                    else if (boostNotebooks.length === 1) {
+                        // if we only have one notebook, then just use that one
+                        currentNotebook = boostNotebooks[0];
+                    }
+                }
+                // if we still failed to find an available Notebook, then warn and give up
+                if (currentNotebook === undefined) {
+                    currentNotebook = await createNotebookFromSourceFile(uri, true) as vscode.NotebookDocument;
+                    boostLogging.warn(
+                        `No active Notebook found. Created default Notebook for: ${uri.toString()}`);
+                }
+
+                await parseFunctionsFromFile(uri, currentNotebook);
+            } catch (error) {
+                boostLogging.error(`Unable to Boost file:[${uri.fsPath.toString()} due to error:${error}`);
+            }
         });
     context.subscriptions.push(disposable);
 }

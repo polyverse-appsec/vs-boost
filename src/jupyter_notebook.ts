@@ -1,5 +1,7 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import * as nbformat from '@jupyterlab/nbformat';
+import { PartialJSONValue } from '@lumino/coreutils';
 
 export enum NotebookCellKind {
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -8,7 +10,7 @@ export enum NotebookCellKind {
     Code = 2
 }
 
-export interface SerializedNotebookCellOutput {
+export interface SerializedNotebookCellOutput /* implements nbformat.IOutput  */ {
 	items: {
 		mime: string;
 		data: string;
@@ -30,21 +32,45 @@ export interface SerializedNotebook {
     metadata?: any;
 }
 
-export class BoostNotebookCell {
+export class BoostNotebookCell /*implements nbformat.ICell */ {
     languageId: string;
+    id?: string;
     value: string;
     kind: NotebookCellKind;
     editable?: boolean;
-    outputs?: SerializedNotebookCellOutput[];
-    metadata?: any;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    execution_count: nbformat.ExecutionCount;
+    outputs: nbformat.IOutput[] = [];
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    cell_type: nbformat.CellType;
+    metadata?: nbformat.ICellMetadata;
+    source: nbformat.MultilineString;
+    attachments?: nbformat.IAttachments;
 
-    constructor(kind: NotebookCellKind, value: string, languageId: string, editable?: boolean, outputs?: SerializedNotebookCellOutput[], metadata?: any) {
+    constructor(
+            kind: NotebookCellKind,
+            value: string,
+            languageId: string,
+            id?: string,
+            metadata?: nbformat.ICellMetadata,
+            outputs?: SerializedNotebookCellOutput[],
+            editable?: boolean,
+            source: nbformat.MultilineString = "",
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            execution_count: nbformat.ExecutionCount = null,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            cell_type: nbformat.CellType = 'code',
+            attachments?: nbformat.IAttachments) {
         this.languageId = languageId;
+        this.id = id;
         this.value = value;
         this.kind = kind;
+        this.execution_count = execution_count;
         this.editable = editable;
         this.outputs = [];
         this.metadata = metadata;
+        this.cell_type = cell_type;
+        this.source = source;
     }
 }
 
@@ -63,9 +89,9 @@ boostNotebook.updateMetadata('custom_metadata', 'custom_value');
 boostNotebook.save('path/to/save/notebook.ipynb');
 */
 
-export class BoostNotebook implements nbformat.INotebookContent {
+export class BoostNotebook /* implements nbformat.INotebookContent */ {
   metadata: nbformat.INotebookMetadata;
-  cells : nbformat.ICell[];
+  cells : BoostNotebookCell[];
   nbformat: number;
   
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -95,12 +121,21 @@ export class BoostNotebook implements nbformat.INotebookContent {
     }
 
   save(filename: string): void {
-      const notebookJson = JSON.stringify(this.notebook, null, 2);
-      fs.writeFileSync(filename, notebookJson);
+    const notebookJson = JSON.stringify(this, null, 2);
+
+    // Create any necessary folders
+    const folderPath = path.dirname(filename);
+    fs.mkdirSync(folderPath, { recursive: true });
+
+    fs.writeFileSync(filename, notebookJson, { encoding: 'utf8'});
   }
 
-  addCell(cell: nbformat.ICell): void {
+  addCell(cell: BoostNotebookCell): void {
     this.cells.push(cell);
+  }
+
+  replaceCells(cells: BoostNotebookCell[]): void {
+    this.cells = cells;
   }
 
   updateMetadata(key: string, value: any): void {
