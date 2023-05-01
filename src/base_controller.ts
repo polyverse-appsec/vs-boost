@@ -3,6 +3,7 @@ import * as vscode from 'vscode';
 import { NOTEBOOK_TYPE } from './extension';
 import { BoostConfiguration, getCurrentExtensionVersion } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
+import { fetchGithubSession } from './boostConfiguration';
 
 export class KernelControllerBase {
     _problemsCollection: vscode.DiagnosticCollection;
@@ -451,46 +452,3 @@ export class KernelControllerBase {
     }
 }
 
-export async function fetchGithubSession(): Promise<vscode.AuthenticationSession> {
-    const GITHUB_AUTH_PROVIDER_ID = 'github';
-    // The GitHub Authentication Provider accepts the scopes described here:
-    // https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/
-    const SCOPES = ['user:email', 'read:org'];
-
-    const session = await vscode.authentication.getSession(GITHUB_AUTH_PROVIDER_ID, SCOPES, { createIfNone: true });
-
-    return session;
-}
-
-function serviceEndpoint(): string {
-    switch (BoostConfiguration.cloudServiceStage)
-    {
-        case "local":
-            return 'http://127.0.0.1:8000/user_organizations';
-        case 'dev':
-            return 'http://127.0.0.1:8000/user_organizations';
-        case "test":
-            return 'http://127.0.0.1:8000/user_organizations';
-        case 'staging':
-        case 'prod':
-        default:
-            return 'http://127.0.0.1:8000/user_organizations';
-    }
-}
-export async function fetchOrganizations(): Promise<string[]> {
-    let session = await fetchGithubSession();       // get the session
-    let version = getCurrentExtensionVersion();     // get the extension version
-    let payload = {
-        "session": session.accessToken,
-        "version": version
-    };
-
-    let endpoint = serviceEndpoint();
-
-    const response = await axios.post(
-        endpoint,
-        payload);
-    
-    let orgs = response.data['organizations'];
-    return orgs;
-}

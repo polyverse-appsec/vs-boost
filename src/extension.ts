@@ -10,9 +10,9 @@ import { BoostCodeGuidelinesKernel } from './codeguidelines_controller';
 import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
 import instructions from './instructions.json';
-import { BoostConfiguration } from './boostConfiguration';
+import { BoostConfiguration, fetchOrganizations, UserOrgs} from './boostConfiguration';
 import { boostLogging } from './boostLogging';
-import { KernelControllerBase, fetchOrganizations } from './base_controller';
+import { KernelControllerBase} from './base_controller';
 import { TextDecoder, TextEncoder } from 'util';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -69,27 +69,37 @@ export function activate(context: vscode.ExtensionContext) {
         NOTEBOOK_TYPE + '.selectOrganization', async () => {
         
         // first, fetch the organizations from the portal
-        const orgs = await fetchOrganizations();
+        const orgs: UserOrgs = await fetchOrganizations();
         // Use the vscode.window.showQuickPick method to let the user select a language
-        
-        const organization = await vscode.window.showQuickPick(
-            orgs, {
+        // Create an array of QuickPickItem objects
+        const quickPickItems: vscode.QuickPickItem[] = [];        
+        // Add the "Personal" label and the personal organization
+        quickPickItems.push({ label: 'Personal', description: '' });
+        quickPickItems.push({ label: orgs.personal, description: 'Personal organization' });
+
+        // Add a divider
+        quickPickItems.push({ label: '──────────', description: '' });
+
+        // Add the "Organizations" label and the list of organizations
+        quickPickItems.push({ label: 'Organizations', description: '' });
+        orgs.organizations.forEach(org => {
+            quickPickItems.push({ label: org, description: 'Organization' });
+        });
+
+        // Use the vscode.window.showQuickPick method to let the user select an organization
+        const selected = await vscode.window.showQuickPick(quickPickItems, {
             canPickMany: false,
             placeHolder: 'Select an organization'
         });
-        //put the language in the metadata
-        const editor = vscode.window.activeNotebookEditor;
-        const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
-		if (currentNotebook) {
-			const edit = new vscode.WorkspaceEdit();
-			edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({
-                organization: organization})]);
-			await vscode.workspace.applyEdit(edit);
 
-			//now update the status bar item
-			selectOrgnanizationButton.text =
-                "Boost: Organization is " + organization;
-		} 
+        //check that selected.label is not undefined or Perosnal or Organizations or a divider
+        let organization = undefined;
+        if( selected && selected.label && selected.label !== 'Personal' && selected.label !== 'Organizations' && selected.label !== '──────────' ) {
+            organization = selected.label;
+
+            //put the organization in the metadata for the extension
+            context.globalState.update('organization', organization);
+        }
     }));
 
 

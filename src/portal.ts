@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
-import { BoostConfiguration } from './boostConfiguration';
-import { fetchGithubSession } from './base_controller';
+import { BoostConfiguration, fetchGithubSession } from './boostConfiguration';
 import { getCurrentExtensionVersion } from './boostConfiguration';
 
 

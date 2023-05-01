@@ -44,6 +44,11 @@
           "type": "string",
           "default": "pytest",
           "description": "Default test framework for Polyverse Boost automatic test code generation"
+        },
+        "polyverse-boost-notebook.defaultOrganization": {
+          "type": "string",
+          "default": "",
+          "description": "Default organization for Polyverse Boost billing"
         }
       }
     },
