@@ -29,6 +29,36 @@
 				"${workspaceFolder}/out/test/**/*.js"
 			],
 			"preLaunchTask": "${defaultBuildTask}"
-		}
+		},
+        {
+            "name": "Integration Suite",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": ["run", "test", "--", "placeholderSourceFile.cpp"],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "stopOnEntry": true
+        },
+        {
+            "name": "(1 Iteration) Integration Suite",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "${workspaceFolder}/src/test/test_loop.sh",
+            "runtimeArgs": ["1"],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "stopOnEntry": true
+        },
+        {
+            "name": "(Looped) Integration Suite",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "${workspaceFolder}/src/test/test_loop.sh",
+            "runtimeArgs": [],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "stopOnEntry": true
+        }  
 	]
 }
