@@ -8,14 +8,15 @@ import { NOTEBOOK_TYPE } from './extension';
 import { BoostConfiguration } from './boostConfiguration';
 
 export class BoostTestgenKernel extends KernelControllerBase {
-	constructor(collection: vscode.DiagnosticCollection) {
+	constructor(context: vscode.ExtensionContext, collection: vscode.DiagnosticCollection) {
         super(
             collection,
             'polyverse-boost-testgen-kernel',
             'Polyverse Boost: Generate Test Cases for Code',
             'testGeneration',
             true,
-            true);
+            true,
+            context);
 	}
 
 	dispose(): void {

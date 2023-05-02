@@ -154,19 +154,19 @@ function setupNotebookEnvironment(
     kernelMap : Map<string, KernelControllerBase>) {
 
         // build a map of output types to kernels so we can reverse lookup the kernels from their output
-    let convertKernel = new BoostConvertKernel(collection);
+    let convertKernel = new BoostConvertKernel(context, collection);
     kernelMap.set(convertKernel.outputType, convertKernel);
-    let explainKernel = new BoostExplainKernel(collection);
+    let explainKernel = new BoostExplainKernel(context, collection);
     kernelMap.set(explainKernel.outputType, explainKernel);
-    let analyzeKernel = new BoostAnalyzeKernel(collection);
+    let analyzeKernel = new BoostAnalyzeKernel(context, collection);
     kernelMap.set(analyzeKernel.outputType, analyzeKernel);
-    let testgenKernel = new BoostTestgenKernel(collection);
+    let testgenKernel = new BoostTestgenKernel(context, collection);
     kernelMap.set(testgenKernel.outputType, testgenKernel);
-    let complianceKernel = new BoostComplianceKernel(collection);
+    let complianceKernel = new BoostComplianceKernel(context, collection);
     kernelMap.set(complianceKernel.outputType, complianceKernel);
-    let guidelinesKernel = new BoostCodeGuidelinesKernel(collection);
+    let guidelinesKernel = new BoostCodeGuidelinesKernel(context, collection);
     kernelMap.set(guidelinesKernel.outputType, guidelinesKernel);
-    let blueprintKernel = new BoostArchitectureBlueprintKernel(collection);
+    let blueprintKernel = new BoostArchitectureBlueprintKernel(context, collection);
     kernelMap.set(blueprintKernel.outputType, blueprintKernel);
 
 	context.subscriptions.push(
