@@ -10,7 +10,7 @@ import { BoostCodeGuidelinesKernel } from './codeguidelines_controller';
 import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
 import instructions from './instructions.json';
-import { BoostConfiguration, fetchOrganizations, UserOrgs} from './boostConfiguration';
+import { BoostConfiguration, fetchOrganizations, UserOrgs, getCurrentOrganization} from './boostConfiguration';
 import { boostLogging } from './boostLogging';
 import { KernelControllerBase} from './base_controller';
 import { TextDecoder, TextEncoder } from 'util';
@@ -33,7 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     let result = _setupDiagnosticProblems(context);
 
-    const [selectOutputLanguageButton, selectTestFramework, selectOrgnanizationButton] =
+    const selectOrgnanizationButton =
         setupNotebookEnvironment(context, result.problems, result.map);
 
     registerCreateNotebookCommand(context, result.problems);
@@ -57,10 +57,6 @@ export function activate(context: vscode.ExtensionContext) {
 			edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({
                 outputLanguage: language})]);
 			await vscode.workspace.applyEdit(edit);
-
-			//now update the status bar item
-			selectOutputLanguageButton.text =
-                "Boost: Conversion Output Language is " + language;
 		}
 	}));
 
@@ -70,20 +66,21 @@ export function activate(context: vscode.ExtensionContext) {
         
         // first, fetch the organizations from the portal
         const orgs: UserOrgs = await fetchOrganizations();
+        const current = await getCurrentOrganization(context);
         // Use the vscode.window.showQuickPick method to let the user select a language
         // Create an array of QuickPickItem objects
         const quickPickItems: vscode.QuickPickItem[] = [];        
         // Add the "Personal" label and the personal organization
-        quickPickItems.push({ label: 'Personal', description: '' });
-        quickPickItems.push({ label: orgs.personal, description: 'Personal organization' });
+        quickPickItems.push({ label: 'Personal', kind: vscode.QuickPickItemKind.Separator });
+        quickPickItems.push({ label: orgs.personal });
+        quickPickItems.push({ label: ' ', kind: vscode.QuickPickItemKind.Separator});
 
         // Add a divider
-        quickPickItems.push({ label: '──────────', description: '' });
+        quickPickItems.push({ label: 'Organizations', kind: vscode.QuickPickItemKind.Separator });
 
         // Add the "Organizations" label and the list of organizations
-        quickPickItems.push({ label: 'Organizations', description: '' });
         orgs.organizations.forEach(org => {
-            quickPickItems.push({ label: org, description: 'Organization' });
+            quickPickItems.push({ label: org });
         });
 
         // Use the vscode.window.showQuickPick method to let the user select an organization
@@ -92,13 +89,15 @@ export function activate(context: vscode.ExtensionContext) {
             placeHolder: 'Select an organization'
         });
 
-        //check that selected.label is not undefined or Perosnal or Organizations or a divider
+        //check that selected.label is not undefined
         let organization = undefined;
-        if( selected && selected.label && selected.label !== 'Personal' && selected.label !== 'Organizations' && selected.label !== '──────────' ) {
+        if( selected && selected.label  ) {
             organization = selected.label;
 
             //put the organization in the metadata for the extension
             context.globalState.update('organization', organization);
+            //now set the selectOrgnanizationButton text
+            selectOrgnanizationButton.text = "Boost: Organization is " + organization;
         }
     }));
 
@@ -126,7 +125,6 @@ export function activate(context: vscode.ExtensionContext) {
 			edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({
                 testFramework: framework})]);
 			await vscode.workspace.applyEdit(edit);
-			selectTestFramework.text = "Boost: Test Framework is " + framework;
 		}
 	}));
 
@@ -215,24 +213,6 @@ function setupNotebookEnvironment(
         blueprintKernel
 	);
 
-	// get the defaults
-	const outputLanguage = BoostConfiguration.defaultOutputLanguage;
-	const testFramework = BoostConfiguration.testFramework;
-
-	const selectOutputLanguageButton = vscode.window.createStatusBarItem(
-        vscode.StatusBarAlignment.Left);
-	selectOutputLanguageButton.text =
-        "Boost: Conversion Output Language is " + outputLanguage;
-	selectOutputLanguageButton.command = NOTEBOOK_TYPE + '.selectOutputLanguage';
-	selectOutputLanguageButton.show();
-
-	// Create a new status bar item with a button
-	const selectTestFramework = vscode.window.createStatusBarItem(
-        vscode.StatusBarAlignment.Left);
-	selectTestFramework.text = "Boost: Test Framework is " + testFramework;
-	selectTestFramework.command = NOTEBOOK_TYPE + '.selectTestFramework';
-	selectTestFramework.show();
-
     // Create a new status bar for the organization
     const selectOrganizationButton = vscode.window.createStatusBarItem(
         vscode.StatusBarAlignment.Left);
@@ -241,7 +221,7 @@ function setupNotebookEnvironment(
     selectOrganizationButton.show();
 
 
-    return [selectOutputLanguageButton, selectTestFramework, selectOrganizationButton];
+    return selectOrganizationButton;
 }
 
 function registerOpenCodeFile(context: vscode.ExtensionContext) {
