@@ -1,20 +1,21 @@
 import {
     KernelControllerBase
  } from './base_controller';
-import { DiagnosticCollection } from 'vscode';
+import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 
 export const codeGuidelinesCellMarker = 'guidelinesCode';
 
 export class BoostCodeGuidelinesKernel extends KernelControllerBase {
-	constructor(collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, collection: DiagnosticCollection) {
         super(
             collection,
             'polyverse-boost-codeguidelines-kernel',
             'Polyverse Boost: Evaluate Code Guidelines',
             codeGuidelinesCellMarker,
             false,
-            false);
+            false,
+            context);
 	}
 
 	dispose(): void {

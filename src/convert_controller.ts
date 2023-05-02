@@ -12,14 +12,15 @@ import { BoostConfiguration } from './boostConfiguration';
 
 const markdownCodeMarker = '```';
 export class BoostConvertKernel extends KernelControllerBase {
-	constructor(collection: vscode.DiagnosticCollection) {
+	constructor(context: vscode.ExtensionContext, collection: vscode.DiagnosticCollection) {
         super(
             collection,
             'polyverse-boost-convert-kernel',
             'Polyverse Boost: Convert Legacy Code to New Code',
             'generatedCode',
             false,
-            true);
+            true,
+            context);
 	}
 
 	dispose(): void {

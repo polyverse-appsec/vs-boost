@@ -44,17 +44,30 @@
           "type": "string",
           "default": "pytest",
           "description": "Default test framework for Polyverse Boost automatic test code generation"
+        },
+        "polyverse-boost-notebook.defaultOrganization": {
+          "type": "string",
+          "default": "",
+          "description": "Default organization for Polyverse Boost billing"
         }
       }
     },
     "commands": [
       {
+        "command": "polyverse-boost-notebook.customerPortal",
+        "title": "Polyverse Boost: Open Customer Dashboard"
+      },
+      {
+        "command": "polyverse-boost-notebook.boostStatus",
+        "title": "Polyverse Boost: Show Account Status"
+      },
+      {
         "command": "polyverse-boost-notebook.createJsonNotebook",
-        "title": "Create Polyverse Boost Notebook"
+        "title": "Polyverse Boost: Create Analysis Notebook"
       },
       {
         "command": "polyverse-boost-notebook.loadCodeFile",
-        "title": "Load File for Boost",
+        "title": "Polyverse Boost: Load File",
         "icon": "$(file-code)"
       },
       {
@@ -69,12 +82,12 @@
       },
       {
         "command": "polyverse-boost-notebook.processCurrentFile",
-        "title": "Boost Analysis from File",
+        "title": "Polyverse Boost: Analysis from File",
         "icon": "$(file)"
       },
       {
         "command": "polyverse-boost-notebook.processCurrentFolder",
-        "title": "Boost Analysis from Folder",
+        "title": "Polyverse Boost: Analysis from Folder",
         "icon": "$(folder)"
       }
     ],

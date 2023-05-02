@@ -1,20 +1,21 @@
 import {
     KernelControllerBase
  } from './base_controller';
-import { DiagnosticCollection } from 'vscode';
+import { DiagnosticCollection, ExtensionContext} from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 
 export const explainCellMarker = 'explainCode';
 
 export class BoostExplainKernel extends KernelControllerBase {
-	constructor(collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, collection: DiagnosticCollection) {
         super(
             collection,
             'polyverse-boost-explain-kernel',
             'Polyverse Boost: Explain Code',
             explainCellMarker,
             false,
-            false);
+            false,
+            context);
 	}
 
 	dispose(): void {

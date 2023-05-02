@@ -12,94 +12,103 @@ import { BoostCustomProcessKernel, customProcessCellMarker } from './custom_cont
 import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
 import instructions from './instructions.json';
-import { BoostConfiguration } from './boostConfiguration';
+import { BoostConfiguration, fetchOrganizations, UserOrgs, getCurrentOrganization} from './boostConfiguration';
 import { boostLogging } from './boostLogging';
-import { KernelControllerBase } from './base_controller';
+import { KernelControllerBase} from './base_controller';
 import { TextDecoder, TextEncoder } from 'util';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as boostnb from './jupyter_notebook';
+import { registerCustomerPortalCommand, setupBoostStatus } from './portal';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 export const NOTEBOOK_EXTENSION = ".boost-notebook";
 
-export function activate(context: vscode.ExtensionContext) {
-
+export class BoostExtension {
+    // for state, we keep it in a few places
+    // 1. here, in the extension object.  this should really just be transient state like UI objects
+    // 2. in the globalState object.  this is syncronized with the cloud, so stuff like the organization should be kept there
+    // 3. in the extension configuration. this is more 'permanent' state. 
+    public statusBar: vscode.StatusBarItem | undefined;
+  
+    constructor(context: vscode.ExtensionContext) {
     
         // ensure logging is shutdown
-    context.subscriptions.push(boostLogging);
+        context.subscriptions.push(boostLogging);
 
         // we use a friendly name for the channel as this will be displayed to the user in the output pane
-    boostLogging.log('Activating Boost Notebook Extension');
+        boostLogging.log('Activating Boost Notebook Extension');
 
-    let result = _setupDiagnosticProblems(context);
+        let result = _setupDiagnosticProblems(context);
 
-    const [selectOutputLanguageButton, selectTestFramework] =
+        
         setupNotebookEnvironment(context, result.problems, result.map);
 
-    registerCreateNotebookCommand(context, result.problems);
+        registerCreateNotebookCommand(context, result.problems);
 
-	// register the select language command
-	context.subscriptions.push(vscode.commands.registerCommand(
-        NOTEBOOK_TYPE + '.selectOutputLanguage', async () => {
-		// Use the vscode.window.showQuickPick method to let the user select a language
-		const language = await vscode.window.showQuickPick([
-            'python', 'ruby', 'swift', 'rust',
-            'javascript', 'typescript', 'csharp' ], {
-			canPickMany: false,
-			placeHolder: 'Select a language'
-		});
-		//put the language in the metadata
-		const editor = vscode.window.activeNotebookEditor;
-		
-		const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
-		if (currentNotebook) {
-			const edit = new vscode.WorkspaceEdit();
-			edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({
-                outputLanguage: language})]);
-			await vscode.workspace.applyEdit(edit);
+        // register the select language command
+        context.subscriptions.push(vscode.commands.registerCommand(
+            NOTEBOOK_TYPE + '.selectOutputLanguage', async () => {
+            // Use the vscode.window.showQuickPick method to let the user select a language
+            const language = await vscode.window.showQuickPick([
+                'python', 'ruby', 'swift', 'rust',
+                'javascript', 'typescript', 'csharp' ], {
+                canPickMany: false,
+                placeHolder: 'Select a language'
+            });
+            //put the language in the metadata
+            const editor = vscode.window.activeNotebookEditor;
+            
+            const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
+            if (currentNotebook) {
+                const edit = new vscode.WorkspaceEdit();
+                edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({
+                    outputLanguage: language})]);
+                await vscode.workspace.applyEdit(edit);
+            }
+        }));
 
-			//now update the status bar item
-			selectOutputLanguageButton.text =
-                "Boost: Conversion Output Language is " + language;
-		}
-	}));
 
-	// register the select framework command
-	context.subscriptions.push(vscode.commands.registerCommand(
-        NOTEBOOK_TYPE + '.selectTestFramework', async () => {
+        // register the select framework command
+        context.subscriptions.push(vscode.commands.registerCommand(
+            NOTEBOOK_TYPE + '.selectTestFramework', async () => {
 
-		//first get the framework from the metadata
-		const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
-		let framework = "pytest";
-		if (currentNotebook) {
-			framework = currentNotebook.metadata.testFramework;
-		}
-		// Use the vscode.window.showQuickPick method to let the user select a framework
-		framework = await vscode.window.showInputBox({
-			prompt: 'Enter a testing framework',
-			placeHolder: framework
-		})?? framework;
-		//put the framework in the metadata
+            //first get the framework from the metadata
+            const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
+            let framework = "pytest";
+            if (currentNotebook) {
+                framework = currentNotebook.metadata.testFramework;
+            }
+            // Use the vscode.window.showQuickPick method to let the user select a framework
+            framework = await vscode.window.showInputBox({
+                prompt: 'Enter a testing framework',
+                placeHolder: framework
+            })?? framework;
+            //put the framework in the metadata
 
-		if (currentNotebook) {
-			const edit = new vscode.WorkspaceEdit();
-			edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({
-                testFramework: framework})]);
-			await vscode.workspace.applyEdit(edit);
-			selectTestFramework.text = "Boost: Test Framework is " + framework;
-		}
-	}));
+            if (currentNotebook) {
+                const edit = new vscode.WorkspaceEdit();
+                edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({
+                    testFramework: framework})]);
+                await vscode.workspace.applyEdit(edit);
+            }
+        }));
 
-    registerOpenCodeFile(context);
+        registerOpenCodeFile(context);
 
-    registerFileRightClickAnalyzeCommand(context);
+        registerFileRightClickAnalyzeCommand(context);
 
-    registerFolderRightClickAnalyzeCommand(context);
-    
-    boostLogging.log('Activated Boost Notebook Extension');
-    boostLogging.info('Polyverse Boost Notebook Extension is now active');
+        registerFolderRightClickAnalyzeCommand(context);
 
+        registerCustomerPortalCommand(context);
+        
+        boostLogging.log('Activated Boost Notebook Extension');
+        boostLogging.info('Polyverse Boost Notebook Extension is now active');
+        setupBoostStatus(context, this);
+    }
+}
+export function activate(context: vscode.ExtensionContext) {
+    new BoostExtension(context);
 }
 
 // for completeness, we provide a deactivate function - asynchronous return
@@ -146,19 +155,19 @@ function setupNotebookEnvironment(
     kernelMap : Map<string, KernelControllerBase>) {
 
         // build a map of output types to kernels so we can reverse lookup the kernels from their output
-    let convertKernel = new BoostConvertKernel(collection);
+    let convertKernel = new BoostConvertKernel(context, collection);
     kernelMap.set(convertKernel.outputType, convertKernel);
-    let explainKernel = new BoostExplainKernel(collection);
+    let explainKernel = new BoostExplainKernel(context, collection);
     kernelMap.set(explainKernel.outputType, explainKernel);
-    let analyzeKernel = new BoostAnalyzeKernel(collection);
+    let analyzeKernel = new BoostAnalyzeKernel(context, collection);
     kernelMap.set(analyzeKernel.outputType, analyzeKernel);
-    let testgenKernel = new BoostTestgenKernel(collection);
+    let testgenKernel = new BoostTestgenKernel(context, collection);
     kernelMap.set(testgenKernel.outputType, testgenKernel);
-    let complianceKernel = new BoostComplianceKernel(collection);
+    let complianceKernel = new BoostComplianceKernel(context, collection);
     kernelMap.set(complianceKernel.outputType, complianceKernel);
-    let guidelinesKernel = new BoostCodeGuidelinesKernel(collection);
+    let guidelinesKernel = new BoostCodeGuidelinesKernel(context, collection);
     kernelMap.set(guidelinesKernel.outputType, guidelinesKernel);
-    let blueprintKernel = new BoostArchitectureBlueprintKernel(collection);
+    let blueprintKernel = new BoostArchitectureBlueprintKernel(context, collection);
     kernelMap.set(blueprintKernel.outputType, blueprintKernel);
 
 	context.subscriptions.push(
@@ -173,7 +182,7 @@ function setupNotebookEnvironment(
         guidelinesKernel,
         blueprintKernel
 	);
-
+  
         // if in dev mode, register all dev only kernels
     if (BoostConfiguration.enableDevOnlyKernels) {
         let customProcessKernel = new BoostCustomProcessKernel(collection);
@@ -181,25 +190,6 @@ function setupNotebookEnvironment(
         context.subscriptions.push(customProcessKernel);
     }    
 
-	// get the defaults
-	const outputLanguage = BoostConfiguration.defaultOutputLanguage;
-	const testFramework = BoostConfiguration.testFramework;
-
-	const selectOutputLanguageButton = vscode.window.createStatusBarItem(
-        vscode.StatusBarAlignment.Left);
-	selectOutputLanguageButton.text =
-        "Boost: Conversion Output Language is " + outputLanguage;
-	selectOutputLanguageButton.command = NOTEBOOK_TYPE + '.selectOutputLanguage';
-	selectOutputLanguageButton.show();
-
-	// Create a new status bar item with a button
-	const selectTestFramework = vscode.window.createStatusBarItem(
-        vscode.StatusBarAlignment.Left);
-	selectTestFramework.text = "Boost: Test Framework is " + testFramework;
-	selectTestFramework.command = NOTEBOOK_TYPE + '.selectTestFramework';
-	selectTestFramework.show();
-
-    return [selectOutputLanguageButton, selectTestFramework];
 }
 
 function registerOpenCodeFile(context: vscode.ExtensionContext) {

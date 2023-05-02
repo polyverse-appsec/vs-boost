@@ -1,7 +1,7 @@
 import {
     KernelControllerBase
  } from './base_controller';
-import { DiagnosticCollection } from 'vscode';
+import { DiagnosticCollection, ExtensionContext} from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import * as vscode from 'vscode';
 import { boostLogging } from './boostLogging';
@@ -10,14 +10,15 @@ import { TextDecoder } from 'util';
 export const blueprintCellMarker = 'archblueprintCode';
 
 export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
-	constructor(collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, collection: DiagnosticCollection) {
         super(
             collection,
             'polyverse-boost-blueprint-kernel',
             'Polyverse Boost: Architectural Blueprint Code',
             blueprintCellMarker,
             false,
-            false);
+            false,
+            context);
 	}
 
 	dispose(): void {

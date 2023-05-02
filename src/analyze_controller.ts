@@ -1,19 +1,20 @@
 import {
     KernelControllerBase
  } from './base_controller';
-import { DiagnosticCollection } from 'vscode';
+import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 
 //set a helper variable of the base url.  this should eventually be a config setting
 export class BoostAnalyzeKernel extends KernelControllerBase {
-	constructor(collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, collection: DiagnosticCollection) {
         super(
             collection,
             'polyverse-boost-analyze-kernel',
             'Polyverse Boost: Analyze Code for Security Vulnerabilities',
             'bugAnalysis',
             true,
-            true);
+            true, 
+            context);
 	}
 
     public get serviceEndpoint(): string {

@@ -1,20 +1,21 @@
 import {
     KernelControllerBase
  } from './base_controller';
-import { DiagnosticCollection } from 'vscode';
+import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 
 export const complianceCellMarker = 'complianceCode';
 
 export class BoostComplianceKernel extends KernelControllerBase {
-	constructor(collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, collection: DiagnosticCollection) {
         super(
             collection,
             'polyverse-boost-compliance-kernel',
             'Polyverse Boost: Check Compliance',
             complianceCellMarker,
             false,
-            false);
+            false,
+            context);
 	}
 
 	dispose(): void {
