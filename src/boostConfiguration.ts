@@ -49,7 +49,12 @@ export class BoostConfiguration {
     }
 
     public static get defaultOrganization(): string {
-        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.defaultOrganizationName)?? ""
+        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.defaultOrganizationName)??
+            Defaults.defaultOrganizationValue;
+
+    public static get enableDevOnlyKernels(): boolean {
+        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.enableDevOnlyKernelsName)??
+            Defaults.enableDevOnlyKernelsValue;
     }
 }
 class Defaults {
@@ -82,6 +87,11 @@ class Defaults {
     public static readonly processFoldersInASingleNotebookValue = true;
 
     public static readonly defaultOrganizationName = "defaultOrganization";
+    public static readonly defaultOrganizationValue = "";
+
+    public static readonly enableDevOnlyKernelsName = "enableDevOnlyKernels";
+    public static readonly enableDevOnlyKernelsValue = false;
+
 }
 
 //keep a global variable for the extension version, start as empty string
