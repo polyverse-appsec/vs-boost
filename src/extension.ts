@@ -6,6 +6,8 @@ import { BoostConvertKernel } from './convert_controller';
 import { BoostComplianceKernel } from './compliance_controller';
 import { BoostExplainKernel, explainCellMarker } from './explain_controller';
 import { BoostCodeGuidelinesKernel } from './codeguidelines_controller';
+import { BoostArchitectureBlueprintKernel } from './blueprint_controller';
+import { BoostCustomProcessKernel, customProcessCellMarker } from './custom_controller';
 
 import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
@@ -16,13 +18,14 @@ import { KernelControllerBase } from './base_controller';
 import { TextDecoder, TextEncoder } from 'util';
 import * as fs from 'fs';
 import * as path from 'path';
-import { BoostArchitectureBlueprintKernel } from './blueprint_controller';
 import * as boostnb from './jupyter_notebook';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 export const NOTEBOOK_EXTENSION = ".boost-notebook";
 
 export function activate(context: vscode.ExtensionContext) {
+
+    
         // ensure logging is shutdown
     context.subscriptions.push(boostLogging);
 
@@ -170,6 +173,13 @@ function setupNotebookEnvironment(
         guidelinesKernel,
         blueprintKernel
 	);
+
+        // if in dev mode, register all dev only kernels
+    if (BoostConfiguration.enableDevOnlyKernels) {
+        let customProcessKernel = new BoostCustomProcessKernel(collection);
+        kernelMap.set(customProcessKernel.outputType, customProcessKernel);
+        context.subscriptions.push(customProcessKernel);
+    }    
 
 	// get the defaults
 	const outputLanguage = BoostConfiguration.defaultOutputLanguage;

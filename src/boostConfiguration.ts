@@ -42,6 +42,11 @@ export class BoostConfiguration {
         return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.processFoldersInASingleNotebookName)??
             Defaults.processFoldersInASingleNotebookValue;
     }
+
+    public static get enableDevOnlyKernels(): boolean {
+        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.enableDevOnlyKernelsName)??
+            Defaults.enableDevOnlyKernelsValue;
+    }
 }
 class Defaults {
     public static readonly defaultOutputLanguageName = "outputLanguage";
@@ -71,5 +76,8 @@ class Defaults {
     
     public static readonly processFoldersInASingleNotebookName = "processFoldersInASingleNotebook";
     public static readonly processFoldersInASingleNotebookValue = true;
+
+    public static readonly enableDevOnlyKernelsName = "enableDevOnlyKernels";
+    public static readonly enableDevOnlyKernelsValue = false;
 }
   
