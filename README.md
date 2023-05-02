@@ -1,8 +1,12 @@
-# Polyverse Boost Visual Studio Extension
+# Polyverse Boost for Visual Studio Code
 
 *Legacy code got you down?*
-*Boost can convert your code to a modern language in one click!*
-Boost has powerful, AI-driven tools. In minutes you can take your legacy C, C++, C#, Java, .NET or PHP code (and many others) and convert it to over a dozen modern languages.
+*Worried new technologies are out of reach?*
+*Feeling like your core Architecture at risk*
+
+*Boost is a powerful suite of AI-enabled software and development services designed to help you modernize, enhance and sustain your software architecture and codebase - preserving the innovations you've invested in, and providing access to the latest technology.*
+
+Use Boost to modernize and update your codebase, taking advantage of modern programming languages, Cloud services, containerization, microservice principles, and zero-trust code. Boost provides these services by analyzing your entire product codebase, including raw source code, comments and code documentation - and producing easily consumable Architectural Blueprints. Guided by your core Architecture, Boost will help you automatically convert your legacy code into a new programming language, analyze code for security vulnerabilities, find data and privacy compliance issues, ensure your source follows best practice coding guidelines, and sgenerate test cases for code using AI-driven tools. Operating on a stronger, more modern foundation - you can then add new features and solve your customer problems with confidence and faster innovation. Boost your Architecture and Productivity with Polyverse Boost and AI!
 
 
 Transform, secure, and enhance your code with AI-driven analysis, all in one powerful extension - *Polyverse Boost*.

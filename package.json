@@ -10,7 +10,7 @@
   },
   "version": "0.9.4",
   "engines": {
-    "vscode": "^1.77.0"
+      "vscode": "^1.77.0"
   },
   "categories": [
     "Machine Learning",
@@ -109,14 +109,16 @@
       ],
       "explorer/context": [
         {
-          "command": "polyverse-boost-notebook.processCurrentFile",
-          "when": "resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb",
-          "group": "navigation"
+            "command": "polyverse-boost-notebook.processCurrentFile",
+            "when":
+                "resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb",
+            "group": "navigation"
         },
         {
-          "command": "polyverse-boost-notebook.processCurrentFolder",
-          "when": "(resourceScheme == 'file' && resourceLangId == 'unknown' && resourceExtname == '')",
-          "group": "navigation"
+            "command": "polyverse-boost-notebook.processCurrentFolder",
+            "when":
+                "(resourceScheme == 'file' && resourceLangId == 'unknown' && resourceExtname == '')",
+            "group": "navigation"
         }
       ]
     }

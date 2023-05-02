@@ -411,6 +411,77 @@ async function parseFunctionsFromFile(
     if (!(targetNotebook instanceof boostnb.BoostNotebook)) {
         await vscode.workspace.applyEdit(edit as vscode.WorkspaceEdit);
     }
+
+
+function registerFolderRightClickAnalyzeCommand(context: vscode.ExtensionContext, ) {
+
+    const disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.processCurrentFolder',
+        async (uri: vscode.Uri) => {
+            let targetFolder : vscode.Uri;
+            // if we don't have a folder selected, then the user didn't right click
+            //      so we need to use the workspace folder
+            if (uri === undefined) {
+                if (vscode.workspace.workspaceFolders === undefined) {
+                    boostLogging.warn(
+                        'Unable to find Workspace Folder. Please open a Project or Folder first');
+                    return;
+                }
+
+                // use first folder in workspace
+                targetFolder = vscode.workspace.workspaceFolders[0].uri;
+                boostLogging.debug("Analyzing Project Wide source files");
+            }
+            else {
+                targetFolder = uri;
+                boostLogging.debug("Analyzing source files in folder: " + uri.toString());
+            }
+
+            let baseWorkspace;
+            if (vscode.workspace.workspaceFolders) {
+                baseWorkspace = vscode.workspace.workspaceFolders![0].uri;
+            } else {
+                baseWorkspace = uri;
+            }
+            // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
+            let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*.*');
+            let ignorePattern = await _buildVSCodeIgnorePattern();
+            boostLogging.debug("Skipping source files of pattern: " + ignorePattern??"none");
+            let files = await vscode.workspace.findFiles(searchPattern, ignorePattern?new vscode.RelativePattern(targetFolder, ignorePattern):"");
+                
+            boostLogging.debug("Analyzing " + files.length + " files in folder: " + targetFolder);
+            if (BoostConfiguration.processFoldersInASingleNotebook) {
+                // we're going to create a single notebook for all the files
+                let newNotebook : vscode.NotebookDocument | undefined;
+                for (const file of files) {
+                    boostLogging.debug("Boosting file: " + file.toString());
+                    newNotebook = await createNotebookFromSourceFile(file, true, newNotebook);
+                }
+                if (newNotebook) {
+                    // we let user know the new scratch notebook was created
+                    boostLogging.warn("Scratch Notebook opened: " + newNotebook.uri.toString(), true);
+                }
+            } else {
+                let newNotebookWaits : any [] = [];
+                files.filter(async (file) => {
+                    
+                    boostLogging.debug("Boosting file: " + file.toString());
+                    newNotebookWaits.push(createNotebookFromSourceFile(file));
+                });
+                
+                Promise.all(newNotebookWaits).then((createdNotebooks) => {
+                    // we are generally creating one new notebook during this process, but in case, we de-dupe it
+                    const newNotebooks = createdNotebooks.filter((value, index, self) => {
+                        return self.indexOf(value) === index;
+                    });
+                    newNotebooks.forEach(async (notebook : vscode.NotebookDocument) => {
+                        // we let user know the new scratch notebook was created
+                        boostLogging.debug("Boost Notebook created: " + notebook.uri.toString());
+                    });
+                });
+            }
+
+        });
+    context.subscriptions.push(disposable);
 }
 
 

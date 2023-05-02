@@ -68,12 +68,19 @@ export class BoostConvertKernel extends KernelControllerBase {
         // make Boost service request to get explanation of code in english (lingua franca cross-translate),
         //      preparing for conversion
         const response = await this.makeBoostServiceRequest(cell, this.explainEndpoint, payload);
+        if (response instanceof Error) {
+            let throwErr = response as Error;
+            throw throwErr;
+        } else if (response.data instanceof Error) {
+            let throwErr = response.data as Error;
+            throw throwErr;
+        }
 
         const summarydata = response;
         const outputItems: vscode.NotebookCellOutputItem[] = [];
 
         const markdownMimetype = 'text/markdown';
-        outputItems.push(vscode.NotebookCellOutputItem.text("### Boost Code Explanation\n\nLast Updated: ${this.currentDateTime}\n\n" + summarydata.explanation, markdownMimetype));
+        outputItems.push(vscode.NotebookCellOutputItem.text(`### Boost Code Explanation\n\nLast Updated: ${this.currentDateTime}\n\n${summarydata.explanation}`, markdownMimetype));
 
         // we will have one NotebookCellOutput per type of output.
         // first scan the existing outputs of the cell and see if we already have an output of this type
@@ -99,6 +106,13 @@ export class BoostConvertKernel extends KernelControllerBase {
         payload.originalCode = payload.code;
         payload.language = outputLanguage;
         const generatedCode = await this.makeBoostServiceRequest(cell, this.serviceEndpoint, payload);
+        if (generatedCode instanceof Error) {
+            let throwErr = generatedCode as Error;
+            throw throwErr;
+        } else if (generatedCode.data instanceof Error) {
+            let throwErr = generatedCode.data as Error;
+            throw throwErr;
+        }
 
         //quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
         let mimetypeCode = 'text/x-' + outputLanguage;
