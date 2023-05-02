@@ -563,6 +563,9 @@ function registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext, 
                 }
 
                 await parseFunctionsFromFile(uri, currentNotebook);
+
+                boostLogging.log(`Boosted file:[${uri.fsPath.toString()}`);
+                vscode.window.showNotebookDocument(currentNotebook);
             } catch (error) {
                 boostLogging.error(`Unable to Boost file:[${uri.fsPath.toString()} due to error:${error}`);
             }
