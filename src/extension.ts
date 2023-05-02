@@ -19,126 +19,96 @@ import * as path from 'path';
 import { GlobPattern } from 'vscode';
 import { Serializer } from 'v8';
 import { BoostArchitectureBlueprintKernel } from './blueprint_controller';
-import { registerCustomerPortalCommand } from './portal';
+import { registerCustomerPortalCommand, setupBoostStatus } from './portal';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 export const NOTEBOOK_EXTENSION = ".boost-notebook";
 
-export function activate(context: vscode.ExtensionContext) {
+export class BoostExtension {
+    // for state, we keep it in a few places
+    // 1. here, in the extension object.  this should really just be transient state like UI objects
+    // 2. in the globalState object.  this is syncronized with the cloud, so stuff like the organization should be kept there
+    // 3. in the extension configuration. this is more 'permanent' state. 
+    public statusBar: vscode.StatusBarItem | undefined;
+  
+    constructor(context: vscode.ExtensionContext) {
+    
         // ensure logging is shutdown
-    context.subscriptions.push(boostLogging);
+        context.subscriptions.push(boostLogging);
 
         // we use a friendly name for the channel as this will be displayed to the user in the output pane
-    boostLogging.log('Activating Boost Notebook Extension');
+        boostLogging.log('Activating Boost Notebook Extension');
 
-    let result = _setupDiagnosticProblems(context);
+        let result = _setupDiagnosticProblems(context);
 
-    const selectOrgnanizationButton =
+        
         setupNotebookEnvironment(context, result.problems, result.map);
 
-    registerCreateNotebookCommand(context, result.problems);
+        registerCreateNotebookCommand(context, result.problems);
 
-	// register the select language command
-	context.subscriptions.push(vscode.commands.registerCommand(
-        NOTEBOOK_TYPE + '.selectOutputLanguage', async () => {
-		// Use the vscode.window.showQuickPick method to let the user select a language
-		const language = await vscode.window.showQuickPick([
-            'python', 'ruby', 'swift', 'rust',
-            'javascript', 'typescript', 'csharp' ], {
-			canPickMany: false,
-			placeHolder: 'Select a language'
-		});
-		//put the language in the metadata
-		const editor = vscode.window.activeNotebookEditor;
-		
-		const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
-		if (currentNotebook) {
-			const edit = new vscode.WorkspaceEdit();
-			edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({
-                outputLanguage: language})]);
-			await vscode.workspace.applyEdit(edit);
-		}
-	}));
+        // register the select language command
+        context.subscriptions.push(vscode.commands.registerCommand(
+            NOTEBOOK_TYPE + '.selectOutputLanguage', async () => {
+            // Use the vscode.window.showQuickPick method to let the user select a language
+            const language = await vscode.window.showQuickPick([
+                'python', 'ruby', 'swift', 'rust',
+                'javascript', 'typescript', 'csharp' ], {
+                canPickMany: false,
+                placeHolder: 'Select a language'
+            });
+            //put the language in the metadata
+            const editor = vscode.window.activeNotebookEditor;
+            
+            const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
+            if (currentNotebook) {
+                const edit = new vscode.WorkspaceEdit();
+                edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({
+                    outputLanguage: language})]);
+                await vscode.workspace.applyEdit(edit);
+            }
+        }));
 
-    // register the select organiation command
-    context.subscriptions.push(vscode.commands.registerCommand(
-        NOTEBOOK_TYPE + '.selectOrganization', async () => {
+
+        // register the select framework command
+        context.subscriptions.push(vscode.commands.registerCommand(
+            NOTEBOOK_TYPE + '.selectTestFramework', async () => {
+
+            //first get the framework from the metadata
+            const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
+            let framework = "pytest";
+            if (currentNotebook) {
+                framework = currentNotebook.metadata.testFramework;
+            }
+            // Use the vscode.window.showQuickPick method to let the user select a framework
+            framework = await vscode.window.showInputBox({
+                prompt: 'Enter a testing framework',
+                placeHolder: framework
+            })?? framework;
+            //put the framework in the metadata
+
+            if (currentNotebook) {
+                const edit = new vscode.WorkspaceEdit();
+                edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({
+                    testFramework: framework})]);
+                await vscode.workspace.applyEdit(edit);
+            }
+        }));
+
+        registerOpenCodeFile(context);
+
+        registerFileRightClickAnalyzeCommand(context);
+
+        registerFolderRightClickAnalyzeCommand(context);
+
+        registerCustomerPortalCommand(context);
         
-        // first, fetch the organizations from the portal
-        const orgs: UserOrgs = await fetchOrganizations();
-        const current = await getCurrentOrganization(context);
-        // Use the vscode.window.showQuickPick method to let the user select a language
-        // Create an array of QuickPickItem objects
-        const quickPickItems: vscode.QuickPickItem[] = [];        
-        // Add the "Personal" label and the personal organization
-        quickPickItems.push({ label: 'Personal', kind: vscode.QuickPickItemKind.Separator });
-        quickPickItems.push({ label: orgs.personal });
-        quickPickItems.push({ label: ' ', kind: vscode.QuickPickItemKind.Separator});
-
-        // Add a divider
-        quickPickItems.push({ label: 'Organizations', kind: vscode.QuickPickItemKind.Separator });
-
-        // Add the "Organizations" label and the list of organizations
-        orgs.organizations.forEach(org => {
-            quickPickItems.push({ label: org });
-        });
-
-        // Use the vscode.window.showQuickPick method to let the user select an organization
-        const selected = await vscode.window.showQuickPick(quickPickItems, {
-            canPickMany: false,
-            placeHolder: 'Select an organization'
-        });
-
-        //check that selected.label is not undefined
-        let organization = undefined;
-        if( selected && selected.label  ) {
-            organization = selected.label;
-
-            //put the organization in the metadata for the extension
-            context.globalState.update('organization', organization);
-            //now set the selectOrgnanizationButton text
-            selectOrgnanizationButton.text = "Boost: Organization is " + organization;
-        }
-    }));
-
-
-
-	// register the select framework command
-	context.subscriptions.push(vscode.commands.registerCommand(
-        NOTEBOOK_TYPE + '.selectTestFramework', async () => {
-
-		//first get the framework from the metadata
-		const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
-		let framework = "pytest";
-		if (currentNotebook) {
-			framework = currentNotebook.metadata.testFramework;
-		}
-		// Use the vscode.window.showQuickPick method to let the user select a framework
-		framework = await vscode.window.showInputBox({
-			prompt: 'Enter a testing framework',
-			placeHolder: framework
-		})?? framework;
-		//put the framework in the metadata
-
-		if (currentNotebook) {
-			const edit = new vscode.WorkspaceEdit();
-			edit.set(currentNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata({
-                testFramework: framework})]);
-			await vscode.workspace.applyEdit(edit);
-		}
-	}));
-
-    registerOpenCodeFile(context);
-
-    registerFileRightClickAnalyzeCommand(context);
-
-    registerFolderRightClickAnalyzeCommand(context);
-
-    registerCustomerPortalCommand(context);
-    
-    boostLogging.log('Activated Boost Notebook Extension');
-    boostLogging.info('Polyverse Boost Notebook Extension is now active');
-
+        boostLogging.log('Activated Boost Notebook Extension');
+        boostLogging.info('Polyverse Boost Notebook Extension is now active');
+        setupBoostStatus(context, this);
+    }
+}
+export function activate(context: vscode.ExtensionContext) {
+    new BoostExtension(context);
 }
 
 // for completeness, we provide a deactivate function - asynchronous return
@@ -212,16 +182,6 @@ function setupNotebookEnvironment(
         guidelinesKernel,
         blueprintKernel
 	);
-
-    // Create a new status bar for the organization
-    const selectOrganizationButton = vscode.window.createStatusBarItem(
-        vscode.StatusBarAlignment.Left);
-    selectOrganizationButton.text = "Boost: Organization is " + "polyverse"; 
-    selectOrganizationButton.command = NOTEBOOK_TYPE + '.selectOrganization';
-    selectOrganizationButton.show();
-
-
-    return selectOrganizationButton;
 }
 
 function registerOpenCodeFile(context: vscode.ExtensionContext) {

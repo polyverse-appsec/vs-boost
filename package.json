@@ -55,7 +55,11 @@
     "commands": [
       {
         "command": "polyverse-boost-notebook.customerPortal",
-        "title": "Polyverse Boost: Open Customer Portal"
+        "title": "Polyverse Boost: Open Customer Dashboard"
+      },
+      {
+        "command": "polyverse-boost-notebook.boostStatus",
+        "title": "Polyverse Boost: Show Account Status"
       },
       {
         "command": "polyverse-boost-notebook.createJsonNotebook",
