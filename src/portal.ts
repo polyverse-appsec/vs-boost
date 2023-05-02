@@ -26,11 +26,13 @@ export function registerCustomerPortalCommand(context: vscode.ExtensionContext) 
         vscode.commands.registerCommand('polyverse-boost-notebook.customerPortal', async () => {
             let session = await fetchGithubSession();       // get the session
             let version = getCurrentExtensionVersion();     // get the extension version
+            let organization = await getCurrentOrganization(context);
             let payload = {
                 "session": session.accessToken,
-                "organization": "polyverse",
+                "organization": organization,
                 "version": version
             };
+
 
             let endpoint = serviceEndpoint();
 
