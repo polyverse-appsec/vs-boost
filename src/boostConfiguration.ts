@@ -1,5 +1,5 @@
 import { NOTEBOOK_TYPE } from "./extension";
-import { workspace } from "vscode";
+import { workspace, extensions } from "vscode";
 
 export class BoostConfiguration {
   
@@ -52,7 +52,24 @@ export class BoostConfiguration {
         return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.enableDevOnlyKernelsName)??
             Defaults.enableDevOnlyKernelsValue;
     }
+
+    static _cachedVersion: string = "";
+    public static get version(): string | undefined {
+        if (this._cachedVersion) {
+            return this._cachedVersion;
+        }
+        const extensionId = 'polyversecorporation.polyverse-boost-notebook';
+
+        const extension = extensions.getExtension(extensionId);
+        if (extension) {
+          this._cachedVersion = extension.packageJSON.version;
+          return this._cachedVersion;
+        }
+
+        return undefined;
+    }
 }
+
 class Defaults {
     public static readonly defaultOutputLanguageName = "outputLanguage";
 

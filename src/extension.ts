@@ -20,7 +20,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as boostnb from './jupyter_notebook';
 import { registerCustomerPortalCommand, setupBoostStatus } from './portal';
-import { fetchGithubSession, getCurrentOrganization } from './authorization';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 export const NOTEBOOK_EXTENSION = ".boost-notebook";

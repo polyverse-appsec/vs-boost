@@ -4,7 +4,6 @@ import { NOTEBOOK_TYPE } from './extension';
 import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
 import { fetchGithubSession, getCurrentOrganization } from './authorization';
-import { getCurrentExtensionVersion } from './version';
 
 export class KernelControllerBase {
     _problemsCollection: vscode.DiagnosticCollection;
@@ -18,6 +17,7 @@ export class KernelControllerBase {
 	private _executionOrder = 0;
 	private readonly _controller: vscode.NotebookController;
     public context: vscode.ExtensionContext;
+    private _clientVersion = BoostConfiguration.version??"";
 
 	constructor(
         problemsCollection: vscode.DiagnosticCollection,
@@ -27,6 +27,10 @@ export class KernelControllerBase {
         useGeneratedCodeCellOptimization : boolean,
         useOriginalCodeCheck : boolean,
         context: vscode.ExtensionContext) {
+
+        if (!this._clientVersion) {
+            throw new Error('Boost Client version not set. Aborting Activation');
+        }
             
         this._problemsCollection = problemsCollection;
         this.id = kernelId;
@@ -146,11 +150,6 @@ export class KernelControllerBase {
             return false;
         }
 
-        let version = await getCurrentExtensionVersion();
-        if (!version) {
-            return false;
-        }
-
         // if no useful text to explain, skip it
         const code = cell.document.getText();
 
@@ -168,7 +167,7 @@ export class KernelControllerBase {
 		// and one for the generated code
 		// if the cell is original code, run the summary generation
 		if (!this.useOriginalCodeCheck || cell.metadata.type === 'originalCode') {
-            return await this._doKernelExecution(cell, session, organization, version);
+            return await this._doKernelExecution(cell, session, organization, this._clientVersion);
         }
         return true;
     }

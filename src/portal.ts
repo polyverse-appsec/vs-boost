@@ -3,7 +3,6 @@ import axios from 'axios';
 import { BoostConfiguration } from './boostConfiguration';
 import { fetchGithubSession, getCurrentOrganization, UserOrgs, fetchOrganizations } from './authorization';
 import { BoostExtension } from './extension';
-import { getCurrentExtensionVersion } from './version';
 
 
 function serviceEndpoint(): string {
@@ -12,13 +11,13 @@ function serviceEndpoint(): string {
         case "local":
             return 'http://127.0.0.1:8000/customer_portal';
         case 'dev':
-            return 'http://127.0.0.1:8000/customer_portal';
+            return '';
         case "test":
-            return 'http://127.0.0.1:8000/customer_portal';
+            return '';
         case 'staging':
         case 'prod':
         default:
-            return 'http://127.0.0.1:8000/customer_portal';
+            return '';
     }
 }
 
@@ -26,7 +25,7 @@ export function registerCustomerPortalCommand(context: vscode.ExtensionContext) 
     context.subscriptions.push(
         vscode.commands.registerCommand('polyverse-boost-notebook.customerPortal', async () => {
             let session = await fetchGithubSession();       // get the session
-            let version = getCurrentExtensionVersion();     // get the extension version
+            let version = BoostConfiguration.version;     // get the extension version
             let organization = await getCurrentOrganization(context);
             let payload = {
                 "session": session.accessToken,
