@@ -185,7 +185,7 @@ function setupNotebookEnvironment(
   
         // if in dev mode, register all dev only kernels
     if (BoostConfiguration.enableDevOnlyKernels) {
-        let customProcessKernel = new BoostCustomProcessKernel(collection);
+        let customProcessKernel = new BoostCustomProcessKernel(context, collection);
         kernelMap.set(customProcessKernel.outputType, customProcessKernel);
         context.subscriptions.push(customProcessKernel);
     }    
