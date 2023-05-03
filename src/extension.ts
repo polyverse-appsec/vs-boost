@@ -374,7 +374,7 @@ async function parseFunctionsFromFile(
 
     if (appendToExistingNotebook) {
         if (targetNotebook instanceof boostnb.BoostNotebook) {
-            targetNotebook.insertCells(targetNotebook.cellCount, cells);
+            targetNotebook.appendCells(cells as boostnb.BoostNotebookCell[]);
         } else if (edit) {
             // Use .set to add one or more edits to the notebook
             edit.set(targetNotebook.uri, [
@@ -393,6 +393,7 @@ async function parseFunctionsFromFile(
 
         if (targetNotebook instanceof boostnb.BoostNotebook) {
             targetNotebook.replaceCells(cells as boostnb.BoostNotebookCell[]);
+            targetNotebook.metadata = newMetadata;
         } else if (edit) {
             // Use .set to add one or more edits to the notebook
             edit.set(targetNotebook.uri, [
@@ -548,7 +549,7 @@ function registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext, 
                 }
                 // if we still failed to find an available Notebook, then warn and give up
                 if (currentNotebook === undefined) {
-                    currentNotebook = await createNotebookFromSourceFile(uri, true) as vscode.NotebookDocument;
+                    currentNotebook = await createNotebookFromSourceFile(uri, false, true) as vscode.NotebookDocument;
                     boostLogging.warn(
                         `No active Notebook found. Created default Notebook for: ${uri.toString()}`);
                 }

@@ -138,6 +138,12 @@ export class BoostNotebook /* implements nbformat.INotebookContent */ {
     this.cells = cells;
   }
 
+  appendCells(cells: BoostNotebookCell[]): void {
+    for (const cell of cells) {
+      this.cells.push(cell);
+    }
+  }
+
   updateMetadata(key: string, value: any): void {
     this.metadata[key] = value;
   }
