@@ -552,10 +552,10 @@ function registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext, 
                     currentNotebook = await createNotebookFromSourceFile(uri, false, true) as vscode.NotebookDocument;
                     boostLogging.warn(
                         `No active Notebook found. Created default Notebook for: ${uri.toString()}`);
+                } else {
+                    await parseFunctionsFromFile(uri, currentNotebook);
                 }
-
-                await parseFunctionsFromFile(uri, currentNotebook);
-
+                
                 boostLogging.log(`Boosted file:[${uri.fsPath.toString()}`);
                 vscode.window.showNotebookDocument(currentNotebook);
             } catch (error) {
