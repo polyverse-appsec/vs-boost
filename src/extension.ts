@@ -12,7 +12,7 @@ import { BoostCustomProcessKernel, customProcessCellMarker } from './custom_cont
 import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
 import instructions from './instructions.json';
-import { BoostConfiguration, fetchOrganizations, UserOrgs, getCurrentOrganization} from './boostConfiguration';
+import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
 import { KernelControllerBase} from './base_controller';
 import { TextDecoder, TextEncoder } from 'util';
@@ -20,6 +20,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as boostnb from './jupyter_notebook';
 import { registerCustomerPortalCommand, setupBoostStatus } from './portal';
+import { fetchGithubSession, getCurrentOrganization } from './authorization';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 export const NOTEBOOK_EXTENSION = ".boost-notebook";

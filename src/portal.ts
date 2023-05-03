@@ -1,8 +1,9 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
-import { BoostConfiguration, fetchGithubSession, fetchOrganizations, UserOrgs, getCurrentOrganization} from './boostConfiguration';
-import { getCurrentExtensionVersion } from './boostConfiguration';
+import { BoostConfiguration } from './boostConfiguration';
+import { fetchGithubSession, getCurrentOrganization, UserOrgs, fetchOrganizations } from './authorization';
 import { BoostExtension } from './extension';
+import { getCurrentExtensionVersion } from './version';
 
 
 function serviceEndpoint(): string {
