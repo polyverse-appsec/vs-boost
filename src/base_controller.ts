@@ -114,7 +114,8 @@ export class KernelControllerBase {
             return successfullyCompleted;
           }).catch((error) => {
             successfullyCompleted = false;
-          });
+            boostLogging.error(`Error analyzing Notebook ${notebook.uri.toString()}: ${error.toString()}}`);
+        });
     }
 
 	async doExecution(
