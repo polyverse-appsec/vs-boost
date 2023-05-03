@@ -1,7 +1,7 @@
 import {
     KernelControllerBase
  } from './base_controller';
-import { DiagnosticCollection } from 'vscode';
+import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import * as vscode from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import { BoostLogger, boostLogging } from './boostLogging';
@@ -19,14 +19,15 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
 
     _customPrompt : string = this.defaultPrompt;
 
-	constructor(collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, collection: DiagnosticCollection) {
         super(
             collection,
             'polyverse-boost-custom-kernel',
             'Polyverse Boost: Custom Process Code',
             customProcessCellMarker,
             false,
-            false);
+            false,
+            context);
 	}
 
 	dispose(): void {
