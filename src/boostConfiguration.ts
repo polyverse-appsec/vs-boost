@@ -51,6 +51,7 @@ export class BoostConfiguration {
     public static get defaultOrganization(): string {
         return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.defaultOrganizationName)??
             Defaults.defaultOrganizationValue;
+    }
 
     public static get enableDevOnlyKernels(): boolean {
         return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.enableDevOnlyKernelsName)??
