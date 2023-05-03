@@ -13,6 +13,7 @@ import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
 import instructions from './instructions.json';
 import { BoostConfiguration } from './boostConfiguration';
+import { fetchUserOrganizationsServiceRequest } from './user_organizations';
 import { boostLogging } from './boostLogging';
 import { KernelControllerBase} from './base_controller';
 import { TextDecoder, TextEncoder } from 'util';

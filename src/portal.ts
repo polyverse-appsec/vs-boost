@@ -1,8 +1,9 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
 import { BoostConfiguration } from './boostConfiguration';
-import { fetchGithubSession, getCurrentOrganization, UserOrgs, fetchOrganizations } from './authorization';
+import { fetchGithubSession, getCurrentOrganization } from './authorization';
 import { BoostExtension } from './extension';
+import { fetchUserOrganizationsServiceRequest, UserOrgs } from './user_organizations';
 
 
 function serviceEndpoint(): string {
@@ -32,7 +33,6 @@ export function registerCustomerPortalCommand(context: vscode.ExtensionContext) 
                 "organization": organization,
                 "version": version
             };
-
 
             let endpoint = serviceEndpoint();
 
@@ -88,7 +88,7 @@ function registerSelectOrganizationCommand(context: vscode.ExtensionContext, clo
         'polyverse-boost-notebook.selectOrganization', async () => {
         
         // first, fetch the organizations from the portal
-        const orgs: UserOrgs = await fetchOrganizations();
+        const orgs: UserOrgs = await fetchUserOrganizationsServiceRequest();
         const current = await getCurrentOrganization(context);
         // Use the vscode.window.showQuickPick method to let the user select a language
         // Create an array of QuickPickItem objects

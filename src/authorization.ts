@@ -3,24 +3,9 @@ import axios from 'axios';
 import { Remote } from './git.d';
 import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
+import { fetchUserOrganizationsServiceRequest } from './user_organizations';
 
-export async function fetchOrganizations(): Promise<UserOrgs> {
-    let session = await fetchGithubSession();       // get the session
-    let version = BoostConfiguration.version;     // get the extension version
-    let payload = {
-        "session": session.accessToken,
-        "version": version
-    };
-  
-    let endpoint = orgServiceEndpoint();
-  
-    const response = await axios.post(
-        endpoint,
-        payload);
-    
-    return response.data;
-}
-  
+
 export async function fetchGithubSession(): Promise<vscode.AuthenticationSession> {
     const GITHUB_AUTH_PROVIDER_ID = 'github';
     // The GitHub Authentication Provider accepts the scopes described here:
@@ -56,7 +41,7 @@ export async function getCurrentOrganization(context: vscode.ExtensionContext): 
         return org;
     }
 
-    let orgs = await fetchOrganizations();
+    let orgs = await fetchUserOrganizationsServiceRequest();
     if (orgs && orgs.organizations && orgs.organizations.length > 0) {
         org = orgs.organizations[0];
         boostLogging.log(`Using 1st GitHub Organization: ${org}`);
@@ -117,25 +102,3 @@ export async function getCurrentGithubOrganizationFromWorkspace(): Promise<strin
     // Return the GitHub organization.
     return match[1];
 }
-  
-function orgServiceEndpoint(): string {
-    switch (BoostConfiguration.cloudServiceStage)
-    {
-        case "local":
-            return 'http://127.0.0.1:8000/user_organizations';
-        case 'dev':
-            return '';
-        case "test":
-            return '';
-        case 'staging':
-        case 'prod':
-        default:
-            return '';
-    }
-  }
-  
-  // Define a type for the orgs object
-  export type UserOrgs = {
-    organizations: string[];
-    personal: string;
-  };

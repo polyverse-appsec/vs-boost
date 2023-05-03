@@ -284,7 +284,7 @@ export class KernelControllerBase {
             execution.appendOutput(output);
         }
     }
-    
+
     async makeBoostServiceRequest(
         cell : vscode.NotebookCell,
         serviceEndpoint : string,
