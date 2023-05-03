@@ -314,7 +314,11 @@ export class KernelControllerBase {
                             "Unable to use your GitHub authorized account to access the Boost Cloud Service. " +
                             "Please check your GitHub account settings, and try again. Also note that your Polyverse " +
                             "license must use the same email address as your GitHub account.");
-                    case 502: // bad gateway, possible timeout
+                    case 501: // account usage limit exceeded - need credit card or access upgraded
+                        return new Error(
+                            "Current account usage/billing limit reached. " +
+                            "Please visit your Customer Account portal to update your account.");
+                case 502: // bad gateway, possible timeout
                         return new Error(
                             "Boost code analysis service is currently unavailable. " +
                             "Please try your request again.");
