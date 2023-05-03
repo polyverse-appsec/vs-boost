@@ -4,6 +4,7 @@ import { BoostConfiguration } from './boostConfiguration';
 import { fetchGithubSession, getCurrentOrganization } from './authorization';
 import { BoostExtension } from './extension';
 import { fetchUserOrganizationsServiceRequest, UserOrgs } from './user_organizations';
+import { boostLogging } from './boostLogging';
 
 
 function serviceEndpoint(): string {
@@ -46,10 +47,16 @@ export function registerCustomerPortalCommand(context: vscode.ExtensionContext) 
     );
 }
 
-export function setupBoostStatus(context: vscode.ExtensionContext, closure: BoostExtension){
+export async function setupBoostStatus(context: vscode.ExtensionContext, closure: BoostExtension) {
     const boostStatusBar = vscode.window.createStatusBarItem(
         vscode.StatusBarAlignment.Left);
-    boostStatusBar.text = "Boost: Organization is " + "polyverse"; 
+    try {
+        const currentOrganization = await getCurrentOrganization(context);
+        boostStatusBar.text = "Boost: Organization is " + currentOrganization??"*UNKNOWN*"; 
+    } catch (e : any) {
+        boostLogging.log(`Error during Activation: Unable to retrieve current organization. ${(e as Error).message}`);
+        boostStatusBar.text = "Boost: Organization is *UNKNOWN*";
+    }
     boostStatusBar.command = 'polyverse-boost-notebook.boostStatus';
     boostStatusBar.show();
     vscode.commands.registerCommand('polyverse-boost-notebook.boostStatus', 
