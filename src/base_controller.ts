@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as vscode from 'vscode';
 import { NOTEBOOK_TYPE } from './extension';
-import { BoostConfiguration,  } from './boostConfiguration';
+import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
 import { fetchGithubSession, getCurrentOrganization } from './authorization';
 import { getCurrentExtensionVersion } from './version';
