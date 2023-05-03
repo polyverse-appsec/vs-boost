@@ -6,7 +6,10 @@ Polyverse Boost Automatic Application Modernization
 ## Version 0.9.5: May 2, 2023
 
 ### New Features
-- N/A
+- Added usage-based Metered billing for Teams and Enterprise licensing
+- Added Customer Account portal UI for managing licenses and billingnput only)
+- Added support for using GitHub organization as Customer id
+    NOTE: Existing customers may need to re-authorize GitHub access for Boost due access "Organization" info
 
 ### Enhancements
 - Enabled Folder and Project processing to build Notebook files in background as files - avoid opening Notebook files in Editor
