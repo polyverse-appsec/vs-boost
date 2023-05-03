@@ -97,7 +97,7 @@ class Defaults {
     public static readonly serializationOfCellsContainingErrorsValue = true;
     
     public static readonly processFoldersInASingleNotebookName = "processFoldersInASingleNotebook";
-    public static readonly processFoldersInASingleNotebookValue = true;
+    public static readonly processFoldersInASingleNotebookValue = false;
 
     public static readonly defaultOrganizationName = "defaultOrganization";
     public static readonly defaultOrganizationValue = "";
