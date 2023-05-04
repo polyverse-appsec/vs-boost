@@ -68,9 +68,19 @@ Boost will create a detailed, step-by-step explanation of your code and break it
 ## Quick Start
 
 ### Prerequisites
-1. **Setup your Boost License** by contacting [Polyverse](https://polyverse.com/pages/boost-visual-studio) to get a free trial license key, or purchase a license key directly from the [Polyverse Store](https://polyverse.com/pages/boost-buy-visual-studio).
+**Setup a [GitHub.com](https://GitHub.com) account** - to link your auto-generated Polyverse Trial license to your email address.
 
-2. **Setup a [GitHub.com[(https://GitHub.com) account** - to link your Polyverse license to your email address.
+NOTE: Even if your GitHub email account is marked _Private_, you can still use it to link your license to your email address.
+
+Polyverse Boost does not share your email with any 3rd party. Your email is only used to link your email to your billing account.
+
+** Trial License and Usage Billing ** - Polyverse Boost is a paid subscription service.
+
+Your Auto-generated Polyverse Trial license is valid for a limited amount of trial usage.
+
+Once your trial license expires, you will need to update your Polyverse Boost account with a credit card to continue using Boost.
+
+Billing and Usage rates are available on your Polyverse Boost account page - accessible via the Extension Status bar.
 
 ### Installation
 1. **Install the Boost Modernization extension** from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Polyverse.polyverse-boost). NOTE: A restart of Visual Studio Code may be required.
