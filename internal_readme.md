@@ -177,3 +177,9 @@ To install it: `npm install -g @vscode/vsce`
 ### Publishing to Marketplace
 * We [publish Boost extension](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) on the VS Code extension marketplace manually - synchronized with
 critical fixes, major new features or a joint marketing/customer milestone.
+Use following extra steps to publish:
+1. npm run vscode:prepublish
+2. npm run vsce:login
+3. npm run publish
+
+NOTE: If you have NOT published before, you'll need a personal access key to marketplace - see above VSC publishing link for details.
