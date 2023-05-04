@@ -151,7 +151,9 @@
     "test": "node ./out/test/runTest.js",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
     "prepublish-pretest": "npm run clean && npm run vscode:prepublish && npm run copy:test-data",
-    "package": "vsce package --allow-missing-repository --baseContentUrl \"https://polyverse.com\" --baseImagesUrl \"https://polyverse.com/images\" --out ./out/"
+    "package": "vsce package --allow-missing-repository --baseContentUrl \"https://polyverse.com\" --baseImagesUrl \"https://polyverse.com/images\" --out ./out/",
+    "publish": "vsce publish --allow-missing-repository --baseContentUrl \"https://polyverse.com\" --baseImagesUrl \"https://polyverse.com/images\"",
+    "vsce:login": "vsce login polyversecorporation"
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",
