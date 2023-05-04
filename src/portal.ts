@@ -37,10 +37,16 @@ export function registerCustomerPortalCommand(context: vscode.ExtensionContext) 
 
             let endpoint = serviceEndpoint();
 
-            const response = await axios.post(
-                endpoint,
-                payload);
-            
+            let response;
+            try {
+                response = await axios.post(
+                    endpoint,
+                    payload);
+            } catch (err : any) {
+                boostLogging.error(`Unable to launch customer portal: ${err.message}. Please contact Polyverse Boost Support`);
+                return;
+            }
+
             let url = response.data['portal_url'];
             vscode.env.openExternal(vscode.Uri.parse(url));
         })  
