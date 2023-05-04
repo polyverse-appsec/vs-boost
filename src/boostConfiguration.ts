@@ -84,7 +84,7 @@ class Defaults {
 
     // specify true to use the local Boost service for debugging
     public static readonly cloudServiceStageName = "cloudServiceStage";
-    public static readonly cloudServiceStageValue = "dev";
+    public static readonly cloudServiceStageValue = "prod";
 
     // specify 0-100 for the % of service requests to randomly fail at runtime
     public static readonly serviceFaultInjectionName = "serviceFaultInjection";
