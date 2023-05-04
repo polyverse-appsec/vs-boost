@@ -183,3 +183,23 @@ Use following extra steps to publish:
 3. npm run publish
 
 NOTE: If you have NOT published before, you'll need a personal access key to marketplace - see above VSC publishing link for details.
+
+Example of Output from Publishing:
+
+2. Login Example
+npm run vsce:login
+```https://marketplace.visualstudio.com/manage/publishers/
+Personal Access Token for publisher 'polyversecorporation': ****************************************************
+
+The Personal Access Token verification succeeded for the publisher 'polyversecorporation'.
+```
+
+3. Publish Example
+npm run publish
+```
+⚡ Done in 94ms
+ INFO  Publishing 'polyversecorporation.polyverse-boost-notebook v0.9.5'...
+ INFO  Extension URL (might take a few minutes): https://marketplace.visualstudio.com/items?itemName=polyversecorporation.polyverse-boost-notebook
+ INFO  Hub URL: https://marketplace.visualstudio.com/manage/publishers/polyversecorporation/extensions/polyverse-boost-notebook/hub
+ DONE  Published polyversecorporation.polyverse-boost-notebook v0.9.5.
+```
