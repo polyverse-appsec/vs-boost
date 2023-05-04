@@ -13,13 +13,13 @@ function serviceEndpoint(): string {
         case "local":
             return 'http://127.0.0.1:8000/customer_portal';
         case 'dev':
-            return '';
+            return 'https://hry4lqp3ktulatehaowyzhkbja0mkjob.lambda-url.us-west-2.on.aws/';
         case "test":
-            return '';
+            return 'https://kpxtpi5swejjt6yiflcpspchim0wrhaa.lambda-url.us-west-2.on.aws/';
         case 'staging':
         case 'prod':
         default:
-            return '';
+            return 'https://roxbi254sch3yijt7tqbz4s7jq0jxddr.lambda-url.us-west-2.on.aws/';
     }
 }
 

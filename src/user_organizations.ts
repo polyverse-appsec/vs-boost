@@ -9,13 +9,13 @@ function orgServiceEndpoint(): string {
         case "local":
             return 'http://127.0.0.1:8000/user_organizations';
         case 'dev':
-            return '';
+            return 'https://cro3oyez4g56b33hvglfwytg3q0alxrz.lambda-url.us-west-2.on.aws/';
         case "test":
-            return '';
+            return 'https://cx7j5efr47xhnyyusattghf3q40hewnv.lambda-url.us-west-2.on.aws/';
         case 'staging':
         case 'prod':
         default:
-            return '';
+            return 'https://ptb5spl6kvsuioc5zkrgyncrve0jyrew.lambda-url.us-west-2.on.aws/';
     }
 }
 
