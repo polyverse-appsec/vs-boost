@@ -72,7 +72,8 @@ export async function getCurrentGithubOrganizationFromWorkspace(): Promise<strin
 
     // Get the active repository.
     const activeRepo = gitApi.repositories[0];
-    if (!activeRepo) {
+    //if there is no remote set, getRemotes will no be available
+    if (!activeRepo || !activeRepo.getRemotes) {
       // No active repository.
       return '';
     }

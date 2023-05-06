@@ -57,7 +57,7 @@ export function registerCustomerPortalCommand(context: vscode.ExtensionContext) 
             let url;
             try {
                 let response = await getCustomerStatus(context);
-                url = response.data['portal_url'];
+                url = response['portal_url'];
             } catch (err : any) {
                 boostLogging.error(`Unable to launch customer portal: ${err.message}. Please contact Polyverse Boost Support`);
                 return;
