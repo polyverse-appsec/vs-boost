@@ -1,5 +1,5 @@
 import {
-    KernelControllerBase
+    KernelControllerBase, onServiceErrorHandler
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext} from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
@@ -7,7 +7,7 @@ import { BoostConfiguration } from './boostConfiguration';
 export const explainCellMarker = 'explainCode';
 
 export class BoostExplainKernel extends KernelControllerBase {
-	constructor(context: ExtensionContext, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
             'polyverse-boost-explain-kernel',
@@ -15,7 +15,9 @@ export class BoostExplainKernel extends KernelControllerBase {
             explainCellMarker,
             false,
             false,
-            context);
+            context,
+            otherThis,
+            onServiceErrorHandler);
 	}
 
 	dispose(): void {

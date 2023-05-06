@@ -7,16 +7,16 @@ import { BoostComplianceKernel } from './compliance_controller';
 import { BoostExplainKernel, explainCellMarker } from './explain_controller';
 import { BoostCodeGuidelinesKernel } from './codeguidelines_controller';
 import { BoostArchitectureBlueprintKernel } from './blueprint_controller';
-import { BoostCustomProcessKernel, customProcessCellMarker } from './custom_controller';
+import { BoostCustomProcessKernel } from './custom_controller';
 
 import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
 import instructions from './instructions.json';
 import { BoostConfiguration } from './boostConfiguration';
-import { fetchUserOrganizationsServiceRequest } from './user_organizations';
 import { boostLogging } from './boostLogging';
 import { KernelControllerBase} from './base_controller';
-import { TextDecoder, TextEncoder } from 'util';
+import { TextDecoder } from 'util';
+import { updateBoostStatusColors } from './portal';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as boostnb from './jupyter_notebook';
@@ -43,7 +43,7 @@ export class BoostExtension {
         let result = _setupDiagnosticProblems(context);
 
         
-        setupNotebookEnvironment(context, result.problems, result.map);
+        this.setupNotebookEnvironment(context, result.problems, result.map);
 
         registerCreateNotebookCommand(context, result.problems);
 
@@ -107,6 +107,49 @@ export class BoostExtension {
         boostLogging.info('Polyverse Boost Notebook Extension is now active');
         setupBoostStatus(context, this);
     }
+
+    setupNotebookEnvironment(
+        context: vscode.ExtensionContext,
+        collection: vscode.DiagnosticCollection,
+        kernelMap : Map<string, KernelControllerBase>) {
+
+            // build a map of output types to kernels so we can reverse lookup the kernels from their output
+
+        let convertKernel = new BoostConvertKernel(context, updateBoostStatusColors.bind(this), this, collection);
+        kernelMap.set(convertKernel.outputType, convertKernel);
+        let explainKernel = new BoostExplainKernel(context, updateBoostStatusColors.bind(this), this, collection);
+        kernelMap.set(explainKernel.outputType, explainKernel);
+        let analyzeKernel = new BoostAnalyzeKernel(context, updateBoostStatusColors.bind(this), this, collection);
+        kernelMap.set(analyzeKernel.outputType, analyzeKernel);
+        let testgenKernel = new BoostTestgenKernel(context, updateBoostStatusColors.bind(this), this, collection);
+        kernelMap.set(testgenKernel.outputType, testgenKernel);
+        let complianceKernel = new BoostComplianceKernel(context, updateBoostStatusColors.bind(this), this, collection);
+        kernelMap.set(complianceKernel.outputType, complianceKernel);
+        let guidelinesKernel = new BoostCodeGuidelinesKernel(context, updateBoostStatusColors.bind(this), this, collection);
+        kernelMap.set(guidelinesKernel.outputType, guidelinesKernel);
+        let blueprintKernel = new BoostArchitectureBlueprintKernel(context, updateBoostStatusColors.bind(this), this, collection);
+        kernelMap.set(blueprintKernel.outputType, blueprintKernel);
+
+        context.subscriptions.push(
+            vscode.workspace.registerNotebookSerializer(
+                NOTEBOOK_TYPE, new BoostContentSerializer(), { transientOutputs: false }
+            ),
+            convertKernel,
+            analyzeKernel,
+            explainKernel,
+            testgenKernel,
+            complianceKernel,
+            guidelinesKernel,
+            blueprintKernel
+        );
+
+            // if in dev mode, register all dev only kernels
+        if (BoostConfiguration.enableDevOnlyKernels) {
+            let customProcessKernel = new BoostCustomProcessKernel(context, updateBoostStatusColors.bind(this), this, collection);
+            kernelMap.set(customProcessKernel.outputType, customProcessKernel);
+            context.subscriptions.push(customProcessKernel);
+        }
+    }
 }
 export function activate(context: vscode.ExtensionContext) {
     new BoostExtension(context);
@@ -149,49 +192,6 @@ function registerCreateNotebookCommand(
 
 		const editor = await vscode.window.showNotebookDocument(doc);
 	}));}
-
-function setupNotebookEnvironment(
-    context: vscode.ExtensionContext,
-    collection: vscode.DiagnosticCollection,
-    kernelMap : Map<string, KernelControllerBase>) {
-
-        // build a map of output types to kernels so we can reverse lookup the kernels from their output
-    let convertKernel = new BoostConvertKernel(context, collection);
-    kernelMap.set(convertKernel.outputType, convertKernel);
-    let explainKernel = new BoostExplainKernel(context, collection);
-    kernelMap.set(explainKernel.outputType, explainKernel);
-    let analyzeKernel = new BoostAnalyzeKernel(context, collection);
-    kernelMap.set(analyzeKernel.outputType, analyzeKernel);
-    let testgenKernel = new BoostTestgenKernel(context, collection);
-    kernelMap.set(testgenKernel.outputType, testgenKernel);
-    let complianceKernel = new BoostComplianceKernel(context, collection);
-    kernelMap.set(complianceKernel.outputType, complianceKernel);
-    let guidelinesKernel = new BoostCodeGuidelinesKernel(context, collection);
-    kernelMap.set(guidelinesKernel.outputType, guidelinesKernel);
-    let blueprintKernel = new BoostArchitectureBlueprintKernel(context, collection);
-    kernelMap.set(blueprintKernel.outputType, blueprintKernel);
-
-	context.subscriptions.push(
-		vscode.workspace.registerNotebookSerializer(
-			NOTEBOOK_TYPE, new BoostContentSerializer(), { transientOutputs: false }
-		),
-        convertKernel,
-        analyzeKernel,
-        explainKernel,
-        testgenKernel,
-        complianceKernel,
-        guidelinesKernel,
-        blueprintKernel
-	);
-  
-        // if in dev mode, register all dev only kernels
-    if (BoostConfiguration.enableDevOnlyKernels) {
-        let customProcessKernel = new BoostCustomProcessKernel(context, collection);
-        kernelMap.set(customProcessKernel.outputType, customProcessKernel);
-        context.subscriptions.push(customProcessKernel);
-    }    
-
-}
 
 function registerOpenCodeFile(context: vscode.ExtensionContext) {
 	// Register a command to handle the button click

@@ -1,18 +1,16 @@
-import { access } from 'fs';
 import {
-    KernelControllerBase
+    KernelControllerBase, onServiceErrorHandler
     } from './base_controller';
 import * as vscode from 'vscode';
-import axios, { AxiosResponse } from 'axios';
 import { explainCellMarker } from './explain_controller';
-import { NOTEBOOK_TYPE } from './extension';
 import { BoostConfiguration } from './boostConfiguration';
+
 
 //set a helper variable of the base url.  this should eventually be a config setting
 
 const markdownCodeMarker = '```';
 export class BoostConvertKernel extends KernelControllerBase {
-	constructor(context: vscode.ExtensionContext, collection: vscode.DiagnosticCollection) {
+	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
             'polyverse-boost-convert-kernel',
@@ -20,7 +18,9 @@ export class BoostConvertKernel extends KernelControllerBase {
             'generatedCode',
             false,
             true,
-            context);
+            context,
+            otherThis,
+            onServiceErrorHandler);
 	}
 
 	dispose(): void {

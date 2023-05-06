@@ -1,5 +1,5 @@
 import {
-    KernelControllerBase
+    KernelControllerBase, onServiceErrorHandler
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext} from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
@@ -10,7 +10,7 @@ import { TextDecoder } from 'util';
 export const blueprintCellMarker = 'archblueprintCode';
 
 export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
-	constructor(context: ExtensionContext, collection: DiagnosticCollection) {
+	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
             'polyverse-boost-blueprint-kernel',
@@ -18,7 +18,9 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
             blueprintCellMarker,
             false,
             false,
-            context);
+            context,
+            otherThis,
+            onServiceErrorHandler);
 	}
 
 	dispose(): void {

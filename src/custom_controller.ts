@@ -1,10 +1,10 @@
 import {
-    KernelControllerBase
+    KernelControllerBase, onServiceErrorHandler
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import * as vscode from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
-import { BoostLogger, boostLogging } from './boostLogging';
+import { boostLogging } from './boostLogging';
 
 export const customProcessCellMarker = 'customProcessCode';
 
@@ -19,7 +19,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
 
     _customPrompt : string = this.defaultPrompt;
 
-	constructor(context: ExtensionContext, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
             'polyverse-boost-custom-kernel',
@@ -27,7 +27,9 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
             customProcessCellMarker,
             false,
             false,
-            context);
+            context,
+            otherThis,
+            onServiceErrorHandler);
 	}
 
 	dispose(): void {

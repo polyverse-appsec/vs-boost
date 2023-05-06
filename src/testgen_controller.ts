@@ -1,14 +1,12 @@
-import { access } from 'fs';
 import {
-    KernelControllerBase
+    KernelControllerBase, onServiceErrorHandler
     } from './base_controller';
 import * as vscode from 'vscode';
-import axios, { AxiosResponse } from 'axios';
-import { NOTEBOOK_TYPE } from './extension';
 import { BoostConfiguration } from './boostConfiguration';
+import axios from 'axios';
 
 export class BoostTestgenKernel extends KernelControllerBase {
-	constructor(context: vscode.ExtensionContext, collection: vscode.DiagnosticCollection) {
+	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
             'polyverse-boost-testgen-kernel',
@@ -16,7 +14,9 @@ export class BoostTestgenKernel extends KernelControllerBase {
             'testGeneration',
             true,
             true,
-            context);
+            context,
+            otherThis,
+            onServiceErrorHandler);
 	}
 
 	dispose(): void {
