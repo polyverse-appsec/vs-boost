@@ -7,11 +7,15 @@ export function mapError(err: any) : Error {
                     "Unable to process this source code. This can be caused by a temporary issue with the " +
                     "Boost Cloud Service, or by an issue in the source input. Please try again, and if the " +
                     "problem persists, please contact Boost Support.");
-            case 401: // authorization error - likely GitHub issue
-                return new Error(
-                    "Unable to use your GitHub authorized account to access the Boost Cloud Service. " +
-                    "Please check your GitHub account settings, and try again. Also note that your Polyverse " +
-                    "license must use the same email address as your GitHub account.");
+            case 401: // authorization error - likely GitHub or Billing issue
+                if (err.response.data && err.response.data.error) {
+                    return new Error(err.response.data.error);
+                } else {
+                    return new Error(
+                        "Unable to use your GitHub authorized account to access the Boost Cloud Service. " +
+                        "Please check your GitHub account and Billing settings, and try again. Also note that your Polyverse " +
+                        "license must use the same email address as your GitHub account.");
+                    }
             case 501: // account usage limit exceeded - need credit card or access upgraded
                 return new Error(
                     "Current account usage/billing limit reached. " +

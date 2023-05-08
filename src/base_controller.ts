@@ -7,7 +7,7 @@ import { fetchGithubSession, getCurrentOrganization } from './authorization';
 import { mapError } from './error';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export type onServiceErrorHandler = (context: vscode.ExtensionContext, closure: any) => void;
+export type onServiceErrorHandler = (context: vscode.ExtensionContext, error: any, closure: any) => void;
 
 export class KernelControllerBase {
     _problemsCollection: vscode.DiagnosticCollection;
@@ -313,7 +313,7 @@ export class KernelControllerBase {
             return result;
         } catch (err : any) {
             if (this._onServiceError !== undefined) {
-                this._onServiceError(this.context, this.otherThis);
+                this._onServiceError(this.context, err as Error, this.otherThis);
             }
             return mapError(err);
         }
@@ -329,7 +329,7 @@ export class KernelControllerBase {
             payload).then((response) => {
                 return response.data;
             }).catch((error) => {
-                boostLogging.debug(`Error in cell ${cell.document.uri.toString()}: ${error.message}`);
+                throw error;
             });
     }
 

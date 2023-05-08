@@ -67,7 +67,7 @@ export function registerCustomerPortalCommand(context: vscode.ExtensionContext) 
     );
 }
 
-export async function updateBoostStatusColors(context: vscode.ExtensionContext, closure: BoostExtension) {
+export async function updateBoostStatusColors(context: vscode.ExtensionContext, error: any, closure: BoostExtension) {
     if (closure.statusBar === undefined) {
         return;
     }
@@ -110,7 +110,7 @@ export async function setupBoostStatus(context: vscode.ExtensionContext, closure
         boostLogging.log(`Error during Activation: Unable to retrieve current organization. ${(e as Error).message}`);
         closure.statusBar.text = "Boost: Organization is *UNKNOWN*";
     }
-    await updateBoostStatusColors(context, closure);
+    await updateBoostStatusColors(context, undefined, closure);
 
     closure.statusBar.command = 'polyverse-boost-notebook.boostStatus';
     closure.statusBar.show();
@@ -189,7 +189,7 @@ function registerSelectOrganizationCommand(context: vscode.ExtensionContext, clo
                 if( closure.statusBar){
                     closure.statusBar.text = "Boost: Organization is " + organization;
 
-                    await updateBoostStatusColors(context, closure);
+                    await updateBoostStatusColors(context, undefined, closure);
                 }
             }
         } catch (err : any) {
