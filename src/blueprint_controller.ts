@@ -13,8 +13,9 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
 	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
-            'polyverse-boost-blueprint-kernel',
-            'Polyverse Boost: Architectural Blueprint Code',
+            'blueprint',
+            'Architectural Blueprint Code',
+            'Builds Archiectural Blueprint of targeted source code by identifying architectural principles, patterns, licensing, performance, etc.',
             blueprintCellMarker,
             false,
             false,

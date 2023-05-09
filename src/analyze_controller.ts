@@ -9,8 +9,9 @@ export class BoostAnalyzeKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis: any, collection: DiagnosticCollection) {
         super(
             collection,
-            'polyverse-boost-analyze-kernel',
-            'Polyverse Boost: Analyze Code for Security Vulnerabilities',
+            'analyze',
+            'Analyze Code for Security Vulnerabilities',
+            'Analyzes all targeted source code for security vulnerabiities, bugs and potential design flaws',
             'bugAnalysis',
             true,
             true, 

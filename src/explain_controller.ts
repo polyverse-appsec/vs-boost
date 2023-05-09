@@ -10,8 +10,9 @@ export class BoostExplainKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
-            'polyverse-boost-explain-kernel',
-            'Polyverse Boost: Explain Code',
+            'explain',
+            'Explain Code',
+            'Explains the targeted source code in English, including algorithms, referenced frameworks and design patterns',
             explainCellMarker,
             false,
             false,

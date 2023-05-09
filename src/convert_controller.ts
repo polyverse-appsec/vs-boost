@@ -13,8 +13,9 @@ export class BoostConvertKernel extends KernelControllerBase {
 	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
-            'polyverse-boost-convert-kernel',
-            'Polyverse Boost: Convert Legacy Code to New Code',
+            'convert',
+            'Convert Legacy Code to New Code',
+            'Converts targeted source code into a new programming language, using the best practices of the target language',
             'generatedCode',
             false,
             true,

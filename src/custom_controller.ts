@@ -22,8 +22,9 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
-            'polyverse-boost-custom-kernel',
-            'Polyverse Boost: Custom Process Code',
+            'custom',
+            'Custom Process Code',
+            'Uses a custom prompt from user to process the targeted source code',
             customProcessCellMarker,
             false,
             false,

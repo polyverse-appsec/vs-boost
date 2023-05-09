@@ -4,6 +4,7 @@ import { debug } from 'console';
 import * as sinon from 'sinon';
 import * as path from 'path';
 import * as fs from 'fs';
+import { NOTEBOOK_TYPE } from '../../extension';
 
 suite('Convert Code Command', function() {
 
@@ -20,7 +21,7 @@ suite('Convert Code Command', function() {
     await vscode.workspace.getConfiguration().update('files.hotExit', 'off', vscode.ConfigurationTarget.Global);
 
     // Execute the "createJsonNotebook" command
-    await vscode.commands.executeCommand('polyverse-boost-notebook.createJsonNotebook',
+    await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.createJsonNotebook',
         { timeout: 2000 }); // give the command 2 seconds to execute
 
     // Wait for the notebook to be created
@@ -80,7 +81,7 @@ suite('Convert Code Command', function() {
     try
     {
         // Execute the "loadCodeFile" command
-        await vscode.commands.executeCommand('polyverse-boost-notebook.loadCodeFile',
+        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.loadCodeFile',
             { timeout: 2000 }); // give the command 2 seconds to execute
 
         // Wait for the file to be loaded

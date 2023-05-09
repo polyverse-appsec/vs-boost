@@ -13,6 +13,7 @@ export class KernelControllerBase {
     _problemsCollection: vscode.DiagnosticCollection;
 	id : string;
 	kernelLabel : string;
+    description : string;
 	private _supportedLanguages = [];
     private _outputType : string;
     private _useGeneratedCodeCellOptimization : boolean;
@@ -28,6 +29,7 @@ export class KernelControllerBase {
         problemsCollection: vscode.DiagnosticCollection,
         kernelId : string,
         kernelLabel : string,
+        description : string,
         outputType : string,
         useGeneratedCodeCellOptimization : boolean,
         useOriginalCodeCheck : boolean,
@@ -40,8 +42,9 @@ export class KernelControllerBase {
         }
             
         this._problemsCollection = problemsCollection;
-        this.id = kernelId;
-        this.kernelLabel = kernelLabel;
+        this.id = "polyverse-boost-" + kernelId + "-kernel";
+        this.kernelLabel = "Polyverse Boost: " + kernelLabel;
+        this.description = description;
         this._outputType = outputType;
         this._useGeneratedCodeCellOptimization = useGeneratedCodeCellOptimization;
         this.useOriginalCodeCheck = useOriginalCodeCheck;
@@ -50,7 +53,7 @@ export class KernelControllerBase {
         this._onServiceError = onServiceErrorHandler;
 
 		this._controller = vscode.notebooks.createNotebookController(this.id,
-			'polyverse-boost-notebook',
+			NOTEBOOK_TYPE,
 			this.kernelLabel);
 
 		this._controller.supportedLanguages = this._supportedLanguages;

@@ -9,8 +9,9 @@ export class BoostTestgenKernel extends KernelControllerBase {
 	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
-            'polyverse-boost-testgen-kernel',
-            'Polyverse Boost: Generate Test Cases for Code',
+            'testgen',
+            'Generate Test Cases for Code',
+            'Generates a set of unit Test Cases for testing the targeted source code using a specifie Test Framework',
             'testGeneration',
             true,
             true,

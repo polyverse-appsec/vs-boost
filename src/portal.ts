@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import axios from 'axios';
 import { BoostConfiguration } from './boostConfiguration';
 import { fetchGithubSession, getCurrentOrganization } from './authorization';
-import { BoostExtension } from './extension';
+import { BoostExtension, NOTEBOOK_TYPE } from './extension';
 import { fetchUserOrganizationsServiceRequest, UserOrgs } from './user_organizations';
 import { boostLogging } from './boostLogging';
 import { mapError } from './error';
@@ -53,7 +53,7 @@ export async function getCustomerStatus(context: vscode.ExtensionContext): Promi
 
 export function registerCustomerPortalCommand(context: vscode.ExtensionContext) {
     context.subscriptions.push(
-        vscode.commands.registerCommand('polyverse-boost-notebook.customerPortal', async () => {
+        vscode.commands.registerCommand(NOTEBOOK_TYPE + '.customerPortal', async () => {
             let url;
             try {
                 let response = await getCustomerStatus(context);
@@ -112,11 +112,12 @@ export async function setupBoostStatus(context: vscode.ExtensionContext, closure
     }
     await updateBoostStatusColors(context, undefined, closure);
 
-    closure.statusBar.command = 'polyverse-boost-notebook.boostStatus';
+    closure.statusBar.command = NOTEBOOK_TYPE + '.boostStatus';
     closure.statusBar.show();
-    vscode.commands.registerCommand('polyverse-boost-notebook.boostStatus', 
+    vscode.commands.registerCommand(NOTEBOOK_TYPE + '.boostStatus', 
         boostStatusCommand.bind(closure));
     registerSelectOrganizationCommand(context, closure);
+    context.subscriptions.push(closure.statusBar);
 }
 
 function boostStatusCommand(this: any) {
@@ -135,11 +136,11 @@ function boostStatusCommand(this: any) {
         if (selection === openAccountDashboardButton) {
           // The user clicked the "Open Account Dashboard" button
           // Perform the appropriate action, e.g., open a URL or show a webview
-          vscode.commands.executeCommand('polyverse-boost-notebook.customerPortal');
+          vscode.commands.executeCommand(NOTEBOOK_TYPE + '.customerPortal');
         } else if (selection === changeBillingOrganizationButton) {
           // The user clicked the "Change Billing Organization" button
           // Perform the appropriate action, e.g., open a URL or show a webview
-          vscode.commands.executeCommand('polyverse-boost-notebook.selectOrganization');
+          vscode.commands.executeCommand(NOTEBOOK_TYPE + '.selectOrganization');
         } else {
           // The user dismissed the message without clicking any button
           // Perform any necessary cleanup or logging
@@ -149,7 +150,7 @@ function boostStatusCommand(this: any) {
 
 function registerSelectOrganizationCommand(context: vscode.ExtensionContext, closure: BoostExtension) {
     context.subscriptions.push(vscode.commands.registerCommand(
-        'polyverse-boost-notebook.selectOrganization', async () => {
+        NOTEBOOK_TYPE + '.selectOrganization', async () => {
         
         try
         {
