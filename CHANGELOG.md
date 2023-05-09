@@ -12,7 +12,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### New Features
 - Added usage-based Metered billing for Teams and Enterprise licensing
-- Added Customer Account portal UI for managing licenses and billingnput only)
+- Added Customer Account portal UI for managing licenses and billing input only
 - Added support for using GitHub organization as Customer id
     NOTE: Existing customers may need to re-authorize GitHub access for Boost due access "Organization" info
 
