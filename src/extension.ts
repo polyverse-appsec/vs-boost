@@ -556,27 +556,107 @@ export class BoostExtension {
                     uri = vscode.window.activeTextEditor?.document.uri;
                 }
             }
-            if (this.kernelCommand === undefined) {
-                boostLogging.error(`No Boost Kernel Command selected`);
+
+            const targetedKernel = this.getCurrentKernel();
+            if (targetedKernel === undefined) {
+                return;
             }
 
-            let targetedKernel : KernelControllerBase | undefined;
-            this.kernels.forEach((kernel) => {
-                if (kernel.command === this.kernelCommand) {
-                    targetedKernel = kernel;
-                }
-            });
+            let boostUri = uri;
+                // if we got a source file, then load the notebook from it
+            if (!uri.fsPath.endsWith(NOTEBOOK_EXTENSION)) {
+                boostUri = uri.with({ path: uri.fsPath + NOTEBOOK_EXTENSION });
+            }
+
             const notebook = new boostnb.BoostNotebook();
-            notebook.load(uri.fsPath);
-            await targetedKernel?.executeAllWithAuthorization(notebook.cells, notebook);
+            if (!fs.existsSync(boostUri.fsPath)) {
+                throw new Error(`Unable to find Boost notebook for ${uri.fsPath} - please create Boost notebook first`);
+            }
+
+            notebook.load(boostUri.fsPath);
+            return targetedKernel?.executeAllWithAuthorization(notebook.cells, notebook);
         } catch (error) {
-            boostLogging.error(`Unable to Process ${this.kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
+            throw new Error(`Unable to Process ${this.kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
         }
     }
 
+    private getCurrentKernel() : KernelControllerBase | undefined {
+        if (this.kernelCommand === undefined) {
+            boostLogging.error(`No Boost Kernel Command selected`);
+            return undefined;
+        }
+
+        let targetedKernel : KernelControllerBase | undefined;
+        this.kernels.forEach((kernel) => {
+            if (kernel.command === this.kernelCommand) {
+                targetedKernel = kernel;
+            }
+        });
+        if (targetedKernel === undefined) {
+            boostLogging.error(`Unable to find Kernel for ${this.kernelCommand}`);
+            return undefined;
+        }
+        return targetedKernel;
+    }
+
     async processCurrentFolder(uri: vscode.Uri, context: vscode.ExtensionContext) {
+        let targetFolder : vscode.Uri;
+        // if we don't have a folder selected, then the user didn't right click
+        //      so we need to use the workspace folder
+        if (uri === undefined) {
+            if (vscode.workspace.workspaceFolders === undefined) {
+                boostLogging.warn(
+                    'Unable to find Workspace Folder. Please open a Project or Folder first');
+                return;
+            }
+
+            // use first folder in workspace
+            targetFolder = vscode.workspace.workspaceFolders[0].uri;
+            boostLogging.debug(`Analyzing Project Wide source file in Workspace: ${targetFolder.fsPath}`);
+        }
+        else {
+            targetFolder = uri;
+            boostLogging.debug(`Analyzing source files in folder: ${uri.fsPath}`);
+        }
+
+        let baseWorkspace;
+        if (vscode.workspace.workspaceFolders) {
+            baseWorkspace = vscode.workspace.workspaceFolders![0].uri;
+        } else {
+            baseWorkspace = uri;
+        }
+        // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
+        let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*.*');
+        let ignorePattern = await _buildVSCodeIgnorePattern();
+        boostLogging.debug("Skipping source files of pattern: " + ignorePattern??"none");
+        let files = await vscode.workspace.findFiles(searchPattern, ignorePattern?new vscode.RelativePattern(targetFolder, ignorePattern):"");
+            
+        boostLogging.debug("Analyzing " + files.length + " files in folder: " + targetFolder);
+
+        const targetedKernel = this.getCurrentKernel();
+        if (targetedKernel === undefined) {
+            return;
+        }
+        
         try {
-            throw new Error("Method not implemented.");
+            let processedNotebookWaits : any [] = [];
+
+            files.filter(async (file) => {
+                processedNotebookWaits.push(this.processCurrentFile(file, context));
+            });
+            
+            Promise.all(processedNotebookWaits)
+                .then((processedNotebooks) => {
+                    processedNotebooks.forEach(async (notebook : boostnb.BoostNotebook) => {
+                        // we let user know the  notebook was processed
+                        boostLogging.debug(`Boost Notebook processed with command ${targetedKernel.command}: ${notebook.uri.fsPath}`);
+                    });
+                    boostLogging.info(`${processedNotebookWaits.length.toString()} Boost Notebooks processed for folder ${targetFolder.path}`);
+                })
+                .catch((error) => {
+                // Handle the error here
+                    boostLogging.error(`Error Boosting folder ${targetFolder.path} due Error: ${error}`);
+                });
         } catch (error) {
             boostLogging.error(`Unable to Process ${this.kernelCommand} on Folder:[${uri.fsPath.toString()} due to error:${error}`);
         }
