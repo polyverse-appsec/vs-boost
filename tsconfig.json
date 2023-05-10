@@ -9,6 +9,7 @@
 		"sourceMap": true,
 		"strict": true,
 		"rootDir": "src",
+        "watch": true,
 		"resolveJsonModule": true,
 		"esModuleInterop": true
 	},
