@@ -24,9 +24,11 @@ export class BoostLogger extends Disposable {
         this.log("DEBUG: " + message);
     }
 
-    info(message: string) {
+    info(message: string, showUI : boolean = true) {
         this.log("INFO: " + message);
-        window.showInformationMessage(message);
+        if (showUI) {
+            window.showInformationMessage(message);
+        }
     }
 
     warn(message: string, showUI : boolean = true) {
