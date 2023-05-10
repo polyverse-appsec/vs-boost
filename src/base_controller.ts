@@ -14,6 +14,7 @@ export class KernelControllerBase {
 	id : string;
 	kernelLabel : string;
     description : string;
+    command : string;
 	private _supportedLanguages = [];
     private _outputType : string;
     private _useGeneratedCodeCellOptimization : boolean;
@@ -42,6 +43,7 @@ export class KernelControllerBase {
         }
             
         this._problemsCollection = problemsCollection;
+        this.command = kernelId;
         this.id = "polyverse-boost-" + kernelId + "-kernel";
         this.kernelLabel = "Polyverse Boost: " + kernelLabel;
         this.description = description;

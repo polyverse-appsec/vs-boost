@@ -46,8 +46,12 @@ export class BoostExtension {
 
         this.registerCreateNotebookCommand(context, result.problems);
 
+        registerCustomerPortalCommand(context);
+        
+        setupBoostStatus(context, this);
+
         // register the select language command
-        this.setupKernelCommandPicker(context);
+        this.setupKernelCommandPicker(context, result.map);
         this.setupKernelStatus(context);
 
         // register the select language command
@@ -62,21 +66,17 @@ export class BoostExtension {
 
         this.registerFolderRightClickAnalyzeCommand(context);
 
-        registerCustomerPortalCommand(context);
-        
-        setupBoostStatus(context, this);
-
         boostLogging.log('Activated Boost Notebook Extension');
         boostLogging.info('Polyverse Boost is now active');
     }
 
-    setupKernelCommandPicker(context: vscode.ExtensionContext) {
+    setupKernelCommandPicker(context: vscode.ExtensionContext, kernels : Map<string, KernelControllerBase>) {
         context.subscriptions.push(vscode.commands.registerCommand(
             NOTEBOOK_TYPE + '.selectKernelCommand', async () => {
                 // Use the vscode.window.showQuickPick method to let the user select kernel
                 let availableKernelItems : any[] = [];
-                _getAllKernels(context).forEach((kernel : KernelControllerBase) => {
-                    availableKernelItems.push({ label: kernel.id, description: kernel.kernelLabel, details: kernel.description });
+                kernels.forEach((kernel : KernelControllerBase) => {
+                    availableKernelItems.push({ label: kernel.command, description: kernel.kernelLabel, details: kernel.description });
                 });
                 const kernel = await vscode.window.showQuickPick(availableKernelItems, {
                     title: "Choose a Kernel to use for processing of all Boost Notebooks and Cells",
@@ -97,7 +97,7 @@ export class BoostExtension {
 
     setupKernelStatus(context: vscode.ExtensionContext) {
         const kernelStatusBar = vscode.window.createStatusBarItem(
-            vscode.StatusBarAlignment.Left);
+            vscode.StatusBarAlignment.Left, 9);
         this.kernelStatusBar = kernelStatusBar;
 
         if (!BoostConfiguration.currentKernelCommand) {
@@ -440,6 +440,7 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
     }
 }
+
 export function activate(context: vscode.ExtensionContext) {
     new BoostExtension(context);
 }
@@ -697,6 +698,7 @@ function _setupDiagnosticProblems(context: vscode.ExtensionContext) :
 
     return {problems: problems, map: kernelMap};
 }
+
 function _syncProblemsInCell(
     cell: vscode.NotebookCell,
     problems: vscode.DiagnosticCollection,
@@ -741,6 +743,7 @@ function _syncProblemsInCell(
     // Replace the problems with the updated diagnostics
     problems.set(cellUri, diagnostics);
 }
+
 function newErrorFromItemData(data: Uint8Array) : Error {
     const errorJson = new TextDecoder().decode(data);
 
@@ -822,20 +825,4 @@ async function createEmptyNotebook(filename : vscode.Uri, useBoostNotebookWithNo
     const newNotebook = await vscode.workspace.openNotebookDocument(filename);
 
     return newNotebook;
-}
-
-function _getAllKernels(context: vscode.ExtensionContext): KernelControllerBase[] {
-    const kernels: KernelControllerBase[] = [];
-
-    context.globalState.keys().forEach((key) => {
-        if (key.endsWith('Kernel')) {
-            const item = context.globalState.get(key);
-            if (item instanceof KernelControllerBase) {
-                kernels.push(item);
-            }
-        }
-
-    });
-
-  return kernels;
 }

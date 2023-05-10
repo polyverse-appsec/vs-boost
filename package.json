@@ -58,10 +58,6 @@
         "title": "Polyverse Boost: Open Customer Dashboard"
       },
       {
-        "command": "polyverse-boost-notebook.selectKernelCommand",
-        "title": "Polyverse Boost: Select Kernel"
-      },
-      {
         "command": "polyverse-boost-notebook.boostStatus",
         "title": "Polyverse Boost: Show Account Status"
       },

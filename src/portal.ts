@@ -101,7 +101,7 @@ export async function updateBoostStatusColors(context: vscode.ExtensionContext, 
 
 export async function setupBoostStatus(context: vscode.ExtensionContext, closure: BoostExtension) {
     const boostStatusBar = vscode.window.createStatusBarItem(
-        vscode.StatusBarAlignment.Left);
+        vscode.StatusBarAlignment.Left, 10);
     closure.statusBar = boostStatusBar;
     try {
         const currentOrganization = await getCurrentOrganization(context);
