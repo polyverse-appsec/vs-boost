@@ -101,7 +101,7 @@ export class BoostExtension {
         this.kernelStatusBar = kernelStatusBar;
 
         if (!BoostConfiguration.currentKernelCommand) {
-            this.kernelStatusBar.text = "Select a Kernel";
+            this.kernelStatusBar.text = "Select Boost Kernel";
         } else {
             this.kernelStatusBar.text = BoostConfiguration.currentKernelCommand;
         }
