@@ -81,13 +81,23 @@
         "icon": "$(checklist)"
       },
       {
+        "command": "polyverse-boost-notebook.loadCurrentFile",
+        "title": "Polyverse Boost: Load from File",
+        "icon": "$(file)"
+      },
+      {
+        "command": "polyverse-boost-notebook.loadCurrentFolder",
+        "title": "Polyverse Boost: Load from Folder",
+        "icon": "$(folder)"
+      },
+      {
         "command": "polyverse-boost-notebook.processCurrentFile",
-        "title": "Polyverse Boost: Analysis from File",
+        "title": "Polyverse Boost: Run Kernel on File",
         "icon": "$(file)"
       },
       {
         "command": "polyverse-boost-notebook.processCurrentFolder",
-        "title": "Polyverse Boost: Analysis from Folder",
+        "title": "Polyverse Boost: Run Kernel on Folder",
         "icon": "$(folder)"
       }
     ],
@@ -121,6 +131,18 @@
         }
       ],
       "explorer/context": [
+        {
+            "command": "polyverse-boost-notebook.loadCurrentFile",
+            "when":
+                "resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb",
+            "group": "navigation"
+        },
+        {
+            "command": "polyverse-boost-notebook.loadCurrentFolder",
+            "when":
+                "(resourceScheme == 'file' && resourceLangId == 'unknown' && resourceExtname == '')",
+            "group": "navigation"
+        },
         {
             "command": "polyverse-boost-notebook.processCurrentFile",
             "when":
