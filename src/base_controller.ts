@@ -5,6 +5,7 @@ import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
 import { fetchGithubSession, getCurrentOrganization } from './authorization';
 import { mapError } from './error';
+import { BoostNotebookCell, BoostNotebook } from './jupyter_notebook';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type onServiceErrorHandler = (context: vscode.ExtensionContext, error: any, closure: any) => void;
@@ -93,6 +94,13 @@ export class KernelControllerBase {
         notebook: vscode.NotebookDocument,
         controller: vscode.NotebookController): Promise<void> {
 
+        return this.executeAllWithAuthorization(cells, notebook);
+	}
+
+	async executeAllWithAuthorization(
+        cells: vscode.NotebookCell[] | BoostNotebookCell[],
+        notebook: vscode.NotebookDocument | BoostNotebook): Promise<void> {
+
 		// make sure we're authorized
 		// if not, run the authorization cell
 		const session = await this.doAuthorizationExecution();
@@ -102,7 +110,11 @@ export class KernelControllerBase {
 			return;
 		}
 
-        this.executeAll(cells, notebook, session);
+        if (notebook instanceof BoostNotebook) {
+            throw new Error("Method not implemented.");
+        }
+
+        this.executeAll(cells as vscode.NotebookCell[], notebook as vscode.NotebookDocument, session);
 	}
 
     executeAll(cells: vscode.NotebookCell[], notebook: vscode.NotebookDocument, session : vscode.AuthenticationSession) {

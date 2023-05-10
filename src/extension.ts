@@ -400,11 +400,11 @@ export class BoostExtension {
 
             // use first folder in workspace
             targetFolder = vscode.workspace.workspaceFolders[0].uri;
-            boostLogging.debug("Analyzing Project Wide source files");
+            boostLogging.debug(`Analyzing Project Wide source file in Workspace: ${targetFolder.fsPath}`);
         }
         else {
             targetFolder = uri;
-            boostLogging.debug("Analyzing source files in folder: " + uri.toString());
+            boostLogging.debug(`Analyzing source files in folder: ${uri.fsPath}`);
         }
 
         let baseWorkspace;
@@ -543,17 +543,42 @@ export class BoostExtension {
     }
 
     async processCurrentFile(uri: vscode.Uri, context: vscode.ExtensionContext) {
-        try {
-            throw new Error("Method not implemented.");
+        try
+        {
+            // if we don't have a file selected, then the user didn't right click
+            //      so we need to find the current active editor, if its available
+            if (uri === undefined) {
+                if (vscode.window.activeTextEditor === undefined) {
+                    boostLogging.warn(`Unable to identify an active file to Process ${this.kernelCommand}`);
+                    return;
+                }
+                else {
+                    uri = vscode.window.activeTextEditor?.document.uri;
+                }
+            }
+            if (this.kernelCommand === undefined) {
+                boostLogging.error(`No Boost Kernel Command selected`);
+            }
+
+            let targetedKernel : KernelControllerBase | undefined;
+            this.kernels.forEach((kernel) => {
+                if (kernel.command === this.kernelCommand) {
+                    targetedKernel = kernel;
+                }
+            });
+            const notebook = new boostnb.BoostNotebook();
+            notebook.load(uri.fsPath);
+            await targetedKernel?.executeAllWithAuthorization(notebook.cells, notebook);
         } catch (error) {
-            boostLogging.error(`Unable to Process ${this.kernelCommand} against file:[${uri.fsPath.toString()} due to error:${error}`);
+            boostLogging.error(`Unable to Process ${this.kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
         }
     }
+
     async processCurrentFolder(uri: vscode.Uri, context: vscode.ExtensionContext) {
         try {
             throw new Error("Method not implemented.");
         } catch (error) {
-            boostLogging.error(`Unable to Process ${this.kernelCommand} against Folder:[${uri.fsPath.toString()} due to error:${error}`);
+            boostLogging.error(`Unable to Process ${this.kernelCommand} on Folder:[${uri.fsPath.toString()} due to error:${error}`);
         }
     }
     
