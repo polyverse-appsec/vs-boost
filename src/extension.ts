@@ -31,6 +31,7 @@ export class BoostExtension {
     // 2. in the globalState object.  this is syncronized with the cloud, so stuff like the organization should be kept there
     // 3. in the extension configuration. this is more 'permanent' state. 
     public statusBar: vscode.StatusBarItem | undefined;
+    kernels : Map<string, KernelControllerBase> = new Map<string, KernelControllerBase>();
   
     constructor(context: vscode.ExtensionContext) {
     
@@ -40,18 +41,18 @@ export class BoostExtension {
         // we use a friendly name for the channel as this will be displayed to the user in the output pane
         boostLogging.log('Activating Boost Notebook Extension');
 
-        let result = _setupDiagnosticProblems(context);
+        let problems = this._setupDiagnosticProblems(context);
 
-        this.setupNotebookEnvironment(context, result.problems, result.map);
+        this.setupNotebookEnvironment(context, problems);
 
-        this.registerCreateNotebookCommand(context, result.problems);
+        this.registerCreateNotebookCommand(context, problems);
 
         registerCustomerPortalCommand(context);
         
         setupBoostStatus(context, this);
 
         // register the select language command
-        this.setupKernelCommandPicker(context, result.map);
+        this.setupKernelCommandPicker(context);
         this.setupKernelStatus(context);
 
         // register the select language command
@@ -70,26 +71,119 @@ export class BoostExtension {
         boostLogging.info('Polyverse Boost is now active');
     }
 
-    setupKernelCommandPicker(context: vscode.ExtensionContext, kernels : Map<string, KernelControllerBase>) {
+    _setupDiagnosticProblems(context: vscode.ExtensionContext) : vscode.DiagnosticCollection
+        {
+
+        // create the Problems collection
+        const problems = vscode.languages.createDiagnosticCollection(NOTEBOOK_TYPE + '.problems');
+
+        // whenever we open a boost notebook, we need to re-sync the problems (in case errors were persisted with it)
+        vscode.workspace.onDidOpenNotebookDocument((event) => {
+            if (event.notebookType !== NOTEBOOK_TYPE) {
+                return;
+            }
+
+            event.getCells().forEach((cell) => {
+                cell.outputs.forEach((output) => {
+                    output.items.forEach((item) => {
+                        let thisItem = item as vscode.NotebookCellOutputItem;
+                        if (thisItem.mime !== 'application/vnd.code.notebook.error') {
+                            return;
+                        }
+
+                        // we use the kernel controller that was attached to this output to deserialize the error
+                        // If we can't find the kernel controller metadata, then just use the explain controller
+                        this.kernels.forEach((value: KernelControllerBase, key: string, kernels: Map<string, KernelControllerBase>) => {
+                            if (value !== output.metadata?.outputType ?? explainCellMarker) {
+                                return;
+                            }
+                        
+                            let deserializedError = newErrorFromItemData(thisItem.data);
+                        
+                            value.deserializeErrorAsProblems(cell, deserializedError);
+                        });
+                        
+                    });
+                });
+                _syncProblemsInCell(cell, problems);
+            });
+        });
+
+        // when the notebook is closed, we need to clear its problems as well
+        //    note that problems are tied to the cells, not the notebook
+        vscode.workspace.onDidCloseNotebookDocument((event) => {
+            if (event.notebookType !== NOTEBOOK_TYPE) {
+                return;
+            }
+
+            event.getCells().forEach((cell) => {
+                problems.forEach((value, key) => {
+                    boostLogging.debug(`Evaluating ${value.path} against ${cell.document.uri.toString()}`);
+                });
+                problems.delete(cell.document.uri);
+            });
+        });
+
+        // Register an event listener for the onDidClearOutput event
+        const notebookChangeHandler: vscode.Disposable = vscode.workspace.onDidChangeNotebookDocument((event) => {
+        
+            // when a cell changes
+            for (const cellChange of event.cellChanges) {
+                // if no outputs changed, skip it
+                if (!cellChange.outputs) { continue;}
+                
+                _syncProblemsInCell(cellChange.cell, problems);
+            }
+
+            // when content in a cell changes - look for full deletions of cell
+            // Loop through each changed cell content
+            for (const changedContent of event.contentChanges) {
+                for (const cell of changedContent.removedCells) {
+                    _syncProblemsInCell(cell, problems, true);
+                }
+            }
+        });
+
+        // Dispose the event listener when it is no longer needed
+        context.subscriptions.push(notebookChangeHandler);
+
+        return problems;
+    }
+
+    kernelCommand : string | undefined = undefined;
+    setupKernelCommandPicker(context: vscode.ExtensionContext) {
         context.subscriptions.push(vscode.commands.registerCommand(
             NOTEBOOK_TYPE + '.selectKernelCommand', async () => {
                 // Use the vscode.window.showQuickPick method to let the user select kernel
                 let availableKernelItems : any[] = [];
-                kernels.forEach((kernel : KernelControllerBase) => {
+                let defaultKernelChoice : string | undefined = undefined;
+                this.kernels.forEach((kernel : KernelControllerBase) => {
                     availableKernelItems.push({ label: kernel.command, description: kernel.kernelLabel, details: kernel.description });
+                    if (kernel.id === BoostConfiguration.currentKernelCommand) {
+                        defaultKernelChoice = kernel.command;
+                    }
                 });
-                const kernel = await vscode.window.showQuickPick(availableKernelItems, {
+
+                const kernelChoice = await vscode.window.showQuickPick(availableKernelItems, {
                     title: "Choose a Kernel to use for processing of all Boost Notebooks and Cells",
                     canPickMany: false,
-                    placeHolder: BoostConfiguration.currentKernelCommand??'Select a Kernel',
+                    placeHolder: BoostConfiguration.currentKernelCommand??'Select Boost Kernel',
                     matchOnDescription: true,
                     matchOnDetail: true
                 });
-                if (!kernel) {
+                if (!kernelChoice) {
+                    return;
+                }
+                if (!this.kernels.get(kernelChoice.label)) {
+                    boostLogging.error(`Invalid or unavailable Boost command: ${kernelChoice.label}`);
                     return;
                 }
                 // store the kernel as current config command - for offline processing
-                BoostConfiguration.currentKernelCommand = kernel.label;
+                this.kernelCommand = kernelChoice.label;
+                BoostConfiguration.currentKernelCommand = this.kernels.get(kernelChoice.label)?.id as string;
+                if (this.kernelStatusBar) {
+                    this.kernelStatusBar.text = `Boost Command: ${kernelChoice.label}`;
+                }
             }));
     }
 
@@ -100,11 +194,15 @@ export class BoostExtension {
             vscode.StatusBarAlignment.Left, 9);
         this.kernelStatusBar = kernelStatusBar;
 
-        if (!BoostConfiguration.currentKernelCommand) {
-            this.kernelStatusBar.text = "Select Boost Kernel";
-        } else {
-            this.kernelStatusBar.text = BoostConfiguration.currentKernelCommand;
-        }
+        this.kernelStatusBar.text = "Select Boost Kernel";
+        this.kernels.forEach((kernel : KernelControllerBase) => {
+            if (kernel.id !== BoostConfiguration.currentKernelCommand) {
+                return;
+            }
+            if (this.kernelStatusBar) {
+                this.kernelStatusBar.text = `Boost Command: ${kernel.command}`;
+            }
+        });
 
         this.kernelStatusBar.command = NOTEBOOK_TYPE + ".selectKernelCommand";
         this.kernelStatusBar.show();
@@ -164,25 +262,24 @@ export class BoostExtension {
 
     setupNotebookEnvironment(
         context: vscode.ExtensionContext,
-        collection: vscode.DiagnosticCollection,
-        kernelMap : Map<string, KernelControllerBase>) {
+        collection: vscode.DiagnosticCollection) {
 
             // build a map of output types to kernels so we can reverse lookup the kernels from their output
 
         let convertKernel = new BoostConvertKernel(context, updateBoostStatusColors.bind(this), this, collection);
-        kernelMap.set(convertKernel.outputType, convertKernel);
+        this.kernels.set(convertKernel.command, convertKernel);
         let explainKernel = new BoostExplainKernel(context, updateBoostStatusColors.bind(this), this, collection);
-        kernelMap.set(explainKernel.outputType, explainKernel);
+        this.kernels.set(explainKernel.command, explainKernel);
         let analyzeKernel = new BoostAnalyzeKernel(context, updateBoostStatusColors.bind(this), this, collection);
-        kernelMap.set(analyzeKernel.outputType, analyzeKernel);
+        this.kernels.set(analyzeKernel.command, analyzeKernel);
         let testgenKernel = new BoostTestgenKernel(context, updateBoostStatusColors.bind(this), this, collection);
-        kernelMap.set(testgenKernel.outputType, testgenKernel);
+        this.kernels.set(testgenKernel.command, testgenKernel);
         let complianceKernel = new BoostComplianceKernel(context, updateBoostStatusColors.bind(this), this, collection);
-        kernelMap.set(complianceKernel.outputType, complianceKernel);
+        this.kernels.set(complianceKernel.command, complianceKernel);
         let guidelinesKernel = new BoostCodeGuidelinesKernel(context, updateBoostStatusColors.bind(this), this, collection);
-        kernelMap.set(guidelinesKernel.outputType, guidelinesKernel);
+        this.kernels.set(guidelinesKernel.command, guidelinesKernel);
         let blueprintKernel = new BoostArchitectureBlueprintKernel(context, updateBoostStatusColors.bind(this), this, collection);
-        kernelMap.set(blueprintKernel.outputType, blueprintKernel);
+        this.kernels.set(blueprintKernel.command, blueprintKernel);
 
         context.subscriptions.push(
             vscode.workspace.registerNotebookSerializer(
@@ -200,7 +297,7 @@ export class BoostExtension {
             // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
             let customProcessKernel = new BoostCustomProcessKernel(context, updateBoostStatusColors.bind(this), this, collection);
-            kernelMap.set(customProcessKernel.outputType, customProcessKernel);
+            this.kernels.set(customProcessKernel.command, customProcessKernel);
             context.subscriptions.push(customProcessKernel);
         }
     }
@@ -619,84 +716,6 @@ async function parseFunctionsFromFile(
     if (!(targetNotebook instanceof boostnb.BoostNotebook)) {
         await vscode.workspace.applyEdit(edit as vscode.WorkspaceEdit);
     }
-}
-
-function _setupDiagnosticProblems(context: vscode.ExtensionContext) :
-    { problems : vscode.DiagnosticCollection,
-      map : Map<string, KernelControllerBase> }
-     {
-
-    // create the Problems collection
-    const problems = vscode.languages.createDiagnosticCollection(NOTEBOOK_TYPE + '.problems');
-    const kernelMap = new Map<string, KernelControllerBase>();
-    // whenever we open a boost notebook, we need to re-sync the problems (in case errors were persisted with it)
-    vscode.workspace.onDidOpenNotebookDocument((event) => {
-        if (event.notebookType !== NOTEBOOK_TYPE) {
-            return;
-        }
-
-        event.getCells().forEach((cell) => {
-            cell.outputs.forEach((output) => {
-                output.items.forEach((item) => {
-                    let thisItem = item as vscode.NotebookCellOutputItem;
-                    if (thisItem.mime !== 'application/vnd.code.notebook.error') {
-                        return;
-                    }
-
-                    // we use the kernel controller that was attached to this output to deserialize the error
-                    // If we can't find the kernel controller metadata, then just use the explain controller
-                    let kernelBase = kernelMap.get(output.metadata?.outputType ?? explainCellMarker);
-                    if (kernelBase) {
-                        let deserializedError = newErrorFromItemData(thisItem.data);
-                        
-                        kernelBase.deserializeErrorAsProblems(cell, deserializedError);
-                    }
-                    
-                });
-            });
-            _syncProblemsInCell(cell, problems);
-        });
-    });
-
-    // when the notebook is closed, we need to clear its problems as well
-    //    note that problems are tied to the cells, not the notebook
-    vscode.workspace.onDidCloseNotebookDocument((event) => {
-        if (event.notebookType !== NOTEBOOK_TYPE) {
-            return;
-        }
-
-        event.getCells().forEach((cell) => {
-            problems.forEach((value, key) => {
-                boostLogging.debug(`Evaluating ${value.path} against ${cell.document.uri.toString()}`);
-            });
-            problems.delete(cell.document.uri);
-        });
-    });
-
-    // Register an event listener for the onDidClearOutput event
-    const notebookChangeHandler: vscode.Disposable = vscode.workspace.onDidChangeNotebookDocument((event) => {
-    
-        // when a cell changes
-        for (const cellChange of event.cellChanges) {
-            // if no outputs changed, skip it
-            if (!cellChange.outputs) { continue;}
-            
-            _syncProblemsInCell(cellChange.cell, problems);
-        }
-
-        // when content in a cell changes - look for full deletions of cell
-        // Loop through each changed cell content
-        for (const changedContent of event.contentChanges) {
-            for (const cell of changedContent.removedCells) {
-                _syncProblemsInCell(cell, problems, true);
-            }
-        }
-    });
-
-    // Dispose the event listener when it is no longer needed
-    context.subscriptions.push(notebookChangeHandler);
-
-    return {problems: problems, map: kernelMap};
 }
 
 function _syncProblemsInCell(

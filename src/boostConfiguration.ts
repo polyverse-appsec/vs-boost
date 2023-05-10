@@ -64,7 +64,7 @@ export class BoostConfiguration {
     }
     public static set currentKernelCommand(value: string) {
         workspace.getConfiguration(NOTEBOOK_TYPE, null)
-            .update(Defaults.currentKernelCommandName, value, ConfigurationTarget.Global);
+            .update(Defaults.currentKernelCommandName, value, ConfigurationTarget.Workspace);
     }
 
     static _cachedVersion: string = "";
