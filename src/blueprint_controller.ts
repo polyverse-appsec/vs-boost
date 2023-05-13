@@ -6,6 +6,7 @@ import { BoostConfiguration } from './boostConfiguration';
 import * as vscode from 'vscode';
 import { boostLogging } from './boostLogging';
 import { TextDecoder } from 'util';
+import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';
 
 export const blueprintCellMarker = 'archblueprintCode';
 
@@ -57,7 +58,7 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
 
     private _lastBlueprint = "";
 
-    async executeAll(cells: vscode.NotebookCell[], notebook: vscode.NotebookDocument, session : vscode.AuthenticationSession) {
+    async executeAll(cells: vscode.NotebookCell[] | BoostNotebookCell[], notebook: vscode.NotebookDocument | BoostNotebook, session : vscode.AuthenticationSession) {
         this._lastBlueprint = "";
 
         // seed cell is the largest (source code) cell in the notebook / this is a heuristic for now to get max detail
@@ -114,7 +115,7 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
     }
 
     async makeBoostServiceRequest(
-        cell : vscode.NotebookCell,
+        cell : vscode.NotebookCell | BoostNotebookCell,
         serviceEndpoint : string,
         payload : any): Promise<any> {
 

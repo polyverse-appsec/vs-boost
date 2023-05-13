@@ -4,6 +4,7 @@ import {
 import * as vscode from 'vscode';
 import { explainCellMarker } from './explain_controller';
 import { BoostConfiguration } from './boostConfiguration';
+import { BoostNotebookCell } from './jupyter_notebook';
 
 
 //set a helper variable of the base url.  this should eventually be a config setting
@@ -64,7 +65,7 @@ export class BoostConvertKernel extends KernelControllerBase {
 
     async onProcessServiceRequest(
         execution: vscode.NotebookCellExecution,
-        cell: vscode.NotebookCell,
+        cell: vscode.NotebookCell | BoostNotebookCell,
         payload : any): Promise<boolean> {
 
         // make Boost service request to get explanation of code in english (lingua franca cross-translate),

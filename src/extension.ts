@@ -648,7 +648,7 @@ export class BoostExtension {
             Promise.all(processedNotebookWaits)
                 .then((processedNotebooks) => {
                     processedNotebooks.forEach(async (notebook : boostnb.BoostNotebook) => {
-                        // we let user know the  notebook was processed
+                        // we let user know the notebook was processed
                         boostLogging.debug(`Boost Notebook processed with command ${targetedKernel.command}: ${notebook.uri.fsPath}`);
                     });
                     boostLogging.info(`${processedNotebookWaits.length.toString()} Boost Notebooks processed for folder ${targetFolder.path}`);

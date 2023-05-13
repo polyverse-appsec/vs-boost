@@ -40,7 +40,7 @@ export class BoostNotebookCell /*implements nbformat.ICell */ {
     editable?: boolean;
     // eslint-disable-next-line @typescript-eslint/naming-convention
     execution_count: nbformat.ExecutionCount;
-    outputs: nbformat.IOutput[] = [];
+    outputs: SerializedNotebookCellOutput[] = [];
     // eslint-disable-next-line @typescript-eslint/naming-convention
     cell_type: nbformat.CellType;
     metadata?: nbformat.ICellMetadata;
@@ -71,6 +71,9 @@ export class BoostNotebookCell /*implements nbformat.ICell */ {
         this.metadata = metadata;
         this.cell_type = cell_type;
         this.source = source;
+    }
+    initializeMetadata(newData : any) {
+        this.metadata = newData;
     }
 }
 

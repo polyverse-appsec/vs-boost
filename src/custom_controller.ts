@@ -5,6 +5,7 @@ import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import * as vscode from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
+import { BoostNotebookCell, BoostNotebook } from './jupyter_notebook';
 
 export const customProcessCellMarker = 'customProcessCode';
 
@@ -63,7 +64,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
         return error;
     }
 
-    async executeAll(cells: vscode.NotebookCell[], notebook: vscode.NotebookDocument, session : vscode.AuthenticationSession) {
+    async executeAll(cells: vscode.NotebookCell[] | BoostNotebookCell[], notebook: vscode.NotebookDocument | BoostNotebook, session : vscode.AuthenticationSession) {
 
         const userInput = await vscode.window.showInputBox({
             value: this._customPrompt,
@@ -85,7 +86,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
         }
     }
 
-    async makeBoostServiceRequest(cell: vscode.NotebookCell, serviceEndpoint: string, payload: any): Promise<any> {
+    async makeBoostServiceRequest(cell: vscode.NotebookCell | BoostNotebookCell, serviceEndpoint: string, payload: any): Promise<any> {
         // inject the current custom prompt into the payload
         payload = { ...payload,
             prompt: this._customPrompt};
