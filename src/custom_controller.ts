@@ -42,13 +42,13 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
             case "local":
                 return 'http://127.0.0.1:8000/customprocess';
             case 'dev':
-                return '';
+                return 'https://fudpixnolc7qohinghnum2nlm40wmozy.lambda-url.us-west-2.on.aws/';
             case "test":
                 return 'https://t3ficeuoeknvyxfqz6stoojmfu0dfzzo.lambda-url.us-west-2.on.aws/';
             case 'staging':
             case 'prod':
             default:
-                return '';
+                return 'https://7ntcvdqj4r23uklomzmeiwq7nq0dhblq.lambda-url.us-west-2.on.aws/';
         }
         
     }
