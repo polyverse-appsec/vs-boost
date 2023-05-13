@@ -46,6 +46,9 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
     readonly kernelMarkdownPrefix = "### Boost Architectural Blueprint\n";
 
     onKernelOutputItem(response: any): string {
+        if (response.blueprint === undefined) {
+            throw new Error("Unexpected missing data from Boost Service");
+        }
         return `${this.kernelMarkdownPrefix}\n\nLast Updated: ${this.currentDateTime}\n\n${response.blueprint}`;
     }
 

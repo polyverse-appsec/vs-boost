@@ -3,11 +3,18 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 0.9.7: May 17, 2023
+
+### Enhancements
+- Improved error handling for Boost Service issues
+
 ## Version 0.9.6: May 12, 2023
-- Miscaellaneous bug fixes, including intermittent issue with code conversion.
 
 ### Enhancements
 - Updated Boost Status bar to show current Boost subscription status and payment status
+
+### Bug Fixes
+- Miscaellaneous bug fixes, including intermittent issue with code conversion.
 
 ## Version 0.9.5: May 2, 2023
 

@@ -249,6 +249,8 @@ export class KernelControllerBase {
         if (response instanceof Error) {
             successfullyCompleted = false;
             serviceError = response as Error;
+        } else if (response === undefined) {
+            throw new Error("Unexpected empty result from Boost Service");
         } else if (response.data instanceof Error) {
             successfullyCompleted = false;
             serviceError = response.data as Error;
