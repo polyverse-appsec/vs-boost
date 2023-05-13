@@ -22,7 +22,6 @@ export class KernelControllerBase {
 	private readonly _controller: vscode.NotebookController;
     public context: vscode.ExtensionContext;
     private otherThis : any;
-    private _clientVersion = BoostConfiguration.version??"";
 
 	constructor(
         problemsCollection: vscode.DiagnosticCollection,
@@ -34,10 +33,6 @@ export class KernelControllerBase {
         context: vscode.ExtensionContext,
         otherThis : any,
         onServiceErrorHandler: onServiceErrorHandler) {
-
-        if (!this._clientVersion) {
-            throw new Error('Boost Client version not set. Aborting Activation');
-        }
             
         this._problemsCollection = problemsCollection;
         this.id = kernelId;
@@ -176,7 +171,7 @@ export class KernelControllerBase {
 		// and one for the generated code
 		// if the cell is original code, run the summary generation
 		if (!this.useOriginalCodeCheck || cell.metadata.type === 'originalCode') {
-            return await this._doKernelExecution(cell, session, organization, this._clientVersion);
+            return await this._doKernelExecution(cell, session, organization);
         }
         return true;
     }
@@ -184,8 +179,7 @@ export class KernelControllerBase {
 	private async _doKernelExecution(
         cell: vscode.NotebookCell,
         session: vscode.AuthenticationSession,
-        organization: string,
-        version: string): Promise<boolean> {
+        organization: string): Promise<boolean> {
 		const execution = this._controller.createNotebookCellExecution(cell);
 
         let successfullyCompleted = true;
@@ -198,8 +192,7 @@ export class KernelControllerBase {
         let payload = {
             code: code,
             session: session.accessToken,
-            organization: organization,
-            version: version
+            organization: organization
         };
 
         try {
@@ -326,9 +319,14 @@ export class KernelControllerBase {
         serviceEndpoint : string,
         payload : any) : Promise<string> {
 
+        const headers = {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            'User-Agent': `Boost-VSCE/${BoostConfiguration.version}`
+        };
+        
         return axios.post(
             serviceEndpoint,
-            payload).then((response) => {
+            payload, { headers }).then((response) => {
                 return response.data;
             }).catch((error) => {
                 throw error;

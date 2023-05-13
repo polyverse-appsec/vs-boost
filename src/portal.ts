@@ -26,12 +26,14 @@ function serviceEndpoint(): string {
 
 export async function getCustomerStatus(context: vscode.ExtensionContext): Promise<any> {
     let session = await fetchGithubSession();       // get the session
-    let version = BoostConfiguration.version;     // get the extension version
     let organization = await getCurrentOrganization(context);
     let payload = {
         "session": session.accessToken,
         "organization": organization,
-        "version": version
+    };
+    const headers = {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        'User-Agent': `Boost-VSCE/${BoostConfiguration.version}`
     };
 
     try {
@@ -41,7 +43,7 @@ export async function getCustomerStatus(context: vscode.ExtensionContext): Promi
             await axios.get('https://serviceFaultInjection/synthetic/error/');
         }
 
-        const result = await axios.post(serviceEndpoint(), payload);
+        const result = await axios.post(serviceEndpoint(), payload, { headers } );
         if (result && result.data && result.data.error) { // if we have an error, throw it - this is generally happens with the local service shim
             throw new Error(`Boost Service failed with a network error: ${result.data.error}`);
         }
@@ -110,7 +112,11 @@ export async function setupBoostStatus(context: vscode.ExtensionContext, closure
         boostLogging.log(`Error during Activation: Unable to retrieve current organization. ${(e as Error).message}`);
         closure.statusBar.text = "Boost: Organization is *UNKNOWN*";
     }
-    await updateBoostStatusColors(context, undefined, closure);
+    try {
+        await updateBoostStatusColors(context, undefined, closure);
+    } catch (e : any) {
+        boostLogging.log(`Error during Activation: Unable to check account status. ${(e as Error).message}`);
+    }
 
     closure.statusBar.command = 'polyverse-boost-notebook.boostStatus';
     closure.statusBar.show();
