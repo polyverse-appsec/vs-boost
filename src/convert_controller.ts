@@ -39,7 +39,7 @@ export class BoostConvertKernel extends KernelControllerBase {
             case 'staging':
             case 'prod':
             default:
-                return 'https://vdcg2nzj2jtzmtzzcmfwbvg4ey0jxghj.lambda-url.us-west-2.on.aws/';
+                return 'https://egw2c7dn5vz3leffr3mfqodx3a0perwp.lambda-url.us-west-2.on.aws/';
         }
     }
 
