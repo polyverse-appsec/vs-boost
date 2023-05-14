@@ -116,6 +116,8 @@ export class KernelControllerBase {
 
         let successfullyCompleted = true;
         const promises = [];
+        const usingBoostNotebook = (notebook instanceof BoostNotebook);
+
         for (const cell of cells) {
             //if the cell is generated code, don't run it by default, the original code cell will
 			// run it, unless it is the only cell in array of cells being run, in which case, run it
@@ -124,7 +126,6 @@ export class KernelControllerBase {
                 cells.length > 1) {
 				return;
 			}
-            const usingBoostNotebook = (notebook instanceof BoostNotebook);
             if (usingBoostNotebook) {
                 boostLogging.info(`Started ${this.command} on Boost Notebook cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, false);
             }
@@ -143,12 +144,12 @@ export class KernelControllerBase {
                 successfullyCompleted &&= (result ?? true);
             });
             if (!successfullyCompleted) {
-                boostLogging.error(`Error analyzing Notebook ${notebook.uri.toString()}`);
+                boostLogging.error(`Error analyzing Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`);
             }
             return successfullyCompleted;
           }).catch((error) => {
             successfullyCompleted = false;
-            boostLogging.error(`Error analyzing Notebook ${notebook.uri.toString()}: ${error.toString()}}`);
+            boostLogging.error(`Error analyzing Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}: ${error.toString()}}`);
         });
     }
 
@@ -157,6 +158,8 @@ export class KernelControllerBase {
         cell: vscode.NotebookCell | BoostNotebookCell,
         session : vscode.AuthenticationSession):
             Promise<boolean> {
+
+        const usingBoostNotebook = (notebook instanceof BoostNotebook);
 
         // if not authorized, retry
         if (!session) {
@@ -180,7 +183,7 @@ export class KernelControllerBase {
         }
 
         // if no useful text to explain, skip it
-        const inputData = (cell instanceof BoostNotebookCell)? cell.source : cell.document.getText();
+        const inputData = usingBoostNotebook? (cell as BoostNotebookCell).value : (cell as vscode.NotebookCell).document.getText();
         
         // skip whitespace trim on MultilineString - not worth code complexity trouble for now
         if (typeof inputData === "string" && (inputData as string).trim().length === 0) {
@@ -207,7 +210,8 @@ export class KernelControllerBase {
         session: vscode.AuthenticationSession,
         organization: string): Promise<boolean> {
 
-        const execution = (cell instanceof BoostNotebookCell)? undefined : this._controller.createNotebookCellExecution(cell);
+        const usingBoostNotebook = (cell as BoostNotebookCell).value; // look for the value property to see if its a BoostNotebookCell
+        const execution = usingBoostNotebook? undefined : this._controller.createNotebookCellExecution(cell as vscode.NotebookCell);
         let successfullyCompleted = true;
 
         const startTime = Date.now();
@@ -215,10 +219,9 @@ export class KernelControllerBase {
             execution.executionOrder = ++this._executionOrder;
             execution.start(startTime);
         }
-        const usingBoostNotebook = cell instanceof BoostNotebookCell;
 
         // get the code from the cell
-        const code = usingBoostNotebook? cell.source : cell.document.getText();
+        const code = usingBoostNotebook? (cell as BoostNotebookCell).value : (cell as vscode.NotebookCell).document.getText();
 
         let payload = {
             code: code,
@@ -226,7 +229,7 @@ export class KernelControllerBase {
             organization: organization
         };
 
-        const cellId = usingBoostNotebook?cell.id:(cell as vscode.NotebookCell).document.uri.toString();
+        const cellId = usingBoostNotebook?(cell as BoostNotebookCell).id:(cell as vscode.NotebookCell).document.uri.toString();
         try {
             let response = await this.onProcessServiceRequest(execution, cell, payload);
             if (response instanceof Error) {
@@ -241,7 +244,7 @@ export class KernelControllerBase {
                 err);
             boostLogging.error(`Error executing cell ${cellId}: ${(err as Error).message}`, false);
             if (!usingBoostNotebook) {
-                this.addDiagnosticProblem(cell, err as Error);
+                this.addDiagnosticProblem((cell as vscode.NotebookCell), err as Error);
             }
         }
         finally {

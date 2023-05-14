@@ -70,14 +70,14 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
         let seedCell : vscode.NotebookCell | BoostNotebookCell | undefined = undefined;
         let largestSize = 0;
         for (const cell of cells) {
-            let length = usingBoostNotebook?(cell as BoostNotebookCell).source.length : (cell as vscode.NotebookCell).document.getText().length;
+            let length = usingBoostNotebook?(cell as BoostNotebookCell).value.length : (cell as vscode.NotebookCell).document.getText().length;
             if (length > largestSize) {
                 largestSize = length;
                 seedCell = cell;
             }
         }
         if (!seedCell) {
-            boostLogging.error(`Blueprint seed not built due to no cells in ${notebook.uri.toString()}`);
+            boostLogging.error(`Blueprint seed not built due to no cells in ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`);
             return;
         }
 
@@ -119,7 +119,7 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
             }
 		}
         if (!successfullyCompleted) {
-            boostLogging.error(`Error Blueprinting Notebook ${notebook.uri.toString()}`);
+            boostLogging.error(`Error Blueprinting Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`);
         }
     }
 
