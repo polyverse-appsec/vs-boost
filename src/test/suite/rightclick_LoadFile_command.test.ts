@@ -1,4 +1,6 @@
 import * as vscode from 'vscode';
+import { NOTEBOOK_TYPE } from '../../extension';
+import { getRandomTestSourceFile } from '../runTest';
 
 suite('Right Click Load File Command', function() {
 
@@ -6,11 +8,17 @@ suite('Right Click Load File Command', function() {
   
     test('Right Click Load File Command Test', async function() {
   
-      console.warn('Simulating Right Click Load File Command Test');
+    // we need to avoid hanging on the save dialog when exiting visual studio
+    //    so we disable save on exit/shutdown
+    await vscode.workspace.getConfiguration().update('files.hotExit', 'off', vscode.ConfigurationTarget.Global);
 
-      const filePath = '/path/to/file.txt';
-      await selectFileInExplorer(filePath);
-      console.log('File selected in the Explorer tab.');
+    // Execute the "createJsonNotebook" command
+    await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.loadCurrentFile',
+        vscode.Uri.parse(getRandomTestSourceFile()) ); // give the command 2 seconds to execute
+
+    // Wait for the notebook to be created
+    await new Promise((resolve) =>
+        setTimeout(resolve, 2000)); // 2 seconds to make sure notebook is created
       });
   });
 

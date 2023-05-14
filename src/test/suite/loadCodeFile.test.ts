@@ -5,6 +5,7 @@ import * as sinon from 'sinon';
 import * as path from 'path';
 import * as fs from 'fs';
 import { NOTEBOOK_TYPE } from '../../extension';
+import { getRandomTestSourceFile } from '../runTest';
 
 suite('Load Code File Command', function() {
 
@@ -59,21 +60,7 @@ suite('Load Code File Command', function() {
         assert.fail('No files found in test/resources folder');
     }
 
-    let randomFile: string;
-    const targetTestInputPath = path.resolve(testCodePath, 'targetTestInput.json');
-    console.log(`Looking for ${targetTestInputPath}`);
-    if (fs.existsSync(targetTestInputPath)) {
-        const targetTestInput = JSON.parse(fs.readFileSync(targetTestInputPath, 'utf-8'));
-        randomFile = path.resolve(testCodePath, targetTestInput.filename[0]);
-        console.log('Read targetTestInput.json, using file:', randomFile);
-    } else {
-        // Select a random file from the filtered files
-        console.log('No targetTestInput.json, selecting random file from:', filteredFiles);
-        const randomIndex = Math.floor(Math.random() * filteredFiles.length);
-        randomFile = path.resolve(testCodePath,filteredFiles[randomIndex]);
-    }
-    
-    debug("Source File: " + randomFile);
+    const randomFile = getRandomTestSourceFile();
 
     showOpenDialogMock.expects('showOpenDialog').returns(Promise.resolve(
         [vscode.Uri.file(randomFile)]));

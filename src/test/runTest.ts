@@ -1,5 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import * as assert from 'assert';
+import { debug } from 'console';
 
 import { runTests } from '@vscode/test-electron';
 
@@ -27,7 +29,7 @@ async function main(argv : string[]) {
             const extensionTestsPath = path.resolve(__dirname, './suite/index');
 
             // Download VS Code, unzip it and run the integration test
-            let args = [ "--disable-web-security" ];
+            let args = [ ];
             if (filename && filename[0]) {
                 args.push(filename[0]);
             }
@@ -44,6 +46,37 @@ async function main(argv : string[]) {
 		console.error('Failed to run tests', err);
 		process.exit(1);
 	}
+}
+
+export function getRandomTestSourceFile() : string {
+    const testCodePath = path.resolve(__dirname, '../test/resources/');
+    const unsupportedExtensions = ['.o', '.out', '.s', '.typescript', 'resources', '.c'];
+
+    // Get all files in the folder
+    const allFiles = fs.readdirSync(testCodePath);
+
+    // Filter files based on extensions (exclude unsupported files)
+    const filteredFiles = allFiles.filter(file => {
+        const ext = path.extname(file);
+        return ext !== "" && !unsupportedExtensions.includes(ext);
+    });
+
+    let randomFile: string;
+    const targetTestInputPath = path.resolve(testCodePath, 'targetTestInput.json');
+    console.log(`Looking for ${targetTestInputPath}`);
+    if (fs.existsSync(targetTestInputPath)) {
+        const targetTestInput = JSON.parse(fs.readFileSync(targetTestInputPath, 'utf-8'));
+        randomFile = path.resolve(testCodePath, targetTestInput.filename[0]);
+        console.log('Read targetTestInput.json, using file:', randomFile);
+    } else {
+        // Select a random file from the filtered files
+        console.log('No targetTestInput.json, selecting random file from:', filteredFiles);
+        const randomIndex = Math.floor(Math.random() * filteredFiles.length);
+        randomFile = path.resolve(testCodePath,filteredFiles[randomIndex]);
+    }
+    
+    debug("Source File: " + randomFile);
+    return randomFile;
 }
 
 main(process.argv);
