@@ -5,6 +5,9 @@ Polyverse Boost Automatic Application Modernization
 
 ## Version 0.9.7: May 17, 2023
 
+### New Features
+- Enable Automated Folder and Project analysis with Boost kernel commands
+
 ### Enhancements
 - Improved error handling for Boost Service issues
 
