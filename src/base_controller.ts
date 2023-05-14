@@ -106,11 +106,7 @@ export class KernelControllerBase {
 			return;
 		}
 
-        if (notebook instanceof BoostNotebook) {
-            throw new Error("Method not implemented.");
-        }
-
-        this.executeAll(cells as vscode.NotebookCell[], notebook as vscode.NotebookDocument, session);
+        this.executeAll(cells, notebook as vscode.NotebookDocument, session);
 	}
 
     executeAll(
@@ -128,10 +124,17 @@ export class KernelControllerBase {
                 cells.length > 1) {
 				return;
 			}
+            const usingBoostNotebook = (notebook instanceof BoostNotebook);
+            if (usingBoostNotebook) {
+                boostLogging.info(`Started ${this.command} on Boost Notebook cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, false);
+            }
             promises.push(
                 this.doExecution(notebook, cell, session).then((result) => {
                     if (!result) {
                         successfullyCompleted = false;
+                    }
+                    if (usingBoostNotebook) {
+                        boostLogging.info(`Finished ${this.command} on Boost Notebook cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, false);
                     }
                 }) as Promise<boolean>);
 		}
