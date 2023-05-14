@@ -27,7 +27,12 @@ async function main(argv : string[]) {
             const extensionTestsPath = path.resolve(__dirname, './suite/index');
 
             // Download VS Code, unzip it and run the integration test
-            await runTests({ extensionDevelopmentPath, extensionTestsPath, launchArgs: filename });
+            let args = [ "--disable-web-security" ];
+            if (filename && filename[0]) {
+                args.push(filename[0]);
+            }
+            await runTests( { extensionDevelopmentPath : extensionDevelopmentPath, extensionTestsPath : extensionTestsPath,
+                launchArgs: args });
 
         } finally {
             if (targetTestInputPath) {
