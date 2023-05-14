@@ -90,7 +90,10 @@ suite('Load Code File Command', function() {
     assert.ok(notebookEditor, 'Notebook editor not found');
 
     const cells = notebookEditor.notebook.getCells();
+    console.log('Number of cells: ' + cells.length.toString());
+
     assert.ok(cells.length > 1, 'Not enough cells ' + cells.length.toString() + ' found in the notebook');
+
     cells.forEach((cell) => {
         debug(cell.document.getText());
     });
