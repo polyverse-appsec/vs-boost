@@ -166,7 +166,7 @@
   "scripts": {
     "clean": "rm -rf out",
     "build-instructions": "bash ./build_instructions.sh raw_instructions.md >./src/instructions.json",
-    "compile": "npm run build-instructions && tsc -p ./",
+    "compile": "npm run build-instructions && tsc -b ./",
     "watch": "tsc -watch -p ./",
     "lint": "eslint src --ext ts",
     "copy:test-data": "mkdir -p out/test && cp -R src/test/resources out/test/resources",
