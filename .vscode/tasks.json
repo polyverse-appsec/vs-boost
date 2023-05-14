@@ -10,8 +10,8 @@
 			"problemMatcher": "$tsc-watch",
 			"isBackground": true,
             "presentation": {
-                "reveal": "always",
-                "panel": "shared",
+                "reveal": "never",
+                "panel": "dedicated",
                 "clear": true
             },
             "group": {
