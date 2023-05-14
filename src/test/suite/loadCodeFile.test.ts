@@ -5,7 +5,7 @@ import * as sinon from 'sinon';
 import * as path from 'path';
 import * as fs from 'fs';
 import { NOTEBOOK_TYPE } from '../../extension';
-import { getRandomTestSourceFile } from '../runTest';
+import { getRandomTestSourceFile } from '../suite/utils';
 
 suite('Load Code File Command', function() {
 

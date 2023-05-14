@@ -703,7 +703,7 @@ export async function deactivate(): Promise<void> {
     return undefined;
 }
 
-function getBoostNotebookFile(sourceFile : vscode.Uri) : vscode.Uri {
+export function getBoostNotebookFile(sourceFile : vscode.Uri) : vscode.Uri {
     // if we don't have a workspace folder, just place the Boost file in a new Boostdir - next to the source file
 
     let baseFolder;
