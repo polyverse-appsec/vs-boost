@@ -574,7 +574,13 @@ export class BoostExtension {
             }
 
             notebook.load(boostUri.fsPath);
-            return targetedKernel?.executeAllWithAuthorization(notebook.cells, notebook);
+            return targetedKernel?.executeAllWithAuthorization(notebook.cells, notebook).then(() => {
+                // ensure we save the notebook if we successfully processed it
+                notebook.save(boostUri.fsPath);
+            }).catch((error) => {
+                boostLogging.warn(`Skipping Notebook save - due to Error Processing ${this.kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
+                throw error;
+            });
         } catch (error) {
             throw new Error(`Unable to Process ${this.kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
         }
