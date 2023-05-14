@@ -14,6 +14,12 @@ bool is_deranged(const std::string& left, const std::string& right);
 // Main function of the program
 int main();
 
+// A struct containing the longest pair of deranged words and their length
+struct LongestPair {
+    ResultPair pair;
+    size_t length;
+};
+
 // Types declarations
 
 // A set containing string words
@@ -24,9 +30,3 @@ typedef std::map<std::string, WordList> AnagraMap;
 
 // A pair of strings containing two strings from input file
 typedef std::pair<std::string, std::string> ResultPair;
-
-// A struct containing the longest pair of deranged words and their length
-struct LongestPair {
-    ResultPair pair;
-    size_t length;
-};
