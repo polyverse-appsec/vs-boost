@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as nbformat from '@jupyterlab/nbformat';
 import { PartialJSONValue } from '@lumino/coreutils';
+import { randomUUID } from 'crypto';
 
 export enum NotebookCellKind {
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -62,7 +63,7 @@ export class BoostNotebookCell /*implements nbformat.ICell */ {
             cell_type: nbformat.CellType = 'code',
             attachments?: nbformat.IAttachments) {
         this.languageId = languageId;
-        this.id = id;
+        this.id = id? id : randomUUID().toString();
         this.value = value;
         this.kind = kind;
         this.execution_count = execution_count;

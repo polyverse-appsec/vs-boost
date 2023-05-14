@@ -475,8 +475,14 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
 
         disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.processCurrentFolder',
-            async (uri: vscode.Uri) => {
-                return this.processCurrentFolder(uri, context);
+            async (uri: vscode.Uri, kernelCommand? : string) => {
+                const likelyViaUI = !kernelCommand || typeof(kernelCommand) !== 'string';
+                if (likelyViaUI) {
+                    kernelCommand = BoostConfiguration.currentKernelCommand;
+                }
+                return this.processCurrentFolder(uri, kernelCommand as string, context).catch((error) => {
+                    boostLogging.error((error as Error).message, likelyViaUI);
+                });
             });
         context.subscriptions.push(disposable);
     }
@@ -547,7 +553,7 @@ export class BoostExtension {
         }
     }
 
-    async processCurrentFile(uri: vscode.Uri, context: vscode.ExtensionContext) {
+    async processCurrentFile(uri: vscode.Uri, kernelCommand : string, context: vscode.ExtensionContext) {
         try
         {
             // if we don't have a file selected, then the user didn't right click
@@ -562,7 +568,7 @@ export class BoostExtension {
                 }
             }
 
-            const targetedKernel = this.getCurrentKernel();
+            const targetedKernel = this.getCurrentKernel(kernelCommand);
             if (targetedKernel === undefined) {
                 return;
             }
@@ -570,7 +576,7 @@ export class BoostExtension {
             let boostUri = uri;
                 // if we got a source file, then load the notebook from it
             if (!uri.fsPath.endsWith(NOTEBOOK_EXTENSION)) {
-                boostUri = uri.with({ path: uri.fsPath + NOTEBOOK_EXTENSION });
+                boostUri = getBoostNotebookFile(uri);
             }
 
             const notebook = new boostnb.BoostNotebook();
@@ -583,34 +589,36 @@ export class BoostExtension {
                 // ensure we save the notebook if we successfully processed it
                 notebook.save(boostUri.fsPath);
             }).catch((error) => {
-                boostLogging.warn(`Skipping Notebook save - due to Error Processing ${this.kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
+                boostLogging.warn(`Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
                 throw error;
             });
         } catch (error) {
-            throw new Error(`Unable to Process ${this.kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
+            throw new Error(`Unable to Process ${kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
         }
     }
 
-    private getCurrentKernel() : KernelControllerBase | undefined {
-        if (this.kernelCommand === undefined) {
+    private getCurrentKernel(requestedKernel? : string) : KernelControllerBase | undefined {
+        if (!requestedKernel && !this.kernelCommand) {
             boostLogging.error(`No Boost Kernel Command selected`);
             return undefined;
+        } else if (!requestedKernel) {
+            requestedKernel = this.kernelCommand;
         }
 
         let targetedKernel : KernelControllerBase | undefined;
         this.kernels.forEach((kernel) => {
-            if (kernel.command === this.kernelCommand) {
+            if (kernel.id === requestedKernel) {
                 targetedKernel = kernel;
             }
         });
         if (targetedKernel === undefined) {
-            boostLogging.error(`Unable to find Kernel for ${this.kernelCommand}`);
+            boostLogging.error(`Unable to find Kernel for ${requestedKernel}`);
             return undefined;
         }
         return targetedKernel;
     }
 
-    async processCurrentFolder(uri: vscode.Uri, context: vscode.ExtensionContext) {
+    async processCurrentFolder(uri: vscode.Uri, kernelCommand : string, context: vscode.ExtensionContext) {
         let targetFolder : vscode.Uri;
         // if we don't have a folder selected, then the user didn't right click
         //      so we need to use the workspace folder
@@ -644,7 +652,7 @@ export class BoostExtension {
             
         boostLogging.debug("Analyzing " + files.length + " files in folder: " + targetFolder);
 
-        const targetedKernel = this.getCurrentKernel();
+        const targetedKernel = this.getCurrentKernel(kernelCommand);
         if (targetedKernel === undefined) {
             return;
         }
@@ -653,7 +661,7 @@ export class BoostExtension {
             let processedNotebookWaits : any [] = [];
 
             files.filter(async (file) => {
-                processedNotebookWaits.push(this.processCurrentFile(file, context));
+                processedNotebookWaits.push(this.processCurrentFile(file, targetedKernel.id, context));
             });
             
             Promise.all(processedNotebookWaits)
@@ -666,10 +674,10 @@ export class BoostExtension {
                 })
                 .catch((error) => {
                 // Handle the error here
-                    boostLogging.error(`Error Boosting folder ${targetFolder.path} due Error: ${error}`);
+                    boostLogging.error(`Error Boosting folder ${targetFolder.path} due to Error: ${error}`);
                 });
         } catch (error) {
-            boostLogging.error(`Unable to Process ${this.kernelCommand} on Folder:[${uri.fsPath.toString()} due to error:${error}`);
+            boostLogging.error(`Unable to Process ${kernelCommand} on Folder:[${uri.fsPath.toString()} due to error:${error}`);
         }
     }
     
@@ -682,8 +690,14 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
 
         disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.processCurrentFile',
-            async (uri: vscode.Uri) => {
-                return this.processCurrentFile(uri, context);
+            async (uri: vscode.Uri, kernelCommand? : string) => {
+                const likelyViaUI = !kernelCommand || typeof(kernelCommand) !== 'string';
+                if (likelyViaUI) {
+                    kernelCommand = BoostConfiguration.currentKernelCommand;
+                }
+                return this.processCurrentFile(uri, kernelCommand as string, context).catch((error) => {
+                    boostLogging.error((error as Error).message, likelyViaUI);
+                });
             });
         context.subscriptions.push(disposable);
     }
@@ -793,7 +807,7 @@ async function parseFunctionsFromFile(
 
     for (let i = 0; i < splitCodeResult.length; i++) {
         const cell = (targetNotebook instanceof boostnb.BoostNotebook)?
-            new boostnb.BoostNotebookCell(boostnb.NotebookCellKind.Code, splitCodeResult[i], languageId) :
+            new boostnb.BoostNotebookCell(boostnb.NotebookCellKind.Code, splitCodeResult[i], languageId, i.toString()) :
             new vscode.NotebookCellData(vscode.NotebookCellKind.Code, splitCodeResult[i], languageId);
         cell.metadata = {"id": i, "type": "originalCode"};
         cells.push(cell);
