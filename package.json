@@ -49,6 +49,11 @@
           "type": "string",
           "default": "",
           "description": "Default organization for Polyverse Boost billing"
+        },
+        "polyverse-boost-notebook.currentKernelCommand": {
+          "type": "string",
+          "default": "",
+          "description": "Boost Kernel to use for Automated Processing"
         }
       }
     },
