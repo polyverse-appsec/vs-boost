@@ -64,7 +64,7 @@ export class BoostConfiguration {
     }
     public static set currentKernelCommand(value: string) {
         workspace.getConfiguration(NOTEBOOK_TYPE, null)
-            .update(Defaults.currentKernelCommandName, value, ConfigurationTarget.Workspace);
+            .update(Defaults.currentKernelCommandName, value, ConfigurationTarget.Global);
     }
 
     static _cachedVersion: string = "";
@@ -122,6 +122,6 @@ class Defaults {
     public static readonly enableKernelPickerName = "enableKernelPicker";
     public static readonly enableKernelPickerValue = false;
 
-    public static readonly currentKernelCommandName = "currentKernelPicker";
+    public static readonly currentKernelCommandName = "currentKernelCommand";
     public static readonly currentKernelCommandValue = "";
 }

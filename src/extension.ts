@@ -203,6 +203,11 @@ export class BoostExtension {
                 this.kernelStatusBar.text = `Boost Command: ${kernel.command}`;
             }
         });
+        // if we have a kernel command specified, but didn't match it, the kernel choice is invalid
+        if (BoostConfiguration.currentKernelCommand !== undefined &&
+            this.kernelStatusBar.text === "Select Boost Kernel") {
+            boostLogging.error(`Invalid Boost command: ${BoostConfiguration.currentKernelCommand} - set a valid Boost kernel name in User Settings or reset to default`);
+        }
 
         this.kernelStatusBar.command = NOTEBOOK_TYPE + ".selectKernelCommand";
         this.kernelStatusBar.show();
