@@ -3,16 +3,24 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 0.9.6: May 8, 2023
+## Version 0.9.7: May 17, 2023
+
+### Enhancements
+- Improved error handling for Boost Service issues
+
+## Version 0.9.6: May 12, 2023
 
 ### Enhancements
 - Updated Boost Status bar to show current Boost subscription status and payment status
+
+### Bug Fixes
+- Miscaellaneous bug fixes, including intermittent issue with code conversion.
 
 ## Version 0.9.5: May 2, 2023
 
 ### New Features
 - Added usage-based Metered billing for Teams and Enterprise licensing
-- Added Customer Account portal UI for managing licenses and billingnput only)
+- Added Customer Account portal UI for managing licenses and billing input only
 - Added support for using GitHub organization as Customer id
     NOTE: Existing customers may need to re-authorize GitHub access for Boost due access "Organization" info
 

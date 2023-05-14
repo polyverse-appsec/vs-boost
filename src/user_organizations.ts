@@ -34,14 +34,17 @@ export async function fetchUserOrganizationsServiceRequest(): Promise<UserOrgs> 
             await axios.get('https://serviceFaultInjection/synthetic/error/');
         }
 
-        let session = await fetchGithubSession();       // get the session
-        let version = BoostConfiguration.version;     // get the extension version
-        let payload = {
-            "session": session.accessToken,
-            "version": version
+        const headers = {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            'User-Agent': `Boost-VSCE/${BoostConfiguration.version}`
         };
     
-        const result = await axios.post(orgServiceEndpoint(), payload);
+        const session = await fetchGithubSession();       // get the session
+        const payload = {
+            "session": session.accessToken,
+        };
+    
+        const result = await axios.post(orgServiceEndpoint(), payload, { headers });
         if (result && result.data && result.data.error) { // if we have an error, throw it - this is generally happens with the local service shim
             throw new Error(`Boost Service failed with a network error: ${result.data.error}`);
         }

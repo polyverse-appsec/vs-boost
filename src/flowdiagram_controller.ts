@@ -1,19 +1,18 @@
 import {
     KernelControllerBase, onServiceErrorHandler
  } from './base_controller';
-import { DiagnosticCollection, ExtensionContext} from 'vscode';
+import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 
-export const explainCellMarker = 'explainCode';
+export const flowDiagramCellMarker = 'flowDiagram';
 
-export class BoostExplainKernel extends KernelControllerBase {
+export class BoostFlowDiagramKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
-            'explain',
-            'Explain Code',
-            'Explains the targeted source code in English, including algorithms, referenced frameworks and design patterns',
-            explainCellMarker,
+            'polyverse-boost-flowdiagram-kernel',
+            'Polyverse Boost: Create Flow Diagrams',
+            flowDiagramCellMarker,
             false,
             false,
             context,
@@ -29,27 +28,28 @@ export class BoostExplainKernel extends KernelControllerBase {
         switch (BoostConfiguration.cloudServiceStage)
         {
             case "local":
-                return 'http://127.0.0.1:8000/explain';
+                return 'http://127.0.0.1:8000/flowdiagram';
             case 'dev':
-                return 'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
+                return '';
             case "test":
-                return 'https://r5s6cjvc43jsrqdq3axrhrceya0cumft.lambda-url.us-west-2.on.aws/';
+                return '';
             case 'staging':
             case 'prod':
             default:
-                return 'https://vdcg2nzj2jtzmtzzcmfwbvg4ey0jxghj.lambda-url.us-west-2.on.aws/';
+                return 'https://b3pflzry5l5wbaenwtdytiv7se0ykzkc.lambda-url.us-west-2.on.aws/';
         }
+        
     }
-
+    
     onKernelOutputItem(response: any, mimetype : any): string {
-        if (response.explanation === undefined) {
+        if (response.diagram === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return `### Boost Code Explanation\n\nLast Updated: ${this.currentDateTime}\n\n${response.explanation}`;
+        return `### Boost Flow Diagram\n\nLast Updated: ${this.currentDateTime}\n\n${response.diagram}`;
     }
 
     localizeError(error: Error): Error {
-        error.message = "Boost Code Explanation failed: " + error.message;
+        error.message = "Boost Flow Diagram Generation failed: " + error.message;
         return error;
     }
 }

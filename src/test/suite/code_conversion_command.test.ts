@@ -5,5 +5,6 @@ suite('Convert Code Command', function() {
   test('Convert Code Command Test', async function() {
 
     console.warn('Simulating Convert Code Command Test');
+
   });
 });

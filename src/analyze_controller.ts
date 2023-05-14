@@ -41,6 +41,9 @@ export class BoostAnalyzeKernel extends KernelControllerBase {
 	}
 
     onKernelOutputItem(response: any): string {
+        if (response.analysis === undefined) {
+            throw new Error("Unexpected missing data from Boost Service");
+        }
         return `### Boost Code Analysis\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
     }
 

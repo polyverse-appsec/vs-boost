@@ -59,9 +59,8 @@ export class BoostTestgenKernel extends KernelControllerBase {
         //  dynamically add payload properties to send to Boost service
         payload.language = outputLanguage;
         payload.framework = framework;
-        return await axios.post(serviceEndpoint, 
-            payload);
 
+        return super.onBoostServiceRequest(cell, serviceEndpoint, payload);
     }
 
     onKernelOutputItem(
@@ -72,14 +71,18 @@ export class BoostTestgenKernel extends KernelControllerBase {
 		let outputLanguage = cell.document.languageId ??
             BoostConfiguration.defaultOutputLanguage;
 
-        //quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
-        if(response.data.testcode.includes('```')){
+        if (response.testcode === undefined) {
+            throw new Error("Unexpected missing test code from Boost Service");
+        }
+
+            //quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
+        if(response.testcode.includes('```')){
             mimetype = 'text/markdown';
-            return `### Boost Test Generation\n\nLast Updated: ${this.currentDateTime}\n\n${response.data.testcode}`;
+            return `### Boost Test Generation\n\nLast Updated: ${this.currentDateTime}\n\n${response.testcode}`;
         }
         else {
             mimetype.str = 'text/x-' + outputLanguage;
-            return response.data.testcode;
+            return response.testcode;
         }        
     }
 }
