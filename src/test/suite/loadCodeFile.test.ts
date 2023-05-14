@@ -68,21 +68,17 @@ suite('Load Code File Command', function() {
     try
     {
         // Execute the "loadCodeFile" command
-        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.loadCodeFile',
-            { timeout: 2000 }); // give the command 2 seconds to execute
+        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.loadCodeFile').then(async () => {
+            // Wait for the file to be loaded
+            await new Promise((resolve) =>
+                setTimeout(resolve, 2000)); // 5 seconds to make sure file is loaded
+        });
 
-        // Wait for the file to be loaded
-        await new Promise((resolve) =>
-            setTimeout(resolve, 5000)); // 5 seconds to make sure file is loaded
-
-        
         // Check that the showOpenDialog method was called with the expected options
         assert.ok(showOpenDialogMock.verify);
     } catch (err) {   
         // restore the open dialog function
         showOpenDialogMock.restore();
-
-
     }
 
         // Get all the cells in the newly created notebook

@@ -35,7 +35,10 @@
             "type": "node",
             "request": "launch",
             "runtimeExecutable": "node",
-            "runtimeArgs": ["./out/test/runTest.js", "placeholderSourceFile.cpp"],
+            "runtimeArgs": ["./out/test/runTest.js", "anagrams-deranged-anagrams.rb"],
+			"outFiles": [
+				"${workspaceFolder}/out/test/**/*.js"
+			],
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal",
             "stopOnEntry": true,
