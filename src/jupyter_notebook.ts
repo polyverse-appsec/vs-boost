@@ -75,8 +75,19 @@ export class BoostNotebookCell /*implements nbformat.ICell */ {
     initializeMetadata(newData : any) {
         this.metadata = newData;
     }
-}
-
+    updateOutputItem(outputType: string, newOutput: SerializedNotebookCellOutput) {
+        // Check if any existing output item has the same outputType
+        const existingItemIndex = this.outputs.findIndex(item => item.metadata?.outputType === outputType);
+    
+        if (existingItemIndex !== -1) {
+            // Replace the existing output item with the new one
+            this.outputs[existingItemIndex] = newOutput;
+        } else {
+            // Add the new output item to the cell's outputs
+            this.outputs.push(newOutput);
+        }
+    }
+}    
 /*
 // Usage example
 const boostNotebook = new BoostNotebook();

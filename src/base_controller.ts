@@ -327,7 +327,7 @@ export class KernelControllerBase {
         const usingBoostNotebook = cell instanceof BoostNotebookCell;
 
         if (usingBoostNotebook || !execution) {
-            cell.updateOutputItem( this._outputType, outputItem);
+            (cell as BoostNotebookCell).updateOutputItem( this._outputType, outputItem as SerializedNotebookCellOutput);
             return;
         }
         
@@ -387,7 +387,7 @@ export class KernelControllerBase {
             });
     }
 
-    onKernelOutputItem(response: any, cell : vscode.NotebookCell, mimetype : any) : string {
+    onKernelOutputItem(response: any, cell : vscode.NotebookCell | BoostNotebookCell, mimetype : any) : string {
         throw new Error("Not implemented");
     }
 

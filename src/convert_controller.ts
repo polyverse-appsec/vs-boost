@@ -4,7 +4,7 @@ import {
 import * as vscode from 'vscode';
 import { explainCellMarker } from './explain_controller';
 import { BoostConfiguration } from './boostConfiguration';
-import { BoostNotebookCell } from './jupyter_notebook';
+import { BoostNotebookCell, SerializedNotebookCellOutput } from './jupyter_notebook';
 
 
 //set a helper variable of the base url.  this should eventually be a config setting
@@ -68,6 +68,8 @@ export class BoostConvertKernel extends KernelControllerBase {
         cell: vscode.NotebookCell | BoostNotebookCell,
         payload : any): Promise<boolean> {
 
+        const usingBoostNotebook = cell instanceof BoostNotebookCell;
+
         // make Boost service request to get explanation of code in english (lingua franca cross-translate),
         //      preparing for conversion
         const response = await this.makeBoostServiceRequest(cell, this.explainEndpoint, payload);
@@ -80,26 +82,36 @@ export class BoostConvertKernel extends KernelControllerBase {
         }
 
         const summarydata = response;
-        const outputItems: vscode.NotebookCellOutputItem[] = [];
-
         const markdownMimetype = 'text/markdown';
-        outputItems.push(vscode.NotebookCellOutputItem.text(`### Boost Code Explanation\n\nLast Updated: ${this.currentDateTime}\n\n${summarydata.explanation}`, markdownMimetype));
+        const outputText = `### Boost Code Explanation\n\nLast Updated: ${this.currentDateTime}\n\n${summarydata.explanation}`;
 
         // we will have one NotebookCellOutput per type of output.
         // first scan the existing outputs of the cell and see if we already have an output of this type
         // if so, replace it
-        let existingOutput = cell.outputs.find(output => output.metadata?.outputType === explainCellMarker);
-        if (existingOutput) {
-            execution.replaceOutputItems(outputItems, existingOutput);
+        if (usingBoostNotebook) {
+            const outputItems : SerializedNotebookCellOutput[] = [ {
+                items: [ { mime: markdownMimetype, data : outputText } ],
+                metadata : { outputType: explainCellMarker} } ];
+            
+            cell.updateOutputItem(explainCellMarker, outputItems[0]);
         } else {
-            // create a new NotebookCellOutput with the outputItems array
-            const output = new vscode.NotebookCellOutput(outputItems, { outputType: explainCellMarker });
-            execution.appendOutput(output);
+            const outputItems: vscode.NotebookCellOutputItem[] = [ vscode.NotebookCellOutputItem.text(outputText, markdownMimetype) ];
+
+            let existingOutput = cell.outputs.find(output => output.metadata?.outputType === explainCellMarker);
+
+            if (existingOutput) {
+                execution.replaceOutputItems(outputItems, existingOutput);
+            } else {
+                // create a new NotebookCellOutput with the outputItems array
+                const output = new vscode.NotebookCellOutput(outputItems, { outputType: explainCellMarker });
+                execution.appendOutput(output);
+            }
         }
 
         // now we need to generate the code
         // if not specified on the notebook metadata, then default to the setting in the Extension User Settings
-        let outputLanguage = (vscode.window.activeNotebookEditor?.notebook.metadata.outputLanguage) ??
+        let outputLanguage = usingBoostNotebook? BoostConfiguration.defaultOutputLanguage:
+            (vscode.window.activeNotebookEditor?.notebook.metadata.outputLanguage) ??
             BoostConfiguration.defaultOutputLanguage;
 
         // now take the summary and using axios send it to Boost web service with the summary
@@ -123,24 +135,32 @@ export class BoostConvertKernel extends KernelControllerBase {
         if(generatedCode.code.includes(markdownCodeMarker)){
             mimetypeCode = markdownMimetype;
             header = `### Boost Converted Code\n\nLast Updated: ${this.currentDateTime}\n\n`;
-        } 
-
-        const outputItemsCode: vscode.NotebookCellOutputItem[] = [];
-        outputItemsCode.push(vscode.NotebookCellOutputItem.text(header + generatedCode.code, mimetypeCode));
-
-        // we will have one NotebookCellOutput per type of output.
-        // first scan the existing outputs of the cell and see if we already have an output of this type
-        // if so, replace it
-
-        existingOutput = cell.outputs.find(output => output.metadata?.outputType === this.outputType);
-        if (existingOutput) {
-            execution.replaceOutputItems(outputItemsCode, existingOutput);
-        } else {
-            // create a new NotebookCellOutput with the outputItems array
-            const output = new vscode.NotebookCellOutput(outputItemsCode, { outputType: this.outputType });
-
-            execution.appendOutput(output);
         }
+        header = header + generatedCode.code;
+
+        if (usingBoostNotebook) {
+            const outputItems : SerializedNotebookCellOutput[] = [ {
+                items: [ { mime: mimetypeCode, data : header } ],
+                metadata : { outputType: this.outputType} } ];
+            
+            cell.updateOutputItem(explainCellMarker, outputItems[0]);
+        } else {
+            const outputItemsCode: vscode.NotebookCellOutputItem[] = [ vscode.NotebookCellOutputItem.text(header, mimetypeCode) ];
+
+            // we will have one NotebookCellOutput per type of output.
+            // first scan the existing outputs of the cell and see if we already have an output of this type
+            // if so, replace it
+            const existingOutput = cell.outputs.find(output => output.metadata?.outputType === this.outputType);
+            if (existingOutput) {
+                execution.replaceOutputItems(outputItemsCode, existingOutput);
+            } else {
+                // create a new NotebookCellOutput with the outputItems array
+                const output = new vscode.NotebookCellOutput(outputItemsCode, { outputType: this.outputType });
+
+                execution.appendOutput(output);
+            }
+        }
+
         return true;
     }
 

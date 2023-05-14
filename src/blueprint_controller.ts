@@ -61,11 +61,13 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
     async executeAll(cells: vscode.NotebookCell[] | BoostNotebookCell[], notebook: vscode.NotebookDocument | BoostNotebook, session : vscode.AuthenticationSession) {
         this._lastBlueprint = "";
 
+        const usingBoostNotebook = (notebook instanceof BoostNotebook);
+
         // seed cell is the largest (source code) cell in the notebook / this is a heuristic for now to get max detail
-        let seedCell : vscode.NotebookCell | undefined = undefined;
+        let seedCell : vscode.NotebookCell | BoostNotebookCell | undefined = undefined;
         let largestSize = 0;
         for (const cell of cells) {
-            let length = cell.document.getText().length;
+            let length = usingBoostNotebook?(cell as BoostNotebookCell).source.length : (cell as vscode.NotebookCell).document.getText().length;
             if (length > largestSize) {
                 largestSize = length;
                 seedCell = cell;
@@ -78,7 +80,7 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
 
         // build the seed cell first
         if (!await this.doExecution(notebook, seedCell, session)) {
-            boostLogging.error(`Error building Architectural Blueprint seed on cell ${seedCell.document.uri.toString()}`);
+            boostLogging.error(`Error building Architectural Blueprint seed on cell ${usingBoostNotebook ? (seedCell as BoostNotebookCell).id : (seedCell as vscode.NotebookCell).document.uri.toString()}`);
             return; // we failed seed, just bail
         }
 
@@ -86,20 +88,24 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
         let successfullyCompleted = true;
         let lastCell = seedCell;
         for (const cell of cells) {
-            if (cell.document.uri === seedCell.document.uri) {
+            if (usingBoostNotebook? (cell as BoostNotebookCell).id === (seedCell as BoostNotebookCell).id :
+                (cell as vscode.NotebookCell).document.uri === (seedCell as vscode.NotebookCell).document.uri) {
                 continue; // skip seed cell
             }
 
             // get the blueprint out of the last Cell (or seed cell) to feed into next blueprinting
-            const blueprintOutput = lastCell.outputs.find(output => {
+            const blueprintOutput = usingBoostNotebook ? (lastCell as BoostNotebookCell).outputs.find(output => {
                 return (blueprintCellMarker === output.metadata?.outputType);
-            });
+            }) :
+                (lastCell as vscode.NotebookCell).outputs.find(output => {
+                    return (blueprintCellMarker === output.metadata?.outputType);
+                });;
 
             if (!blueprintOutput || blueprintOutput.items.length !== 1) {
-                boostLogging.error(`Error building Architectural Blueprint; could not find blueprint on ${seedCell.document.uri.toString()}`);
+                boostLogging.error(`Error building Architectural Blueprint; could not find blueprint on ${(seedCell as vscode.NotebookCell).document.uri.toString()}`);
                 return; // we failed seed, just bail
             }
-            let blueprint = new TextDecoder().decode(blueprintOutput.items[0].data);
+            let blueprint = usingBoostNotebook?(blueprintOutput.items[0].data as string) : new TextDecoder().decode((blueprintOutput as vscode.NotebookCellOutput).items[0].data);
             // strip the header off the blueprint - its the 3rd line
             blueprint = blueprint.split("\n", 3)[2];
             this._lastBlueprint = blueprint;
