@@ -40,13 +40,13 @@ export class BoostNotebookCell /*implements nbformat.ICell */ {
     kind: NotebookCellKind;
     editable?: boolean;
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    execution_count: nbformat.ExecutionCount;
+//    execution_count: nbformat.ExecutionCount;
     outputs: SerializedNotebookCellOutput[] = [];
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    cell_type: nbformat.CellType;
+//    cell_type: nbformat.CellType;
     metadata?: nbformat.ICellMetadata;
-    source: nbformat.MultilineString;
-    attachments?: nbformat.IAttachments;
+//    source: nbformat.MultilineString;
+//    attachments?: nbformat.IAttachments;
 
     constructor(
             kind: NotebookCellKind,
@@ -56,22 +56,23 @@ export class BoostNotebookCell /*implements nbformat.ICell */ {
             metadata?: nbformat.ICellMetadata,
             outputs?: SerializedNotebookCellOutput[],
             editable?: boolean,
-            source: nbformat.MultilineString = "",
+//            source: nbformat.MultilineString = "",
             // eslint-disable-next-line @typescript-eslint/naming-convention
-            execution_count: nbformat.ExecutionCount = null,
+//            execution_count: nbformat.ExecutionCount = null,
             // eslint-disable-next-line @typescript-eslint/naming-convention
-            cell_type: nbformat.CellType = 'code',
-            attachments?: nbformat.IAttachments) {
+//            cell_type: nbformat.CellType = 'code',
+//            attachments?: nbformat.IAttachments
+                    ) {
         this.languageId = languageId;
         this.id = id? id : randomUUID().toString();
         this.value = value;
         this.kind = kind;
-        this.execution_count = execution_count;
-        this.editable = editable;
+//        this.execution_count = execution_count;
+//        this.editable = editable;
         this.outputs = [];
         this.metadata = metadata;
-        this.cell_type = cell_type;
-        this.source = source;
+//        this.cell_type = cell_type;
+//        this.source = source;
     }
     initializeMetadata(newData : any) {
         this.metadata = newData;
@@ -107,10 +108,10 @@ boostNotebook.save('path/to/save/notebook.ipynb');
 export class BoostNotebook /* implements nbformat.INotebookContent */ {
   metadata: nbformat.INotebookMetadata;
   cells : BoostNotebookCell[];
-  nbformat: number;
+//  nbformat: number;
   
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  nbformat_minor: number;
+//  nbformat_minor: number;
 
   [key: string]: any; // Index signature for type 'string'
 
@@ -119,8 +120,8 @@ export class BoostNotebook /* implements nbformat.INotebookContent */ {
     this.metadata = {};
 
     // these are for compat with vscode
-    this.nbformat = 4;
-    this.nbformat_minor = 5;
+//    this.nbformat = 4;
+//    this.nbformat_minor = 5;
   }
 
   create(jsonString: string): void {
