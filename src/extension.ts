@@ -34,7 +34,7 @@ export class BoostExtension {
     kernels : Map<string, KernelControllerBase> = new Map<string, KernelControllerBase>();
   
     constructor(context: vscode.ExtensionContext) {
-    
+        
         // ensure logging is shutdown
         context.subscriptions.push(boostLogging);
 
@@ -722,7 +722,7 @@ export function getBoostNotebookFile(sourceFile : vscode.Uri) : vscode.Uri {
 
     let baseFolder;
     if (!vscode.workspace.workspaceFolders) {
-        baseFolder = path.dirname(sourceFile.toString());
+        baseFolder = path.dirname(sourceFile.fsPath);
     }
     else {
         const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder
