@@ -124,15 +124,17 @@ export class BoostNotebook /* implements nbformat.INotebookContent */ {
   }
 
   create(jsonString: string): void {
-    let content = JSON.parse(jsonString) as nbformat.INotebookContent;
-
-    Object.assign(this, content);
+    let notebook = JSON.parse(jsonString) as BoostNotebook;
+    Object.assign(this, notebook);
+    for (let i = 0; i < this.cells.length; i++) {
+        this.cells[i] = Object.assign(new BoostNotebookCell(this.cells[i].kind, this.cells[i].value, this.cells[i].languageId), this.cells[i]);
+        // since Outputs are plain old data, we don't need to reserialize them
+    }
   }
 
   load(filePath: string): void {
       const jsonString = fs.readFileSync(filePath, 'utf8');
-      let notebook = JSON.parse(jsonString) as nbformat.INotebookContent;
-      Object.assign(this, notebook);
+      this.create(jsonString);
     }
 
   save(filename: string): void {
