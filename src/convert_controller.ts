@@ -147,7 +147,7 @@ export class BoostConvertKernel extends KernelControllerBase {
                 items: [ { mime: mimetypeCode, data : header } ],
                 metadata : { outputType: this.outputType} } ];
             
-            cell.updateOutputItem(explainCellMarker, outputItems[0]);
+            cell.updateOutputItem(this.outputType, outputItems[0]);
         } else {
             const outputItemsCode: vscode.NotebookCellOutputItem[] = [ vscode.NotebookCellOutputItem.text(header, mimetypeCode) ];
 
