@@ -72,37 +72,37 @@
       },
       {
         "command": "polyverse-boost-notebook.loadCodeFile",
-        "title": "Polyverse Boost: Load File",
+        "title": "Polyverse Boost: Load Source File (using File Dialog)",
         "icon": "$(file-code)"
       },
       {
         "command": "polyverse-boost-notebook.selectOutputLanguage",
-        "title": "Conversion Output Language",
+        "title": "Polyverse Boost: Conversion Output Language",
         "icon": "$(code)"
       },
       {
         "command": "polyverse-boost-notebook.selectTestFramework",
-        "title": "Select Test Framework",
+        "title": "Polyverse Boost: Select Test Framework",
         "icon": "$(checklist)"
       },
       {
         "command": "polyverse-boost-notebook.loadCurrentFile",
-        "title": "Polyverse Boost: Load from File",
+        "title": "Polyverse Boost: Build Notebook from Selected File (via File Explorer or Editor)",
         "icon": "$(file)"
       },
       {
         "command": "polyverse-boost-notebook.loadCurrentFolder",
-        "title": "Polyverse Boost: Load from Folder",
+        "title": "Polyverse Boost: Build Notebook from Selected Folder (via File Explorer)",
         "icon": "$(folder)"
       },
       {
         "command": "polyverse-boost-notebook.processCurrentFile",
-        "title": "Polyverse Boost: Run Kernel on File",
+        "title": "Polyverse Boost: Process Current File Automatically (Offline)",
         "icon": "$(file)"
       },
       {
         "command": "polyverse-boost-notebook.processCurrentFolder",
-        "title": "Polyverse Boost: Run Kernel on Folder",
+        "title": "Polyverse Boost: Process Folder Automatically (Offline)",
         "icon": "$(folder)"
       }
     ],
