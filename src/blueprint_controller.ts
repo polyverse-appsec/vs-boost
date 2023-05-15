@@ -66,6 +66,8 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
 
         const usingBoostNotebook = (notebook instanceof BoostNotebook);
 
+        boostLogging.info(`Starting ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, false);
+
         // seed cell is the largest (source code) cell in the notebook / this is a heuristic for now to get max detail
         let seedCell : vscode.NotebookCell | BoostNotebookCell | undefined = undefined;
         let largestSize = 0;
@@ -81,12 +83,17 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
             return;
         }
 
+        if (usingBoostNotebook) {
+            boostLogging.info(`Started ${this.command} of Notebook ${notebook.metadata['sourceFile']} on cell ${(seedCell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
+        }
         // build the seed cell first
         if (!await this.doExecution(notebook, seedCell, session)) {
-            boostLogging.error(`Error building Architectural Blueprint seed on cell ${usingBoostNotebook ? (seedCell as BoostNotebookCell).id : (seedCell as vscode.NotebookCell).document.uri.toString()}`);
+            boostLogging.error(`Error building Architectural Blueprint seed of Notebook ${notebook.metadata['sourceFile']} on cell ${usingBoostNotebook ? (seedCell as BoostNotebookCell).id : (seedCell as vscode.NotebookCell).document.uri.toString()}`);
             return; // we failed seed, just bail
         }
-
+        if (usingBoostNotebook) {
+            boostLogging.info(`Finished ${this.command} of Notebook ${notebook.metadata['sourceFile']} on cell ${(seedCell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
+        }
         // now process all remaining cells
         let successfullyCompleted = true;
         let lastCell = seedCell;
@@ -108,18 +115,28 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
                 boostLogging.error(`Error building Architectural Blueprint; could not find blueprint on ${(seedCell as vscode.NotebookCell).document.uri.toString()}`);
                 return; // we failed seed, just bail
             }
-            let blueprint = new TextDecoder().decode(blueprintOutput.items[0].data as Uint8Array);
+            let blueprint = usingBoostNotebook?(blueprintOutput.items[0].data as string) : new TextDecoder().decode((blueprintOutput as vscode.NotebookCellOutput).items[0].data);
             // strip the header off the blueprint - its the 3rd line
             blueprint = blueprint.split("\n", 3)[2];
             this._lastBlueprint = blueprint;
+            
+            if (usingBoostNotebook) {
+                boostLogging.info(`Started ${this.command} of Notebook ${notebook.metadata['sourceFile']} on cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
+            }
 
             // update the blueprint in other cells
             if (!await this.doExecution(notebook, cell, session)) {
                 successfullyCompleted = false;
             }
-		}
+            if (usingBoostNotebook) {
+                boostLogging.info(`Finished ${this.command} of Notebook ${notebook.metadata['sourceFile']} on cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
+            }
+        }
+
         if (!successfullyCompleted) {
-            boostLogging.error(`Error Blueprinting Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`);
+            boostLogging.error(`Error Blueprinting of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, !usingBoostNotebook);
+        } else {
+            boostLogging.info(`Success Blueprinting of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, false);
         }
     }
 
