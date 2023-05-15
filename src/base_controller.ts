@@ -5,6 +5,7 @@ import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
 import { fetchGithubSession, getCurrentOrganization } from './authorization';
 import { mapError } from './error';
+import { BoostNotebookCell, BoostNotebook, SerializedNotebookCellOutput } from './jupyter_notebook';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type onServiceErrorHandler = (context: vscode.ExtensionContext, error: any, closure: any) => void;
@@ -13,6 +14,8 @@ export class KernelControllerBase {
     _problemsCollection: vscode.DiagnosticCollection;
 	id : string;
 	kernelLabel : string;
+    description : string;
+    command : string;
 	private _supportedLanguages = [];
     private _outputType : string;
     private _useGeneratedCodeCellOptimization : boolean;
@@ -27,6 +30,7 @@ export class KernelControllerBase {
         problemsCollection: vscode.DiagnosticCollection,
         kernelId : string,
         kernelLabel : string,
+        description : string,
         outputType : string,
         useGeneratedCodeCellOptimization : boolean,
         useOriginalCodeCheck : boolean,
@@ -35,8 +39,10 @@ export class KernelControllerBase {
         onServiceErrorHandler: onServiceErrorHandler) {
             
         this._problemsCollection = problemsCollection;
-        this.id = kernelId;
-        this.kernelLabel = kernelLabel;
+        this.command = kernelId;
+        this.id = "polyverse-boost-" + kernelId + "-kernel";
+        this.kernelLabel = "Polyverse Boost: " + kernelLabel;
+        this.description = description;
         this._outputType = outputType;
         this._useGeneratedCodeCellOptimization = useGeneratedCodeCellOptimization;
         this.useOriginalCodeCheck = useOriginalCodeCheck;
@@ -45,7 +51,7 @@ export class KernelControllerBase {
         this._onServiceError = onServiceErrorHandler;
 
 		this._controller = vscode.notebooks.createNotebookController(this.id,
-			'polyverse-boost-notebook',
+			NOTEBOOK_TYPE,
 			this.kernelLabel);
 
 		this._controller.supportedLanguages = this._supportedLanguages;
@@ -83,55 +89,88 @@ export class KernelControllerBase {
         notebook: vscode.NotebookDocument,
         controller: vscode.NotebookController): Promise<void> {
 
-		// make sure we're authorized
-		// if not, run the authorization cell
-		const session = await this.doAuthorizationExecution();
-
-		//if not authorized, give up
-		if (!session) {
-			return;
-		}
-
-        this.executeAll(cells, notebook, session);
+        return this.executeAllWithAuthorization(cells, notebook);
 	}
 
-    executeAll(cells: vscode.NotebookCell[], notebook: vscode.NotebookDocument, session : vscode.AuthenticationSession) {
+	async executeAllWithAuthorization(
+        cells: vscode.NotebookCell[] | BoostNotebookCell[],
+        notebook: vscode.NotebookDocument | BoostNotebook): Promise<void> {
+
+        return new Promise<void>(async (resolve, reject) => {
+            try {
+                // make sure we're authorized
+                // if not, run the authorization cell
+                const session = await this.doAuthorizationExecution();
+
+                //if not authorized, give up
+                if (!session) {
+                    return;
+                }
+
+                await this.executeAll(cells, notebook as vscode.NotebookDocument, session);
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        });
+	}
+
+    async executeAll(
+        cells: vscode.NotebookCell[] | BoostNotebookCell[],
+        notebook: vscode.NotebookDocument | BoostNotebook,
+        session : vscode.AuthenticationSession) {
+
         let successfullyCompleted = true;
         const promises = [];
+        const usingBoostNotebook = (notebook instanceof BoostNotebook);
+
+        boostLogging.info(`Starting ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, false);
+
         for (const cell of cells) {
             //if the cell is generated code, don't run it by default, the original code cell will
 			// run it, unless it is the only cell in array of cells being run, in which case, run it
 			if (this._useGeneratedCodeCellOptimization &&
-                cell.metadata.type === 'generatedCode' &&
+                cell.metadata?.type === 'generatedCode' &&
                 cells.length > 1) {
 				return;
 			}
+            
+            if (usingBoostNotebook) {
+                boostLogging.info(`Started ${this.command} of Notebook ${notebook.metadata['sourceFile']} on cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
+            }
             promises.push(
                 this.doExecution(notebook, cell, session).then((result) => {
                     if (!result) {
                         successfullyCompleted = false;
                     }
+                    if (usingBoostNotebook) {
+                        boostLogging.info(`Finished ${this.command} of Notebook ${notebook.metadata['sourceFile']} on cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
+                    }
                 }) as Promise<boolean>);
 		}
-        Promise.all(promises).then((results) => {
+        await Promise.all(promises).then((results) => {
             results.forEach((result) => {
                 successfullyCompleted &&= (result ?? true);
             });
             if (!successfullyCompleted) {
-                boostLogging.error(`Error analyzing Notebook ${notebook.uri.toString()}`);
+                boostLogging.error(`Error ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, !usingBoostNotebook);
+            } else {
+                boostLogging.info(`Success ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, false);
             }
             return successfullyCompleted;
           }).catch((error) => {
             successfullyCompleted = false;
-            boostLogging.error(`Error analyzing Notebook ${notebook.uri.toString()}: ${error.toString()}}`);
+            boostLogging.error(`Error ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}: ${error.toString()}}`, !usingBoostNotebook);
         });
     }
 
 	async doExecution(
-        notebook : vscode.NotebookDocument,
-        cell: vscode.NotebookCell,
+        notebook : vscode.NotebookDocument | BoostNotebook,
+        cell: vscode.NotebookCell | BoostNotebookCell,
         session : vscode.AuthenticationSession):
             Promise<boolean> {
+
+        const usingBoostNotebook = (notebook instanceof BoostNotebook);
 
         // if not authorized, retry
         if (!session) {
@@ -155,14 +194,15 @@ export class KernelControllerBase {
         }
 
         // if no useful text to explain, skip it
-        const code = cell.document.getText();
-
-        if (code.trim().length === 0) {
+        const inputData = usingBoostNotebook? (cell as BoostNotebookCell).value : (cell as vscode.NotebookCell).document.getText();
+        
+        // skip whitespace trim on MultilineString - not worth code complexity trouble for now
+        if (typeof inputData === "string" && (inputData as string).trim().length === 0) {
             return true;
         } else if (!cell.metadata.type) {
             const reinitialized = await this.initializeMetaData(notebook, cell);
             if (!reinitialized) {
-                boostLogging.warn(`Unable to parse contents of Cell ${cell.document.uri.toString()}`);
+                boostLogging.warn(`Unable to parse contents of Cell ${(cell instanceof BoostNotebookCell)? cell.id : cell.document.uri.toString()}`);
                 return false;
             }
         }
@@ -171,23 +211,29 @@ export class KernelControllerBase {
 		// and one for the generated code
 		// if the cell is original code, run the summary generation
 		if (!this.useOriginalCodeCheck || cell.metadata.type === 'originalCode') {
-            return await this._doKernelExecution(cell, session, organization);
+            return await this._doKernelExecution(notebook, cell, session, organization);
         }
         return true;
     }
 
 	private async _doKernelExecution(
-        cell: vscode.NotebookCell,
+        notebook : vscode.NotebookDocument | BoostNotebook,
+        cell: vscode.NotebookCell | BoostNotebookCell,
         session: vscode.AuthenticationSession,
         organization: string): Promise<boolean> {
-		const execution = this._controller.createNotebookCellExecution(cell);
 
+        const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
+        const execution = usingBoostNotebook? undefined : this._controller.createNotebookCellExecution(cell as vscode.NotebookCell);
         let successfullyCompleted = true;
-		execution.executionOrder = ++this._executionOrder;
-		execution.start(Date.now());
+
+        const startTime = Date.now();
+        if (execution) {
+            execution.executionOrder = ++this._executionOrder;
+            execution.start(startTime);
+        }
 
         // get the code from the cell
-        const code = cell.document.getText();
+        const code = usingBoostNotebook? (cell as BoostNotebookCell).value : (cell as vscode.NotebookCell).document.getText();
 
         let payload = {
             code: code,
@@ -195,8 +241,12 @@ export class KernelControllerBase {
             organization: organization
         };
 
+        const cellId = usingBoostNotebook?
+            (cell as BoostNotebookCell).id:
+            (cell as vscode.NotebookCell).document.uri.toString();
+
         try {
-            let response = await this.onProcessServiceRequest(execution, cell, payload);
+            let response = await this.onProcessServiceRequest(execution, notebook, cell, payload);
             if (response instanceof Error) {
                 // we failed the call, but it was already logged since it didn't throw, so just report failure
                 successfullyCompleted = false;
@@ -205,13 +255,27 @@ export class KernelControllerBase {
             successfullyCompleted = false;
             this._updateCellOutput(
                 execution, cell,
+                usingBoostNotebook? this._getBoostNotebookCellOutputError(this.localizeError(err as Error)) :
                 vscode.NotebookCellOutputItem.error(this.localizeError(err as Error)),
                 err);
-            boostLogging.error(`Error executing cell ${cell.document.uri.toString()}: ${(err as Error).message}`, false);
-            this.addDiagnosticProblem(cell, err as Error);
+            boostLogging.error(`Error executing cell ${cellId}: ${(err as Error).message}`, false);
+            if (!usingBoostNotebook) {
+                this.addDiagnosticProblem((cell as vscode.NotebookCell), err as Error);
+            }
         }
         finally {
-            execution.end(successfullyCompleted, Date.now());
+            const duration = Date.now() - startTime;
+            const minutes = Math.floor(duration / 60000);
+            const seconds = ((duration % 60000) / 1000).toFixed(0);
+            if (execution) {
+                execution.end(successfullyCompleted, Date.now());
+            }
+            
+            if (successfullyCompleted) {
+                boostLogging.info(`SUCCESS running ${this.command} update of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+            } else {
+                boostLogging.error(`Error while running ${this.command} update of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+            }
         }
         return successfullyCompleted;
 	}
@@ -221,14 +285,44 @@ export class KernelControllerBase {
         return error;
     }
 
+    _getBoostNotebookCellOutput(output: string, mimeType: string): SerializedNotebookCellOutput {
+        return {
+            items: [
+                {
+                    mime: mimeType,
+                    data: output,
+                }
+            ],
+            metadata: {
+                "outputType": this.outputType,
+            }
+        };
+    }
+
+    _getBoostNotebookCellOutputError(error: Error): SerializedNotebookCellOutput {
+        return {
+            items: [
+                {
+                    mime: "application/vnd.code.notebook.error", // for compatibility with VS Code
+                    data: JSON.stringify(error),
+                }
+            ],
+            metadata: {
+                "outputType": this.outputType,
+            }
+        };
+    }
+
     _onServiceError : onServiceErrorHandler | undefined = undefined;
 
     async onProcessServiceRequest(
-        execution: vscode.NotebookCellExecution,
-        cell : vscode.NotebookCell,
+        execution: vscode.NotebookCellExecution | undefined,
+        notebook : vscode.NotebookDocument | BoostNotebook,
+        cell : vscode.NotebookCell | BoostNotebookCell,
         payload : any) : Promise<any>{
 
         let successfullyCompleted = true;
+        const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
 
         // using axios, make a web POST call to Boost Service with the code as in a json object code=code
         let response;
@@ -239,41 +333,62 @@ export class KernelControllerBase {
             successfullyCompleted = false;
             serviceError = err;
         }
-        if (response instanceof Error) {
-            successfullyCompleted = false;
-            serviceError = response as Error;
-        } else if (response === undefined) {
-            throw new Error("Unexpected empty result from Boost Service");
-        } else if (response.data instanceof Error) {
-            successfullyCompleted = false;
-            serviceError = response.data as Error;
+        if (!serviceError) {
+            if (response instanceof Error) {
+                successfullyCompleted = false;
+                serviceError = response as Error;
+            } else if (response === undefined) {
+                throw new Error("Unexpected empty result from Boost Service");
+            } else if (response.data instanceof Error) {
+                successfullyCompleted = false;
+                serviceError = response.data as Error;
+            }
         }
 
         // we wrap mimeTypes in an object so that we can pass it by reference and change it
         let mimetype = { str: 'text/markdown'};
 
-        const outputItem =
-            successfullyCompleted?
-            vscode.NotebookCellOutputItem.text(
-                this.onKernelOutputItem(response, cell, mimetype), mimetype.str):
-            vscode.NotebookCellOutputItem.error(this.localizeError(serviceError as Error));
+        let outputItem;
+        if (usingBoostNotebook) {
+            outputItem = successfullyCompleted?
+                this._getBoostNotebookCellOutput(
+                    this.onKernelOutputItem(response, cell, mimetype), mimetype.str):
+                this._getBoostNotebookCellOutputError(this.localizeError(serviceError as Error));
+        } else {
+            outputItem = successfullyCompleted?
+                vscode.NotebookCellOutputItem.text(
+                    this.onKernelOutputItem(response, cell, mimetype), mimetype.str):
+                vscode.NotebookCellOutputItem.error(this.localizeError(serviceError as Error));
+        }
 
         this._updateCellOutput(execution, cell, outputItem, serviceError);
         if (!successfullyCompleted) {
-            boostLogging.error(`Error in cell ${cell.document.uri.toString()}: ${serviceError.message}`, false);
-            this.addDiagnosticProblem(cell, serviceError as Error);
+            const cellId = usingBoostNotebook?cell.id : cell.document.uri.toString();
+            boostLogging.error(`Error in cell ${cellId}: ${serviceError.message}`, false);
+            if (!usingBoostNotebook) {
+                this.addDiagnosticProblem(cell, serviceError as Error);
+            }
         }
 
         return response;
     }
 
     private _updateCellOutput(
-        execution: vscode.NotebookCellExecution,
-        cell : vscode.NotebookCell,
-        outputItem : vscode.NotebookCellOutputItem,
+        execution: vscode.NotebookCellExecution | undefined,
+        cell : vscode.NotebookCell | BoostNotebookCell,
+        outputItem : vscode.NotebookCellOutputItem | SerializedNotebookCellOutput,
         err: unknown) {
 
-        const outputItems: vscode.NotebookCellOutputItem[] = [outputItem];
+        const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
+
+        if (usingBoostNotebook || !execution) {
+            const boostCell = cell as BoostNotebookCell;
+            const boostOutput = outputItem as SerializedNotebookCellOutput;
+            boostCell.updateOutputItem( this._outputType, boostOutput);
+            return;
+        }
+
+        const outputItems: vscode.NotebookCellOutputItem[] = [outputItem as vscode.NotebookCellOutputItem];
 
         // we will have one NotebookCellOutput per type of output.
         // first scan the existing outputs of the cell and see if we already have an output of this type
@@ -292,13 +407,14 @@ export class KernelControllerBase {
     }
 
     async makeBoostServiceRequest(
-        cell : vscode.NotebookCell,
+        cell : vscode.NotebookCell | BoostNotebookCell,
         serviceEndpoint : string,
         payload : any): Promise<any> {
         try {
             if (BoostConfiguration.serviceFaultInjection > 0 &&
                 (Math.floor(Math.random() * 100) < BoostConfiguration.serviceFaultInjection)) {;
-                boostLogging.debug(`Injecting fault into service request for cell ${cell.document.uri.toString()} to ${serviceEndpoint}`);
+                const cellId = (cell instanceof BoostNotebookCell)?cell.id : cell.document.uri.toString();
+                boostLogging.debug(`Injecting fault into service request for cell ${cellId} to ${serviceEndpoint}`);
                 await axios.get('https://serviceFaultInjection/synthetic/error/');
             }
             let result : any = await this.onBoostServiceRequest(cell, serviceEndpoint, payload);
@@ -315,7 +431,7 @@ export class KernelControllerBase {
     }
 
     async onBoostServiceRequest(
-        cell : vscode.NotebookCell,
+        cell : vscode.NotebookCell | BoostNotebookCell,
         serviceEndpoint : string,
         payload : any) : Promise<string> {
 
@@ -333,19 +449,19 @@ export class KernelControllerBase {
             });
     }
 
-    onKernelOutputItem(response: any, cell : vscode.NotebookCell, mimetype : any) : string {
+    onKernelOutputItem(response: any, cell : vscode.NotebookCell | BoostNotebookCell, mimetype : any) : string {
         throw new Error("Not implemented");
     }
 
     async initializeMetaData(
-        notebook : vscode.NotebookDocument,
-        cell: vscode.NotebookCell) : Promise<boolean> {
+        notebook : vscode.NotebookDocument | BoostNotebook,
+        cell: vscode.NotebookCell | BoostNotebookCell) : Promise<boolean> {
 
         if (notebook === undefined) {
             return false;
         }
+        const usingBoostNotebook = (notebook instanceof BoostNotebook);
 
-        const edit = new vscode.WorkspaceEdit();
         let foundCell = undefined;
         let i = 0;
         for  (; i < notebook.cellCount; i++) {
@@ -355,9 +471,19 @@ export class KernelControllerBase {
             }
         }
 
+        // if we're using native boost notebook, update metadata and skip more complex VSC Notebook update process
+        if (usingBoostNotebook) {
+            (cell as BoostNotebookCell).initializeMetadata( {"id": i, "type": "originalCode"} );
+            return true;
+        }
+
+        const doc = (cell as vscode.NotebookCell).document;
         const newCellData = new vscode.NotebookCellData(vscode.NotebookCellKind.Code,
-            cell.document.getText(), cell.document.languageId);
+            doc.getText(), doc.languageId);
         newCellData.metadata = {"id": i, "type": "originalCode"};
+
+
+        const edit = new vscode.WorkspaceEdit();
 
         // Use .set to add one or more edits to the notebook
         edit.set(notebook.uri, [

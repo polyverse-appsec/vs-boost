@@ -49,6 +49,11 @@
           "type": "string",
           "default": "",
           "description": "Default organization for Polyverse Boost billing"
+        },
+        "polyverse-boost-notebook.currentKernelCommand": {
+          "type": "string",
+          "default": "",
+          "description": "Boost Kernel to use for Automated Processing"
         }
       }
     },
@@ -63,31 +68,41 @@
       },
       {
         "command": "polyverse-boost-notebook.createJsonNotebook",
-        "title": "Polyverse Boost: Create Analysis Notebook"
+        "title": "Polyverse Boost: Create New Notebook (show in Editor)"
       },
       {
         "command": "polyverse-boost-notebook.loadCodeFile",
-        "title": "Polyverse Boost: Load File",
+        "title": "Polyverse Boost: Load Source File (using File Dialog)",
         "icon": "$(file-code)"
       },
       {
         "command": "polyverse-boost-notebook.selectOutputLanguage",
-        "title": "Conversion Output Language",
+        "title": "Polyverse Boost: Code Conversion Output Language",
         "icon": "$(code)"
       },
       {
         "command": "polyverse-boost-notebook.selectTestFramework",
-        "title": "Select Test Framework",
+        "title": "Polyverse Boost: Select Test Framework",
         "icon": "$(checklist)"
       },
       {
+        "command": "polyverse-boost-notebook.loadCurrentFile",
+        "title": "Polyverse Boost: Build Notebook from Selected File (via File Explorer or Editor)",
+        "icon": "$(file)"
+      },
+      {
+        "command": "polyverse-boost-notebook.loadCurrentFolder",
+        "title": "Polyverse Boost: Batch Build Notebook from Selected Folder (via File Explorer)",
+        "icon": "$(folder)"
+      },
+      {
         "command": "polyverse-boost-notebook.processCurrentFile",
-        "title": "Polyverse Boost: Analysis from File",
+        "title": "Polyverse Boost: Process Current File with Selected Kernel Automatically (Offline)",
         "icon": "$(file)"
       },
       {
         "command": "polyverse-boost-notebook.processCurrentFolder",
-        "title": "Polyverse Boost: Analysis from Folder",
+        "title": "Polyverse Boost: Batch Process Folder with Selected Kernel Automatically (Offline)",
         "icon": "$(folder)"
       }
     ],
@@ -122,6 +137,18 @@
       ],
       "explorer/context": [
         {
+            "command": "polyverse-boost-notebook.loadCurrentFile",
+            "when":
+                "resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb",
+            "group": "navigation"
+        },
+        {
+            "command": "polyverse-boost-notebook.loadCurrentFolder",
+            "when":
+                "(resourceScheme == 'file' && resourceLangId == 'unknown' && resourceExtname == '')",
+            "group": "navigation"
+        },
+        {
             "command": "polyverse-boost-notebook.processCurrentFile",
             "when":
                 "resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb",
@@ -139,7 +166,7 @@
   "scripts": {
     "clean": "rm -rf out",
     "build-instructions": "bash ./build_instructions.sh raw_instructions.md >./src/instructions.json",
-    "compile": "npm run build-instructions && tsc -p ./",
+    "compile": "npm run build-instructions && tsc -b ./",
     "watch": "tsc -watch -p ./",
     "lint": "eslint src --ext ts",
     "copy:test-data": "mkdir -p out/test && cp -R src/test/resources out/test/resources",
@@ -149,11 +176,12 @@
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
     "esbuild-pretest": "npm run clean && npm run esbuild && npm run lint && npm run copy:test-data",
     "test": "node ./out/test/runTest.js",
-    "vscode:prepublish": "npm run esbuild-base -- --minify",
-    "prepublish-pretest": "npm run clean && npm run vscode:prepublish && npm run copy:test-data",
+    "prepublish:build": "npm run esbuild-base -- --minify",
+    "prepublish:pretest": "npm run clean && npm run prepublish:build && npm run copy:test-data",
+    "prepublish:test": "npm run test",
+    "prepublish:login": "vsce login polyversecorporation",
     "package": "vsce package --allow-missing-repository --baseContentUrl \"https://polyverse.com\" --baseImagesUrl \"https://polyverse.com/images\" --out ./out/",
-    "publish": "vsce publish --allow-missing-repository --baseContentUrl \"https://polyverse.com\" --baseImagesUrl \"https://polyverse.com/images\"",
-    "vsce:login": "vsce login polyversecorporation"
+    "publish": "vsce publish --allow-missing-repository --baseContentUrl \"https://polyverse.com\" --baseImagesUrl \"https://polyverse.com/images\""
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",

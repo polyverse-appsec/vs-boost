@@ -22,7 +22,6 @@ export async function getCurrentOrganization(context: vscode.ExtensionContext): 
     // if we have a cached value, return it
     let org: string = context.globalState?.get("organization") ?? "";
     if (org) {
-        boostLogging.log(`Using Globally cached Organization: ${org}`);
         return org;
     }
 

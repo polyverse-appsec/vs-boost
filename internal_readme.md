@@ -23,12 +23,12 @@ Boost plugin for Visual Studio Code is built using TypeScript, JavaScript and Vi
 
 * `esbuild-pretest` Preps the product code to be built and linted and tested with smaller size
 
-* `test` Runs all automated integration tests once
-
-* `vscode:prepublish` Runs minify to shrink the product code to the
+* `prepublish:build` Runs minify to shrink the product code to the
 smallest - before publishing to marketplace
 
-* `prepublish-pretest` Preps the product code to be built in micro/min size and tested
+* `prepublish:pretest` Preps the product code to be built in micro/min size and tested
+
+* `test` Runs all automated integration tests once
 
 * `package` Builds a VSIX package for local or internal sharing and testing
 
@@ -43,7 +43,7 @@ To do compacted build and test (e.g. optimized file size)
 2. `npm run test` or `./test_loop.sh` to run tests many times in loop randomly
 
 To do packaging and test and publishing
-1. `npm run prepublish-pretest`
+1. `npm run prepublish:pretest`
 2. `npm run test` or `./test_loop.sh` to run tests many times in loop randomly
 
 To publish internally and testing
@@ -178,16 +178,17 @@ To install it: `npm install -g @vscode/vsce`
 * We [publish Boost extension](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) on the VS Code extension marketplace manually - synchronized with
 critical fixes, major new features or a joint marketing/customer milestone.
 Use following extra steps to publish:
-1. npm run vscode:prepublish
-2. npm run vsce:login
-3. npm run publish
+1. npm run prepublish:pretest
+2. npm run prepublish:test
+3. npm run prepublish:login
+4. npm run publish
 
 NOTE: If you have NOT published before, you'll need a personal access key to marketplace - see above VSC publishing link for details.
 
 Example of Output from Publishing:
 
 2. Login Example
-npm run vsce:login
+npm run prepublish:login
 ```https://marketplace.visualstudio.com/manage/publishers/
 Personal Access Token for publisher 'polyversecorporation': ****************************************************
 

@@ -10,8 +10,9 @@ export class BoostFlowDiagramKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
-            'polyverse-boost-flowdiagram-kernel',
+            'flowdiagram',
             'Polyverse Boost: Create Flow Diagrams',
+            'Creates a flow diagram from the code',
             flowDiagramCellMarker,
             false,
             false,

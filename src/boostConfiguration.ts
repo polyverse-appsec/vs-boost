@@ -1,5 +1,5 @@
 import { NOTEBOOK_TYPE } from "./extension";
-import { workspace, extensions } from "vscode";
+import { workspace, extensions, ConfigurationTarget } from "vscode";
 
 export class BoostConfiguration {
   
@@ -51,6 +51,25 @@ export class BoostConfiguration {
     public static get enableDevOnlyKernels(): boolean {
         return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.enableDevOnlyKernelsName)??
             Defaults.enableDevOnlyKernelsValue;
+    }
+
+    public static get enableKernelPicker(): boolean {
+        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.enableKernelPickerName)??
+            Defaults.enableKernelPickerValue;
+    }
+
+    public static get currentKernelCommand(): string {
+        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.currentKernelCommandName)??
+            Defaults.currentKernelCommandValue;
+    }
+    public static set currentKernelCommand(value: string) {
+        workspace.getConfiguration(NOTEBOOK_TYPE, null)
+            .update(Defaults.currentKernelCommandName, value, ConfigurationTarget.Global);
+    }
+
+    public static get logLevel(): string {
+        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.logLevelName)??
+            Defaults.logLevelValue;
     }
 
     static _cachedVersion: string = "";
@@ -105,4 +124,12 @@ class Defaults {
     public static readonly enableDevOnlyKernelsName = "enableDevOnlyKernels";
     public static readonly enableDevOnlyKernelsValue = false;
 
+    public static readonly enableKernelPickerName = "enableKernelPicker";
+    public static readonly enableKernelPickerValue = false;
+
+    public static readonly currentKernelCommandName = "currentKernelCommand";
+    public static readonly currentKernelCommandValue = "";
+
+    public static readonly logLevelName = "logLevel";
+    public static readonly logLevelValue = "info";
 }

@@ -4,13 +4,15 @@ import {
 import * as vscode from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import axios from 'axios';
+import { BoostNotebookCell } from './jupyter_notebook';
 
 export class BoostTestgenKernel extends KernelControllerBase {
 	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
-            'polyverse-boost-testgen-kernel',
-            'Polyverse Boost: Generate Test Cases for Code',
+            'testgen',
+            'Generate Test Cases for Code',
+            'Generates a set of unit Test Cases for testing the targeted source code using a specifie Test Framework',
             'testGeneration',
             true,
             true,
@@ -40,12 +42,14 @@ export class BoostTestgenKernel extends KernelControllerBase {
     }
 
     async onBoostServiceRequest(
-        cell : vscode.NotebookCell,
+        cell : vscode.NotebookCell | BoostNotebookCell,
         serviceEndpoint : string,
         payload : any) : Promise<string>
     {
+        const usingBoostNotebook = "value" in cell; // if the cell has a value property, then it's a BoostNotebookCell
+
         //get the outputLanguage from the language set on the cell, NOT the language set on the notebook
-		let outputLanguage = cell.document.languageId ??
+		let outputLanguage = usingBoostNotebook?cell.languageId:cell.document.languageId ??
             BoostConfiguration.defaultOutputLanguage;
 
 		//if outputLanguage is undefined, set it to default setting

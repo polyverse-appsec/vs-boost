@@ -34,11 +34,15 @@
             "name": "Integration Suite",
             "type": "node",
             "request": "launch",
-            "runtimeExecutable": "npm",
-            "runtimeArgs": ["run", "test", "--", "placeholderSourceFile.cpp"],
+            "runtimeExecutable": "node",
+            "runtimeArgs": ["./out/test/runTest.js", ""],
+			"outFiles": [
+				"${workspaceFolder}/out/test/**/*.js"
+			],
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal",
-            "stopOnEntry": true
+            "stopOnEntry": true,
+            "autoAttachChildProcesses": true
         },
         {
             "name": "(1 Iteration) Integration Suite",

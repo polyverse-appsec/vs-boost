@@ -10,8 +10,9 @@ export class BoostComplianceKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
-            'polyverse-boost-compliance-kernel',
-            'Polyverse Boost: Check Compliance',
+            'compliance',
+            'Check Compliance',
+            'Evaluates Data and Privacy Compliance of the code',
             complianceCellMarker,
             false,
             false,

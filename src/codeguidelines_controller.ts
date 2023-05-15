@@ -10,8 +10,9 @@ export class BoostCodeGuidelinesKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
-            'polyverse-boost-codeguidelines-kernel',
-            'Polyverse Boost: Evaluate Code Guidelines',
+            'codeguidelines',
+            'Evaluate Code Guidelines',
+            'Evaluates targeted source code for following Code Guidelines for programming language and framework',
             codeGuidelinesCellMarker,
             false,
             false,

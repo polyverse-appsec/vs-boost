@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as nbformat from '@jupyterlab/nbformat';
 import { PartialJSONValue } from '@lumino/coreutils';
+import { randomUUID } from 'crypto';
 
 export enum NotebookCellKind {
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -39,13 +40,13 @@ export class BoostNotebookCell /*implements nbformat.ICell */ {
     kind: NotebookCellKind;
     editable?: boolean;
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    execution_count: nbformat.ExecutionCount;
-    outputs: nbformat.IOutput[] = [];
+//    execution_count: nbformat.ExecutionCount;
+    outputs: SerializedNotebookCellOutput[] = [];
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    cell_type: nbformat.CellType;
+//    cell_type: nbformat.CellType;
     metadata?: nbformat.ICellMetadata;
-    source: nbformat.MultilineString;
-    attachments?: nbformat.IAttachments;
+//    source: nbformat.MultilineString;
+//    attachments?: nbformat.IAttachments;
 
     constructor(
             kind: NotebookCellKind,
@@ -55,25 +56,40 @@ export class BoostNotebookCell /*implements nbformat.ICell */ {
             metadata?: nbformat.ICellMetadata,
             outputs?: SerializedNotebookCellOutput[],
             editable?: boolean,
-            source: nbformat.MultilineString = "",
+//            source: nbformat.MultilineString = "",
             // eslint-disable-next-line @typescript-eslint/naming-convention
-            execution_count: nbformat.ExecutionCount = null,
+//            execution_count: nbformat.ExecutionCount = null,
             // eslint-disable-next-line @typescript-eslint/naming-convention
-            cell_type: nbformat.CellType = 'code',
-            attachments?: nbformat.IAttachments) {
+//            cell_type: nbformat.CellType = 'code',
+//            attachments?: nbformat.IAttachments
+                    ) {
         this.languageId = languageId;
-        this.id = id;
+        this.id = id? id : randomUUID().toString();
         this.value = value;
         this.kind = kind;
-        this.execution_count = execution_count;
-        this.editable = editable;
+//        this.execution_count = execution_count;
+//        this.editable = editable;
         this.outputs = [];
         this.metadata = metadata;
-        this.cell_type = cell_type;
-        this.source = source;
+//        this.cell_type = cell_type;
+//        this.source = source;
     }
-}
-
+    initializeMetadata(newData : any) {
+        this.metadata = newData;
+    }
+    updateOutputItem(outputType: string, newOutput: SerializedNotebookCellOutput) {
+        // Check if any existing output item has the same outputType
+        const existingItemIndex = this.outputs.findIndex(item => item.metadata?.outputType === outputType);
+    
+        if (existingItemIndex !== -1) {
+            // Replace the existing output item with the new one
+            this.outputs[existingItemIndex] = newOutput;
+        } else {
+            // Add the new output item to the cell's outputs
+            this.outputs.push(newOutput);
+        }
+    }
+}    
 /*
 // Usage example
 const boostNotebook = new BoostNotebook();
@@ -92,10 +108,10 @@ boostNotebook.save('path/to/save/notebook.ipynb');
 export class BoostNotebook /* implements nbformat.INotebookContent */ {
   metadata: nbformat.INotebookMetadata;
   cells : BoostNotebookCell[];
-  nbformat: number;
+//  nbformat: number;
   
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  nbformat_minor: number;
+//  nbformat_minor: number;
 
   [key: string]: any; // Index signature for type 'string'
 
@@ -104,20 +120,22 @@ export class BoostNotebook /* implements nbformat.INotebookContent */ {
     this.metadata = {};
 
     // these are for compat with vscode
-    this.nbformat = 4;
-    this.nbformat_minor = 5;
+//    this.nbformat = 4;
+//    this.nbformat_minor = 5;
   }
 
   create(jsonString: string): void {
-    let content = JSON.parse(jsonString) as nbformat.INotebookContent;
-
-    Object.assign(this, content);
+    let notebook = JSON.parse(jsonString) as BoostNotebook;
+    Object.assign(this, notebook);
+    for (let i = 0; i < this.cells.length; i++) {
+        this.cells[i] = Object.assign(new BoostNotebookCell(this.cells[i].kind, this.cells[i].value, this.cells[i].languageId), this.cells[i]);
+        // since Outputs are plain old data, we don't need to reserialize them
+    }
   }
 
   load(filePath: string): void {
       const jsonString = fs.readFileSync(filePath, 'utf8');
-      let notebook = JSON.parse(jsonString) as nbformat.INotebookContent;
-      Object.assign(this, notebook);
+      this.create(jsonString);
     }
 
   save(filename: string): void {

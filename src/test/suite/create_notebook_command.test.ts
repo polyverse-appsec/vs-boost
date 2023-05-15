@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as assert from 'assert';
+import { NOTEBOOK_TYPE } from '../../extension';
 
 suite('Notebook Command', function() {
 
@@ -16,7 +17,7 @@ suite('Notebook Command', function() {
     await vscode.workspace.getConfiguration().update('files.hotExit', 'off', vscode.ConfigurationTarget.Global);
 
     // Execute the "createJsonNotebook" command
-    await vscode.commands.executeCommand('polyverse-boost-notebook.createJsonNotebook',
+    await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.createJsonNotebook',
         { timeout: 2000 }); // give the command 2 seconds to execute
 
     // Wait for the notebook to be created

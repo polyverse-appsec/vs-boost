@@ -1,10 +1,13 @@
 import path from 'path';
 import glob from 'glob';
-import Mocha from 'mocha';
+import Mocha, { test } from 'mocha';
 import { shuffle } from 'lodash';
 
+// specify tests to run
+const testFilter = '**/**.test.js';
+// const testFilter = "**/rightClick_ProcessFile_command.test.js";
+
 export function run(): Promise<void> {
-	// Create the mocha test
 	const mocha = new Mocha({
 		ui: 'tdd',
 		color: true
@@ -12,34 +15,35 @@ export function run(): Promise<void> {
 
 	const testsRoot = path.resolve(__dirname, '..');
 
-	return new Promise((c, e) => {
-		glob('**/**.test.js', { cwd: testsRoot }, (err, files) => {
+	return new Promise((resolve, reject) => {
+		glob(testFilter, { cwd: testsRoot }, (err, files) => {
+            files.forEach((file: string) => {
+                console.log('Test file:', file);
+            });
 			if (err) {
-				return e(err);
+				return reject(err);
 			}
 
-            // shuffle the files so we don't have any ordering effects in tests
-            const shuffledFiles = shuffle(files);
-            
-            // add files in randomized order to test suite - so we catch any ordering
-            //    effects in tests
-            shuffledFiles.forEach((file: string) => mocha.addFile(path.resolve(testsRoot, file)));
+			// Shuffle the files so we don't have any ordering effects in tests
+			const shuffledFiles = shuffle(files);
 
-            // Add files to the test suite
-//			files.forEach(f => mocha.addFile(path.resolve(testsRoot, f)));
+			// Add files in randomized order to the test suite
+			shuffledFiles.forEach((file: string) => {
+                mocha.addFile(path.resolve(testsRoot, file));
+			});
 
 			try {
 				// Run the mocha test
 				mocha.run(failures => {
 					if (failures > 0) {
-						e(new Error(`${failures} tests failed.`));
+						reject(new Error(`${failures} tests failed.`));
 					} else {
-						c();
+						resolve();
 					}
 				});
 			} catch (err) {
 				console.error(err);
-				e(err);
+				reject(err);
 			}
 		});
 	});
