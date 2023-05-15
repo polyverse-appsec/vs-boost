@@ -68,7 +68,7 @@
       },
       {
         "command": "polyverse-boost-notebook.createJsonNotebook",
-        "title": "Polyverse Boost: Create Analysis Notebook"
+        "title": "Polyverse Boost: Create New Notebook (show in Editor)"
       },
       {
         "command": "polyverse-boost-notebook.loadCodeFile",
@@ -77,7 +77,7 @@
       },
       {
         "command": "polyverse-boost-notebook.selectOutputLanguage",
-        "title": "Polyverse Boost: Conversion Output Language",
+        "title": "Polyverse Boost: Code Conversion Output Language",
         "icon": "$(code)"
       },
       {
@@ -97,12 +97,12 @@
       },
       {
         "command": "polyverse-boost-notebook.processCurrentFile",
-        "title": "Polyverse Boost: Process Current File Automatically (Offline)",
+        "title": "Polyverse Boost: Process Current File with Selected Kernel Automatically (Offline)",
         "icon": "$(file)"
       },
       {
         "command": "polyverse-boost-notebook.processCurrentFolder",
-        "title": "Polyverse Boost: Process Folder Automatically (Offline)",
+        "title": "Polyverse Boost: Process Folder with Selected Kernel Automatically (Offline)",
         "icon": "$(folder)"
       }
     ],
