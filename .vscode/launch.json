@@ -35,7 +35,7 @@
             "type": "node",
             "request": "launch",
             "runtimeExecutable": "node",
-            "runtimeArgs": ["./out/test/runTest.js", "anagrams-deranged-anagrams.rb"],
+            "runtimeArgs": ["./out/test/runTest.js", ""],
 			"outFiles": [
 				"${workspaceFolder}/out/test/**/*.js"
 			],

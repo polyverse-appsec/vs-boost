@@ -6,7 +6,9 @@ import { runTests } from '@vscode/test-electron';
 async function main(argv : string[]) {
 
 	try {
-        const filename = argv[2]?.split(",");
+        const filenames = argv[2]?.split(",",1);
+        let filename : string | undefined = filenames?filenames[0]:undefined;
+
         let targetTestInputPath : string | undefined = undefined;
         try
         {
@@ -28,8 +30,8 @@ async function main(argv : string[]) {
 
             // Download VS Code, unzip it and run the integration test
             let args = [ ];
-            if (filename && filename[0]) {
-                args.push(filename[0]);
+            if (filename) {
+                args.push(filename);
             }
             await runTests( { extensionDevelopmentPath : extensionDevelopmentPath, extensionTestsPath : extensionTestsPath,
                 launchArgs: args });
