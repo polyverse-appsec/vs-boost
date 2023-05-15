@@ -97,19 +97,26 @@ export class KernelControllerBase {
         cells: vscode.NotebookCell[] | BoostNotebookCell[],
         notebook: vscode.NotebookDocument | BoostNotebook): Promise<void> {
 
-		// make sure we're authorized
-		// if not, run the authorization cell
-		const session = await this.doAuthorizationExecution();
+        return new Promise<void>(async (resolve, reject) => {
+            try {
+                // make sure we're authorized
+                // if not, run the authorization cell
+                const session = await this.doAuthorizationExecution();
 
-		//if not authorized, give up
-		if (!session) {
-			return;
-		}
+                //if not authorized, give up
+                if (!session) {
+                    return;
+                }
 
-        this.executeAll(cells, notebook as vscode.NotebookDocument, session);
+                await this.executeAll(cells, notebook as vscode.NotebookDocument, session);
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        });
 	}
 
-    executeAll(
+    async executeAll(
         cells: vscode.NotebookCell[] | BoostNotebookCell[],
         notebook: vscode.NotebookDocument | BoostNotebook,
         session : vscode.AuthenticationSession) {
@@ -140,7 +147,7 @@ export class KernelControllerBase {
                     }
                 }) as Promise<boolean>);
 		}
-        Promise.all(promises).then((results) => {
+        await Promise.all(promises).then((results) => {
             results.forEach((result) => {
                 successfullyCompleted &&= (result ?? true);
             });

@@ -444,7 +444,7 @@ export class BoostExtension {
                     newNotebookWaits.push(createNotebookFromSourceFile(file, true));
                 });
                 
-                Promise.all(newNotebookWaits)
+                await Promise.all(newNotebookWaits)
                     .then((createdNotebooks) => {
                         // we are generally creating one new notebook during this process, but in case, we de-dupe it
                         const newNotebooks = createdNotebooks.filter((value, index, self) => {
@@ -664,7 +664,7 @@ export class BoostExtension {
                 processedNotebookWaits.push(this.processCurrentFile(file, targetedKernel.id, context));
             });
             
-            Promise.all(processedNotebookWaits)
+            await Promise.all(processedNotebookWaits)
                 .then((processedNotebooks) => {
                     processedNotebooks.forEach(async (notebook : boostnb.BoostNotebook) => {
                         // we let user know the notebook was processed
