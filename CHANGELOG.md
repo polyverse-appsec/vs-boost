@@ -6,10 +6,17 @@ Polyverse Boost Automatic Application Modernization
 ## Version 0.9.7: May 17, 2023
 
 ### New Features
-- Enable Automated Folder and Project analysis with Boost kernel commands
+- Enabled Automated Folder and Project analysis with Boost kernel commands
+- Enabled Boost kernel commands to be run from the Visual Studio Code Command API
+- Enabled Boost kernel command to be selected via User configuration setting
+- Enabled Boost kernel command search by Title, Description or Command name
 
 ### Enhancements
+- Updated Command titles and descriptions for clarity
 - Improved error handling for Boost Service issues
+
+### Bug Fixes
+- Fix issue with building Notebook file from source when no Workspace folder is open
 
 ## Version 0.9.6: May 12, 2023
 
