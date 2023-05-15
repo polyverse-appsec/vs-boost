@@ -126,8 +126,9 @@ export class KernelControllerBase {
                 cells.length > 1) {
 				return;
 			}
+            
             if (usingBoostNotebook) {
-                boostLogging.info(`Started ${this.command} on Boost Notebook cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, false);
+                boostLogging.info(`Started ${this.command} on cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, false);
             }
             promises.push(
                 this.doExecution(notebook, cell, session).then((result) => {
@@ -135,7 +136,7 @@ export class KernelControllerBase {
                         successfullyCompleted = false;
                     }
                     if (usingBoostNotebook) {
-                        boostLogging.info(`Finished ${this.command} on Boost Notebook cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, false);
+                        boostLogging.info(`Finished ${this.command} on cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, false);
                     }
                 }) as Promise<boolean>);
 		}
@@ -210,7 +211,7 @@ export class KernelControllerBase {
         session: vscode.AuthenticationSession,
         organization: string): Promise<boolean> {
 
-        const usingBoostNotebook = (cell as BoostNotebookCell).value; // look for the value property to see if its a BoostNotebookCell
+        const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
         const execution = usingBoostNotebook? undefined : this._controller.createNotebookCellExecution(cell as vscode.NotebookCell);
         let successfullyCompleted = true;
 
@@ -229,7 +230,10 @@ export class KernelControllerBase {
             organization: organization
         };
 
-        const cellId = usingBoostNotebook?(cell as BoostNotebookCell).id:(cell as vscode.NotebookCell).document.uri.toString();
+        const cellId = usingBoostNotebook?
+            (cell as BoostNotebookCell).id:
+            (cell as vscode.NotebookCell).document.uri.toString();
+
         try {
             let response = await this.onProcessServiceRequest(execution, cell, payload);
             if (response instanceof Error) {
@@ -256,9 +260,9 @@ export class KernelControllerBase {
             }
             
             if (successfullyCompleted) {
-                boostLogging.info(`SUCCESS processing command ${this.command} on cell:${cellId} in ${minutes}:${seconds.padStart(2, '0')} seconds`, false);
+                boostLogging.info(`SUCCESS running ${this.command} update on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
             } else {
-                boostLogging.error(`FAILED processing command ${this.command} on cell:${cellId} in ${minutes}:${seconds.padStart(2, '0')} seconds`, false);
+                boostLogging.error(`Error while running ${this.command} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
             }
         }
         return successfullyCompleted;
@@ -277,7 +281,7 @@ export class KernelControllerBase {
         payload : any) : Promise<any>{
 
         let successfullyCompleted = true;
-        const usingBoostNotebook = cell instanceof BoostNotebookCell;
+        const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
 
         // using axios, make a web POST call to Boost Service with the code as in a json object code=code
         let response;
@@ -288,14 +292,16 @@ export class KernelControllerBase {
             successfullyCompleted = false;
             serviceError = err;
         }
-        if (response instanceof Error) {
-            successfullyCompleted = false;
-            serviceError = response as Error;
-        } else if (response === undefined) {
-            throw new Error("Unexpected empty result from Boost Service");
-        } else if (response.data instanceof Error) {
-            successfullyCompleted = false;
-            serviceError = response.data as Error;
+        if (!serviceError) {
+            if (response instanceof Error) {
+                successfullyCompleted = false;
+                serviceError = response as Error;
+            } else if (response === undefined) {
+                throw new Error("Unexpected empty result from Boost Service");
+            } else if (response.data instanceof Error) {
+                successfullyCompleted = false;
+                serviceError = response.data as Error;
+            }
         }
 
         // we wrap mimeTypes in an object so that we can pass it by reference and change it
@@ -325,13 +331,15 @@ export class KernelControllerBase {
         outputItem : vscode.NotebookCellOutputItem | SerializedNotebookCellOutput,
         err: unknown) {
 
-        const usingBoostNotebook = cell instanceof BoostNotebookCell;
+        const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
 
         if (usingBoostNotebook || !execution) {
-            (cell as BoostNotebookCell).updateOutputItem( this._outputType, outputItem as SerializedNotebookCellOutput);
+            const boostCell = cell as BoostNotebookCell;
+            const boostOutput = outputItem as SerializedNotebookCellOutput;
+            boostCell.updateOutputItem( this._outputType, boostOutput);
             return;
         }
-        
+
         const outputItems: vscode.NotebookCellOutputItem[] = [outputItem as vscode.NotebookCellOutputItem];
 
         // we will have one NotebookCellOutput per type of output.

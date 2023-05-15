@@ -46,7 +46,7 @@ export class BoostTestgenKernel extends KernelControllerBase {
         serviceEndpoint : string,
         payload : any) : Promise<string>
     {
-        const usingBoostNotebook = cell instanceof BoostNotebookCell;
+        const usingBoostNotebook = "value" in cell; // if the cell has a value property, then it's a BoostNotebookCell
 
         //get the outputLanguage from the language set on the cell, NOT the language set on the notebook
 		let outputLanguage = usingBoostNotebook?cell.languageId:cell.document.languageId ??

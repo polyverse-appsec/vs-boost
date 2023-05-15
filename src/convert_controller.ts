@@ -68,7 +68,7 @@ export class BoostConvertKernel extends KernelControllerBase {
         cell: vscode.NotebookCell | BoostNotebookCell,
         payload : any): Promise<boolean> {
 
-        const usingBoostNotebook = cell instanceof BoostNotebookCell;
+        const usingBoostNotebook = "value" in cell; // if the cell has a value property, then it's a BoostNotebookCell
 
         // make Boost service request to get explanation of code in english (lingua franca cross-translate),
         //      preparing for conversion
