@@ -6,7 +6,6 @@ import { boostLogging } from './boostLogging';
 import { fetchGithubSession, getCurrentOrganization } from './authorization';
 import { mapError } from './error';
 import { BoostNotebookCell, BoostNotebook, SerializedNotebookCellOutput } from './jupyter_notebook';
-import { exec } from 'child_process';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type onServiceErrorHandler = (context: vscode.ExtensionContext, error: any, closure: any) => void;
@@ -251,6 +250,7 @@ export class KernelControllerBase {
             successfullyCompleted = false;
             this._updateCellOutput(
                 execution, cell,
+                usingBoostNotebook? this._getBoostNotebookCellOutputError(this.localizeError(err as Error)) :
                 vscode.NotebookCellOutputItem.error(this.localizeError(err as Error)),
                 err);
             boostLogging.error(`Error executing cell ${cellId}: ${(err as Error).message}`, false);
@@ -278,6 +278,34 @@ export class KernelControllerBase {
     // allow derived classes to override the error - e.g. change the error message
     localizeError(error: Error): Error {
         return error;
+    }
+
+    _getBoostNotebookCellOutput(output: string, mimeType: string): SerializedNotebookCellOutput {
+        return {
+            items: [
+                {
+                    mime: mimeType,
+                    data: output,
+                }
+            ],
+            metadata: {
+                "outputType": this.outputType,
+            }
+        };
+    }
+
+    _getBoostNotebookCellOutputError(error: Error): SerializedNotebookCellOutput {
+        return {
+            items: [
+                {
+                    mime: "application/vnd.code.notebook.error", // for compatibility with VS Code
+                    data: JSON.stringify(error),
+                }
+            ],
+            metadata: {
+                "outputType": this.outputType,
+            }
+        };
     }
 
     _onServiceError : onServiceErrorHandler | undefined = undefined;
@@ -314,11 +342,18 @@ export class KernelControllerBase {
         // we wrap mimeTypes in an object so that we can pass it by reference and change it
         let mimetype = { str: 'text/markdown'};
 
-        const outputItem =
-            successfullyCompleted?
-            vscode.NotebookCellOutputItem.text(
-                this.onKernelOutputItem(response, cell, mimetype), mimetype.str):
-            vscode.NotebookCellOutputItem.error(this.localizeError(serviceError as Error));
+        let outputItem;
+        if (usingBoostNotebook) {
+            outputItem = successfullyCompleted?
+                this._getBoostNotebookCellOutput(
+                    this.onKernelOutputItem(response, cell, mimetype), mimetype.str):
+                this._getBoostNotebookCellOutputError(this.localizeError(serviceError as Error));
+        } else {
+            outputItem = successfullyCompleted?
+                vscode.NotebookCellOutputItem.text(
+                    this.onKernelOutputItem(response, cell, mimetype), mimetype.str):
+                vscode.NotebookCellOutputItem.error(this.localizeError(serviceError as Error));
+        }
 
         this._updateCellOutput(execution, cell, outputItem, serviceError);
         if (!successfullyCompleted) {

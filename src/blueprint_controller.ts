@@ -108,7 +108,7 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
                 boostLogging.error(`Error building Architectural Blueprint; could not find blueprint on ${(seedCell as vscode.NotebookCell).document.uri.toString()}`);
                 return; // we failed seed, just bail
             }
-            let blueprint = usingBoostNotebook?(blueprintOutput.items[0].data as string) : new TextDecoder().decode((blueprintOutput as vscode.NotebookCellOutput).items[0].data);
+            let blueprint = new TextDecoder().decode(blueprintOutput.items[0].data as Uint8Array);
             // strip the header off the blueprint - its the 3rd line
             blueprint = blueprint.split("\n", 3)[2];
             this._lastBlueprint = blueprint;
