@@ -246,7 +246,7 @@ export class KernelControllerBase {
             (cell as vscode.NotebookCell).document.uri.toString();
 
         try {
-            let response = await this.onProcessServiceRequest(execution, cell, payload);
+            let response = await this.onProcessServiceRequest(execution, notebook, cell, payload);
             if (response instanceof Error) {
                 // we failed the call, but it was already logged since it didn't throw, so just report failure
                 successfullyCompleted = false;
@@ -317,6 +317,7 @@ export class KernelControllerBase {
 
     async onProcessServiceRequest(
         execution: vscode.NotebookCellExecution | undefined,
+        notebook : vscode.NotebookDocument | BoostNotebook,
         cell : vscode.NotebookCell | BoostNotebookCell,
         payload : any) : Promise<any>{
 

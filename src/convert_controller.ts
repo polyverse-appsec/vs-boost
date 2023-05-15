@@ -4,7 +4,8 @@ import {
 import * as vscode from 'vscode';
 import { explainCellMarker } from './explain_controller';
 import { BoostConfiguration } from './boostConfiguration';
-import { BoostNotebookCell, SerializedNotebookCellOutput } from './jupyter_notebook';
+import { BoostNotebookCell, SerializedNotebookCellOutput, BoostNotebook } from './jupyter_notebook';
+import { boostLogging } from './boostLogging';
 
 
 //set a helper variable of the base url.  this should eventually be a config setting
@@ -65,6 +66,7 @@ export class BoostConvertKernel extends KernelControllerBase {
 
     async onProcessServiceRequest(
         execution: vscode.NotebookCellExecution,
+        notebook : vscode.NotebookDocument | BoostNotebook,
         cell: vscode.NotebookCell | BoostNotebookCell,
         payload : any): Promise<boolean> {
 
@@ -88,23 +90,42 @@ export class BoostConvertKernel extends KernelControllerBase {
         // we will have one NotebookCellOutput per type of output.
         // first scan the existing outputs of the cell and see if we already have an output of this type
         // if so, replace it
-        if (usingBoostNotebook) {
-            const outputItems : SerializedNotebookCellOutput[] = [ {
-                items: [ { mime: markdownMimetype, data : outputText } ],
-                metadata : { outputType: explainCellMarker} } ];
-            
-            cell.updateOutputItem(explainCellMarker, outputItems[0]);
-        } else {
-            const outputItems: vscode.NotebookCellOutputItem[] = [ vscode.NotebookCellOutputItem.text(outputText, markdownMimetype) ];
-
-            let existingOutput = cell.outputs.find(output => output.metadata?.outputType === explainCellMarker);
-
-            if (existingOutput) {
-                execution.replaceOutputItems(outputItems, existingOutput);
+        let successfullyCompleted = false;
+        let startTime = Date.now();
+        const cellId = usingBoostNotebook?
+            (cell as BoostNotebookCell).id:
+            (cell as vscode.NotebookCell).document.uri.toString();
+        try {
+            if (usingBoostNotebook) {
+                const outputItems : SerializedNotebookCellOutput[] = [ {
+                    items: [ { mime: markdownMimetype, data : outputText } ],
+                    metadata : { outputType: explainCellMarker} } ];
+                
+                cell.updateOutputItem(explainCellMarker, outputItems[0]);
             } else {
-                // create a new NotebookCellOutput with the outputItems array
-                const output = new vscode.NotebookCellOutput(outputItems, { outputType: explainCellMarker });
-                execution.appendOutput(output);
+                const outputItems: vscode.NotebookCellOutputItem[] = [ vscode.NotebookCellOutputItem.text(outputText, markdownMimetype) ];
+
+                let existingOutput = cell.outputs.find(output => output.metadata?.outputType === explainCellMarker);
+
+                if (existingOutput) {
+                    execution.replaceOutputItems(outputItems, existingOutput);
+                } else {
+                    // create a new NotebookCellOutput with the outputItems array
+                    const output = new vscode.NotebookCellOutput(outputItems, { outputType: explainCellMarker });
+                    execution.appendOutput(output);
+                }
+            }
+            successfullyCompleted = true;
+        } finally {
+
+            const duration = Date.now() - startTime;
+            const minutes = Math.floor(duration / 60000);
+            const seconds = ((duration % 60000) / 1000).toFixed(0);
+
+            if (successfullyCompleted) {
+                boostLogging.info(`SUCCESS running ${"explain"} update of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+            } else {
+                boostLogging.error(`Error while running ${"explain"} update of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
             }
         }
 
@@ -120,48 +141,65 @@ export class BoostConvertKernel extends KernelControllerBase {
         payload.explanation = summarydata.explanation;
         payload.originalCode = payload.code;
         payload.language = outputLanguage;
-        const generatedCode = await this.makeBoostServiceRequest(cell, this.serviceEndpoint, payload);
-        if (generatedCode instanceof Error) {
-            let throwErr = generatedCode as Error;
-            throw throwErr;
-        } else if (generatedCode === undefined) {
-            throw new Error("Unexpected empty result from Boost Service");
-        } else if (generatedCode.data instanceof Error) {
-            let throwErr = generatedCode.data as Error;
-            throw throwErr;
-        } else if (generatedCode.code === undefined) {
-            throw new Error("Unexpected missing data from Boost Service");
-        }
 
-        //quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
-        let mimetypeCode = 'text/x-' + outputLanguage;
-        let header = '';
-        if(generatedCode.code.includes(markdownCodeMarker)){
-            mimetypeCode = markdownMimetype;
-            header = `### Boost Converted Code\n\nLast Updated: ${this.currentDateTime}\n\n`;
-        }
-        header = header + generatedCode.code;
+        successfullyCompleted = false;
+        startTime = Date.now();
+        try {
+            const generatedCode = await this.makeBoostServiceRequest(cell, this.serviceEndpoint, payload);
+            if (generatedCode instanceof Error) {
+                let throwErr = generatedCode as Error;
+                throw throwErr;
+            } else if (generatedCode === undefined) {
+                throw new Error("Unexpected empty result from Boost Service");
+            } else if (generatedCode.data instanceof Error) {
+                let throwErr = generatedCode.data as Error;
+                throw throwErr;
+            } else if (generatedCode.code === undefined) {
+                throw new Error("Unexpected missing data from Boost Service");
+            }
 
-        if (usingBoostNotebook) {
-            const outputItems : SerializedNotebookCellOutput[] = [ {
-                items: [ { mime: mimetypeCode, data : header } ],
-                metadata : { outputType: this.outputType} } ];
-            
-            cell.updateOutputItem(this.outputType, outputItems[0]);
-        } else {
-            const outputItemsCode: vscode.NotebookCellOutputItem[] = [ vscode.NotebookCellOutputItem.text(header, mimetypeCode) ];
+            //quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
+            let mimetypeCode = 'text/x-' + outputLanguage;
+            let header = '';
+            if(generatedCode.code.includes(markdownCodeMarker)){
+                mimetypeCode = markdownMimetype;
+                header = `### Boost Converted Code\n\nLast Updated: ${this.currentDateTime}\n\n`;
+            }
+            header = header + generatedCode.code;
 
-            // we will have one NotebookCellOutput per type of output.
-            // first scan the existing outputs of the cell and see if we already have an output of this type
-            // if so, replace it
-            const existingOutput = cell.outputs.find(output => output.metadata?.outputType === this.outputType);
-            if (existingOutput) {
-                execution.replaceOutputItems(outputItemsCode, existingOutput);
+            if (usingBoostNotebook) {
+                const outputItems : SerializedNotebookCellOutput[] = [ {
+                    items: [ { mime: mimetypeCode, data : header } ],
+                    metadata : { outputType: this.outputType} } ];
+                
+                cell.updateOutputItem(this.outputType, outputItems[0]);
             } else {
-                // create a new NotebookCellOutput with the outputItems array
-                const output = new vscode.NotebookCellOutput(outputItemsCode, { outputType: this.outputType });
+                const outputItemsCode: vscode.NotebookCellOutputItem[] = [ vscode.NotebookCellOutputItem.text(header, mimetypeCode) ];
 
-                execution.appendOutput(output);
+                // we will have one NotebookCellOutput per type of output.
+                // first scan the existing outputs of the cell and see if we already have an output of this type
+                // if so, replace it
+                const existingOutput = cell.outputs.find(output => output.metadata?.outputType === this.outputType);
+                if (existingOutput) {
+                    execution.replaceOutputItems(outputItemsCode, existingOutput);
+                } else {
+                    // create a new NotebookCellOutput with the outputItems array
+                    const output = new vscode.NotebookCellOutput(outputItemsCode, { outputType: this.outputType });
+
+                    execution.appendOutput(output);
+                }
+            }
+            successfullyCompleted = true;
+        }
+        finally {
+            const duration = Date.now() - startTime;
+            const minutes = Math.floor(duration / 60000);
+            const seconds = ((duration % 60000) / 1000).toFixed(0);
+
+            if (successfullyCompleted) {
+                boostLogging.info(`SUCCESS running ${this.command} update of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+            } else {
+                boostLogging.error(`Error while running ${this.command} update of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
             }
         }
 
