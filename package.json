@@ -92,7 +92,7 @@
       },
       {
         "command": "polyverse-boost-notebook.loadCurrentFolder",
-        "title": "Polyverse Boost: Build Notebook from Selected Folder (via File Explorer)",
+        "title": "Polyverse Boost: Batch Build Notebook from Selected Folder (via File Explorer)",
         "icon": "$(folder)"
       },
       {
@@ -102,7 +102,7 @@
       },
       {
         "command": "polyverse-boost-notebook.processCurrentFolder",
-        "title": "Polyverse Boost: Process Folder with Selected Kernel Automatically (Offline)",
+        "title": "Polyverse Boost: Batch Process Folder with Selected Kernel Automatically (Offline)",
         "icon": "$(folder)"
       }
     ],
