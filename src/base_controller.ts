@@ -136,7 +136,7 @@ export class KernelControllerBase {
 			}
             
             if (usingBoostNotebook) {
-                boostLogging.info(`Started ${this.command} on cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
+                boostLogging.info(`Started ${this.command} of Notebook ${notebook.metadata['sourceFile']} on cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
             }
             promises.push(
                 this.doExecution(notebook, cell, session).then((result) => {
@@ -144,7 +144,7 @@ export class KernelControllerBase {
                         successfullyCompleted = false;
                     }
                     if (usingBoostNotebook) {
-                        boostLogging.info(`Finished ${this.command} on cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
+                        boostLogging.info(`Finished ${this.command} of Notebook ${notebook.metadata['sourceFile']} on cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
                     }
                 }) as Promise<boolean>);
 		}
@@ -211,12 +211,13 @@ export class KernelControllerBase {
 		// and one for the generated code
 		// if the cell is original code, run the summary generation
 		if (!this.useOriginalCodeCheck || cell.metadata.type === 'originalCode') {
-            return await this._doKernelExecution(cell, session, organization);
+            return await this._doKernelExecution(notebook, cell, session, organization);
         }
         return true;
     }
 
 	private async _doKernelExecution(
+        notebook : vscode.NotebookDocument | BoostNotebook,
         cell: vscode.NotebookCell | BoostNotebookCell,
         session: vscode.AuthenticationSession,
         organization: string): Promise<boolean> {
@@ -271,9 +272,9 @@ export class KernelControllerBase {
             }
             
             if (successfullyCompleted) {
-                boostLogging.info(`SUCCESS running ${this.command} update on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+                boostLogging.info(`SUCCESS running ${this.command} update of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
             } else {
-                boostLogging.error(`Error while running ${this.command} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+                boostLogging.error(`Error while running ${this.command} update of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
             }
         }
         return successfullyCompleted;

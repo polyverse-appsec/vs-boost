@@ -452,7 +452,7 @@ export class BoostExtension {
                         });
                         newNotebooks.forEach(async (notebook : boostnb.BoostNotebook) => {
                             // we let user know the new scratch notebook was created
-                            boostLogging.debug("Boost Notebook created: " + notebook.metadata['sourceFile']);
+                            boostLogging.info("Boost Notebook created: " + notebook.metadata['sourceFile']);
                         });
                         boostLogging.info(`${newNotebookWaits.length.toString()} Boost Notebooks created for folder ${targetFolder.path}`);
                     })
@@ -668,9 +668,9 @@ export class BoostExtension {
                 .then((processedNotebooks) => {
                     processedNotebooks.forEach(async (notebook : boostnb.BoostNotebook) => {
                         // we let user know the notebook was processed
-                        boostLogging.debug(`Boost Notebook processed with command ${targetedKernel.command}: ${notebook.uri.fsPath}`);
+                        boostLogging.info(`Boost Notebook processed with command ${targetedKernel.command}: ${notebook.uri.fsPath}`, false);
                     });
-                    boostLogging.info(`${processedNotebookWaits.length.toString()} Boost Notebooks processed for folder ${targetFolder.path}`);
+                    boostLogging.info(`${processedNotebookWaits.length.toString()} Boost Notebooks processed for folder ${targetFolder.path}`, false);
                 })
                 .catch((error) => {
                 // Handle the error here
