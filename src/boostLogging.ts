@@ -3,6 +3,7 @@ import {
     Disposable,
     window
 } from "vscode";
+import { BoostConfiguration } from "./boostConfiguration";
 
 export class BoostLogger extends Disposable {
     private _outputChannel: OutputChannel;
@@ -16,15 +17,23 @@ export class BoostLogger extends Disposable {
         this.log('Boost Logging starting...');
     }
 
+    debug(message: string) {
+        if (!this.shouldLog("debug")) {
+            return;
+        }
+
+        this.log("DEBUG: " + message);
+    }
+
     log(message: string) {
         this._outputChannel.appendLine(message);
     }
 
-    debug(message: string) {
-        this.log("DEBUG: " + message);
-    }
-
     info(message: string, showUI : boolean = true) {
+        if (!this.shouldLog("info")) {
+            return;
+        }
+
         this.log("INFO: " + message);
         if (showUI) {
             window.showInformationMessage(message);
@@ -32,6 +41,10 @@ export class BoostLogger extends Disposable {
     }
 
     warn(message: string, showUI : boolean = true) {
+        if (!this.shouldLog("warn")) {
+            return;
+        }
+
         this.log("WARNING: " + message);
         if (showUI) {
             window.showWarningMessage(message);
@@ -39,6 +52,10 @@ export class BoostLogger extends Disposable {
     }
     
     error(message: string, showUI : boolean = true) {
+        if (!this.shouldLog("error")) {
+            return;
+        }
+
         this.log("ERROR: " + message);
         if (showUI) {
             window.showErrorMessage(message);
@@ -48,6 +65,23 @@ export class BoostLogger extends Disposable {
     dispose() : void {
         this.log('Boost Logging shutting down...');
         this._outputChannel.dispose();       
+    }
+
+    shouldLog(messageTarget: string) : boolean {
+        const logLevel = BoostConfiguration.logLevel.toLowerCase();
+
+        switch (messageTarget) {
+            case "debug":
+                return logLevel === "debug";
+            case "info":
+                return logLevel === "debug" || logLevel === "info";
+            case "warn":
+                return logLevel === "debug" || logLevel === "info" || logLevel === "warn";
+            case "error":
+                return logLevel === "debug" || logLevel === "info" || logLevel === "warn" || logLevel === "error";
+            default:
+                return true;
+        }
     }
 }
 

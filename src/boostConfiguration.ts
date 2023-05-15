@@ -67,6 +67,11 @@ export class BoostConfiguration {
             .update(Defaults.currentKernelCommandName, value, ConfigurationTarget.Global);
     }
 
+    public static get logLevel(): string {
+        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.logLevelName)??
+            Defaults.logLevelValue;
+    }
+
     static _cachedVersion: string = "";
     public static get version(): string | undefined {
         if (this._cachedVersion) {
@@ -124,4 +129,7 @@ class Defaults {
 
     public static readonly currentKernelCommandName = "currentKernelCommand";
     public static readonly currentKernelCommandValue = "";
+
+    public static readonly logLevelName = "logLevel";
+    public static readonly logLevelValue = "info";
 }
