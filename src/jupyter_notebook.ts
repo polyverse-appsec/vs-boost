@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as nbformat from '@jupyterlab/nbformat';
-import { PartialJSONValue } from '@lumino/coreutils';
 import { randomUUID } from 'crypto';
 
 export enum NotebookCellKind {
@@ -55,7 +54,7 @@ export class BoostNotebookCell /*implements nbformat.ICell */ {
             id?: string,
             metadata?: nbformat.ICellMetadata,
             outputs?: SerializedNotebookCellOutput[],
-            editable?: boolean,
+//            editable?: boolean,
 //            source: nbformat.MultilineString = "",
             // eslint-disable-next-line @typescript-eslint/naming-convention
 //            execution_count: nbformat.ExecutionCount = null,
