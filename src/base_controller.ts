@@ -333,7 +333,7 @@ export class KernelControllerBase {
             successfullyCompleted = false;
             serviceError = err;
         }
-        if (!serviceError) {
+        if (successfullyCompleted) {
             if (response instanceof Error) {
                 successfullyCompleted = false;
                 serviceError = response as Error;
