@@ -31,9 +31,9 @@ export class BoostFlowDiagramKernel extends KernelControllerBase {
             case "local":
                 return 'http://127.0.0.1:8000/flowdiagram';
             case 'dev':
-                return '';
+                return 'https://54t2jblqus2ou7letg3g2eph7y0aydtk.lambda-url.us-west-2.on.aws/';
             case "test":
-                return '';
+                return 'https://a72sw3ffonfcjpq6unrift476e0okcgq.lambda-url.us-west-2.on.aws/';
             case 'staging':
             case 'prod':
             default:
@@ -43,7 +43,7 @@ export class BoostFlowDiagramKernel extends KernelControllerBase {
     }
     
     onKernelOutputItem(response: any, mimetype : any): string {
-        if (response.diagram === undefined) {
+        if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
         return `### Boost Flow Diagram\n\nLast Updated: ${this.currentDateTime}\n\n${response.diagram}`;

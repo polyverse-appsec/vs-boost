@@ -8,6 +8,7 @@ import { BoostExplainKernel, explainCellMarker } from './explain_controller';
 import { BoostCodeGuidelinesKernel } from './codeguidelines_controller';
 import { BoostArchitectureBlueprintKernel } from './blueprint_controller';
 import { BoostCustomProcessKernel } from './custom_controller';
+import { BoostFlowDiagramKernel } from './flowdiagram_controller';
 
 import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
@@ -307,6 +308,10 @@ export class BoostExtension {
             let customProcessKernel = new BoostCustomProcessKernel(context, updateBoostStatusColors.bind(this), this, collection);
             this.kernels.set(customProcessKernel.command, customProcessKernel);
             context.subscriptions.push(customProcessKernel);
+
+            let flowDiagramKernel = new BoostFlowDiagramKernel(context, updateBoostStatusColors.bind(this), this, collection);
+            this.kernels.set(flowDiagramKernel.command, flowDiagramKernel);
+            context.subscriptions.push(flowDiagramKernel);
         }
     }
 
