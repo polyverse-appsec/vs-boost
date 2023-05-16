@@ -113,8 +113,11 @@ async function getPDFFromObject(
   
         currentPage.setFont(font);
         currentPage.setFontSize(smallFixedFontSize);
-  
-        for (let j = i * (lines.length / requiredPages); j < (i + 1) * (lines.length / requiredPages); j++) {
+
+        const start = Math.floor(i * (lines.length / requiredPages));
+        const end = Math.floor((i + 1) * (lines.length / requiredPages));
+      
+        for (let j = start; j < end && j < lines.length; j++) {
           if (currentY - lineHeight < margin) {
             currentPage = pdfDoc.addPage();
             currentPage.setFont(font);
