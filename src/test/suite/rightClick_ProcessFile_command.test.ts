@@ -1,18 +1,18 @@
 import * as vscode from 'vscode';
 import { NOTEBOOK_TYPE } from '../../extension';
-import { getRandomTestSourceFile } from '../suite/utils';
+import { getRandomTestSourceFile, seconds, minutes } from '../suite/utils';
 import * as assert from 'assert';
 import { getBoostNotebookFile} from '../../extension';
 import { debug } from 'console';
 import { BoostConfiguration } from '../../boostConfiguration';
 import * as fs from 'fs';
 import { BoostNotebook } from '../../jupyter_notebook';
-import { rightClickLoadFileCommandTest } from './rightclick_LoadFile_command.test';
+import { rightClickLoadFileCommandTest } from './testCommandUtilities';
 
 
 suite('Right Click Process File Command', function() {
 
-    this.timeout(300000); // set test timeout to be 200 seconds (over 3 minutes to include Boost service request time)
+    this.timeout(5 * minutes); // set test timeout to be 200 seconds (over 3 minutes to include Boost service request time)
   
     const randomFile = getRandomTestSourceFile();
     console.log(`${this.title} random source: ${randomFile}`);
@@ -25,23 +25,30 @@ suite('Right Click Process File Command', function() {
 
         await rightClickLoadFileCommandTest(this, fileUri, boostUri);
 
+        assert.ok(fs.existsSync(boostUri.fsPath), `Notebook file ${boostUri.fsPath} not found`);
+
     });
 
     test('Right Click Process File Command Test', async function() {
 
+        BoostConfiguration.logLevel = 'debug';
         BoostConfiguration.currentKernelCommand = 'polyverse-boost-explain-kernel';
+        assert.ok(BoostConfiguration.currentKernelCommand === 'polyverse-boost-explain-kernel',
+            `BoostConfig is not polyverse-boost-explain-kernel`);
 
-        assert.ok(fs.existsSync(boostUri.fsPath + '.boost'), `Notebook file ${boostUri.fsPath} not found`);
+        assert.ok(fs.existsSync(boostUri.fsPath), `Notebook file ${boostUri.fsPath} not found`);
 
-        // Execute the "createJsonNotebook" command
+        console.log(`Running processCurrentFile command on ${boostUri.fsPath}`);
         await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.processCurrentFile',
-            fileUri);
+            fileUri, BoostConfiguration.currentKernelCommand);
 
-        console.log(`Executed processCurrentFile command: ${BoostConfiguration.currentKernelCommand}`);
+        console.log(`Ran processCurrentFile command on ${boostUri.fsPath}`);
 
-        // Wait for the notebook to be created
+            // Wait for the file to be processed
         await new Promise((resolve) =>
-            setTimeout(resolve, 150000)); // 2.5 minutes to make sure Boost Service call completes
+            setTimeout(resolve, 2.5 * minutes)); // 2.5 minutes to make sure Boost Service call completes
+
+        console.log(`Finished waiting for processCurrentFile command on ${boostUri.fsPath}`);
 
         assert.ok(fs.existsSync(boostUri.fsPath), `Notebook file ${boostUri.fsPath} not created`);
 

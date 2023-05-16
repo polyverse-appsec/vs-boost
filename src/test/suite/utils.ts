@@ -4,6 +4,9 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { debug } from 'console';
 
+export const seconds = 1000;
+export const minutes = 60 * seconds;
+
 export function getRandomTestSourceFile() : string {
     const testCodePath = path.resolve(__dirname, '../resources/');
     const unsupportedExtensions = ['.o', '.out', '.s', '.typescript', 'resources', '.c'];
