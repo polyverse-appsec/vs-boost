@@ -21,6 +21,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as boostnb from './jupyter_notebook';
 import { registerCustomerPortalCommand, setupBoostStatus } from './portal';
+import { generatePDFforNotebook } from './convert_pdf';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 export const NOTEBOOK_EXTENSION = ".boost-notebook";
@@ -66,6 +67,8 @@ export class BoostExtension {
         this.registerFileRightClickAnalyzeCommand(context);
 
         this.registerFolderRightClickAnalyzeCommand(context);
+
+        this.registerFolderRightClickPdfCommands(context);
 
         boostLogging.log('Activated Boost Notebook Extension');
         boostLogging.info('Polyverse Boost is now active');
@@ -487,6 +490,27 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
     }
 
+    registerFolderRightClickPdfCommands(context: vscode.ExtensionContext, ) {
+
+        let disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.pdfCurrentFile',
+            async (uri: vscode.Uri) => {
+                await this.pdfFromCurrentFile(uri).then((pdfFile : string) => {
+                    boostLogging.info(`PDF ${pdfFile} created for file:${uri.fsPath}.`, uri === undefined);
+                }).catch((error : any) => {
+                    boostLogging.error(`Unable to generate PDF for current file:${uri.fsPath} due to ${(error as Error).message}`, uri === undefined);
+                });
+            });
+        context.subscriptions.push(disposable);
+
+        disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.pdfCurrentFolder',
+            async (uri: vscode.Uri) => {
+                return this.pdfFromCurrentFolder(uri).catch((error : any) => {
+                    boostLogging.error((error as Error).message, );
+                });
+            });
+        context.subscriptions.push(disposable);
+    }
+
     async loadCurrentFile(uri: vscode.Uri, context: vscode.ExtensionContext) {
         try
         {
@@ -700,6 +724,101 @@ export class BoostExtension {
                 });
             });
         context.subscriptions.push(disposable);
+    }
+
+    async pdfFromCurrentFile(uri: vscode.Uri) : Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+            try
+            {
+                // if we don't have a file selected, then the user didn't right click
+                //      so we need to find the current active editor, if its available
+                if (uri === undefined) {
+                    if (vscode.window.activeTextEditor === undefined) {
+                        boostLogging.warn(`Unable to identify an active file to process ${this.kernelCommand}`);
+                        reject(new Error('No active file found'));
+                        return;
+                    }
+                    else {
+                        uri = vscode.window.activeTextEditor?.document.uri;
+                    }
+                }
+
+                let boostUri = uri;
+                    // if we got a source file, then load the notebook from it
+                if (!uri.fsPath.endsWith(NOTEBOOK_EXTENSION)) {
+                    boostUri = getBoostNotebookFile(uri);
+                }
+
+                if (!fs.existsSync(boostUri.fsPath)) {
+                    reject(new Error(`Unable to find Boost notebook for ${uri.fsPath} - please create Boost notebook first`));
+                    return;
+                }
+
+                const baseWorkspacePath = vscode.workspace.workspaceFolders![0].uri.fsPath;
+                const pdfFile = generatePDFforNotebook(boostUri.fsPath, baseWorkspacePath);
+                resolve(pdfFile);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    async pdfFromCurrentFolder(folderUri: vscode.Uri) {
+        let targetFolder : vscode.Uri;
+        // if we don't have a folder selected, then the user didn't right click
+        //      so we need to use the workspace folder
+        if (folderUri === undefined) {
+            if (vscode.workspace.workspaceFolders === undefined) {
+                boostLogging.warn(
+                    'Unable to find Workspace Folder. Please open a Project or Folder first');
+                return;
+            }
+
+            // use first folder in workspace
+            targetFolder = vscode.workspace.workspaceFolders[0].uri;
+            boostLogging.debug(`Analyzing Project Wide Boost files in Workspace: ${targetFolder.fsPath}`);
+        }
+        else {
+            targetFolder = folderUri;
+            boostLogging.debug(`Analyzing Boost files in folder: ${folderUri.fsPath}`);
+        }
+
+        let baseWorkspace;
+        if (vscode.workspace.workspaceFolders) {
+            baseWorkspace = vscode.workspace.workspaceFolders![0].uri;
+        } else {
+            baseWorkspace = folderUri;
+        }
+        // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
+        let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*' + NOTEBOOK_EXTENSION);
+        let ignorePattern = await _buildVSCodeIgnorePattern();
+        boostLogging.debug("Skipping Boost Notebook files of pattern: " + ignorePattern??"none");
+        let files = await vscode.workspace.findFiles(searchPattern, ignorePattern?new vscode.RelativePattern(targetFolder, ignorePattern):"");
+            
+        boostLogging.debug("Converting " + files.length + " files in folder: " + targetFolder);
+        
+        try {
+            let convertedNotebookWaits : any [] = [];
+
+            files.filter(async (file) => {
+                convertedNotebookWaits.push(this.pdfFromCurrentFile(file));
+            });
+            
+            await Promise.all(convertedNotebookWaits)
+                .then((convertedNotebooks) => {
+                    convertedNotebooks.forEach(async (convertedPdf : string) => {
+                        // we let user know the notebook was processed
+                        boostLogging.info(`Boost Notebook converted ${convertedPdf}`, false);
+                    });
+                    boostLogging.info(`${convertedNotebookWaits.length.toString()} Boost Notebooks converted for folder ${targetFolder.path}`, false);
+                })
+                .catch((error) => {
+                // Handle the error here
+                    boostLogging.error(`Error convertting Notebooks in folder ${targetFolder.path} due to Error: ${error}`);
+                });
+        } catch (error) {
+            boostLogging.error(`Unable to Convert Notebooks ub Folder:[${folderUri.fsPath.toString()} due to error:${error}`);
+        }
     }
 }
 

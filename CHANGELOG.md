@@ -10,6 +10,7 @@ Polyverse Boost Automatic Application Modernization
 - Enabled Boost kernel commands to be run from the Visual Studio Code Command API
 - Enabled Boost kernel command to be selected via User configuration setting
 - Enabled Boost kernel command search by Title, Description or Command name
+- Enabled PDF generation from Boost analysis of Source Files - using new "Generate PDF" command
 
 ### Enhancements
 - Updated Command titles and descriptions for clarity
