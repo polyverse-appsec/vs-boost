@@ -6,14 +6,17 @@ import { boostLogging } from './boostLogging';
 import { fetchUserOrganizationsServiceRequest } from './user_organizations';
 
 
-export async function fetchGithubSession(): Promise<vscode.AuthenticationSession> {
+export async function fetchGithubSession(forceNewSession : boolean = false): Promise<vscode.AuthenticationSession> {
     const GITHUB_AUTH_PROVIDER_ID = 'github';
     // The GitHub Authentication Provider accepts the scopes described here:
     // https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/
     const SCOPES = ['user:email', 'read:org'];
   
-    const session = await vscode.authentication.getSession(GITHUB_AUTH_PROVIDER_ID, SCOPES, { createIfNone: true });
-  
+    const session = await vscode.authentication.getSession(GITHUB_AUTH_PROVIDER_ID, SCOPES,
+        { createIfNone: !forceNewSession, forceNewSession: forceNewSession});
+    if (!session) {
+        throw new Error("Unable to retrieve GitHub session token from Visual Studio Code - please re-authorize GitHub and try again.");
+    }
     return session;
 }
   
