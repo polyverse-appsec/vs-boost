@@ -71,6 +71,10 @@ export class BoostConfiguration {
         return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.logLevelName)??
             Defaults.logLevelValue;
     }
+    public static set logLevel(value: string) {
+        workspace.getConfiguration(NOTEBOOK_TYPE, null)
+            .update(Defaults.logLevelName, value, ConfigurationTarget.Global);
+    }
 
     static _cachedVersion: string = "";
     public static get version(): string | undefined {
