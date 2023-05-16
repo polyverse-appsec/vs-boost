@@ -73,12 +73,19 @@ export async function updateBoostStatusColors(context: vscode.ExtensionContext, 
     if (closure.statusBar === undefined) {
         return;
     }
-    const currentOrganization = await getCustomerStatus(context);
+    const accountInfo = await getCustomerStatus(context);
 
-    if (currentOrganization === undefined || currentOrganization instanceof Error) {
-        boostLogging.log(`"Unable to retrieve current customer status. ${currentOrganization}`);
+    if (accountInfo === undefined || accountInfo instanceof Error) {
+        if (!accountInfo) {
+            boostLogging.log(`Unable to retrieve current customer status.`);
+        } else {
+            boostLogging.log(`Unable to retrieve current customer status. ${accountInfo}`);
+        }
+        closure.statusBar.color = new vscode.ThemeColor('statusBarItem.errorForeground');
+        closure.statusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
+        closure.statusBar.tooltip = 'Unable to access your current account status. Please check your GitHub Authorization status, then network connection status.';
     } else {
-        switch (currentOrganization['status']) {
+        switch (accountInfo['status']) {
         case 'suspended':
             closure.statusBar.color = new vscode.ThemeColor('statusBarItem.errorForeground');
             closure.statusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
@@ -101,37 +108,60 @@ export async function updateBoostStatusColors(context: vscode.ExtensionContext, 
     }
 }
 
+const pendingBoostStatusBarText = "Boost: Organization is *PENDING*";
+const errorBoostStatusBarText = "Boost: Organization is *ERROR*";
+
 export async function setupBoostStatus(context: vscode.ExtensionContext, closure: BoostExtension) {
     const boostStatusBar = vscode.window.createStatusBarItem(
         vscode.StatusBarAlignment.Left, 10);
     closure.statusBar = boostStatusBar;
+    closure.statusBar.text = pendingBoostStatusBarText;
+    closure.statusBar.color = new vscode.ThemeColor('statusBarItem.warningForeground');
+    closure.statusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
+    closure.statusBar.show();
+
+    await refreshBoostOrgStatus(context, closure);
+
+    vscode.commands.registerCommand(NOTEBOOK_TYPE + '.boostStatus', 
+        boostStatusCommand.bind(closure));
+    closure.statusBar.command = NOTEBOOK_TYPE + '.boostStatus';
+    registerSelectOrganizationCommand(context, closure);
+    context.subscriptions.push(closure.statusBar);
+}
+
+async function refreshBoostOrgStatus(context: vscode.ExtensionContext, closure: BoostExtension) {
+    if (!closure.statusBar) {
+        return;
+    }
+
     try {
+        closure.statusBar.tooltip = 'Current account status check *PENDING*. If problem persists, please check your GitHub Authorization status, then network connection status.';
         const currentOrganization = await getCurrentOrganization(context);
-        closure.statusBar.text = "Boost: Organization is " + currentOrganization??"*UNKNOWN*"; 
+        closure.statusBar.text = `Boost: Organization is ${currentOrganization??"*UNKNOWN*"}`; 
     } catch (e : any) {
         boostLogging.log(`Error during Activation: Unable to retrieve current organization. ${(e as Error).message}`);
-        closure.statusBar.text = "Boost: Organization is *UNKNOWN*";
+        closure.statusBar.text = errorBoostStatusBarText;
+        closure.statusBar.tooltip = 'Current account status check *ERROR*. If problem persists, please check your GitHub Authorization status, then network connection status.';
     }
     try {
         await updateBoostStatusColors(context, undefined, closure);
     } catch (e : any) {
         boostLogging.log(`Error during Activation: Unable to check account status. ${(e as Error).message}`);
     }
-
-    closure.statusBar.command = NOTEBOOK_TYPE + '.boostStatus';
-    closure.statusBar.show();
-    vscode.commands.registerCommand(NOTEBOOK_TYPE + '.boostStatus', 
-        boostStatusCommand.bind(closure));
-    registerSelectOrganizationCommand(context, closure);
-    context.subscriptions.push(closure.statusBar);
 }
 
 function boostStatusCommand(this: any) {
+
+    // if the org hasn't been set yet, retry setting it
+    if (this.statusBar.text === pendingBoostStatusBarText || this.statusBar.text === errorBoostStatusBarText) {
+        refreshBoostOrgStatus(this.context, this);
+    }
+
     // Define the message and button labels
     const openAccountDashboardButton = 'Open Account Dashboard';
     const changeBillingOrganizationButton = 'Change Billing Organization';
 
-    const message = `Status of Polyverse Boost Extension : \n\n${this?.statusBar?.tooltip}`;
+    const message = `Status of Polyverse Boost Extension : \n\n${this.statusBar.tooltip}`;
 
     // Show the information message with buttons
     vscode.window.showInformationMessage(

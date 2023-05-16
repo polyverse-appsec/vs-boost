@@ -20,7 +20,7 @@ export async function fetchGithubSession(): Promise<vscode.AuthenticationSession
 export async function getCurrentOrganization(context: vscode.ExtensionContext): Promise<string> {
 
     // if we have a cached value, return it
-    let org: string = context.globalState?.get("organization") ?? "";
+    let org: string = context?.globalState?.get("organization") ?? "";
     if (org) {
         return org;
     }
