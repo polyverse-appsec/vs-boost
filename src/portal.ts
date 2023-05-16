@@ -25,8 +25,13 @@ function serviceEndpoint(): string {
 }
 
 export async function getCustomerStatus(context: vscode.ExtensionContext): Promise<any> {
-    let session = await fetchGithubSession();       // get the session
+    let session = await fetchGithubSession(!context);       // get the session
     let organization = await getCurrentOrganization(context);
+    if (!organization) {
+        boostLogging.warn("Unable to identify current organization", false);
+    } else if (!session) {
+        boostLogging.warn("Unable to identify current GitHub session", false);
+    }
     let payload = {
         "session": session.accessToken,
         "organization": organization,
@@ -69,10 +74,13 @@ export function registerCustomerPortalCommand(context: vscode.ExtensionContext) 
     );
 }
 
+const gitHubAuthorizationFailureToolTip = 'Unable to access your current account status. Please check your GitHub Authorization status, then network connection status.';
+
 export async function updateBoostStatusColors(context: vscode.ExtensionContext, error: any, closure: BoostExtension) {
     if (closure.statusBar === undefined) {
         return;
     }
+
     const accountInfo = await getCustomerStatus(context);
 
     if (accountInfo === undefined || accountInfo instanceof Error) {
@@ -83,9 +91,14 @@ export async function updateBoostStatusColors(context: vscode.ExtensionContext, 
         }
         closure.statusBar.color = new vscode.ThemeColor('statusBarItem.errorForeground');
         closure.statusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
-        closure.statusBar.tooltip = 'Unable to access your current account status. Please check your GitHub Authorization status, then network connection status.';
+        closure.statusBar.tooltip = gitHubAuthorizationFailureToolTip;
     } else {
         switch (accountInfo['status']) {
+        case 'unregistered':
+            closure.statusBar.color = new vscode.ThemeColor('statusBarItem.errorForeground');
+            closure.statusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
+            closure.statusBar.tooltip = 'Cannot find your Polyverse Boost account. Please verify your GitHub email is authorized in Visual Studio Code and retry.';
+            break;
         case 'suspended':
             closure.statusBar.color = new vscode.ThemeColor('statusBarItem.errorForeground');
             closure.statusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
@@ -135,7 +148,9 @@ async function refreshBoostOrgStatus(context: vscode.ExtensionContext, closure: 
     }
 
     try {
-        closure.statusBar.tooltip = 'Current account status check *PENDING*. If problem persists, please check your GitHub Authorization status, then network connection status.';
+        if (closure.statusBar.text === pendingBoostStatusBarText || closure.statusBar.text === errorBoostStatusBarText) {
+            closure.statusBar.tooltip = 'Current account status check *PENDING*. If problem persists, please check your GitHub Authorization status, then network connection status.';
+        }
         const currentOrganization = await getCurrentOrganization(context);
         closure.statusBar.text = `Boost: Organization is ${currentOrganization??"*UNKNOWN*"}`; 
     } catch (e : any) {
@@ -153,7 +168,8 @@ async function refreshBoostOrgStatus(context: vscode.ExtensionContext, closure: 
 function boostStatusCommand(this: any) {
 
     // if the org hasn't been set yet, retry setting it
-    if (this.statusBar.text === pendingBoostStatusBarText || this.statusBar.text === errorBoostStatusBarText) {
+    if (this.statusBar.text === pendingBoostStatusBarText || this.statusBar.text === errorBoostStatusBarText ||
+        this.statusBar.tooltip === gitHubAuthorizationFailureToolTip) {
         refreshBoostOrgStatus(this.context, this);
     }
 
