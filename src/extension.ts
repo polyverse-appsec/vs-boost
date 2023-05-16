@@ -791,7 +791,7 @@ export class BoostExtension {
         }
         // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
         let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*' + NOTEBOOK_EXTENSION);
-        let ignorePattern = await _buildVSCodeIgnorePattern();
+        let ignorePattern = await _buildVSCodeIgnorePattern(false);
         boostLogging.debug("Skipping Boost Notebook files of pattern: " + ignorePattern??"none");
         let files = await vscode.workspace.findFiles(searchPattern, ignorePattern?new vscode.RelativePattern(targetFolder, ignorePattern):"");
             
@@ -1062,7 +1062,7 @@ function newErrorFromItemData(data: Uint8Array) : Error {
     return errorObject;
 }
 
-async function _buildVSCodeIgnorePattern(): Promise<string | undefined> {
+async function _buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true): Promise<string | undefined> {
     let workspaceFolder : vscode.Uri | undefined = vscode.workspace.workspaceFolders?.[0]?.uri;
     // if no workspace root folder, bail
     if (!workspaceFolder) {
@@ -1078,8 +1078,10 @@ async function _buildVSCodeIgnorePattern(): Promise<string | undefined> {
     patterns = patterns.concat(await _extractIgnorePatternsFromFile(boostignoreFile.fsPath));
 
     // never include the .boost folder - since that's where we store our notebooks
-    if (!patterns.find((pattern) => pattern === '**/.boost/**')) {
+    if (ignoreBoostFolder && !patterns.find((pattern) => pattern === '**/.boost/**')) {
         patterns.push('**/.boost/**');
+    } else if (!ignoreBoostFolder) {
+        patterns.splice(patterns.indexOf('**/.boost/**'), 1);
     }
 
     // never include the .boostignore file since that's where we store our ignore patterns
