@@ -68,15 +68,21 @@ async function getPDFFromObject(
 
     const sectionHeading = `Source File: ${sourceFile}\nDate Generated: ${fileStamp}`;
   
+    pdfDoc.setProducer('Polyverse Boost');
+    pdfDoc.setTitle(pageTitle + ":" + sourceFile);
+    pdfDoc.setModificationDate(new Date(fileStamp));
+    pdfDoc.setCreationDate(new Date(fileStamp));
+
     let currentPage: PDFPage | null = null;
     let currentY = 0;
     let firstPageHeight = 130;
   
     for (const boostCell of boostNotebook.cells) {
       const cellText = `Cell ${boostCell.id}:`;
-      const cellValue = `Programming Language: ${boostCell.languageId}\nOriginal Code:\n\n${wrapText(
-        boostCell.value.replace(/\t/g, ' ')
-      )}`;
+      let cellValue =
+        `Programming Language: ${boostCell.languageId}\n` +
+        `Original Code:\n\n`;
+        cellValue += boostCell.value.replace(/\t/g, ' ');
   
       const cellOutputs = boostCell.outputs || [];
       const outputText = cellOutputs.map((output) => formatOutput(output, printOptions)).join('\n');
@@ -172,6 +178,15 @@ async function getPDFFromObject(
         lines.push(line.trim());
         line = word + ' ';
       }
+  
+      const match = word.match(quotePattern);
+      if (match) {
+        const hasNewline = match[0].includes('\n');
+        if (!hasNewline) {
+          lines[lines.length - 1] += ' ' + word;
+          line = '';
+        }
+      }
     }
   
     if (line.length > 0) {
@@ -179,5 +194,4 @@ async function getPDFFromObject(
     }
   
     return lines.join('\n');
-  }
-  
+}
