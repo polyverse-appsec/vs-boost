@@ -11,7 +11,7 @@ export class BoostFlowDiagramKernel extends KernelControllerBase {
         super(
             collection,
             'flowdiagram',
-            'Polyverse Boost: Create Flow Diagrams',
+            'Create Flow Diagrams',
             'Creates a flow diagram from the code',
             flowDiagramCellMarker,
             false,
