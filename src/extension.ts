@@ -528,9 +528,9 @@ export class BoostExtension {
         let disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.markdownCurrentFile',
             async (uri: vscode.Uri) => {
                 await this.markdownFromCurrentFile(uri).then((pdfFile : string) => {
-                    boostLogging.info(`Markdown ${pdfFile} created for file:${uri.fsPath}.`, uri === undefined);
+                    boostLogging.info(`Markdown ${pdfFile} created for file:${uri?.fsPath ?? pdfFile}.`, uri === undefined);
                 }).catch((error : any) => {
-                    boostLogging.error(`Unable to generate Markdown for current file:${uri.fsPath} due to ${(error as Error).message}`, uri === undefined);
+                    boostLogging.error(`Unable to generate Markdown for current file:${uri?.fsPath} due to ${(error as Error).message}`, uri === undefined);
                 });
             });
         context.subscriptions.push(disposable);
