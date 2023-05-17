@@ -5,6 +5,78 @@ import * as path from 'path';
 import { NOTEBOOK_EXTENSION } from './extension';
 import { Uri } from 'vscode';
 
+import * as vscode from 'vscode';
+import {marked} from 'marked';
+import hljs from 'highlight.js';
+import puppeteer from 'puppeteer';
+
+export async function convertNotebookToPdf() {
+    // get the current open file
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        return;
+    }
+    const document = editor.document;
+
+    // parse the json
+    const json = JSON.parse(document.getText());
+    const cells = json.cells;
+
+    // convert cells to html
+    let html = '<html><body>';
+    for (let cell of cells) {
+        if (cell.cell_type === 'markdown') {
+            html += marked(cell.source.join(''), {
+                highlight: function (code, lang) {
+                    return hljs.highlightAuto(code, [lang]).value;
+                }
+            });
+        } else if (cell.cell_type === 'code') {
+            html += '<pre><code>' + hljs.highlightAuto(cell.source.join('')).value + '</code></pre>';
+            // handle the output of the code cell
+            if (cell.outputs) {
+                for (let output of cell.outputs) {
+                    if (output.output_type === 'execute_result' || output.output_type === 'display_data') {
+                        if (output.data['text/plain']) {
+                            html += '<pre><code>' + hljs.highlightAuto(output.data['text/plain'].join('')).value + '</code></pre>';
+                        } else if (output.data['text/html']) {
+                            html += output.data['text/html'].join('');
+                        } else if (output.data['image/svg+xml']) {
+                            html += output.data['image/svg+xml'].join('');
+                        } else if (output.data['text/markdown']) {
+                            html += marked(output.data['text/markdown'].join(''), {
+                                highlight: function (code, lang) {
+                                    return hljs.highlightAuto(code, [lang]).value;
+                                }
+                            });
+                        }
+                        // Add other output types as needed
+                    }
+                    // Add error handling if necessary
+                }
+            }
+        }
+    }
+    html += '</body></html>';
+
+    // write the html to a temporary file
+    const tempHtmlPath = path.join(vscode.workspace.workspaceFolders![0].uri.fsPath, 'temp.html');
+    fs.writeFileSync(tempHtmlPath, html);
+
+    // convert the html file to pdf using puppeteer
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto('file://' + tempHtmlPath, { waitUntil: 'networkidle0' });
+    await page.pdf({ path: 'output.pdf', format: 'A4' });
+
+    await browser.close();
+
+    // delete the temporary html file
+    fs.unlinkSync(tempHtmlPath);
+
+    vscode.window.showInformationMessage('PDF conversion completed!');
+}
+
 export async function generatePDFforNotebook(boostNotebookPath : string, baseFolderPath : string) : Promise<string> {
     return new Promise<string> (async (resolve, reject) => {
         try {
