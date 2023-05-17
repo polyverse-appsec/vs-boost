@@ -507,9 +507,13 @@ export class BoostExtension {
         let disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.pdfCurrentFile',
             async (uri: vscode.Uri) => {
                 await this.pdfFromCurrentFile(uri).then((pdfFile : string) => {
-                    boostLogging.info(`PDF ${pdfFile} created for file:${uri.fsPath}.`, uri === undefined);
+                    if (!uri) {
+                        boostLogging.info(`PDF ${pdfFile} created`, uri === undefined);
+                    } else {
+                        boostLogging.info(`PDF ${pdfFile} created for file:${uri.fsPath}.`, uri === undefined);
+                    }
                 }).catch((error : any) => {
-                    boostLogging.error(`Unable to generate PDF for current file:${uri.fsPath} due to ${(error as Error).message}`, uri === undefined);
+                    boostLogging.error(`Unable to generate PDF for current file${uri?":" + uri.fsPath:""} due to ${(error as Error).message}`, uri === undefined);
                 });
             });
         context.subscriptions.push(disposable);
@@ -527,10 +531,14 @@ export class BoostExtension {
 
         let disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.markdownCurrentFile',
             async (uri: vscode.Uri) => {
-                await this.markdownFromCurrentFile(uri).then((pdfFile : string) => {
-                    boostLogging.info(`Markdown ${pdfFile} created for file:${uri?.fsPath ?? pdfFile}.`, uri === undefined);
+                await this.markdownFromCurrentFile(uri).then((markdownFile : string) => {
+                    if (!uri) {
+                        boostLogging.info(`Markdown ${markdownFile} created`, uri === undefined);
+                    } else {
+                        boostLogging.info(`Markdown ${markdownFile} created for file:${uri.fsPath}.`, uri === undefined);
+                    }
                 }).catch((error : any) => {
-                    boostLogging.error(`Unable to generate Markdown for current file:${uri?.fsPath} due to ${(error as Error).message}`, uri === undefined);
+                    boostLogging.error(`Unable to generate Markdown for current file${uri?":" + uri.fsPath:""} due to ${(error as Error).message}`, uri === undefined);
                 });
             });
         context.subscriptions.push(disposable);
