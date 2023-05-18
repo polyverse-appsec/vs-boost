@@ -5,8 +5,21 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Uri } from 'vscode';
 
+import {markedHighlight} from 'marked-highlight';
+
 const cellStyleSheet = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css';
 const mermaidScript = 'https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.14.1/mermaid.min.js';
+
+marked.use(markedHighlight({
+    langPrefix: 'hljs language-',
+    highlight(code: string, lang: string) {
+      if( lang === "mermaid") {
+        return `<pre class="mermaid">${code}</pre>`;
+      }
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+      return hljs.highlight(code, { language }).value;
+    }
+  }));
 
 export async function convertNotebookToHTML(notebook: BoostNotebook, notebookPath: string, baseFolderPath?: string) {
 

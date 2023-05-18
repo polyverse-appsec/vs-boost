@@ -2,24 +2,10 @@ import { BoostNotebook } from './jupyter_notebook';
 import * as fs from 'fs';
 import * as path from 'path';
 import { NOTEBOOK_EXTENSION } from './extension';
-const crypto = require('crypto');
+import * as crypto from 'crypto';
 import { convertNotebookToHTML } from './convert_html';
-
-import {marked} from 'marked';
-import {markedHighlight} from 'marked-highlight';
-import hljs from 'highlight.js';
 import puppeteer from 'puppeteer';
 
-marked.use(markedHighlight({
-  langPrefix: 'hljs language-',
-  highlight(code: string, lang: string) {
-    if( lang === "mermaid") {
-      return `<pre class="mermaid">${code}</pre>`;
-    }
-    const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-    return hljs.highlight(code, { language }).value;
-  }
-}));
 
 export async function generatePDFforNotebook(boostNotebookPath : string, baseFolderPath : string) : Promise<string> {
     return new Promise<string> (async (resolve, reject) => {
