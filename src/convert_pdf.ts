@@ -7,18 +7,27 @@ import { Uri } from 'vscode';
 
 import * as vscode from 'vscode';
 import {marked} from 'marked';
+import {markedHighlight} from 'marked-highlight';
 import hljs from 'highlight.js';
 import puppeteer from 'puppeteer';
+
+marked.use(markedHighlight({
+  langPrefix: 'hljs language-',
+  highlight(code: string, lang: string) {
+    const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+    return hljs.highlight(code, { language }).value;
+  }
+}));
 
 async function convertNotebookToHTML(notebook: BoostNotebook) {
 
     const cells = notebook.cells;
 
     // convert cells to html
-    let html = '<html><body>';
+    let html = '<html><head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css"></head><body>';
     for (let cell of cells) {
         if (cell.kind === vscode.NotebookCellKind.Markup) {
-            html += marked(cell.value, {
+            html += marked.parse(cell.value, {
                 highlight: function (code, lang) {
                     return hljs.highlightAuto(code, [lang]).value;
                 }
@@ -31,7 +40,7 @@ async function convertNotebookToHTML(notebook: BoostNotebook) {
         if (cell.outputs) {
           for (let output of cell.outputs) {
             output.items.forEach(item => {
-              html += marked(item.data, {
+              html += marked.parse(item.data, {
                   highlight: function (code, lang) {
                       return hljs.highlightAuto(code, [lang]).value;
                   }
@@ -72,7 +81,9 @@ async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : 
             // convert the html file to pdf using puppeteer
             const browser = await puppeteer.launch();
             const page = await browser.newPage();
-            await page.goto(baseFolderPath, { waitUntil: 'networkidle0' });
+            // convert the file path to a URL
+            const url = `file://${tempHtmlPath}`;
+            await page.goto(url, { waitUntil: 'networkidle0' });
             await page.pdf({ path: outputPath});
 
             await browser.close();
