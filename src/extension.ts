@@ -205,9 +205,11 @@ export class BoostExtension {
             vscode.StatusBarAlignment.Left, 9);
         this.kernelStatusBar = kernelStatusBar;
 
+        const kernelCommand = BoostConfiguration.currentKernelCommand; 
+
         this.kernelStatusBar.text = "Select Boost Kernel";
         this.kernels.forEach((kernel : KernelControllerBase) => {
-            if (kernel.id !== BoostConfiguration.currentKernelCommand) {
+            if (kernel.id !== kernelCommand) {
                 return;
             }
             if (this.kernelStatusBar) {
@@ -215,7 +217,7 @@ export class BoostExtension {
             }
         });
         // if we have a kernel command specified, but didn't match it, the kernel choice is invalid
-        if (BoostConfiguration.currentKernelCommand !== undefined &&
+        if (kernelCommand && kernelCommand !== "" &&
             this.kernelStatusBar.text === "Select Boost Kernel") {
             boostLogging.error(`Invalid Boost command: ${BoostConfiguration.currentKernelCommand} - set a valid Boost kernel name in User Settings or reset to default`);
         }
@@ -296,6 +298,8 @@ export class BoostExtension {
         this.kernels.set(guidelinesKernel.command, guidelinesKernel);
         let blueprintKernel = new BoostArchitectureBlueprintKernel(context, updateBoostStatusColors.bind(this), this, collection);
         this.kernels.set(blueprintKernel.command, blueprintKernel);
+        let flowDiagramKernel = new BoostFlowDiagramKernel(context, updateBoostStatusColors.bind(this), this, collection);
+        this.kernels.set(flowDiagramKernel.command, flowDiagramKernel);
 
         context.subscriptions.push(
             vscode.workspace.registerNotebookSerializer(
@@ -307,7 +311,8 @@ export class BoostExtension {
             testgenKernel,
             complianceKernel,
             guidelinesKernel,
-            blueprintKernel
+            blueprintKernel,
+            flowDiagramKernel
         );
 
             // if in dev mode, register all dev only kernels
@@ -315,10 +320,6 @@ export class BoostExtension {
             let customProcessKernel = new BoostCustomProcessKernel(context, updateBoostStatusColors.bind(this), this, collection);
             this.kernels.set(customProcessKernel.command, customProcessKernel);
             context.subscriptions.push(customProcessKernel);
-
-            let flowDiagramKernel = new BoostFlowDiagramKernel(context, updateBoostStatusColors.bind(this), this, collection);
-            this.kernels.set(flowDiagramKernel.command, flowDiagramKernel);
-            context.subscriptions.push(flowDiagramKernel);
         }
     }
 
