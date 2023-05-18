@@ -8,7 +8,7 @@ import { Uri } from 'vscode';
 import {markedHighlight} from 'marked-highlight';
 
 const cellStyleSheet = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css';
-const mermaidScript = 'https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.14.1/mermaid.min.js';
+const mermaidScript = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
 
 marked.use(markedHighlight({
     langPrefix: 'hljs language-',
