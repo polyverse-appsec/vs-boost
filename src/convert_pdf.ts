@@ -10,71 +10,39 @@ import {marked} from 'marked';
 import hljs from 'highlight.js';
 import puppeteer from 'puppeteer';
 
-export async function convertNotebookToPdf() {
-    // get the current open file
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-        return;
-    }
-    const document = editor.document;
+async function convertNotebookToHTML(notebook: BoostNotebook) {
 
-    // parse the json
-    const json = JSON.parse(document.getText());
-    const cells = json.cells;
+    const cells = notebook.cells;
 
     // convert cells to html
     let html = '<html><body>';
     for (let cell of cells) {
-        if (cell.cell_type === 'markdown') {
-            html += marked(cell.source.join(''), {
+        if (cell.kind === vscode.NotebookCellKind.Markup) {
+            html += marked(cell.value, {
                 highlight: function (code, lang) {
                     return hljs.highlightAuto(code, [lang]).value;
                 }
             });
-        } else if (cell.cell_type === 'code') {
-            html += '<pre><code>' + hljs.highlightAuto(cell.source.join('')).value + '</code></pre>';
+        } else if (cell.kind === vscode.NotebookCellKind.Code) {
+          const value = hljs.highlightAuto(cell.value);
+            html += '<pre><code>' + value.value + '</code></pre>';
             // handle the output of the code cell
-            if (cell.outputs) {
-                for (let output of cell.outputs) {
-                    if (output.output_type === 'execute_result' || output.output_type === 'display_data') {
-                        if (output.data['text/plain']) {
-                            html += '<pre><code>' + hljs.highlightAuto(output.data['text/plain'].join('')).value + '</code></pre>';
-                        } else if (output.data['text/html']) {
-                            html += output.data['text/html'].join('');
-                        } else if (output.data['image/svg+xml']) {
-                            html += output.data['image/svg+xml'].join('');
-                        } else if (output.data['text/markdown']) {
-                            html += marked(output.data['text/markdown'].join(''), {
-                                highlight: function (code, lang) {
-                                    return hljs.highlightAuto(code, [lang]).value;
-                                }
-                            });
-                        }
-                        // Add other output types as needed
-                    }
-                    // Add error handling if necessary
-                }
-            }
+        }
+        if (cell.outputs) {
+          for (let output of cell.outputs) {
+            output.items.forEach(item => {
+              html += marked(item.data, {
+                  highlight: function (code, lang) {
+                      return hljs.highlightAuto(code, [lang]).value;
+                  }
+              });
+            });    
+          }
         }
     }
     html += '</body></html>';
 
-    // write the html to a temporary file
-    const tempHtmlPath = path.join(vscode.workspace.workspaceFolders![0].uri.fsPath, 'temp.html');
-    fs.writeFileSync(tempHtmlPath, html);
-
-    // convert the html file to pdf using puppeteer
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto('file://' + tempHtmlPath, { waitUntil: 'networkidle0' });
-    await page.pdf({ path: 'output.pdf', format: 'A4' });
-
-    await browser.close();
-
-    // delete the temporary html file
-    fs.unlinkSync(tempHtmlPath);
-
-    vscode.window.showInformationMessage('PDF conversion completed!');
+    return html;
 }
 
 export async function generatePDFforNotebook(boostNotebookPath : string, baseFolderPath : string) : Promise<string> {
@@ -95,12 +63,25 @@ export async function generatePDFforNotebook(boostNotebookPath : string, baseFol
 async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : string, baseFolderPath : string, outputPath: string): Promise<void> {
     return new Promise<void> (async (resolve, reject) => {
         try {
-            const pdfDoc = await getPDFFromObject(boostNotebook, notebookPath, baseFolderPath,
-                { showOutputMetadata: false, printSourceCodeBorder: false } );
-            const pdfBytes = await pdfDoc.save();
-          
-            // Save the PDF to a file
-            fs.writeFileSync(outputPath, pdfBytes);
+            const html = await convertNotebookToHTML(boostNotebook);
+
+                // write the html to a temporary file
+            const tempHtmlPath = path.join(vscode.workspace.workspaceFolders![0].uri.fsPath, 'temp.html');
+            fs.writeFileSync(tempHtmlPath, html);
+
+            // convert the html file to pdf using puppeteer
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+            await page.goto(baseFolderPath, { waitUntil: 'networkidle0' });
+            await page.pdf({ path: outputPath});
+
+            await browser.close();
+
+            // delete the temporary html file
+            fs.unlinkSync(tempHtmlPath);
+
+            vscode.window.showInformationMessage('PDF conversion completed!');
+        
             resolve();
         } catch (error) {
             reject(error);
