@@ -4,37 +4,57 @@ import { workspace, extensions, ConfigurationTarget } from "vscode";
 export class BoostConfiguration {
   
     public static get defaultOutputLanguage(): string {
-      return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.defaultOutputLanguageName)??
-        Defaults.defaultOutputLanguageValue;
+        let command = workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.defaultOutputLanguageName) as any;
+        if (command && command.local) {
+            command = command.local as string;
+        } else {
+            command = Defaults.defaultOutputLanguageValue;
+        }
+        return command;
     }
   
     public static get testFramework(): string {
-      return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.testFrameworkName)??
-        Defaults.defaultOutputLanguageValue;
+        let command = workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.testFrameworkName) as any;
+        if (command && command.local) {
+            command = command.local as string;
+        } else {
+            command = Defaults.testFrameworkValue;
+        }
+        return command;
     }
   
     public static get defaultDir(): string {
-      return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.defaultDirName)??
-        Defaults.testFrameworkValue;
+        let command = workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.defaultDirName) as any;
+        if (command && command.local) {
+            command = command.local as string;
+        } else {
+            command = Defaults.defaultDirValue;
+        }
+        return command;
     }
   
     public static get cloudServiceStage(): string {
-      return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.cloudServiceStageName)??
-        Defaults.cloudServiceStageValue;
+        let command = workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.cloudServiceStageName) as any;
+        if (command && command.local) {
+            command = command.local as string;
+        } else {
+            command = Defaults.cloudServiceStageValue;
+        }
+        return command;
     }
   
     public static get serviceFaultInjection(): number {
-      return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.serviceFaultInjectionName)??
+      return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.serviceFaultInjectionName) as number)??
         Number(Defaults.serviceFaultInjectionValue);
     }
 
     public static get serializationOfCellsContainingErrors(): boolean {
-        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.serializationOfCellsContainingErrorsName)??
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.serializationOfCellsContainingErrorsName) as boolean)??
             Defaults.serializationOfCellsContainingErrorsValue;
     }
 
     public static get useSourceFileForProblems(): boolean {
-        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.useSourceFileForProblemsName)??
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.useSourceFileForProblemsName) as boolean)??
             Defaults.useSourceFileForProblemsValue;
     }
 
@@ -44,23 +64,33 @@ export class BoostConfiguration {
     }
 
     public static get defaultOrganization(): string {
-        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.defaultOrganizationName)??
-            Defaults.defaultOrganizationValue;
+        let command = workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.defaultOrganizationName) as any;
+        if (command && command.local) {
+            command = command.local as string;
+        } else {
+            command = Defaults.defaultOrganizationValue;
+        }
+        return command;
     }
 
     public static get enableDevOnlyKernels(): boolean {
-        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.enableDevOnlyKernelsName)??
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.enableDevOnlyKernelsName) as boolean)??
             Defaults.enableDevOnlyKernelsValue;
     }
 
     public static get enableKernelPicker(): boolean {
-        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.enableKernelPickerName)??
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.enableKernelPickerName) as boolean)??
             Defaults.enableKernelPickerValue;
     }
 
     public static get currentKernelCommand(): string {
-        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.currentKernelCommandName)??
-            Defaults.currentKernelCommandValue;
+        let command = workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.currentKernelCommandName) as any;
+        if (command && command.local) {
+            command = command.local as string;
+        } else {
+            command = Defaults.currentKernelCommandValue;
+        }
+        return command;
     }
     public static set currentKernelCommand(value: string) {
         workspace.getConfiguration(NOTEBOOK_TYPE, null)
@@ -68,7 +98,7 @@ export class BoostConfiguration {
     }
 
     public static get logLevel(): string {
-        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.logLevelName)??
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.logLevelName) as string)??
             Defaults.logLevelValue;
     }
     public static set logLevel(value: string) {
@@ -122,18 +152,18 @@ class Defaults {
     public static readonly processFoldersInASingleNotebookName = "processFoldersInASingleNotebook";
     public static readonly processFoldersInASingleNotebookValue = false;
 
-    public static readonly defaultOrganizationName = "defaultOrganization";
-    public static readonly defaultOrganizationValue = "";
+    public static readonly defaultOrganizationName : string = "defaultOrganization";
+    public static readonly defaultOrganizationValue : string = "";
 
-    public static readonly enableDevOnlyKernelsName = "enableDevOnlyKernels";
-    public static readonly enableDevOnlyKernelsValue = false;
+    public static readonly enableDevOnlyKernelsName : string = "enableDevOnlyKernels";
+    public static readonly enableDevOnlyKernelsValue : boolean = false;
 
-    public static readonly enableKernelPickerName = "enableKernelPicker";
-    public static readonly enableKernelPickerValue = false;
+    public static readonly enableKernelPickerName : string = "enableKernelPicker";
+    public static readonly enableKernelPickerValue : boolean = false;
 
-    public static readonly currentKernelCommandName = "currentKernelCommand";
-    public static readonly currentKernelCommandValue = "";
+    public static readonly currentKernelCommandName : string = "currentKernelCommand";
+    public static readonly currentKernelCommandValue : string = "";
 
-    public static readonly logLevelName = "logLevel";
-    public static readonly logLevelValue = "info";
+    public static readonly logLevelName : string = "logLevel";
+    public static readonly logLevelValue : string = "info";
 }
