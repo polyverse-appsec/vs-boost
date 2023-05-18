@@ -83,7 +83,7 @@ Once your trial license expires, you will need to update your Polyverse Boost ac
 Billing and Usage rates are available on your Polyverse Boost account page - accessible via the Extension Status bar.
 
 ### Installation
-1. **Install the Boost Modernization extension** from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Polyverse.polyverse-boost). NOTE: A restart of Visual Studio Code may be required.
+1. **Install the Boost Modernization extension** from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=PolyverseCorporation.polyverse-boost-notebook). NOTE: A restart of Visual Studio Code may be required.
 
 2. **Authorize and Link Your GitHub.com account with Boost** The first time you launch Boost, you may need to Allow and Authorize Boost to access GitHub.com. This is only required to link your license to your email address. If you have not already done so, you will need to create a GitHub.com account.
 
