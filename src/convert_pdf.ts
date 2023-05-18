@@ -1,12 +1,11 @@
-import { PDFDocument, PDFPageLeaf, PDFPage, StandardFonts, rgb } from 'pdf-lib';
-import { BoostNotebook, BoostNotebookCell, SerializedNotebookCellOutput } from './jupyter_notebook';
+import { BoostNotebook } from './jupyter_notebook';
 import * as fs from 'fs';
 import * as path from 'path';
 import { NOTEBOOK_EXTENSION } from './extension';
-import { Uri } from 'vscode';
+const crypto = require('crypto');
 
 import * as vscode from 'vscode';
-import {marked, Renderer} from 'marked';
+import {marked} from 'marked';
 import {markedHighlight} from 'marked-highlight';
 import hljs from 'highlight.js';
 import puppeteer from 'puppeteer';
@@ -14,16 +13,13 @@ import puppeteer from 'puppeteer';
 marked.use(markedHighlight({
   langPrefix: 'hljs language-',
   highlight(code: string, lang: string) {
-    console.log("language is ", lang);
     if( lang === "mermaid") {
-      console.log("code is ", code);
       return `<pre class="mermaid">${code}</pre>`;
     }
     const language = hljs.getLanguage(lang) ? lang : 'plaintext';
     return hljs.highlight(code, { language }).value;
   }
 }));
-
 
 async function convertNotebookToHTML(notebook: BoostNotebook) {
 
@@ -79,25 +75,31 @@ async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : 
         try {
             const html = await convertNotebookToHTML(boostNotebook);
 
-                // write the html to a temporary file
-            const tempHtmlPath = path.join(vscode.workspace.workspaceFolders![0].uri.fsPath, 'temp.html');
+                        // Generate a random filename
+            const randomFilename = crypto.randomBytes(8).toString('hex') + '.html';
+
+            // Write the HTML to a temporary file with the random filename
+            const tempHtmlPath = path.join(baseFolderPath, randomFilename);
             fs.writeFileSync(tempHtmlPath, html);
 
-            // convert the html file to pdf using puppeteer
-            const browser = await puppeteer.launch();
-            const page = await browser.newPage();
-            // convert the file path to a URL
-            const url = `file://${tempHtmlPath}`;
-            await page.goto(url, { waitUntil: 'networkidle0' });
-            await page.pdf({ path: outputPath});
+            try {
+                // convert the html file to pdf using puppeteer
+                const browser = await puppeteer.launch();
+                const page = await browser.newPage();
+                // convert the file path to a URL
+                const url = `file://${tempHtmlPath}`;
+                await page.goto(url, { waitUntil: 'networkidle0' });
+                await page.pdf({ path: outputPath});
 
-            await browser.close();
+                await browser.close();
 
-            // delete the temporary html file
-            fs.unlinkSync(tempHtmlPath);
+            } finally {
+                // delete the temporary html file so we don't leak the file in the user's workspace
+                // this means debugging failures will be harder to diagnose, but it's better than alternative
+                // we can use a debug flag in future to keep the file around for debugging
+                fs.unlinkSync(tempHtmlPath);
+            }
 
-            vscode.window.showInformationMessage('PDF conversion completed!');
-        
             resolve();
         } catch (error) {
             reject(error);
