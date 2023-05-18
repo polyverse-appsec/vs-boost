@@ -246,6 +246,7 @@
     "marked": "^5.0.2",
     "marked-highlight": "^1.0.2",
     "nodejs": "^0.0.0",
-    "puppeteer": "^20.2.1"
+    "puppeteer": "^20.2.1",
+    "uuid": "^9.0.0"
   }
 }
