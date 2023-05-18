@@ -246,7 +246,6 @@
     "marked": "^5.0.2",
     "marked-highlight": "^1.0.2",
     "nodejs": "^0.0.0",
-    "pdf-lib": "^1.17.1",
     "puppeteer": "^20.2.1"
   }
 }
