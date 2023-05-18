@@ -39,7 +39,7 @@ export async function generatePDFforNotebook(boostNotebookPath : string, baseFol
 async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : string, baseFolderPath : string, outputPath: string): Promise<void> {
     return new Promise<void> (async (resolve, reject) => {
         try {
-            const html = await convertNotebookToHTML(boostNotebook);
+            const html = await convertNotebookToHTML(boostNotebook, notebookPath, baseFolderPath);
 
                         // Generate a random filename
             const randomFilename = crypto.randomBytes(8).toString('hex') + '.html';
