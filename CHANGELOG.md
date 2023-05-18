@@ -3,7 +3,7 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 0.9.7: May 17, 2023
+## Version 0.9.7: May 18, 2023
 
 ### New Features
 - Enabled Automated Folder and Project analysis with Boost kernel commands
@@ -20,6 +20,8 @@ Polyverse Boost Automatic Application Modernization
 
 ### Bug Fixes
 - Fix issue with building Notebook file from source when no Workspace folder is open
+- Fix issue with default configuration values for Test Framework and Default Output Directory
+- Fixed broken Marketplace link in README (thank you, customer!)
 
 ## Version 0.9.6: May 12, 2023
 
