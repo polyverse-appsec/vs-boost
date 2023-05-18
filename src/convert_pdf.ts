@@ -6,7 +6,7 @@ import { NOTEBOOK_EXTENSION } from './extension';
 import { Uri } from 'vscode';
 
 import * as vscode from 'vscode';
-import {marked} from 'marked';
+import {marked, Renderer} from 'marked';
 import {markedHighlight} from 'marked-highlight';
 import hljs from 'highlight.js';
 import puppeteer from 'puppeteer';
@@ -14,17 +14,23 @@ import puppeteer from 'puppeteer';
 marked.use(markedHighlight({
   langPrefix: 'hljs language-',
   highlight(code: string, lang: string) {
+    console.log("language is ", lang);
+    if( lang === "mermaid") {
+      console.log("code is ", code);
+      return `<pre class="mermaid">${code}</pre>`;
+    }
     const language = hljs.getLanguage(lang) ? lang : 'plaintext';
     return hljs.highlight(code, { language }).value;
   }
 }));
+
 
 async function convertNotebookToHTML(notebook: BoostNotebook) {
 
     const cells = notebook.cells;
 
     // convert cells to html
-    let html = '<html><head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css"></head><body>';
+    let html = '<html><head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css"> <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script></head><body>';
     for (let cell of cells) {
         if (cell.kind === vscode.NotebookCellKind.Markup) {
             html += marked.parse(cell.value, {
@@ -35,7 +41,6 @@ async function convertNotebookToHTML(notebook: BoostNotebook) {
         } else if (cell.kind === vscode.NotebookCellKind.Code) {
           const value = hljs.highlightAuto(cell.value);
             html += '<pre><code>' + value.value + '</code></pre>';
-            // handle the output of the code cell
         }
         if (cell.outputs) {
           for (let output of cell.outputs) {
