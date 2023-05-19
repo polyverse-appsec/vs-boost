@@ -1186,12 +1186,12 @@ async function parseFunctionsFromFile(
     targetNotebook : boostnb.BoostNotebook | vscode.NotebookDocument,
     appendToExistingNotebook : boolean = false) {
 
-    const fileContents = fs.readFileSync(fileUri.path, 'utf8');
+    const fileContents = fs.readFileSync(fileUri.fsPath, 'utf8');
     
     // turn fileContents into a string and call splitCode
     const fileContentsString = fileContents.toString();
     const [languageId, splitCodeResult] = parseFunctions(
-        fileUri.toString(),
+        fileUri.fsPath,
         fileContentsString);
 
     //now loop through the splitCodeResult and create a cell for each item,
