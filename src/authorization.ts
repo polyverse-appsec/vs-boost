@@ -46,7 +46,7 @@ export async function getCurrentOrganization(context: vscode.ExtensionContext): 
     let orgs = await fetchUserOrganizationsServiceRequest();
     if (orgs && orgs.organizations && orgs.organizations.length > 0) {
         org = orgs.organizations[0];
-        boostLogging.log(`Using 1st GitHub Organization: ${org}`);
+        boostLogging.debug(`Using GitHub.com Organization: ${org}`);
         return org;
     }
 
