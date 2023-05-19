@@ -21,7 +21,8 @@ Polyverse Boost Automatic Application Modernization
 ### Bug Fixes
 - Fix issue with building Notebook file from source when no Workspace folder is open
 - Fix issue with default configuration values for Test Framework and Default Output Directory
-- Fixed broken Marketplace link in README (thank you, customer!)
+- Fixed broken Marketplace link in README (cheers and thank you, customer!)
+- Fixed potential issue with some individual source files being parsed and loaded into a new Notebook (cheers thank you, customer!)
 
 ## Version 0.9.6: May 12, 2023
 
