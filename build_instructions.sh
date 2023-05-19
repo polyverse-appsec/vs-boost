@@ -7,11 +7,9 @@ if [ -z "$1" ]; then
 fi
 
 # Read the contents of the file and escape special characters
-contents=$(cat "$1" | sed 's/$/\\n/' | tr -d '\n' | sed 's/\\#/\\\\#/g')
-# contents=$(cat $1 | sed 's/\\/\\\\/g; s/"/\\"/g; s/\//\\\//g; s/\n/\\n/g')
+contents=$(cat "$1" | sed 's/$/\\n/' | tr -d '\n' | sed 's/"/\\"/g; s/\\#/\\\\#/g')
 
 # Output the escaped contents as a single line string to the console
 echo '{'
 echo -n '   "markdown" : "' && echo -n "$contents" | tr -d '\n' && echo '"'
 echo -n '}'
-
