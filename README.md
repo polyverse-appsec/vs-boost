@@ -49,6 +49,14 @@ Boost will analyze your code for the latest security vulnerabilities, critical d
 * **Data and Privacy Compliance**: Detect compliance issues in your code.
 Boost will check your code for the latest data, privacy and compliance issues, including unencrypted private or personal data, mishandling of credit card info, and more. Where solutions are available, Boost will provide recommended fixes or advice on how to mitigate the risk.
 
+* **Flow Diagram generation**: Generate code flow diagrams from your code.
+Boost will analyze the algorithms, key code paths, and error conditions in your code. Then it will generate color-coded flow diagrams to help you understand the code and input conditions that are manipulating your code's behavior. Flow diagrams are integrated into your documentation.
+
+![Flow Diagrams with Color Highlighting](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Heartbeat_diagram.jpg?width=500)
+
+* **Architectural Blueprinting**: Build Architectural Blueprints of your project's key principles.
+Boost will analyze your entire codebase, and identify the key architectural principles, considerations and foundations. Boost will also analyze your source code for Architectural concerns - such as conflicting software licenses, performance bottlenecks, scalability issues, anti-patterns, and problematic use of 3rd party Frameworks or programming language constructs.
+
 * **Best Practices and Code Guidelines**: Ensure your source follows best practices and code guidelines.
 Boost will evaluate your code for best practices and coding guidelines for the programming language, framework, and domain of your source code.
 Issues or exceptions to best practices will be identified. And Boost will also provide online documentation and links to help you understand the best practices and guidelines.
@@ -58,10 +66,20 @@ Load your code and Boost will analyze the code, supply a test framework and gene
 
 ![Test Case Generation](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_4.28.34_PM.jpg?width=500)
 
-* **Code Description**: Get an English description of your code to better understand its functionality.
+* **Code Explanation**: Get an English description of your code to better understand its functionality.
 Boost will create a detailed, step-by-step explanation of your code and break it down into all of it's core functionality.
 
 ![Code Explanation](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_4.23.07_PM.jpg?width=500)
+
+* **Documentation generation**: Generate PDF and Markdown format documentation across your project in minutes.
+Boost will generate edit-able documentation artifacts including your source code, educational material, security and data compliance analysis, architectural principles, and integrated architectural flow diagrams. Use the PDFs or Markdown to build searchable documentation for you, your team, your enterprise or consulting customers.
+
+* **"Batch Mode" Project-wide Analysis**: Build Notebooks and Run Analysis across Folders or entire Project.
+Boost enables running offline automated batch mode processing of your source code - to generate dozens or hundreds of flow diagrams, project-wide security analysis and data compliance.
+
+* **API support Automation Integration**: All Boost features are accessible via Command API.
+Boost enables your DevOps, tooling or developer clients to automate and process source code with all Boost features enabled by the Command API. Synchronous and asynchronous operations are supported, including JSON-based document formats for all analysis and results.
+
 
 * **Easy Organization**: Functions are placed in separate cells for better navigation.
 
@@ -102,10 +120,13 @@ Billing and Usage rates are available on your Polyverse Boost account page - acc
   
   * **Analyze Code for Bugs, Defects and Security Vulnerabilities** select `Analyze code for security vulnerabilities`
   * **Check Code for Data, Privacy and Personal Info Compliance** select `Check compliance`
+  * **Generate Code Flow Diagrams with Color Highlights from Source** select `Generate Flow Diagrams`
   * **Evaluate source code for best practices and guidelines** select `Evaluate Code Guidelines`
   * **Modernize Code to a newer language** select `Convert Legacy Code to New Code`
   * **Generate Test Cases** select `Generate Test Cases for code`
-  * **Generation Code Documentation** select `Explain code`
+  * **Generate Documentation** select `Generate PDF` and `Generate Markdown`
+  * **Batch Mode Processing** select `Batch Mode` Processing of Folder or Project
+  * **Generation Code Explanation** select `Explain code`
 
    ![Available Processing Tasks](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_10.26.59_PM.jpg?width=500)
 
@@ -122,6 +143,7 @@ Billing and Usage rates are available on your Polyverse Boost account page - acc
 
 8. **Review the Results**: Each Boost Notebook cell will contain the results of the AI-enhanced processing.
   * **For Defect and Security Analysis**, you can edit the code in each Cell and re-run the analysis to see the results.
+  * **For Flow Diagrams**, flow diagrams are generated based on primary codepaths, loops and error conditions.
   * **For Data Compliance**, you can edit the code in each Cell and re-run the compliance review to see the results.
   * **For Code Conversion**, you can review the new code in each Cell for integration into your new modernized project.
   * **For Documentation**, you can read the documentation to better understand legacy code, review for architectural or potential redesign, and to better understand how the original code actually worked.
