@@ -23,6 +23,7 @@ function orgServiceEndpoint(): string {
 // Define a type for the orgs object
 export type UserOrgs = {
     organizations: string[];
+    email: string;
     personal: string;
 };
 
@@ -46,7 +47,7 @@ export async function fetchUserOrganizationsServiceRequest(): Promise<UserOrgs> 
     
         const result = await axios.post(orgServiceEndpoint(), payload, { headers });
         if (result && result.data && result.data.error) { // if we have an error, throw it - this is generally happens with the local service shim
-            throw new Error(`Boost Service failed with a network error: ${result.data.error}`);
+            throw new Error(`Boost Service failed to access GitHub User Organizations with a network error: ${result.data.error}`);
         }
         return result.data;
     } catch (err : any) {
