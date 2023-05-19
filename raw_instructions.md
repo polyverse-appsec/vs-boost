@@ -66,7 +66,7 @@ Billing and Usage rates are available on your Polyverse Boost account page - acc
   * **For Documentatio and Flow Diagramsn**, you can read the documentation to better understand legacy code, review for architectural or potential redesign, and to better understand how the original code actually worked.
   * **For Test Generation**, you can review the test cases and integrate them into your automated test harness or CI/CD/CT system.
 
-9. **Batch Mode Processing**: For Batch Mode processing, you can select a folder or project and Boost will process all files in the folder or project. You can also select a single file and Boost will process that file. Right Click any folder or source file to launch **Batch Processing** on the target. Or alternatively for project-wide analysis, launch the command from the "Command Menu"
+9. **Batch Mode Processing**: For Batch Mode processing, you can select a folder or project and Boost will process all files in the folder or project. You can also select a single file and Boost will process that file. Right Click any folder or source file to launch **Batch Processing** on the target. Or alternatively for project-wide analysis, launch the command from the **Command Menu**
 
 If you encounter any other issues or have questions, please refer to the [Polyverse Boost](https://polyverse.com/pages/boost-visual-studio) website for more information and support options.
 
