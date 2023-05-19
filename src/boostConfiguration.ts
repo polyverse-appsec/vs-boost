@@ -5,8 +5,8 @@ export class BoostConfiguration {
   
     public static get defaultOutputLanguage(): string {
         let command = workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.defaultOutputLanguageName) as any;
-        if (command && command.local) {
-            command = command.local as string;
+        if (command) {
+            command = command.local?command.local as string:command as string;
         } else {
             command = Defaults.defaultOutputLanguageValue;
         }
@@ -15,8 +15,8 @@ export class BoostConfiguration {
   
     public static get testFramework(): string {
         let command = workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.testFrameworkName) as any;
-        if (command && command.local) {
-            command = command.local as string;
+        if (command) {
+            command = command.local?command.local as string:command as string;
         } else {
             command = Defaults.testFrameworkValue;
         }
@@ -25,8 +25,8 @@ export class BoostConfiguration {
   
     public static get defaultDir(): string {
         let command = workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.defaultDirName) as any;
-        if (command && command.local) {
-            command = command.local as string;
+        if (command) {
+            command = command.local?command.local as string:command as string;
         } else {
             command = Defaults.defaultDirValue;
         }
@@ -35,8 +35,8 @@ export class BoostConfiguration {
   
     public static get cloudServiceStage(): string {
         let command = workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.cloudServiceStageName) as any;
-        if (command && command.local) {
-            command = command.local as string;
+        if (command) {
+            command = command.local?command.local as string:command as string;
         } else {
             command = Defaults.cloudServiceStageValue;
         }
@@ -65,8 +65,8 @@ export class BoostConfiguration {
 
     public static get defaultOrganization(): string {
         let command = workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.defaultOrganizationName) as any;
-        if (command && command.local) {
-            command = command.local as string;
+        if (command) {
+            command = command.local?command.local as string:command as string;
         } else {
             command = Defaults.defaultOrganizationValue;
         }
@@ -85,8 +85,8 @@ export class BoostConfiguration {
 
     public static get currentKernelCommand(): string {
         let command = workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.currentKernelCommandName) as any;
-        if (command && command.local) {
-            command = command.local as string;
+        if (command) {
+            command = command.local?command.local as string:command as string;
         } else {
             command = Defaults.currentKernelCommandValue;
         }
