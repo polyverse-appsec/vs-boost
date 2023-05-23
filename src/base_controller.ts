@@ -241,12 +241,32 @@ export class KernelControllerBase {
             organization: organization
         };
 
+        let newPayload;
+        // pass temperature through
+        if (BoostConfiguration.analysisRankedProbabilityByKernel(this.command)) {
+            newPayload = { ...payload,
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                top_p: BoostConfiguration.analysisRankedProbabilityByKernel(this.command)};    
+        } else if (BoostConfiguration.analysisRankedProbability) {
+            newPayload = { ...payload,
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                top_p: BoostConfiguration.analysisRankedProbability};    
+        } else if (BoostConfiguration.analysisTemperatureByKernel(this.command)) {
+            newPayload = { ...payload,
+                temperature: BoostConfiguration.analysisTemperatureByKernel(this.command)};    
+        } else if (BoostConfiguration.analysisTemperature) {
+            newPayload = { ...payload,
+                temperature: BoostConfiguration.analysisTemperature};    
+        } else {
+            newPayload = payload;
+        }
+
         const cellId = usingBoostNotebook?
             (cell as BoostNotebookCell).id:
             (cell as vscode.NotebookCell).document.uri.toString();
 
         try {
-            let response = await this.onProcessServiceRequest(execution, notebook, cell, payload);
+            let response = await this.onProcessServiceRequest(execution, notebook, cell, newPayload);
             if (response instanceof Error) {
                 // we failed the call, but it was already logged since it didn't throw, so just report failure
                 successfullyCompleted = false;
