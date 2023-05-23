@@ -173,14 +173,12 @@ Configure Polyverse Boost extension settings in the Visual Studio settings, unde
 ## Troubleshooting
 
 ### FAQ: Common Questions and Issues
- * Q: I'm getting an error message when I try to run the Boost Notebook. What's wrong?
- * A: Make sure you have a valid Boost license key. You can get a free trial license key by contacting [Polyverse](https://polyverse.com/pages/boost-visual-studio) or purchase a license key directly from the [Polyverse Store](https://polyverse.com/pages/boost-buy-visual-studio).
 
  * Q: What languages are supported for code conversion?
  * A: Most modern programming languages are supported, including: Python, Rust, Ruby, Golang, Swift, Visual Basic, Java, C\#, C++, TypeScript, and JavaScript.
 
- * Q: I don't have a [GitHub.com](GitHub.com) account. Can I still use the Boost extension?
- * A: You must your email address registered with a valid [GitHub.com](GitHub.com) account. You do not need to store any source code on GitHub.com, but you do need to have a valid verified email so we can confirm your license key at runtime.
+ * Q: I don't have a [GitHub.com](https://GitHub.com) account. Can I still use the Boost extension?
+ * A: You must your email address registered with a valid [GitHub.com](https://GitHub.com) account. You do not need to store any source code on GitHub.com, but you do need to have a valid verified email so we can confirm your license key at runtime.
 
  * Q: My source code is proprietary to me or my company, that I do not want to store on other servers. Can I still use the Boost extension?
  * A: Yes. The Boost extension does not require you to store any source code on GitHub.com. Also, Polyverse does NOT store or retain any of your source code during analysis. Your source code is only stored on your local system running Visual Studio Code.
