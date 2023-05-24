@@ -112,12 +112,12 @@ export class BoostConfiguration {
     }
 
     public static analysisTemperatureByKernel(kernel: string): string {
-        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.analysisTemperatureName + "." + kernel) as string)??
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(kernel + "." + Defaults.analysisTemperatureName) as string)??
             Defaults.analysisTemperatureValue;
     }
 
     public static analysisRankedProbabilityByKernel(kernel: string): string {
-        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.analysisRankedProbabilityName + "." + kernel) as string)??
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(kernel + "." + Defaults.analysisRankedProbabilityName) as string)??
             Defaults.analysisRankedProbabilityValue;
     }
 
