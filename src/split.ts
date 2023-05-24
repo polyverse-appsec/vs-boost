@@ -71,10 +71,13 @@ function getVSCodeLanguageId(filename: string): string {
     const languageMappings: { [key: string]: string } = {
         "js": "javascript",
         "ts": "typescript",
+        "coffee": "coffeescript",
         "html": "html",
         "css": "css",
         "json": "json",
         "xml": "xml",
+        "xsl": "xml",
+        "xslt": "xml",
         "md": "markdown",
         "py": "python",
         "c": "c",
@@ -130,6 +133,7 @@ export function parseFunctions(filename: string, code: string): [string, string[
         "javascript",
         "typescript",
         "swift",
+        "coffeescript"
     ]);
 
     const parser = cStyleLanguages.has(languageId)

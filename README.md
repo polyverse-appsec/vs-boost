@@ -175,7 +175,7 @@ Configure Polyverse Boost extension settings in the Visual Studio settings, unde
 ### FAQ: Common Questions and Issues
 
  * Q: What languages are supported for code conversion?
- * A: Most modern programming languages are supported, including: Python, Rust, Ruby, Golang, Swift, Visual Basic, Java, C\#, C++, TypeScript, and JavaScript.
+ * A: Most modern programming languages are supported, including: Python, Rust, Ruby, Golang, Swift, Visual Basic, Java, C\#, C++, HTML/XML, TypeScript, and JavaScript.
 
  * Q: I don't have a [GitHub.com](https://GitHub.com) account. Can I still use the Boost extension?
  * A: You must your email address registered with a valid [GitHub.com](https://GitHub.com) account. You do not need to store any source code on GitHub.com, but you do need to have a valid verified email so we can confirm your license key at runtime.
