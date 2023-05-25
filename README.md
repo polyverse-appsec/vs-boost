@@ -2,11 +2,11 @@
 
 *Legacy code got you down?*
 *Worried new technologies are out of reach?*
-*Feeling like your core architecture is at risk?*
+*Feeling like your core Architecture at risk?*
 
 *Boost is a powerful suite of AI-enabled software and development services designed to help you modernize, enhance, and sustain your software architecture and codebase - preserving the innovations you've invested in and providing access to the latest technology.*
 
-Use Boost to modernize and update your codebase, taking advantage of modern programming languages, Cloud services, containerization, microservice principles, and zero-trust code. Boost provides these services by analyzing your entire product codebase, including raw source code, comments, and code documentation - and producing easily consumable Architectural Blueprints. Guided by your core architecture, Boost will help you automatically convert your legacy code into a new programming language, analyze code for security vulnerabilities, find data and privacy compliance issues, ensure your source follows best practice coding guidelines, and generate test cases for code using AI-driven tools. Operating on a stronger, more modern foundation - you can then add new features and solve your customer problems with confidence and faster innovation. Boost your Architecture and Productivity with Polyverse Boost and AI!
+Use Boost to modernize and update your codebase, taking advantage of modern programming languages, Cloud services, containerization, microservice principles, and zero-trust code. Boost provides these services by analyzing your entire product codebase, including raw source code, comments, and code documentation - and producing easily consumable Architectural Blueprints. Guided by your core Architecture, Boost will help you automatically convert your legacy code into a new programming language, analyze code for security vulnerabilities, find data and privacy compliance issues, ensure your source follows best practice coding guidelines, and generate test cases for code using AI-driven tools. Operating on a stronger, more modern foundation - you can then add new features and solve your customer problems with confidence and faster innovation. Boost your Architecture and Productivity with Polyverse Boost and AI!
 
 Transform, secure, and enhance your code with AI-driven analysis, all in one powerful extension - *Polyverse Boost*.
 
@@ -27,6 +27,7 @@ Convert your code to a new, modern language.
 Create test cases for your code.
 
 ## Is your code...
+
 ![Is your code old and brittle?](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-19_at_12.34.29_PM.jpg?width=500)
 
 Old, unstable, and brittle? Monolithic and hard to support?
@@ -40,7 +41,7 @@ Easy to copy and expensive to run? Bound to an old language, server, or data cen
 ![Code Conversion and Modernization](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_4.27.00_PM.jpg?width=500)
 
 * **Security Vulnerability Analysis**: Detect security vulnerabilities in your code.
-Boost will analyze your code for the latest security vulnerabilities, critical defects, and potential bugs, including buffer overflows, SQL injection, and more. Then it will provide recommended fixes or advice on how to mitigate the risk.
+Boost will analyze your code for the latest security vulnerabilities, critical defects, and potential bugs, including buffer overflows, SQL injection, and more. Then, it will provide recommended fixes or advice on how to mitigate the risk.
 
 ![Security and Defect analysis](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_4.24.26_PM.jpg?width=500)
 
@@ -50,34 +51,36 @@ Boost will check your
  code for the latest data, privacy, and compliance issues, including unencrypted private or personal data, mishandling of credit card info, and more. Where solutions are available, Boost will provide recommended fixes or advice on how to mitigate the risk.
 
 * **Flow Diagram generation**: Generate code flow diagrams from your code.
-Boost will analyze the algorithms, key code paths, and error conditions in your code. Then it will generate color-coded flow diagrams to help you understand the code and input conditions that are manipulating your code's behavior. Flow diagrams are integrated into your documentation.
+Boost will analyze the algorithms, key code paths, and error conditions in your code. Then, it will generate color-coded flow diagrams to help you understand the code and input conditions that are manipulating your code's behavior. Flow diagrams are integrated into your documentation.
 
 ![Flow Diagrams with Color Highlighting](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Heartbeat_diagram.jpg?width=500)
 
 * **Architectural Blueprinting**: Build Architectural Blueprints of your project's key principles.
-Boost will analyze your entire codebase and identify the key architectural principles, considerations, and foundations. Boost will also analyze your source code for architectural concerns - such as conflicting software licenses, performance bottlenecks, scalability issues, anti-patterns, and problematic use of 3rd party frameworks or programming language constructs.
+Boost will analyze your entire codebase and identify the key architectural principles, considerations, and foundations. Boost will also analyze your source code for Architectural concerns - such as conflicting software licenses, performance bottlenecks, scalability issues, anti-patterns, and problematic use of 3rd party Frameworks or programming language constructs.
 
 * **Best Practices and Code Guidelines**: Ensure your source follows best practices and code guidelines.
-Boost will evaluate your code for best practices and coding guidelines for the programming language, framework, and domain of your source code. Issues or exceptions to best practices will be identified. And Boost will also provide online documentation and links to help you understand the best practices and guidelines.
+Boost will evaluate your code for best practices and coding guidelines for the programming language, framework, and domain of your source code.
+Issues or exceptions to best practices will be identified. And Boost will also provide online documentation and links to help you understand the best practices and guidelines.
 
 * **Test Case Generation**: Automatically create test cases for your code.
-Load your code and Boost will analyze the code, supply a test framework, and generate test cases for you to use.
+Load your code, and Boost will analyze the code, supply a test framework, and generate test cases for you to use.
 
 ![Test Case Generation](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_4.28.34_PM.jpg?width=500)
 
 * **Code Explanation**: Get an English description of your code to better understand its functionality.
-Boost will create a detailed, step-by-step explanation of your code and break it down into all its core functionality.
+Boost will create a detailed, step-by-step explanation of your code and break it down into all of its core functionality.
 
 ![Code Explanation](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_4.23.07_PM.jpg?width=500)
 
 * **Documentation generation**: Generate PDF and Markdown format documentation across your project in minutes.
-Boost will generate editable documentation artifacts, including your source code, educational material, security and data compliance analysis, architectural principles, and integrated architectural flow diagrams. Use the PDFs or Markdown to build searchable documentation for you, your team, your enterprise, or consulting customers.
+Boost will generate editable documentation artifacts including your source code, educational material, security and data compliance analysis, architectural principles, and integrated architectural flow diagrams. Use the PDFs or Markdown to build searchable documentation for you, your team, your enterprise, or consulting customers.
 
 * **"Batch Mode" Project-wide Analysis**: Build Notebooks and Run Analysis across Folders or the entire Project.
 Boost enables running offline automated batch mode processing of your source code - to generate dozens or hundreds of flow diagrams, project-wide security analysis, and data compliance.
 
-* **API support Automation Integration**: All Boost features are accessible via the Command API.
+* **API support Automation Integration**: All Boost features are accessible via Command API.
 Boost enables your DevOps, tooling, or developer clients to automate and process source code with all Boost features enabled by the Command API. Synchronous and asynchronous operations are supported, including JSON-based document formats for all analysis and results.
+
 
 * **Easy Organization**: Functions are placed in separate cells for better navigation.
 
@@ -88,11 +91,11 @@ Boost enables your DevOps, tooling, or developer clients to automate and process
 
 NOTE: Even if your GitHub email account is marked _Private_, you can still use it to link your license to your email address.
 
-Polyverse Boost does not share your email with any 3rd party. Your email is
+Polyverse Boost does not share your email with any 3rd party.
 
- only used to link your email to your billing account.
+ Your email is only used to link your email to your billing account.
 
-**Trial License and Usage Billing** - Polyverse Boost is a paid subscription service.
+** Trial License and Usage Billing ** - Polyverse Boost is a paid subscription service.
 
 Your Auto-generated Polyverse Trial license is valid for a limited amount of trial usage.
 
@@ -118,8 +121,8 @@ Billing and Usage rates are available on your Polyverse Boost account page - acc
 
    ![Select Your Processing Task](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-26_at_5.52.28_PM.jpg?width=500)
   
-  * **Analyze Code for Bugs, Defects, and Security Vulnerabilities** select `Analyze code for security vulnerabilities`
-  * **Check Code for Data, Privacy, and Personal Info Compliance** select `Check compliance`
+  * **Analyze Code for Bugs, Defects and Security Vulnerabilities** select `Analyze code for security vulnerabilities`
+  * **Check Code for Data, Privacy and Personal Info Compliance** select `Check compliance`
   * **Generate Code Flow Diagrams with Color Highlights from Source** select `Generate Flow Diagrams`
   * **Evaluate source code for best practices and guidelines** select `Evaluate Code Guidelines`
   * **Modernize Code to a newer language** select `Convert Legacy Code to New Code`
@@ -130,12 +133,11 @@ Billing and Usage rates are available on your Polyverse Boost account page - acc
 
    ![Available Processing Tasks](https://polyverse.com/cdn/shop/files/Screenshot_2023-04-19_at_3.26.47_PM.jpg?width=500)
 
-
 6. _NOTE: For Code Conversion only_ **Choose Your New Programming Language**: select `Boost: Select Output Language` and choose from supported languages, including Python, Java, C\#, C++, TypeScript, and JavaScript.
 
-    ![Select Your Output Language](https://cdn.shopify.com/s/files/1/
+    ![Select Your Output Language](https://cdn.shopify.com/s/files/1
 
-0581/9940/8779/files/Screenshot_2023-03-28_at_9.41.57_PM.jpg?width=500)
+/0581/9940/8779/files/Screenshot_2023-03-28_at_9.41.57_PM.jpg?width=500)
 
 
 7. **Run the AI-enabled Analysis and Processing**: For full file analysis across all Cells, click the Boost button `run-all`. Or select a single Boost Notebook cell and click the Boost button `run`.
@@ -162,7 +164,7 @@ Billing and Usage rates are available on your Polyverse Boost account page - acc
 * `Boost: Load File`: Load existing source files for conversion.
 * `Boost: Select Kernel`: Choose an AI-enabled analysis and modernizing task, such as code conversion, documentation generation,
      test generation, data compliance, or security vulnerability analysis.
-* `Boost: Select Output Language`: Choose a new programming language for modernizing your existing code NOTE: Only required for "Convert Legacy Code to New Code".
+* `Boost: Select Output Language`: Choose a new programming language for modernizing your existing code. NOTE: Only required for "Convert Legacy Code to New Code".
 
 ## Extension Settings
 
@@ -176,31 +178,55 @@ Configure Polyverse Boost extension settings in the Visual Studio settings, unde
 
 ### FAQ: Common Questions and Issues
 
- * Q: What languages are supported for code conversion?
- * A: Most modern programming languages are supported, including: Python, Rust, Ruby, Golang, Swift, Visual Basic, Java, C\#, C++, HTML/XML, TypeScript, and JavaScript.
+**Q: What languages are supported for code conversion?**
+A: Most modern programming languages are supported, including: Python, Rust, Ruby, Golang, Swift, Visual Basic, Java, C\#, C++, HTML/XML, TypeScript, and JavaScript.
 
- * Q: I don't have a [GitHub.com](https://GitHub.com) account. Can I still use the Boost extension?
- * A: You must have your email address registered with a valid [GitHub.com](https://GitHub.com) account. You do not need to store any source code on GitHub.com, but you do need to have a valid verified email so we can confirm your license key at runtime
+**Q: I don't have a [GitHub.com](https://GitHub.com) account. Can I still use the Boost extension?**
+A: You must have your email address registered with a valid [GitHub.com](https://GitHub.com) account. You do not need to store any source code on GitHub.com, but you do need to have a valid verified email so we can confirm your license key
 
-.
+ at runtime.
 
- * Q: My source code is proprietary to me or my company, that I do not want to store on other servers. Can I still use the Boost extension?
- * A: Yes. The Boost extension does not require you to store any source code on GitHub.com. Also, Polyverse does NOT store or retain any of your source code during analysis. Your source code is only stored on your local system running Visual Studio Code.
+**Q: My source code is proprietary to me or my company, and I do not want to store it on other servers. Can I still use the Boost extension?**
+A: Yes. The Boost extension does not require you to store any source code on GitHub.com. Also, Polyverse does NOT store or retain any of your source code during analysis. Your source code is only stored on your local system running Visual Studio Code.
 
- * Q: Will the converted code automatically build and run?
- * A: No. The converted code is provided as a starting point for you to review and integrate into your project. You will need to review the converted code, make any necessary changes to ensure it builds and runs correctly, and integrate it into your build or CI/CD system.
+**Q: Will the converted code automatically build and run?**
+A: No. The converted code is provided as a starting point for you to review and integrate into your project. You will need to review the converted code, make any necessary changes to ensure it builds and runs correctly, and integrate it into your build or CI/CD system.
 
- * Q: The generated documentation is in Notebook cells. How do I export to a single file or PDF?
- * A: You can use the `File > Export As...` menu to export the Notebook as a single HTML file or as a PDF.
+**Q: The generated documentation is in Notebook cells. How do I export it to a single file or PDF?**
+A: You can use the `File > Export As...` menu to export the Notebook as a single HTML file or as a PDF.
 
- * Q: My source project is very large? How much source code can the Boost process?
- * A: The Boost extension can process large source code files. It is optimized specifically to break your source file into individual function Cells for analysis, review, and editing. This allows each function to be independently analyzed in real-time. As each Cell and function analysis is completed, you can review specific Cells.
+**Q: My source project is very large. How much source code can Boost process?**
+A: The Boost extension can process large source code files. It is optimized specifically to break your source file into individual function Cells for analysis, review, and editing. This allows each function to be independently analyzed in real-time. As each Cell and function analysis is completed, you can review specific Cells.
 
- * Q: I ran analysis and processing on a source file, but some Cells did not complete processing. What's wrong?
- * A: An analysis timeout may have occurred for some functions or Cells. You can re-run the analysis on the Cells that did not complete processing without re-running the full file analysis.
+**Q: I ran analysis and processing on a source file, but some Cells did not complete processing. What's wrong?**
+A: An analysis timeout may have occurred for some functions or Cells. You can re-run the analysis on the Cells that did not complete processing without re-running the full file analysis.
 
- * Q: I have another issue that was not addressed here. How can I get Support?
- * A: If you encounter any other issues or have questions, please refer to the [Polyverse Boost](https://polyverse.com/pages/boost-visual-studio) website for more information and support options.
+**Q: How can I update my Polyverse Boost trial license to a paid subscription?**
+A: To update your Polyverse Boost trial license, you need to go to your Polyverse Boost account page and follow the instructions provided to update your billing information with a credit card. Your Account page is accessible via the Boost Status bar at the bottom of your Visual Studio Code screen. Once your billing information is updated, you can continue using Boost beyond the trial period. The status bar will show yellow for a trial license, green for a paid subscription - or red for an error or expired trial license.
+
+**Q: Can I customize the output language when converting legacy code with Boost?**
+A: Yes, you can choose the output language when converting legacy code with Boost. After selecting the code conversion task, use the `Boost: Select Output Language` command to choose from the supported languages, including Python, Java, C\#, C++, TypeScript, and JavaScript.
+
+**Q: Is Boost compatible with large codebases or projects?**
+A: Yes, Boost is designed to handle large codebases and projects. It supports parallel processing of source files, and functions - including "Batch Mode" that can process entire folders and projects of source code. Additionally, it optimizes the analysis process by breaking down the source files into individual function cells, allowing for independent analysis, review, and editing of specific code functions.
+
+**Q: Can Boost be integrated with my existing CI/CD pipeline or automated build process?**
+A: Absolutely! Boost provides API support for automation integration. All Boost features can be accessed via the Command API, allowing you to automate and process source code with Boost's capabilities. You can perform synchronous and asynchronous operations, and JSON-based document formats are available for analysis and results.
+
+**Q: What kind of security vulnerabilities does Boost analyze and detect?**
+A: Boost analyzes your code for a wide range of security vulnerabilities, critical defects, and potential bugs. It can detect issues like buffer overflows, SQL injection, and more. When vulnerabilities are identified, Boost provides recommended fixes or advice on how to mitigate the risks.
+
+**Q: Can Boost generate documentation for my project?**
+A: Yes, Boost offers documentation generation capabilities. It can generate edit-able documentation artifacts, including your source code, educational materials, security and data compliance analysis, architectural principles, and integrated architectural flow diagrams. You can use the generated PDFs or Markdown files to build comprehensive and searchable documentation for your team or customers.
+
+**Q: Is Boost compatible with different operating systems?**
+A: Yes, Polyverse Boost is compatible with different operating systems, including Windows, macOS, and Linux. It can be installed and used with Visual Studio Code on these platforms.
+
+**Q: How does Boost handle data and privacy compliance issues?**
+A: Boost checks your code for data, privacy, and compliance issues. It can detect problems such as unencrypted private or personal data and mishandling of credit card information. Where solutions are available, Boost provides recommended fixes or advice on how to address compliance risks.
+
+**Q: I have another issue that was not addressed here. How can I get Support?**
+A: If you encounter any other issues or have questions, please refer to the [Polyverse Boost](https://polyverse.com/pages/boost-visual-studio) website for more information and support options.
 
 *Happy coding!*
 
