@@ -24,6 +24,7 @@ import * as boostnb from './jupyter_notebook';
 import { registerCustomerPortalCommand, setupBoostStatus } from './portal';
 import { generatePDFforNotebook } from './convert_pdf';
 import { generateMarkdownforNotebook } from './convert_markdown';
+import { BoostDashboardProvider } from './dash_view';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 export const NOTEBOOK_EXTENSION = ".boost-notebook";
@@ -77,6 +78,8 @@ export class BoostExtension {
         if (BoostConfiguration.enableDevOnlyKernels) {
             this.registerAnalyzeProject(context);
         }
+
+        this.setupDashboard(context);
 
         boostLogging.log('Activated Boost Notebook Extension');
         boostLogging.info('Polyverse Boost is now active');
@@ -323,6 +326,17 @@ export class BoostExtension {
         }
     }
 
+    setupDashboard(context: vscode.ExtensionContext) {
+        const provider = new BoostDashboardProvider(context.extensionUri);
+
+        context.subscriptions.push(
+            vscode.window.registerWebviewViewProvider(BoostDashboardProvider.viewType, provider));
+    
+        context.subscriptions.push(
+            vscode.commands.registerCommand('polyverseBoost.refresh', () => {
+                provider.refresh();
+            }));
+    }
 
     registerCreateNotebookCommand(
         context: vscode.ExtensionContext,
@@ -657,6 +671,10 @@ export class BoostExtension {
                 boostLogging.warn(`Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
                 throw error;
             });
+
+            
+
+
         } catch (error) {
             throw new Error(`Unable to Process ${kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
         }

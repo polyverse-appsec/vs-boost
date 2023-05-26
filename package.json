@@ -27,6 +27,25 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "polyverse-boost-explorer",
+          "title": "Polyverse Boost",
+          "icon": "resources/polyverse_vs_boost_logo.jpg"
+        }
+      ]
+    },
+    "views": {
+      "polyverse-boost-explorer": [
+        {
+          "type": "webview",
+          "id": "polyverse-boost-dash-view",
+          "name": "Polyverse Boost Dashboard",
+          "icon": "resources/polyverse_vs_boost_logo.jpg"
+        }
+      ]
+    },
     "configuration": {
       "title": "Polyverse Boost",
       "properties": {

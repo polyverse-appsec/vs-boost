@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Polyverse Boost Dashboard</title>
+	<style>
+		.progressBar {
+			width: 100%;
+			background-color: #f3f3f3;
+			border-radius: 13px;
+			padding: 3px;
+			margin-bottom: 10px;
+		}
+		.progressBar div {
+			height: 20px;
+			width: 50%; /* Modify this to reflect your progress */
+			background-color: #4caf50;
+			border-radius: 10px;
+		}
+		.status {
+			height: 20px;
+			width: 20px;
+			border-radius: 50%;
+			display: inline-block;
+			margin-right: 5px;
+		}
+	</style>
+</head>
+<body>
+	<h1>Polyverse Boost Dashboard</h1>
+
+	<div class="progressBar">
+		<div></div>
+	</div>
+
+	<h2>Statuses</h2>
+
+	<p>
+		<span class="status" style="background-color: red;"></span> Documentation
+	</p>
+	<p>
+		<span class="status" style="background-color: yellow;"></span> Security Analysis
+	</p>
+	<p>
+		<span class="status" style="background-color: green;"></span> Compliance Analysis
+	</p>
+	<p>
+		<span class="status" style="background-color: red;"></span> Architectural Blueprint
+	</p>
+
+	<button onclick="sendMessage()">Refresh</button>
+
+	<script>
+		const vscode = acquireVsCodeApi();
+
+		function sendMessage() {
+			vscode.postMessage({ type: 'refresh' });
+		}
+	</script>
+</body>
+</html>
