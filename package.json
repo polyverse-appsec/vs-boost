@@ -32,7 +32,7 @@
         {
           "id": "polyverse-boost-explorer",
           "title": "Polyverse Boost",
-          "icon": "resources/polyverse_vs_boost_logo.jpg"
+          "icon": "resources/boost_icon_plain.svg"
         }
       ]
     },
@@ -42,7 +42,7 @@
           "type": "webview",
           "id": "polyverse-boost-dash-view",
           "name": "Polyverse Boost Dashboard",
-          "icon": "resources/polyverse_vs_boost_logo.jpg"
+          "icon": "resources/boost_icon_plain.svg"
         }
       ]
     },
