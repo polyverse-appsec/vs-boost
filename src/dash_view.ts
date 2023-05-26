@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as _ from 'lodash';
 
 
 export class BoostDashboardProvider implements vscode.WebviewViewProvider {
@@ -49,9 +50,16 @@ export class BoostDashboardProvider implements vscode.WebviewViewProvider {
 		}
 	}
 
-	private _getHtmlForWebview(webview: vscode.Webview) {
-		const htmlPathOnDisk = vscode.Uri.joinPath(this._extensionUri, 'resources', 'dashboard.html');
-		const htmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
-		return htmlContent;
-	}
+    private _getHtmlForWebview(webview: vscode.Webview) {
+        const htmlPathOnDisk = vscode.Uri.joinPath(this._extensionUri, 'resources', 'dashboard.html');
+        const jsPathOnDisk = vscode.Uri.joinPath(this._extensionUri, 'resources', 'dashboard.js');
+        const jsSrc = webview.asWebviewUri(jsPathOnDisk);
+    
+        const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
+    
+        const template = _.template(rawHtmlContent);
+        const htmlContent = template({ jsSrc });
+    
+        return htmlContent;
+    }
 }

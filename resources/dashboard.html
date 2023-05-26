@@ -50,13 +50,16 @@
 	</p>
 
 	<button onclick="sendMessage()">Refresh</button>
-
+    <vscode-button>Hello</vscode-button>
+    <script src="<%= jsSrc %>" type="module"> </script>
 	<script>
+        
 		const vscode = acquireVsCodeApi();
 
 		function sendMessage() {
 			vscode.postMessage({ type: 'refresh' });
 		}
 	</script>
+
 </body>
 </html>
