@@ -45,7 +45,7 @@ export class BoostExplainKernel extends KernelControllerBase {
         if (response.explanation === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return `### Boost Code Explanation\n\nLast Updated: ${this.currentDateTime}\n\n${response.explanation}`;
+        return `\n\n---\n\n### Boost Code Explanation\n\nLast Updated: ${this.currentDateTime}\n\n${response.explanation}`;
     }
 
     localizeError(error: Error): Error {
