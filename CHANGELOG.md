@@ -6,7 +6,8 @@ Polyverse Boost Automatic Application Modernization
 ## Version 0.9.8: May 25, 2023
 
 ### New Features
-- N/A
+- Add support for CoffeeScript code files
+- Add support for XSLT code files
 
 ### Enhancements
 - N/A

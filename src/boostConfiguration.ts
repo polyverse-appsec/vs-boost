@@ -78,11 +78,6 @@ export class BoostConfiguration {
             Defaults.enableDevOnlyKernelsValue;
     }
 
-    public static get enableKernelPicker(): boolean {
-        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.enableKernelPickerName) as boolean)??
-            Defaults.enableKernelPickerValue;
-    }
-
     public static get currentKernelCommand(): string {
         let command = workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.currentKernelCommandName) as any;
         if (command) {
@@ -104,6 +99,26 @@ export class BoostConfiguration {
     public static set logLevel(value: string) {
         workspace.getConfiguration(NOTEBOOK_TYPE, null)
             .update(Defaults.logLevelName, value, ConfigurationTarget.Global);
+    }
+
+    public static get analysisTemperature(): string {
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.analysisTemperatureName) as string)??
+            Defaults.analysisTemperatureValue;
+    }
+
+    public static get analysisRankedProbability(): string {
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.analysisRankedProbabilityName) as string)??
+            Defaults.analysisRankedProbabilityValue;
+    }
+
+    public static analysisTemperatureByKernel(kernel: string): string {
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(kernel + "." + Defaults.analysisTemperatureName) as string)??
+            Defaults.analysisTemperatureValue;
+    }
+
+    public static analysisRankedProbabilityByKernel(kernel: string): string {
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(kernel + "." + Defaults.analysisRankedProbabilityName) as string)??
+            Defaults.analysisRankedProbabilityValue;
     }
 
     static _cachedVersion: string = "";
@@ -158,12 +173,15 @@ class Defaults {
     public static readonly enableDevOnlyKernelsName : string = "enableDevOnlyKernels";
     public static readonly enableDevOnlyKernelsValue : boolean = false;
 
-    public static readonly enableKernelPickerName : string = "enableKernelPicker";
-    public static readonly enableKernelPickerValue : boolean = false;
-
     public static readonly currentKernelCommandName : string = "currentKernelCommand";
     public static readonly currentKernelCommandValue : string = "";
 
     public static readonly logLevelName : string = "logLevel";
     public static readonly logLevelValue : string = "info";
+
+    public static readonly analysisTemperatureName : string = "analysisTemperature";
+    public static readonly analysisTemperatureValue : string = "";
+
+    public static readonly analysisRankedProbabilityName : string = "analysisRankedProbability";
+    public static readonly analysisRankedProbabilityValue : string = "";
 }

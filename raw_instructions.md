@@ -1,26 +1,20 @@
 # Polyverse Boost Visual Studio Extension
 =======================================
 
-**Transform, secure, and enhance your code with AI-driven analysis, all in one powerful extension - *Polyverse Boost*.**
+**Transform, secure, and enhance your code with AI-driven analysis, all in one powerful extension - Polyverse Boost.**
 
-Welcome to the Polyverse Boost Visual Studio extension! Boost is a powerful Visual Studio Code Notebook extension designed to help you modernize, enhance and sustain your software architecture and codebase - preserving the innovations you've invested in, and providing access to the latest technology (e.g. modern programming languages, Cloud services, containerization, microservice principles, and zero-trust code). Boost provides these services by analyzing your entire product codebase, including raw source code, comments and code documentation - and producing easily consumable Architectural Blueprints. Guided by your core Architecture, Boost will help you automatically convert your legacy code into a new programming language, analyze code for security vulnerabilities, find data and privacy compliance issues, ensure your source follows best practice coding guidelines, generate test cases for code using AI-driven tools. Operating on a stronger, more modern foundation - you can then add new features and solve your customer problems with confidence and faster innovation. Boost your Architecture and Productivity with Polyverse Boost and AI!
+Welcome to the Polyverse Boost Visual Studio extension! Boost is a powerful Visual Studio Code Notebook extension designed to help you modernize, enhance, and maintain your software architecture and codebase. It preserves the innovations you've invested in and provides access to the latest technology, such as modern programming languages, Cloud services, containerization, microservice principles, and zero-trust code. Boost analyzes your entire product codebase, including raw source code, comments, and code documentation, and produces easily consumable Architectural Blueprints. Guided by your core Architecture, Boost helps you automatically convert your legacy code into a new programming language, analyze code for security vulnerabilities, find data and privacy compliance issues, ensure your source follows best practice coding guidelines, and generate test cases using AI-driven tools. By operating on a stronger, more modern foundation, you can add new features, solve customer problems with confidence, and innovate faster. Boost your Architecture and Productivity with Polyverse Boost and AI!
 
 ## Quick Start
 
 ### Prerequisites
-**Setup a [GitHub.com](https://GitHub.com) account** - to link your auto-generated Polyverse Trial license to your email address.
-NOTE: Even if your GitHub email account is marked _Private_, you can still use it to link your license to your email address.
-Polyverse Boost does not share your email with any 3rd party. Your email is only used to link your email to your billing account.
-
-**Trial License and Usage Billing** - Polyverse Boost is a paid subscription service.
-Your Auto-generated Polyverse Trial license is valid for a limited amount of trial usage.
-Once your trial license expires, you will need to update your Polyverse Boost account with a credit card to continue using Boost.
-Billing and Usage rates are available on your Polyverse Boost account page - accessible via the Extension Status bar.
+- **Set up a [GitHub.com](https://GitHub.com) account**: To link your auto-generated Polyverse Trial license to your email address. Note: Even if your GitHub email account is marked as private, you can still use it to link your license to your email address. Polyverse Boost does not share your email with any third party. Your email is only used to link your email to your billing account.
+- **Trial License and Usage Billing**: Polyverse Boost is a paid subscription service. Your Auto-generated Polyverse Trial license is valid for a limited amount of trial usage. Once your trial license expires, you will need to update your Polyverse Boost account with a credit card to continue using Boost. Billing and Usage rates are available on your Polyverse Boost account page, accessible via the Extension Status bar.
 
 ### Installation
-1. **Install the Boost Modernization extension** from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Polyverse.polyverse-boost). NOTE: A restart of Visual Studio Code may be required.
+1. **Install the Boost Modernization extension** from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Polyverse.polyverse-boost). Note: A restart of Visual Studio Code may be required.
 
-2. **Authorize and Link Your GitHub.com account with Boost** The first time you launch Boost, you may need to Allow and Authorize Boost to access GitHub.com. This is only required to link your license to your email address. If you have not already done so, you will need to create a GitHub.com account.
+2. **Authorize and Link Your GitHub.com account with Boost**: The first time you launch Boost, you may need to allow and authorize Boost to access GitHub.com. This is only required to link your license to your email address. If you have not already done so, you will need to create a GitHub.com account.
 
    ![GitHub.com account access authorization](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_10.03.32_PM.jpg?width=500)
 
@@ -30,43 +24,45 @@ Billing and Usage rates are available on your Polyverse Boost account page - acc
 
 4. **Load your Source Code**: Use the `Boost: Load File` command to parse your source code into Boost Notebook cells so you can review and edit.
 
-5. **Select Your Modernization Process**: Use the `Boost: Select Kernel` command to choose from available AI-enhanced processing:
+5. **Select Your Modernization Process**: Use the `Boost: Select Kernel` command to choose from available AI-enhanced processing options:
 
    ![Select Your Processing Task](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-26_at_5.52.28_PM.jpg?width=500)
+
+
   
-   * **Analyze Code for Bugs, Defects and Security Vulnerabilities** select `Analyze code for security vulnerabilities`
-   * **Check Code for Data, Privacy and Personal Info Compliance** select `Check compliance`
-   * **Generate Code Flow Diagrams with Color Highlights from Source** select `Generate Flow Diagrams`
-   * **Evaluate source code for best practices and guidelines** select `Evaluate Code Guidelines`
-   * **Modernize Code to a newer language** select `Convert Legacy Code to New Code`
-   * **Generate Test Cases** select `Generate Test Cases for code`
-   * **Generate Documentation** select `Generate PDF` and `Generate Markdown`
-   * **Batch Mode Processing** select `Batch Mode` Processing of Folder or Project
-   * **Generation Code Explanation** select `Explain code`
+   * **Analyze Code for Bugs, Defects, and Security Vulnerabilities**: Select `Analyze code for security vulnerabilities`.
+   * **Check Code for Data, Privacy, and Personal Info Compliance**: Select `Check compliance`.
+   * **Generate Code Flow Diagrams with Color Highlights from Source**: Select `Generate Flow Diagrams`.
+   * **Evaluate Source Code for Best Practices and Guidelines**: Select `Evaluate Code Guidelines`.
+   * **Modernize Code to a Newer Language**: Select `Convert Legacy Code to New Code`.
+   * **Generate Test Cases**: Select `Generate Test Cases for code`.
+   * **Generate Documentation**: Select `Generate PDF` and `Generate Markdown`.
+   * **Batch Mode Processing**: Select `Batch Mode` Processing of Folder or Project.
+   * **Generate Code Explanation**: Select `Explain code`.
 
-   ![Available Processing Tasks](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_10.26.59_PM.jpg?width=500)
+   ![Available Processing Tasks](https://polyverse.com/cdn/shop/files/Screenshot_2023-04-19_at_3.26.47_PM.jpg?width=500)
 
 
-6. _NOTE: For Code Conversion only_ **Choose Your New Programming Language**: select `Boost: Select Output Language` and choose from supported languages, including Python, Java, C\#, C++, TypeScript, and JavaScript.
+6. _NOTE: For Code Conversion only_ **Choose Your New Programming Language**: Select `Boost: Select Output Language` and choose from supported languages, including Python, Java, C#, C++, TypeScript, and JavaScript.
 
     ![Select Your Output Language](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_9.41.57_PM.jpg?width=500)
 
 
 7. **Run the AI-enabled Analysis and Processing**: For full file analysis across all Cells, click the Boost button `run-all`. Or select a single Boost Notebook cell and click the Boost button `run`.
 
-    ![Analyze a single cell](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_1.45.43_PM.jpg?width=500)
+    ![Analyze a single cell](https://polyverse.com/cdn/shop/files/Screenshot_2023-04-19_at_4.54.02_PM.jpg?width=500)
 
 
 8. **Review the Results**: Each Boost Notebook cell will contain the results of the AI-enhanced processing.
-  * **For Architectural Blueprints**, you can analyze all aspects of your code and project to product a high-level Architectural Blueprint.
-  * **For Defect and Security Analysis**, you can edit the code in each Cell and re-run the analysis to see the results.
-  * **For Data Compliance**, you can review the data compliance issues in each Cell, and learn more about how your code uses data.
-  * **For Coding Guidelines**, you can review the analysis in each Cell to see how your code follows best practices, or differs from standard coding guidelines.
-  * **For Code Conversion**, you can review the new code in each Cell for integration into your new modernized project.
-  * **For Documentatio and Flow Diagramsn**, you can read the documentation to better understand legacy code, review for architectural or potential redesign, and to better understand how the original code actually worked.
-  * **For Test Generation**, you can review the test cases and integrate them into your automated test harness or CI/CD/CT system.
+  * **For Architectural Blueprints**: You can analyze all aspects of your code and project to produce a high-level Architectural Blueprint.
+  * **For Defect and Security Analysis**: You can edit the code in each Cell and re-run the analysis to see the results.
+  * **For Data Compliance**: You can review the data compliance issues in each Cell and learn more about how your code uses data.
+  * **For Coding Guidelines**: You can review the analysis in each Cell to see how your code follows best practices or differs from standard coding guidelines.
+  * **For Code Conversion**: You can review the new code in each Cell for integration into your new modernized project.
+  * **For Documentation and Flow Diagrams**: You can read the documentation to better understand legacy code, review for architectural or potential redesign, and better understand how the original code actually worked.
+  * **For Test Generation**: You can review the test cases and integrate them into your automated test harness or CI/CD/CT system.
 
-9. **Batch Mode Processing**: For Batch Mode processing, you can select a folder or project and Boost will process all files in the folder or project. You can also select a single file and Boost will process that file. Right Click any folder or source file to launch "Batch Processing" on the target. Or alternatively for project-wide analysis, launch the command from the "Command Menu"
+9. **Batch Mode Processing**: For Batch Mode processing, you can select a folder or project, and Boost will process all files in the folder or project. You can also select a single file, and Boost will process that file. Right-click any folder or source file to launch "Batch Processing" on the target. Alternatively, for project-wide analysis, launch the command from the "Command Menu".
 
 If you encounter any other issues or have questions, please refer to the [Polyverse Boost](https://polyverse.com/pages/boost-visual-studio) website for more information and support options.
 
