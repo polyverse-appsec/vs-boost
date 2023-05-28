@@ -52,13 +52,13 @@ export class BoostDashboardProvider implements vscode.WebviewViewProvider {
 
     private _getHtmlForWebview(webview: vscode.Webview) {
         const htmlPathOnDisk = vscode.Uri.joinPath(this._extensionUri, 'resources', 'dashboard.html');
-        const jsPathOnDisk = vscode.Uri.joinPath(this._extensionUri, 'resources', 'dashboard.js');
+		const jsPathOnDisk = vscode.Uri.joinPath(this._extensionUri, 'out', 'dashboard', 'main.js');
         const jsSrc = webview.asWebviewUri(jsPathOnDisk);
-    
+		const nonce = 'nonce-123456'; // TODO: add a real nonce here
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
     
         const template = _.template(rawHtmlContent);
-        const htmlContent = template({ jsSrc });
+        const htmlContent = template({ jsSrc, nonce });
     
         return htmlContent;
     }

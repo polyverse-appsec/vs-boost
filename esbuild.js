@@ -24,12 +24,12 @@ const extensionConfig = {
 
 // Config for webview source code (to be run in a web-based context)
 /** @type BuildOptions */
-const webviewConfig = {
+const dashboardConfig = {
   ...baseConfig,
   target: "es2020",
   format: "esm",
-  entryPoints: ["./src/webview/main.ts"],
-  outfile: "./out/webview.js",
+  entryPoints: ["./src/dashboard/main.ts"],
+  outfile: "./out/dashboard/main.js",
 };
 
 // This watch config adheres to the conventions of the esbuild-problem-matchers
@@ -64,14 +64,14 @@ const watchConfig = {
         ...watchConfig,
       });
       await build({
-        ...webviewConfig,
+        ...dashboardConfig,
         ...watchConfig,
       });
       console.log("[watch] build finished");
     } else {
       // Build extension and webview code
       await build(extensionConfig);
-      await build(webviewConfig);
+      await build(dashboardConfig);
       console.log("build complete");
     }
   } catch (err) {
