@@ -3,14 +3,14 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 0.9.8: May 25, 2023
+## Version 0.9.8: May 26, 2023
 
 ### New Features
 - Add support for CoffeeScript code files
 - Add support for XSLT code files
 
 ### Enhancements
-- N/A
+- Added a dividing horizontal line between analysis results in the Notebook Cell Outputs (visual UI, Markdown, and PDF)
 
 ### Bug Fixes
 - N/A

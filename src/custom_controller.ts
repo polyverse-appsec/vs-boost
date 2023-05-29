@@ -59,7 +59,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
         if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return `### Boost Code Custom Process\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
+        return `\n\n---\n\n### Boost Code Custom Process\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
     }
 
     localizeError(error: Error): Error {

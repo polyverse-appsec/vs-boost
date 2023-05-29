@@ -46,7 +46,7 @@ export class BoostComplianceKernel extends KernelControllerBase {
         if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return `### Boost Summary\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
+        return `\n\n---\n\n### Boost Summary\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
     }
 
     localizeError(error: Error): Error {
