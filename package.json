@@ -44,7 +44,6 @@
           "id": "polyverse-boost-start-view",
           "name": "Start",
           "icon": "resources/boost_icon_plain.svg"
-
         },
         {
           "type": "webview",
@@ -278,6 +277,7 @@
     "@types/node": "16.x",
     "@types/sinon": "10.0.13",
     "@types/vscode": "^1.77.0",
+    "@types/vscode-webview": "^1.57.1",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
     "@vscode/test-electron": "^2.3.0",

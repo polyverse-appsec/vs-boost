@@ -3,50 +3,19 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Polyverse Boost Dashboard</title>
-	<style>
-        .right-aligned {
-            display: flex;
-            justify-content: flex-end;
-        }
-		.boost-completed {
-			--badge-background: lightgreen;
-		}
-
-		.boost-processing{
-			--badge-background: lightblue;
-		}
-
-		.boost-incomplete {
-			--badge-background: lightyellow;
-		}
-
-		.boost-not-started {
-			--badge-background: pink;
-		}
-	</style>
+	<title>Polyverse Boost Start Panel</title>
 </head>
 <body>
-	<h1>Status Summary</h1>
-	<vscode-data-grid aria-label="Summary">
-		<% _.forEach(boostdata.summary, function(analysisObj) { %>
-			<vscode-data-grid-row >
-				<vscode-data-grid-cell grid-column="1"><vscode-checkbox checked><%= analysisObj.analysis %></vscode-checkbox></vscode-data-grid-cell>
-				<vscode-data-grid-cell grid-column="2"><vscode-badge class=<%= 'boost-' + analysisObj.status %>><%= analysisObj.completed + '/' + (analysisObj.total) %></vscode-badge></vscode-data-grid-cell>
-			</vscode-data-grid-row>
-		  <% }); %>
-	</vscode-data-grid>
-
-    <vscode-button>Update Boost Analysis</vscode-button>
+	<p>Welcome to Polyverse Boost!</p>
+	<p>Boost will automatically document the <%= boostdata.summary.filesToAnalyze %> files in your project and analyze them for security and compliance issues.</p>
+	<p>The <vscode-link href="<%= boostdata.summary.blueprintUrl %>"> blueprint file </vscode-link>contains all of the high level information on your project to better inform the analysis and documenation. It will be automatically generated, but you can edit it as needed.</p>
+	<p>Boost can even modernize legacy code and generate test cases.</p>
+	<p>Click below to get started!</p>
+	<div align="center">
+    	<vscode-button align="center" id="analyze_all">Analyze Project</vscode-button>
+	</div>
+	<p>&nbsp</p>
     <script src="<%= jsSrc %>" type="module"> </script>
-	<script>
-        
-		const vscode = acquireVsCodeApi();
-
-		function sendMessage() {
-			vscode.postMessage({ type: 'refresh' });
-		}
-	</script>
 
 </body>
 </html>

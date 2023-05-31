@@ -88,6 +88,51 @@ export class BoostExtension {
         boostLogging.info('Polyverse Boost is now active');
     }
 
+    public getBoostData(): any {
+        let blueprintUri = undefined;
+
+        if( vscode.workspace && vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 0){
+            blueprintUri = vscode.Uri.joinPath(vscode.workspace.workspaceFolders[0].uri, ".boost", "blueprint.md");
+        } 
+        //eventually this needs to load from a file and set a watch, but for now, lets use stubbed data
+        const data = {
+            summary: {
+                blueprintUrl: blueprintUri?.toString(),
+                filesToAnalyze: 42
+            },
+            sectionSummary: [
+                {
+                    analysis: "Blueprint",
+                    status: "completed",
+                    completed: "3",
+                    total: "6",
+                },
+                {
+                    analysis: "Documentation",
+                    status: "incomplete",
+                    completed: "3",
+                    total: "6",
+                },
+                {
+                    analysis: "Security Scan",
+                    status: "processing",
+                    completed: "3",
+                    total: "6",
+                },
+                {
+                    analysis: "Compliance Scan",
+                    status: "not-started",
+                    completed: "3",
+                    total: "6",
+                }
+            ],
+            security: [
+                { severity: "Critical", count: "3" },
+            ]
+        };
+        return data;
+    }
+
     _setupDiagnosticProblems(context: vscode.ExtensionContext) : vscode.DiagnosticCollection
         {
 

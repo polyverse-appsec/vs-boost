@@ -23,37 +23,7 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
 	) {
 		this._view = webviewView;
 
-		const boostdata = {
-			summary: [
-				{
-					analysis: "Blueprint",
-					status: "completed",
-					completed: "3",
-					total: "6",
-				},
-				{
-					analysis: "Documentation",
-					status: "incomplete",
-					completed: "3",
-					total: "6",
-				},
-				{
-					analysis: "Security Scan",
-					status: "processing",
-					completed: "3",
-					total: "6",
-				},
-				{
-					analysis: "Compliance Scan",
-					status: "not-started",
-					completed: "3",
-					total: "6",
-				}
-			],
-			security: [
-				{ severity: "Critical", count: "3" },
-			]
-		};
+		const boostdata = this._boostExtension.getBoostData();
 
 		webviewView.webview.options = {
 			// Allow scripts in the webview
@@ -67,11 +37,11 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
 		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview, boostdata);
 
 		webviewView.webview.onDidReceiveMessage(data => {
-			switch (data.type) {
-				case 'refresh':
+			switch (data.command) {
+				case 'analyze_all':
 					{
-						vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${data.value}`));
-						break;
+						//just pop a dialog saying we got here for now
+						vscode.window.showInformationMessage('Analyze all clicked');
 					}
 			}
 		});
@@ -79,8 +49,8 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
 
 	public refresh() {
 		if (this._view) {
+			this._view.webview.html = this._getHtmlForWebview(this._view.webview, this._boostExtension.getBoostData());
 			this._view.show?.(true);
-			this._view.webview.postMessage({ type: 'refresh' });
 		}
 	}
 

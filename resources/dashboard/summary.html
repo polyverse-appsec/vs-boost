@@ -29,7 +29,7 @@
 <body>
 	<h1>Status Summary</h1>
 	<vscode-data-grid aria-label="Summary">
-		<% _.forEach(boostdata.summary, function(analysisObj) { %>
+		<% _.forEach(boostdata.sectionSummary, function(analysisObj) { %>
 			<vscode-data-grid-row >
 				<vscode-data-grid-cell grid-column="1"><vscode-checkbox checked><%= analysisObj.analysis %></vscode-checkbox></vscode-data-grid-cell>
 				<vscode-data-grid-cell grid-column="2"><vscode-badge class=<%= 'boost-' + analysisObj.status %>><%= analysisObj.completed + '/' + (analysisObj.total) %></vscode-badge></vscode-data-grid-cell>
