@@ -1,9 +1,14 @@
 import {
   provideVSCodeDesignSystem,
-  vsCodeButton
+  vsCodeBadge,
+  vsCodeButton,
+  vsCodeDataGrid,
+  vsCodeDataGridCell,
+  vsCodeDataGridRow,
+  vsCodeCheckbox
 } from "@vscode/webview-ui-toolkit";
 
-provideVSCodeDesignSystem().register(vsCodeButton());
+provideVSCodeDesignSystem().register(vsCodeButton(), vsCodeBadge(), vsCodeDataGrid(), vsCodeDataGridCell(), vsCodeDataGridRow(), vsCodeCheckbox());
 console.log('hello world XXYYZZ');
 console.log("hello world XXYYZZ again");
 //to get a recompile

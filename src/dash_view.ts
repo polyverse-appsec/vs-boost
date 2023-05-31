@@ -21,6 +21,38 @@ export class BoostDashboardProvider implements vscode.WebviewViewProvider {
 	) {
 		this._view = webviewView;
 
+		const boostdata = {
+			summary: [
+				{
+					analysis: "Blueprint",
+					status: "completed",
+					completed: "3",
+					total: "6",
+				},
+				{
+					analysis: "Documentation",
+					status: "incomplete",
+					completed: "3",
+					total: "6",
+				},
+				{
+					analysis: "Security Scan",
+					status: "processing",
+					completed: "3",
+					total: "6",
+				},
+				{
+					analysis: "Compliance Scan",
+					status: "not-started",
+					completed: "3",
+					total: "6",
+				}
+			],
+			security: [
+				{ severity: "Critical", count: "3" },
+			]
+		};
+
 		webviewView.webview.options = {
 			// Allow scripts in the webview
 			enableScripts: true,
@@ -30,7 +62,7 @@ export class BoostDashboardProvider implements vscode.WebviewViewProvider {
 			]
 		};
 
-		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
+		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview, boostdata);
 
 		webviewView.webview.onDidReceiveMessage(data => {
 			switch (data.type) {
@@ -50,7 +82,8 @@ export class BoostDashboardProvider implements vscode.WebviewViewProvider {
 		}
 	}
 
-    private _getHtmlForWebview(webview: vscode.Webview) {
+    private _getHtmlForWebview(webview: vscode.Webview, boostdata: any) {
+
         const htmlPathOnDisk = vscode.Uri.joinPath(this._extensionUri, 'resources', 'dashboard.html');
 		const jsPathOnDisk = vscode.Uri.joinPath(this._extensionUri, 'out', 'dashboard', 'main.js');
         const jsSrc = webview.asWebviewUri(jsPathOnDisk);
@@ -58,7 +91,7 @@ export class BoostDashboardProvider implements vscode.WebviewViewProvider {
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
     
         const template = _.template(rawHtmlContent);
-        const htmlContent = template({ jsSrc, nonce });
+        const htmlContent = template({ jsSrc, nonce, boostdata });
     
         return htmlContent;
     }
