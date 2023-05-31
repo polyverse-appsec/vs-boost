@@ -1,3 +1,4 @@
+// BUILD NOTICE: if you modify this file, you need to fully relaunch visual studio code for the changes to take effect
 const { build } = require("esbuild");
 
 //@ts-check
@@ -24,12 +25,32 @@ const extensionConfig = {
 
 // Config for webview source code (to be run in a web-based context)
 /** @type BuildOptions */
-const dashboardConfig = {
+const summaryConfig = {
   ...baseConfig,
   target: "es2020",
   format: "esm",
-  entryPoints: ["./src/dashboard/main.ts"],
-  outfile: "./out/dashboard/main.js",
+  entryPoints: ["./src/dashboard/summary/main.ts"],
+  outfile: "./out/dashboard/summary/main.js",
+};
+
+// Config for webview source code (to be run in a web-based context)
+/** @type BuildOptions */
+const chatConfig = {
+  ...baseConfig,
+  target: "es2020",
+  format: "esm",
+  entryPoints: ["./src/dashboard/chat/main.ts"],
+  outfile: "./out/dashboard/chat/main.js",
+};
+
+// Config for webview source code (to be run in a web-based context)
+/** @type BuildOptions */
+const startConfig = {
+  ...baseConfig,
+  target: "es2020",
+  format: "esm",
+  entryPoints: ["./src/dashboard/start/main.ts"],
+  outfile: "./out/dashboard/start/main.js",
 };
 
 // This watch config adheres to the conventions of the esbuild-problem-matchers
@@ -64,14 +85,25 @@ const watchConfig = {
         ...watchConfig,
       });
       await build({
-        ...dashboardConfig,
+        ...summaryConfig,
         ...watchConfig,
+      });
+      await build({
+        ...chatConfig,
+        ...watchConfig
+      });
+      await build({
+        ...startConfig,
+        ...watchConfig
       });
       console.log("[watch] build finished");
     } else {
       // Build extension and webview code
       await build(extensionConfig);
-      await build(dashboardConfig);
+      await build(summaryConfig);
+      await build(chatConfig);
+      await build(startConfig);
+      
       console.log("build complete");
     }
   } catch (err) {

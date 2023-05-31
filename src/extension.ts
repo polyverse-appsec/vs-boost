@@ -24,7 +24,10 @@ import * as boostnb from './jupyter_notebook';
 import { registerCustomerPortalCommand, setupBoostStatus } from './portal';
 import { generatePDFforNotebook } from './convert_pdf';
 import { generateMarkdownforNotebook } from './convert_markdown';
-import { BoostDashboardProvider } from './dash_view';
+import { BoostSummaryViewProvider } from './summary_view';
+import { BoostStartViewProvider } from './start_view';
+import { BoostChatViewProvider } from './chat_view';
+
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 export const NOTEBOOK_EXTENSION = ".boost-notebook";
@@ -327,15 +330,18 @@ export class BoostExtension {
     }
 
     setupDashboard(context: vscode.ExtensionContext) {
-        const provider = new BoostDashboardProvider(context.extensionUri);
+        const summary = new BoostSummaryViewProvider(context, this);
+        const chat = new BoostChatViewProvider(context, this);
+        const docview = new BoostStartViewProvider(context, this);
 
         context.subscriptions.push(
-            vscode.window.registerWebviewViewProvider(BoostDashboardProvider.viewType, provider));
-    
+            vscode.window.registerWebviewViewProvider(BoostSummaryViewProvider.viewType, summary));
+
         context.subscriptions.push(
-            vscode.commands.registerCommand('polyverseBoost.refresh', () => {
-                provider.refresh();
-            }));
+            vscode.window.registerWebviewViewProvider(BoostChatViewProvider.viewType, chat));
+
+        context.subscriptions.push(
+            vscode.window.registerWebviewViewProvider(BoostStartViewProvider.viewType, docview));
     }
 
     registerCreateNotebookCommand(

@@ -31,8 +31,9 @@
       "activitybar": [
         {
           "id": "polyverse-boost-explorer",
-          "title": "Polyverse Boost",
-          "icon": "resources/boost_icon_plain.svg"
+          "title": "Polyverse Boost Dashboard",
+          "icon": "resources/boost_icon_plain.svg",
+          "defaultViewSize": "200px"
         }
       ]
     },
@@ -40,8 +41,39 @@
       "polyverse-boost-explorer": [
         {
           "type": "webview",
-          "id": "polyverse-boost-dash-view",
-          "name": "Polyverse Boost Dashboard",
+          "id": "polyverse-boost-start-view",
+          "name": "Start",
+          "icon": "resources/boost_icon_plain.svg"
+
+        },
+        {
+          "type": "webview",
+          "id": "polyverse-boost-summary-view",
+          "name": "Analysis Summary",
+          "icon": "resources/boost_icon_plain.svg"
+        },
+        {
+          "type": "webview",
+          "id": "polyverse-boost-chat-view",
+          "name": "AI Chat",
+          "icon": "resources/boost_icon_plain.svg"
+        },
+        {
+          "type": "webview",
+          "id": "polyverse-boost-doc-view",
+          "name": "Documenation",
+          "icon": "resources/boost_icon_plain.svg"
+        },
+        {
+          "type": "webview",
+          "id": "polyverse-boost-security-view",
+          "name": "Security Scan",
+          "icon": "resources/boost_icon_plain.svg"
+        },
+        {
+          "type": "webview",
+          "id": "polyverse-boost-compliance-view",
+          "name": "Compliance Scan",
           "icon": "resources/boost_icon_plain.svg"
         }
       ]
