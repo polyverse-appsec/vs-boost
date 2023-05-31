@@ -27,6 +27,8 @@ import { generateMarkdownforNotebook } from './convert_markdown';
 import { BoostSummaryViewProvider } from './summary_view';
 import { BoostStartViewProvider } from './start_view';
 import { BoostChatViewProvider } from './chat_view';
+import { BoostTreeDataProvider } from './base_tree_view';
+
 
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
@@ -126,9 +128,60 @@ export class BoostExtension {
                     total: "6",
                 }
             ],
-            security: [
-                { severity: "Critical", count: "3" },
-            ]
+            securityAnalysis: 
+            [
+                {
+                  name: 'Security Topic 1',
+                  children: [
+                    { name: 'Security Subtopic 1.1' },
+                    { name: 'Security Subtopic 1.2' }
+                  ]
+                },
+                {
+                  name: 'Security Topic 2',
+                  children: [
+                    { name: 'Security Subtopic 2.1' },
+                    { name: 'Security Subtopic 2.2' },
+                    { name: 'Security Subtopic 2.3' }
+                  ]
+                }
+              ],
+            complianceAnalysis:
+            [
+                {
+                  name: 'Compliance Topic 1',
+                  children: [
+                    { name: 'Compliance Subtopic 1.1' },
+                    { name: 'Compliance Subtopic 1.2' }
+                  ]
+                },
+                {
+                  name: 'Compliance Topic 2',
+                  children: [
+                    { name: 'Compliance Subtopic 2.1' },
+                    { name: 'Compliance Subtopic 2.2' },
+                    { name: 'Compliance Subtopic 2.3' }
+                  ]
+                }
+              ],
+            docAnalysis:
+            [
+                {
+                  name: 'Topic 1',
+                  children: [
+                    { name: 'Subtopic 1.1' },
+                    { name: 'Subtopic 1.2' }
+                  ]
+                },
+                {
+                  name: 'Topic 2',
+                  children: [
+                    { name: 'Subtopic 2.1' },
+                    { name: 'Subtopic 2.2' },
+                    { name: 'Subtopic 2.3' }
+                  ]
+                }
+              ]   
         };
         return data;
     }
@@ -387,6 +440,16 @@ export class BoostExtension {
 
         context.subscriptions.push(
             vscode.window.registerWebviewViewProvider(BoostStartViewProvider.viewType, docview));
+
+        // Create data providers for each tree
+        const docDataProvider = new BoostTreeDataProvider(this, "docAnalysis");
+        const securityDataProvider = new BoostTreeDataProvider(this, "securityAnalysis");
+        const complianceDataProvider = new BoostTreeDataProvider(this, "complianceAnalysis");
+
+        // Register each TreeDataProvider with vscode
+        vscode.window.registerTreeDataProvider('polyverse-boost-doc-view', docDataProvider);
+        vscode.window.registerTreeDataProvider('polyverse-boost-security-view', securityDataProvider);
+        vscode.window.registerTreeDataProvider('polyverse-boost-compliance-view', complianceDataProvider);    
     }
 
     registerCreateNotebookCommand(

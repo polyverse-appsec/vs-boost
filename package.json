@@ -58,19 +58,19 @@
           "icon": "resources/boost_icon_plain.svg"
         },
         {
-          "type": "webview",
+          "type": "tree",
           "id": "polyverse-boost-doc-view",
-          "name": "Documenation",
+          "name": "Documentation",
           "icon": "resources/boost_icon_plain.svg"
         },
         {
-          "type": "webview",
+          "type": "tree",
           "id": "polyverse-boost-security-view",
           "name": "Security Scan",
           "icon": "resources/boost_icon_plain.svg"
         },
         {
-          "type": "webview",
+          "type": "tree",
           "id": "polyverse-boost-compliance-view",
           "name": "Compliance Scan",
           "icon": "resources/boost_icon_plain.svg"
