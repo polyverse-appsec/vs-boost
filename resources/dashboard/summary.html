@@ -27,7 +27,6 @@
 	</style>
 </head>
 <body>
-	<h1>Status Summary</h1>
 	<vscode-data-grid aria-label="Summary">
 		<% _.forEach(boostdata.sectionSummary, function(analysisObj) { %>
 			<vscode-data-grid-row >
@@ -37,16 +36,8 @@
 		  <% }); %>
 	</vscode-data-grid>
 
-    <vscode-button>Update Boost Analysis</vscode-button>
+    <vscode-button id="update_analysis">Update Boost Analysis</vscode-button>
     <script src="<%= jsSrc %>" type="module"> </script>
-	<script>
-        
-		const vscode = acquireVsCodeApi();
-
-		function sendMessage() {
-			vscode.postMessage({ type: 'refresh' });
-		}
-	</script>
 
 </body>
 </html>
