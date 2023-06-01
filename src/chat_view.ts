@@ -82,7 +82,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 
 	public refresh() {
 		if (this._view) {
-			this._view.webview.html = this._getHtmlForWebview(this._view.webview, this._boostExtension.getBoostData());
+			this._view.webview.html = this._getHtmlForWebview(this._view.webview, this._boostExtension.getBoostProjectData());
 			this._view.show?.(true);
 		}
 	}
