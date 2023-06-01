@@ -133,7 +133,7 @@ export class BoostExtension {
                 {
                   name: 'Security Topic 1',
                   children: [
-                    { name: 'Security Subtopic 1.1' },
+                    { name: 'Security Subtopic 1.1', },
                     { name: 'Security Subtopic 1.2' }
                   ]
                 },

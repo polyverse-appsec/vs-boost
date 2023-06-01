@@ -6,8 +6,8 @@
 	<title>Polyverse Boost AI Chat</title>
 </head>
 <body>
-	<div id="chat_history"></div>
-	<vscode-text-area autofocus>AI Chat. Your project context is automatically included.</vscode-text-area>
+	<div id="chat_history"><%= history %></div>
+	<vscode-text-area autofocus id="prompt" resize="vertical">AI Chat. Your project context is automatically included.</vscode-text-area>
 	<div>
 		<vscode-button id="send">Send</vscode-button>
 	</div>
