@@ -189,10 +189,55 @@ export class BoostExtension {
             });
 
         // TODO: Finish security analysis tracking
+        boostProjectData.securityAnalysis.push({
+            name: 'Security Topic 1',
+            children: [
+                { name: 'Security Subtopic 1.1' },
+                { name: 'Security Subtopic 1.2' }
+            ]
+        });
+        boostProjectData.securityAnalysis.push({
+            name: 'Security Topic 2',
+            children: [
+                { name: 'Security Subtopic 2.1' },
+                { name: 'Security Subtopic 2.2' },
+                { name: 'Security Subtopic 2.3' }
+            ]
+        });
 
         // TODO: Finish compliance tracking
+        boostProjectData.complianceAnalysis.push({
+            name: 'Compliance Topic 1',
+            children: [
+                { name: 'Compliance Subtopic 1.1' },
+                { name: 'Compliance Subtopic 1.2' }
+            ]
+        });
+        boostProjectData.complianceAnalysis.push({
+            name: 'Compliance Topic 2',
+            children: [
+                { name: 'Compliance Subtopic 2.1' },
+                { name: 'Compliance Subtopic 2.2' },
+                { name: 'Compliance Subtopic 2.3' }
+            ]
+        });
 
         // TODO: Finish doc tracking
+        boostProjectData.docAnalysis.push({
+            name: 'Topic 1',
+            children: [
+                { name: 'Subtopic 1.1' },
+                { name: 'Subtopic 1.2' }
+            ]
+        });
+        boostProjectData.docAnalysis.push({
+            name: 'Topic 2',
+            children: [
+                { name: 'Subtopic 2.1' },
+                { name: 'Subtopic 2.2' },
+                { name: 'Subtopic 2.3' }
+            ]
+        });
 
         boostProjectData.save(getBoostFile(workspaceFolder, BoostFileType.status).fsPath);
     }

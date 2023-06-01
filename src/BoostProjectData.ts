@@ -33,7 +33,11 @@ export interface SectionSummary {
 
 export interface Analysis {
     name: string;
-    children: Analysis[];
+    children: AnalysisNode[];
+}
+
+export interface AnalysisNode {
+    name: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -70,7 +74,7 @@ const SampleBoostProjectData =
             total: 6,
         }
     ],
-    securityAnalysis: 
+    securityAnalysis:
     [
         {
             name: 'Security Topic 1',
