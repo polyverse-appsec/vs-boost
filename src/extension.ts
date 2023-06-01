@@ -28,7 +28,7 @@ import { BoostSummaryViewProvider } from './summary_view';
 import { BoostStartViewProvider } from './start_view';
 import { BoostChatViewProvider } from './chat_view';
 import { BoostTreeDataProvider } from './base_tree_view';
-import { BoostProjectData, PROJECT_EXTENSION } from './BoostProjectData';
+import { BoostProjectData, PROJECT_EXTENSION, BoostProcessingStatus, BoostAnalysisType } from './BoostProjectData';
 
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
@@ -163,6 +163,30 @@ export class BoostExtension {
         boostProjectData.summary.filesAnalyzed = await this.getBoostFilesForFolder(workspaceFolder, true);
 
         // TODO: Finish section Summary initialization
+        boostProjectData.sectionSummary.push({
+                analysis: BoostAnalysisType.blueprint,
+                status: BoostProcessingStatus.completed,
+                completed: 3,
+                total: 6,
+            });
+        boostProjectData.sectionSummary.push({
+                analysis: BoostAnalysisType.documentation,
+                status: BoostProcessingStatus.incomplete,
+                completed: 3,
+                total: 6,
+            });
+        boostProjectData.sectionSummary.push({
+                analysis: BoostAnalysisType.security,
+                status: BoostProcessingStatus.processing,
+                completed: 3,
+                total: 6,
+            });
+        boostProjectData.sectionSummary.push({
+                analysis: BoostAnalysisType.compliance,
+                status: BoostProcessingStatus.notStarted,
+                completed: 3,
+                total: 6,
+            });
 
         // TODO: Finish security analysis tracking
 

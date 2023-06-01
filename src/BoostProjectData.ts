@@ -4,27 +4,34 @@ import { Uri } from 'vscode';
 
 export const PROJECT_EXTENSION = ".boost-project";
 
-interface Summary {
+export interface Summary {
     blueprintUrl: string;
     filesToAnalyze: number;
     filesAnalyzed: number;
 }
 
-enum BoostProcessingStatus {
+export enum BoostProcessingStatus {
     completed = "completed",
     incomplete = "incomplete",
     processing = "processing",
     notStarted = "not-started"
 }
 
-interface SectionSummary {
-    analysis: string;
+export enum BoostAnalysisType {
+    blueprint = "Blueprint",
+    documentation = "Documentation",
+    security = "Security Scan",
+    compliance = "Compliance Scan"
+}
+
+export interface SectionSummary {
+    analysis: BoostAnalysisType;
     status: BoostProcessingStatus;
     completed: number;
     total: number;
 }
 
-interface Analysis {
+export interface Analysis {
     name: string;
     children: Analysis[];
 }
