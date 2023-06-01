@@ -246,7 +246,7 @@ export class BoostExtension {
 
         let workspaceFolder = vscode.workspace.workspaceFolders?.[0].uri;
         if (!workspaceFolder) {
-            return undefined;
+            return BoostProjectData.default;
         }
 
         return this._boostProjectData.get(workspaceFolder);
