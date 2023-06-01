@@ -3,6 +3,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
 import { BoostExtension } from './extension';
+import { BoostConfiguration } from './boostConfiguration';
+import axios from 'axios';
+import { callServiceEndpoint } from './lambda_util';
 
 
 export class BoostChatViewProvider implements vscode.WebviewViewProvider {
@@ -10,6 +13,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 	public static readonly viewType = 'polyverse-boost-chat-view';
 
 	private _view?: vscode.WebviewView;
+	private _response?: string;
 
 	constructor(
 		private readonly context: vscode.ExtensionContext,
@@ -67,11 +71,10 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview, boostdata);
 
 		webviewView.webview.onDidReceiveMessage(data => {
-			switch (data.type) {
-				case 'refresh':
+			switch (data.command) {
+				case 'newprompt':
 					{
-						vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${data.value}`));
-						break;
+						this.updatePrompt(data.prompt);
 					}
 			}
 		});
@@ -79,8 +82,8 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 
 	public refresh() {
 		if (this._view) {
+			this._view.webview.html = this._getHtmlForWebview(this._view.webview, this._boostExtension.getBoostData());
 			this._view.show?.(true);
-			this._view.webview.postMessage({ type: 'refresh' });
 		}
 	}
 
@@ -91,10 +94,49 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         const jsSrc = webview.asWebviewUri(jsPathOnDisk);
 		const nonce = 'nonce-123456'; // TODO: add a real nonce here
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
+		const history = this._response;
     
         const template = _.template(rawHtmlContent);
-        const htmlContent = template({ jsSrc, nonce, boostdata });
+        const htmlContent = template({ jsSrc, nonce, boostdata, history });
     
         return htmlContent;
     }
+
+	public get serviceEndpoint(): string {
+        switch (BoostConfiguration.cloudServiceStage)
+        {
+            case "local":
+                return 'http://127.0.0.1:8000/customprocess';
+            case 'dev':
+                return 'https://fudpixnolc7qohinghnum2nlm40wmozy.lambda-url.us-west-2.on.aws/';
+            case "test":
+                return 'https://t3ficeuoeknvyxfqz6stoojmfu0dfzzo.lambda-url.us-west-2.on.aws/';
+            case 'staging':
+            case 'prod':
+            default:
+                return 'https://7ntcvdqj4r23uklomzmeiwq7nq0dhblq.lambda-url.us-west-2.on.aws/';
+        }
+        
+    }
+
+	public async updatePrompt(prompt: string) {
+		//make a call to the service endpoint with the prompt plus existing context
+		//update the chat view with the response
+
+        let payload = {
+			"code": "",
+			"prompt": prompt,
+			"messages": JSON.stringify([
+				{
+					"role": "user",
+					"content": prompt
+				}
+			]),
+        };
+
+		const response = await callServiceEndpoint(this.context, this.serviceEndpoint, "custom_process", payload);
+
+		this._response = response.analysis;
+		this.refresh();
+	}
 }
