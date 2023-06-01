@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { NOTEBOOK_TYPE } from '../../extension';
 import { getRandomTestSourceFile, seconds, minutes } from '../suite/utils';
 import * as assert from 'assert';
-import { getBoostNotebookFile} from '../../extension';
+import { getBoostFile} from '../../extension';
 import { debug } from 'console';
 import { BoostConfiguration } from '../../boostConfiguration';
 import * as fs from 'fs';
@@ -18,7 +18,7 @@ suite('Right Click Process File Command', function() {
     console.log(`${this.title} random source: ${randomFile}`);
     const fileUri = vscode.Uri.parse(randomFile);
 
-    const boostUri = getBoostNotebookFile(fileUri);
+    const boostUri = getBoostFile(fileUri);
     console.log(`${this.title} Boost Uri: ${boostUri.fsPath}`);
 
     test('Right Click Load File Command Test (Pre-Step for Processing)', async function() {

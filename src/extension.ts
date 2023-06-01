@@ -28,11 +28,10 @@ import { BoostSummaryViewProvider } from './summary_view';
 import { BoostStartViewProvider } from './start_view';
 import { BoostChatViewProvider } from './chat_view';
 import { BoostTreeDataProvider } from './base_tree_view';
-
+import { BoostProjectData, PROJECT_EXTENSION } from './BoostProjectData';
 
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
-export const NOTEBOOK_EXTENSION = ".boost-notebook";
 
 export class BoostExtension {
     // for state, we keep it in a few places
@@ -49,6 +48,8 @@ export class BoostExtension {
 
         // we use a friendly name for the channel as this will be displayed to the user in the output pane
         boostLogging.log('Activating Boost Notebook Extension');
+
+        this._setupBoostProjectDataLifecycle(context);
 
         let problems = this._setupDiagnosticProblems(context);
 
@@ -89,103 +90,121 @@ export class BoostExtension {
         boostLogging.log('Activated Boost Notebook Extension');
         boostLogging.info('Polyverse Boost is now active');
     }
+    private _setupBoostProjectDataLifecycle(context: vscode.ExtensionContext) {
+        let disposable = vscode.workspace.onDidChangeWorkspaceFolders(this.workspaceFoldersChanged);
+        context.subscriptions.push(disposable);
 
-    public getBoostData(): any {
-        let blueprintUri = undefined;
+        disposable = vscode.workspace.onDidChangeConfiguration(this.configurationChanged);
+        context.subscriptions.push(disposable);
 
-        if( vscode.workspace && vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 0){
-            blueprintUri = vscode.Uri.joinPath(vscode.workspace.workspaceFolders[0].uri, ".boost", "blueprint.md");
-        } 
-        //eventually this needs to load from a file and set a watch, but for now, lets use stubbed data
-        const data = {
-            summary: {
-                blueprintUrl: blueprintUri?.toString(),
-                filesToAnalyze: 42
-            },
-            sectionSummary: [
-                {
-                    analysis: "Blueprint",
-                    status: "completed",
-                    completed: "3",
-                    total: "6",
-                },
-                {
-                    analysis: "Documentation",
-                    status: "incomplete",
-                    completed: "3",
-                    total: "6",
-                },
-                {
-                    analysis: "Security Scan",
-                    status: "processing",
-                    completed: "3",
-                    total: "6",
-                },
-                {
-                    analysis: "Compliance Scan",
-                    status: "not-started",
-                    completed: "3",
-                    total: "6",
-                }
-            ],
-            securityAnalysis: 
-            [
-                {
-                  name: 'Security Topic 1',
-                  children: [
-                    { name: 'Security Subtopic 1.1' },
-                    { name: 'Security Subtopic 1.2' }
-                  ]
-                },
-                {
-                  name: 'Security Topic 2',
-                  children: [
-                    { name: 'Security Subtopic 2.1' },
-                    { name: 'Security Subtopic 2.2' },
-                    { name: 'Security Subtopic 2.3' }
-                  ]
-                }
-              ],
-            complianceAnalysis:
-            [
-                {
-                  name: 'Compliance Topic 1',
-                  children: [
-                    { name: 'Compliance Subtopic 1.1' },
-                    { name: 'Compliance Subtopic 1.2' }
-                  ]
-                },
-                {
-                  name: 'Compliance Topic 2',
-                  children: [
-                    { name: 'Compliance Subtopic 2.1' },
-                    { name: 'Compliance Subtopic 2.2' },
-                    { name: 'Compliance Subtopic 2.3' }
-                  ]
-                }
-              ],
-            docAnalysis:
-            [
-                {
-                  name: 'Topic 1',
-                  children: [
-                    { name: 'Subtopic 1.1' },
-                    { name: 'Subtopic 1.2' }
-                  ]
-                },
-                {
-                  name: 'Topic 2',
-                  children: [
-                    { name: 'Subtopic 2.1' },
-                    { name: 'Subtopic 2.2' },
-                    { name: 'Subtopic 2.3' }
-                  ]
-                }
-              ]   
-        };
-        return data;
+        // initialize once on startup... especially since single-folder projects will never fire the events
+        this.updateBoostProject();
     }
 
+    _boostProjectData = new Map<vscode.Uri, BoostProjectData>();
+    // FUTURE: We aren't syncing with files being added or removed from the project, or changes in those files
+    private workspaceFoldersChanged(changeEvent : vscode.WorkspaceFoldersChangeEvent) {
+        this.updateBoostProject();
+    }
+
+    private configurationChanged(changeEvent : vscode.ConfigurationChangeEvent) {
+        this.updateBoostProject();
+    }
+
+    private updateBoostProject() {
+
+        // future improvement - use changeEvent.added and changeEvent.removed to add or remove folders rather than resyncing everything
+
+        const folders = vscode.workspace.workspaceFolders;
+        if (!folders || folders.length === 0) {
+            this._boostProjectData.clear();
+            return;
+        }
+
+        folders.forEach((workspaceFolder) => {
+            // if we already have it, then no need to do anything
+            // otherwise, we need to either load it, or create it
+            if (!this._boostProjectData.has(workspaceFolder.uri)) {
+
+                let boostProjectUri = getBoostFile(workspaceFolder.uri, BoostFileType.status);
+
+                if (!fs.existsSync(boostProjectUri.fsPath)) {
+                    // we need to create the new boost project file
+                    boostLogging.debug(`No boost project file found at ${boostProjectUri.fsPath} - creating new one`);
+
+                    // create the boost project file
+                    const boostProjectData = new BoostProjectData();
+                    this.initializeFromWorkspaceFolder(boostProjectData, workspaceFolder.uri);
+                    this._boostProjectData.set(workspaceFolder.uri, boostProjectData);
+                    return boostProjectData;
+                } else {
+                    const boostProjectData = new BoostProjectData();
+                    boostProjectData.load(boostProjectUri.fsPath);
+                    this._boostProjectData.set(workspaceFolder.uri, boostProjectData);
+                    return boostProjectData;
+                }
+            }
+        });
+
+        // unload/release any boost project data for folders that are no longer in the workspace
+        this._boostProjectData.forEach((_value : BoostProjectData, workspaceFolder : vscode.Uri) => {
+            if (!folders.filter((thisFolder) => {
+                return thisFolder.uri === workspaceFolder;
+            })) {
+                this._boostProjectData.delete(workspaceFolder);
+            }
+        });
+    }
+
+    async initializeFromWorkspaceFolder(boostProjectData : BoostProjectData, workspaceFolder : vscode.Uri) {
+        // this doesn't work... we need to find a way to open a specific cell
+        boostProjectData.summary.blueprintUrl = getBoostFile(workspaceFolder, BoostFileType.summary).fsPath + "?cell-metadata=blueprint";
+        boostProjectData.summary.filesToAnalyze = await this.getBoostFilesForFolder(workspaceFolder, false);
+        boostProjectData.summary.filesAnalyzed = await this.getBoostFilesForFolder(workspaceFolder, true);
+
+        // TODO: Finish section Summary initialization
+
+        // TODO: Finish security analysis tracking
+
+        // TODO: Finish compliance tracking
+
+        // TODO: Finish doc tracking
+
+        boostProjectData.save(getBoostFile(workspaceFolder, BoostFileType.status).fsPath);
+    }
+
+    public getBoostProjectData(): any {
+
+        let workspaceFolder = vscode.workspace.workspaceFolders?.[0].uri;
+        if (!workspaceFolder) {
+            return undefined;
+        }
+
+        return this._boostProjectData.get(workspaceFolder);
+    }
+
+    async getBoostFilesForFolder(workspaceFolder: vscode.Uri, onlyCountCreatedFiles: boolean = true): Promise<number> {
+        // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
+        let searchPattern = new vscode.RelativePattern(workspaceFolder.fsPath, '**/*.*');
+        let ignorePattern = await _buildVSCodeIgnorePattern();
+        boostLogging.debug("Skipping source files of pattern: " + ignorePattern??"none");
+        const files = await vscode.workspace.findFiles(searchPattern, ignorePattern?new vscode.RelativePattern(workspaceFolder, ignorePattern):"");
+
+        let count = 0;
+        for (const file of files) {
+          count++;
+          if (onlyCountCreatedFiles) {
+            const boostFileUri = getBoostFile(file); // Replace GetBoostFile with your actual logic
+            const fileExists = fs.existsSync(boostFileUri.fsPath);
+            if (!fileExists) {
+              count--;
+            }
+          }
+        }
+      
+        return count;
+    }
+    
     _setupDiagnosticProblems(context: vscode.ExtensionContext) : vscode.DiagnosticCollection
         {
 
@@ -768,8 +787,8 @@ export class BoostExtension {
 
             let boostUri = uri;
                 // if we got a source file, then load the notebook from it
-            if (!uri.fsPath.endsWith(NOTEBOOK_EXTENSION)) {
-                boostUri = getBoostNotebookFile(uri);
+            if (!uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
+                boostUri = getBoostFile(uri);
             }
 
             const notebook = new boostnb.BoostNotebook();
@@ -918,8 +937,8 @@ export class BoostExtension {
 
                 let boostUri = uri;
                     // if we got a source file, then load the notebook from it
-                if (!uri.fsPath.endsWith(NOTEBOOK_EXTENSION)) {
-                    boostUri = getBoostNotebookFile(uri);
+                if (!uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
+                    boostUri = getBoostFile(uri);
                 }
 
                 if (!fs.existsSync(boostUri.fsPath)) {
@@ -963,7 +982,7 @@ export class BoostExtension {
             baseWorkspace = folderUri;
         }
         // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
-        let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*' + NOTEBOOK_EXTENSION);
+        let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*' + boostnb.NOTEBOOK_EXTENSION);
         let ignorePattern = await _buildVSCodeIgnorePattern(false);
         boostLogging.debug("Skipping Boost Notebook files of pattern: " + ignorePattern??"none");
         let files = await vscode.workspace.findFiles(searchPattern, ignorePattern?new vscode.RelativePattern(targetFolder, ignorePattern):"");
@@ -1013,8 +1032,8 @@ export class BoostExtension {
 
                 let boostUri = uri;
                     // if we got a source file, then load the notebook from it
-                if (!uri.fsPath.endsWith(NOTEBOOK_EXTENSION)) {
-                    boostUri = getBoostNotebookFile(uri);
+                if (!uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
+                    boostUri = getBoostFile(uri);
                 }
 
                 if (!fs.existsSync(boostUri.fsPath)) {
@@ -1058,7 +1077,7 @@ export class BoostExtension {
             baseWorkspace = folderUri;
         }
         // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
-        let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*' + NOTEBOOK_EXTENSION);
+        let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*' + boostnb.NOTEBOOK_EXTENSION);
         let ignorePattern = await _buildVSCodeIgnorePattern(false);
         boostLogging.debug("Skipping Boost Notebook files of pattern: " + ignorePattern??"none");
         let files = await vscode.workspace.findFiles(searchPattern, ignorePattern?new vscode.RelativePattern(targetFolder, ignorePattern):"");
@@ -1131,7 +1150,7 @@ export class BoostExtension {
             baseWorkspace = folderUri;
         }
         // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
-        let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*' + NOTEBOOK_EXTENSION);
+        let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*' + boostnb.NOTEBOOK_EXTENSION);
         let ignorePattern = await _buildVSCodeIgnorePattern(false);
         boostLogging.debug("Skipping Boost Notebook files of pattern: " + ignorePattern??"none");
         let files = await vscode.workspace.findFiles(searchPattern, ignorePattern?new vscode.RelativePattern(targetFolder, ignorePattern):"");
@@ -1168,7 +1187,7 @@ export class BoostExtension {
             const notebook = new boostnb.BoostNotebook();
             if (!leafNotebookUri) {
                 throw new Error('No notebook provided');
-            } else if (!leafNotebookUri.fsPath.endsWith(NOTEBOOK_EXTENSION)) {
+            } else if (!leafNotebookUri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
                 throw new Error('File is not a notebook');
             } else if (!fs.existsSync(leafNotebookUri.fsPath)) {
                 throw new Error(`Unable to find Boost notebook for ${leafNotebookUri.fsPath} - please create Boost notebook first`);
@@ -1201,7 +1220,7 @@ export class BoostExtension {
             const notebook = new boostnb.BoostNotebook();
             if (!leafNotebookUri) {
                 throw new Error('No notebook provided');
-            } else if (!leafNotebookUri.fsPath.endsWith(NOTEBOOK_EXTENSION)) {
+            } else if (!leafNotebookUri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
                 throw new Error('File is not a notebook');
             } else if (!fs.existsSync(leafNotebookUri.fsPath)) {
                 throw new Error(`Unable to find Boost notebook for ${leafNotebookUri.fsPath} - please create Boost notebook first`);
@@ -1242,7 +1261,13 @@ export async function deactivate(): Promise<void> {
     return undefined;
 }
 
-export function getBoostNotebookFile(sourceFile : vscode.Uri) : vscode.Uri {
+export enum BoostFileType {
+    notebook = "notebook",
+    summary = "summary",
+    status = "status",
+}
+
+export function getBoostFile(sourceFile : vscode.Uri, format : BoostFileType = BoostFileType.notebook) : vscode.Uri {
     // if we don't have a workspace folder, just place the Boost file in a new Boostdir - next to the source file
 
     let baseFolder;
@@ -1258,11 +1283,25 @@ export function getBoostNotebookFile(sourceFile : vscode.Uri) : vscode.Uri {
     fs.mkdirSync(boostFolder, { recursive: true });
 
     // get the distance from the workspace folder for the source file
-    const relativePath = path.relative(baseFolder,sourceFile.fsPath);
+            // for project-level status files, we ignore the relative path
+    const relativePath = (baseFolder === sourceFile.path)?
+        path.basename(baseFolder):path.relative(baseFolder,sourceFile.fsPath);
     // create the .boost file path, from the new boost folder + amended relative source file path
-    const absoluteBoostNotebookFile = path.join(boostFolder, relativePath + NOTEBOOK_EXTENSION);
-    let boostNotebookFile = vscode.Uri.file(absoluteBoostNotebookFile);
-    return boostNotebookFile;
+    switch (format) {
+        case BoostFileType.summary:
+            const absoluteBoostNotebookSummaryFile = path.join(boostFolder, relativePath + boostnb.NOTEBOOK_SUMMARY_EXTENSION);
+            let boostNotebookSummaryFile = vscode.Uri.file(absoluteBoostNotebookSummaryFile);
+            return boostNotebookSummaryFile;
+        case BoostFileType.status:
+            const absoluteboostProjectDataFile = path.join(boostFolder, relativePath + PROJECT_EXTENSION);
+            let boostProjectDataFile = vscode.Uri.file(absoluteboostProjectDataFile);
+            return boostProjectDataFile;
+        case BoostFileType.notebook:
+        default:
+            const absoluteBoostNotebookFile = path.join(boostFolder, relativePath + boostnb.NOTEBOOK_EXTENSION);
+            let boostNotebookFile = vscode.Uri.file(absoluteBoostNotebookFile);
+            return boostNotebookFile;
+    }
 }
 
 async function createNotebookFromSourceFile(
@@ -1272,7 +1311,7 @@ async function createNotebookFromSourceFile(
     existingNotebook : vscode.NotebookDocument | boostnb.BoostNotebook | undefined = undefined) :
         Promise<vscode.NotebookDocument | boostnb.BoostNotebook> {
 
-    const notebookPath = getBoostNotebookFile(sourceFile);
+    const notebookPath = getBoostFile(sourceFile);
     const fileExists = fs.existsSync(notebookPath.fsPath);
     if (fileExists && !overwriteIfExists) {
         boostLogging.error(`Boost Notebook file already exists. Please delete the file and try again.\n  ${notebookPath.fsPath}`);

@@ -23,7 +23,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 	) {
 		this._view = webviewView;
 
-		const boostdata = this._boostExtension.getBoostData();
+		const boostdata = this._boostExtension.getBoostProjectData();
 
 		webviewView.webview.options = {
 			// Allow scripts in the webview
@@ -49,7 +49,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
 	public refresh() {
 		if (this._view) {
-			this._view.webview.html = this._getHtmlForWebview(this._view.webview, this._boostExtension.getBoostData());
+			this._view.webview.html = this._getHtmlForWebview(this._view.webview, this._boostExtension.getBoostProjectData());
 			this._view.show?.(true);
 		}
 	}

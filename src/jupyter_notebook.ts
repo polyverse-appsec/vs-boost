@@ -3,6 +3,9 @@ import * as path from 'path';
 import * as nbformat from '@jupyterlab/nbformat';
 import { randomUUID } from 'crypto';
 
+export const NOTEBOOK_EXTENSION = ".boost-notebook";
+export const NOTEBOOK_SUMMARY_EXTENSION = ".summary" + NOTEBOOK_EXTENSION;
+
 export enum NotebookCellKind {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     Markup = 1,
