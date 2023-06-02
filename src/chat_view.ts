@@ -6,8 +6,28 @@ import { BoostExtension } from './extension';
 import { BoostConfiguration } from './boostConfiguration';
 import axios from 'axios';
 import { callServiceEndpoint } from './lambda_util';
+import {marked} from 'marked';
+import {markedHighlight} from 'marked-highlight';
+import hljs from 'highlight.js';
 
+/*
+DO NOT USE THIS.  it's a global variable and will setup a second instance of the highlighter
+the original one is setup in convert_html.ts
 
+marked.use(markedHighlight({
+    langPrefix: 'hljs language-',
+    highlight(code: string, lang: string) {
+      if( lang === "mermaid") {
+        return `<pre class="mermaid">${code}</pre>`;
+      }
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+      const result = hljs.highlight(code, { language }).value;
+	  console.log("original input is: " + code);
+	  //console.log("highlighted output is: " + result);
+	  return result;
+    }
+	}));		
+*/
 export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 
 	public static readonly viewType = 'polyverse-boost-chat-view';
@@ -136,7 +156,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 
 		const response = await callServiceEndpoint(this.context, this.serviceEndpoint, "custom_process", payload);
 
-		this._response = response.analysis;
+		this._response = marked.parse(response.analysis);
 		this.refresh();
 	}
 }
