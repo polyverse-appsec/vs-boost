@@ -31,6 +31,13 @@ export async function callServiceEndpoint(context: vscode.ExtensionContext,  ser
             temperature: BoostConfiguration.analysisTemperature};    
     } 
 
+    // specify the 3.5 model for faster chat interaction
+/*
+    aiPayload = {
+        ...aiPayload, model: "gpt-3.5-turbo"
+    };
+*/
+
     //now merge the three payloads
     let newPayload = { ...authpayload, ...aiPayload, ...payload };
 
