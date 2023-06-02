@@ -41,7 +41,7 @@ export interface AnalysisNode {
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-const SampleBoostProjectData =
+const sampleBoostProjectData : IBoostProjectData =
 {
     summary: {
         blueprintUrl: "",
@@ -50,26 +50,26 @@ const SampleBoostProjectData =
     },
     sectionSummary: [
         {
-            analysis: "Blueprint",
-            status: "completed",
+            analysis: BoostAnalysisType.blueprint,
+            status: BoostProcessingStatus.completed,
             completed: 3,
             total: 6,
         },
         {
-            analysis: "Documentation",
-            status: "incomplete",
+            analysis: BoostAnalysisType.documentation,
+            status: BoostProcessingStatus.incomplete,
             completed: 3,
             total: 6,
         },
         {
-            analysis: "Security Scan",
-            status: "processing",
+            analysis: BoostAnalysisType.security,
+            status: BoostProcessingStatus.processing,
             completed: 3,
             total: 6,
         },
         {
-            analysis: "Compliance Scan",
-            status: "not-started",
+            analysis: BoostAnalysisType.compliance,
+            status: BoostProcessingStatus.notStarted,
             completed: 3,
             total: 6,
         }
@@ -127,11 +127,56 @@ const SampleBoostProjectData =
                 { name: 'Subtopic 2.3' }
             ]
         }
-        ]   
+        ]
 };
 
+const emptyProjectData : IBoostProjectData =
+{
+    summary: {
+        blueprintUrl: "",
+        filesToAnalyze: 0,
+        filesAnalyzed: 0,
+    },
+    sectionSummary: [
+        {
+            analysis: BoostAnalysisType.blueprint,
+            status: BoostProcessingStatus.notStarted,
+            completed: 0,
+            total: 0,
+        },
+        {
+            analysis: BoostAnalysisType.documentation,
+            status: BoostProcessingStatus.notStarted,
+            completed: 0,
+            total: 0,
+        },
+        {
+            analysis: BoostAnalysisType.security,
+            status: BoostProcessingStatus.notStarted,
+            completed: 0,
+            total: 0,
+        },
+        {
+            analysis: BoostAnalysisType.compliance,
+            status: BoostProcessingStatus.notStarted,
+            completed: 0,
+            total: 0,
+        }
+    ],
+    securityAnalysis: [],
+    complianceAnalysis: [],
+    docAnalysis: []
+};
 
-export class BoostProjectData {
+export interface IBoostProjectData {
+    summary: Summary;
+    sectionSummary: SectionSummary[];
+    securityAnalysis: Analysis[];
+    complianceAnalysis: Analysis[];
+    docAnalysis: Analysis[];
+}
+
+export class BoostProjectData implements IBoostProjectData {
     summary: Summary;
     sectionSummary: SectionSummary[];
     securityAnalysis: Analysis[];
@@ -164,5 +209,11 @@ export class BoostProjectData {
       fs.mkdirSync(folderPath, { recursive: true });
   
       fs.writeFileSync(filename, projectDataJson, { encoding: 'utf8' });
+    }
+
+    static get default(): BoostProjectData {
+        const boostProjectData = new BoostProjectData();
+        Object.assign(boostProjectData, emptyProjectData);
+        return boostProjectData;
     }
 }
