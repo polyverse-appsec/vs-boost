@@ -11,8 +11,13 @@
 	</script>
 </head>
 <body>
+	<vscode-radio-group orientation="vertical">
+		<label slot="label">AI Chat. Your project context is automatically included.</label>
+		<vscode-radio id="gpt35" checked>GPT 3.5 (fast, less accuracy)</vscode-radio>
+		<vscode-radio id="gpt4" value="history">GPT 4.0 (slow, higher accuracy)</vscode-radio>
+	</vscode-radio-group>
 	<div id="chat_history"><%= history %></div>
-	<vscode-text-area autofocus id="prompt" resize="both" cols="200">AI Chat. Your project context is automatically included.</vscode-text-area>
+	<vscode-text-area autofocus id="prompt" resize="both" cols="200"></vscode-text-area>
 	<div>
 		<vscode-button id="send">Send</vscode-button>
 	</div>

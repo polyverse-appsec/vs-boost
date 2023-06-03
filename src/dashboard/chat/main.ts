@@ -2,10 +2,12 @@ import {
   provideVSCodeDesignSystem,
   vsCodeButton,
   vsCodeTextArea,
+  vsCodeRadio,
+  vsCodeRadioGroup,
   Button
 } from "@vscode/webview-ui-toolkit";
 
-provideVSCodeDesignSystem().register(vsCodeButton(), vsCodeTextArea());
+provideVSCodeDesignSystem().register(vsCodeButton(), vsCodeTextArea(), vsCodeRadio(), vsCodeRadioGroup());
 
 const vscode = acquireVsCodeApi();
 
@@ -25,8 +27,17 @@ function main() {
 
 // Callback function that is executed when the howdy button is clicked
 function handleSendClick() {
-  //TODO: we need to show what is checked in the grid.
+  // get the value of the radio button
+  const gpt35 = document.getElementById("gpt35") as HTMLElement;
+  const checked = gpt35.getAttribute("current-checked");
+
+  let model = "gpt-4";
+  if( checked === "true" ) {
+    model = "gpt-3.5-turbo";
+  } 
+  
   vscode.postMessage({
+    model: model,
     command: "newprompt",
     prompt: (document.getElementById("prompt") as HTMLTextAreaElement)?.value 
   });
