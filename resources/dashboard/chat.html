@@ -9,6 +9,18 @@
 		import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; +
 		mermaid.initialize({ startOnLoad: true });
 	</script>
+	<style>
+		.user{
+			padding: 10px;
+			margin-bottom: 15px;
+			border-radius: 5px;
+			color: #fff;
+			background-color: #0078D4;  /* Visual Studio Code Blue */
+		}
+		.system {
+			border-color: aqua;
+		}
+	</style>
 </head>
 <body>
 	<vscode-radio-group orientation="vertical">
@@ -16,7 +28,24 @@
 		<vscode-radio id="gpt35" checked>GPT 3.5 (fast, less accuracy)</vscode-radio>
 		<vscode-radio id="gpt4" value="history">GPT 4.0 (slow, higher accuracy)</vscode-radio>
 	</vscode-radio-group>
-	<div id="chat_history"><%= history %></div>
+	<vscode-panels>
+		<% chats.forEach((chat, index) => { %>
+			<vscode-panel-tab id="tab-<%= index + 1 %>">CHAT <%= index + 1 %></vscode-panel-tab>
+		<% }); %>
+		<% chats.forEach((chat, index) => { %>
+			<vscode-panel-view id="view-<%= index + 1 %>">
+				<div class="chat-container">
+					<% chat.messages.forEach((message) => { %>
+						<% if (message.role !== 'system') { %>
+							<div class="<%= message.role  %>">
+								<%= message.content %>
+							</div>
+						<% } %>
+					<% }) %>
+				</div>
+			</vscode-panel-view>
+		<% }); %>
+	</vscode-panels>
 	<vscode-text-area autofocus id="prompt" resize="both" cols="200"></vscode-text-area>
 	<div>
 		<vscode-button id="send">Send</vscode-button>

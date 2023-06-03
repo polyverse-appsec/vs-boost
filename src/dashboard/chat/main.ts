@@ -4,10 +4,14 @@ import {
   vsCodeTextArea,
   vsCodeRadio,
   vsCodeRadioGroup,
+  vsCodePanels,
+  vsCodePanelTab,
+  vsCodePanelView,
   Button
 } from "@vscode/webview-ui-toolkit";
 
-provideVSCodeDesignSystem().register(vsCodeButton(), vsCodeTextArea(), vsCodeRadio(), vsCodeRadioGroup());
+provideVSCodeDesignSystem().register(vsCodeButton(), vsCodeTextArea(), vsCodeRadio(), vsCodeRadioGroup(),
+  vsCodePanels(), vsCodePanelTab(), vsCodePanelView());
 
 const vscode = acquireVsCodeApi();
 

@@ -34,11 +34,13 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 
 	private _view?: vscode.WebviewView;
 	private _response?: string;
+	private _chats?: any;
 
 	constructor(
 		private readonly context: vscode.ExtensionContext,
 		private _boostExtension: BoostExtension
-	) { }
+	) { 
+	}
 
 	public resolveWebviewView(
 		webviewView: vscode.WebviewView,
@@ -47,37 +49,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 	) {
 		this._view = webviewView;
 
-		const boostdata = {
-			summary: [
-				{
-					analysis: "Blueprint",
-					status: "completed",
-					completed: "3",
-					total: "6",
-				},
-				{
-					analysis: "Documentation",
-					status: "incomplete",
-					completed: "3",
-					total: "6",
-				},
-				{
-					analysis: "Security Scan",
-					status: "processing",
-					completed: "3",
-					total: "6",
-				},
-				{
-					analysis: "Compliance Scan",
-					status: "not-started",
-					completed: "3",
-					total: "6",
-				}
-			],
-			security: [
-				{ severity: "Critical", count: "3" },
-			]
-		};
+		this._chats = this._initializeChats();
 
 		webviewView.webview.options = {
 			// Allow scripts in the webview
@@ -88,7 +60,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 			]
 		};
 
-		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview, boostdata);
+		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 
 		webviewView.webview.onDidReceiveMessage(data => {
 			switch (data.command) {
@@ -102,22 +74,22 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 
 	public refresh() {
 		if (this._view) {
-			this._view.webview.html = this._getHtmlForWebview(this._view.webview, this._boostExtension.getBoostProjectData());
+			this._view.webview.html = this._getHtmlForWebview(this._view.webview);
 			this._view.show?.(true);
 		}
 	}
 
-    private _getHtmlForWebview(webview: vscode.Webview, boostdata: any) {
+    private _getHtmlForWebview(webview: vscode.Webview) {
 
         const htmlPathOnDisk = vscode.Uri.joinPath(this.context.extensionUri, 'resources', 'dashboard', 'chat.html');
 		const jsPathOnDisk = vscode.Uri.joinPath(this.context.extensionUri, 'out', 'dashboard', 'chat', 'main.js');
         const jsSrc = webview.asWebviewUri(jsPathOnDisk);
 		const nonce = 'nonce-123456'; // TODO: add a real nonce here
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
-		const history = this._response;
+		const chats = this._chats;
     
         const template = _.template(rawHtmlContent);
-        const htmlContent = template({ jsSrc, nonce, boostdata, history });
+        const htmlContent = template({ jsSrc, nonce, chats });
     
         return htmlContent;
     }
@@ -158,6 +130,32 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 		const response = await callServiceEndpoint(this.context, this.serviceEndpoint, "custom_process", payload);
 
 		this._response = marked.parse(response.analysis);
+		this._addChat(prompt, this._response);
 		this.refresh();
+	}
+
+	public _addChat(prompt: string, chat: string) {
+		this._chats[0].messages.push({
+			"role": "user",
+			"content": prompt
+		});
+		this._chats[0].messages.push({
+			"role": "assistant",
+			"content": chat
+		});
+	}
+
+	private _initializeChats(): any {
+		return [
+			{
+				"title": "Chat 1",
+				"messages": [
+					{
+						"role": "assistant",
+						"content": "somethign smart"
+					}
+				]
+			}
+		];
 	}
 }
