@@ -89,7 +89,8 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 		const chats = this._chats;
     
         const template = _.template(rawHtmlContent);
-        const htmlContent = template({ jsSrc, nonce, chats });
+		const convert = marked.parse;
+        const htmlContent = template({ jsSrc, nonce, chats, convert });
     
         return htmlContent;
     }
@@ -114,12 +115,14 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 	public async updatePrompt(prompt: string, model: string) {
 		//make a call to the service endpoint with the prompt plus existing context
 		//update the chat view with the response
+		const messages = this._chats[0].messages;
 
         let payload = {
 			"code": "",
 			"model": model,
 			"prompt": prompt,
 			"messages": JSON.stringify([
+				...messages,
 				{
 					"role": "user",
 					"content": prompt
@@ -129,8 +132,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 
 		const response = await callServiceEndpoint(this.context, this.serviceEndpoint, "custom_process", payload);
 
-		this._response = marked.parse(response.analysis);
-		this._addChat(prompt, this._response);
+		this._addChat(prompt, response.analysis);
 		this.refresh();
 	}
 

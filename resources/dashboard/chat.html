@@ -11,8 +11,7 @@
 	</script>
 	<style>
 		.user{
-			padding: 10px;
-			margin-bottom: 15px;
+			padding: 5px;
 			border-radius: 5px;
 			color: #fff;
 			background-color: #0078D4;  /* Visual Studio Code Blue */
@@ -38,7 +37,7 @@
 					<% chat.messages.forEach((message) => { %>
 						<% if (message.role !== 'system') { %>
 							<div class="<%= message.role  %>">
-								<%= message.content %>
+								<%= convert(message.content) %>
 							</div>
 						<% } %>
 					<% }) %>
