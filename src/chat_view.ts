@@ -2,13 +2,13 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
+import * as os from 'os';
 import { BoostExtension } from './extension';
 import { BoostConfiguration } from './boostConfiguration';
-import axios from 'axios';
 import { callServiceEndpoint } from './lambda_util';
 import {marked} from 'marked';
-import {markedHighlight} from 'marked-highlight';
-import hljs from 'highlight.js';
+
+
 
 /*
 DO NOT USE THIS.  it's a global variable and will setup a second instance of the highlighter
@@ -33,8 +33,8 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 	public static readonly viewType = 'polyverse-boost-chat-view';
 
 	private _view?: vscode.WebviewView;
-	private _response?: string;
 	private _chats?: any;
+	private _tempFilename?: string;
 
 	constructor(
 		private readonly context: vscode.ExtensionContext,
@@ -133,6 +133,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 		const response = await callServiceEndpoint(this.context, this.serviceEndpoint, "custom_process", payload);
 
 		this._addChat(prompt, response.analysis);
+		this._saveJsonData(this._chats);
 		this.refresh();
 	}
 
@@ -148,16 +149,67 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 	}
 
 	private _initializeChats(): any {
-		return [
-			{
-				"title": "Chat 1",
-				"messages": [
-					{
-						"role": "assistant",
-						"content": "somethign smart"
-					}
-				]
-			}
-		];
+		this._chats = this._loadJsonData();
+
+		if (this._chats === undefined){
+			this._chats = [
+				{
+					"title": "AI Chat",
+					"messages": []
+
+				}
+			];
+		}
+		return this._chats;
+	}
+
+	private _getTempFilename(): string {
+		if( this._tempFilename ) {
+			return this._tempFilename;
+		}
+		const editor = vscode.window.activeTextEditor;
+		let filenamePrefix = 'temp_';
+	  
+		if (editor) {
+		  const workspaceFolder = vscode.workspace.getWorkspaceFolder(editor.document.uri);
+		  if (workspaceFolder) {
+			filenamePrefix += workspaceFolder.name;
+		  } else {
+			filenamePrefix += 'boost_ai_chat';
+		  }
+		} else {
+		  filenamePrefix += 'boost_ai_chat';
+		}
+	  
+		const tempFilePath = path.join(os.tmpdir(), `${filenamePrefix}.json`);
+		this._tempFilename = tempFilePath;
+		return tempFilePath;
+	  }
+	  
+	private _saveJsonData(data: any): void {
+		const tempFilename = this._getTempFilename();
+	  
+		fs.writeFile(tempFilename, JSON.stringify(data, null, 2), (err) => {
+		  if (err) {
+			vscode.window.showErrorMessage(`Failed to save data: ${err.message}`);
+		  }
+		});
+	  }
+	  
+	private _loadJsonData(): any | undefined {
+		const tempFilename = this._getTempFilename();
+
+		//check if file exists
+		if (!fs.existsSync(tempFilename)) {
+			return undefined;
+		}
+	  
+		try {
+		  const data = fs.readFileSync(tempFilename).toString();
+		  return JSON.parse(data);
+		} catch (err) {
+		  vscode.window.showErrorMessage(`Failed to load data: ${(err as Error).message}`);
+		  return undefined;
+		}
 	}
 }
