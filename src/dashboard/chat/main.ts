@@ -27,13 +27,44 @@ function main() {
   // to the element (i.e. the `as Button` syntax)
   const howdyButton = document.getElementById("send") as Button;
   howdyButton?.addEventListener("click", handleSendClick);
+
+  //now add listeners for the add and close buttons. we don't know how many so we need to loop
+  const closeButtons = document.getElementsByClassName("tab-close-button") as HTMLCollectionOf<Button>;
+  for (let i = 0; i < closeButtons.length; i++) {
+    closeButtons[i].addEventListener("click", handleCloseClick);
+  }
+
+  //add a listener for the add button
+  const addButton = document.getElementById("tab-add-button") as Button;
+  addButton?.addEventListener("click", handleAddClick);
+
 }
+
+function handleAddClick() {
+  console.log("add click");
+  vscode.postMessage({
+    command: "add-chat"
+  });
+}
+
+//for the close click, we need to know which one was clicked. we can get that from the id
+function handleCloseClick(event: Event) {
+  const id = (event.target as HTMLElement).id;
+  vscode.postMessage({
+    command: "close-chat",
+    chatindex: id.split("-")[1]
+  });
+}
+
 
 // Callback function that is executed when the howdy button is clicked
 function handleSendClick() {
   // get the value of the radio button
   const gpt35 = document.getElementById("gpt35") as HTMLElement;
   const checked = gpt35.getAttribute("current-checked");
+  const chatGroup = document.getElementById("chat-group") as HTMLElement;
+  const chatid = chatGroup.getAttribute("activeid");
+  const chatindex = chatid?.split("-")[1];
 
   let model = "gpt-4";
   if( checked === "true" ) {
@@ -41,6 +72,7 @@ function handleSendClick() {
   } 
   
   vscode.postMessage({
+    chatindex: chatindex,
     model: model,
     command: "newprompt",
     prompt: (document.getElementById("prompt") as HTMLTextAreaElement)?.value 

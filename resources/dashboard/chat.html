@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Polyverse Boost AI Chat</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+	<link href="<%= codiconsUri %>" rel="stylesheet" />
 	<script type="module">
 		import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; +
 		mermaid.initialize({ startOnLoad: true });
@@ -13,8 +14,7 @@
 		.user{
 			padding: 5px;
 			border-radius: 5px;
-			color: #fff;
-			background-color: #0078D4;  /* Visual Studio Code Blue */
+			border-left: 10px solid #0078D4;  /* Visual Studio Code Blue */; 
 		}
 		.system {
 			border-color: aqua;
@@ -27,12 +27,23 @@
 		<vscode-radio id="gpt35" checked>GPT 3.5 (fast, less accuracy)</vscode-radio>
 		<vscode-radio id="gpt4" value="history">GPT 4.0 (slow, higher accuracy)</vscode-radio>
 	</vscode-radio-group>
-	<vscode-panels>
+	<vscode-panels id="chat-group" activeid="view-<%= activeid %>">
 		<% chats.forEach((chat, index) => { %>
-			<vscode-panel-tab id="tab-<%= index + 1 %>">CHAT <%= index + 1 %></vscode-panel-tab>
+			<vscode-panel-tab id="view-<%= index %>">CHAT <%= index + 1 %>
+				<% if (index > 0 ){ %>
+					<vscode-button class="tab-close-button" appearance="icon" id="tab-close-<%= index %>">
+						<span class="codicon codicon-close"></span>
+					</vscode-button>
+				<% } %> 
+			</vscode-panel-tab>
 		<% }); %>
+		<% if( chats.length < 5 ) { %>
+			<vscode-panel-tab id="tab-add"><vscode-button class="add-button" appearance="icon" id="tab-add-button">
+				<span class="codicon codicon-add"></span>
+			</vscode-button></vscode-panel-tab>
+		<% } %>
 		<% chats.forEach((chat, index) => { %>
-			<vscode-panel-view id="view-<%= index + 1 %>">
+			<vscode-panel-view id="view-<%= index%>" <% if(index != activeid) { %> hidden <% } %> >
 				<div class="chat-container">
 					<% chat.messages.forEach((message) => { %>
 						<% if (message.role !== 'system') { %>
@@ -46,7 +57,7 @@
 		<% }); %>
 	</vscode-panels>
 	<vscode-text-area autofocus id="prompt" resize="both" cols="200"></vscode-text-area>
-	<div>
+	<div align="right">
 		<vscode-button id="send">Send</vscode-button>
 	</div>
     <script src="<%= jsSrc %>" type="module"> </script>

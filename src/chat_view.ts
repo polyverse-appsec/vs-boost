@@ -35,11 +35,14 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 	private _view?: vscode.WebviewView;
 	private _chats?: any;
 	private _tempFilename?: string;
+	private _context: vscode.ExtensionContext;
+	private _activeid = 0;
 
 	constructor(
 		private readonly context: vscode.ExtensionContext,
 		private _boostExtension: BoostExtension
 	) { 
+		this._context = context;
 	}
 
 	public resolveWebviewView(
@@ -66,7 +69,19 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 			switch (data.command) {
 				case 'newprompt':
 					{
+						this._activeid = data.chatindex;
 						this.updatePrompt(data.prompt, data.model);
+						break;
+					}
+				case 'add-chat':
+					{
+						this._addChat();
+						break;
+					}
+				case 'close-chat':
+					{
+						this._closeChat(data.chatindex);
+						break;
 					}
 			}
 		});
@@ -80,7 +95,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 	}
 
     private _getHtmlForWebview(webview: vscode.Webview) {
-
+		const codiconsUri = webview.asWebviewUri(vscode.Uri.joinPath(this._context.extensionUri, 'node_modules', '@vscode/codicons', 'dist', 'codicon.css'));
         const htmlPathOnDisk = vscode.Uri.joinPath(this.context.extensionUri, 'resources', 'dashboard', 'chat.html');
 		const jsPathOnDisk = vscode.Uri.joinPath(this.context.extensionUri, 'out', 'dashboard', 'chat', 'main.js');
         const jsSrc = webview.asWebviewUri(jsPathOnDisk);
@@ -90,7 +105,8 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
     
         const template = _.template(rawHtmlContent);
 		const convert = marked.parse;
-        const htmlContent = template({ jsSrc, nonce, chats, convert });
+		const activeid = this._activeid;
+        const htmlContent = template({ jsSrc, nonce, chats, convert, codiconsUri, activeid});
     
         return htmlContent;
     }
@@ -132,17 +148,17 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 
 		const response = await callServiceEndpoint(this.context, this.serviceEndpoint, "custom_process", payload);
 
-		this._addChat(prompt, response.analysis);
+		this._addResponse(prompt, response.analysis);
 		this._saveJsonData(this._chats);
 		this.refresh();
 	}
 
-	public _addChat(prompt: string, chat: string) {
-		this._chats[0].messages.push({
+	private _addResponse(prompt: string, chat: string) {
+		this._chats[this._activeid].messages.push({
 			"role": "user",
 			"content": prompt
 		});
-		this._chats[0].messages.push({
+		this._chats[this._activeid].messages.push({
 			"role": "assistant",
 			"content": chat
 		});
@@ -161,6 +177,22 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 			];
 		}
 		return this._chats;
+	}
+
+	private _addChat() {
+		this._chats.push({
+			"title": "AI Chat",
+			"messages": []
+		});
+		this._saveJsonData(this._chats);
+		this._activeid = this._chats.length - 1;
+		this.refresh();
+	}
+
+	private _closeChat(chatindex: number) {
+		this._chats.splice(chatindex, 1);
+		this._saveJsonData(this._chats);
+		this.refresh();
 	}
 
 	private _getTempFilename(): string {
