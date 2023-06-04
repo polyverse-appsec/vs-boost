@@ -38,7 +38,7 @@
 			</vscode-panel-tab>
 		<% }); %>
 		<% if( chats.length < 5 ) { %>
-			<vscode-panel-tab id="tab-add"><vscode-button class="add-button" appearance="icon" id="tab-add-button">
+			<vscode-panel-tab id="view-add"><vscode-button class="add-button" appearance="icon" id="tab-add-button">
 				<span class="codicon codicon-add"></span>
 			</vscode-button></vscode-panel-tab>
 		<% } %>
@@ -55,6 +55,12 @@
 				</div>
 			</vscode-panel-view>
 		<% }); %>
+		/* IMPORTANT: the number of labels has to match the number of tabs otherwise the UI will break */
+		<% if( chats.length < 5 ) { %>
+			<vscode-panel-view id="view-add" hidden>
+				<div class="chat-container"></div>
+			</vscode-panel-view>
+		<% } %>
 	</vscode-panels>
 	<vscode-text-area autofocus id="prompt" resize="both" cols="200"></vscode-text-area>
 	<div align="right">
