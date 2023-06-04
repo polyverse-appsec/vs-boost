@@ -7,11 +7,12 @@ import {
   vsCodePanels,
   vsCodePanelTab,
   vsCodePanelView,
+  vsCodeProgressRing,
   Button
 } from "@vscode/webview-ui-toolkit";
 
 provideVSCodeDesignSystem().register(vsCodeButton(), vsCodeTextArea(), vsCodeRadio(), vsCodeRadioGroup(),
-  vsCodePanels(), vsCodePanelTab(), vsCodePanelView());
+  vsCodePanels(), vsCodePanelTab(), vsCodePanelView(), vsCodeProgressRing());
 
 const vscode = acquireVsCodeApi();
 
@@ -70,6 +71,13 @@ function handleSendClick() {
   if( checked === "true" ) {
     model = "gpt-3.5-turbo";
   } 
+
+  const sendButton = document.getElementById("send") as Button;
+  const progressRing = document.getElementById("progress") as HTMLElement;
+  //disable the button and show the progress ring by adding/removing the hidden attribute
+  sendButton.setAttribute("hidden", "");
+  progressRing.removeAttribute("hidden");
+
   
   vscode.postMessage({
     chatindex: chatindex,
