@@ -123,9 +123,9 @@ export class BoostConvertKernel extends KernelControllerBase {
             const seconds = ((duration % 60000) / 1000).toFixed(0);
 
             if (successfullyCompleted) {
-                boostLogging.info(`SUCCESS running ${"explain"} update of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+                boostLogging.info(`SUCCESS running ${"explain"} update of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
             } else {
-                boostLogging.error(`Error while running ${"explain"} update of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+                boostLogging.error(`Error while running ${"explain"} update of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
             }
         }
 
@@ -197,9 +197,9 @@ export class BoostConvertKernel extends KernelControllerBase {
             const seconds = ((duration % 60000) / 1000).toFixed(0);
 
             if (successfullyCompleted) {
-                boostLogging.info(`SUCCESS running ${this.command} update of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+                boostLogging.info(`SUCCESS running ${this.command} update of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
             } else {
-                boostLogging.error(`Error while running ${this.command} update of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+                boostLogging.error(`Error while running ${this.command} update of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
             }
         }
 

@@ -58,11 +58,11 @@ export class SummarizeKernel extends KernelControllerBase {
         const usingBoostNotebook = (notebook instanceof BoostNotebook);
 
         if (sourceCells.length = 0) {
-            boostLogging.warn(`No cells to ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, false);
+            boostLogging.warn(`No cells to ${this.command} of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`, false);
             return;
         }
 
-        boostLogging.info(`Starting ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, false);
+        boostLogging.info(`Starting ${this.command} of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`, false);
 
         // are we summarizing a source file or a project?
         let summarizeSourceFile = false;
@@ -109,7 +109,7 @@ export class SummarizeKernel extends KernelControllerBase {
                     successfullyCompleted = false;
                 }
                 if (usingBoostNotebook) {
-                    boostLogging.info(`Finished ${this.command} of Notebook ${targetNotebook.metadata['sourceFile']} on cell ${(targetCell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
+                    boostLogging.info(`Finished ${this.command} of Notebook ${targetNotebookUri.fsPath} on cell ${(targetCell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
                 }
             }) as Promise<boolean>);
         await Promise.all(promises).then((results) => {
@@ -117,14 +117,14 @@ export class SummarizeKernel extends KernelControllerBase {
                 successfullyCompleted &&= (result ?? true);
             });
             if (!successfullyCompleted) {
-                boostLogging.error(`Error ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, !usingBoostNotebook);
+                boostLogging.error(`Error ${this.command} of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`, !usingBoostNotebook);
             } else {
-                boostLogging.info(`Success ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, false);
+                boostLogging.info(`Success ${this.command} of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`, false);
             }
             return successfullyCompleted;
           }).catch((error) => {
             successfullyCompleted = false;
-            boostLogging.error(`Error ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}: ${error.toString()}}`, !usingBoostNotebook);
+            boostLogging.error(`Error ${this.command} of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}: ${error.toString()}}`, !usingBoostNotebook);
         });
     }
 

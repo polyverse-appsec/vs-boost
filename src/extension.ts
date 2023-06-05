@@ -472,7 +472,7 @@ export class BoostExtension {
                         });
                         newNotebooks.forEach(async (notebook : boostnb.BoostNotebook) => {
                             // we let user know the new scratch notebook was created
-                            boostLogging.info("Boost Notebook created: " + notebook.metadata['sourceFile']);
+                            boostLogging.info("Boost Notebook created: " + notebook.fsPath);
                         });
                         boostLogging.info(`${newNotebookWaits.length.toString()} Boost Notebooks created for folder ${targetFolder.path}`);
                     })

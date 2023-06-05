@@ -125,11 +125,11 @@ export class KernelControllerBase {
         const usingBoostNotebook = (notebook instanceof BoostNotebook);
 
         if (cells.length = 0) {
-            boostLogging.warn(`No cells to ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, false);
+            boostLogging.warn(`No cells to ${this.command} of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`, false);
             return;
         }
 
-        boostLogging.info(`Starting ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, false);
+        boostLogging.info(`Starting ${this.command} of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`, false);
         for (const cell of cells) {
             //if the cell is generated code, don't run it by default, the original code cell will
             // run it, unless it is the only cell in array of cells being run, in which case, run it
@@ -157,14 +157,14 @@ export class KernelControllerBase {
                 successfullyCompleted &&= (result ?? true);
             });
             if (!successfullyCompleted) {
-                boostLogging.error(`Error ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, !usingBoostNotebook);
+                boostLogging.error(`Error ${this.command} of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`, !usingBoostNotebook);
             } else {
-                boostLogging.info(`Success ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, false);
+                boostLogging.info(`Success ${this.command} of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`, false);
             }
             return successfullyCompleted;
           }).catch((error) => {
             successfullyCompleted = false;
-            boostLogging.error(`Error ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}: ${error.toString()}}`, !usingBoostNotebook);
+            boostLogging.error(`Error ${this.command} of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}: ${error.toString()}}`, !usingBoostNotebook);
         });
     }
 
@@ -296,9 +296,9 @@ export class KernelControllerBase {
             }
             
             if (successfullyCompleted) {
-                boostLogging.info(`SUCCESS running ${this.command} update of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+                boostLogging.info(`SUCCESS running ${this.command} update of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
             } else {
-                boostLogging.error(`Error while running ${this.command} update of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+                boostLogging.error(`Error while running ${this.command} update of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
             }
         }
         return successfullyCompleted;

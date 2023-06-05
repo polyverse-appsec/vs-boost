@@ -117,12 +117,14 @@ export class BoostNotebook /* implements nbformat.INotebookContent */ {
   
   // eslint-disable-next-line @typescript-eslint/naming-convention
 //  nbformat_minor: number;
+  fsPath : string;
 
   [key: string]: any; // Index signature for type 'string'
 
   constructor() {
     this.cells = [];
     this.metadata = {};
+    this.fsPath = '';
 
     // these are for compat with vscode
 //    this.nbformat = 4;
@@ -141,10 +143,15 @@ export class BoostNotebook /* implements nbformat.INotebookContent */ {
   load(filePath: string): void {
       const jsonString = fs.readFileSync(filePath, 'utf8');
       this.create(jsonString);
+      this.fsPath = filePath;
     }
 
   save(filename: string): void {
-    const notebookJson = JSON.stringify(this, null, 2);
+    this.fsPath = filename;
+
+    // no need to persist the path into the file
+    const { fsPath, ...dataWithoutFsPath } = this;
+    const notebookJson = JSON.stringify(dataWithoutFsPath, null, 2);
 
     // Create any necessary folders
     const folderPath = path.dirname(filename);
