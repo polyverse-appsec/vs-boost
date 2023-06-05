@@ -265,6 +265,17 @@ export class KernelControllerBase {
             newPayload = payload;
         }
 
+        // model pass through
+        if (BoostConfiguration.analysisModelByKernel(this.command)) {
+            newPayload = { ...payload,
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                model: BoostConfiguration.analysisModelByKernel(this.command)};    
+        } else if (BoostConfiguration.analysisModel) {
+            newPayload = { ...payload,
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                model: BoostConfiguration.analysisModel};    
+        }
+
         const cellId = usingBoostNotebook?
             (cell as BoostNotebookCell).id:
             (cell as vscode.NotebookCell).document.uri.toString();

@@ -121,6 +121,16 @@ export class BoostConfiguration {
             Defaults.analysisRankedProbabilityValue;
     }
 
+    public static get analysisModel(): string {
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.analysisModelName) as string)??
+            Defaults.analysisModelValue;
+    }
+
+    public static analysisModelByKernel(kernel: string): string {
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(kernel + "." + Defaults.analysisModelName) as string)??
+            Defaults.analysisModelValue;
+    }
+
     static _cachedVersion: string = "";
     public static get version(): string | undefined {
         if (this._cachedVersion) {
@@ -184,4 +194,7 @@ class Defaults {
 
     public static readonly analysisRankedProbabilityName : string = "analysisRankedProbability";
     public static readonly analysisRankedProbabilityValue : string = "";
+
+    public static readonly analysisModelName : string = "analysisModel";
+    public static readonly analysisModelValue : string = "";
 }
