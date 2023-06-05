@@ -124,16 +124,20 @@ export class KernelControllerBase {
         const promises = [];
         const usingBoostNotebook = (notebook instanceof BoostNotebook);
 
-        boostLogging.info(`Starting ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, false);
+        if (cells.length = 0) {
+            boostLogging.warn(`No cells to ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, false);
+            return;
+        }
 
+        boostLogging.info(`Starting ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, false);
         for (const cell of cells) {
             //if the cell is generated code, don't run it by default, the original code cell will
-			// run it, unless it is the only cell in array of cells being run, in which case, run it
-			if (this._useGeneratedCodeCellOptimization &&
+            // run it, unless it is the only cell in array of cells being run, in which case, run it
+            if (this._useGeneratedCodeCellOptimization &&
                 cell.metadata?.type === 'generatedCode' &&
                 cells.length > 1) {
-				return;
-			}
+                return;
+            }
             
             if (usingBoostNotebook) {
                 boostLogging.info(`Started ${this.command} of Notebook ${notebook.metadata['sourceFile']} on cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
@@ -147,7 +151,7 @@ export class KernelControllerBase {
                         boostLogging.info(`Finished ${this.command} of Notebook ${notebook.metadata['sourceFile']} on cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
                     }
                 }) as Promise<boolean>);
-		}
+        }
         await Promise.all(promises).then((results) => {
             results.forEach((result) => {
                 successfullyCompleted &&= (result ?? true);
