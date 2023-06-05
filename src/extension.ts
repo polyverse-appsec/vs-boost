@@ -1171,6 +1171,13 @@ async function createNotebookFromSourceFile(
         return Promise.reject(`Boost Notebook file already exists. Please delete the file and try again.\n  ${notebookPath.fsPath}`);
     }
 
+    const notebookSummaryPath = getBoostNotebookFile(vscode.Uri.parse(sourceFile.fsPath + boostnb.NOTEBOOK_SUMMARY_PRE_EXTENSION));
+    const summaryFileExists = fs.existsSync(notebookSummaryPath.fsPath);
+    if (fileExists && !overwriteIfExists) {
+        boostLogging.error(`Boost Summary Notebook file already exists. Please delete the file and try again.\n  ${notebookSummaryPath.fsPath}`);
+        return Promise.reject(`Boost Summary Notebook file already exists. Please delete the file and try again.\n  ${notebookSummaryPath.fsPath}`);
+    }
+
     boostLogging.debug(`Boosting file: ${sourceFile.fsPath} as ${notebookPath.fsPath}`);
 
     var newNotebook : vscode.NotebookDocument | boostnb.BoostNotebook;
@@ -1188,6 +1195,8 @@ async function createNotebookFromSourceFile(
         newNotebook = await createEmptyNotebook(notebookPath, useBoostNotebookWithNoUI);
     }
 
+    await createSummaryNotebookFile(sourceFile, notebookSummaryPath, useBoostNotebookWithNoUI);
+
     // load/parse source file into new notebook
     await parseFunctionsFromFile(sourceFile, newNotebook, BoostConfiguration.processFoldersInASingleNotebook);
 
@@ -1203,6 +1212,15 @@ async function createNotebookFromSourceFile(
         newNotebook.save(notebookPath.path);
     }
     return newNotebook;
+}
+
+async function createSummaryNotebookFile(sourceFile : vscode.Uri, notebookSummaryPath: vscode.Uri, useBoostNotebookWithNoUI : boolean) {
+    const newNotebook = await createEmptyNotebook(notebookSummaryPath, useBoostNotebookWithNoUI);
+
+    // boost notebook needs to be saved explicitly - while the VSC notebook background saves
+    if (useBoostNotebookWithNoUI) {
+        newNotebook.save(notebookSummaryPath.path);
+    }
 }
 
 async function parseFunctionsFromFile(
