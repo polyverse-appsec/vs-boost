@@ -2,6 +2,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as nbformat from '@jupyterlab/nbformat';
 import { randomUUID } from 'crypto';
+import { NOTEBOOK_EXTENSION } from './extension';
+
+export const NOTEBOOK_SUMMARY_EXTENSION = '.summary' + NOTEBOOK_EXTENSION;
 
 export enum NotebookCellKind {
     // eslint-disable-next-line @typescript-eslint/naming-convention
