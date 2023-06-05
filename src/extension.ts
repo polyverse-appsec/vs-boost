@@ -453,6 +453,9 @@ export class BoostExtension {
                     newNotebook = await createNotebookFromSourceFile(file, false, true, newNotebook) as vscode.NotebookDocument;
                     await createOrOpenSummaryNotebookFromSourceFile(file);
                 }
+                // create the folder level rollup
+                await createOrOpenSummaryNotebookFromSourceFile(targetFolder);
+
                 if (newNotebook) {
                     // we let user know the new scratch notebook was created
                     boostLogging.warn("Scratch Notebook opened: " + newNotebook.uri.toString(), true);
@@ -464,6 +467,8 @@ export class BoostExtension {
                     newNotebookWaits.push(createNotebookFromSourceFile(file, true));
                     newNotebookWaits.push(createOrOpenSummaryNotebookFromSourceFile(file));
                 });
+                // create project level rollup
+                newNotebookWaits.push(createOrOpenSummaryNotebookFromSourceFile(targetFolder));
                 
                 await Promise.all(newNotebookWaits)
                     .then((createdNotebooks) => {
