@@ -9,6 +9,7 @@ import { BoostCodeGuidelinesKernel } from './codeguidelines_controller';
 import { BoostArchitectureBlueprintKernel } from './blueprint_controller';
 import { BoostCustomProcessKernel } from './custom_controller';
 import { BoostFlowDiagramKernel } from './flowdiagram_controller';
+import { SummarizeKernel } from './summary_controller';
 
 import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
@@ -300,6 +301,8 @@ export class BoostExtension {
         this.kernels.set(blueprintKernel.command, blueprintKernel);
         let flowDiagramKernel = new BoostFlowDiagramKernel(context, updateBoostStatusColors.bind(this), this, collection);
         this.kernels.set(flowDiagramKernel.command, flowDiagramKernel);
+        let summarizeKernel = new SummarizeKernel(context, updateBoostStatusColors.bind(this), this, collection);
+        this.kernels.set(summarizeKernel.command, summarizeKernel);
 
         context.subscriptions.push(
             vscode.workspace.registerNotebookSerializer(
@@ -312,7 +315,8 @@ export class BoostExtension {
             complianceKernel,
             guidelinesKernel,
             blueprintKernel,
-            flowDiagramKernel
+            flowDiagramKernel,
+            summarizeKernel
         );
 
             // if in dev mode, register all dev only kernels
@@ -1132,6 +1136,26 @@ export function getBoostNotebookFile(sourceFile : vscode.Uri) : vscode.Uri {
     let boostNotebookFile = vscode.Uri.file(absoluteBoostNotebookFile);
     return boostNotebookFile;
 }
+
+export function findCellByKernel(targetNotebook: vscode.NotebookDocument | boostnb.BoostNotebook, command: string): vscode.NotebookCell | boostnb.BoostNotebookCell | undefined {
+    let cells: (vscode.NotebookCell | boostnb.BoostNotebookCell)[] = [];
+
+    const usingBoostNotebook = targetNotebook instanceof boostnb.BoostNotebook;
+    if (usingBoostNotebook) {
+        cells = targetNotebook.cells;
+    } else {
+        cells = targetNotebook.getCells();
+    }
+
+    for (const cell of cells) {
+        if (cell.metadata?.analysis_type === command) {
+            return cell;
+        }
+    }
+
+    return undefined;
+}
+
 
 async function createNotebookFromSourceFile(
     sourceFile : vscode.Uri,
