@@ -136,7 +136,7 @@ export class SummarizeKernel extends KernelControllerBase {
         const usingBoostNotebook = "value" in cell; // if the cell has a value property, then it's a BoostNotebookCell
 
         //  dynamically add payload properties to send to Boost service
-        payload.analysis_type = "blueprint";
+        payload.analysis_type = this.command;
 
         return super.onBoostServiceRequest(cell, serviceEndpoint, payload);
     }
