@@ -42,9 +42,6 @@ export class BoostExtension {
         // ensure logging is shutdown
         context.subscriptions.push(boostLogging);
 
-        // we use a friendly name for the channel as this will be displayed to the user in the output pane
-        boostLogging.log('Activating Boost Notebook Extension');
-
         let problems = this._setupDiagnosticProblems(context);
 
         this.setupNotebookEnvironment(context, problems);
@@ -1108,7 +1105,14 @@ export class BoostExtension {
     }}
 
 export function activate(context: vscode.ExtensionContext) {
-    new BoostExtension(context);
+    try {
+        // we use a friendly name for the channel as this will be displayed to the user in the output pane
+        boostLogging.log('Activating Boost Notebook Extension');
+
+        new BoostExtension(context);
+    } catch (error) {
+        boostLogging.error(`Unable to activate Boost Notebook Extension due to error:${error}. Please retry launching, check your Boost configuration, or contact Polyverse Boost Support`);
+    }
 }
 
 // for completeness, we provide a deactivate function - asynchronous return
