@@ -132,7 +132,7 @@ export class KernelControllerBase {
         const promises : Promise<boolean>[] = [];
         const usingBoostNotebook = (notebook instanceof BoostNotebook);
 
-        if (cells.length = 0) {
+        if (cells.length === 0) {
             boostLogging.warn(`No cells to ${this.command} of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`, false);
             return;
         }
@@ -513,7 +513,7 @@ export class KernelControllerBase {
             // Check if the cell has any error output
         const hasErrorOutput = cell.outputs.some((output : any) => {
             // ignore outputs that aren't our output type
-            if (output.output_type !== this._outputType) {
+            if (output.metadata.output_type !== this._outputType) {
                 return false;
             }
             for (const item of output.items) {
@@ -528,7 +528,7 @@ export class KernelControllerBase {
         // Check if the cell has existing analysis (e.g. not missing)
         return !cell.outputs.some((output : any) => {
             // ignore outputs that aren't our output type
-            return (output.output_type === this._outputType);
+            return (output.metadata.output_type === this._outputType);
         });
     }
 
