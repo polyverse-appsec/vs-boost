@@ -14,7 +14,7 @@ Polyverse Boost Automatic Application Modernization
 - Flow Control diagrams show function name in the diagram, and calls to external functions and libraries
 
 ### Bug Fixes
-- N/A
+- Fixed bug creating Boost Notebooks for a standalone source file outside of a loaded Workspace folder
 
 ## Version 0.9.8: May 26, 2023
 

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { NOTEBOOK_TYPE } from '../../extension';
+import { NOTEBOOK_TYPE } from '../../jupyter_notebook';
 import * as assert from 'assert';
 import { debug } from 'console';
 import * as fs from 'fs';

@@ -2,7 +2,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as nbformat from '@jupyterlab/nbformat';
 import { randomUUID } from 'crypto';
-import { NOTEBOOK_EXTENSION } from './extension';
+
+export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
+export const NOTEBOOK_EXTENSION = ".boost-notebook";
 
 export const NOTEBOOK_SUMMARY_PRE_EXTENSION = '.summary';
 export const NOTEBOOK_SUMMARY_EXTENSION = NOTEBOOK_SUMMARY_PRE_EXTENSION + NOTEBOOK_EXTENSION;

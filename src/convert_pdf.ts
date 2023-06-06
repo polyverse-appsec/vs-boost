@@ -1,7 +1,6 @@
-import { BoostNotebook } from './jupyter_notebook';
+import { BoostNotebook, NOTEBOOK_EXTENSION } from './jupyter_notebook';
 import * as fs from 'fs';
 import * as path from 'path';
-import { NOTEBOOK_EXTENSION } from './extension';
 import * as crypto from 'crypto';
 import { convertNotebookToHTML } from './convert_html';
 import puppeteer from 'puppeteer';

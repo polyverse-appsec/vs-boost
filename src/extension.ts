@@ -26,9 +26,6 @@ import { registerCustomerPortalCommand, setupBoostStatus } from './portal';
 import { generatePDFforNotebook } from './convert_pdf';
 import { generateMarkdownforNotebook } from './convert_markdown';
 
-export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
-export const NOTEBOOK_EXTENSION = ".boost-notebook";
-
 export class BoostExtension {
     // for state, we keep it in a few places
     // 1. here, in the extension object.  this should really just be transient state like UI objects
@@ -84,11 +81,11 @@ export class BoostExtension {
         {
 
         // create the Problems collection
-        const problems = vscode.languages.createDiagnosticCollection(NOTEBOOK_TYPE + '.problems');
+        const problems = vscode.languages.createDiagnosticCollection(boostnb.NOTEBOOK_TYPE + '.problems');
 
         // whenever we open a boost notebook, we need to re-sync the problems (in case errors were persisted with it)
         vscode.workspace.onDidOpenNotebookDocument((event) => {
-            if (event.notebookType !== NOTEBOOK_TYPE) {
+            if (event.notebookType !== boostnb.NOTEBOOK_TYPE) {
                 return;
             }
 
@@ -121,7 +118,7 @@ export class BoostExtension {
         // when the notebook is closed, we need to clear its problems as well
         //    note that problems are tied to the cells, not the notebook
         vscode.workspace.onDidCloseNotebookDocument((event) => {
-            if (event.notebookType !== NOTEBOOK_TYPE) {
+            if (event.notebookType !== boostnb.NOTEBOOK_TYPE) {
                 return;
             }
 
@@ -162,7 +159,7 @@ export class BoostExtension {
     kernelCommand : string | undefined = undefined;
     setupKernelCommandPicker(context: vscode.ExtensionContext) {
         context.subscriptions.push(vscode.commands.registerCommand(
-            NOTEBOOK_TYPE + '.selectKernelCommand', async () => {
+            boostnb.NOTEBOOK_TYPE + '.selectKernelCommand', async () => {
                 // Use the vscode.window.showQuickPick method to let the user select kernel
                 let availableKernelItems : any[] = [];
                 let defaultKernelChoice : string | undefined = undefined;
@@ -220,14 +217,14 @@ export class BoostExtension {
             boostLogging.error(`Invalid Boost command: ${BoostConfiguration.currentKernelCommand} - set a valid Boost kernel name in User Settings or reset to default`);
         }
 
-        this.kernelStatusBar.command = NOTEBOOK_TYPE + ".selectKernelCommand";
+        this.kernelStatusBar.command = boostnb.NOTEBOOK_TYPE + ".selectKernelCommand";
         this.kernelStatusBar.show();
         context.subscriptions.push(this.kernelStatusBar);
     }
 
     private setupTestFrameworkPicker(context: vscode.ExtensionContext) {
         context.subscriptions.push(vscode.commands.registerCommand(
-            NOTEBOOK_TYPE + '.selectTestFramework', async () => {
+            boostnb.NOTEBOOK_TYPE + '.selectTestFramework', async () => {
 
                 //first get the framework from the metadata
                 const currentNotebook = vscode.window.activeNotebookEditor?.notebook;
@@ -253,7 +250,7 @@ export class BoostExtension {
 
     private setupOutputLanguagePicker(context: vscode.ExtensionContext) {
         context.subscriptions.push(vscode.commands.registerCommand(
-            NOTEBOOK_TYPE + '.selectOutputLanguage', async () => {
+            boostnb.NOTEBOOK_TYPE + '.selectOutputLanguage', async () => {
                 // Use the vscode.window.showQuickPick method to let the user select a language
                 const language = await vscode.window.showQuickPick([
                     'python', 'ruby', 'swift', 'rust',
@@ -303,7 +300,7 @@ export class BoostExtension {
 
         context.subscriptions.push(
             vscode.workspace.registerNotebookSerializer(
-                NOTEBOOK_TYPE, new BoostContentSerializer(), { transientOutputs: false }
+                boostnb.NOTEBOOK_TYPE, new BoostContentSerializer(), { transientOutputs: false }
             ),
             convertKernel,
             analyzeKernel,
@@ -330,7 +327,7 @@ export class BoostExtension {
         problems : vscode.DiagnosticCollection) {
     
         context.subscriptions.push(vscode.commands.registerCommand(
-            NOTEBOOK_TYPE + '.createJsonNotebook', async () => {
+            boostnb.NOTEBOOK_TYPE + '.createJsonNotebook', async () => {
     
                 // we prepopulate the notebook with the instructions (as markdown)
             const language = 'markdown';
@@ -340,7 +337,7 @@ export class BoostExtension {
             const data = new vscode.NotebookData([cell]);
     
             // get the defaults
-            const settings = vscode.workspace.getConfiguration(NOTEBOOK_TYPE);
+            const settings = vscode.workspace.getConfiguration(boostnb.NOTEBOOK_TYPE);
     
             data.metadata = {
                 outputLanguage : settings.outputLanguage,
@@ -348,7 +345,7 @@ export class BoostExtension {
                 defaultDir : settings.defaultDir
             };
     
-            const doc = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, data);
+            const doc = await vscode.workspace.openNotebookDocument(boostnb.NOTEBOOK_TYPE, data);
     
             const editor = await vscode.window.showNotebookDocument(doc);
         }));}
@@ -356,7 +353,7 @@ export class BoostExtension {
     registerOpenCodeFile(context: vscode.ExtensionContext) {
         // Register a command to handle the button click
         context.subscriptions.push(vscode.commands.registerCommand(
-            NOTEBOOK_TYPE + '.loadCodeFile', async () => {
+            boostnb.NOTEBOOK_TYPE + '.loadCodeFile', async () => {
     
             // Get all the cells in the newly created notebook
             const notebookEditor = vscode.window.activeNotebookEditor;
@@ -491,13 +488,13 @@ export class BoostExtension {
 
     registerFolderRightClickAnalyzeCommand(context: vscode.ExtensionContext, ) {
 
-        let disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.loadCurrentFolder',
+        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.loadCurrentFolder',
             async (uri: vscode.Uri) => {
                 return this.loadCurrentFolder(uri, context);
             });
         context.subscriptions.push(disposable);
 
-        disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.processCurrentFolder',
+        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.processCurrentFolder',
             async (uri: vscode.Uri, kernelCommand? : string, forceAnalysisRefresh : boolean = false) => {
                 const likelyViaUI = !kernelCommand || typeof(kernelCommand) !== 'string';
                 if (likelyViaUI) {
@@ -512,7 +509,7 @@ export class BoostExtension {
 
     registerFolderRightClickPdfCommands(context: vscode.ExtensionContext, ) {
 
-        let disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.pdfCurrentFile',
+        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.pdfCurrentFile',
             async (uri: vscode.Uri) => {
                 await this.pdfFromCurrentFile(uri).then((pdfFile : string) => {
                     if (!uri) {
@@ -526,7 +523,7 @@ export class BoostExtension {
             });
         context.subscriptions.push(disposable);
 
-        disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.pdfCurrentFolder',
+        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.pdfCurrentFolder',
             async (uri: vscode.Uri) => {
                 return this.pdfFromCurrentFolder(uri).catch((error : any) => {
                     boostLogging.error((error as Error).message, );
@@ -537,7 +534,7 @@ export class BoostExtension {
 
     registerFolderRightClickMarkdownCommands(context: vscode.ExtensionContext, ) {
 
-        let disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.markdownCurrentFile',
+        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.markdownCurrentFile',
             async (uri: vscode.Uri) => {
                 await this.markdownFromCurrentFile(uri).then((markdownFile : string) => {
                     if (!uri) {
@@ -551,7 +548,7 @@ export class BoostExtension {
             });
         context.subscriptions.push(disposable);
 
-        disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.markdownCurrentFolder',
+        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.markdownCurrentFolder',
             async (uri: vscode.Uri) => {
                 return this.markdownFromCurrentFolder(uri).catch((error : any) => {
                     boostLogging.error((error as Error).message, );
@@ -581,7 +578,7 @@ export class BoostExtension {
                 const boostNotebooks: vscode.NotebookDocument[] =
                     vscode.workspace.notebookDocuments.filter(async (doc) => {
                     // we're skipping non Boost notebooks
-                    return (doc.notebookType === NOTEBOOK_TYPE);
+                    return (doc.notebookType === boostnb.NOTEBOOK_TYPE);
                 });
 
                 // if we have more than one notebook, we need to ask user which one to use
@@ -648,7 +645,7 @@ export class BoostExtension {
 
             let boostUri = uri;
                 // if we got a source file, then load the notebook from it
-            if (!uri.fsPath.endsWith(NOTEBOOK_EXTENSION)) {
+            if (!uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
                 boostUri = getBoostNotebookFile(uri);
             }
 
@@ -756,13 +753,13 @@ export class BoostExtension {
     
     registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext, ) {
     
-        let disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.loadCurrentFile',
+        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.loadCurrentFile',
             async (uri: vscode.Uri) => {
                 return this.loadCurrentFile(uri, context);
             });
         context.subscriptions.push(disposable);
 
-        disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.processCurrentFile',
+        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.processCurrentFile',
             async (uri: vscode.Uri, kernelCommand? : string, forceAnalysisRefresh : boolean = false) => {
                 const likelyViaUI = !kernelCommand || typeof(kernelCommand) !== 'string';
                 if (likelyViaUI) {
@@ -794,7 +791,7 @@ export class BoostExtension {
 
                 let boostUri = uri;
                     // if we got a source file, then load the notebook from it
-                if (!uri.fsPath.endsWith(NOTEBOOK_EXTENSION)) {
+                if (!uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
                     boostUri = getBoostNotebookFile(uri);
                 }
 
@@ -839,7 +836,7 @@ export class BoostExtension {
             baseWorkspace = folderUri;
         }
         // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
-        let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*' + NOTEBOOK_EXTENSION);
+        let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*' + boostnb.NOTEBOOK_EXTENSION);
         let ignorePattern = await _buildVSCodeIgnorePattern(false);
         boostLogging.debug("Skipping Boost Notebook files of pattern: " + ignorePattern??"none");
         let files = await vscode.workspace.findFiles(searchPattern, ignorePattern?new vscode.RelativePattern(targetFolder, ignorePattern):"");
@@ -889,7 +886,7 @@ export class BoostExtension {
 
                 let boostUri = uri;
                     // if we got a source file, then load the notebook from it
-                if (!uri.fsPath.endsWith(NOTEBOOK_EXTENSION)) {
+                if (!uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
                     boostUri = getBoostNotebookFile(uri);
                 }
 
@@ -934,7 +931,7 @@ export class BoostExtension {
             baseWorkspace = folderUri;
         }
         // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
-        let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*' + NOTEBOOK_EXTENSION);
+        let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*' + boostnb.NOTEBOOK_EXTENSION);
         let ignorePattern = await _buildVSCodeIgnorePattern(false);
         boostLogging.debug("Skipping Boost Notebook files of pattern: " + ignorePattern??"none");
         let files = await vscode.workspace.findFiles(searchPattern, ignorePattern?new vscode.RelativePattern(targetFolder, ignorePattern):"");
@@ -966,13 +963,13 @@ export class BoostExtension {
     }
 
     registerAnalyzeProject(context: vscode.ExtensionContext) {
-        let disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.analyzeProject',
+        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.analyzeProject',
             async (uri: vscode.Uri) => {
                 return this.analyzeProject(uri);
             });
         context.subscriptions.push(disposable);
 
-        disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.summarizeNotebook',
+        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.summarizeNotebook',
             async (uri: vscode.Uri) => {
                 return this.summarizeNotebook(uri);
             });
@@ -1007,7 +1004,7 @@ export class BoostExtension {
             baseWorkspace = folderUri;
         }
         // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
-        let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*' + NOTEBOOK_EXTENSION);
+        let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*' + boostnb.NOTEBOOK_EXTENSION);
         let ignorePattern = await _buildVSCodeIgnorePattern(false);
         boostLogging.debug("Skipping Boost Notebook files of pattern: " + ignorePattern??"none");
         let files = await vscode.workspace.findFiles(searchPattern, ignorePattern?new vscode.RelativePattern(targetFolder, ignorePattern):"");
@@ -1044,7 +1041,7 @@ export class BoostExtension {
             const notebook = new boostnb.BoostNotebook();
             if (!leafNotebookUri) {
                 throw new Error('No notebook provided');
-            } else if (!leafNotebookUri.fsPath.endsWith(NOTEBOOK_EXTENSION)) {
+            } else if (!leafNotebookUri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
                 throw new Error('File is not a notebook');
             } else if (!fs.existsSync(leafNotebookUri.fsPath)) {
                 throw new Error(`Unable to find Boost notebook for ${leafNotebookUri.fsPath} - please create Boost notebook first`);
@@ -1077,7 +1074,7 @@ export class BoostExtension {
             const notebook = new boostnb.BoostNotebook();
             if (!leafNotebookUri) {
                 throw new Error('No notebook provided');
-            } else if (!leafNotebookUri.fsPath.endsWith(NOTEBOOK_EXTENSION)) {
+            } else if (!leafNotebookUri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
                 throw new Error('File is not a notebook');
             } else if (!fs.existsSync(leafNotebookUri.fsPath)) {
                 throw new Error(`Unable to find Boost notebook for ${leafNotebookUri.fsPath} - please create Boost notebook first`);
@@ -1118,16 +1115,16 @@ export function activate(context: vscode.ExtensionContext) {
 // for completeness, we provide a deactivate function - asynchronous return
 //    if we have resources to cleanup in the future
 export async function deactivate(): Promise<void> {
-    const outputChannel = vscode.window.createOutputChannel(NOTEBOOK_TYPE);
+    const outputChannel = vscode.window.createOutputChannel(boostnb.NOTEBOOK_TYPE);
 
     outputChannel.appendLine('Deactivating Boost Notebook Extension');
   
     return undefined;
 }
 
-export function getBoostNotebookFile(sourceFile : vscode.Uri) : vscode.Uri {
-    // if we don't have a workspace folder, just place the Boost file in a new Boostdir - next to the source file
+export function getBoostNotebookFile(sourceFile : vscode.Uri, buildSummary : boolean = false, showUI : boolean = false) : vscode.Uri {
 
+    // if we don't have a workspace folder, just place the Boost file in a new Boostdir - next to the source file
     let baseFolder;
     if (!vscode.workspace.workspaceFolders) {
         baseFolder = path.dirname(sourceFile.fsPath);
@@ -1142,9 +1139,20 @@ export function getBoostNotebookFile(sourceFile : vscode.Uri) : vscode.Uri {
 
     // get the distance from the workspace folder for the source file
     const relativePath = path.relative(baseFolder,sourceFile.fsPath);
-    // create the .boost file path, from the new boost folder + amended relative source file path
-    const absoluteBoostNotebookFile = path.join(boostFolder, relativePath + NOTEBOOK_EXTENSION);
-    let boostNotebookFile = vscode.Uri.file(absoluteBoostNotebookFile);
+
+    let boostNotebookFile : vscode.Uri;
+    // if the new file is outside of our current workspace, then warn user
+    // and place the new .boost file next to it (not great, but better than nothing)
+    if (relativePath.startsWith("..")) {
+        boostLogging.warn(`Boost Notebook file ${sourceFile.fsPath} is outside of current workspace ${baseFolder}`, showUI);
+        const externalBoostFile = sourceFile.fsPath + (buildSummary?boostnb.NOTEBOOK_SUMMARY_EXTENSION:boostnb.NOTEBOOK_EXTENSION);
+        boostNotebookFile = vscode.Uri.file(externalBoostFile);
+    } else {
+        // create the .boost file path, from the new boost folder + amended relative source file path
+        const absoluteBoostNotebookFile = path.join(
+            boostFolder, relativePath + (buildSummary?boostnb.NOTEBOOK_SUMMARY_EXTENSION:boostnb.NOTEBOOK_EXTENSION));
+        boostNotebookFile = vscode.Uri.file(absoluteBoostNotebookFile);
+    }
     return boostNotebookFile;
 }
 
@@ -1211,7 +1219,7 @@ async function createNotebookFromSourceFile(
             if (useBoostNotebookWithNoUI) {
                 newNotebook = new boostnb.BoostNotebook();
             } else {
-                newNotebook = await vscode.workspace.openNotebookDocument(NOTEBOOK_TYPE, new vscode.NotebookData([]));
+                newNotebook = await vscode.workspace.openNotebookDocument(boostnb.NOTEBOOK_TYPE, new vscode.NotebookData([]));
             }
         } else {
             newNotebook = existingNotebook;

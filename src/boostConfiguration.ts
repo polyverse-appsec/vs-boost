@@ -1,4 +1,4 @@
-import { NOTEBOOK_TYPE } from "./extension";
+import { NOTEBOOK_TYPE } from "./jupyter_notebook";
 import { workspace, extensions, ConfigurationTarget } from "vscode";
 
 export class BoostConfiguration {

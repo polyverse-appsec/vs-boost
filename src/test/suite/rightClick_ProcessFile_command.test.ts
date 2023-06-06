@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { NOTEBOOK_TYPE } from '../../extension';
+import { NOTEBOOK_TYPE } from '../../jupyter_notebook';
 import { getRandomTestSourceFile, seconds, minutes } from '../suite/utils';
 import * as assert from 'assert';
 import { getBoostNotebookFile} from '../../extension';

@@ -97,12 +97,11 @@ export class SummarizeKernel extends KernelControllerBase {
         let targetNotebookUri: vscode.Uri;
         const targetNotebook: BoostNotebook = new BoostNotebook();
 
-
         if (summarizeSourceFile) {
-            targetNotebookUri = getBoostNotebookFile(vscode.Uri.parse(notebook.metadata['sourceFile'] as string));
+            targetNotebookUri = getBoostNotebookFile(vscode.Uri.parse(notebook.metadata['sourceFile'] as string), true);
             targetNotebook.load(targetNotebookUri.fsPath);
         } else {
-            targetNotebookUri = getBoostNotebookFile(vscode.Uri.parse(notebook.metadata['sourceFile'] as string));
+            targetNotebookUri = getBoostNotebookFile(vscode.Uri.parse(notebook.metadata['sourceFile'] as string), true);
             targetNotebook.load(targetNotebookUri.fsPath);
             throw new Error("Summarizing a project is not yet supported");
         }
