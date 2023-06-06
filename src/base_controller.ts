@@ -92,7 +92,7 @@ export class KernelControllerBase {
         // if user is explicitly analyzing a single cell via the traditional UI, then just refresh it always
         const forceAnalysisRefresh = cells.length === 1;
 
-        return this.executeAllWithAuthorization(cells, notebook);
+        return this.executeAllWithAuthorization(cells, notebook, forceAnalysisRefresh);
 	}
 
 	async executeAllWithAuthorization(
