@@ -19,6 +19,7 @@ export class KernelControllerBase {
     private _outputType : string;
     private _useGeneratedCodeCellOptimization : boolean;
     private useOriginalCodeCheck = false;
+    private dynamicInputKey : string; // name of the input parameter
 
 	private _executionOrder = 0;
 	private readonly _controller: vscode.NotebookController;
@@ -35,7 +36,8 @@ export class KernelControllerBase {
         useOriginalCodeCheck : boolean,
         context: vscode.ExtensionContext,
         otherThis : any,
-        onServiceErrorHandler: onServiceErrorHandler) {
+        onServiceErrorHandler: onServiceErrorHandler,
+        dynamicInputKey : string = 'code') {
             
         this._problemsCollection = problemsCollection;
         this.command = kernelId;
@@ -47,6 +49,7 @@ export class KernelControllerBase {
         this.useOriginalCodeCheck = useOriginalCodeCheck;
         this.context = context;
         this.otherThis = otherThis;
+        this.dynamicInputKey = dynamicInputKey;
         this._onServiceError = onServiceErrorHandler;
 
 		this._controller = vscode.notebooks.createNotebookController(this.id,
@@ -258,10 +261,10 @@ export class KernelControllerBase {
         }
 
         // get the code from the cell
-        const code = usingBoostNotebook? (cell as BoostNotebookCell).value : (cell as vscode.NotebookCell).document.getText();
+        const input = usingBoostNotebook? (cell as BoostNotebookCell).value : (cell as vscode.NotebookCell).document.getText();
 
         let payload = {
-            code: code,
+            [this.dynamicInputKey]: input,
             session: session.accessToken,
             organization: organization
         };

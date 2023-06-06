@@ -35,7 +35,8 @@ export class SummarizeKernel extends KernelControllerBase {
             false,
             context,
             otherThis,
-            onServiceErrorHandler);
+            onServiceErrorHandler,
+            "inputs");
 
         this._kernels = kernels;
     }
@@ -146,6 +147,7 @@ export class SummarizeKernel extends KernelControllerBase {
         // we create a placeholder cell for the input, so we can do processing on the input
         // then we'll take the resulting data and put into the cell itself
         const tempProcessingCell = new BoostNotebookCell(NotebookCellKind.Markup, combinedInput, "markdown");
+        tempProcessingCell.initializeMetadata({"id": tempProcessingCell.id, "type": "originalCode"});
     
         // summaries are written to the side-by-notebook (e.g. e.g. for foo.py, the boost notebook is foo.py.boost-notebook, and summary is foo.py.summary.boost-notebook)
         // the cell written is ONE cell for the entire source file in the summary file
