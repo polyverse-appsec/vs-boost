@@ -183,7 +183,7 @@ export class SummarizeKernel extends KernelControllerBase {
         }
 
         if (summarizeSourceFile) {
-            let targetCell = findCellByKernel(targetNotebook, this.command) as BoostNotebookCell;
+            let targetCell = findCellByKernel(targetNotebook, outputType) as BoostNotebookCell;
             if (!targetCell) {
                 targetCell = new BoostNotebookCell(NotebookCellKind.Markup, "", "markdown");
                 targetNotebook.addCell(targetCell);
