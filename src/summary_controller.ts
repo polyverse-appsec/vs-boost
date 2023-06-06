@@ -67,8 +67,6 @@ export class SummarizeKernel extends KernelControllerBase {
         session: vscode.AuthenticationSession,
         forceAnalysisRefresh: boolean = false
     ) {
-        let successfullyCompleted = true;
-        const promises: Promise<boolean>[] = [];
         const usingBoostNotebook = notebook instanceof BoostNotebook;
 
         // for now, we ignore forceAnalysisRefresh - and always re-analyze
@@ -95,7 +93,6 @@ export class SummarizeKernel extends KernelControllerBase {
             summarizeSourceFile = !notebook.uri.toString().endsWith(NOTEBOOK_SUMMARY_EXTENSION);
         }
 
-        let combinedInput : string;
         let targetNotebookUri: vscode.Uri;
         const targetNotebook: BoostNotebook = new BoostNotebook();
 
@@ -110,10 +107,34 @@ export class SummarizeKernel extends KernelControllerBase {
             targetNotebook.save(targetNotebookUri.fsPath);
         }
 
-        this._kernels.forEach(controller => {
-            this._summarizeCellsForKernel(controller.outputType, summarizeSourceFile, combinedInput,
-                sourceCells, targetNotebook, notebook, session, usingBoostNotebook);
-        });
+        let successfullyCompleted = true;
+        const executionContexts : any[] = [];
+        if (usingBoostNotebook) {
+            notebook.cells.forEach(cell => {
+                executionContexts.push(super.openExecutionContext(usingBoostNotebook, cell));
+            });
+        } else {
+            notebook.getCells().forEach(cell => {
+                executionContexts.push(super.openExecutionContext(usingBoostNotebook, cell));
+            });
+        }
+        let combinedInput : string = "";
+        try
+        {
+            for (const controller of this._kernels) {
+                await this._summarizeCellsForKernel(controller[1].outputType, summarizeSourceFile, combinedInput,
+                  sourceCells, targetNotebook, notebook, session, usingBoostNotebook);
+              }
+        } catch (rethrow) {
+            successfullyCompleted = false;
+            boostLogging.error(`Error during ${this.command} of Notebook ${targetNotebookUri.fsPath} at ${new Date().toLocaleTimeString()}`, false);
+            throw rethrow;
+        }
+        finally {
+            executionContexts.forEach(executionContext => {
+                super.closeExecutionContext(executionContext, successfullyCompleted);
+            });
+        }
         
         if (usingBoostNotebook) {
             boostLogging.info(`Finished ${this.command} of Notebook ${targetNotebookUri.fsPath} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);

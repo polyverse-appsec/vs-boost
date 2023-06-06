@@ -660,4 +660,26 @@ export class KernelControllerBase {
                 ]:undefined
         }]);
     }
+
+    openExecutionContext(usingBoostNotebook : boolean, cell : vscode.NotebookCell | BoostNotebookCell) : any {
+        const execution = usingBoostNotebook? undefined : this._controller.createNotebookCellExecution(cell as vscode.NotebookCell);
+
+        const startTime = Date.now();
+        if (execution) {
+            execution.executionOrder = ++this._executionOrder;
+            execution.start(startTime);
+        }
+
+        return { execution, startTime };
+    }
+
+    closeExecutionContext(executionContext : any, successfullyCompleted : boolean) {
+        const duration = Date.now() - executionContext.startTime;
+        const minutes = Math.floor(duration / 60000);
+        const seconds = ((duration % 60000) / 1000).toFixed(0);
+        if (executionContext.execution) {
+            executionContext.execution.end(successfullyCompleted, Date.now());
+        }
+    }
+
 }
