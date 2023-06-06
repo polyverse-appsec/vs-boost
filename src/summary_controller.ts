@@ -51,7 +51,7 @@ export class SummarizeKernel extends KernelControllerBase {
             case "local":
                 return 'http://127.0.0.1:8000/summarize';
             case 'dev':
-                return '';
+                return 'https://sh6w6cyjee6wmtmlqutbxy6d2y0vaaas.lambda-url.us-west-2.on.aws/';
             case "test":
                 return '';
             case 'staging':
