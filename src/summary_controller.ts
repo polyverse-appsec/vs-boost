@@ -138,6 +138,10 @@ export class SummarizeKernel extends KernelControllerBase {
 
             throw new Error("Summarizing a project is not yet supported");
         }
+        // if we got no input, then skip deep processing
+        if (!combinedInput) {
+            return;
+        }
     
         // we create a placeholder cell for the input, so we can do processing on the input
         // then we'll take the resulting data and put into the cell itself
