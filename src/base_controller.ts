@@ -155,7 +155,9 @@ export class KernelControllerBase {
 
             // if this cell has output, then skip it unless we're forcing analysis
             if (!forceAnalysisRefresh && !this.isCellOutputMissingOrError(cell)) {
-                boostLogging.info(`NO-Force-Refresh: Skipping re-analysis ${this.command} of Notebook ${notebook.metadata['sourceFile']} on cell ${(cell as BoostNotebookCell).id}}`, false);
+                boostLogging.info(
+                    `NO-Force-Refresh: Skipping re-analysis ${this.command} of Notebook ${notebook.metadata['sourceFile']}` +
+                    ` on cell ${usingBoostNotebook?(cell as BoostNotebookCell).id:(cell as vscode.NotebookCell).document.uri.toString()}}`, false);
                 continue;
             }
             
@@ -513,7 +515,7 @@ export class KernelControllerBase {
             // Check if the cell has any error output
         const hasErrorOutput = cell.outputs.some((output : any) => {
             // ignore outputs that aren't our output type
-            if (output.metadata.output_type !== this._outputType) {
+            if (output.metadata?.outputType !== this._outputType) {
                 return false;
             }
             for (const item of output.items) {
@@ -528,7 +530,7 @@ export class KernelControllerBase {
         // Check if the cell has existing analysis (e.g. not missing)
         return !cell.outputs.some((output : any) => {
             // ignore outputs that aren't our output type
-            return (output.metadata.output_type === this._outputType);
+            return (output.metadata?.outputType === this._outputType);
         });
     }
 
