@@ -158,7 +158,10 @@ export class BoostExtension {
 
     async initializeFromWorkspaceFolder(boostProjectData : BoostProjectData, workspaceFolder : vscode.Uri) {
         // this doesn't work... we need to find a way to open a specific cell
-        boostProjectData.summary.blueprintUrl = getBoostFile(workspaceFolder, BoostFileType.summary).fsPath + "?cell-metadata=blueprint";
+        //boostProjectData.summary.blueprintUrl = getBoostFile(workspaceFolder, BoostFileType.summary).fsPath + "?cell-metadata=blueprint";
+        //this is not right I don't think either, but it's closer. use vsCode to get the file ./boost/blueprint.md
+        const blueprintFile = BoostConfiguration.defaultDir + "/blueprint.md";
+        boostProjectData.summary.blueprintUrl = blueprintFile;
         boostProjectData.summary.filesToAnalyze = await this.getBoostFilesForFolder(workspaceFolder, false);
         boostProjectData.summary.filesAnalyzed = await this.getBoostFilesForFolder(workspaceFolder, true);
 

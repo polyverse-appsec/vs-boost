@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Uri } from 'vscode';
+import * as vscode from 'vscode'; 
 
 export const PROJECT_EXTENSION = ".boost-project";
 
@@ -216,4 +216,16 @@ export class BoostProjectData implements IBoostProjectData {
         Object.assign(boostProjectData, emptyProjectData);
         return boostProjectData;
     }
+};
+
+export async function getOrCreateBlueprintUri(context: vscode.ExtensionContext, filePath: string): Promise<vscode.Uri>{
+    const uri = vscode.Uri.file(filePath);
+    if (!fs.existsSync(filePath)) {
+        // If the file doesn't exist, create it with data from blueprint_template.md
+        const extensionPath = context.extensionPath;
+        const templatePath = path.join(extensionPath, 'resources', 'blueprint_template.md');
+        const data = fs.readFileSync(templatePath);
+        fs.writeFileSync(filePath, data);
+    }
+    return uri;
 }

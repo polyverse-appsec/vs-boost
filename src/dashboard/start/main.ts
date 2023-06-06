@@ -22,6 +22,9 @@ function main() {
   // to the element (i.e. the `as Button` syntax)
   const howdyButton = document.getElementById("analyze_all") as Button;
   howdyButton?.addEventListener("click", handleAnalyzeAllClick);
+
+  const blueprintLink = document.getElementById("blueprint-link") as HTMLAnchorElement;
+  blueprintLink?.addEventListener("click", openFile);
 }
 
 // Callback function that is executed when the howdy button is clicked
@@ -59,5 +62,13 @@ function handleAnalyzeAllClick() {
   //
   vscode.postMessage({
     command: "analyze_all"
+  });
+}
+
+function openFile(event) {
+  const path = event.target.getAttribute("href");
+  vscode.postMessage({
+      command: 'open_file',
+      file: path
   });
 }

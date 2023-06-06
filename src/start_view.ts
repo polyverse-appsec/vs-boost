@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
 import { BoostExtension } from './extension';
+import { getOrCreateBlueprintUri} from './BoostProjectData';
 
 
 export class BoostStartViewProvider implements vscode.WebviewViewProvider {
@@ -36,12 +37,19 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
 
 		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview, boostdata);
 
-		webviewView.webview.onDidReceiveMessage(data => {
+		webviewView.webview.onDidReceiveMessage(async data => {
 			switch (data.command) {
 				case 'analyze_all':
 					{
 						//just pop a dialog saying we got here for now
 						vscode.window.showInformationMessage('Analyze all clicked');
+					}
+				case 'open_file':
+					{
+						const path = data.file;
+						const blueprintUri = await getOrCreateBlueprintUri(this.context, path);
+						const document = await vscode.workspace.openTextDocument(blueprintUri);
+						await vscode.window.showTextDocument(document);
 					}
 			}
 		});
@@ -61,9 +69,18 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
         const jsSrc = webview.asWebviewUri(jsPathOnDisk);
 		const nonce = 'nonce-123456'; // TODO: add a real nonce here
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
-    
+
+		//HACK HACK HACK
+		//for now just force the blueprint url to be the same path but the file blueprint.md
+		//this is a hack to get the blueprint to show up in the webview
+		//strip off everything past the ? in the url
+
+		const blueprintFsPath = path.dirname(boostdata.summary.blueprintUrl.split('?')[0]	);
+		const blueprintFile = path.join(blueprintFsPath, 'blueprint.md');
+
+
         const template = _.template(rawHtmlContent);
-        const htmlContent = template({ jsSrc, nonce, boostdata });
+        const htmlContent = template({ jsSrc, nonce, boostdata, blueprintFile});
     
         return htmlContent;
     }
