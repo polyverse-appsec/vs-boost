@@ -10,6 +10,7 @@ import { NOTEBOOK_SUMMARY_EXTENSION } from './jupyter_notebook';
 import { getBoostNotebookFile, findCellByKernel } from './extension';
 import { NotebookCellKind } from './jupyter_notebook';
 import { ICellMetadata } from '@jupyterlab/nbformat';
+import * as fs from 'fs';
 
 export const summaryCellMarker = 'summary';
 
@@ -99,11 +100,13 @@ export class SummarizeKernel extends KernelControllerBase {
 
         if (summarizeSourceFile) {
             targetNotebookUri = getBoostNotebookFile(vscode.Uri.parse(notebook.metadata['sourceFile'] as string), true);
+        } else {
+            throw new Error("Summarizing a project is not yet supported");
+        }
+        if (fs.existsSync(targetNotebookUri.fsPath)) {
             targetNotebook.load(targetNotebookUri.fsPath);
         } else {
-            targetNotebookUri = getBoostNotebookFile(vscode.Uri.parse(notebook.metadata['sourceFile'] as string), true);
-            targetNotebook.load(targetNotebookUri.fsPath);
-            throw new Error("Summarizing a project is not yet supported");
+            targetNotebook.save(targetNotebookUri.fsPath);
         }
 
         this._kernels.forEach(controller => {
