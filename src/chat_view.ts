@@ -47,14 +47,14 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 		this._boostExtension = boostExtension;
 	}
 
-	public resolveWebviewView(
+	public async resolveWebviewView(
 		webviewView: vscode.WebviewView,
 		context: vscode.WebviewViewResolveContext,
 		_token: vscode.CancellationToken,
 	) {
 		this._view = webviewView;
 
-		this._chats = this._initializeChats();
+		this._chats = await this._initializeChats();
 
 		webviewView.webview.options = {
 			// Allow scripts in the webview
