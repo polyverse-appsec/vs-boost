@@ -121,7 +121,7 @@ export class KernelControllerBase {
         session : vscode.AuthenticationSession) {
 
         let successfullyCompleted = true;
-        const promises = [];
+        const promises : Promise<boolean>[] = [];
         const usingBoostNotebook = (notebook instanceof BoostNotebook);
 
         if (cells.length = 0) {
