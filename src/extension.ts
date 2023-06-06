@@ -1156,7 +1156,7 @@ export function getBoostNotebookFile(sourceFile : vscode.Uri, buildSummary : boo
     return boostNotebookFile;
 }
 
-export function findCellByKernel(targetNotebook: vscode.NotebookDocument | boostnb.BoostNotebook, command: string): vscode.NotebookCell | boostnb.BoostNotebookCell | undefined {
+export function findCellByKernel(targetNotebook: vscode.NotebookDocument | boostnb.BoostNotebook, outputType: string): vscode.NotebookCell | boostnb.BoostNotebookCell | undefined {
     let cells: (vscode.NotebookCell | boostnb.BoostNotebookCell)[] = [];
 
     const usingBoostNotebook = targetNotebook instanceof boostnb.BoostNotebook;
@@ -1167,7 +1167,7 @@ export function findCellByKernel(targetNotebook: vscode.NotebookDocument | boost
     }
 
     for (const cell of cells) {
-        if (cell.metadata?.analysis_type === command) {
+        if (cell.metadata?.outputType === outputType) {
             return cell;
         }
     }
