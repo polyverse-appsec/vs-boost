@@ -69,14 +69,8 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
         const jsSrc = webview.asWebviewUri(jsPathOnDisk);
 		const nonce = 'nonce-123456'; // TODO: add a real nonce here
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
-
-		//HACK HACK HACK
-		//for now just force the blueprint url to be the same path but the file blueprint.md
-		//this is a hack to get the blueprint to show up in the webview
-		//strip off everything past the ? in the url
-
-		const blueprintFsPath = path.dirname(boostdata.summary.blueprintUrl.split('?')[0]	);
-		const blueprintFile = path.join(blueprintFsPath, 'blueprint.md');
+		
+		const blueprintFile = boostdata.summary.blueprintUrl; 
 
 
         const template = _.template(rawHtmlContent);

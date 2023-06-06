@@ -7,7 +7,7 @@ import { BoostExtension } from './extension';
 import { BoostConfiguration } from './boostConfiguration';
 import { callServiceEndpoint } from './lambda_util';
 import {marked} from 'marked';
-
+import { getOrCreateBlueprintUri} from './BoostProjectData';
 
 
 /*
@@ -37,12 +37,14 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 	private _tempFilename?: string;
 	private _context: vscode.ExtensionContext;
 	private _activeid = 0;
+	private _boostExtension: BoostExtension;
 
 	constructor(
 		private readonly context: vscode.ExtensionContext,
-		private _boostExtension: BoostExtension
+		private boostExtension: BoostExtension
 	) { 
 		this._context = context;
+		this._boostExtension = boostExtension;
 	}
 
 	public resolveWebviewView(
@@ -164,25 +166,22 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 		});
 	}
 
-	private _initializeChats(): any {
+	private async _initializeChats(): Promise<any> {
 		this._chats = this._loadJsonData();
 
 		if (this._chats === undefined){
-			this._chats = [
-				{
-					"title": "AI Chat",
-					"messages": []
-
-				}
-			];
+			this._chats = [{
+				title: "AI Chat",
+				messages: [await this._getInitialSystemMessage()]
+			}];
 		}
 		return this._chats;
 	}
 
-	private _addChat() {
+	private async _addChat() {
 		this._chats.push({
-			"title": "AI Chat",
-			"messages": []
+			title: "AI Chat",
+			messages: [await this._getInitialSystemMessage()]
 		});
 		this._saveJsonData(this._chats);
 		this._activeid = this._chats.length - 1;
@@ -193,6 +192,18 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 		this._chats.splice(chatindex, 1);
 		this._saveJsonData(this._chats);
 		this.refresh();
+	}
+
+	private async _getInitialSystemMessage(): Promise<any> {
+		const boostdata = this._boostExtension.getBoostProjectData();
+		const blueprintUri = await getOrCreateBlueprintUri(this.context, boostdata.summary.blueprintUrl);
+		//now load the blueprint from the file system and get the first prompt
+		const blueprintdata = fs.readFileSync(blueprintUri.fsPath, 'utf8');
+		const systemPrompt = "You are an AI programming assistant working on a project described after ####. You prioritize accurate responses and all responses are in markdown format. ####\n";
+		return {
+			"role": "system",
+			"content": systemPrompt + blueprintdata
+		};
 	}
 
 	private _getTempFilename(): string {
