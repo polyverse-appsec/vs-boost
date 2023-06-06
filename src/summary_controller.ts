@@ -173,6 +173,7 @@ export class SummarizeKernel extends KernelControllerBase {
         } else {
             throw new Error("Summarizing a project is not yet supported");
         }
+        targetNotebook.flushToFS();
     }
 
     _summarizeCellsAsSingleInput(
