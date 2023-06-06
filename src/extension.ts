@@ -298,7 +298,7 @@ export class BoostExtension {
         this.kernels.set(blueprintKernel.command, blueprintKernel);
         let flowDiagramKernel = new BoostFlowDiagramKernel(context, updateBoostStatusColors.bind(this), this, collection);
         this.kernels.set(flowDiagramKernel.command, flowDiagramKernel);
-        let summarizeKernel = new SummarizeKernel(context, updateBoostStatusColors.bind(this), this, collection);
+        let summarizeKernel = new SummarizeKernel(context, updateBoostStatusColors.bind(this), this, collection, this.kernels);
         this.kernels.set(summarizeKernel.command, summarizeKernel);
 
         context.subscriptions.push(

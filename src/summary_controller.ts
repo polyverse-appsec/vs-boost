@@ -9,13 +9,21 @@ import { boostLogging } from './boostLogging';
 import { NOTEBOOK_SUMMARY_EXTENSION } from './jupyter_notebook';
 import { getBoostNotebookFile, findCellByKernel } from './extension';
 import { NotebookCellKind } from './jupyter_notebook';
+import { ICellMetadata } from '@jupyterlab/nbformat';
 
 export const summaryCellMarker = 'summary';
 
 const summaryInputDelimiter = '# New Input Follows';
 
 export class SummarizeKernel extends KernelControllerBase {
-	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: DiagnosticCollection) {
+    _kernels : Map<string, KernelControllerBase>;
+	constructor(
+        context: ExtensionContext,
+        onServiceErrorHandler: onServiceErrorHandler,
+        otherThis : any,
+        collection: DiagnosticCollection,
+        kernels : Map<string, KernelControllerBase>) {
+
         super(
             collection,
             'summarize',
@@ -27,7 +35,9 @@ export class SummarizeKernel extends KernelControllerBase {
             context,
             otherThis,
             onServiceErrorHandler);
-	}
+
+        this._kernels = kernels;
+    }
 
 	dispose(): void {
 		super.dispose();
@@ -55,12 +65,12 @@ export class SummarizeKernel extends KernelControllerBase {
         session: vscode.AuthenticationSession,
         forceAnalysisRefresh: boolean = false
     ) {
-        // for now, we ignore forceAnalysisRefresh - and always re-analyze
-        forceAnalysisRefresh = true;
-
         let successfullyCompleted = true;
         const promises: Promise<boolean>[] = [];
         const usingBoostNotebook = notebook instanceof BoostNotebook;
+
+        // for now, we ignore forceAnalysisRefresh - and always re-analyze
+        forceAnalysisRefresh = true;
     
         if (sourceCells.length === 0) {
             boostLogging.warn(`No cells to ${this.command} of Notebook ${usingBoostNotebook ? notebook.fsPath : notebook.uri.toString()}`, false);
@@ -68,44 +78,65 @@ export class SummarizeKernel extends KernelControllerBase {
         }
     
         boostLogging.info(`Starting ${this.command} of Notebook ${usingBoostNotebook ? notebook.fsPath : notebook.uri.toString()}`, false);
+
+        // summary is designed to review an entire file - since it will replace the file-level summary each time
+        // warn user - but still do it
+        if (sourceCells.length < notebook.cellCount) {
+            boostLogging.warn(`Not all cells (${sourceCells.length}/${notebook.cellCount}) are analyzed for ${this.command} of Notebook ${notebook.uri.toString()}`, !usingBoostNotebook);
+        }
     
         // are we summarizing a source file or a project?
         let summarizeSourceFile = false;
         if (usingBoostNotebook) {
-            summarizeSourceFile = (notebook.metadata['sourceFile'] as string)?.endsWith(NOTEBOOK_SUMMARY_EXTENSION);
+            summarizeSourceFile = !(notebook.metadata['sourceFile'] as string)?.endsWith(NOTEBOOK_SUMMARY_EXTENSION);
         } else {
-            summarizeSourceFile = notebook.uri.toString().endsWith(NOTEBOOK_SUMMARY_EXTENSION);
+            summarizeSourceFile = !notebook.uri.toString().endsWith(NOTEBOOK_SUMMARY_EXTENSION);
+        }
+
+        let combinedInput : string;
+        let targetNotebookUri: vscode.Uri;
+        const targetNotebook: BoostNotebook = new BoostNotebook();
+
+
+        if (summarizeSourceFile) {
+            targetNotebookUri = getBoostNotebookFile(vscode.Uri.parse(notebook.metadata['sourceFile'] as string));
+            targetNotebook.load(targetNotebookUri.fsPath);
+        } else {
+            targetNotebookUri = getBoostNotebookFile(vscode.Uri.parse(notebook.metadata['sourceFile'] as string));
+            targetNotebook.load(targetNotebookUri.fsPath);
+            throw new Error("Summarizing a project is not yet supported");
+        }
+
+        this._kernels.forEach(controller => {
+            this._summarizeCellsForKernel(controller.outputType, summarizeSourceFile, combinedInput,
+                sourceCells, targetNotebook, notebook, session, usingBoostNotebook);
+        });
+        
+        if (usingBoostNotebook) {
+            boostLogging.info(`Finished ${this.command} of Notebook ${targetNotebookUri.fsPath} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
+        }
+    }
+
+    async _summarizeCellsForKernel(
+        outputType : string,
+        summarizeSourceFile : boolean,
+        combinedInput : string,
+        sourceCells : (vscode.NotebookCell | BoostNotebookCell)[],
+        targetNotebook: BoostNotebook,
+        notebook: vscode.NotebookDocument | BoostNotebook,
+        session: vscode.AuthenticationSession,
+        usingBoostNotebook : boolean) {
+
+        if (summarizeSourceFile) {
+            // if we are summarizing a source file, we need to summarize all the cells
+            combinedInput = this._summarizeCellsAsSingleInput(sourceCells, usingBoostNotebook, outputType);
+        } else {
+            // if we are summarizing a project or folder, we need to summarize all the files in it
+            // combinedInput = this._summarizeSourceFilesAsSingleInput(sourceCells, usingBoostNotebook);
+
+            throw new Error("Summarizing a project is not yet supported");
         }
     
-        // grab all the cell contents by type/command/kernel for submission
-        const inputs: string[] = [];
-        for (const cellToSummarize of sourceCells) {
-            if (usingBoostNotebook) {
-                const cell = cellToSummarize as BoostNotebookCell;
-                cell.outputs.filter((output) => output.metadata?.outputType === this.command).forEach((output) => {
-                    output.items.forEach((item) => {
-                        inputs.push(item.data);
-                    });
-                });
-            } else {
-                const cell = cellToSummarize as vscode.NotebookCell;
-                cell.outputs.filter((output) => output.metadata?.outputType === this.command).forEach((output) => {
-                    output.items.forEach((item) => {
-                        const decodedText = new TextDecoder().decode(item.data);
-
-                        inputs.push(decodedText);
-                    });
-                });
-            }
-        }
-    
-        // combine all the input into a single long string with input delimiters
-        const combinedInput = inputs.join(summaryInputDelimiter);
-    
-        let targetNotebookUri: vscode.Uri = getBoostNotebookFile(vscode.Uri.parse(notebook.metadata['sourceFile'] as string));
-        let targetNotebook: BoostNotebook = new BoostNotebook();
-        targetNotebook.load(targetNotebookUri.fsPath);
-
         // we create a placeholder cell for the input, so we can do processing on the input
         // then we'll take the resulting data and put into the cell itself
         const tempProcessingCell = new BoostNotebookCell(NotebookCellKind.Markup, combinedInput, "markdown");
@@ -117,22 +148,54 @@ export class SummarizeKernel extends KernelControllerBase {
         const result = await this.doExecution(targetNotebook, tempProcessingCell, session);
         if (!result) {
             boostLogging.error(`Error ${this.command} of Notebook ${usingBoostNotebook?
-                notebook.fsPath : notebook.uri.toString()}`, !usingBoostNotebook);
+                (notebook as BoostNotebook).fsPath : notebook.uri.toString()}`, !usingBoostNotebook);
         } else {
-            boostLogging.info(`Success ${this.command} of Notebook ${usingBoostNotebook ? notebook.fsPath : notebook.uri.toString()}`, false);
+            boostLogging.info(`Success ${this.command} of Notebook ${usingBoostNotebook ? (notebook as BoostNotebook).fsPath : notebook.uri.toString()}`, false);
         }
 
-        let targetCell = findCellByKernel(targetNotebook, this.command) as BoostNotebookCell;
-        if (!targetCell) {
-            targetCell = new BoostNotebookCell(NotebookCellKind.Markup, "", "markdown");
-            targetNotebook.addCell(targetCell);
+        if (summarizeSourceFile) {
+            let targetCell = findCellByKernel(targetNotebook, this.command) as BoostNotebookCell;
+            if (!targetCell) {
+                targetCell = new BoostNotebookCell(NotebookCellKind.Markup, "", "markdown");
+                targetNotebook.addCell(targetCell);
+            }
+            // snap the processed analysis summary from the temp cell and store it as the new summary cell in the summary notebook
+            targetCell.value = tempProcessingCell.outputs[0].items[0].data;
+            targetCell.metadata = {...targetCell.metadata, "outputType": outputType} as ICellMetadata;
+        } else {
+            throw new Error("Summarizing a project is not yet supported");
         }
-        // snap the processed analysis summary from the temp cell and store it as the new summary cell in the summary notebook
-        targetCell.value = tempProcessingCell.outputs[0].items[0].data;
+    }
 
-        if (usingBoostNotebook) {
-            boostLogging.info(`Finished ${this.command} of Notebook ${targetNotebookUri.fsPath} on cell ${(tempProcessingCell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
+    _summarizeCellsAsSingleInput(
+        sourceCells : (vscode.NotebookCell | BoostNotebookCell)[],
+        usingBoostNotebook : boolean,
+        outputType : string) : string {
+        // grab all the cell contents by type/command/kernel for submission
+        const inputs: string[] = [];
+        for (const cellToSummarize of sourceCells) {
+            if (usingBoostNotebook) {
+                const cell = cellToSummarize as BoostNotebookCell;
+                cell.outputs.filter((output) => output.metadata?.outputType === outputType).forEach((output) => {
+                    output.items.forEach((item) => {
+                        inputs.push(item.data);
+                    });
+                });
+            } else {
+                const cell = cellToSummarize as vscode.NotebookCell;
+                cell.outputs.filter((output) => output.metadata?.outputType === outputType).forEach((output) => {
+                    output.items.forEach((item) => {
+                        const decodedText = new TextDecoder().decode(item.data);
+
+                        inputs.push(decodedText);
+                    });
+                });
+            }
         }
+    
+        // combine all the input into a single long string with input delimiters
+        const combinedInput = inputs.join(summaryInputDelimiter);
+        return combinedInput;
     }
 
     async onBoostServiceRequest(
