@@ -82,14 +82,14 @@ export class SummarizeKernel extends KernelControllerBase {
         for (const cellToSummarize of sourceCells) {
             if (usingBoostNotebook) {
                 const cell = cellToSummarize as BoostNotebookCell;
-                cell.outputs.filter((output) => output.metadata?.output_type === this.command).forEach((output) => {
+                cell.outputs.filter((output) => output.metadata?.outputType === this.command).forEach((output) => {
                     output.items.forEach((item) => {
                         inputs.push(item.data);
                     });
                 });
             } else {
                 const cell = cellToSummarize as vscode.NotebookCell;
-                cell.outputs.filter((output) => output.metadata?.output_type === this.command).forEach((output) => {
+                cell.outputs.filter((output) => output.metadata?.outputType === this.command).forEach((output) => {
                     output.items.forEach((item) => {
                         const decodedText = new TextDecoder().decode(item.data);
 
