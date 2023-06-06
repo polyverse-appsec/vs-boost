@@ -89,12 +89,16 @@ export class KernelControllerBase {
         notebook: vscode.NotebookDocument,
         controller: vscode.NotebookController): Promise<void> {
 
+        // if user is explicitly analyzing a single cell via the traditional UI, then just refresh it always
+        const forceAnalysisRefresh = cells.length === 1;
+
         return this.executeAllWithAuthorization(cells, notebook);
 	}
 
 	async executeAllWithAuthorization(
         cells: vscode.NotebookCell[] | BoostNotebookCell[],
-        notebook: vscode.NotebookDocument | BoostNotebook): Promise<void> {
+        notebook: vscode.NotebookDocument | BoostNotebook,
+        forceAnalysisRefresh : boolean = false): Promise<void> {
 
         return new Promise<void>(async (resolve, reject) => {
             try {
@@ -107,7 +111,7 @@ export class KernelControllerBase {
                     return;
                 }
 
-                await this.executeAll(cells, notebook as vscode.NotebookDocument, session);
+                await this.executeAll(cells, notebook as vscode.NotebookDocument, session, forceAnalysisRefresh);
                 resolve();
             } catch (error) {
                 reject(error);
@@ -118,7 +122,11 @@ export class KernelControllerBase {
     async executeAll(
         cells: vscode.NotebookCell[] | BoostNotebookCell[],
         notebook: vscode.NotebookDocument | BoostNotebook,
-        session : vscode.AuthenticationSession) {
+        session : vscode.AuthenticationSession,
+        forceAnalysisRefresh : boolean = false): Promise<void> {
+
+        // if caller asks to force refresh, or its set globally, or set for all calls to this command
+        forceAnalysisRefresh = forceAnalysisRefresh || BoostConfiguration.refreshAnalysisAlways || BoostConfiguration.refreshAnalysisAlwaysByKernel(this.command);
 
         let successfullyCompleted = true;
         const promises : Promise<boolean>[] = [];
@@ -130,6 +138,12 @@ export class KernelControllerBase {
         }
 
         boostLogging.info(`Starting ${this.command} of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`, false);
+        if (forceAnalysisRefresh) {
+            boostLogging.debug(`Force-Refresh: Refreshing ${this.command} of all cells in Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`);
+        } else {
+            boostLogging.debug(`NO-Force-Refresh: Analyzing ONLY empty and error cells for ${this.command} of cells in Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`);
+        }
+
         for (const cell of cells) {
             //if the cell is generated code, don't run it by default, the original code cell will
             // run it, unless it is the only cell in array of cells being run, in which case, run it
@@ -137,6 +151,12 @@ export class KernelControllerBase {
                 cell.metadata?.type === 'generatedCode' &&
                 cells.length > 1) {
                 return;
+            }
+
+            // if this cell has output, then skip it unless we're forcing analysis
+            if (!forceAnalysisRefresh && !this.isCellOutputMissingOrError(cell)) {
+                boostLogging.info(`NO-Force-Refresh: Skipping re-analysis ${this.command} of Notebook ${notebook.metadata['sourceFile']} on cell ${(cell as BoostNotebookCell).id}}`, false);
+                continue;
             }
             
             if (usingBoostNotebook) {
@@ -307,9 +327,9 @@ export class KernelControllerBase {
             }
             
             if (successfullyCompleted) {
-                boostLogging.info(`SUCCESS running ${this.command} update of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+                boostLogging.info(`SUCCESS running ${this.command} update of Notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
             } else {
-                boostLogging.error(`Error while running ${this.command} update of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+                boostLogging.error(`Error while running ${this.command} update of Notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
             }
         }
         return successfullyCompleted;
@@ -484,6 +504,34 @@ export class KernelControllerBase {
             });
     }
 
+    isCellOutputMissingOrError(cell : vscode.NotebookCell | BoostNotebookCell) : boolean {
+        if (cell.outputs.length === 0) {
+            // if we have no outputs, then we need to run it
+            return true;
+        }
+
+            // Check if the cell has any error output
+        const hasErrorOutput = cell.outputs.some((output : any) => {
+            // ignore outputs that aren't our output type
+            if (output.output_type !== this._outputType) {
+                return false;
+            }
+            for (const item of output.items) {
+                return item.mime === 'application/vnd.code.notebook.error';
+            }
+        });
+
+        // if an error, just run it
+        if (hasErrorOutput) {
+            return true;
+        }
+        // Check if the cell has existing analysis (e.g. not missing)
+        return !cell.outputs.some((output : any) => {
+            // ignore outputs that aren't our output type
+            return (output.output_type === this._outputType);
+        });
+    }
+
     onKernelOutputItem(response: any, cell : vscode.NotebookCell | BoostNotebookCell, mimetype : any) : string {
         throw new Error("Not implemented");
     }
@@ -609,4 +657,3 @@ export class KernelControllerBase {
         }]);
     }
 }
-

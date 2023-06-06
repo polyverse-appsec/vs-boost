@@ -501,12 +501,12 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
 
         disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.processCurrentFolder',
-            async (uri: vscode.Uri, kernelCommand? : string) => {
+            async (uri: vscode.Uri, kernelCommand? : string, forceAnalysisRefresh : boolean = false) => {
                 const likelyViaUI = !kernelCommand || typeof(kernelCommand) !== 'string';
                 if (likelyViaUI) {
                     kernelCommand = BoostConfiguration.currentKernelCommand;
                 }
-                return this.processCurrentFolder(uri, kernelCommand as string, context).catch((error) => {
+                return this.processCurrentFolder(uri, kernelCommand as string, context, forceAnalysisRefresh).catch((error) => {
                     boostLogging.error((error as Error).message, likelyViaUI);
                 });
             });
@@ -629,7 +629,7 @@ export class BoostExtension {
         }
     }
 
-    async processCurrentFile(uri: vscode.Uri, kernelCommand : string, context: vscode.ExtensionContext) {
+    async processCurrentFile(uri: vscode.Uri, kernelCommand : string, context: vscode.ExtensionContext, forceAnalysisRefresh : boolean = false) {
         try
         {
             // if we don't have a file selected, then the user didn't right click
@@ -661,7 +661,7 @@ export class BoostExtension {
             }
 
             notebook.load(boostUri.fsPath);
-            return targetedKernel?.executeAllWithAuthorization(notebook.cells, notebook).then(() => {
+            return targetedKernel?.executeAllWithAuthorization(notebook.cells, notebook, forceAnalysisRefresh).then(() => {
                 // ensure we save the notebook if we successfully processed it
                 notebook.save(boostUri.fsPath);
             }).catch((error) => {
@@ -694,7 +694,7 @@ export class BoostExtension {
         return targetedKernel;
     }
 
-    async processCurrentFolder(uri: vscode.Uri, kernelCommand : string, context: vscode.ExtensionContext) {
+    async processCurrentFolder(uri: vscode.Uri, kernelCommand : string, context: vscode.ExtensionContext, forceAnalysisRefresh : boolean = false) {
         let targetFolder : vscode.Uri;
         // if we don't have a folder selected, then the user didn't right click
         //      so we need to use the workspace folder
@@ -737,7 +737,7 @@ export class BoostExtension {
             let processedNotebookWaits : any [] = [];
 
             files.filter(async (file) => {
-                processedNotebookWaits.push(this.processCurrentFile(file, targetedKernel.id, context));
+                processedNotebookWaits.push(this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh));
             });
             
             await Promise.all(processedNotebookWaits)
@@ -766,12 +766,12 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
 
         disposable = vscode.commands.registerCommand(NOTEBOOK_TYPE + '.processCurrentFile',
-            async (uri: vscode.Uri, kernelCommand? : string) => {
+            async (uri: vscode.Uri, kernelCommand? : string, forceAnalysisRefresh : boolean = false) => {
                 const likelyViaUI = !kernelCommand || typeof(kernelCommand) !== 'string';
                 if (likelyViaUI) {
                     kernelCommand = BoostConfiguration.currentKernelCommand;
                 }
-                return this.processCurrentFile(uri, kernelCommand as string, context).catch((error) => {
+                return this.processCurrentFile(uri, kernelCommand as string, context, forceAnalysisRefresh).catch((error) => {
                     boostLogging.error((error as Error).message, likelyViaUI);
                 });
             });

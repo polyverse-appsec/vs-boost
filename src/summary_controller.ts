@@ -52,8 +52,12 @@ export class SummarizeKernel extends KernelControllerBase {
     async executeAll(
         sourceCells: (vscode.NotebookCell | BoostNotebookCell)[],
         notebook: vscode.NotebookDocument | BoostNotebook,
-        session: vscode.AuthenticationSession
+        session: vscode.AuthenticationSession,
+        forceAnalysisRefresh: boolean = false
     ) {
+        // for now, we ignore forceAnalysisRefresh - and always re-analyze
+        forceAnalysisRefresh = true;
+
         let successfullyCompleted = true;
         const promises: Promise<boolean>[] = [];
         const usingBoostNotebook = notebook instanceof BoostNotebook;

@@ -3,6 +3,19 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 0.9.9: June 8, 2023
+
+### New Features
+- Summary analysis of a complete source file is available in the side-by Boost Notebook file (e.g. `SOURCE_FILENAME.summary.boost-notebook`)
+- Summary analysis of an entire project or folder is available in the side-by Boost Notebook file (e.g. `PROJECT_NAME_OR_FOLDER_NAME.summary.boost-notebook`)
+
+### Enhancements
+- Running analysis across a source file will only refresh the Error or missing Outputs (refresh always is available by Configuration Setting)
+- Flow Control diagrams show function name in the diagram, and calls to external functions and libraries
+
+### Bug Fixes
+- N/A
+
 ## Version 0.9.8: May 26, 2023
 
 ### New Features
