@@ -110,11 +110,11 @@ export class SummarizeKernel extends KernelControllerBase {
         let successfullyCompleted = true;
         const executionContexts : any[] = [];
         if (usingBoostNotebook) {
-            notebook.cells.forEach(cell => {
+            sourceCells.forEach(cell => {
                 executionContexts.push(super.openExecutionContext(usingBoostNotebook, cell));
             });
         } else {
-            notebook.getCells().forEach(cell => {
+            sourceCells.forEach(cell => {
                 executionContexts.push(super.openExecutionContext(usingBoostNotebook, cell));
             });
         }
@@ -186,11 +186,11 @@ export class SummarizeKernel extends KernelControllerBase {
             let targetCell = findCellByKernel(targetNotebook, outputType) as BoostNotebookCell;
             if (!targetCell) {
                 targetCell = new BoostNotebookCell(NotebookCellKind.Markup, "", "markdown");
+                targetCell.initializeMetadata({"id": targetCell.id, "outputType": outputType});
                 targetNotebook.addCell(targetCell);
             }
             // snap the processed analysis summary from the temp cell and store it as the new summary cell in the summary notebook
             targetCell.value = tempProcessingCell.outputs[0].items[0].data;
-            targetCell.metadata = {...targetCell.metadata, "outputType": outputType} as ICellMetadata;
         } else {
             throw new Error("Summarizing a project is not yet supported");
         }
