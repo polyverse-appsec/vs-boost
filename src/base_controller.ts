@@ -1,11 +1,10 @@
 import axios from 'axios';
 import * as vscode from 'vscode';
-import { NOTEBOOK_TYPE } from './extension';
 import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
 import { fetchGithubSession, getCurrentOrganization } from './authorization';
 import { mapError } from './error';
-import { BoostNotebookCell, BoostNotebook, SerializedNotebookCellOutput } from './jupyter_notebook';
+import { BoostNotebookCell, BoostNotebook, SerializedNotebookCellOutput, NOTEBOOK_TYPE } from './jupyter_notebook';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type onServiceErrorHandler = (context: vscode.ExtensionContext, error: any, closure: any) => void;
@@ -20,6 +19,7 @@ export class KernelControllerBase {
     private _outputType : string;
     private _useGeneratedCodeCellOptimization : boolean;
     private useOriginalCodeCheck = false;
+    private dynamicInputKey : string; // name of the input parameter
 
 	private _executionOrder = 0;
 	private readonly _controller: vscode.NotebookController;
@@ -36,7 +36,8 @@ export class KernelControllerBase {
         useOriginalCodeCheck : boolean,
         context: vscode.ExtensionContext,
         otherThis : any,
-        onServiceErrorHandler: onServiceErrorHandler) {
+        onServiceErrorHandler: onServiceErrorHandler,
+        dynamicInputKey : string = 'code') {
             
         this._problemsCollection = problemsCollection;
         this.command = kernelId;
@@ -48,6 +49,7 @@ export class KernelControllerBase {
         this.useOriginalCodeCheck = useOriginalCodeCheck;
         this.context = context;
         this.otherThis = otherThis;
+        this.dynamicInputKey = dynamicInputKey;
         this._onServiceError = onServiceErrorHandler;
 
 		this._controller = vscode.notebooks.createNotebookController(this.id,
@@ -89,12 +91,16 @@ export class KernelControllerBase {
         notebook: vscode.NotebookDocument,
         controller: vscode.NotebookController): Promise<void> {
 
-        return this.executeAllWithAuthorization(cells, notebook);
+        // if user is explicitly analyzing a single cell via the traditional UI, then just refresh it always
+        const forceAnalysisRefresh = cells.length === 1;
+
+        return this.executeAllWithAuthorization(cells, notebook, forceAnalysisRefresh);
 	}
 
 	async executeAllWithAuthorization(
         cells: vscode.NotebookCell[] | BoostNotebookCell[],
-        notebook: vscode.NotebookDocument | BoostNotebook): Promise<void> {
+        notebook: vscode.NotebookDocument | BoostNotebook,
+        forceAnalysisRefresh : boolean = false): Promise<void> {
 
         return new Promise<void>(async (resolve, reject) => {
             try {
@@ -107,7 +113,7 @@ export class KernelControllerBase {
                     return;
                 }
 
-                await this.executeAll(cells, notebook as vscode.NotebookDocument, session);
+                await this.executeAll(cells, notebook as vscode.NotebookDocument, session, forceAnalysisRefresh);
                 resolve();
             } catch (error) {
                 reject(error);
@@ -118,22 +124,44 @@ export class KernelControllerBase {
     async executeAll(
         cells: vscode.NotebookCell[] | BoostNotebookCell[],
         notebook: vscode.NotebookDocument | BoostNotebook,
-        session : vscode.AuthenticationSession) {
+        session : vscode.AuthenticationSession,
+        forceAnalysisRefresh : boolean = false): Promise<void> {
+
+        // if caller asks to force refresh, or its set globally, or set for all calls to this command
+        forceAnalysisRefresh = forceAnalysisRefresh || BoostConfiguration.refreshAnalysisAlways || BoostConfiguration.refreshAnalysisAlwaysByKernel(this.command);
 
         let successfullyCompleted = true;
-        const promises = [];
+        const promises : Promise<boolean>[] = [];
         const usingBoostNotebook = (notebook instanceof BoostNotebook);
 
-        boostLogging.info(`Starting ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, false);
+        if (cells.length === 0) {
+            boostLogging.warn(`No cells to ${this.command} of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`, false);
+            return;
+        }
+
+        boostLogging.info(`Starting ${this.command} of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`, false);
+        if (forceAnalysisRefresh) {
+            boostLogging.debug(`Force-Refresh: Refreshing ${this.command} of all cells in Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`);
+        } else {
+            boostLogging.debug(`NO-Force-Refresh: Analyzing ONLY empty and error cells for ${this.command} of cells in Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`);
+        }
 
         for (const cell of cells) {
             //if the cell is generated code, don't run it by default, the original code cell will
-			// run it, unless it is the only cell in array of cells being run, in which case, run it
-			if (this._useGeneratedCodeCellOptimization &&
+            // run it, unless it is the only cell in array of cells being run, in which case, run it
+            if (this._useGeneratedCodeCellOptimization &&
                 cell.metadata?.type === 'generatedCode' &&
                 cells.length > 1) {
-				return;
-			}
+                return;
+            }
+
+            // if this cell has output, then skip it unless we're forcing analysis
+            if (!forceAnalysisRefresh && !this.isCellOutputMissingOrError(cell)) {
+                boostLogging.info(
+                    `NO-Force-Refresh: Skipping re-analysis ${this.command} of Notebook ${notebook.metadata['sourceFile']}` +
+                    ` on cell ${usingBoostNotebook?(cell as BoostNotebookCell).id:(cell as vscode.NotebookCell).document.uri.toString()}}`, false);
+                continue;
+            }
             
             if (usingBoostNotebook) {
                 boostLogging.info(`Started ${this.command} of Notebook ${notebook.metadata['sourceFile']} on cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
@@ -147,20 +175,20 @@ export class KernelControllerBase {
                         boostLogging.info(`Finished ${this.command} of Notebook ${notebook.metadata['sourceFile']} on cell ${(cell as BoostNotebookCell).id} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
                     }
                 }) as Promise<boolean>);
-		}
+        }
         await Promise.all(promises).then((results) => {
             results.forEach((result) => {
                 successfullyCompleted &&= (result ?? true);
             });
             if (!successfullyCompleted) {
-                boostLogging.error(`Error ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, !usingBoostNotebook);
+                boostLogging.error(`Error ${this.command} of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`, !usingBoostNotebook);
             } else {
-                boostLogging.info(`Success ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}`, false);
+                boostLogging.info(`Success ${this.command} of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`, false);
             }
             return successfullyCompleted;
           }).catch((error) => {
             successfullyCompleted = false;
-            boostLogging.error(`Error ${this.command} of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()}: ${error.toString()}}`, !usingBoostNotebook);
+            boostLogging.error(`Error ${this.command} of Notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}: ${error.toString()}}`, !usingBoostNotebook);
         });
     }
 
@@ -233,10 +261,10 @@ export class KernelControllerBase {
         }
 
         // get the code from the cell
-        const code = usingBoostNotebook? (cell as BoostNotebookCell).value : (cell as vscode.NotebookCell).document.getText();
+        const input = usingBoostNotebook? (cell as BoostNotebookCell).value : (cell as vscode.NotebookCell).document.getText();
 
         let payload = {
-            code: code,
+            [this.dynamicInputKey]: input,
             session: session.accessToken,
             organization: organization
         };
@@ -259,6 +287,17 @@ export class KernelControllerBase {
                 temperature: BoostConfiguration.analysisTemperature};    
         } else {
             newPayload = payload;
+        }
+
+        // model pass through
+        if (BoostConfiguration.analysisModelByKernel(this.command)) {
+            newPayload = { ...payload,
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                model: BoostConfiguration.analysisModelByKernel(this.command)};    
+        } else if (BoostConfiguration.analysisModel) {
+            newPayload = { ...payload,
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                model: BoostConfiguration.analysisModel};    
         }
 
         const cellId = usingBoostNotebook?
@@ -292,9 +331,9 @@ export class KernelControllerBase {
             }
             
             if (successfullyCompleted) {
-                boostLogging.info(`SUCCESS running ${this.command} update of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+                boostLogging.info(`SUCCESS running ${this.command} update of Notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
             } else {
-                boostLogging.error(`Error while running ${this.command} update of Notebook ${usingBoostNotebook?notebook.metadata['sourceFile']:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+                boostLogging.error(`Error while running ${this.command} update of Notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
             }
         }
         return successfullyCompleted;
@@ -469,6 +508,34 @@ export class KernelControllerBase {
             });
     }
 
+    isCellOutputMissingOrError(cell : vscode.NotebookCell | BoostNotebookCell) : boolean {
+        if (cell.outputs.length === 0) {
+            // if we have no outputs, then we need to run it
+            return true;
+        }
+
+            // Check if the cell has any error output
+        const hasErrorOutput = cell.outputs.some((output : any) => {
+            // ignore outputs that aren't our output type
+            if (output.metadata?.outputType !== this._outputType) {
+                return false;
+            }
+            for (const item of output.items) {
+                return item.mime === 'application/vnd.code.notebook.error';
+            }
+        });
+
+        // if an error, just run it
+        if (hasErrorOutput) {
+            return true;
+        }
+        // Check if the cell has existing analysis (e.g. not missing)
+        return !cell.outputs.some((output : any) => {
+            // ignore outputs that aren't our output type
+            return (output.metadata?.outputType === this._outputType);
+        });
+    }
+
     onKernelOutputItem(response: any, cell : vscode.NotebookCell | BoostNotebookCell, mimetype : any) : string {
         throw new Error("Not implemented");
     }
@@ -593,5 +660,26 @@ export class KernelControllerBase {
                 ]:undefined
         }]);
     }
-}
 
+    openExecutionContext(usingBoostNotebook : boolean, cell : vscode.NotebookCell | BoostNotebookCell) : any {
+        const execution = usingBoostNotebook? undefined : this._controller.createNotebookCellExecution(cell as vscode.NotebookCell);
+
+        const startTime = Date.now();
+        if (execution) {
+            execution.executionOrder = ++this._executionOrder;
+            execution.start(startTime);
+        }
+
+        return { execution, startTime };
+    }
+
+    closeExecutionContext(executionContext : any, successfullyCompleted : boolean) {
+        const duration = Date.now() - executionContext.startTime;
+        const minutes = Math.floor(duration / 60000);
+        const seconds = ((duration % 60000) / 1000).toFixed(0);
+        if (executionContext.execution) {
+            executionContext.execution.end(successfullyCompleted, Date.now());
+        }
+    }
+
+}

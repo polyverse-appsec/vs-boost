@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as assert from 'assert';
-import { NOTEBOOK_TYPE } from '../../extension';
+import { NOTEBOOK_TYPE } from '../../jupyter_notebook';
 
 suite('Notebook Command', function() {
 

@@ -2,8 +2,9 @@ import * as vscode from 'vscode';
 import axios from 'axios';
 import { BoostConfiguration } from './boostConfiguration';
 import { fetchGithubSession, getCurrentOrganization } from './authorization';
-import { BoostExtension, NOTEBOOK_TYPE } from './extension';
+import { BoostExtension } from './extension';
 import { fetchUserOrganizationsServiceRequest, UserOrgs } from './user_organizations';
+import { NOTEBOOK_TYPE } from './jupyter_notebook';
 import { boostLogging } from './boostLogging';
 import { mapError } from './error';
 
