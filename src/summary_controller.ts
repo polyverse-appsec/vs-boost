@@ -9,10 +9,10 @@ import { boostLogging } from './boostLogging';
 import { NOTEBOOK_SUMMARY_EXTENSION } from './jupyter_notebook';
 import { getBoostNotebookFile, findCellByKernel } from './extension';
 import { NotebookCellKind } from './jupyter_notebook';
-import { ICellMetadata } from '@jupyterlab/nbformat';
 import * as fs from 'fs';
 
 export const summaryCellMarker = 'summary';
+export const summarizeKernelName = 'summarize';
 
 const summaryInputDelimiter = '# New Input Follows';
 
@@ -27,7 +27,7 @@ export class SummarizeKernel extends KernelControllerBase {
 
         super(
             collection,
-            'summarize',
+            summarizeKernelName,
             'Summarize Analysis',
             'Summarizes the analysis across cells',
             summaryCellMarker,

@@ -9,7 +9,7 @@ import { BoostCodeGuidelinesKernel } from './codeguidelines_controller';
 import { BoostArchitectureBlueprintKernel } from './blueprint_controller';
 import { BoostCustomProcessKernel } from './custom_controller';
 import { BoostFlowDiagramKernel } from './flowdiagram_controller';
-import { SummarizeKernel } from './summary_controller';
+import { SummarizeKernel, summarizeKernelName } from './summary_controller';
 
 import { BoostContentSerializer } from './serializer';
 import { parseFunctions } from './split';	
@@ -728,24 +728,29 @@ export class BoostExtension {
         }
         
         try {
-            let processedNotebookWaits : any [] = [];
 
-            files.filter(async (file) => {
-                processedNotebookWaits.push(this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh));
-            });
-            
-            await Promise.all(processedNotebookWaits)
-                .then((processedNotebooks) => {
-                    processedNotebooks.forEach(async (notebook : boostnb.BoostNotebook) => {
-                        // we let user know the notebook was processed
-                        boostLogging.info(`Boost Notebook processed with command ${targetedKernel.command}: ${notebook.uri.fsPath}`, false);
-                    });
-                    boostLogging.info(`${processedNotebookWaits.length.toString()} Boost Notebooks processed for folder ${targetFolder.path}`, false);
-                })
-                .catch((error) => {
-                // Handle the error here
-                    boostLogging.error(`Error Boosting folder ${targetFolder.path} due to Error: ${error}`);
+            // if we are doing a summary operation, then we process the named folder only
+            if (targetedKernel.command === summarizeKernelName) {
+                await this.processCurrentFile(targetFolder, targetedKernel.id, context, forceAnalysisRefresh);
+            } else {
+                let processedNotebookWaits : any [] = [];
+
+                files.filter(async (file) => {
+                    processedNotebookWaits.push(this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh));
                 });
+
+                await Promise.all(processedNotebookWaits)
+                        .then((processedNotebooks) => {
+                            processedNotebooks.forEach(async (notebook : boostnb.BoostNotebook) => {
+                                // we let user know the notebook was processed
+                                boostLogging.info(`Boost Notebook processed with command ${targetedKernel.command}: ${notebook.uri.fsPath}`, false);
+                            });
+                        boostLogging.info(`${processedNotebookWaits.length.toString()} Boost Notebooks processed for folder ${targetFolder.path}`, false);
+                    }) .catch((error) => {
+                    // Handle the error here
+                        boostLogging.error(`Error Boosting folder ${targetFolder.path} due to Error: ${error}`);
+                    });                
+            }
         } catch (error) {
             boostLogging.error(`Unable to Process ${kernelCommand} on Folder:[${uri.fsPath.toString()} due to error:${error}`);
         }
