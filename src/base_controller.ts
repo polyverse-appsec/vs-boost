@@ -265,9 +265,11 @@ export class KernelControllerBase {
 
         let payload = {
             [this.dynamicInputKey]: input,
+            contextMetadata: JSON.stringify(notebook.metadata),
+            inputMetadata: JSON.stringify(cell.metadata),
             session: session.accessToken,
             organization: organization
-        };
+          };
 
         let newPayload;
         // pass temperature through
