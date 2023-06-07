@@ -647,7 +647,13 @@ export class BoostExtension {
 
             const notebook = new boostnb.BoostNotebook();
             if (!fs.existsSync(boostUri.fsPath)) {
-                throw new Error(`Unable to find Boost notebook for ${uri.fsPath} - please create Boost notebook first`);
+                // if not a summary, and no notebook then fail
+                if (targetedKernel.command !== summarizeKernelName) {
+                    throw new Error(`Unable to find Boost notebook for ${uri.fsPath} - please create Boost notebook first`);
+                }
+
+                // otherwise create a new summary notebook
+                throw new Error("Summarizing a project is not yet supported.");
             }
 
             notebook.load(boostUri.fsPath);
@@ -727,11 +733,6 @@ export class BoostExtension {
 
             let processedNotebookWaits : any [] = [];
 
-            // if we are doing a summary operation, then we process the named folder only (for the project/folder-level summary)
-            if (targetedKernel.command === summarizeKernelName) {
-                processedNotebookWaits.push(this.processCurrentFile(targetFolder, targetedKernel.id, context, forceAnalysisRefresh));
-            }
-
             files.filter(async (file) => {
                 processedNotebookWaits.push(this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh));
             });
@@ -747,6 +748,13 @@ export class BoostExtension {
                 // Handle the error here
                     boostLogging.error(`Error Boosting folder ${targetFolder.path} due to Error: ${error}`);
                 });
+
+            // if we are doing a summary operation, then we process the named folder only (for the project/folder-level summary)
+            // this happens after we do rollup summaries for all other source files - to make our project-level uses latest rollup
+            if (targetedKernel.command === summarizeKernelName) {
+                await this.processCurrentFile(targetFolder, targetedKernel.id, context, forceAnalysisRefresh);
+            }
+
         } catch (error) {
             boostLogging.error(`Unable to Process ${kernelCommand} on Folder:[${uri.fsPath.toString()} due to error:${error}`);
         }
