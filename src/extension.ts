@@ -122,7 +122,7 @@ export function findCellByKernel(targetNotebook: vscode.NotebookDocument | boost
 }
 
 export async function createOrOpenSummaryNotebookFromSourceFile(sourceFile : vscode.Uri) :
-        Promise<vscode.NotebookDocument | boostnb.BoostNotebook> {
+        Promise<boostnb.BoostNotebook> {
 
     const notebookSummaryPath = getBoostFile(vscode.Uri.parse(sourceFile.fsPath + boostnb.NOTEBOOK_SUMMARY_PRE_EXTENSION));
     const summaryFileExists = fs.existsSync(notebookSummaryPath.fsPath);

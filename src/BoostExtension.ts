@@ -773,7 +773,7 @@ export class BoostExtension {
             });
         context.subscriptions.push(disposable);
     }
-    async loadCurrentFile(uri: vscode.Uri, context: vscode.ExtensionContext) {
+    async loadCurrentFile(uri: vscode.Uri, context: vscode.ExtensionContext) : Promise<boolean> {
         try
         {
             // if we don't have a file selected, then the user didn't right click
@@ -781,7 +781,7 @@ export class BoostExtension {
             if (uri === undefined) {
                 if (vscode.window.activeTextEditor === undefined) {
                     boostLogging.warn("Unable to identify an active file to Boost.");
-                    return;
+                    return false;
                 }
                 else {
                     uri = vscode.window.activeTextEditor?.document.uri;
@@ -811,7 +811,7 @@ export class BoostExtension {
                     });
                     // if user doesn't pick anything, then just give up
                     if (!selectedOption) {
-                        return;
+                        return false;
                     }
                     // otherwise find the notebook that matches the user's selection
                     currentNotebook = boostNotebooks.find((doc) => {
@@ -837,18 +837,20 @@ export class BoostExtension {
             vscode.window.showNotebookDocument(currentNotebook);
         } catch (error) {
             boostLogging.error(`Unable to Boost file:[${uri.fsPath.toString()} due to error:${error}`);
+            return false;
         }
+        return true;
     }
 
-    async processCurrentFile(uri: vscode.Uri, kernelCommand : string, context: vscode.ExtensionContext, forceAnalysisRefresh : boolean = false) {
+    async processCurrentFile(uri: vscode.Uri, kernelCommand : string, context: vscode.ExtensionContext, forceAnalysisRefresh : boolean = false) : Promise<boolean> {
         try
         {
             // if we don't have a file selected, then the user didn't right click
             //      so we need to find the current active editor, if its available
             if (uri === undefined) {
                 if (vscode.window.activeTextEditor === undefined) {
-                    boostLogging.warn(`Unable to identify an active file to Process ${this.kernelCommand}`);
-                    return;
+                    boostLogging.warn(`Unable to identify an active file to Process ${kernelCommand}`);
+                    return false;
                 }
                 else {
                     uri = vscode.window.activeTextEditor?.document.uri;
@@ -857,7 +859,8 @@ export class BoostExtension {
 
             const targetedKernel = this.getCurrentKernel(kernelCommand);
             if (targetedKernel === undefined) {
-                return;
+                boostLogging.warn(`Unable to match analysis kernel for ${kernelCommand}`);
+                return false;
             }
 
             let boostUri = uri;
@@ -867,32 +870,37 @@ export class BoostExtension {
                     targetedKernel.command === summarizeKernelName?BoostFileType.summary: BoostFileType.notebook  );
             } // else we are using a notebook file, so just use it
 
-            const notebook = new boostnb.BoostNotebook();
+            let notebook = new boostnb.BoostNotebook();
             if (!fs.existsSync(boostUri.fsPath)) {
                 // if not a summary, and no notebook then fail
                 if (targetedKernel.command !== summarizeKernelName) {
-                    throw new Error(`Unable to find Boost notebook for ${uri.fsPath} - please create Boost notebook first`);
+                    // if we haven't yet loaded/parsed this file, then let's do it implicitly for customer
+                    if (!this.loadCurrentFile(uri, context)) {
+                        return false;
+                    } else {
+                        notebook.load(boostUri.fsPath);
+                    }
+                } else {
+                    // if we are summarizing, then we need to create the summary notebook
+                    notebook = await createOrOpenSummaryNotebookFromSourceFile(uri);
                 }
-
-                // otherwise create a new summary notebook
-                throw new Error("Summarizing a project is not yet supported.");
+            } else {
+                notebook.load(boostUri.fsPath);
             }
 
-            notebook.load(boostUri.fsPath);
-            return targetedKernel?.executeAllWithAuthorization(notebook.cells, notebook, forceAnalysisRefresh).then(() => {
+            targetedKernel?.executeAllWithAuthorization(notebook.cells, notebook, forceAnalysisRefresh).then(() => {
                 // ensure we save the notebook if we successfully processed it
                 notebook.save(boostUri.fsPath);
+                return true;
             }).catch((error) => {
                 boostLogging.warn(`Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
                 throw error;
             });
 
-            
-
-
         } catch (error) {
             throw new Error(`Unable to Process ${kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
         }
+        return true;
     }
 
     private getCurrentKernel(requestedKernel? : string) : KernelControllerBase | undefined {
@@ -967,7 +975,7 @@ export class BoostExtension {
                     .then((processedNotebooks) => {
                         processedNotebooks.forEach(async (notebook : boostnb.BoostNotebook) => {
                             // we let user know the notebook was processed
-                            boostLogging.info(`Boost Notebook processed with command ${targetedKernel.command}: ${notebook.uri.fsPath}`, false);
+                            boostLogging.info(`Boost Notebook processed with command ${targetedKernel.command}: ${notebook.fsPath}`, false);
                         });
                     boostLogging.info(`${processedNotebookWaits.length.toString()} Boost Notebooks processed for folder ${targetFolder.path}`, false);
                 }) .catch((error) => {
