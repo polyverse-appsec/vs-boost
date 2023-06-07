@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Polyverse Boost Analysis Summary</title>
+	<style>
+        .right-aligned {
+            display: flex;
+            justify-content: flex-end;
+        }
+		.boost-completed {
+			--badge-background: lightgreen;
+		}
+
+		.boost-processing{
+			--badge-background: lightblue;
+		}
+
+		.boost-incomplete {
+			--badge-background: lightyellow;
+		}
+
+		.boost-not-started {
+			--badge-background: pink;
+		}
+	</style>
+</head>
+<body>
+	<vscode-data-grid aria-label="Summary">
+		<% _.forEach(boostdata.sectionSummary, function(analysisObj) { %>
+			<vscode-data-grid-row >
+				<vscode-data-grid-cell grid-column="1"><vscode-checkbox checked><%= analysisObj.analysis %></vscode-checkbox></vscode-data-grid-cell>
+				<vscode-data-grid-cell grid-column="2"><vscode-badge class=<%= 'boost-' + analysisObj.status %>><%= analysisObj.completed + '/' + (analysisObj.total) %></vscode-badge></vscode-data-grid-cell>
+			</vscode-data-grid-row>
+		  <% }); %>
+	</vscode-data-grid>
+
+    <div align="center">
+		<vscode-button id="update_analysis">Update Boost Analysis</vscode-button>
+	</div>
+    <script src="<%= jsSrc %>" type="module"> </script>
+
+</body>
+</html>

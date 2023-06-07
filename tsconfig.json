@@ -3,7 +3,8 @@
 		"module": "commonjs",
 		"target": "es2020",
 		"lib": [
-			"es2020"
+			"es2020",
+			"DOM"
 		],
 		"outDir": "out",
 		"sourceMap": true,
@@ -14,6 +15,7 @@
 		"esModuleInterop": true
 	},
 	"exclude": [
-		".vscode-test"
+		".vscode-test",
+		"src/dashboard/"
 	]
 }

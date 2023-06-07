@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Polyverse Boost Start Panel</title>
+</head>
+<body>
+	<p>Welcome to Polyverse Boost!</p>
+	<p>Boost will automatically document the <%= boostdata.summary.filesToAnalyze %> files in your project and analyze them for security and compliance issues.</p>
+	<p>The <vscode-link id="blueprint-link" href="<%= blueprintFile %>"> blueprint file </vscode-link> contains all of the high level information on your project to better inform the analysis and documenation. It will be automatically generated, but you can edit it as needed.</p>
+	<p>Boost can even modernize legacy code and generate test cases.</p>
+	<p>Click below to get started!</p>
+	<div align="center">
+    	<vscode-button align="center" id="analyze_all">Analyze Project</vscode-button>
+	</div>
+	<p>&nbsp</p>
+    <script src="<%= jsSrc %>" type="module"> </script>
+
+</body>
+</html>

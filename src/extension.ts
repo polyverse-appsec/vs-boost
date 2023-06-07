@@ -25,6 +25,12 @@ import * as boostnb from './jupyter_notebook';
 import { registerCustomerPortalCommand, setupBoostStatus } from './portal';
 import { generatePDFforNotebook } from './convert_pdf';
 import { generateMarkdownforNotebook } from './convert_markdown';
+import { BoostSummaryViewProvider } from './summary_view';
+import { BoostStartViewProvider } from './start_view';
+import { BoostChatViewProvider } from './chat_view';
+import { BoostTreeDataProvider } from './base_tree_view';
+import { BoostProjectData, PROJECT_EXTENSION, BoostProcessingStatus, BoostAnalysisType } from './BoostProjectData';
+
 
 export class BoostExtension {
     // for state, we keep it in a few places
@@ -38,6 +44,8 @@ export class BoostExtension {
         
         // ensure logging is shutdown
         context.subscriptions.push(boostLogging);
+
+        this._setupBoostProjectDataLifecycle(context);
 
         let problems = this._setupDiagnosticProblems(context);
 
@@ -69,10 +77,198 @@ export class BoostExtension {
 
         this.registerFolderRightClickMarkdownCommands(context);
 
+        this.setupDashboard(context);
+
         boostLogging.log('Activated Boost Notebook Extension');
         boostLogging.info('Polyverse Boost is now active');
     }
+    private _setupBoostProjectDataLifecycle(context: vscode.ExtensionContext) {
+        let disposable = vscode.workspace.onDidChangeWorkspaceFolders(this.workspaceFoldersChanged);
+        context.subscriptions.push(disposable);
 
+        disposable = vscode.workspace.onDidChangeConfiguration(this.configurationChanged);
+        context.subscriptions.push(disposable);
+
+        // initialize once on startup... especially since single-folder projects will never fire the events
+        this.updateBoostProject();
+    }
+
+    _boostProjectData = new Map<vscode.Uri, BoostProjectData>();
+    // FUTURE: We aren't syncing with files being added or removed from the project, or changes in those files
+    private workspaceFoldersChanged(changeEvent : vscode.WorkspaceFoldersChangeEvent) {
+        this.updateBoostProject();
+    }
+
+    private configurationChanged(changeEvent : vscode.ConfigurationChangeEvent) {
+        this.updateBoostProject();
+    }
+
+    private updateBoostProject() {
+
+        // future improvement - use changeEvent.added and changeEvent.removed to add or remove folders rather than resyncing everything
+
+        const folders = vscode.workspace.workspaceFolders;
+        if (!folders || folders.length === 0) {
+            this._boostProjectData.clear();
+            return;
+        }
+
+        folders.forEach((workspaceFolder) => {
+            // if we already have it, then no need to do anything
+            // otherwise, we need to either load it, or create it
+            if (!this._boostProjectData.has(workspaceFolder.uri)) {
+
+                let boostProjectUri = getBoostNotebookFile(workspaceFolder.uri, false, false, BoostFileType.status);
+
+                if (!fs.existsSync(boostProjectUri.fsPath)) {
+                    // we need to create the new boost project file
+                    boostLogging.debug(`No boost project file found at ${boostProjectUri.fsPath} - creating new one`);
+
+                    // create the boost project file
+                    const boostProjectData = new BoostProjectData();
+                    this.initializeFromWorkspaceFolder(boostProjectData, workspaceFolder.uri);
+                    this._boostProjectData.set(workspaceFolder.uri, boostProjectData);
+                    return boostProjectData;
+                } else {
+                    const boostProjectData = new BoostProjectData();
+                    boostProjectData.load(boostProjectUri.fsPath);
+                    this._boostProjectData.set(workspaceFolder.uri, boostProjectData);
+                    return boostProjectData;
+                }
+            }
+        });
+
+        // unload/release any boost project data for folders that are no longer in the workspace
+        this._boostProjectData.forEach((_value : BoostProjectData, workspaceFolder : vscode.Uri) => {
+            if (!folders.filter((thisFolder) => {
+                return thisFolder.uri === workspaceFolder;
+            })) {
+                this._boostProjectData.delete(workspaceFolder);
+            }
+        });
+    }
+
+    async initializeFromWorkspaceFolder(boostProjectData : BoostProjectData, workspaceFolder : vscode.Uri) {
+        // this doesn't work... we need to find a way to open a specific cell
+        //boostProjectData.summary.blueprintUrl = getBoostFile(workspaceFolder, BoostFileType.summary).fsPath + "?cell-metadata=blueprint";
+        //this is not right I don't think either, but it's closer. use vsCode to get the file ./boost/blueprint.md
+        const blueprintFile = BoostConfiguration.defaultDir + "/blueprint.md";
+        boostProjectData.summary.blueprintUrl = blueprintFile;
+        boostProjectData.summary.filesToAnalyze = await this.getBoostFilesForFolder(workspaceFolder, false);
+        boostProjectData.summary.filesAnalyzed = await this.getBoostFilesForFolder(workspaceFolder, true);
+
+        // TODO: Finish section Summary initialization
+        boostProjectData.sectionSummary.push({
+                analysis: BoostAnalysisType.blueprint,
+                status: BoostProcessingStatus.completed,
+                completed: 3,
+                total: 6,
+            });
+        boostProjectData.sectionSummary.push({
+                analysis: BoostAnalysisType.documentation,
+                status: BoostProcessingStatus.incomplete,
+                completed: 3,
+                total: 6,
+            });
+        boostProjectData.sectionSummary.push({
+                analysis: BoostAnalysisType.security,
+                status: BoostProcessingStatus.processing,
+                completed: 3,
+                total: 6,
+            });
+        boostProjectData.sectionSummary.push({
+                analysis: BoostAnalysisType.compliance,
+                status: BoostProcessingStatus.notStarted,
+                completed: 3,
+                total: 6,
+            });
+
+        // TODO: Finish security analysis tracking
+        boostProjectData.securityAnalysis.push({
+            name: 'Security Topic 1',
+            children: [
+                { name: 'Security Subtopic 1.1' },
+                { name: 'Security Subtopic 1.2' }
+            ]
+        });
+        boostProjectData.securityAnalysis.push({
+            name: 'Security Topic 2',
+            children: [
+                { name: 'Security Subtopic 2.1' },
+                { name: 'Security Subtopic 2.2' },
+                { name: 'Security Subtopic 2.3' }
+            ]
+        });
+
+        // TODO: Finish compliance tracking
+        boostProjectData.complianceAnalysis.push({
+            name: 'Compliance Topic 1',
+            children: [
+                { name: 'Compliance Subtopic 1.1' },
+                { name: 'Compliance Subtopic 1.2' }
+            ]
+        });
+        boostProjectData.complianceAnalysis.push({
+            name: 'Compliance Topic 2',
+            children: [
+                { name: 'Compliance Subtopic 2.1' },
+                { name: 'Compliance Subtopic 2.2' },
+                { name: 'Compliance Subtopic 2.3' }
+            ]
+        });
+
+        // TODO: Finish doc tracking
+        boostProjectData.docAnalysis.push({
+            name: 'Topic 1',
+            children: [
+                { name: 'Subtopic 1.1' },
+                { name: 'Subtopic 1.2' }
+            ]
+        });
+        boostProjectData.docAnalysis.push({
+            name: 'Topic 2',
+            children: [
+                { name: 'Subtopic 2.1' },
+                { name: 'Subtopic 2.2' },
+                { name: 'Subtopic 2.3' }
+            ]
+        });
+
+        boostProjectData.save(getBoostNotebookFile(workspaceFolder, false, false, BoostFileType.status).fsPath);
+    }
+
+    public getBoostProjectData(): any {
+
+        let workspaceFolder = vscode.workspace.workspaceFolders?.[0].uri;
+        if (!workspaceFolder) {
+            return BoostProjectData.default;
+        }
+
+        return this._boostProjectData.get(workspaceFolder);
+    }
+
+    async getBoostFilesForFolder(workspaceFolder: vscode.Uri, onlyCountCreatedFiles: boolean = true): Promise<number> {
+        // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
+        let searchPattern = new vscode.RelativePattern(workspaceFolder.fsPath, '**/*.*');
+        let ignorePattern = await _buildVSCodeIgnorePattern();
+        boostLogging.debug("Skipping source files of pattern: " + ignorePattern??"none");
+        const files = await vscode.workspace.findFiles(searchPattern, ignorePattern?new vscode.RelativePattern(workspaceFolder, ignorePattern):"");
+
+        let count = 0;
+        for (const file of files) {
+          count++;
+          if (onlyCountCreatedFiles) {
+            const boostFileUri = getBoostNotebookFile(file); // Replace GetBoostFile with your actual logic
+            const fileExists = fs.existsSync(boostFileUri.fsPath);
+            if (!fileExists) {
+              count--;
+            }
+          }
+        }
+      
+        return count;
+    }
+    
     _setupDiagnosticProblems(context: vscode.ExtensionContext) : vscode.DiagnosticCollection
         {
 
@@ -317,6 +513,30 @@ export class BoostExtension {
         }
     }
 
+    setupDashboard(context: vscode.ExtensionContext) {
+        const summary = new BoostSummaryViewProvider(context, this);
+        const chat = new BoostChatViewProvider(context, this);
+        const docview = new BoostStartViewProvider(context, this);
+
+        context.subscriptions.push(
+            vscode.window.registerWebviewViewProvider(BoostSummaryViewProvider.viewType, summary));
+
+        context.subscriptions.push(
+            vscode.window.registerWebviewViewProvider(BoostChatViewProvider.viewType, chat));
+
+        context.subscriptions.push(
+            vscode.window.registerWebviewViewProvider(BoostStartViewProvider.viewType, docview));
+
+        // Create data providers for each tree
+        const docDataProvider = new BoostTreeDataProvider(this, "docAnalysis");
+        const securityDataProvider = new BoostTreeDataProvider(this, "securityAnalysis");
+        const complianceDataProvider = new BoostTreeDataProvider(this, "complianceAnalysis");
+
+        // Register each TreeDataProvider with vscode
+        vscode.window.registerTreeDataProvider('polyverse-boost-doc-view', docDataProvider);
+        vscode.window.registerTreeDataProvider('polyverse-boost-security-view', securityDataProvider);
+        vscode.window.registerTreeDataProvider('polyverse-boost-compliance-view', complianceDataProvider);    
+    }
 
     registerCreateNotebookCommand(
         context: vscode.ExtensionContext,
@@ -664,6 +884,10 @@ export class BoostExtension {
                 boostLogging.warn(`Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
                 throw error;
             });
+
+            
+
+
         } catch (error) {
             throw new Error(`Unable to Process ${kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
         }
@@ -993,7 +1217,13 @@ export async function deactivate(): Promise<void> {
     return undefined;
 }
 
-export function getBoostNotebookFile(sourceFile : vscode.Uri, buildSummary : boolean = false, showUI : boolean = false) : vscode.Uri {
+export enum BoostFileType {
+    notebook = "notebook",
+    summary = "summary",
+    status = "status",
+}
+
+export function getBoostNotebookFile(sourceFile : vscode.Uri, buildSummary : boolean = false, showUI : boolean = false, format : BoostFileType = BoostFileType.notebook) : vscode.Uri {
 
     // if we don't have a workspace folder, just place the Boost file in a new Boostdir - next to the source file
     let baseFolder;
@@ -1009,6 +1239,27 @@ export function getBoostNotebookFile(sourceFile : vscode.Uri, buildSummary : boo
     fs.mkdirSync(boostFolder, { recursive: true });
 
     // get the distance from the workspace folder for the source file
+/*
+            // for project-level status files, we ignore the relative path
+    const relativePath = (baseFolder === sourceFile.path)?
+        path.basename(baseFolder):path.relative(baseFolder,sourceFile.fsPath);
+    // create the .boost file path, from the new boost folder + amended relative source file path
+    switch (format) {
+        case BoostFileType.summary:
+            const absoluteBoostNotebookSummaryFile = path.join(boostFolder, relativePath + boostnb.NOTEBOOK_SUMMARY_EXTENSION);
+            let boostNotebookSummaryFile = vscode.Uri.file(absoluteBoostNotebookSummaryFile);
+            return boostNotebookSummaryFile;
+        case BoostFileType.status:
+            const absoluteboostProjectDataFile = path.join(boostFolder, relativePath + PROJECT_EXTENSION);
+            let boostProjectDataFile = vscode.Uri.file(absoluteboostProjectDataFile);
+            return boostProjectDataFile;
+        case BoostFileType.notebook:
+        default:
+            const absoluteBoostNotebookFile = path.join(boostFolder, relativePath + boostnb.NOTEBOOK_EXTENSION);
+            let boostNotebookFile = vscode.Uri.file(absoluteBoostNotebookFile);
+            return boostNotebookFile;
+    }
+*/
     let relativePath = path.relative(baseFolder,sourceFile.fsPath);
 
     let boostNotebookFile : vscode.Uri;
