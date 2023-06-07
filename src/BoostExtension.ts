@@ -774,133 +774,140 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
     }
     async loadCurrentFile(uri: vscode.Uri, context: vscode.ExtensionContext) : Promise<boolean> {
-        try
-        {
-            // if we don't have a file selected, then the user didn't right click
-            //      so we need to find the current active editor, if its available
-            if (uri === undefined) {
-                if (vscode.window.activeTextEditor === undefined) {
-                    boostLogging.warn("Unable to identify an active file to Boost.");
-                    return false;
-                }
-                else {
-                    uri = vscode.window.activeTextEditor?.document.uri;
-                }
-            }
-
-            let currentNotebook = vscode.window.activeNotebookEditor?.notebook;
-            // if there is no active notebook editor, we need to find it
-            // Note this only happens when using right-click in explorer or a non-Notebook active editor
-            if (currentNotebook === undefined) {
-                const boostNotebooks: vscode.NotebookDocument[] =
-                    vscode.workspace.notebookDocuments.filter(async (doc) => {
-                    // we're skipping non Boost notebooks
-                    return (doc.notebookType === boostnb.NOTEBOOK_TYPE);
-                });
-
-                // if we have more than one notebook, we need to ask user which one to use
-                if (boostNotebooks.length > 1) {
-                    let notebookNames = boostNotebooks.map((doc) => {
-                        return path.basename(vscode.Uri.parse(doc.uri.toString()).fsPath);
-                    });
-
-                    // show the user a list of available notebooks
-                    const selectedOption = await vscode.window.showQuickPick(notebookNames, {
-                        canPickMany: false,
-                        placeHolder: 'Select a Boost Notebook to use'
-                    });
-                    // if user doesn't pick anything, then just give up
-                    if (!selectedOption) {
-                        return false;
+        return new Promise(async (resolve, reject) => {
+            try
+            {
+                // if we don't have a file selected, then the user didn't right click
+                //      so we need to find the current active editor, if its available
+                if (uri === undefined) {
+                    if (vscode.window.activeTextEditor === undefined) {
+                        boostLogging.warn("Unable to identify an active file to Boost.");
+                        resolve( false );
                     }
-                    // otherwise find the notebook that matches the user's selection
-                    currentNotebook = boostNotebooks.find((doc) => {
-                        return path.basename(vscode.Uri.parse(doc.uri.toString()).fsPath) === selectedOption;
+                    else {
+                        uri = vscode.window.activeTextEditor?.document.uri;
+                    }
+                }
+
+                let currentNotebook = vscode.window.activeNotebookEditor?.notebook;
+                // if there is no active notebook editor, we need to find it
+                // Note this only happens when using right-click in explorer or a non-Notebook active editor
+                if (currentNotebook === undefined) {
+                    const boostNotebooks: vscode.NotebookDocument[] =
+                        vscode.workspace.notebookDocuments.filter(async (doc) => {
+                        // we're skipping non Boost notebooks
+                        resolve (doc.notebookType === boostnb.NOTEBOOK_TYPE);
                     });
+
+                    // if we have more than one notebook, we need to ask user which one to use
+                    if (boostNotebooks.length > 1) {
+                        let notebookNames = boostNotebooks.map((doc) => {
+                            return path.basename(vscode.Uri.parse(doc.uri.toString()).fsPath);
+                        });
+
+                        // show the user a list of available notebooks
+                        const selectedOption = await vscode.window.showQuickPick(notebookNames, {
+                            canPickMany: false,
+                            placeHolder: 'Select a Boost Notebook to use'
+                        });
+                        // if user doesn't pick anything, then just give up
+                        if (!selectedOption) {
+                            resolve(false);
+                        }
+                        // otherwise find the notebook that matches the user's selection
+                        currentNotebook = boostNotebooks.find((doc) => {
+                            return path.basename(vscode.Uri.parse(doc.uri.toString()).fsPath) === selectedOption;
+                        });
+                    }
+                    else if (boostNotebooks.length === 1) {
+                        // if we only have one notebook, then just use that one
+                        currentNotebook = boostNotebooks[0];
+                    }
                 }
-                else if (boostNotebooks.length === 1) {
-                    // if we only have one notebook, then just use that one
-                    currentNotebook = boostNotebooks[0];
+                // if we still failed to find an available Notebook, then warn and give up
+                if (currentNotebook === undefined) {
+                    currentNotebook = await createNotebookFromSourceFile(uri, false, true) as vscode.NotebookDocument;
+                    await createOrOpenSummaryNotebookFromSourceFile(uri);
+                    boostLogging.warn(
+                        `No active Notebook found. Created default Notebook for: ${uri.toString()}`);
+                } else {
+                    await parseFunctionsFromFile(uri, currentNotebook);
                 }
+                
+                boostLogging.log(`Boosted file:[${uri.fsPath.toString()}`);
+                vscode.window.showNotebookDocument(currentNotebook);
+            } catch (error) {
+                boostLogging.error(`Unable to Boost file:[${uri.fsPath.toString()} due to error:${error}`);
+                resolve(false);
             }
-            // if we still failed to find an available Notebook, then warn and give up
-            if (currentNotebook === undefined) {
-                currentNotebook = await createNotebookFromSourceFile(uri, false, true) as vscode.NotebookDocument;
-                await createOrOpenSummaryNotebookFromSourceFile(uri);
-                boostLogging.warn(
-                    `No active Notebook found. Created default Notebook for: ${uri.toString()}`);
-            } else {
-                await parseFunctionsFromFile(uri, currentNotebook);
-            }
-            
-            boostLogging.log(`Boosted file:[${uri.fsPath.toString()}`);
-            vscode.window.showNotebookDocument(currentNotebook);
-        } catch (error) {
-            boostLogging.error(`Unable to Boost file:[${uri.fsPath.toString()} due to error:${error}`);
-            return false;
-        }
-        return true;
+            resolve( true );
+        });
     }
 
     async processCurrentFile(uri: vscode.Uri, kernelCommand : string, context: vscode.ExtensionContext, forceAnalysisRefresh : boolean = false) : Promise<boolean> {
-        try
-        {
-            // if we don't have a file selected, then the user didn't right click
-            //      so we need to find the current active editor, if its available
-            if (uri === undefined) {
-                if (vscode.window.activeTextEditor === undefined) {
-                    boostLogging.warn(`Unable to identify an active file to Process ${kernelCommand}`);
-                    return false;
+        return new Promise(async (resolve, reject) => {
+            try
+            {
+                // if we don't have a file selected, then the user didn't right click
+                //      so we need to find the current active editor, if its available
+                if (uri === undefined) {
+                    if (vscode.window.activeTextEditor === undefined) {
+                        boostLogging.warn(`Unable to identify an active file to Process ${kernelCommand}`);
+                        resolve(false);
+                        return;
+                    }
+                    else {
+                        uri = vscode.window.activeTextEditor?.document.uri;
+                    }
                 }
-                else {
-                    uri = vscode.window.activeTextEditor?.document.uri;
+
+                const targetedKernel = this.getCurrentKernel(kernelCommand);
+                if (targetedKernel === undefined) {
+                    boostLogging.warn(`Unable to match analysis kernel for ${kernelCommand}`);
+                    resolve(false);
+                    return;
                 }
-            }
 
-            const targetedKernel = this.getCurrentKernel(kernelCommand);
-            if (targetedKernel === undefined) {
-                boostLogging.warn(`Unable to match analysis kernel for ${kernelCommand}`);
-                return false;
-            }
+                let boostUri = uri;
+                    // if we got a source file or folder, then load the notebook from it
+                if (!uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
+                    boostUri = getBoostFile(uri,
+                        targetedKernel.command === summarizeKernelName?BoostFileType.summary: BoostFileType.notebook  );
+                } // else we are using a notebook file, so just use it
 
-            let boostUri = uri;
-                // if we got a source file or folder, then load the notebook from it
-            if (!uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
-                boostUri = getBoostFile(uri,
-                    targetedKernel.command === summarizeKernelName?BoostFileType.summary: BoostFileType.notebook  );
-            } // else we are using a notebook file, so just use it
-
-            let notebook = new boostnb.BoostNotebook();
-            if (!fs.existsSync(boostUri.fsPath)) {
-                // if not a summary, and no notebook then fail
-                if (targetedKernel.command !== summarizeKernelName) {
-                    // if we haven't yet loaded/parsed this file, then let's do it implicitly for customer
-                    if (!this.loadCurrentFile(uri, context)) {
-                        return false;
+                let notebook = new boostnb.BoostNotebook();
+                if (!fs.existsSync(boostUri.fsPath)) {
+                    // if not a summary, and no notebook then fail
+                    if (targetedKernel.command !== summarizeKernelName) {
+                        // if we haven't yet loaded/parsed this file, then let's do it implicitly for customer
+                        if (!this.loadCurrentFile(uri, context)) {
+                            resolve(false);
+                            return;
+                        } else {
+                            notebook.load(boostUri.fsPath);
+                        }
                     } else {
-                        notebook.load(boostUri.fsPath);
+                        // if we are summarizing, then we need to create the summary notebook
+                        notebook = await createOrOpenSummaryNotebookFromSourceFile(uri);
                     }
                 } else {
-                    // if we are summarizing, then we need to create the summary notebook
-                    notebook = await createOrOpenSummaryNotebookFromSourceFile(uri);
+                    notebook.load(boostUri.fsPath);
                 }
-            } else {
-                notebook.load(boostUri.fsPath);
+
+                targetedKernel?.executeAllWithAuthorization(notebook.cells, notebook, forceAnalysisRefresh).then(() => {
+                    // ensure we save the notebook if we successfully processed it
+                    notebook.save(boostUri.fsPath);
+                    resolve(true);
+                }).catch((error) => {
+                    boostLogging.warn(`Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
+                    reject(error);
+                });
+
+            } catch (error) {
+                reject(new Error(`Unable to Process ${kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`));
             }
-
-            targetedKernel?.executeAllWithAuthorization(notebook.cells, notebook, forceAnalysisRefresh).then(() => {
-                // ensure we save the notebook if we successfully processed it
-                notebook.save(boostUri.fsPath);
-                return true;
-            }).catch((error) => {
-                boostLogging.warn(`Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
-                throw error;
-            });
-
-        } catch (error) {
-            throw new Error(`Unable to Process ${kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
-        }
-        return true;
+            return true;
+        });
     }
 
     private getCurrentKernel(requestedKernel? : string) : KernelControllerBase | undefined {
