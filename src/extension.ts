@@ -129,10 +129,13 @@ export async function createOrOpenSummaryNotebookFromSourceFile(sourceFile : vsc
     // if doesn't exist, create it
     if (!summaryFileExists) {
         const newNotebook = await createEmptyNotebook(notebookSummaryPath, true) as boostnb.BoostNotebook;
+        
         let newMetadata = {
             ...newNotebook.metadata,
             sourceFile: sourceFile.toString()};
-    
+
+        newNotebook.metadata = newMetadata;
+
         // boost notebook needs to be saved explicitly - while the VSC notebook background saves
         newNotebook.save(notebookSummaryPath.path);
         return newNotebook;
