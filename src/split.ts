@@ -1,3 +1,5 @@
+import * as path from 'path';
+
 const OPENAI_API_PARAMETER_PAYLOAD_MAX = 4000;
 
 function splitCode(code: string): string[] {
@@ -66,7 +68,11 @@ function splitCode(code: string): string[] {
 }
 
 function getVSCodeLanguageId(filename: string): string {
-    const fileExtension = getFileExtension(filename);
+    let fileExtension = getFileExtension(filename);
+    if (fileExtension === "") {
+        let parsedFilename = path.parse(filename).name;
+        fileExtension = parsedFilename || path.basename(filename);
+    }
 
     const languageMappings: { [key: string]: string } = {
         "js": "javascript",
@@ -106,7 +112,18 @@ function getVSCodeLanguageId(filename: string): string {
         "yaml": "yaml",
         "fs": "fsharp",
         "fsx": "fsharp",
-        "vb": "vb"
+        "vb": "vb",
+        "txt": "plaintext",
+        "sql": "sql",
+        "gradle": "plaintext",
+        "csproj": "plaintext",
+        "vbproj": "plaintext",
+        "fsproj": "plaintext",
+        "sln": "plaintext",
+        "toml": "plaintext",
+        "xcodeproj": "plaintext",
+        "rakefile": "plaintext",
+        "makefile": "plaintext"
     };
 
     return languageMappings[fileExtension] || "unknown";
