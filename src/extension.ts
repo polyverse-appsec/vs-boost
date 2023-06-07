@@ -118,7 +118,7 @@ export class BoostExtension {
             // otherwise, we need to either load it, or create it
             if (!this._boostProjectData.has(workspaceFolder.uri)) {
 
-                let boostProjectUri = getBoostNotebookFile(workspaceFolder.uri, false, false, BoostFileType.status);
+                let boostProjectUri = getBoostFile(workspaceFolder.uri, BoostFileType.status);
 
                 if (!fs.existsSync(boostProjectUri.fsPath)) {
                     // we need to create the new boost project file
@@ -234,7 +234,7 @@ export class BoostExtension {
             ]
         });
 
-        boostProjectData.save(getBoostNotebookFile(workspaceFolder, false, false, BoostFileType.status).fsPath);
+        boostProjectData.save(getBoostFile(workspaceFolder, BoostFileType.status).fsPath);
     }
 
     public getBoostProjectData(): any {
@@ -258,7 +258,7 @@ export class BoostExtension {
         for (const file of files) {
           count++;
           if (onlyCountCreatedFiles) {
-            const boostFileUri = getBoostNotebookFile(file); // Replace GetBoostFile with your actual logic
+            const boostFileUri = getBoostFile(file);
             const fileExists = fs.existsSync(boostFileUri.fsPath);
             if (!fileExists) {
               count--;
@@ -862,7 +862,8 @@ export class BoostExtension {
             let boostUri = uri;
                 // if we got a source file or folder, then load the notebook from it
             if (!uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
-                boostUri = getBoostNotebookFile(uri, targetedKernel.command === summarizeKernelName );
+                boostUri = getBoostFile(uri,
+                    targetedKernel.command === summarizeKernelName?BoostFileType.summary: BoostFileType.notebook  );
             } // else we are using a notebook file, so just use it
 
             const notebook = new boostnb.BoostNotebook();
@@ -1025,7 +1026,7 @@ export class BoostExtension {
                 let boostUri = uri;
                     // if we got a source file, then load the notebook from it
                 if (!uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
-                    boostUri = getBoostNotebookFile(uri);
+                    boostUri = getBoostFile(uri);
                 }
 
                 if (!fs.existsSync(boostUri.fsPath)) {
@@ -1120,7 +1121,7 @@ export class BoostExtension {
                 let boostUri = uri;
                     // if we got a source file, then load the notebook from it
                 if (!uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
-                    boostUri = getBoostNotebookFile(uri);
+                    boostUri = getBoostFile(uri);
                 }
 
                 if (!fs.existsSync(boostUri.fsPath)) {
@@ -1223,7 +1224,7 @@ export enum BoostFileType {
     status = "status",
 }
 
-export function getBoostNotebookFile(sourceFile : vscode.Uri, buildSummary : boolean = false, showUI : boolean = false, format : BoostFileType = BoostFileType.notebook) : vscode.Uri {
+export function getBoostFile(sourceFile : vscode.Uri, format : BoostFileType = BoostFileType.notebook, showUI : boolean = false) : vscode.Uri {
 
     // if we don't have a workspace folder, just place the Boost file in a new Boostdir - next to the source file
     let baseFolder;
@@ -1239,47 +1240,51 @@ export function getBoostNotebookFile(sourceFile : vscode.Uri, buildSummary : boo
     fs.mkdirSync(boostFolder, { recursive: true });
 
     // get the distance from the workspace folder for the source file
-/*
             // for project-level status files, we ignore the relative path
-    const relativePath = (baseFolder === sourceFile.path)?
+    let relativePath = (baseFolder === sourceFile.path)?
         path.basename(baseFolder):path.relative(baseFolder,sourceFile.fsPath);
     // create the .boost file path, from the new boost folder + amended relative source file path
     switch (format) {
         case BoostFileType.summary:
-            const absoluteBoostNotebookSummaryFile = path.join(boostFolder, relativePath + boostnb.NOTEBOOK_SUMMARY_EXTENSION);
-            let boostNotebookSummaryFile = vscode.Uri.file(absoluteBoostNotebookSummaryFile);
-            return boostNotebookSummaryFile;
+            // if the new file is outside of our current workspace, then warn user
+            // and place the new .boost file next to it (not great, but better than nothing)
+            if (relativePath.startsWith("..")) {
+                boostLogging.warn(`Boost Notebook file ${sourceFile.fsPath} is outside of current workspace ${baseFolder}`, showUI);
+                const externalBoostFile = sourceFile.fsPath + boostnb.NOTEBOOK_SUMMARY_EXTENSION;
+                return vscode.Uri.file(externalBoostFile);
+            } else {
+                // if we're targeting a folder, and the folder is the workspace name, then name it after the project
+                if (!relativePath) {
+                    relativePath = path.basename(baseFolder);
+                }
+                // create the .boost file path, from the new boost folder + amended relative source file path
+                const absoluteBoostNotebookFile = path.join(
+                    boostFolder, relativePath + boostnb.NOTEBOOK_SUMMARY_EXTENSION);
+                return vscode.Uri.file(absoluteBoostNotebookFile);
+            }
         case BoostFileType.status:
             const absoluteboostProjectDataFile = path.join(boostFolder, relativePath + PROJECT_EXTENSION);
             let boostProjectDataFile = vscode.Uri.file(absoluteboostProjectDataFile);
             return boostProjectDataFile;
         case BoostFileType.notebook:
         default:
-            const absoluteBoostNotebookFile = path.join(boostFolder, relativePath + boostnb.NOTEBOOK_EXTENSION);
-            let boostNotebookFile = vscode.Uri.file(absoluteBoostNotebookFile);
-            return boostNotebookFile;
+            // if the new file is outside of our current workspace, then warn user
+            // and place the new .boost file next to it (not great, but better than nothing)
+            if (relativePath.startsWith("..")) {
+                boostLogging.warn(`Boost Notebook file ${sourceFile.fsPath} is outside of current workspace ${baseFolder}`, showUI);
+                const externalBoostFile = sourceFile.fsPath + boostnb.NOTEBOOK_EXTENSION;
+                return vscode.Uri.file(externalBoostFile);
+            } else {
+                // if we're targeting a folder, and the folder is the workspace name, then name it after the project
+                if (!relativePath) {
+                    relativePath = path.basename(baseFolder);
+                }
+                // create the .boost file path, from the new boost folder + amended relative source file path
+                const absoluteBoostNotebookFile = path.join(
+                    boostFolder, relativePath + boostnb.NOTEBOOK_EXTENSION);
+                return vscode.Uri.file(absoluteBoostNotebookFile);
+            }
     }
-*/
-    let relativePath = path.relative(baseFolder,sourceFile.fsPath);
-
-    let boostNotebookFile : vscode.Uri;
-    // if the new file is outside of our current workspace, then warn user
-    // and place the new .boost file next to it (not great, but better than nothing)
-    if (relativePath.startsWith("..")) {
-        boostLogging.warn(`Boost Notebook file ${sourceFile.fsPath} is outside of current workspace ${baseFolder}`, showUI);
-        const externalBoostFile = sourceFile.fsPath + (buildSummary?boostnb.NOTEBOOK_SUMMARY_EXTENSION:boostnb.NOTEBOOK_EXTENSION);
-        boostNotebookFile = vscode.Uri.file(externalBoostFile);
-    } else {
-        // if we're targeting a folder, and the folder is the workspace name, then name it after the project
-        if (!relativePath) {
-            relativePath = path.basename(baseFolder);
-        }
-        // create the .boost file path, from the new boost folder + amended relative source file path
-        const absoluteBoostNotebookFile = path.join(
-            boostFolder, relativePath + (buildSummary?boostnb.NOTEBOOK_SUMMARY_EXTENSION:boostnb.NOTEBOOK_EXTENSION));
-        boostNotebookFile = vscode.Uri.file(absoluteBoostNotebookFile);
-    }
-    return boostNotebookFile;
 }
 
 export function findCellByKernel(targetNotebook: vscode.NotebookDocument | boostnb.BoostNotebook, outputType: string): vscode.NotebookCell | boostnb.BoostNotebookCell | undefined {
@@ -1304,7 +1309,7 @@ export function findCellByKernel(targetNotebook: vscode.NotebookDocument | boost
 async function createOrOpenSummaryNotebookFromSourceFile(sourceFile : vscode.Uri) :
         Promise<vscode.NotebookDocument | boostnb.BoostNotebook> {
 
-    const notebookSummaryPath = getBoostNotebookFile(vscode.Uri.parse(sourceFile.fsPath + boostnb.NOTEBOOK_SUMMARY_PRE_EXTENSION));
+    const notebookSummaryPath = getBoostFile(vscode.Uri.parse(sourceFile.fsPath + boostnb.NOTEBOOK_SUMMARY_PRE_EXTENSION));
     const summaryFileExists = fs.existsSync(notebookSummaryPath.fsPath);
     // if doesn't exist, create it
     if (!summaryFileExists) {
@@ -1330,7 +1335,7 @@ async function createNotebookFromSourceFile(
     existingNotebook : vscode.NotebookDocument | boostnb.BoostNotebook | undefined = undefined) :
         Promise<vscode.NotebookDocument | boostnb.BoostNotebook> {
 
-    const notebookPath = getBoostNotebookFile(sourceFile);
+    const notebookPath = getBoostFile(sourceFile);
     const fileExists = fs.existsSync(notebookPath.fsPath);
     if (fileExists && !overwriteIfExists) {
         boostLogging.error(`Boost Notebook file already exists. Please delete the file and try again.\n  ${notebookPath.fsPath}`);
