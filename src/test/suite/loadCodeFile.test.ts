@@ -4,7 +4,7 @@ import { debug } from 'console';
 import * as sinon from 'sinon';
 import * as path from 'path';
 import * as fs from 'fs';
-import { NOTEBOOK_TYPE } from '../../extension';
+import { NOTEBOOK_TYPE } from '../../jupyter_notebook';
 import { getRandomTestSourceFile } from '../suite/utils';
 
 suite('Load Code File Command', function() {

@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import * as vscode from 'vscode';
-import { NOTEBOOK_TYPE } from '../../extension';
+import { NOTEBOOK_TYPE } from '../../jupyter_notebook';
 
 suite('Extension Commands', () => {
   vscode.window.showInformationMessage('Start Command verification tests.');

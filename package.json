@@ -8,7 +8,7 @@
   "bugs": {
     "email": "support@polyverse.com"
   },
-  "version": "0.9.8",
+  "version": "0.9.9",
   "engines": {
     "vscode": "^1.77.0"
   },
@@ -104,6 +104,11 @@
           "type": "string",
           "default": "",
           "description": "Boost Kernel to use for Automated Processing"
+        },
+        "polyverse-boost-notebook.refreshAnalysisAlways": {
+          "type": "boolean",
+          "default": false,
+          "description": "Force analysis refresh when existing Cell analysis is available"
         }
       }
     },

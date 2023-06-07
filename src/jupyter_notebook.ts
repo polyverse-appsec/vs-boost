@@ -3,8 +3,11 @@ import * as path from 'path';
 import * as nbformat from '@jupyterlab/nbformat';
 import { randomUUID } from 'crypto';
 
+export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 export const NOTEBOOK_EXTENSION = ".boost-notebook";
-export const NOTEBOOK_SUMMARY_EXTENSION = ".summary" + NOTEBOOK_EXTENSION;
+
+export const NOTEBOOK_SUMMARY_PRE_EXTENSION = '.summary';
+export const NOTEBOOK_SUMMARY_EXTENSION = NOTEBOOK_SUMMARY_PRE_EXTENSION + NOTEBOOK_EXTENSION;
 
 export enum NotebookCellKind {
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -14,11 +17,11 @@ export enum NotebookCellKind {
 }
 
 export interface SerializedNotebookCellOutput /* implements nbformat.IOutput  */ {
-	items: {
-		mime: string;
-		data: string;
-	}[];
-	metadata?: any;
+    items: {
+        mime: string;
+        data: string;
+    }[];
+    metadata?: any;
 }
 
 export interface SerializedNotebookCell {
@@ -31,7 +34,7 @@ export interface SerializedNotebookCell {
 }
 
 export interface SerializedNotebook {
-	cells: SerializedNotebookCell[]
+    cells: SerializedNotebookCell[]
     metadata?: any;
 }
 
@@ -42,47 +45,49 @@ export class BoostNotebookCell /*implements nbformat.ICell */ {
     kind: NotebookCellKind;
     editable?: boolean;
     // eslint-disable-next-line @typescript-eslint/naming-convention
-//    execution_count: nbformat.ExecutionCount;
+    //    execution_count: nbformat.ExecutionCount;
     outputs: SerializedNotebookCellOutput[] = [];
     // eslint-disable-next-line @typescript-eslint/naming-convention
-//    cell_type: nbformat.CellType;
+    //    cell_type: nbformat.CellType;
     metadata?: nbformat.ICellMetadata;
-//    source: nbformat.MultilineString;
-//    attachments?: nbformat.IAttachments;
+    //    source: nbformat.MultilineString;
+    //    attachments?: nbformat.IAttachments;
 
     constructor(
-            kind: NotebookCellKind,
-            value: string,
-            languageId: string,
-            id?: string,
-            metadata?: nbformat.ICellMetadata,
-            outputs?: SerializedNotebookCellOutput[],
-//            editable?: boolean,
-//            source: nbformat.MultilineString = "",
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-//            execution_count: nbformat.ExecutionCount = null,
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-//            cell_type: nbformat.CellType = 'code',
-//            attachments?: nbformat.IAttachments
-                    ) {
+        kind: NotebookCellKind,
+        value: string,
+        languageId: string,
+        id?: string,
+        metadata?: nbformat.ICellMetadata,
+        outputs?: SerializedNotebookCellOutput[],
+        //            editable?: boolean,
+        //            source: nbformat.MultilineString = "",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        //            execution_count: nbformat.ExecutionCount = null,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        //            cell_type: nbformat.CellType = 'code',
+        //            attachments?: nbformat.IAttachments
+    ) {
         this.languageId = languageId;
-        this.id = id? id : randomUUID().toString();
+        this.id = id ? id : randomUUID().toString();
         this.value = value;
         this.kind = kind;
-//        this.execution_count = execution_count;
-//        this.editable = editable;
+        //        this.execution_count = execution_count;
+        //        this.editable = editable;
         this.outputs = [];
         this.metadata = metadata;
-//        this.cell_type = cell_type;
-//        this.source = source;
+        //        this.cell_type = cell_type;
+        //        this.source = source;
     }
-    initializeMetadata(newData : any) {
+
+    initializeMetadata(newData: any) {
         this.metadata = newData;
     }
+
     updateOutputItem(outputType: string, newOutput: SerializedNotebookCellOutput) {
         // Check if any existing output item has the same outputType
         const existingItemIndex = this.outputs.findIndex(item => item.metadata?.outputType === outputType);
-    
+
         if (existingItemIndex !== -1) {
             // Replace the existing output item with the new one
             this.outputs[existingItemIndex] = newOutput;
@@ -91,7 +96,8 @@ export class BoostNotebookCell /*implements nbformat.ICell */ {
             this.outputs.push(newOutput);
         }
     }
-}    
+}
+
 /*
 // Usage example
 const boostNotebook = new BoostNotebook();
@@ -108,63 +114,74 @@ boostNotebook.save('path/to/save/notebook.ipynb');
 */
 
 export class BoostNotebook /* implements nbformat.INotebookContent */ {
-  metadata: nbformat.INotebookMetadata;
-  cells : BoostNotebookCell[];
-//  nbformat: number;
-  
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-//  nbformat_minor: number;
+    metadata: nbformat.INotebookMetadata;
+    cells: BoostNotebookCell[];
+    //  nbformat: number;
 
-  [key: string]: any; // Index signature for type 'string'
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    //  nbformat_minor: number;
+    fsPath: string;
 
-  constructor() {
-    this.cells = [];
-    this.metadata = {};
+    [key: string]: any; // Index signature for type 'string'
 
-    // these are for compat with vscode
-//    this.nbformat = 4;
-//    this.nbformat_minor = 5;
-  }
+    constructor() {
+        this.cells = [];
+        this.metadata = {};
+        this.fsPath = '';
 
-  create(jsonString: string): void {
-    let notebook = JSON.parse(jsonString) as BoostNotebook;
-    Object.assign(this, notebook);
-    for (let i = 0; i < this.cells.length; i++) {
-        this.cells[i] = Object.assign(new BoostNotebookCell(this.cells[i].kind, this.cells[i].value, this.cells[i].languageId), this.cells[i]);
-        // since Outputs are plain old data, we don't need to reserialize them
-    }
-  }
-
-  load(filePath: string): void {
-      const jsonString = fs.readFileSync(filePath, 'utf8');
-      this.create(jsonString);
+        // these are for compat with vscode
+        //    this.nbformat = 4;
+        //    this.nbformat_minor = 5;
     }
 
-  save(filename: string): void {
-    const notebookJson = JSON.stringify(this, null, 2);
-
-    // Create any necessary folders
-    const folderPath = path.dirname(filename);
-    fs.mkdirSync(folderPath, { recursive: true });
-
-    fs.writeFileSync(filename, notebookJson, { encoding: 'utf8'});
-  }
-
-  addCell(cell: BoostNotebookCell): void {
-    this.cells.push(cell);
-  }
-
-  replaceCells(cells: BoostNotebookCell[]): void {
-    this.cells = cells;
-  }
-
-  appendCells(cells: BoostNotebookCell[]): void {
-    for (const cell of cells) {
-      this.cells.push(cell);
+    create(jsonString: string): void {
+        let notebook = JSON.parse(jsonString) as BoostNotebook;
+        Object.assign(this, notebook);
+        for (let i = 0; i < this.cells.length; i++) {
+            this.cells[i] = Object.assign(new BoostNotebookCell(this.cells[i].kind, this.cells[i].value, this.cells[i].languageId), this.cells[i]);
+            // since Outputs are plain old data, we don't need to reserialize them
+        }
     }
-  }
 
-  updateMetadata(key: string, value: any): void {
-    this.metadata[key] = value;
-  }
+    load(filePath: string): void {
+        const jsonString = fs.readFileSync(filePath, 'utf8');
+        this.create(jsonString);
+        this.fsPath = filePath;
+    }
+
+    flushToFS(): void {
+        this.save(this.fsPath);
+    }
+
+    save(filename: string): void {
+        this.fsPath = filename;
+
+        // no need to persist the path into the file
+        const { fsPath, ...dataWithoutFsPath } = this;
+        const notebookJson = JSON.stringify(dataWithoutFsPath, null, 2);
+
+        // Create any necessary folders
+        const folderPath = path.dirname(filename);
+        fs.mkdirSync(folderPath, { recursive: true });
+
+        fs.writeFileSync(filename, notebookJson, { encoding: 'utf8' });
+    }
+
+    addCell(cell: BoostNotebookCell): void {
+        this.cells.push(cell);
+    }
+
+    replaceCells(cells: BoostNotebookCell[]): void {
+        this.cells = cells;
+    }
+
+    appendCells(cells: BoostNotebookCell[]): void {
+        for (const cell of cells) {
+            this.cells.push(cell);
+        }
+    }
+
+    updateMetadata(key: string, value: any): void {
+        this.metadata[key] = value;
+    }
 }

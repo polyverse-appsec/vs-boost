@@ -67,7 +67,11 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
         return error;
     }
 
-    async executeAll(cells: vscode.NotebookCell[] | BoostNotebookCell[], notebook: vscode.NotebookDocument | BoostNotebook, session : vscode.AuthenticationSession) {
+    async executeAll(
+        cells: vscode.NotebookCell[] | BoostNotebookCell[],
+        notebook: vscode.NotebookDocument | BoostNotebook,
+        session : vscode.AuthenticationSession,
+        forceAnalysisRefresh : boolean = false) {
 
         const userInput = await vscode.window.showInputBox({
             value: this._customPrompt,
@@ -82,7 +86,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
             } else {
                 this._customPrompt = userInput;
             }
-            return super.executeAll(cells, notebook, session);
+            return super.executeAll(cells, notebook, session, forceAnalysisRefresh);
         } else {
             // write user canceled warning to output, without UI
             boostLogging.warn("Boost Code Custom Processing cancelled by user", false);
