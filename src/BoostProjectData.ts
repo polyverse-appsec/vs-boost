@@ -219,13 +219,18 @@ export class BoostProjectData implements IBoostProjectData {
 };
 
 export async function getOrCreateBlueprintUri(context: vscode.ExtensionContext, filePath: string): Promise<vscode.Uri>{
-    const uri = vscode.Uri.file(filePath);
-    if (!fs.existsSync(filePath)) {
+    const workspacePath = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : '';
+    const absoluteFilePath = path.resolve(workspacePath, filePath);
+    const uri = vscode.Uri.file(absoluteFilePath);
+    if (!fs.existsSync(absoluteFilePath)) {
         // If the file doesn't exist, create it with data from blueprint_template.md
         const extensionPath = context.extensionPath;
         const templatePath = path.join(extensionPath, 'resources', 'blueprint_template.md');
         const data = fs.readFileSync(templatePath);
-        fs.writeFileSync(filePath, data);
+        //filePath might point to a directory that does not exist yet. check for that and create it if necessary
+        const folderPath = path.dirname(absoluteFilePath);
+        fs.mkdirSync(folderPath, { recursive: true });
+        fs.writeFileSync(absoluteFilePath, data);
     }
     return uri;
 }
