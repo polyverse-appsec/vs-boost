@@ -99,7 +99,7 @@ export class SummarizeKernel extends KernelControllerBase {
         if (summarizeSourceFile) {
             targetNotebookUri = getBoostFile(vscode.Uri.parse(notebook.metadata['sourceFile'] as string), BoostFileType.summary);
         } else {
-            throw new Error("Summarizing a project is not yet supported");
+            throw new Error("Summarizing a project is not supported");
         }
         if (fs.existsSync(targetNotebookUri.fsPath)) {
             targetNotebook.load(targetNotebookUri.fsPath);
@@ -158,7 +158,7 @@ export class SummarizeKernel extends KernelControllerBase {
             // if we are summarizing a project or folder, we need to summarize all the files in it
             // combinedInput = this._summarizeSourceFilesAsSingleInput(sourceCells, usingBoostNotebook);
 
-            throw new Error("Summarizing a project is not yet supported");
+            throw new Error("Summarizing a project is not supported");
         }
         // if we got no input, then skip deep processing
         if (!combinedInput) {
@@ -192,7 +192,7 @@ export class SummarizeKernel extends KernelControllerBase {
             // snap the processed analysis summary from the temp cell and store it as the new summary cell in the summary notebook
             targetCell.value = tempProcessingCell.outputs[0].items[0].data;
         } else {
-            throw new Error("Summarizing a project is not yet supported");
+            throw new Error("Summarizing a project is not supported");
         }
         targetNotebook.flushToFS();
     }
