@@ -1,0 +1,4 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2019
+Project("...") = "MyProject", "MyProject.csproj", "{12345}"
+EndProject

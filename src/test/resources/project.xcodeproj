@@ -1,0 +1,45 @@
+{
+  "project_name": "Example",
+  "targets": [
+    {
+      "name": "ExampleApp",
+      "type": "application",
+      "source_files": [
+        "Sources/Main.swift",
+        "Sources/ViewController.swift"
+      ],
+      "dependencies": [
+        "Framework1",
+        "Framework2"
+      ]
+    },
+    {
+      "name": "Framework1",
+      "type": "framework",
+      "source_files": [
+        "Sources/Utility.swift"
+      ],
+      "dependencies": [
+        "Framework3"
+      ]
+    },
+    {
+      "name": "Framework2",
+      "type": "framework",
+      "source_files": [
+        "Sources/Networking.swift"
+      ],
+      "dependencies": [
+        "Framework3"
+      ]
+    },
+    {
+      "name": "Framework3",
+      "type": "framework",
+      "source_files": [
+        "Sources/Models.swift",
+        "Sources/Helpers.swift"
+      ]
+    }
+  ]
+}
