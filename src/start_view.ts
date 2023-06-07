@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
-import { BoostExtension } from './extension';
+import { BoostExtension } from './BoostExtension';
 import { getOrCreateBlueprintUri} from './BoostProjectData';
 
 

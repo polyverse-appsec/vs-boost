@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
 import * as os from 'os';
-import { BoostExtension } from './extension';
+import { BoostExtension } from './BoostExtension';
 import { BoostConfiguration } from './boostConfiguration';
 import { callServiceEndpoint } from './lambda_util';
 import {marked} from 'marked';
