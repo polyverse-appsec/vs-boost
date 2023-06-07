@@ -69,10 +69,6 @@ export class BoostExtension {
 
         this.registerFolderRightClickMarkdownCommands(context);
 
-        if (BoostConfiguration.enableDevOnlyKernels) {
-            this.registerAnalyzeProject(context);
-        }
-
         boostLogging.log('Activated Boost Notebook Extension');
         boostLogging.info('Polyverse Boost is now active');
     }
@@ -644,10 +640,10 @@ export class BoostExtension {
             }
 
             let boostUri = uri;
-                // if we got a source file, then load the notebook from it
+                // if we got a source file or folder, then load the notebook from it
             if (!uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
-                boostUri = getBoostNotebookFile(uri);
-            }
+                boostUri = getBoostNotebookFile(uri, targetedKernel.command === summarizeKernelName );
+            } // else we are using a notebook file, so just use it
 
             const notebook = new boostnb.BoostNotebook();
             if (!fs.existsSync(boostUri.fsPath)) {
@@ -729,28 +725,28 @@ export class BoostExtension {
         
         try {
 
-            // if we are doing a summary operation, then we process the named folder only
+            let processedNotebookWaits : any [] = [];
+
+            // if we are doing a summary operation, then we process the named folder only (for the project/folder-level summary)
             if (targetedKernel.command === summarizeKernelName) {
-                await this.processCurrentFile(targetFolder, targetedKernel.id, context, forceAnalysisRefresh);
-            } else {
-                let processedNotebookWaits : any [] = [];
-
-                files.filter(async (file) => {
-                    processedNotebookWaits.push(this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh));
-                });
-
-                await Promise.all(processedNotebookWaits)
-                        .then((processedNotebooks) => {
-                            processedNotebooks.forEach(async (notebook : boostnb.BoostNotebook) => {
-                                // we let user know the notebook was processed
-                                boostLogging.info(`Boost Notebook processed with command ${targetedKernel.command}: ${notebook.uri.fsPath}`, false);
-                            });
-                        boostLogging.info(`${processedNotebookWaits.length.toString()} Boost Notebooks processed for folder ${targetFolder.path}`, false);
-                    }) .catch((error) => {
-                    // Handle the error here
-                        boostLogging.error(`Error Boosting folder ${targetFolder.path} due to Error: ${error}`);
-                    });                
+                processedNotebookWaits.push(this.processCurrentFile(targetFolder, targetedKernel.id, context, forceAnalysisRefresh));
             }
+
+            files.filter(async (file) => {
+                processedNotebookWaits.push(this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh));
+            });
+
+            await Promise.all(processedNotebookWaits)
+                    .then((processedNotebooks) => {
+                        processedNotebooks.forEach(async (notebook : boostnb.BoostNotebook) => {
+                            // we let user know the notebook was processed
+                            boostLogging.info(`Boost Notebook processed with command ${targetedKernel.command}: ${notebook.uri.fsPath}`, false);
+                        });
+                    boostLogging.info(`${processedNotebookWaits.length.toString()} Boost Notebooks processed for folder ${targetFolder.path}`, false);
+                }) .catch((error) => {
+                // Handle the error here
+                    boostLogging.error(`Error Boosting folder ${targetFolder.path} due to Error: ${error}`);
+                });
         } catch (error) {
             boostLogging.error(`Unable to Process ${kernelCommand} on Folder:[${uri.fsPath.toString()} due to error:${error}`);
         }
@@ -966,145 +962,7 @@ export class BoostExtension {
             boostLogging.error(`Unable to Convert Notebooks in Folder:[${folderUri.fsPath.toString()} due to error:${error}`);
         }
     }
-
-    registerAnalyzeProject(context: vscode.ExtensionContext) {
-        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.analyzeProject',
-            async (uri: vscode.Uri) => {
-                return this.analyzeProject(uri);
-            });
-        context.subscriptions.push(disposable);
-
-        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.summarizeNotebook',
-            async (uri: vscode.Uri) => {
-                return this.summarizeNotebook(uri);
-            });
-        context.subscriptions.push(disposable);
-                
-    }
-
-    async analyzeProject(folderUri: vscode.Uri) {
-        let targetFolder : vscode.Uri;
-        // if we don't have a folder selected, then the user didn't right click
-        //      so we need to use the workspace folder
-        if (folderUri === undefined) {
-            if (vscode.workspace.workspaceFolders === undefined) {
-                boostLogging.warn(
-                    'Unable to find Workspace Folder. Please open a Project or Folder first');
-                return;
-            }
-
-            // use first folder in workspace
-            targetFolder = vscode.workspace.workspaceFolders[0].uri;
-            boostLogging.debug(`Analyzing Project Wide Boost files in Workspace: ${targetFolder.fsPath}`);
-        }
-        else {
-            targetFolder = folderUri;
-            boostLogging.debug(`Analyzing Boost files in folder: ${folderUri.fsPath}`);
-        }
-
-        let baseWorkspace;
-        if (vscode.workspace.workspaceFolders) {
-            baseWorkspace = vscode.workspace.workspaceFolders![0].uri;
-        } else {
-            baseWorkspace = folderUri;
-        }
-        // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
-        let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*' + boostnb.NOTEBOOK_EXTENSION);
-        let ignorePattern = await _buildVSCodeIgnorePattern(false);
-        boostLogging.debug("Skipping Boost Notebook files of pattern: " + ignorePattern??"none");
-        let files = await vscode.workspace.findFiles(searchPattern, ignorePattern?new vscode.RelativePattern(targetFolder, ignorePattern):"");
-            
-        boostLogging.debug("Analyzing Boost " + files.length + " files in folder: " + targetFolder);
-        
-        try {
-            let analyzedNotebookWaits : any [] = [];
-
-            files.filter(async (file) => {
-                analyzedNotebookWaits.push(this.analyzeNotebook(file));
-            });
-            
-            await Promise.all(analyzedNotebookWaits)
-                .then((convertedNotebooks) => {
-                    convertedNotebooks.forEach(async (convertedPdf : string) => {
-                        // we let user know the notebook was processed
-                        boostLogging.info(`Boost Notebook analyzed ${convertedPdf}`, false);
-                    });
-                    boostLogging.info(`${analyzedNotebookWaits.length.toString()} Boost Notebooks analyzed for folder ${targetFolder.path}`, false);
-                })
-                .catch((error) => {
-                // Handle the error here
-                    boostLogging.error(`Error analyzing Notebooks in folder ${targetFolder.path} due to Error: ${error}`);
-                });
-        } catch (error) {
-            boostLogging.error(`Unable to Analyze Notebooks in Folder:[${folderUri.fsPath.toString()} due to error:${error}`);
-        }
-    }
-
-    async analyzeNotebook(leafNotebookUri: vscode.Uri): Promise<void> {
-        try
-        {
-            const notebook = new boostnb.BoostNotebook();
-            if (!leafNotebookUri) {
-                throw new Error('No notebook provided');
-            } else if (!leafNotebookUri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
-                throw new Error('File is not a notebook');
-            } else if (!fs.existsSync(leafNotebookUri.fsPath)) {
-                throw new Error(`Unable to find Boost notebook for ${leafNotebookUri.fsPath} - please create Boost notebook first`);
-            }
-
-            // Hardcoding to Blueprint summaries only for now
-            const targetedKernel = this.getCurrentKernel("blueprint");
-            if (targetedKernel === undefined) {
-                throw new Error('Unable to find Blueprint Kernel');
-            }
-
-            notebook.load(leafNotebookUri.fsPath);
-
-            boostLogging.error("Analyze Notebook NOT IMPLEMENTED");
-/*
-            return targetedKernel?.executeAllWithAuthorization(notebook.cells, notebook).then(() => {
-            }).catch((error) => {
-                boostLogging.warn(`Skipping Notebook save - due to Error Processing ${targetedKernel.id} on file:[${leafNotebookUri.fsPath.toString()} due to error:${error}`);
-                throw error;
-            });
-            */
-        } catch (error) {
-            throw new Error(`Unable to Process file:[${leafNotebookUri.fsPath.toString()} due to error:${error}`);
-        }
-    }
-
-    async summarizeNotebook(leafNotebookUri: vscode.Uri): Promise<void> {
-        try
-        {
-            const notebook = new boostnb.BoostNotebook();
-            if (!leafNotebookUri) {
-                throw new Error('No notebook provided');
-            } else if (!leafNotebookUri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
-                throw new Error('File is not a notebook');
-            } else if (!fs.existsSync(leafNotebookUri.fsPath)) {
-                throw new Error(`Unable to find Boost notebook for ${leafNotebookUri.fsPath} - please create Boost notebook first`);
-            }
-
-            // Hardcoding to Blueprint summaries only for now
-            const targetedKernel = this.getCurrentKernel("blueprint");
-            if (targetedKernel === undefined) {
-                throw new Error('Unable to find Blueprint Kernel');
-            }
-
-            notebook.load(leafNotebookUri.fsPath);
-
-            boostLogging.error("Summarize Notebook NOT IMPLEMENTED");
-/*
-            return targetedKernel?.executeAllWithAuthorization(notebook.cells, notebook).then(() => {
-            }).catch((error) => {
-                boostLogging.warn(`Skipping Notebook save - due to Error Processing ${targetedKernel.id} on file:[${leafNotebookUri.fsPath.toString()} due to error:${error}`);
-                throw error;
-            });
-            */
-        } catch (error) {
-            throw new Error(`Unable to Process file:[${leafNotebookUri.fsPath.toString()} due to error:${error}`);
-        }
-    }}
+}
 
 export function activate(context: vscode.ExtensionContext) {
     try {
@@ -1143,7 +1001,7 @@ export function getBoostNotebookFile(sourceFile : vscode.Uri, buildSummary : boo
     fs.mkdirSync(boostFolder, { recursive: true });
 
     // get the distance from the workspace folder for the source file
-    const relativePath = path.relative(baseFolder,sourceFile.fsPath);
+    let relativePath = path.relative(baseFolder,sourceFile.fsPath);
 
     let boostNotebookFile : vscode.Uri;
     // if the new file is outside of our current workspace, then warn user
@@ -1153,6 +1011,10 @@ export function getBoostNotebookFile(sourceFile : vscode.Uri, buildSummary : boo
         const externalBoostFile = sourceFile.fsPath + (buildSummary?boostnb.NOTEBOOK_SUMMARY_EXTENSION:boostnb.NOTEBOOK_EXTENSION);
         boostNotebookFile = vscode.Uri.file(externalBoostFile);
     } else {
+        // if we're targeting a folder, and the folder is the workspace name, then name it after the project
+        if (!relativePath) {
+            relativePath = path.basename(baseFolder);
+        }
         // create the .boost file path, from the new boost folder + amended relative source file path
         const absoluteBoostNotebookFile = path.join(
             boostFolder, relativePath + (buildSummary?boostnb.NOTEBOOK_SUMMARY_EXTENSION:boostnb.NOTEBOOK_EXTENSION));
