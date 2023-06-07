@@ -56,10 +56,7 @@ async function generateMarkdownFromObject(
   
     const pageTitle = `Polyverse Boost-generated Source Documentation`;
   
-    const sourceUri = Uri.parse(boostNotebook.metadata['sourceFile'] as string);
-    const sourceFile = baseFolderPath
-      ? path.relative(baseFolderPath, sourceUri.fsPath)
-      : sourceUri.fsPath;
+    const sourceFile = boostNotebook.metadata['sourceFile'] as string;
   
     const sectionHeading = `Source File: ${sourceFile}\nDate Generated: ${fileStamp}`;
   

@@ -258,9 +258,11 @@ export async function parseFunctionsFromFile(
             boostLogging.error('Unable to append to existing notebook - Type logic error');
         }
     } else {
+        const sourceFilePath = sourceFileFromFullPath(fileUri);
+            
         let newMetadata = {
             ...targetNotebook.metadata,
-            sourceFile: fileUri.toString()};
+            sourceFile: sourceFilePath};
 
         if (targetNotebook instanceof boostnb.BoostNotebook) {
             targetNotebook.replaceCells(cells as boostnb.BoostNotebookCell[]);
@@ -414,4 +416,34 @@ async function createEmptyNotebook(filename : vscode.Uri, useBoostNotebookWithNo
     const newNotebook = await vscode.workspace.openNotebookDocument(filename);
 
     return newNotebook;
+}
+
+export function sourceFileFromFullPath(fileUri: vscode.Uri) : string {
+    // we need to write the relativePath to the workspace into the notebook, so the source path isn't local to the system
+    // if there is a workspace... otherwise, we just write it as is
+    let baseFolder : string;
+    let sourceFilePath = fileUri.fsPath;
+    if (vscode.workspace.workspaceFolders) {
+        const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder
+        baseFolder = workspaceFolder.uri.fsPath;
+        const relativePath = path.relative(baseFolder, sourceFilePath);
+        // just use full path if the file is outside our workspace
+        if (!relativePath.startsWith('..')) {
+            sourceFilePath = "./" + relativePath;
+        }
+    }
+    return sourceFilePath;
+}
+
+export function fullPathFromSourceFile(sourceFile : string) : vscode.Uri {
+    let baseFolder : string;
+    let fullPath = sourceFile;
+    if ( vscode.workspace.workspaceFolders) {
+        if (sourceFile.startsWith("./")) {
+            const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder
+            baseFolder = workspaceFolder.uri.fsPath;
+            fullPath = path.join(baseFolder, sourceFile);
+        }
+    }
+    return vscode.Uri.parse(fullPath);
 }

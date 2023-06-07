@@ -5,6 +5,7 @@ import { boostLogging } from './boostLogging';
 import { fetchGithubSession, getCurrentOrganization } from './authorization';
 import { mapError } from './error';
 import { BoostNotebookCell, BoostNotebook, SerializedNotebookCellOutput, NOTEBOOK_TYPE } from './jupyter_notebook';
+import { fullPathFromSourceFile } from './extension';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type onServiceErrorHandler = (context: vscode.ExtensionContext, error: any, closure: any) => void;
@@ -637,7 +638,11 @@ export class KernelControllerBase {
         }
 
         if (!relatedUri && BoostConfiguration.useSourceFileForProblems) {
-            relatedUri = vscode.Uri.parse(cell.notebook.metadata.sourceFile??"file:///unknown", true);
+            if (!cell.notebook.metadata.sourceFile) {
+                relatedUri = vscode.Uri.parse("file:///unknown", true);
+            } else {
+                relatedUri = fullPathFromSourceFile(cell.notebook.metadata.sourceFile);
+            }
         }
         if (!severity) {
             severity = vscode.DiagnosticSeverity.Error;

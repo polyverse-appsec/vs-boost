@@ -37,11 +37,7 @@ export async function convertNotebookToHTML(notebook: BoostNotebook, notebookPat
                // Retrieve metadata from the notebook
     const pageTitle = `Polyverse Boost-generated Source Documentation`;
     const producer = 'Polyverse Boost';
-    const sourceUri = Uri.parse(notebook.metadata['sourceFile'] as string);
-    const sourceFile = baseFolderPath?
-        path.relative(baseFolderPath, sourceUri.fsPath):
-        sourceUri.fsPath;
-
+    const sourceFile = notebook.metadata['sourceFile'] as string;
 
     // Add the title and source file information
     html += `<h1>${pageTitle}</h1>`;

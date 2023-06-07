@@ -7,7 +7,7 @@ import * as vscode from 'vscode';
 import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';
 import { boostLogging } from './boostLogging';
 import { NOTEBOOK_SUMMARY_EXTENSION } from './jupyter_notebook';
-import { getBoostFile, findCellByKernel, BoostFileType } from './extension';
+import { getBoostFile, findCellByKernel, BoostFileType, fullPathFromSourceFile } from './extension';
 import { NotebookCellKind } from './jupyter_notebook';
 import * as fs from 'fs';
 
@@ -97,7 +97,7 @@ export class SummarizeKernel extends KernelControllerBase {
         const targetNotebook: BoostNotebook = new BoostNotebook();
 
         if (summarizeSourceFile) {
-            targetNotebookUri = getBoostFile(vscode.Uri.parse(notebook.metadata['sourceFile'] as string), BoostFileType.summary);
+            targetNotebookUri = getBoostFile(fullPathFromSourceFile(notebook.metadata['sourceFile'] as string), BoostFileType.summary);
         } else {
             throw new Error("Summarizing a project is not supported");
         }
