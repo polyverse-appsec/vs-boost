@@ -122,7 +122,7 @@ export class BoostExtension {
             // otherwise, we need to either load it, or create it
             if (!this._boostProjectData.has(workspaceFolder.uri)) {
 
-                let boostProjectUri = getBoostFile(workspaceFolder.uri, BoostFileType.status);
+                let boostProjectUri = getBoostNotebookFile(workspaceFolder.uri, false, false, BoostFileType.status);
 
                 if (!fs.existsSync(boostProjectUri.fsPath)) {
                     // we need to create the new boost project file
@@ -238,7 +238,7 @@ export class BoostExtension {
             ]
         });
 
-        boostProjectData.save(getBoostFile(workspaceFolder, BoostFileType.status).fsPath);
+        boostProjectData.save(getBoostNotebookFile(workspaceFolder, false, false, BoostFileType.status).fsPath);
     }
 
     public getBoostProjectData(): any {
@@ -262,7 +262,7 @@ export class BoostExtension {
         for (const file of files) {
           count++;
           if (onlyCountCreatedFiles) {
-            const boostFileUri = getBoostFile(file); // Replace GetBoostFile with your actual logic
+            const boostFileUri = getBoostNotebookFile(file); // Replace GetBoostFile with your actual logic
             const fileExists = fs.existsSync(boostFileUri.fsPath);
             if (!fileExists) {
               count--;
@@ -1455,7 +1455,7 @@ async function createNotebookFromSourceFile(
     existingNotebook : vscode.NotebookDocument | boostnb.BoostNotebook | undefined = undefined) :
         Promise<vscode.NotebookDocument | boostnb.BoostNotebook> {
 
-    const notebookPath = getBoostFile(sourceFile);
+    const notebookPath = getBoostNotebookFile(sourceFile);
     const fileExists = fs.existsSync(notebookPath.fsPath);
     if (fileExists && !overwriteIfExists) {
         boostLogging.error(`Boost Notebook file already exists. Please delete the file and try again.\n  ${notebookPath.fsPath}`);
