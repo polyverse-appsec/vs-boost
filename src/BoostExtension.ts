@@ -773,6 +773,7 @@ export class BoostExtension {
             });
         context.subscriptions.push(disposable);
     }
+
     async loadCurrentFile(uri: vscode.Uri, context: vscode.ExtensionContext) : Promise<boolean> {
         return new Promise(async (resolve, reject) => {
             try
@@ -883,12 +884,10 @@ export class BoostExtension {
                     // if not a summary, and no notebook then fail
                     if (targetedKernel.command !== summarizeKernelName) {
                         // if we haven't yet loaded/parsed this file, then let's do it implicitly for customer
-                        if (!this.loadCurrentFile(uri, context)) {
-                            resolve(false);
-                            return;
-                        } else {
-                            notebook.load(boostUri.fsPath);
-                        }
+                        await createNotebookFromSourceFile(uri, true);
+                        await createOrOpenSummaryNotebookFromSourceFile(uri);
+        
+                        notebook.load(boostUri.fsPath);
                     } else {
                         // if we are summarizing, then we need to create the summary notebook
                         notebook = await createOrOpenSummaryNotebookFromSourceFile(uri);
