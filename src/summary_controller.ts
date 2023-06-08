@@ -5,8 +5,7 @@ import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import * as vscode from 'vscode';
 import { BoostNotebook, BoostNotebookCell,
-        NotebookCellKind, NOTEBOOK_SUMMARY_EXTENSION,
-        SerializedNotebookCellOutput } from './jupyter_notebook';
+        NotebookCellKind, NOTEBOOK_SUMMARY_EXTENSION } from './jupyter_notebook';
 import { boostLogging } from './boostLogging';
 import { getBoostFile, findCellByKernel, BoostFileType, fullPathFromSourceFile } from './extension';
 import * as fs from 'fs';
@@ -223,10 +222,13 @@ export class SummarizeKernel extends KernelControllerBase {
         // create the .boost folder if we need to - this is statically located in the workspace folder no matter which child folder is processed
         const boostFolder = path.join(workspaceFolder.uri.fsPath, BoostConfiguration.defaultDir);
         const searchFolder = path.join(boostFolder, sourceFolder);
+        const summaryNotebookFileUri = getBoostFile(workspaceFolder.uri, BoostFileType.summary);
         
         // we're going to search for every boost summary notebook under our target folder (which is under Boost folder)
-        let searchPattern = new vscode.RelativePattern(searchFolder, '**/*' + NOTEBOOK_SUMMARY_EXTENSION);
-        let files = await vscode.workspace.findFiles(searchPattern);
+        const searchPattern = new vscode.RelativePattern(searchFolder, '**/*' + NOTEBOOK_SUMMARY_EXTENSION);
+        // ignore the summary rollup file itself
+        const ignorePattern = new vscode.RelativePattern(summaryNotebookFileUri.fsPath, '**');
+        const files = await vscode.workspace.findFiles(searchPattern, ignorePattern);
 
         // grab all the cell contents by type/command/kernel for submission
         const inputs: string[] = [];
