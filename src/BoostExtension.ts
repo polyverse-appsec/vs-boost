@@ -32,6 +32,7 @@ import { generateMarkdownforNotebook } from './convert_markdown';
 import { BoostProjectData, BoostProcessingStatus, BoostAnalysisType } from './BoostProjectData';
 
 import instructions from './instructions.json';
+import { BoostMarkdownViewProvider } from './markdown_view';
 
 export class BoostExtension {
     // for state, we keep it in a few places
@@ -528,6 +529,9 @@ export class BoostExtension {
         context.subscriptions.push(
             vscode.window.registerWebviewViewProvider(BoostStartViewProvider.viewType, docview));
 
+        /*
+        This is the old tree view code for if/when we go back to that view style
+
         // Create data providers for each tree
         const docDataProvider = new BoostTreeDataProvider(this, "docAnalysis");
         const securityDataProvider = new BoostTreeDataProvider(this, "securityAnalysis");
@@ -536,7 +540,23 @@ export class BoostExtension {
         // Register each TreeDataProvider with vscode
         vscode.window.registerTreeDataProvider('polyverse-boost-doc-view', docDataProvider);
         vscode.window.registerTreeDataProvider('polyverse-boost-security-view', securityDataProvider);
-        vscode.window.registerTreeDataProvider('polyverse-boost-compliance-view', complianceDataProvider);    
+        vscode.window.registerTreeDataProvider('polyverse-boost-compliance-view', complianceDataProvider);  
+        */
+       
+        const docs = new BoostMarkdownViewProvider(context, this, "doc");
+        const security = new BoostMarkdownViewProvider(context, this, "security");
+        const compliance = new BoostMarkdownViewProvider(context, this, "compliance");
+        const blueprint = new BoostMarkdownViewProvider(context, this, "blueprint");
+
+        context.subscriptions.push(
+            vscode.window.registerWebviewViewProvider('polyverse-boost-doc-view', docs));
+        context.subscriptions.push(
+            vscode.window.registerWebviewViewProvider('polyverse-boost-security-view', security));
+        context.subscriptions.push(
+            vscode.window.registerWebviewViewProvider('polyverse-boost-compliance-view', compliance));
+        context.subscriptions.push(
+            vscode.window.registerWebviewViewProvider('polyverse-boost-blueprint-view', blueprint));
+
     }
 
     registerCreateNotebookCommand(
