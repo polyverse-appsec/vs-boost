@@ -797,6 +797,7 @@ export class BoostExtension {
                         vscode.workspace.notebookDocuments.filter(async (doc) => {
                         // we're skipping non Boost notebooks
                         resolve (doc.notebookType === boostnb.NOTEBOOK_TYPE);
+                        return;
                     });
 
                     // if we have more than one notebook, we need to ask user which one to use
@@ -813,6 +814,7 @@ export class BoostExtension {
                         // if user doesn't pick anything, then just give up
                         if (!selectedOption) {
                             resolve(false);
+                            return;
                         }
                         // otherwise find the notebook that matches the user's selection
                         currentNotebook = boostNotebooks.find((doc) => {
@@ -839,6 +841,7 @@ export class BoostExtension {
             } catch (error) {
                 boostLogging.error(`Unable to Boost file:[${uri.fsPath.toString()} due to error:${error}`);
                 resolve(false);
+                return;
             }
             resolve( true );
         });
@@ -898,15 +901,18 @@ export class BoostExtension {
                     // ensure we save the notebook if we successfully processed it
                     notebook.save(boostUri.fsPath);
                     resolve(true);
+                    return;
                 }).catch((error) => {
                     boostLogging.warn(`Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`);
                     reject(error);
+                    return;
                 });
 
             } catch (error) {
                 reject(new Error(`Unable to Process ${kernelCommand} on file:[${uri.fsPath.toString()} due to error:${error}`));
+                return;
             }
-            return true;
+            resolve(true);
         });
     }
 

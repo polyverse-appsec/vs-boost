@@ -4,12 +4,13 @@ import {
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import * as vscode from 'vscode';
-import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';
+import { BoostNotebook, BoostNotebookCell, NOTEBOOK_EXTENSION } from './jupyter_notebook';
 import { boostLogging } from './boostLogging';
 import { NOTEBOOK_SUMMARY_EXTENSION } from './jupyter_notebook';
 import { getBoostFile, findCellByKernel, BoostFileType, fullPathFromSourceFile } from './extension';
 import { NotebookCellKind } from './jupyter_notebook';
 import * as fs from 'fs';
+import * as path from 'path';
 
 export const summaryCellMarker = 'summary';
 export const summarizeKernelName = 'summarize';
@@ -71,8 +72,12 @@ export class SummarizeKernel extends KernelControllerBase {
 
         // for now, we ignore forceAnalysisRefresh - and always re-analyze
         forceAnalysisRefresh = true;
-    
-        if (sourceCells.length === 0) {
+            
+        // are we summarizing a source file or a project?
+        let summarizeProject = (notebook.metadata['sourceFile'] as string) === './';
+
+        // input data is not held cells - its held in satellite notebook files
+        if (sourceCells.length === 0 && !summarizeProject) {
             boostLogging.warn(`No cells to ${this.command} of Notebook ${usingBoostNotebook ? notebook.fsPath : notebook.uri.toString()}`, false);
             return;
         }
@@ -84,58 +89,51 @@ export class SummarizeKernel extends KernelControllerBase {
         if (sourceCells.length < notebook.cellCount) {
             boostLogging.warn(`Not all cells (${sourceCells.length}/${notebook.cellCount}) are analyzed for ${this.command} of Notebook ${notebook.uri.toString()}`, !usingBoostNotebook);
         }
-    
-        // are we summarizing a source file or a project?
-        let summarizeSourceFile = false;
-        if (usingBoostNotebook) {
-            summarizeSourceFile = !(notebook.metadata['sourceFile'] as string)?.endsWith(NOTEBOOK_SUMMARY_EXTENSION);
-        } else {
-            summarizeSourceFile = !notebook.uri.toString().endsWith(NOTEBOOK_SUMMARY_EXTENSION);
-        }
 
         let targetNotebookUri: vscode.Uri;
-        const targetNotebook: BoostNotebook = new BoostNotebook();
+        let targetNotebook: BoostNotebook = new BoostNotebook();
 
-        if (summarizeSourceFile) {
+        // if we're summarizing a source file, we need to summarize all the cells in the source
+        if (!summarizeProject) {
             targetNotebookUri = getBoostFile(fullPathFromSourceFile(notebook.metadata['sourceFile'] as string), BoostFileType.summary);
+
+            if (fs.existsSync(targetNotebookUri.fsPath)) {
+                targetNotebook.load(targetNotebookUri.fsPath);
+            } else {
+                targetNotebook.save(targetNotebookUri.fsPath);
+            }
         } else {
-            throw new Error("Summarizing a project is not supported");
-        }
-        if (fs.existsSync(targetNotebookUri.fsPath)) {
-            targetNotebook.load(targetNotebookUri.fsPath);
-        } else {
-            targetNotebook.save(targetNotebookUri.fsPath);
+            targetNotebook = notebook as BoostNotebook;
+            targetNotebookUri = vscode.Uri.parse(targetNotebook.fsPath);
         }
 
         let successfullyCompleted = true;
         const executionContexts : any[] = [];
-        if (usingBoostNotebook) {
-            sourceCells.forEach(cell => {
-                executionContexts.push(super.openExecutionContext(usingBoostNotebook, cell));
-            });
-        } else {
+        if (!summarizeProject) {
             sourceCells.forEach(cell => {
                 executionContexts.push(super.openExecutionContext(usingBoostNotebook, cell));
             });
         }
-        let combinedInput : string = "";
+
         try
         {
             for (const controller of this._kernels) {
-                await this._summarizeCellsForKernel(controller[1].outputType, summarizeSourceFile, combinedInput,
-                  sourceCells, targetNotebook, notebook, session, usingBoostNotebook);
-              }
+                await this._summarizeCellsForKernel(controller[1].outputType, summarizeProject,
+                    sourceCells, targetNotebook, notebook, session, usingBoostNotebook);
+            }
         } catch (rethrow) {
             successfullyCompleted = false;
             boostLogging.error(`Error during ${this.command} of Notebook ${targetNotebookUri.fsPath} at ${new Date().toLocaleTimeString()}`, false);
             throw rethrow;
         }
         finally {
-            executionContexts.forEach(executionContext => {
-                super.closeExecutionContext(executionContext, successfullyCompleted);
-            });
+            if (!summarizeProject) {
+                executionContexts.forEach(executionContext => {
+                    super.closeExecutionContext(executionContext, successfullyCompleted);
+                });
+            }
         }
-        
+    
         if (usingBoostNotebook) {
             boostLogging.info(`Finished ${this.command} of Notebook ${targetNotebookUri.fsPath} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
         }
@@ -143,22 +141,20 @@ export class SummarizeKernel extends KernelControllerBase {
 
     async _summarizeCellsForKernel(
         outputType : string,
-        summarizeSourceFile : boolean,
-        combinedInput : string,
+        summarizeProject : boolean,
         sourceCells : (vscode.NotebookCell | BoostNotebookCell)[],
         targetNotebook: BoostNotebook,
         notebook: vscode.NotebookDocument | BoostNotebook,
         session: vscode.AuthenticationSession,
         usingBoostNotebook : boolean) {
 
-        if (summarizeSourceFile) {
+        let combinedInput : string = "";
+        if (!summarizeProject) {
             // if we are summarizing a source file, we need to summarize all the cells
             combinedInput = this._summarizeCellsAsSingleInput(sourceCells, usingBoostNotebook, outputType);
         } else {
             // if we are summarizing a project or folder, we need to summarize all the files in it
-            // combinedInput = this._summarizeSourceFilesAsSingleInput(sourceCells, usingBoostNotebook);
-
-            throw new Error("Summarizing a project is not supported");
+            combinedInput = this._summarizeSourceFilesAsSingleInput(targetNotebook.metadata['sourceFile'] as string, outputType);
         }
         // if we got no input, then skip deep processing
         if (!combinedInput) {
@@ -182,25 +178,70 @@ export class SummarizeKernel extends KernelControllerBase {
             boostLogging.info(`Success ${this.command} of Notebook ${usingBoostNotebook ? (notebook as BoostNotebook).fsPath : notebook.uri.toString()}`, false);
         }
 
-        if (summarizeSourceFile) {
-            let targetCell = findCellByKernel(targetNotebook, outputType) as BoostNotebookCell;
-            if (!targetCell) {
-                targetCell = new BoostNotebookCell(NotebookCellKind.Markup, "", "markdown");
-                targetCell.initializeMetadata({"id": targetCell.id, "outputType": outputType});
-                targetNotebook.addCell(targetCell);
-            }
-            // snap the processed analysis summary from the temp cell and store it as the new summary cell in the summary notebook
-            targetCell.value = tempProcessingCell.outputs[0].items[0].data;
-        } else {
-            throw new Error("Summarizing a project is not supported");
+        let targetCell = findCellByKernel(targetNotebook, outputType) as BoostNotebookCell;
+        if (!targetCell) {
+            targetCell = new BoostNotebookCell(NotebookCellKind.Markup, "", "markdown");
+            targetCell.initializeMetadata({"id": targetCell.id, "outputType": outputType});
+            targetNotebook.addCell(targetCell);
         }
+        // snap the processed analysis summary from the temp cell and store it as the new summary cell in the summary notebook
+        targetCell.value = tempProcessingCell.outputs[0].items[0].data;
+
         targetNotebook.flushToFS();
+    }
+
+    async _summarizeSourceFilesAsSingleInput(sourceFolder: string, outputType: string): string {
+        if (!vscode.workspace.workspaceFolders) {
+            boostLogging.error("No workspace folder found for summarizing source files", false);
+            return '';
+        }
+
+        // if we don't have a workspace folder, just place the Boost file in a new Boostdir - next to the source file
+        const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder
+
+        // create the .boost folder if we need to - this is statically located in the workspace folder no matter which child folder is processed
+        const boostFolder = path.join(workspaceFolder.uri.fsPath, BoostConfiguration.defaultDir);
+        const searchFolder = path.join(boostFolder, sourceFolder);
+        
+        // we're going to search for every boost summary notebook under our target folder (which is under Boost folder)
+        let searchPattern = new vscode.RelativePattern(searchFolder, '**/*' + NOTEBOOK_SUMMARY_EXTENSION);
+        let files = await vscode.workspace.findFiles(searchPattern);
+
+        // grab all the cell contents by type/command/kernel for submission
+        const inputs: string[] = [];
+        await Promise.all(files.map(async (file) => {
+            // Perform async operation for each file
+            inputs.push(await this.getAnalysisFromNotebook(file, outputType));
+            }));
+    
+        // combine all the input into a single long string with input delimiters
+        const combinedInput = inputs.join(summaryInputDelimiter);
+        return combinedInput;
+    }
+
+    async getAnalysisFromNotebook(notebookUri: vscode.Uri, outputType: string) : Promise<string> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const notebook = new BoostNotebook();
+                notebook.load(notebookUri.fsPath);
+                const cell = findCellByKernel(notebook, outputType) as BoostNotebookCell;
+                cell.outputs.filter((output) => output.metadata?.outputType === outputType).forEach((output) => {
+                    output.items.forEach((item) => {
+                        resolve(item.data);
+                    });
+                });
+
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 
     _summarizeCellsAsSingleInput(
         sourceCells : (vscode.NotebookCell | BoostNotebookCell)[],
         usingBoostNotebook : boolean,
         outputType : string) : string {
+
         // grab all the cell contents by type/command/kernel for submission
         const inputs: string[] = [];
         for (const cellToSummarize of sourceCells) {
