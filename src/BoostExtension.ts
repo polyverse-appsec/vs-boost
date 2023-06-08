@@ -357,7 +357,10 @@ export class BoostExtension {
                 let availableKernelItems : any[] = [];
                 let defaultKernelChoice : string | undefined = undefined;
                 this.kernels.forEach((kernel : KernelControllerBase) => {
-                    availableKernelItems.push({ label: kernel.command, description: kernel.kernelLabel, details: kernel.description });
+                    availableKernelItems.push({
+                        label: kernel.command,
+                        description: "Polyverse Boost: " + kernel.kernelLabel,
+                        details: kernel.description });
                     if (kernel.id === BoostConfiguration.currentKernelCommand) {
                         defaultKernelChoice = kernel.command;
                     }
