@@ -154,7 +154,7 @@ export class SummarizeKernel extends KernelControllerBase {
             combinedInput = this._summarizeCellsAsSingleInput(sourceCells, usingBoostNotebook, outputType);
         } else {
             // if we are summarizing a project or folder, we need to summarize all the files in it
-            combinedInput = this._summarizeSourceFilesAsSingleInput(targetNotebook.metadata['sourceFile'] as string, outputType);
+            combinedInput = await this._summarizeSourceFilesAsSingleInput(targetNotebook.metadata['sourceFile'] as string, outputType);
         }
         // if we got no input, then skip deep processing
         if (!combinedInput) {
@@ -190,7 +190,7 @@ export class SummarizeKernel extends KernelControllerBase {
         targetNotebook.flushToFS();
     }
 
-    async _summarizeSourceFilesAsSingleInput(sourceFolder: string, outputType: string): string {
+    async _summarizeSourceFilesAsSingleInput(sourceFolder: string, outputType: string): Promise<string> {
         if (!vscode.workspace.workspaceFolders) {
             boostLogging.error("No workspace folder found for summarizing source files", false);
             return '';
@@ -225,6 +225,10 @@ export class SummarizeKernel extends KernelControllerBase {
                 const notebook = new BoostNotebook();
                 notebook.load(notebookUri.fsPath);
                 const cell = findCellByKernel(notebook, outputType) as BoostNotebookCell;
+                if (!cell) {
+                    resolve('');
+                    return;
+                }
                 cell.outputs.filter((output) => output.metadata?.outputType === outputType).forEach((output) => {
                     output.items.forEach((item) => {
                         resolve(item.data);
@@ -278,6 +282,7 @@ export class SummarizeKernel extends KernelControllerBase {
 
         //  dynamically add payload properties to send to Boost service
         payload.analysis_type = this.command;
+        payload.analyis_label = this.kernelLabel;
 
         return super.onBoostServiceRequest(cell, serviceEndpoint, payload);
     }
@@ -286,7 +291,7 @@ export class SummarizeKernel extends KernelControllerBase {
         if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return `\n\n---\n\n### Boost Summary\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
+        return `\n\n---\n\n### Boost ${response.analyis_label} Summary\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
     }
 
     localizeError(error: Error): Error {
