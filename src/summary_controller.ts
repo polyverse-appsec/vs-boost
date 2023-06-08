@@ -4,11 +4,11 @@ import {
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import * as vscode from 'vscode';
-import { BoostNotebook, BoostNotebookCell, NOTEBOOK_EXTENSION } from './jupyter_notebook';
+import { BoostNotebook, BoostNotebookCell,
+        NotebookCellKind, NOTEBOOK_SUMMARY_EXTENSION,
+        SerializedNotebookCellOutput } from './jupyter_notebook';
 import { boostLogging } from './boostLogging';
-import { NOTEBOOK_SUMMARY_EXTENSION } from './jupyter_notebook';
 import { getBoostFile, findCellByKernel, BoostFileType, fullPathFromSourceFile } from './extension';
-import { NotebookCellKind } from './jupyter_notebook';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -157,31 +157,32 @@ export class SummarizeKernel extends KernelControllerBase {
             combinedInput = await this._summarizeSourceFilesAsSingleInput(targetNotebook.metadata['sourceFile'] as string, outputType);
         }
         // if we got no input, then skip deep processing
-        if (!combinedInput) {
-            return;
-        }
-    
-        // we create a placeholder cell for the input, so we can do processing on the input
-        // then we'll take the resulting data and put into the cell itself
-        const tempProcessingCell = new BoostNotebookCell(NotebookCellKind.Markup, combinedInput, "markdown");
-        tempProcessingCell.initializeMetadata(
-            {"id": tempProcessingCell.id,
-             "type": "originalCode",
-             // eslint-disable-next-line @typescript-eslint/naming-convention
-             "analysis_type": outputType,
-             // eslint-disable-next-line @typescript-eslint/naming-convention
-             "analysis_label": outputType});
-    
-        // summaries are written to the side-by-notebook (e.g. e.g. for foo.py, the boost notebook is foo.py.boost-notebook, and summary is foo.py.summary.boost-notebook)
-        // the cell written is ONE cell for the entire source file in the summary file
-        // or in the case of a project, each cell contains the summary across all source files
-        // if we are summarizing all
-        const result = await this.doExecution(targetNotebook, tempProcessingCell, session);
-        if (!result) {
-            boostLogging.error(`Error ${this.command} of Notebook ${usingBoostNotebook?
-                (notebook as BoostNotebook).fsPath : notebook.uri.toString()}`, !usingBoostNotebook);
+        let tempProcessingCell = undefined;
+        if (combinedInput) {
+            // we create a placeholder cell for the input, so we can do processing on the input
+            // then we'll take the resulting data and put into the cell itself
+            tempProcessingCell = new BoostNotebookCell(NotebookCellKind.Markup, combinedInput, "markdown");
+            tempProcessingCell.initializeMetadata(
+                {"id": tempProcessingCell.id,
+                "type": "originalCode",
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                "analysis_type": outputType,
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                "analysis_label": outputType});
+        
+            // summaries are written to the side-by-notebook (e.g. e.g. for foo.py, the boost notebook is foo.py.boost-notebook, and summary is foo.py.summary.boost-notebook)
+            // the cell written is ONE cell for the entire source file in the summary file
+            // or in the case of a project, each cell contains the summary across all source files
+            // if we are summarizing all
+            const result = await this.doExecution(targetNotebook, tempProcessingCell, session);
+            if (!result) {
+                boostLogging.error(`Error Summarizing ${outputType} of Notebook ${usingBoostNotebook?
+                    (notebook as BoostNotebook).fsPath : notebook.uri.toString()}`, !usingBoostNotebook);
+            } else {
+                boostLogging.info(`Success Summarizing ${outputType} of Notebook ${usingBoostNotebook ? (notebook as BoostNotebook).fsPath : notebook.uri.toString()}`, false);
+            }
         } else {
-            boostLogging.info(`Success ${this.command} of Notebook ${usingBoostNotebook ? (notebook as BoostNotebook).fsPath : notebook.uri.toString()}`, false);
+            boostLogging.warn(`Unable to Summarize ${outputType} of Notebook ${usingBoostNotebook ? (notebook as BoostNotebook).fsPath : notebook.uri.toString()}: no source data found`, false);
         }
 
         let targetCell = findCellByKernel(targetNotebook, outputType) as BoostNotebookCell;
@@ -191,7 +192,18 @@ export class SummarizeKernel extends KernelControllerBase {
             targetNotebook.addCell(targetCell);
         }
         // snap the processed analysis summary from the temp cell and store it as the new summary cell in the summary notebook
-        targetCell.value = tempProcessingCell.outputs[0].items[0].data;
+        if (tempProcessingCell) {
+            targetCell.value = tempProcessingCell.outputs[0].items[0].data;
+        } else {
+            // generate synthetic no data output cell
+            targetCell.value = this.onKernelOutputItem(
+                    {"analysis": "No Data to Summarize",
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
+                    "analysis_type": outputType,
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
+                    "analysis_label": outputType},
+                outputType);
+        }
 
         targetNotebook.flushToFS();
     }
