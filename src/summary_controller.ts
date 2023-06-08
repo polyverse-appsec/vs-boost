@@ -118,6 +118,9 @@ export class SummarizeKernel extends KernelControllerBase {
         try
         {
             for (const controller of this._kernels) {
+                if (controller[1].command === summarizeKernelName) {
+                    continue;
+                }
                 await this._summarizeCellsForKernel(controller[1].outputType, summarizeProject,
                     sourceCells, targetNotebook, notebook, session, usingBoostNotebook);
             }
