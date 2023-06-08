@@ -216,8 +216,11 @@ export class SummarizeKernel extends KernelControllerBase {
         // grab all the cell contents by type/command/kernel for submission
         const inputs: string[] = [];
         await Promise.all(files.map(async (file) => {
-            // Perform async operation for each file
-            inputs.push(await this.getAnalysisFromNotebook(file, outputType));
+                // Perform async operation for each file
+                const inputFromNotebook = await this.getAnalysisFromNotebook(file, outputType);
+                if (inputFromNotebook) {
+                    inputs.push(inputFromNotebook);
+                }
             }));
     
         // combine all the input into a single long string with input delimiters
@@ -262,7 +265,9 @@ export class SummarizeKernel extends KernelControllerBase {
                 const cell = cellToSummarize as BoostNotebookCell;
                 cell.outputs.filter((output) => output.metadata?.outputType === outputType).forEach((output) => {
                     output.items.forEach((item) => {
-                        inputs.push(item.data);
+                        if (item.data) {
+                            inputs.push(item.data);
+                        }
                     });
                 });
             } else {
@@ -270,8 +275,9 @@ export class SummarizeKernel extends KernelControllerBase {
                 cell.outputs.filter((output) => output.metadata?.outputType === outputType).forEach((output) => {
                     output.items.forEach((item) => {
                         const decodedText = new TextDecoder().decode(item.data);
-
-                        inputs.push(decodedText);
+                        if (decodedText) {
+                            inputs.push(decodedText);
+                        }
                     });
                 });
             }
