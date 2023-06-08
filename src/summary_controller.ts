@@ -164,7 +164,13 @@ export class SummarizeKernel extends KernelControllerBase {
         // we create a placeholder cell for the input, so we can do processing on the input
         // then we'll take the resulting data and put into the cell itself
         const tempProcessingCell = new BoostNotebookCell(NotebookCellKind.Markup, combinedInput, "markdown");
-        tempProcessingCell.initializeMetadata({"id": tempProcessingCell.id, "type": "originalCode"});
+        tempProcessingCell.initializeMetadata(
+            {"id": tempProcessingCell.id,
+             "type": "originalCode",
+             // eslint-disable-next-line @typescript-eslint/naming-convention
+             "analysis_type": outputType,
+             // eslint-disable-next-line @typescript-eslint/naming-convention
+             "analysis_label": outputType});
     
         // summaries are written to the side-by-notebook (e.g. e.g. for foo.py, the boost notebook is foo.py.boost-notebook, and summary is foo.py.summary.boost-notebook)
         // the cell written is ONE cell for the entire source file in the summary file
@@ -219,7 +225,7 @@ export class SummarizeKernel extends KernelControllerBase {
         return combinedInput;
     }
 
-    async getAnalysisFromNotebook(notebookUri: vscode.Uri, outputType: string) : Promise<string> {
+    async getAnalysisFromNotebook(notebookUri: vscode.Uri, outputType: string): Promise<string> {
         return new Promise(async (resolve, reject) => {
             try {
                 const notebook = new BoostNotebook();
@@ -229,12 +235,15 @@ export class SummarizeKernel extends KernelControllerBase {
                     resolve('');
                     return;
                 }
-                cell.outputs.filter((output) => output.metadata?.outputType === outputType).forEach((output) => {
-                    output.items.forEach((item) => {
-                        resolve(item.data);
+                const resolvedValues: string[] = [];
+                cell.outputs
+                    .filter((output) => output.metadata?.outputType === outputType)
+                    .forEach((output) => {
+                        output.items.forEach((item) => {
+                            resolvedValues.push(item.data);
+                        });
                     });
-                });
-
+                resolve(resolvedValues.join(''));
             } catch (error) {
                 reject(error);
             }
@@ -281,17 +290,22 @@ export class SummarizeKernel extends KernelControllerBase {
         const usingBoostNotebook = "value" in cell; // if the cell has a value property, then it's a BoostNotebookCell
 
         //  dynamically add payload properties to send to Boost service
-        payload.analysis_type = this.command;
-        payload.analyis_label = this.kernelLabel;
+        payload.analysis_type = cell.metadata?.analysis_type;
+        payload.analysis_label = cell.metadata?.analysis_label;
 
         return super.onBoostServiceRequest(cell, serviceEndpoint, payload);
     }
 
     onKernelOutputItem(response: any, mimetype : any): string {
         if (response.analysis === undefined) {
-            throw new Error("Unexpected missing data from Boost Service");
+            throw new Error("Unexpected missing analysis from Boost Service");
+        } else if (response.analysis_label === undefined) {
+            throw new Error("Unexpected missing analysis label from Boost Service");
+        } else if (response.analysis_type === undefined) {
+            throw new Error("Unexpected missing analysis type from Boost Service");
         }
-        return `\n\n---\n\n### Boost ${response.analyis_label} Summary\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
+
+        return `\n\n---\n\n### Boost ${response.analysis_label} Summary\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
     }
 
     localizeError(error: Error): Error {
