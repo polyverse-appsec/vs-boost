@@ -72,7 +72,7 @@ export class SummarizeKernel extends KernelControllerBase {
 
         // for now, we ignore forceAnalysisRefresh - and always re-analyze
         forceAnalysisRefresh = true;
-            
+
         // are we summarizing a source file or a project?
         let summarizeProject = (notebook.metadata['sourceFile'] as string) === './';
 
@@ -86,7 +86,7 @@ export class SummarizeKernel extends KernelControllerBase {
 
         // summary is designed to review an entire file - since it will replace the file-level summary each time
         // warn user - but still do it
-        if (sourceCells.length < notebook.cellCount) {
+        if (sourceCells.length < notebook.cellCount && !summarizeProject) {
             boostLogging.warn(`Not all cells (${sourceCells.length}/${notebook.cellCount}) are analyzed for ${this.command} of Notebook ${notebook.uri.toString()}`, !usingBoostNotebook);
         }
 
