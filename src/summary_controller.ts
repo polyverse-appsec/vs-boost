@@ -141,6 +141,8 @@ export class SummarizeKernel extends KernelControllerBase {
         }
     }
 
+    noDataToSummarizeMessage = "No Data to Summarize";
+
     async _summarizeCellsForKernel(
         outputType : string,
         summarizeProject : boolean,
@@ -199,7 +201,7 @@ export class SummarizeKernel extends KernelControllerBase {
         } else {
             // generate synthetic no data output cell
             targetCell.value = this.onKernelOutputItem(
-                    {"analysis": "No Data to Summarize",
+                    {"analysis": this.noDataToSummarizeMessage,
                     // eslint-disable-next-line @typescript-eslint/naming-convention
                     "analysis_type": outputType,
                     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -226,16 +228,19 @@ export class SummarizeKernel extends KernelControllerBase {
         
         // we're going to search for every boost summary notebook under our target folder (which is under Boost folder)
         const searchPattern = new vscode.RelativePattern(searchFolder, '**/*' + NOTEBOOK_SUMMARY_EXTENSION);
-        // ignore the summary rollup file itself
-        const ignorePattern = new vscode.RelativePattern(summaryNotebookFileUri.fsPath, '**');
-        const files = await vscode.workspace.findFiles(searchPattern, ignorePattern);
+        const files = await vscode.workspace.findFiles(searchPattern);
 
         // grab all the cell contents by type/command/kernel for submission
         const inputs: string[] = [];
         await Promise.all(files.map(async (file) => {
+                // ignore the summary rollup file itself
+                if (summaryNotebookFileUri.fsPath === file.fsPath) {
+                    return;
+                }
+
                 // Perform async operation for each file
                 const inputFromNotebook = await this.getAnalysisFromNotebook(file, outputType);
-                if (inputFromNotebook) {
+                if (inputFromNotebook && !inputFromNotebook.includes(this.noDataToSummarizeMessage)) {
                     inputs.push(inputFromNotebook);
                 }
             }));
@@ -255,15 +260,7 @@ export class SummarizeKernel extends KernelControllerBase {
                     resolve('');
                     return;
                 }
-                const resolvedValues: string[] = [];
-                cell.outputs
-                    .filter((output) => output.metadata?.outputType === outputType)
-                    .forEach((output) => {
-                        output.items.forEach((item) => {
-                            resolvedValues.push(item.data);
-                        });
-                    });
-                resolve(resolvedValues.join(''));
+                resolve(cell.value);
             } catch (error) {
                 reject(error);
             }
