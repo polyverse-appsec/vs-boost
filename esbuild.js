@@ -53,16 +53,6 @@ const startConfig = {
   outfile: "./out/dashboard/start/main.js",
 };
 
-// Config for webview source code (to be run in a web-based context)
-/** @type BuildOptions */
-const markdownConfig = {
-  ...baseConfig,
-  target: "es2020",
-  format: "esm",
-  entryPoints: ["./src/dashboard/markdown/main.ts"],
-  outfile: "./out/dashboard/markdown/main.js",
-};
-
 // This watch config adheres to the conventions of the esbuild-problem-matchers
 // extension (https://github.com/connor4312/esbuild-problem-matchers#esbuild-via-js)
 /** @type BuildOptions */
@@ -106,10 +96,6 @@ const watchConfig = {
         ...startConfig,
         ...watchConfig
       });
-      await build({
-        ...markdownConfig,
-        ...watchConfig
-      });
       console.log("[watch] build finished");
     } else {
       // Build extension and webview code
@@ -117,7 +103,6 @@ const watchConfig = {
       await build(summaryConfig);
       await build(chatConfig);
       await build(startConfig);
-      await build(markdownConfig);
       
       console.log("build complete");
     }
