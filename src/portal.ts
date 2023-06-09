@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import axios from 'axios';
 import { BoostConfiguration } from './boostConfiguration';
 import { fetchGithubSession, getCurrentOrganization } from './authorization';
-import { BoostExtension } from './extension';
+import { BoostExtension } from './BoostExtension';
 import { fetchUserOrganizationsServiceRequest, UserOrgs } from './user_organizations';
 import { NOTEBOOK_TYPE } from './jupyter_notebook';
 import { boostLogging } from './boostLogging';
@@ -157,7 +157,7 @@ async function refreshBoostOrgStatus(context: vscode.ExtensionContext, closure: 
     } catch (e : any) {
         boostLogging.log(`Error during Activation: Unable to retrieve current organization. ${(e as Error).message}`);
         closure.statusBar.text = errorBoostStatusBarText;
-        closure.statusBar.tooltip = 'Current account status check *ERROR*. If problem persists, please check your GitHub Authorization status, then network connection status.';
+        closure.statusBar.tooltip = `Current account status check *ERROR*. ${(e as Error).message}\nIf problem persists, please check your GitHub Authorization status, then network connection status.`;
     }
     try {
         await updateBoostStatusColors(context, undefined, closure);
