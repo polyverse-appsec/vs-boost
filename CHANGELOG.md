@@ -6,6 +6,11 @@ Polyverse Boost Automatic Application Modernization
 ## Version 0.9.9: June 8, 2023
 
 ### New Features
+- new UX - Boost Tab view on left side of Visual Studio Code, includes:
+  * Introduction to Boost with "Analyze All" button
+  * Project Analysis Summary view - status of all files in a project
+  * Live Chat window enabling iterative analysis, questions and AI-enabled recommendations based on the Project Blueprints, Analysis and documentation
+  * Summarized analysis across Project - including Documentation, Architectural Blueprint, Data Compliance, and Security Vulnerabilities
 - Summary analysis of a complete source file is available in the side-by Boost Notebook file (e.g. `SOURCE_FILENAME.summary.boost-notebook`)
 - Summary analysis of an entire project or folder is available in the side-by Boost Notebook file (e.g. `PROJECT_NAME_OR_FOLDER_NAME.summary.boost-notebook`)
 
