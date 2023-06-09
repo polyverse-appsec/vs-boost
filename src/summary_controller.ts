@@ -120,7 +120,7 @@ export class SummarizeKernel extends KernelControllerBase {
                 if (controller[1].command === summarizeKernelName) {
                     continue;
                 }
-                await this._summarizeCellsForKernel(controller[1].outputType, summarizeProject,
+                await this._summarizeCellsForKernel(controller[1].outputType, controller[1].kernelLabel, summarizeProject,
                     sourceCells, targetNotebook, notebook, session, usingBoostNotebook);
             }
         } catch (rethrow) {
@@ -145,6 +145,7 @@ export class SummarizeKernel extends KernelControllerBase {
 
     async _summarizeCellsForKernel(
         outputType : string,
+        kernelLabel : string,
         summarizeProject : boolean,
         sourceCells : (vscode.NotebookCell | BoostNotebookCell)[],
         targetNotebook: BoostNotebook,
@@ -172,7 +173,7 @@ export class SummarizeKernel extends KernelControllerBase {
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 "analysis_type": outputType,
                 // eslint-disable-next-line @typescript-eslint/naming-convention
-                "analysis_label": outputType});
+                "analysis_label": kernelLabel});
         
             // summaries are written to the side-by-notebook (e.g. e.g. for foo.py, the boost notebook is foo.py.boost-notebook, and summary is foo.py.summary.boost-notebook)
             // the cell written is ONE cell for the entire source file in the summary file
@@ -205,7 +206,7 @@ export class SummarizeKernel extends KernelControllerBase {
                     // eslint-disable-next-line @typescript-eslint/naming-convention
                     "analysis_type": outputType,
                     // eslint-disable-next-line @typescript-eslint/naming-convention
-                    "analysis_label": outputType},
+                    "analysis_label": kernelLabel},
                 outputType);
         }
 
