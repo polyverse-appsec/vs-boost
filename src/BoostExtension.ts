@@ -57,6 +57,8 @@ export class BoostExtension {
 
         this.registerCreateNotebookCommand(context, problems);
 
+        this.registerRefreshProjectDataCommands(context);
+
         registerCustomerPortalCommand(context);
 
         setupBoostStatus(context, this);
