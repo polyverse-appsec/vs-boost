@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as _ from 'lodash';
 import { BoostExtension } from './BoostExtension';
 import { getOrCreateBlueprintUri} from './extension';
+import { NOTEBOOK_TYPE } from './jupyter_notebook';
 
 
 export class BoostStartViewProvider implements vscode.WebviewViewProvider {
@@ -41,8 +42,7 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
 			switch (data.command) {
 				case 'analyze_all':
 					{
-						//just pop a dialog saying we got here for now
-						vscode.window.showInformationMessage('Analyze all clicked');
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.loadCurrentFolder', undefined);
 					}
 				case 'open_file':
 					{
