@@ -32,7 +32,6 @@ export class BoostTreeDataProvider implements vscode.TreeDataProvider<BoostItem>
       if (data) {
         return Promise.resolve(this.convertToTreeItems(data));
       } else {
-        vscode.window.showInformationMessage('No data available');
         return Promise.resolve([]);
       }
     }
