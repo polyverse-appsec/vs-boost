@@ -39,9 +39,9 @@
                         <vscode-checkbox checked>Security</vscode-checkbox>
                     <% } else if (analysisObj.analysisType === 'archblueprintCode') { %>
                         <vscode-checkbox checked>Blueprint</vscode-checkbox>
-                    <% } else if (analysisObj.analysisType === 'compliance') { %>
+                    <% } else if (analysisObj.analysisType === 'complianceCode') { %>
                         <vscode-checkbox checked>Compliance</vscode-checkbox>
-                    <% } else if (analysisObj.analysisType === 'explain') { %>
+                    <% } else if (analysisObj.analysisType === 'explainCode') { %>
                         <vscode-checkbox checked>Documentation</vscode-checkbox>
                     <% } else { %>
                         <vscode-checkbox checked><%= analysisObj.analysisType %></vscode-checkbox>
@@ -56,6 +56,5 @@
 		<vscode-button id="update_summary">Update Boost Summary</vscode-button>
 	</div>
     <script src="<%= jsSrc %>" type="module"> </script>
-
 </body>
 </html>

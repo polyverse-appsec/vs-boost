@@ -10,6 +10,7 @@ import { fullPathFromSourceFile, getKernelName } from './extension';
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type onServiceErrorHandler = (context: vscode.ExtensionContext, error: any, closure: any) => void;
 
+export const errorMimeType = 'application/vnd.code.notebook.error';
 export class KernelControllerBase {
     _problemsCollection: vscode.DiagnosticCollection;
 	id : string;
@@ -524,7 +525,7 @@ export class KernelControllerBase {
                 return false;
             }
             for (const item of output.items) {
-                return item.mime === 'application/vnd.code.notebook.error';
+                return item.mime === errorMimeType;
             }
         });
 

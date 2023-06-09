@@ -3,13 +3,13 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as boostnb from './jupyter_notebook';
 
-import { BoostAnalyzeKernel } from './analyze_controller';
+import { BoostAnalyzeKernel, analyzeOutputType } from './analyze_controller';
 import { BoostTestgenKernel } from './testgen_controller';
 import { BoostConvertKernel } from './convert_controller';
-import { BoostComplianceKernel } from './compliance_controller';
+import { BoostComplianceKernel, complianceOutputType } from './compliance_controller';
 import { BoostExplainKernel, explainOutputType } from './explain_controller';
 import { BoostCodeGuidelinesKernel } from './codeguidelines_controller';
-import { BoostArchitectureBlueprintKernel } from './blueprint_controller';
+import { BoostArchitectureBlueprintKernel, blueprintOutputType } from './blueprint_controller';
 import { BoostCustomProcessKernel } from './custom_controller';
 import { BoostFlowDiagramKernel } from './flowdiagram_controller';
 import { SummarizeKernel, summarizeKernelName } from './summary_controller';
@@ -17,7 +17,6 @@ import { SummarizeKernel, summarizeKernelName } from './summary_controller';
 import { BoostSummaryViewProvider } from './summary_view';
 import { BoostStartViewProvider } from './start_view';
 import { BoostChatViewProvider } from './chat_view';
-import { BoostTreeDataProvider } from './base_tree_view';
 
 import {
     getBoostFile, BoostFileType, parseFunctionsFromFile,
@@ -28,11 +27,11 @@ import {
 import { BoostContentSerializer } from './serializer';
 import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
-import { KernelControllerBase } from './base_controller';
+import { KernelControllerBase, errorMimeType} from './base_controller';
 import { updateBoostStatusColors, registerCustomerPortalCommand, setupBoostStatus } from './portal';
 import { generatePDFforNotebook } from './convert_pdf';
 import { generateMarkdownforNotebook } from './convert_markdown';
-import { BoostProjectData, BoostProcessingStatus, emptyProjectData } from './BoostProjectData';
+import { BoostProjectData, BoostProcessingStatus, emptyProjectData, SectionSummary } from './BoostProjectData';
 import { BoostMarkdownViewProvider } from './markdown_view';
 
 import instructions from './instructions.json';
@@ -179,9 +178,7 @@ export class BoostExtension {
             if (!fs.existsSync(path.resolve(workspaceFolder.fsPath, boostProjectData.summary.summaryUrl))) {
                 issues.push(`No summary file found at ${boostProjectData.summary.summaryUrl}`);
             }
-            const counts = await this.getBoostFilesForFolder(workspaceFolder);
-            boostProjectData.summary.filesToAnalyze = counts.total;
-            boostProjectData.summary.filesAnalyzed = counts.exists;
+            await this.getBoostFilesForFolder(workspaceFolder, boostProjectData, true);
 
 
         } catch (error) {
@@ -197,9 +194,7 @@ export class BoostExtension {
         Object.assign(boostProjectData, emptyProjectData);
 
         boostProjectData.summary.summaryUrl = getBoostFile(workspaceFolder, BoostFileType.summary).fsPath;
-        const counts = await this.getBoostFilesForFolder(workspaceFolder);
-        boostProjectData.summary.filesToAnalyze = counts.total;
-        boostProjectData.summary.filesAnalyzed = counts.exists;
+        await this.getBoostFilesForFolder(workspaceFolder, boostProjectData);
 
         boostProjectData.summary.issues = [ "No issues found" ];
 
@@ -216,7 +211,11 @@ export class BoostExtension {
         return this._boostProjectData.get(workspaceFolder);
     }
 
-    async getBoostFilesForFolder(workspaceFolder: vscode.Uri): Promise<{ total: number; exists: number }> {
+    async getBoostFilesForFolder(
+        workspaceFolder: vscode.Uri,
+        boostProjectData: BoostProjectData,
+        deepScan: boolean = false):
+            Promise<void> {
         let searchPattern = new vscode.RelativePattern(workspaceFolder.fsPath, '**/*.*');
         let ignorePattern = await _buildVSCodeIgnorePattern();
         boostLogging.debug("Skipping source files of pattern: " + (ignorePattern ?? "none"));
@@ -227,16 +226,86 @@ export class BoostExtension {
     
         let total = 0;
         let exists = 0;
+
+        const sectionMap = new Map<string, SectionSummary>();
+        sectionMap.set(explainOutputType, {
+            analysisType: explainOutputType,
+            status: BoostProcessingStatus.notStarted,
+            completed: 0,
+            error: 0,
+            total: 0,
+        });
+        sectionMap.set(blueprintOutputType, {
+            analysisType: blueprintOutputType,
+            status: BoostProcessingStatus.notStarted,
+            completed: 0,
+            error: 0,
+            total: 0,
+        });
+        sectionMap.set(complianceOutputType, {
+            analysisType: complianceOutputType,
+            status: BoostProcessingStatus.notStarted,
+            completed: 0,
+            error: 0,
+            total: 0,
+        });
+        sectionMap.set(analyzeOutputType, {
+            analysisType: analyzeOutputType,
+            status: BoostProcessingStatus.notStarted,
+            completed: 0,
+            error: 0,
+            total: 0,
+        });
+        boostProjectData.sectionSummary = Array.from(sectionMap.values());
+        boostProjectData.analysis = [];
+
         for (const file of files) {
             total++;
             const boostFileUri = getBoostFile(file);
             const fileExists = fs.existsSync(boostFileUri.fsPath);
             if (!fileExists) {
-                exists++;
+                continue;
             }
+            exists++;
+            if (!deepScan) {
+                continue;
+            }
+            const boostNotebook = new boostnb.BoostNotebook();
+            boostNotebook.load(boostFileUri.fsPath);
+
+            sectionMap.forEach((sectionSummary) => {
+                sectionSummary.total += boostNotebook.cells.length;
+            });
+
+            boostNotebook.cells.forEach((cell) => {
+                cell.outputs.forEach((output) => {
+                    output.items.forEach((outputItem) => {
+                        const thisSection = sectionMap.get(output.metadata.outputType);
+                        if (!thisSection) {
+                            return;
+                        }
+                        if (outputItem.mime === errorMimeType) {
+                            thisSection.error++;
+                        } else if (outputItem.data) {
+                            thisSection.completed++;
+                        }
+                    });
+                });
+            });
         }
-    
-        return { total, exists };
+
+        sectionMap.forEach((sectionSummary) => {
+            if (sectionSummary.total === sectionSummary.completed) {
+                sectionSummary.status = BoostProcessingStatus.completed;
+            } else if (sectionSummary.completed === 0) {
+                sectionSummary.status = BoostProcessingStatus.notStarted;
+            } else {
+                sectionSummary.status = BoostProcessingStatus.incomplete;
+            }
+        });
+
+        boostProjectData.summary.filesToAnalyze = total;
+        boostProjectData.summary.filesAnalyzed = exists;
     }
     
 

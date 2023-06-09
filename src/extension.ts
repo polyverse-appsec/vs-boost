@@ -11,6 +11,7 @@ import { boostLogging } from './boostLogging';
 import { TextDecoder } from 'util';
 import { PROJECT_EXTENSION } from './BoostProjectData';
 import { BoostExtension } from './BoostExtension';
+import { errorMimeType } from './base_controller';
 
 
 export enum BoostFileType {
@@ -330,7 +331,7 @@ export function _syncProblemsInCell(
     // Check if the cell has any error output
     const hasErrorOutput = cell.outputs.some((output : any) => {
         for (const item of output.items) {
-            return item.mime === 'application/vnd.code.notebook.error';
+            return item.mime === errorMimeType;
         }
     });
     // If the cell has error output, check if there are any problems associated with it
@@ -345,7 +346,7 @@ export function _syncProblemsInCell(
     for (const problem of thisCellProblems) {
         const errorOutputIndex = cell.outputs.findIndex((output) => {
             for (const item of output.items) {
-                return item.mime === 'application/vnd.code.notebook.error';//
+                return item.mime === errorMimeType;
                 //    && output.metadata?.cellId === problem?.source?.toString();
             }
         });

@@ -3,6 +3,7 @@ import { TextDecoder, TextEncoder } from 'util';
 import { boostLogging } from './boostLogging';
 import { BoostConfiguration } from './boostConfiguration';
 import * as boostnb from './jupyter_notebook';
+import { errorMimeType } from './base_controller';
 /**
  * An ultra-minimal sample provider that lets the user type in JSON, and then
  * outputs JSON cells. The outputs are transient and not saved to notebook file on disk.
