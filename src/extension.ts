@@ -18,6 +18,16 @@ export enum BoostFileType {
     status = "status",
 }
 
+export enum BoostCommands {
+    loadCurrentFolder = "loadCurrentFolder",
+    processCurrentFolder = "processCurrentFolder",
+    processCurrentFile = "processCurrentFile",
+    pdfCurrentFile = "pdfCurrentFile",
+    pdfCurrentFolder = "pdfCurrentFolder",
+    markdownCurrentFile = "markdownCurrentFile",
+    markdownCurrentFolder = "markdownCurrentFolder",
+}
+
 export function activate(context: vscode.ExtensionContext) {
     try {
         // we use a friendly name for the channel as this will be displayed to the user in the output pane

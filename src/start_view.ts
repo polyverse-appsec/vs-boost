@@ -1,10 +1,10 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
-import * as path from 'path';
 import * as _ from 'lodash';
 import { BoostExtension } from './BoostExtension';
-import { getOrCreateBlueprintUri} from './extension';
+import { getOrCreateBlueprintUri, BoostCommands} from './extension';
 import { NOTEBOOK_TYPE } from './jupyter_notebook';
+import { summarizeKernelName } from './summary_controller';
 
 
 export class BoostStartViewProvider implements vscode.WebviewViewProvider {
@@ -43,22 +43,22 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
 				case 'analyze_all':
 					{
                         // creates and loads all notebook files
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.loadCurrentFolder', undefined);
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.loadCurrentFolder, undefined);
 
                         // security / bug analysis
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.processCurrentFolder', undefined, 'bugAnalysis');
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, 'bugAnalysis');
 
                         // compliance
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.processCurrentFolder', undefined, 'compliance');
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, 'compliance');
 
                         // explain
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.processCurrentFolder', undefined, 'explain');
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, 'explain');
 
                         // flow diagram
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.processCurrentFolder', undefined, 'flowdiagram');
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, 'flowdiagram');
 
                         // summary across all files
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.processCurrentFolder', undefined, 'summarized');
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, summarizeKernelName);
 					}
 				case 'open_file':
 					{

@@ -3,6 +3,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
 import { BoostExtension } from './BoostExtension';
+import { NOTEBOOK_TYPE } from './jupyter_notebook';
+import { summarizeKernelName } from './summary_controller';
+import { BoostCommands } from './extension';
 
 
 export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
@@ -36,13 +39,15 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
 		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview, boostdata);
 
-		webviewView.webview.onDidReceiveMessage(data => {
+		webviewView.webview.onDidReceiveMessage(async data => {
 			switch (data.command) {
-				case 'update_analysis':
+				case 'update_summary':
 					{
-						//just pop a dialog saying we got here for now
-						vscode.window.showInformationMessage('Update analysis clicked');
-					}
+                        // creates and loads all notebook files
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.loadCurrentFolder, undefined);
+
+                        // summary across all files
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, summarizeKernelName);					}
 			}
 		});
 	}

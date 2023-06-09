@@ -23,7 +23,7 @@ function main() {
   // To get improved type annotations/IntelliSense the associated class for
   // a given toolkit component can be imported and used to type cast a reference
   // to the element (i.e. the `as Button` syntax)
-  const howdyButton = document.getElementById("update_analysis") as Button;
+  const howdyButton = document.getElementById("update_summary") as Button;
   howdyButton?.addEventListener("click", handleAnalyzeAllClick);
 }
 
@@ -31,6 +31,6 @@ function main() {
 function handleAnalyzeAllClick() {
   //TODO: we need to show what is checked in the grid.
   vscode.postMessage({
-    command: "update_analysis"
+    command: "update_summary"
   });
 }

@@ -22,7 +22,8 @@ import { BoostTreeDataProvider } from './base_tree_view';
 import {
     getBoostFile, BoostFileType, parseFunctionsFromFile,
     _buildVSCodeIgnorePattern, newErrorFromItemData, createOrOpenNotebookFromSourceFile,
-    _syncProblemsInCell, createOrOpenSummaryNotebookFromSourceFile
+    _syncProblemsInCell, createOrOpenSummaryNotebookFromSourceFile,
+    BoostCommands
 } from './extension';
 import { BoostContentSerializer } from './serializer';
 import { BoostConfiguration } from './boostConfiguration';
@@ -636,13 +637,13 @@ export class BoostExtension {
 
     registerFolderRightClickAnalyzeCommand(context: vscode.ExtensionContext,) {
 
-        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.loadCurrentFolder',
+        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.loadCurrentFolder,
             async (uri: vscode.Uri) => {
                 return this.loadCurrentFolder(uri, context);
             });
         context.subscriptions.push(disposable);
 
-        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.processCurrentFolder',
+        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder,
             async (uri: vscode.Uri, kernelCommand?: string, forceAnalysisRefresh: boolean = false) => {
                 const likelyViaUI = !kernelCommand || typeof (kernelCommand) !== 'string';
                 if (likelyViaUI) {
@@ -657,7 +658,7 @@ export class BoostExtension {
 
     registerFolderRightClickPdfCommands(context: vscode.ExtensionContext,) {
 
-        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.pdfCurrentFile',
+        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.pdfCurrentFile,
             async (uri: vscode.Uri) => {
                 await this.pdfFromCurrentFile(uri).then((pdfFile: string) => {
                     if (!uri) {
@@ -671,7 +672,7 @@ export class BoostExtension {
             });
         context.subscriptions.push(disposable);
 
-        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.pdfCurrentFolder',
+        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.pdfCurrentFolder,
             async (uri: vscode.Uri) => {
                 return this.pdfFromCurrentFolder(uri).catch((error: any) => {
                     boostLogging.error((error as Error).message,);
@@ -682,7 +683,7 @@ export class BoostExtension {
 
     registerFolderRightClickMarkdownCommands(context: vscode.ExtensionContext,) {
 
-        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.markdownCurrentFile',
+        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.markdownCurrentFile,
             async (uri: vscode.Uri) => {
                 await this.markdownFromCurrentFile(uri).then((markdownFile: string) => {
                     if (!uri) {
@@ -696,7 +697,7 @@ export class BoostExtension {
             });
         context.subscriptions.push(disposable);
 
-        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.markdownCurrentFolder',
+        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.markdownCurrentFolder,
             async (uri: vscode.Uri) => {
                 return this.markdownFromCurrentFolder(uri).catch((error: any) => {
                     boostLogging.error((error as Error).message,);
