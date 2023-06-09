@@ -12,6 +12,7 @@ import { TextDecoder } from 'util';
 import { PROJECT_EXTENSION } from './BoostProjectData';
 import { BoostExtension } from './BoostExtension';
 
+
 export enum BoostFileType {
     notebook = "notebook",
     summary = "summary",
