@@ -9,20 +9,24 @@
             display: flex;
             justify-content: flex-end;
         }
-		.boost-completed {
-			--badge-background: lightgreen;
+        .boost-completed {
+			--badge-background: var(--vscode-statusBarItem-prominentBackground);
+            --badge-foreground: var(--vscode-statusBarItem-prominentForeground);
 		}
 
-		.boost-processing{
-			--badge-background: lightblue;
+		.boost-processing {
+			--badge-background: var(--vscode-statusBarItem-prominentBackground);
+            --badge-foreground: var(--vscode-statusBarItem-prominentForeground);
 		}
 
 		.boost-incomplete {
-			--badge-background: lightyellow;
+			--badge-background: var(--vscode-statusBarItem-warningBackground);
+            --badge-foreground: var(--vscode-statusBarItem-warningForeground);
 		}
 
 		.boost-not-started {
-			--badge-background: pink;
+			--badge-background: var(--vscode-statusBarItem-errorBackground);
+            --badge-foreground: var(--vscode-statusBarItem-errorForeground);
 		}
 	</style>
 </head>
