@@ -33,7 +33,7 @@ import { updateBoostStatusColors, registerCustomerPortalCommand, setupBoostStatu
 import { generatePDFforNotebook } from './convert_pdf';
 import { generateMarkdownforNotebook } from './convert_markdown';
 import { BoostProjectData, BoostProcessingStatus, emptyProjectData } from './BoostProjectData';
-import { BoostMarkdownViewProvider } from './markdown_view'
+import { BoostMarkdownViewProvider } from './markdown_view';
 
 import instructions from './instructions.json';
 

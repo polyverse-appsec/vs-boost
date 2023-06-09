@@ -7,7 +7,7 @@ import { BoostExtension } from './BoostExtension';
 import { BoostConfiguration } from './boostConfiguration';
 import { callServiceEndpoint } from './lambda_util';
 import {marked} from 'marked';
-import { getOrCreateBlueprintUri} from './BoostProjectData';
+import { getOrCreateBlueprintUri} from './extension';
 
 
 
