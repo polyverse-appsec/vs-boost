@@ -53,11 +53,11 @@ export class SummarizeKernel extends KernelControllerBase {
             case 'dev':
                 return 'https://sh6w6cyjee6wmtmlqutbxy6d2y0vaaas.lambda-url.us-west-2.on.aws/';
             case "test":
-                return '';
+                return 'https://6jmbzmndoptau3zsfkf45fpbm40vnsxq.lambda-url.us-west-2.on.aws/';
             case 'staging':
             case 'prod':
             default:
-                return '';
+                return 'https://tu5zdmjxvvzbzih6yytjtbm6fa0uvjba.lambda-url.us-west-2.on.aws/';
         }   
     }
 
