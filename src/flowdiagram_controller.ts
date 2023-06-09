@@ -5,12 +5,13 @@ import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 
 export const flowDiagramCellMarker = 'flowDiagram';
+export const flowDiagramKernelName = 'flowdiagram';
 
 export class BoostFlowDiagramKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
-            'flowdiagram',
+            flowDiagramKernelName,
             'Create Flow Diagrams',
             'Creates a flow diagram from the code',
             flowDiagramCellMarker,

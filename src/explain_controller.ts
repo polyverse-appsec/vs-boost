@@ -5,12 +5,13 @@ import { DiagnosticCollection, ExtensionContext} from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 
 export const explainCellMarker = 'explainCode';
+export const explainKernelName = 'explain';
 
 export class BoostExplainKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
-            'explain',
+            explainKernelName,
             'Explain Code',
             'Explains the targeted source code in English, including algorithms, referenced frameworks and design patterns',
             explainCellMarker,

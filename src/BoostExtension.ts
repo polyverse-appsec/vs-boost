@@ -32,7 +32,7 @@ import { KernelControllerBase } from './base_controller';
 import { updateBoostStatusColors, registerCustomerPortalCommand, setupBoostStatus } from './portal';
 import { generatePDFforNotebook } from './convert_pdf';
 import { generateMarkdownforNotebook } from './convert_markdown';
-import { BoostProjectData, BoostProcessingStatus, sampleBoostProjectData } from './BoostProjectData';
+import { BoostProjectData, BoostProcessingStatus, emptyProjectData } from './BoostProjectData';
 
 import instructions from './instructions.json';
 
@@ -156,12 +156,11 @@ export class BoostExtension {
         // this doesn't work... we need to find a way to open a specific cell
         //boostProjectData.summary.blueprintUrl = getBoostFile(workspaceFolder, BoostFileType.summary).fsPath + "?cell-metadata=blueprint";
         //this is not right I don't think either, but it's closer. use vsCode to get the file ./boost/blueprint.md
-        const blueprintFile = BoostConfiguration.defaultDir + "/blueprint.md";
-        boostProjectData.summary.summaryUrl = blueprintFile;
+        boostProjectData.summary.summaryUrl = getBoostFile(workspaceFolder, BoostFileType.summary).fsPath;
         boostProjectData.summary.filesToAnalyze = await this.getBoostFilesForFolder(workspaceFolder, false);
         boostProjectData.summary.filesAnalyzed = await this.getBoostFilesForFolder(workspaceFolder, true);
 
-        Object.assign(boostProjectData, sampleBoostProjectData);
+        Object.assign(boostProjectData, emptyProjectData);
 
         boostProjectData.save(getBoostFile(workspaceFolder, BoostFileType.status).fsPath);
     }
@@ -170,10 +169,13 @@ export class BoostExtension {
 
         let workspaceFolder = vscode.workspace.workspaceFolders?.[0].uri;
         if (!workspaceFolder) {
-            return BoostProjectData.default;
+            return emptyProjectData;
         }
 
         return this._boostProjectData.get(workspaceFolder);
+    }
+
+    async refreshBoostProjectData() {
     }
 
     async getBoostFilesForFolder(workspaceFolder: vscode.Uri, onlyCountCreatedFiles: boolean = true): Promise<number> {
@@ -676,6 +678,19 @@ export class BoostExtension {
             async (uri: vscode.Uri) => {
                 return this.pdfFromCurrentFolder(uri).catch((error: any) => {
                     boostLogging.error((error as Error).message,);
+                });
+            });
+        context.subscriptions.push(disposable);
+    }
+
+    registerRefreshProjectDataCommands(context: vscode.ExtensionContext,) {
+
+        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData,
+            async () => {
+                await this.refreshBoostProjectData().then(() => {
+                    boostLogging.info(`Refreshed Boost Project Data.`, false);
+                }).catch((error: any) => {
+                    boostLogging.error(`Unable to Refresh Project Data`, false);
                 });
             });
         context.subscriptions.push(disposable);

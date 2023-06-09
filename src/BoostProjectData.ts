@@ -142,7 +142,7 @@ export interface IBoostProjectData {
     analysis: Analysis[];
 }
 
-const emptyProjectData: IBoostProjectData = {
+export const emptyProjectData: IBoostProjectData = {
     summary: {
         summaryUrl: "",
         filesToAnalyze: 0,

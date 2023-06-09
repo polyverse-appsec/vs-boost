@@ -18,6 +18,10 @@ export enum BoostFileType {
     status = "status",
 }
 
+export function getKernelName(kernelName: string): string {
+    return 'polyverse-boost-' + kernelName + '-kernel';
+}
+
 export enum BoostCommands {
     loadCurrentFolder = "loadCurrentFolder",
     processCurrentFolder = "processCurrentFolder",
@@ -26,6 +30,7 @@ export enum BoostCommands {
     pdfCurrentFolder = "pdfCurrentFolder",
     markdownCurrentFile = "markdownCurrentFile",
     markdownCurrentFolder = "markdownCurrentFolder",
+    refreshProjectData = "refreshProjectData",
 }
 
 export function activate(context: vscode.ExtensionContext) {

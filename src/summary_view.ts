@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 import { BoostExtension } from './BoostExtension';
 import { NOTEBOOK_TYPE } from './jupyter_notebook';
 import { summarizeKernelName } from './summary_controller';
-import { BoostCommands } from './extension';
+import { BoostCommands, getKernelName } from './extension';
 
 
 export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
@@ -47,7 +47,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.loadCurrentFolder, undefined);
 
                         // summary across all files
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, summarizeKernelName);					}
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(summarizeKernelName));					}
 			}
 		});
 	}

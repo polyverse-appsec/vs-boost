@@ -1,20 +1,17 @@
 import {
     KernelControllerBase, onServiceErrorHandler
  } from './base_controller';
-import { DiagnosticCollection, ExtensionContext} from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import * as vscode from 'vscode';
-import { boostLogging } from './boostLogging';
-import { TextDecoder } from 'util';
-import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';
 
 export const blueprintCellMarker = 'archblueprintCode';
+export const blueprintKernelName = 'blueprint';
 
 export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
 	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
-            'blueprint',
+            blueprintKernelName,
             'Architectural Blueprint Code',
             'Builds Archiectural Blueprint of targeted source code by identifying architectural principles, patterns, licensing, performance, etc.',
             blueprintCellMarker,

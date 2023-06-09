@@ -5,7 +5,7 @@ import { boostLogging } from './boostLogging';
 import { fetchGithubSession, getCurrentOrganization } from './authorization';
 import { mapError } from './error';
 import { BoostNotebookCell, BoostNotebook, SerializedNotebookCellOutput, NOTEBOOK_TYPE } from './jupyter_notebook';
-import { fullPathFromSourceFile } from './extension';
+import { fullPathFromSourceFile, getKernelName } from './extension';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type onServiceErrorHandler = (context: vscode.ExtensionContext, error: any, closure: any) => void;
@@ -42,7 +42,7 @@ export class KernelControllerBase {
             
         this._problemsCollection = problemsCollection;
         this.command = kernelId;
-        this.id = "polyverse-boost-" + kernelId + "-kernel";
+        this.id = getKernelName(kernelId);
         this.kernelLabel = kernelLabel;
         this.description = description;
         this._outputType = outputType;

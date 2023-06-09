@@ -4,7 +4,13 @@ import * as _ from 'lodash';
 import { BoostExtension } from './BoostExtension';
 import { getOrCreateBlueprintUri, BoostCommands} from './extension';
 import { NOTEBOOK_TYPE } from './jupyter_notebook';
+
 import { summarizeKernelName } from './summary_controller';
+import { analyzeKernelName } from './analyze_controller';
+import { complianceKernelName } from './compliance_controller';
+import { blueprintKernelName } from './blueprint_controller';
+import { flowDiagramKernelName } from './flowdiagram_controller';
+import { explainKernelName } from './explain_controller';
 
 
 export class BoostStartViewProvider implements vscode.WebviewViewProvider {
@@ -45,17 +51,20 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
                         // creates and loads all notebook files
                         await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.loadCurrentFolder, undefined);
 
-                        // security / bug analysis
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, 'bugAnalysis');
-
-                        // compliance
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, 'compliance');
+                        // blueprint
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(blueprintKernelName));
 
                         // explain
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, 'explain');
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, GetKernelName(explainKernelName));
+
+                        // security / bug analysis
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, GetKernelName(analyzeKernelName));
+
+                        // compliance
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, GetKernelName(complianceKernelName));
 
                         // flow diagram
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, 'flowdiagram');
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(flowDiagramKernelName));
 
                         // summary across all files
                         await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, summarizeKernelName);

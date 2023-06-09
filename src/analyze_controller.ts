@@ -4,12 +4,14 @@ import {
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 
+export const analyzeKernelName = 'analyze';
+
 //set a helper variable of the base url.  this should eventually be a config setting
 export class BoostAnalyzeKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis: any, collection: DiagnosticCollection) {
         super(
             collection,
-            'analyze',
+            analyzeKernelName,
             'Analyze Code for Security Vulnerabilities',
             'Analyzes all targeted source code for security vulnerabiities, bugs and potential design flaws',
             'bugAnalysis',

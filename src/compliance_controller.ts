@@ -5,12 +5,13 @@ import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 
 export const complianceCellMarker = 'complianceCode';
+export const complianceKernelName = 'compliance';
 
 export class BoostComplianceKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
-            'compliance',
+            complianceKernelName,
             'Check Compliance',
             'Evaluates Data and Privacy Compliance of the code',
             complianceCellMarker,

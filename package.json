@@ -179,6 +179,11 @@
         "command": "polyverse-boost-notebook.markdownCurrentFolder",
         "title": "Polyverse Boost: Build Markdown (from folder)",
         "icon": "$(folder)"
+      },
+      {
+        "command": "polyverse-boost-notebook.refreshProjectData",
+        "title": "Polyverse Boost: Refresh Project Data",
+        "icon": "$(sync)"
       }
     ],
     "notebooks": [
