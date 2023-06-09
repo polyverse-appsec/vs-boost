@@ -1024,8 +1024,17 @@ export class BoostExtension {
 
         let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.loadCurrentFile',
             async (uri: vscode.Uri) => {
-                return this.loadCurrentFile(uri, context);
-            });
+                const boostFile = getBoostFile(uri);
+                // create the Boost file, if it doesn't exist
+                if (!fs.existsSync(boostFile.fsPath)) {
+                    if (!await this.loadCurrentFile(uri, context) || !fs.existsSync(boostFile.fsPath)) {
+                        boostLogging.warn(`Unable to open Boost Notebook for file:[${uri.fsPath}]; check the Polyverse Boost Output channel for details`);
+                        return;
+                    }
+                }
+                const boostDoc = await vscode.workspace.openNotebookDocument(boostFile);
+                vscode.window.showNotebookDocument(boostDoc);
+    });
         context.subscriptions.push(disposable);
 
         disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.processCurrentFile',

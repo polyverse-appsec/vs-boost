@@ -14,6 +14,7 @@ Polyverse Boost Automatic Application Modernization
 - Flow Control diagrams show function name in the diagram, and calls to external functions and libraries
 - Analysis of folders and files will now include popular build/project file formats, including Makefiles, CMakeLists.txt, and XCode, Maven, Gradle, Rakefile, and Visual Studio project files
 - Launching "Process" of a file or folder/project will automatically create Boost notebooks from the source files
+- Right-Click any source file in the Explorer and select "Open Analysis Notebook" to open existing analysis or load it for manual analysis
 
 ### Bug Fixes
 - Fixed bug creating Boost Notebooks for a standalone source file outside of a loaded Workspace folder

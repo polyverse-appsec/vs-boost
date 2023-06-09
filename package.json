@@ -142,7 +142,7 @@
       },
       {
         "command": "polyverse-boost-notebook.loadCurrentFile",
-        "title": "Polyverse Boost: Build Notebook from Selected File (via File Explorer or Editor)",
+        "title": "Polyverse Boost: Open Analysis Notebook",
         "icon": "$(file)"
       },
       {
