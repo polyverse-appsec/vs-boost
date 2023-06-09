@@ -848,25 +848,30 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
     }
 
-    async loadCurrentFile(uri: vscode.Uri, context: vscode.ExtensionContext): Promise<boolean> {
+    async loadCurrentFile(sourceFileUri: vscode.Uri, context: vscode.ExtensionContext): Promise<boolean> {
         return new Promise(async (resolve, reject) => {
             try {
                 // if we don't have a file selected, then the user didn't right click
                 //      so we need to find the current active editor, if its available
-                if (uri === undefined) {
+                if (sourceFileUri === undefined) {
                     if (vscode.window.activeTextEditor === undefined) {
                         boostLogging.warn("Unable to identify an active file to Boost.");
                         resolve(false);
                     }
                     else {
-                        uri = vscode.window.activeTextEditor?.document.uri;
+                        sourceFileUri = vscode.window.activeTextEditor?.document.uri;
                     }
                 }
 
                 let currentNotebook = vscode.window.activeNotebookEditor?.notebook;
+                if (currentNotebook && sourceFileUri && currentNotebook.uri.fsPath !== sourceFileUri.fsPath) {
+                    // if the open notebook doesn't match, don't use it
+                    currentNotebook = undefined;
+                }
+
                 // if there is no active notebook editor, we need to find it
                 // Note this only happens when using right-click in explorer or a non-Notebook active editor
-                if (currentNotebook === undefined) {
+                if (currentNotebook === undefined && !sourceFileUri) {
                     const boostNotebooks: vscode.NotebookDocument[] =
                         vscode.workspace.notebookDocuments.filter(async (doc) => {
                             // we're skipping non Boost notebooks
@@ -896,24 +901,32 @@ export class BoostExtension {
                         });
                     }
                     else if (boostNotebooks.length === 1) {
-                        // if we only have one notebook, then just use that one
+                        // if we only have one notebook (that matches Uri), then just use that one
                         currentNotebook = boostNotebooks[0];
                     }
                 }
+
                 // if we still failed to find an available Notebook, then warn and give up
                 if (currentNotebook === undefined) {
-                    currentNotebook = await createOrOpenNotebookFromSourceFile(uri, false, true) as vscode.NotebookDocument;
-                    await createOrOpenSummaryNotebookFromSourceFile(uri);
+                    if (!sourceFileUri.fsPath.endsWith(boostnb.NOTEBOOK_SUMMARY_EXTENSION)) {
+                        currentNotebook = await createOrOpenNotebookFromSourceFile(sourceFileUri, false, true) as vscode.NotebookDocument;
+                        await createOrOpenSummaryNotebookFromSourceFile(sourceFileUri);
+                    } else {
+                        // look up summary for raw source file by stripping off notebook extension
+                        const summaryBoostFile = vscode.Uri.parse(sourceFileUri.fsPath.replace(boostnb.NOTEBOOK_SUMMARY_EXTENSION, '').replace("/" + BoostConfiguration.defaultDir,''));
+                        await createOrOpenSummaryNotebookFromSourceFile(summaryBoostFile);
+                        currentNotebook = await vscode.workspace.openNotebookDocument(sourceFileUri);
+                    }
                     boostLogging.warn(
-                        `No active Notebook found. Created default Notebook for: ${uri.toString()}`);
-                } else {
-                    await parseFunctionsFromFile(uri, currentNotebook);
+                        `No active Notebook found. Created default Notebook for: ${sourceFileUri.toString()}`);
+                } else if (!sourceFileUri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
+                    await parseFunctionsFromFile(sourceFileUri, currentNotebook);
                 }
 
-                boostLogging.log(`Boosted file:[${uri.fsPath.toString()}`);
+                boostLogging.log(`Loaded Boost file:[${sourceFileUri.fsPath.toString()}`);
                 vscode.window.showNotebookDocument(currentNotebook);
             } catch (error) {
-                boostLogging.error(`Unable to Boost file:[${uri.fsPath.toString()} due to error:${error}`);
+                boostLogging.error(`Unable to load Boost file:[${sourceFileUri.fsPath.toString()} due to error:${error}`);
                 resolve(false);
                 return;
             }
@@ -1087,10 +1100,9 @@ export class BoostExtension {
         }
     }
 
-
     registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext,) {
 
-        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.loadCurrentFile',
+        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.loadCurrentFile,
             async (uri: vscode.Uri) => {
                 const boostFile = getBoostFile(uri);
                 // create the Boost file, if it doesn't exist
@@ -1102,10 +1114,10 @@ export class BoostExtension {
                 }
                 const boostDoc = await vscode.workspace.openNotebookDocument(boostFile);
                 vscode.window.showNotebookDocument(boostDoc);
-    });
+            });
         context.subscriptions.push(disposable);
 
-        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.processCurrentFile',
+        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFile,
             async (uri: vscode.Uri, kernelCommand?: string, forceAnalysisRefresh: boolean = false) => {
                 const likelyViaUI = !kernelCommand || typeof (kernelCommand) !== 'string';
                 if (likelyViaUI) {
@@ -1114,6 +1126,21 @@ export class BoostExtension {
                 return this.processCurrentFile(uri, kernelCommand as string, context, forceAnalysisRefresh).catch((error) => {
                     boostLogging.error((error as Error).message, likelyViaUI);
                 });
+            });
+        context.subscriptions.push(disposable);
+
+        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.loadSummaryFile,
+            async (uri: vscode.Uri) => {
+                const boostFile = getBoostFile(uri, BoostFileType.summary);
+                // create the Boost file, if it doesn't exist
+                if (!fs.existsSync(boostFile.fsPath)) {
+                    if (!await this.loadCurrentFile(boostFile, context) || !fs.existsSync(boostFile.fsPath)) {
+                        boostLogging.warn(`Unable to open Boost Summary Notebook for file:[${uri.fsPath}]; check the Polyverse Boost Output channel for details`);
+                        return;
+                    }
+                }
+                const boostDoc = await vscode.workspace.openNotebookDocument(boostFile);
+                vscode.window.showNotebookDocument(boostDoc);
             });
         context.subscriptions.push(disposable);
     }

@@ -25,7 +25,9 @@ export function getKernelName(kernelName: string): string {
 }
 
 export enum BoostCommands {
+    loadCurrentFile = "loadCurrentFile",
     loadCurrentFolder = "loadCurrentFolder",
+    loadSummaryFile = "loadSummaryFile",
     processCurrentFolder = "processCurrentFolder",
     processCurrentFile = "processCurrentFile",
     pdfCurrentFile = "pdfCurrentFile",
