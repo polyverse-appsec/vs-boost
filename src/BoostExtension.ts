@@ -87,6 +87,8 @@ export class BoostExtension {
 
         boostLogging.log('Activated Boost Notebook Extension');
         boostLogging.info('Polyverse Boost is now active');
+
+        this.refreshBoostProjectsData();
     }
     private _setupBoostProjectDataLifecycle(context: vscode.ExtensionContext) {
         let disposable = vscode.workspace.onDidChangeWorkspaceFolders(this.workspaceFoldersChanged);
@@ -96,73 +98,109 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
 
         // initialize once on startup... especially since single-folder projects will never fire the events
-        this.updateBoostProject();
+        this.refreshBoostProjectsData();
     }
 
     _boostProjectData = new Map<vscode.Uri, BoostProjectData>();
     // FUTURE: We aren't syncing with files being added or removed from the project, or changes in those files
     private workspaceFoldersChanged(changeEvent: vscode.WorkspaceFoldersChangeEvent) {
-        this.updateBoostProject();
+        this.refreshBoostProjectsData();
     }
 
     private configurationChanged(changeEvent: vscode.ConfigurationChangeEvent) {
-        this.updateBoostProject();
+        this.refreshBoostProjectsData();
     }
 
-    private updateBoostProject() {
+    async refreshBoostProjectsData() : Promise<void> {
 
-        // future improvement - use changeEvent.added and changeEvent.removed to add or remove folders rather than resyncing everything
+        new Promise<void>((resolve, reject) => {
+            try {
+                // future improvement - use changeEvent.added and changeEvent.removed to add or remove folders rather than resyncing everything
 
-        const folders = vscode.workspace.workspaceFolders;
-        if (!folders || folders.length === 0) {
-            this._boostProjectData.clear();
-            return;
-        }
-
-        folders.forEach((workspaceFolder) => {
-            // if we already have it, then no need to do anything
-            // otherwise, we need to either load it, or create it
-            if (!this._boostProjectData.has(workspaceFolder.uri)) {
-
-                let boostProjectUri = getBoostFile(workspaceFolder.uri, BoostFileType.status);
-
-                if (!fs.existsSync(boostProjectUri.fsPath)) {
-                    // we need to create the new boost project file
-                    boostLogging.debug(`No boost project file found at ${boostProjectUri.fsPath} - creating new one`);
-
-                    // create the boost project file
-                    const boostProjectData = new BoostProjectData();
-                    this.initializeFromWorkspaceFolder(boostProjectData, workspaceFolder.uri);
-                    this._boostProjectData.set(workspaceFolder.uri, boostProjectData);
-                    return boostProjectData;
-                } else {
-                    const boostProjectData = new BoostProjectData();
-                    boostProjectData.load(boostProjectUri.fsPath);
-                    this._boostProjectData.set(workspaceFolder.uri, boostProjectData);
-                    return boostProjectData;
+                const folders = vscode.workspace.workspaceFolders;
+                if (!folders || folders.length === 0) {
+                    this._boostProjectData.clear();
+                    return;
                 }
-            }
-        });
 
-        // unload/release any boost project data for folders that are no longer in the workspace
-        this._boostProjectData.forEach((_value: BoostProjectData, workspaceFolder: vscode.Uri) => {
-            if (!folders.filter((thisFolder) => {
-                return thisFolder.uri === workspaceFolder;
-            })) {
-                this._boostProjectData.delete(workspaceFolder);
+                folders.forEach((workspaceFolder) => {
+                    // if we already have it, then no need to do anything
+                    // otherwise, we need to either load it, or create it
+                    let boostProjectData = this._boostProjectData.get(workspaceFolder.uri);
+                    let boostProjectUri = getBoostFile(workspaceFolder.uri, BoostFileType.status);
+
+                    if (!boostProjectData) {
+
+                        boostProjectData = new BoostProjectData();
+                        if (!fs.existsSync(boostProjectUri.fsPath)) {
+                            // we need to create the new boost project file
+                            boostLogging.debug(`No boost project file found at ${boostProjectUri.fsPath} - creating new one`);
+
+                            // create the boost project file
+                            this.initializeFromWorkspaceFolder(boostProjectData, workspaceFolder.uri);
+                            this._boostProjectData.set(workspaceFolder.uri, boostProjectData);
+                            return boostProjectData;
+                        } else {
+                            const boostProjectData = new BoostProjectData();
+                            boostProjectData.load(boostProjectUri.fsPath);
+                            this._boostProjectData.set(workspaceFolder.uri, boostProjectData);
+                            return boostProjectData;
+                        }
+                    }
+                    this.refreshProjectData(boostProjectData, workspaceFolder.uri);
+                    boostProjectData.save(boostProjectUri.fsPath);
+                });
+
+                // unload/release any boost project data for folders that are no longer in the workspace
+                this._boostProjectData.forEach((_value: BoostProjectData, workspaceFolder: vscode.Uri) => {
+                    if (!folders.filter((thisFolder) => {
+                        return thisFolder.uri === workspaceFolder;
+                    })) {
+                        this._boostProjectData.delete(workspaceFolder);
+                    }
+                });
+                resolve();
+            } catch (error) {
+                boostLogging.error(`Error refreshing Boost Project data: ${error}`);
+                reject(error);
             }
         });
+    }
+
+    async refreshProjectData(boostProjectData: BoostProjectData, workspaceFolder: vscode.Uri) {
+        const issues : string[] = [];
+        try {
+            if (!boostProjectData.summary.summaryUrl) {
+                const summaryPath = getBoostFile(workspaceFolder, BoostFileType.summary).path;
+                const relativeSummaryPath = path.relative(workspaceFolder.fsPath, summaryPath);
+                boostProjectData.summary.summaryUrl = "./" + relativeSummaryPath;
+            }
+            if (!fs.existsSync(path.resolve(workspaceFolder.fsPath, boostProjectData.summary.summaryUrl))) {
+                issues.push(`No summary file found at ${boostProjectData.summary.summaryUrl}`);
+            }
+            const counts = await this.getBoostFilesForFolder(workspaceFolder);
+            boostProjectData.summary.filesToAnalyze = counts.total;
+            boostProjectData.summary.filesAnalyzed = counts.exists;
+
+
+        } catch (error) {
+            boostLogging.debug(`Error refreshing Boost Project data for ${workspaceFolder.fsPath}: ${error}`);
+            issues.push(`Error refreshing Boost Project data for ${workspaceFolder.fsPath}: ${error}`);
+        } finally {
+            // store the total number of issues no matter what happened
+            boostProjectData.summary.issues = issues;
+        }
     }
 
     async initializeFromWorkspaceFolder(boostProjectData: BoostProjectData, workspaceFolder: vscode.Uri) {
-        // this doesn't work... we need to find a way to open a specific cell
-        //boostProjectData.summary.blueprintUrl = getBoostFile(workspaceFolder, BoostFileType.summary).fsPath + "?cell-metadata=blueprint";
-        //this is not right I don't think either, but it's closer. use vsCode to get the file ./boost/blueprint.md
-        boostProjectData.summary.summaryUrl = getBoostFile(workspaceFolder, BoostFileType.summary).fsPath;
-        boostProjectData.summary.filesToAnalyze = await this.getBoostFilesForFolder(workspaceFolder, false);
-        boostProjectData.summary.filesAnalyzed = await this.getBoostFilesForFolder(workspaceFolder, true);
-
         Object.assign(boostProjectData, emptyProjectData);
+
+        boostProjectData.summary.summaryUrl = getBoostFile(workspaceFolder, BoostFileType.summary).fsPath;
+        const counts = await this.getBoostFilesForFolder(workspaceFolder);
+        boostProjectData.summary.filesToAnalyze = counts.total;
+        boostProjectData.summary.filesAnalyzed = counts.exists;
+
+        boostProjectData.summary.issues = [ "No issues found" ];
 
         boostProjectData.save(getBoostFile(workspaceFolder, BoostFileType.status).fsPath);
     }
@@ -177,30 +215,29 @@ export class BoostExtension {
         return this._boostProjectData.get(workspaceFolder);
     }
 
-    async refreshBoostProjectData() {
-    }
-
-    async getBoostFilesForFolder(workspaceFolder: vscode.Uri, onlyCountCreatedFiles: boolean = true): Promise<number> {
-        // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
+    async getBoostFilesForFolder(workspaceFolder: vscode.Uri): Promise<{ total: number; exists: number }> {
         let searchPattern = new vscode.RelativePattern(workspaceFolder.fsPath, '**/*.*');
         let ignorePattern = await _buildVSCodeIgnorePattern();
-        boostLogging.debug("Skipping source files of pattern: " + ignorePattern ?? "none");
-        const files = await vscode.workspace.findFiles(searchPattern, ignorePattern ? new vscode.RelativePattern(workspaceFolder, ignorePattern) : "");
-
-        let count = 0;
+        boostLogging.debug("Skipping source files of pattern: " + (ignorePattern ?? "none"));
+        const files = await vscode.workspace.findFiles(
+            searchPattern,
+            ignorePattern ? new vscode.RelativePattern(workspaceFolder, ignorePattern) : ""
+        );
+    
+        let total = 0;
+        let exists = 0;
         for (const file of files) {
-            count++;
-            if (onlyCountCreatedFiles) {
-                const boostFileUri = getBoostFile(file);
-                const fileExists = fs.existsSync(boostFileUri.fsPath);
-                if (!fileExists) {
-                    count--;
-                }
+            total++;
+            const boostFileUri = getBoostFile(file);
+            const fileExists = fs.existsSync(boostFileUri.fsPath);
+            if (!fileExists) {
+                exists++;
             }
         }
-
-        return count;
+    
+        return { total, exists };
     }
+    
 
     _setupDiagnosticProblems(context: vscode.ExtensionContext): vscode.DiagnosticCollection {
 
@@ -689,7 +726,7 @@ export class BoostExtension {
 
         let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData,
             async () => {
-                await this.refreshBoostProjectData().then(() => {
+                await this.refreshBoostProjectsData().then(() => {
                     boostLogging.info(`Refreshed Boost Project Data.`, false);
                 }).catch((error: any) => {
                     boostLogging.error(`Unable to Refresh Project Data`, false);

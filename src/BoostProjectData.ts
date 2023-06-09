@@ -9,6 +9,7 @@ export interface Summary {
     summaryUrl: string;
     filesToAnalyze: number;
     filesAnalyzed: number;
+    issues: string [];
 }
 
 export enum BoostProcessingStatus {
@@ -41,6 +42,7 @@ export const sampleBoostProjectData: IBoostProjectData = {
         summaryUrl: "",
         filesToAnalyze: 42,
         filesAnalyzed: 0,
+        issues: [],
     },
     sectionSummary: [
         {
@@ -147,6 +149,7 @@ export const emptyProjectData: IBoostProjectData = {
         summaryUrl: "",
         filesToAnalyze: 0,
         filesAnalyzed: 0,
+        issues: [],
     },
     sectionSummary: [
         {
@@ -164,7 +167,14 @@ export const emptyProjectData: IBoostProjectData = {
             total: 0,
         },
         {
-            analysisType: "bugAnalysis",
+            analysisType: "flowdiagram",
+            status: BoostProcessingStatus.notStarted,
+            completed: 0,
+            error: 0,
+            total: 0,
+        },
+        {
+            analysisType: "analyze",
             status: BoostProcessingStatus.notStarted,
             completed: 0,
             error: 0,
@@ -180,7 +190,7 @@ export const emptyProjectData: IBoostProjectData = {
     ],
     analysis: [
         {
-            name: "security",
+            name: "analyze",
             children: [],
         },
         {
@@ -188,7 +198,15 @@ export const emptyProjectData: IBoostProjectData = {
             children: [],
         },
         {
-            name: "bugAnalysis",
+            name: "blueprint",
+            children: [],
+        },
+        {
+            name: "flowdiagram",
+            children: [],
+        },
+        {
+            name: "explain",
             children: [],
         }
     ]
@@ -200,7 +218,7 @@ export class BoostProjectData implements IBoostProjectData {
     analysis: [];
   
     constructor() {
-      this.summary = { summaryUrl: '', filesToAnalyze: 0, filesAnalyzed: 0 };
+      this.summary = { summaryUrl: '', filesToAnalyze: 0, filesAnalyzed: 0, issues: [] };
       this.sectionSummary = [];
       this.analysis = [];
     }
