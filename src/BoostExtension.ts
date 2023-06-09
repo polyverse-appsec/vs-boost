@@ -21,7 +21,7 @@ import { BoostTreeDataProvider } from './base_tree_view';
 
 import {
     getBoostFile, BoostFileType, parseFunctionsFromFile,
-    _buildVSCodeIgnorePattern, newErrorFromItemData, createNotebookFromSourceFile,
+    _buildVSCodeIgnorePattern, newErrorFromItemData, createOrOpenNotebookFromSourceFile,
     _syncProblemsInCell, createOrOpenSummaryNotebookFromSourceFile
 } from './extension';
 import { BoostContentSerializer } from './serializer';
@@ -592,7 +592,7 @@ export class BoostExtension {
                 // we're going to create a single notebook for all the files
                 let newNotebook: vscode.NotebookDocument | undefined;
                 for (const file of files) {
-                    newNotebook = await createNotebookFromSourceFile(file, false, true, newNotebook) as vscode.NotebookDocument;
+                    newNotebook = await createOrOpenNotebookFromSourceFile(file, false, true, newNotebook) as vscode.NotebookDocument;
                     await createOrOpenSummaryNotebookFromSourceFile(file);
                 }
                 // create the folder level rollup
@@ -606,7 +606,7 @@ export class BoostExtension {
                 let newNotebookWaits: any[] = [];
 
                 files.filter(async (file) => {
-                    newNotebookWaits.push(createNotebookFromSourceFile(file, true));
+                    newNotebookWaits.push(createOrOpenNotebookFromSourceFile(file, true));
                     newNotebookWaits.push(createOrOpenSummaryNotebookFromSourceFile(file));
                 });
                 // create project level rollup
@@ -759,7 +759,7 @@ export class BoostExtension {
                 }
                 // if we still failed to find an available Notebook, then warn and give up
                 if (currentNotebook === undefined) {
-                    currentNotebook = await createNotebookFromSourceFile(uri, false, true) as vscode.NotebookDocument;
+                    currentNotebook = await createOrOpenNotebookFromSourceFile(uri, false, true) as vscode.NotebookDocument;
                     await createOrOpenSummaryNotebookFromSourceFile(uri);
                     boostLogging.warn(
                         `No active Notebook found. Created default Notebook for: ${uri.toString()}`);
@@ -815,7 +815,7 @@ export class BoostExtension {
 
                     if (targetedKernel.command !== summarizeKernelName) {
                         // if we haven't yet loaded/parsed this file, then let's do it implicitly for the customer
-                        await createNotebookFromSourceFile(sourceUri, true);
+                        await createOrOpenNotebookFromSourceFile(sourceUri, true);
                         await createOrOpenSummaryNotebookFromSourceFile(sourceUri);
 
                         notebook.load(notebookUri.fsPath);

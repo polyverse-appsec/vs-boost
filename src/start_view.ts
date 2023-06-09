@@ -42,6 +42,7 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
 			switch (data.command) {
 				case 'analyze_all':
 					{
+                        // creates and loads all notebook files
                         await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.loadCurrentFolder', undefined);
 					}
 				case 'open_file':

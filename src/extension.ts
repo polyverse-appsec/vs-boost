@@ -148,23 +148,28 @@ export async function createOrOpenSummaryNotebookFromSourceFile(sourceFile : vsc
     }
 }
 
-export async function createNotebookFromSourceFile(
+export async function createOrOpenNotebookFromSourceFile(
     sourceFile : vscode.Uri,
     useBoostNotebookWithNoUI : boolean,
-    overwriteIfExists : boolean = true,
+    overwriteIfExists : boolean = false,
     existingNotebook : vscode.NotebookDocument | boostnb.BoostNotebook | undefined = undefined) :
         Promise<vscode.NotebookDocument | boostnb.BoostNotebook> {
 
+    let newNotebook : vscode.NotebookDocument | boostnb.BoostNotebook;
     const notebookPath = getBoostFile(sourceFile);
     const fileExists = fs.existsSync(notebookPath.fsPath);
-    if (fileExists && !overwriteIfExists) {
-        boostLogging.error(`Boost Notebook file already exists. Please delete the file and try again.\n  ${notebookPath.fsPath}`);
-        return Promise.reject(`Boost Notebook file already exists. Please delete the file and try again.\n  ${notebookPath.fsPath}`);
+    if (fileExists) {
+        if (useBoostNotebookWithNoUI) {
+            newNotebook = new boostnb.BoostNotebook();
+            newNotebook.load(notebookPath.fsPath);
+        } else {
+            newNotebook = await vscode.workspace.openNotebookDocument(notebookPath);
+        }
+        return newNotebook;
     }
 
     boostLogging.debug(`Boosting file: ${sourceFile.fsPath} as ${notebookPath.fsPath}`);
 
-    var newNotebook : vscode.NotebookDocument | boostnb.BoostNotebook;
     if (BoostConfiguration.processFoldersInASingleNotebook) {
         if (!existingNotebook) {
             if (useBoostNotebookWithNoUI) {
