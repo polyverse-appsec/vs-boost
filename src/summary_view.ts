@@ -46,6 +46,9 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         // creates and loads all notebook files
                         await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.loadCurrentFolder, undefined);
 
+                        // refresh project data
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
+
                         // summary across all files
                         await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(summarizeKernelName));					}
 			}
