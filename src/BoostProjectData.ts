@@ -1,11 +1,12 @@
 import * as fs from 'fs';
+import { type } from 'os';
 import * as path from 'path';
 import * as vscode from 'vscode'; 
 
 export const PROJECT_EXTENSION = ".boost-project";
 
 export interface Summary {
-    blueprintUrl: string;
+    summaryUrl: string;
     filesToAnalyze: number;
     filesAnalyzed: number;
 }
@@ -17,16 +18,10 @@ export enum BoostProcessingStatus {
     notStarted = "not-started"
 }
 
-export enum BoostAnalysisType {
-    blueprint = "Blueprint",
-    documentation = "Documentation",
-    security = "Security Scan",
-    compliance = "Compliance Scan"
-}
-
 export interface SectionSummary {
-    analysis: BoostAnalysisType;
+    analysisType: string;
     status: BoostProcessingStatus;
+    error: number;
     completed: number;
     total: number;
 }
@@ -38,157 +33,176 @@ export interface Analysis {
 
 export interface AnalysisNode {
     name: string;
+    children?: AnalysisNode[];
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const sampleBoostProjectData : IBoostProjectData =
-{
+export const sampleBoostProjectData: IBoostProjectData = {
     summary: {
-        blueprintUrl: "",
+        summaryUrl: "",
         filesToAnalyze: 42,
         filesAnalyzed: 0,
     },
     sectionSummary: [
         {
-            analysis: BoostAnalysisType.blueprint,
+            analysisType: "blueprint",
             status: BoostProcessingStatus.completed,
             completed: 3,
+            error: 0,
             total: 6,
         },
         {
-            analysis: BoostAnalysisType.documentation,
+            analysisType: "compliance",
             status: BoostProcessingStatus.incomplete,
             completed: 3,
+            error: 0,
             total: 6,
         },
         {
-            analysis: BoostAnalysisType.security,
+            analysisType: "bugAnalysis",
             status: BoostProcessingStatus.processing,
             completed: 3,
+            error: 0,
             total: 6,
         },
         {
-            analysis: BoostAnalysisType.compliance,
+            analysisType: "explain",
             status: BoostProcessingStatus.notStarted,
             completed: 3,
+            error: 0,
             total: 6,
         }
     ],
-    securityAnalysis:
-    [
+    analysis: [
         {
-            name: 'Security Topic 1',
+            name: "security",
             children: [
-                { name: 'Security Subtopic 1.1' },
-                { name: 'Security Subtopic 1.2' }
+                {
+                    name: 'Security Topic 1',
+                    children: [
+                        { name: 'Security Subtopic 1.1' },
+                        { name: 'Security Subtopic 1.2' }
+                    ]
+                },
+                {
+                    name: 'Security Topic 2',
+                    children: [
+                        { name: 'Security Subtopic 2.1' },
+                        { name: 'Security Subtopic 2.2' },
+                        { name: 'Security Subtopic 2.3' }
+                    ]
+                }
             ]
         },
         {
-            name: 'Security Topic 2',
+            name: "compliance",
             children: [
-                { name: 'Security Subtopic 2.1' },
-                { name: 'Security Subtopic 2.2' },
-                { name: 'Security Subtopic 2.3' }
+                {
+                    name: 'Compliance Topic 1',
+                    children: [
+                        { name: 'Compliance Subtopic 1.1' },
+                        { name: 'Compliance Subtopic 1.2' }
+                    ]
+                },
+                {
+                    name: 'Compliance Topic 2',
+                    children: [
+                        { name: 'Compliance Subtopic 2.1' },
+                        { name: 'Compliance Subtopic 2.2' },
+                        { name: 'Compliance Subtopic 2.3' }
+                    ]
+                }
+            ]
+        },
+        {
+            name: "explain",
+            children: [
+                {
+                    name: 'Topic 1',
+                    children: [
+                        { name: 'Subtopic 1.1' },
+                        { name: 'Subtopic 1.2' }
+                    ]
+                },
+                {
+                    name: 'Topic 2',
+                    children: [
+                        { name: 'Subtopic 2.1' },
+                        { name: 'Subtopic 2.2' },
+                        { name: 'Subtopic 2.3' }
+                    ]
+                }
             ]
         }
-        ],
-    complianceAnalysis:
-    [
-        {
-            name: 'Compliance Topic 1',
-            children: [
-                { name: 'Compliance Subtopic 1.1' },
-                { name: 'Compliance Subtopic 1.2' }
-            ]
-        },
-        {
-            name: 'Compliance Topic 2',
-            children: [
-                { name: 'Compliance Subtopic 2.1' },
-                { name: 'Compliance Subtopic 2.2' },
-                { name: 'Compliance Subtopic 2.3' }
-            ]
-        }
-        ],
-    docAnalysis:
-    [
-        {
-            name: 'Topic 1',
-            children: [
-                { name: 'Subtopic 1.1' },
-                { name: 'Subtopic 1.2' }
-            ]
-        },
-        {
-            name: 'Topic 2',
-            children: [
-                { name: 'Subtopic 2.1' },
-                { name: 'Subtopic 2.2' },
-                { name: 'Subtopic 2.3' }
-            ]
-        }
-        ]
-};
-
-const emptyProjectData : IBoostProjectData =
-{
-    summary: {
-        blueprintUrl: "",
-        filesToAnalyze: 0,
-        filesAnalyzed: 0,
-    },
-    sectionSummary: [
-        {
-            analysis: BoostAnalysisType.blueprint,
-            status: BoostProcessingStatus.notStarted,
-            completed: 0,
-            total: 0,
-        },
-        {
-            analysis: BoostAnalysisType.documentation,
-            status: BoostProcessingStatus.notStarted,
-            completed: 0,
-            total: 0,
-        },
-        {
-            analysis: BoostAnalysisType.security,
-            status: BoostProcessingStatus.notStarted,
-            completed: 0,
-            total: 0,
-        },
-        {
-            analysis: BoostAnalysisType.compliance,
-            status: BoostProcessingStatus.notStarted,
-            completed: 0,
-            total: 0,
-        }
-    ],
-    securityAnalysis: [],
-    complianceAnalysis: [],
-    docAnalysis: []
+    ]
 };
 
 export interface IBoostProjectData {
     summary: Summary;
     sectionSummary: SectionSummary[];
-    securityAnalysis: Analysis[];
-    complianceAnalysis: Analysis[];
-    docAnalysis: Analysis[];
+    analysis: Analysis[];
 }
+
+const emptyProjectData: IBoostProjectData = {
+    summary: {
+        summaryUrl: "",
+        filesToAnalyze: 0,
+        filesAnalyzed: 0,
+    },
+    sectionSummary: [
+        {
+            analysisType: "blueprint",
+            status: BoostProcessingStatus.notStarted,
+            completed: 0,
+            error: 0,
+            total: 0,
+        },
+        {
+            analysisType: "explain",
+            status: BoostProcessingStatus.notStarted,
+            completed: 0,
+            error: 0,
+            total: 0,
+        },
+        {
+            analysisType: "bugAnalysis",
+            status: BoostProcessingStatus.notStarted,
+            completed: 0,
+            error: 0,
+            total: 0,
+        },
+        {
+            analysisType: "compliance",
+            status: BoostProcessingStatus.notStarted,
+            completed: 0,
+            error: 0,
+            total: 0,
+        }
+    ],
+    analysis: [
+        {
+            name: "security",
+            children: [],
+        },
+        {
+            name: "compliance",
+            children: [],
+        },
+        {
+            name: "bugAnalysis",
+            children: [],
+        }
+    ]
+};
 
 export class BoostProjectData implements IBoostProjectData {
     summary: Summary;
     sectionSummary: SectionSummary[];
-    securityAnalysis: Analysis[];
-    complianceAnalysis: Analysis[];
-    docAnalysis: Analysis[];
+    analysis: [];
   
     constructor() {
-      this.summary = { blueprintUrl: '', filesToAnalyze: 0, filesAnalyzed: 0 };
+      this.summary = { summaryUrl: '', filesToAnalyze: 0, filesAnalyzed: 0 };
       this.sectionSummary = [];
-      this.securityAnalysis = [];
-      this.complianceAnalysis = [];
-      this.docAnalysis = [];
+      this.analysis = [];
     }
   
     create(jsonString: string): void {
@@ -217,20 +231,3 @@ export class BoostProjectData implements IBoostProjectData {
         return boostProjectData;
     }
 };
-
-export async function getOrCreateBlueprintUri(context: vscode.ExtensionContext, filePath: string): Promise<vscode.Uri>{
-    const workspacePath = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : '';
-    const absoluteFilePath = path.resolve(workspacePath, filePath);
-    const uri = vscode.Uri.file(absoluteFilePath);
-    if (!fs.existsSync(absoluteFilePath)) {
-        // If the file doesn't exist, create it with data from blueprint_template.md
-        const extensionPath = context.extensionPath;
-        const templatePath = path.join(extensionPath, 'resources', 'blueprint_template.md');
-        const data = fs.readFileSync(templatePath);
-        //filePath might point to a directory that does not exist yet. check for that and create it if necessary
-        const folderPath = path.dirname(absoluteFilePath);
-        fs.mkdirSync(folderPath, { recursive: true });
-        fs.writeFileSync(absoluteFilePath, data);
-    }
-    return uri;
-}

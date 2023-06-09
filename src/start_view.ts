@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
 import { BoostExtension } from './BoostExtension';
-import { getOrCreateBlueprintUri} from './BoostProjectData';
+import { getOrCreateBlueprintUri} from './extension';
 
 
 export class BoostStartViewProvider implements vscode.WebviewViewProvider {
@@ -70,7 +70,7 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
 		const nonce = 'nonce-123456'; // TODO: add a real nonce here
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
 		
-		const blueprintFile = boostdata.summary.blueprintUrl; 
+		const blueprintFile = boostdata.summary.summaryUrl; 
 
 
         const template = _.template(rawHtmlContent);

@@ -7,7 +7,7 @@ import { BoostExtension } from './BoostExtension';
 import { BoostConfiguration } from './boostConfiguration';
 import { callServiceEndpoint } from './lambda_util';
 import {marked} from 'marked';
-import { getOrCreateBlueprintUri} from './BoostProjectData';
+import { getOrCreateBlueprintUri} from './extension';
 
 
 /*
@@ -109,7 +109,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 		const convert = marked.parse;
 		const activeid = this._activeid;
         const htmlContent = template({ jsSrc, nonce, chats, convert, codiconsUri, activeid});
-    
+
         return htmlContent;
     }
 
@@ -195,10 +195,14 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 	}
 
 	private async _getInitialSystemMessage(): Promise<any> {
+
 		const boostdata = this._boostExtension.getBoostProjectData();
-		const blueprintUri = await getOrCreateBlueprintUri(this.context, boostdata.summary.blueprintUrl);
-		//now load the blueprint from the file system and get the first prompt
-		const blueprintdata = fs.readFileSync(blueprintUri.fsPath, 'utf8');
+		const blueprintUri = boostdata.summary.summaryUrl? await getOrCreateBlueprintUri(this.context, boostdata.summary.summaryUrl) : undefined;
+        let blueprintdata = "";
+        if (blueprintUri && fs.existsSync(blueprintUri.fsPath)) {
+            //now load the blueprint from the file system and get the first prompt
+            blueprintdata = fs.readFileSync(blueprintUri.fsPath, 'utf8');
+        }
 		const systemPrompt = "You are an AI programming assistant working on a project described after ####. You prioritize accurate responses and all responses are in markdown format. ####\n";
 		return {
 			"role": "system",

@@ -31,7 +31,7 @@ import { KernelControllerBase } from './base_controller';
 import { updateBoostStatusColors, registerCustomerPortalCommand, setupBoostStatus } from './portal';
 import { generatePDFforNotebook } from './convert_pdf';
 import { generateMarkdownforNotebook } from './convert_markdown';
-import { BoostProjectData, BoostProcessingStatus, BoostAnalysisType } from './BoostProjectData';
+import { BoostProjectData, BoostProcessingStatus, sampleBoostProjectData } from './BoostProjectData';
 
 import instructions from './instructions.json';
 
@@ -156,86 +156,11 @@ export class BoostExtension {
         //boostProjectData.summary.blueprintUrl = getBoostFile(workspaceFolder, BoostFileType.summary).fsPath + "?cell-metadata=blueprint";
         //this is not right I don't think either, but it's closer. use vsCode to get the file ./boost/blueprint.md
         const blueprintFile = BoostConfiguration.defaultDir + "/blueprint.md";
-        boostProjectData.summary.blueprintUrl = blueprintFile;
+        boostProjectData.summary.summaryUrl = blueprintFile;
         boostProjectData.summary.filesToAnalyze = await this.getBoostFilesForFolder(workspaceFolder, false);
         boostProjectData.summary.filesAnalyzed = await this.getBoostFilesForFolder(workspaceFolder, true);
 
-        // TODO: Finish section Summary initialization
-        boostProjectData.sectionSummary.push({
-            analysis: BoostAnalysisType.blueprint,
-            status: BoostProcessingStatus.completed,
-            completed: 3,
-            total: 6,
-        });
-        boostProjectData.sectionSummary.push({
-            analysis: BoostAnalysisType.documentation,
-            status: BoostProcessingStatus.incomplete,
-            completed: 3,
-            total: 6,
-        });
-        boostProjectData.sectionSummary.push({
-            analysis: BoostAnalysisType.security,
-            status: BoostProcessingStatus.processing,
-            completed: 3,
-            total: 6,
-        });
-        boostProjectData.sectionSummary.push({
-            analysis: BoostAnalysisType.compliance,
-            status: BoostProcessingStatus.notStarted,
-            completed: 3,
-            total: 6,
-        });
-
-        // TODO: Finish security analysis tracking
-        boostProjectData.securityAnalysis.push({
-            name: 'Security Topic 1',
-            children: [
-                { name: 'Security Subtopic 1.1' },
-                { name: 'Security Subtopic 1.2' }
-            ]
-        });
-        boostProjectData.securityAnalysis.push({
-            name: 'Security Topic 2',
-            children: [
-                { name: 'Security Subtopic 2.1' },
-                { name: 'Security Subtopic 2.2' },
-                { name: 'Security Subtopic 2.3' }
-            ]
-        });
-
-        // TODO: Finish compliance tracking
-        boostProjectData.complianceAnalysis.push({
-            name: 'Compliance Topic 1',
-            children: [
-                { name: 'Compliance Subtopic 1.1' },
-                { name: 'Compliance Subtopic 1.2' }
-            ]
-        });
-        boostProjectData.complianceAnalysis.push({
-            name: 'Compliance Topic 2',
-            children: [
-                { name: 'Compliance Subtopic 2.1' },
-                { name: 'Compliance Subtopic 2.2' },
-                { name: 'Compliance Subtopic 2.3' }
-            ]
-        });
-
-        // TODO: Finish doc tracking
-        boostProjectData.docAnalysis.push({
-            name: 'Topic 1',
-            children: [
-                { name: 'Subtopic 1.1' },
-                { name: 'Subtopic 1.2' }
-            ]
-        });
-        boostProjectData.docAnalysis.push({
-            name: 'Topic 2',
-            children: [
-                { name: 'Subtopic 2.1' },
-                { name: 'Subtopic 2.2' },
-                { name: 'Subtopic 2.3' }
-            ]
-        });
+        Object.assign(boostProjectData, sampleBoostProjectData);
 
         boostProjectData.save(getBoostFile(workspaceFolder, BoostFileType.status).fsPath);
     }
