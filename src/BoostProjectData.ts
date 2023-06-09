@@ -46,7 +46,7 @@ export const sampleBoostProjectData: IBoostProjectData = {
     },
     sectionSummary: [
         {
-            analysisType: "blueprint",
+            analysisType: "archblueprintCode",
             status: BoostProcessingStatus.completed,
             completed: 3,
             error: 0,
@@ -167,14 +167,14 @@ export const emptyProjectData: IBoostProjectData = {
             total: 0,
         },
         {
-            analysisType: "flowdiagram",
+            analysisType: "flowDiagram",
             status: BoostProcessingStatus.notStarted,
             completed: 0,
             error: 0,
             total: 0,
         },
         {
-            analysisType: "analyze",
+            analysisType: "bugAnalyze",
             status: BoostProcessingStatus.notStarted,
             completed: 0,
             error: 0,
@@ -190,7 +190,7 @@ export const emptyProjectData: IBoostProjectData = {
     ],
     analysis: [
         {
-            name: "analyze",
+            name: "bugAnalyze",
             children: [],
         },
         {
@@ -198,11 +198,11 @@ export const emptyProjectData: IBoostProjectData = {
             children: [],
         },
         {
-            name: "blueprint",
+            name: "archblueprintCode",
             children: [],
         },
         {
-            name: "flowdiagram",
+            name: "flowDiagram",
             children: [],
         },
         {

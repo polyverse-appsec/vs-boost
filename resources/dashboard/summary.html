@@ -34,7 +34,19 @@
 	<vscode-data-grid aria-label="Summary">
 		<% _.forEach(boostdata.sectionSummary, function(analysisObj) { %>
 			<vscode-data-grid-row >
-				<vscode-data-grid-cell grid-column="1"><vscode-checkbox checked><%= analysisObj.analysisType %></vscode-checkbox></vscode-data-grid-cell>
+				<vscode-data-grid-cell grid-column="1">
+                    <% if (analysisObj.analysisType === 'bugAnalysis') { %>
+                        <vscode-checkbox checked>Security</vscode-checkbox>
+                    <% } else if (analysisObj.analysisType === 'archblueprintCode') { %>
+                        <vscode-checkbox checked>Blueprint</vscode-checkbox>
+                    <% } else if (analysisObj.analysisType === 'compliance') { %>
+                        <vscode-checkbox checked>Compliance</vscode-checkbox>
+                    <% } else if (analysisObj.analysisType === 'explain') { %>
+                        <vscode-checkbox checked>Documentation</vscode-checkbox>
+                    <% } else { %>
+                        <vscode-checkbox checked><%= analysisObj.analysisType %></vscode-checkbox>
+                    <% } %>
+                </vscode-data-grid-cell>
 				<vscode-data-grid-cell grid-column="2"><vscode-badge class=<%= 'boost-' + analysisObj.status %>><%= analysisObj.completed + '/' + (analysisObj.total) %></vscode-badge></vscode-data-grid-cell>
 			</vscode-data-grid-row>
 		  <% }); %>
