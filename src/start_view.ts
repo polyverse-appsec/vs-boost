@@ -44,6 +44,21 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
 					{
                         // creates and loads all notebook files
                         await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.loadCurrentFolder', undefined);
+
+                        // security / bug analysis
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.processCurrentFolder', undefined, 'bugAnalysis');
+
+                        // compliance
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.processCurrentFolder', undefined, 'compliance');
+
+                        // explain
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.processCurrentFolder', undefined, 'explain');
+
+                        // flow diagram
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.processCurrentFolder', undefined, 'flowdiagram');
+
+                        // summary across all files
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.processCurrentFolder', undefined, 'summarized');
 					}
 				case 'open_file':
 					{
