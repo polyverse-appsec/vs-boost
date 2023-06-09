@@ -4,7 +4,7 @@ import {
 import { DiagnosticCollection, ExtensionContext} from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 
-export const explainCellMarker = 'explainCode';
+export const explainOutputType = 'explainCode';
 export const explainKernelName = 'explain';
 
 export class BoostExplainKernel extends KernelControllerBase {
@@ -14,7 +14,7 @@ export class BoostExplainKernel extends KernelControllerBase {
             explainKernelName,
             'Explain Code',
             'Explains the targeted source code in English, including algorithms, referenced frameworks and design patterns',
-            explainCellMarker,
+            explainOutputType,
             false,
             false,
             context,

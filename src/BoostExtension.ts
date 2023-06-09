@@ -7,7 +7,7 @@ import { BoostAnalyzeKernel } from './analyze_controller';
 import { BoostTestgenKernel } from './testgen_controller';
 import { BoostConvertKernel } from './convert_controller';
 import { BoostComplianceKernel } from './compliance_controller';
-import { BoostExplainKernel, explainCellMarker } from './explain_controller';
+import { BoostExplainKernel, explainOutputType } from './explain_controller';
 import { BoostCodeGuidelinesKernel } from './codeguidelines_controller';
 import { BoostArchitectureBlueprintKernel } from './blueprint_controller';
 import { BoostCustomProcessKernel } from './custom_controller';
@@ -262,7 +262,7 @@ export class BoostExtension {
                         // we use the kernel controller that was attached to this output to deserialize the error
                         // If we can't find the kernel controller metadata, then just use the explain controller
                         this.kernels.forEach((value: KernelControllerBase, key: string, kernels: Map<string, KernelControllerBase>) => {
-                            if (value !== output.metadata?.outputType ?? explainCellMarker) {
+                            if (value !== output.metadata?.outputType ?? explainOutputType) {
                                 return;
                             }
 

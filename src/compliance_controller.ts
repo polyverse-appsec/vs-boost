@@ -4,7 +4,7 @@ import {
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 
-export const complianceCellMarker = 'complianceCode';
+export const complianceOutputType = 'complianceCode';
 export const complianceKernelName = 'compliance';
 
 export class BoostComplianceKernel extends KernelControllerBase {
@@ -14,7 +14,7 @@ export class BoostComplianceKernel extends KernelControllerBase {
             complianceKernelName,
             'Check Compliance',
             'Evaluates Data and Privacy Compliance of the code',
-            complianceCellMarker,
+            complianceOutputType,
             false,
             false,
             context,

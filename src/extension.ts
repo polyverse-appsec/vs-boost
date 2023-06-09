@@ -5,7 +5,7 @@ import * as path from 'path';
 import * as boostnb from './jupyter_notebook';
 
 import { BoostContentSerializer } from './serializer';
-import { parseFunctions } from './split';	
+import { parseFunctions } from './split';
 import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
 import { TextDecoder } from 'util';

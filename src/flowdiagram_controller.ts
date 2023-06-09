@@ -4,7 +4,7 @@ import {
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 
-export const flowDiagramCellMarker = 'flowDiagram';
+export const flowDiagramOutputType = 'flowDiagram';
 export const flowDiagramKernelName = 'flowdiagram';
 
 export class BoostFlowDiagramKernel extends KernelControllerBase {
@@ -14,7 +14,7 @@ export class BoostFlowDiagramKernel extends KernelControllerBase {
             flowDiagramKernelName,
             'Create Flow Diagrams',
             'Creates a flow diagram from the code',
-            flowDiagramCellMarker,
+            flowDiagramOutputType,
             false,
             false,
             context,

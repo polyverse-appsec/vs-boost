@@ -3,17 +3,19 @@ import {
     } from './base_controller';
 import * as vscode from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
-import axios from 'axios';
 import { BoostNotebookCell } from './jupyter_notebook';
+
+export const testgenKernelName = 'testgen';
+export const testgenOutputName = 'testGeneration';
 
 export class BoostTestgenKernel extends KernelControllerBase {
 	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
-            'testgen',
+            testgenKernelName,
             'Generate Test Cases for Code',
             'Generates a set of unit Test Cases for testing the targeted source code using a specifie Test Framework',
-            'testGeneration',
+            testgenOutputName,
             true,
             true,
             context,

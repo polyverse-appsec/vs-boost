@@ -1,13 +1,15 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
-import * as path from 'path';
 import * as _ from 'lodash';
-import * as os from 'os';
 import { BoostExtension } from './BoostExtension';
-import { BoostConfiguration } from './boostConfiguration';
-import { callServiceEndpoint } from './lambda_util';
 import {marked} from 'marked';
-import { getOrCreateBlueprintUri} from './extension';
+import { BoostFileType, findCellByKernel, getBoostFile } from './extension';
+import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';
+
+import { analyzeOutputType } from './analyze_controller';
+import { complianceOutputType } from './compliance_controller';
+import { blueprintOutputType } from './blueprint_controller';
+import { explainOutputType } from './explain_controller';
 
 
 
@@ -68,9 +70,40 @@ export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
     
         const template = _.template(rawHtmlContent);
 		const convert = marked.parse;
-		const content = "# hello world\n* item 1\n* item 2\n* item 3\n";
 		const title = "Markdown";
 
+        let boostContent = `Missing Analysis Content found for ${this._type} - please run Analyze All to generate content`;
+
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+        if (!workspaceFolder) {
+            boostContent = `No workspace folder found - please open a workspace folder`;
+        } else {
+            const summaryDataUri = getBoostFile(workspaceFolder.uri, BoostFileType.summary);
+            const boostNotebook = new BoostNotebook();
+            boostNotebook.load(summaryDataUri.fsPath);
+            let ourCellContent = "";
+            switch (this._type) {
+                case "doc":
+                    ourCellContent = (findCellByKernel(boostNotebook, explainOutputType) as BoostNotebookCell)?.value;
+                    break;
+                case "security":
+                    ourCellContent = (findCellByKernel(boostNotebook, analyzeOutputType) as BoostNotebookCell)?.value;
+                    break;
+                case "compliance":
+                    ourCellContent = (findCellByKernel(boostNotebook, complianceOutputType) as BoostNotebookCell)?.value;
+                    break;
+                case "blueprint":
+                    ourCellContent = (findCellByKernel(boostNotebook, blueprintOutputType ) as BoostNotebookCell)?.value;
+                    break;
+                default:
+                    ourCellContent = `Unexpected type of Analysis: ${this._type} - Unable to render markdown`;
+                    break;
+            }
+            if (ourCellContent) {
+                boostContent = ourCellContent;
+            }
+        }
+        const content = boostContent;
         const htmlContent = template({ jsSrc, nonce, convert, codiconsUri, content, title});
     
         return htmlContent;

@@ -2,23 +2,23 @@ import {
     KernelControllerBase, onServiceErrorHandler
     } from './base_controller';
 import * as vscode from 'vscode';
-import { explainCellMarker } from './explain_controller';
+import { explainOutputType } from './explain_controller';
 import { BoostConfiguration } from './boostConfiguration';
 import { BoostNotebookCell, SerializedNotebookCellOutput, BoostNotebook } from './jupyter_notebook';
 import { boostLogging } from './boostLogging';
 
-
-//set a helper variable of the base url.  this should eventually be a config setting
+export const convertOutputType = 'generatedCode';
+export const convertKernelName = 'convert';
 
 const markdownCodeMarker = '```';
 export class BoostConvertKernel extends KernelControllerBase {
 	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
-            'convert',
+            convertKernelName,
             'Convert Legacy Code to New Code',
             'Converts targeted source code into a new programming language, using the best practices of the target language',
-            'generatedCode',
+            convertOutputType,
             false,
             true,
             context,
@@ -99,19 +99,19 @@ export class BoostConvertKernel extends KernelControllerBase {
             if (usingBoostNotebook) {
                 const outputItems : SerializedNotebookCellOutput[] = [ {
                     items: [ { mime: markdownMimetype, data : outputText } ],
-                    metadata : { outputType: explainCellMarker} } ];
+                    metadata : { outputType: explainOutputType} } ];
                 
-                cell.updateOutputItem(explainCellMarker, outputItems[0]);
+                cell.updateOutputItem(explainOutputType, outputItems[0]);
             } else {
                 const outputItems: vscode.NotebookCellOutputItem[] = [ vscode.NotebookCellOutputItem.text(outputText, markdownMimetype) ];
 
-                let existingOutput = cell.outputs.find(output => output.metadata?.outputType === explainCellMarker);
+                let existingOutput = cell.outputs.find(output => output.metadata?.outputType === explainOutputType);
 
                 if (existingOutput) {
                     execution.replaceOutputItems(outputItems, existingOutput);
                 } else {
                     // create a new NotebookCellOutput with the outputItems array
-                    const output = new vscode.NotebookCellOutput(outputItems, { outputType: explainCellMarker });
+                    const output = new vscode.NotebookCellOutput(outputItems, { outputType: explainOutputType });
                     execution.appendOutput(output);
                 }
             }

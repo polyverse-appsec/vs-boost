@@ -4,7 +4,7 @@ import {
 import { BoostConfiguration } from './boostConfiguration';
 import * as vscode from 'vscode';
 
-export const blueprintCellMarker = 'archblueprintCode';
+export const blueprintOutputType = 'archblueprintCode';
 export const blueprintKernelName = 'blueprint';
 
 export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
@@ -14,7 +14,7 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
             blueprintKernelName,
             'Architectural Blueprint Code',
             'Builds Archiectural Blueprint of targeted source code by identifying architectural principles, patterns, licensing, performance, etc.',
-            blueprintCellMarker,
+            blueprintOutputType,
             false,
             false,
             context,

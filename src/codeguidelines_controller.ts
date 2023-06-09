@@ -4,16 +4,17 @@ import {
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 
-export const codeGuidelinesCellMarker = 'guidelinesCode';
+export const codeGuidelinesOutputType = 'guidelinesCode';
+export const codeGuidelinesKernelName = 'codeguidelines';
 
 export class BoostCodeGuidelinesKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
-            'codeguidelines',
+            codeGuidelinesKernelName,
             'Evaluate Code Guidelines',
             'Evaluates targeted source code for following Code Guidelines for programming language and framework',
-            codeGuidelinesCellMarker,
+            codeGuidelinesOutputType,
             false,
             false,
             context,
