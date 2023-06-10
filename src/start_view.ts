@@ -91,8 +91,8 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
 					{
 						const path = data.file;
 						const blueprintUri = await getOrCreateBlueprintUri(this.context, path);
-						const document = await vscode.workspace.openTextDocument(blueprintUri);
-						await vscode.window.showTextDocument(document);
+						const document = await vscode.workspace.openNotebookDocument(blueprintUri);
+						await vscode.window.showNotebookDocument(document);
 					}
 			}
 		});
