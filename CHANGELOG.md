@@ -3,6 +3,18 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 1.0.0: June 14, 2023
+
+### New Features
+- 
+
+### Enhancements
+- Add support for Paste to Chat window text box
+
+### Bug Fixes
+- Fixed broken Chat button when a Boost Cloud Service failure occurs
+- Ensure error message is saved to cell Output
+
 ## Version 0.9.9: June 8, 2023
 
 ### New Features
