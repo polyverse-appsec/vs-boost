@@ -367,7 +367,7 @@ export class KernelControllerBase {
             items: [
                 {
                     mime: "application/vnd.code.notebook.error", // for compatibility with VS Code
-                    data: JSON.stringify(error),
+                    data: JSON.stringify(error.toString()),
                 }
             ],
             metadata: {
