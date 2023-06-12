@@ -100,6 +100,11 @@ export async function updateBoostStatusColors(context: vscode.ExtensionContext, 
             closure.statusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
             closure.statusBar.tooltip = 'Cannot find your Polyverse Boost account. Please verify your GitHub email is authorized in Visual Studio Code and retry.';
             break;
+        case 'expired':
+            closure.statusBar.color = new vscode.ThemeColor('statusBarItem.errorForeground');
+            closure.statusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
+            closure.statusBar.tooltip = 'Your Boost trial has expired. Please visit the Account Dashboard to update payment info.';
+            break;
         case 'suspended':
             closure.statusBar.color = new vscode.ThemeColor('statusBarItem.errorForeground');
             closure.statusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
