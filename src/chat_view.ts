@@ -148,11 +148,18 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 			]),
         };
 
-		const response = await callServiceEndpoint(this.context, this.serviceEndpoint, "custom_process", payload);
+        try
+        {
+            const response = await callServiceEndpoint(this.context, this.serviceEndpoint, "custom_process", payload);
 
-		this._addResponse(prompt, response.analysis);
-		this._saveJsonData(this._chats);
-		this.refresh();
+            this._addResponse(prompt, response.analysis);
+        } catch (error)
+        {
+            this._addResponse(prompt, (error as Error).toString());
+        } finally {
+            this._saveJsonData(this._chats);
+            this.refresh();
+        }
 	}
 
 	private _addResponse(prompt: string, chat: string) {
