@@ -13,6 +13,9 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
 	private _view?: vscode.WebviewView;
 
+	private _jobs: any = {};
+	private _currentJob: any = {};
+
 	constructor(
 		private readonly context: vscode.ExtensionContext,
 		private _boostExtension: BoostExtension
@@ -75,4 +78,29 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
     
         return htmlContent;
     }
+
+	public addJobs(job: string, count: number) {
+		//if this._jobs[jobs] exists, add count to it, otherwise set it to count
+		this._jobs[job] ? this._jobs[job] += count : count;
+		this.refresh();
+	}
+
+	public finishJobs(job: string, count: number) {
+		//if this._jobs[jobs] exists, add count to it, otherwise set it to zero 
+		//(somehow we finished a job that was never counted as being started)
+		this._jobs[job] ? this._jobs[job] -= count : 0;
+		this.refresh();
+	}
+
+	//so far, this is not a very useful function.  consider removing it.  all of the jobs are queued up more
+	//or less all at once.  so there really isn't a "current" job. 
+	public currentJob(job: string, path: string) {
+		//if this._jobs[jobs] exists, add count to it, otherwise set it to zero 
+		//(somehow we finished a job that was never counted as being started)
+		this._currentJob = {
+			job: job,
+			path: path
+		};
+		this.refresh();
+	}
 }
