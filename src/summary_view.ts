@@ -81,8 +81,13 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
 	public addJobs(job: string, count: number) {
 		//if this._jobs[jobs] exists, add count to it, otherwise set it to count
-		this._jobs[job] ? this._jobs[job] += count : count;
-		this.refresh();
+		this._jobs[job] ? this._jobs[job] += count : this._jobs[job] = count;
+		const payload = {
+			command: 'addJobs',
+			job: job,
+			count: this._jobs[job]
+		};
+		this._view?.webview.postMessage(payload);
 	}
 
 	public finishJobs(job: string, count: number) {

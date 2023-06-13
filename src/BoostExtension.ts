@@ -1072,7 +1072,7 @@ export class BoostExtension {
                 return this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh);
             });
 
-            this._summaryViewProvider?.addJobs(kernelCommand, processedNotebookWaits.length);
+            this._summaryViewProvider?.addJobs(targetedKernel.outputType, processedNotebookWaits.length);
 
             await Promise.all(processedNotebookWaits)
                 .then((processedNotebooks) => {
@@ -1085,7 +1085,7 @@ export class BoostExtension {
                             );
                         }
                     });
-                    this._summaryViewProvider?.finishJobs(kernelCommand, processedNotebookWaits.length);
+                    this._summaryViewProvider?.finishJobs(targetedKernel.outputType, processedNotebookWaits.length);
                     boostLogging.info(
                         `${processedNotebookWaits.length.toString()} Boost Notebooks processed for folder ${targetFolder.path}`,
                         false

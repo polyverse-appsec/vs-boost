@@ -6,10 +6,19 @@ import {
   vsCodeDataGridCell,
   vsCodeDataGridRow,
   vsCodeCheckbox,
+  vsCodeProgressRing,
   Button
 } from "@vscode/webview-ui-toolkit";
 
-provideVSCodeDesignSystem().register(vsCodeButton(), vsCodeBadge(), vsCodeDataGrid(), vsCodeDataGridCell(), vsCodeDataGridRow(), vsCodeCheckbox());
+provideVSCodeDesignSystem().register(
+  vsCodeButton(), 
+  vsCodeBadge(), 
+  vsCodeDataGrid(), 
+  vsCodeDataGridCell(), 
+  vsCodeDataGridRow(), 
+  vsCodeCheckbox(),
+  vsCodeProgressRing()
+  );
 
 const vscode = acquireVsCodeApi();
 
@@ -17,6 +26,7 @@ const vscode = acquireVsCodeApi();
 // DOM to load before we can reference any of the HTML elements
 // or toolkit components
 window.addEventListener("load", main);
+window.addEventListener("message", handleIncomingSummaryMessage);
 
 // Main function that gets executed once the webview DOM loads
 function main() {
@@ -34,3 +44,18 @@ function handleAnalyzeAllClick() {
     command: "update_summary"
   });
 }
+
+function handleIncomingSummaryMessage(event: MessageEvent) {
+  const message = event.data; // The JSON data our extension sent
+
+  console.log("message is ", message);
+
+  switch (message.command) {
+      case 'addJobs':
+          //get the grid cell by jobs-message.job and update the cell with message.count
+          const cell = document.getElementById('job-' + message.job) as HTMLElement;
+          cell.innerText = message.count.toString();
+          break;
+  }
+}
+

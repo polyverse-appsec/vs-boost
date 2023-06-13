@@ -48,12 +48,17 @@
                     <% } %>
                 </vscode-data-grid-cell>
 				<vscode-data-grid-cell grid-column="2"><vscode-badge class=<%= 'boost-' + analysisObj.status %>><%= analysisObj.completed + '/' + (analysisObj.total) %></vscode-badge></vscode-data-grid-cell>
+				<vscode-data-grid-cell grid-column="3" id="job-<%=analysisObj.analysisType%>" >
+					1 job running
+				</vscode-data-grid-cell>	
+
 			</vscode-data-grid-row>
 		  <% }); %>
 	</vscode-data-grid>
 
     <div align="center">
 		<vscode-button id="update_summary">Update Boost Summary</vscode-button>
+		<vscode-progress-ring id="jobprogress" class="progress" ></vscode-progress-ring>
 	</div>
     <script src="<%= jsSrc %>" type="module"> </script>
 </body>
