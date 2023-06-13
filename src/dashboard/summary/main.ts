@@ -10,6 +10,8 @@ import {
   Button
 } from "@vscode/webview-ui-toolkit";
 
+import {CountUp} from 'countup.js';
+
 provideVSCodeDesignSystem().register(
   vsCodeButton(), 
   vsCodeBadge(), 
@@ -27,6 +29,8 @@ const vscode = acquireVsCodeApi();
 // or toolkit components
 window.addEventListener("load", main);
 window.addEventListener("message", handleIncomingSummaryMessage);
+
+let jobCounters = {};
 
 // Main function that gets executed once the webview DOM loads
 function main() {
@@ -52,9 +56,12 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
 
   switch (message.command) {
       case 'addJobs':
-          //get the grid cell by jobs-message.job and update the cell with message.count
-          const cell = document.getElementById('job-' + message.job) as HTMLElement;
-          cell.innerText = message.count.toString();
+          // if we don't have a job counter for this job, add it
+          if (!jobCounters[message.job]) {
+              jobCounters[message.job] = new CountUp('job-' + message.job, 0);
+          }
+          //start the counter
+          jobCounters[message.job].update(message.count);
           break;
   }
 }
