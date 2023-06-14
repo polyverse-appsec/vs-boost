@@ -1,40 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Polyverse Boost Analysis Summary</title>
-	<style>
-        .right-aligned {
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polyverse Boost Analysis Summary</title>
+    <style>
+        .left-aligned {
             display: flex;
-            justify-content: flex-end;
+            justify-content: flex-start;
         }
+
+        vscode-data-grid-cell[grid-column="1"] {
+            min-width: 170px; /* Adjust the width as needed */
+        }
+
         .boost-completed {
-			--badge-background: var(--vscode-statusBarItem-prominentBackground);
+            --badge-background: var(--vscode-statusBarItem-prominentBackground);
             --badge-foreground: var(--vscode-statusBarItem-prominentForeground);
-		}
+        }
 
-		.boost-processing {
-			--badge-background: var(--vscode-statusBarItem-prominentBackground);
+        .boost-processing {
+            --badge-background: var(--vscode-statusBarItem-prominentBackground);
             --badge-foreground: var(--vscode-statusBarItem-prominentForeground);
-		}
+        }
 
-		.boost-incomplete {
-			--badge-background: var(--vscode-statusBarItem-warningBackground);
+        .boost-incomplete {
+            --badge-background: var(--vscode-statusBarItem-warningBackground);
             --badge-foreground: var(--vscode-statusBarItem-warningForeground);
-		}
+        }
 
-		.boost-not-started {
-			--badge-background: var(--vscode-statusBarItem-errorBackground);
+        .boost-not-started {
+            --badge-background: var(--vscode-statusBarItem-errorBackground);
             --badge-foreground: var(--vscode-statusBarItem-errorForeground);
-		}
-	</style>
+        }
+    </style>
 </head>
 <body>
-	<vscode-data-grid aria-label="Summary">
-		<% _.forEach(boostdata.sectionSummary, function(analysisObj) { %>
-			<vscode-data-grid-row >
-				<vscode-data-grid-cell grid-column="1">
+    <vscode-data-grid aria-label="Summary">
+        <% _.forEach(boostdata.sectionSummary, function(analysisObj) { %>
+            <vscode-data-grid-row>
+                <vscode-data-grid-cell grid-column="1" class="left-aligned">
                     <% if (analysisObj.analysisType === 'bugAnalysis') { %>
                         <vscode-checkbox analysis-check checked id="check-<%= analysisObj.analysisType%>">Security</vscode-checkbox>
                     <% } else if (analysisObj.analysisType === 'archblueprintCode') { %>
@@ -47,18 +52,19 @@
                         <vscode-checkbox analysis-check checked id="check-<%= analysisObj.analysisType%>"><%= analysisObj.analysisType %></vscode-checkbox>
                     <% } %>
                 </vscode-data-grid-cell>
-				<vscode-data-grid-cell grid-column="2"><vscode-badge class=<%= 'boost-' + analysisObj.status %>><%= analysisObj.completed + '/' + (analysisObj.total) %></vscode-badge></vscode-data-grid-cell>
-				<vscode-data-grid-cell grid-column="3" id="job-<%=analysisObj.analysisType%>" hidden>
-				</vscode-data-grid-cell>	
-
-			</vscode-data-grid-row>
-		  <% }); %>
-	</vscode-data-grid>
+                <vscode-data-grid-cell grid-column="2" style="margin-left: 20px;">
+                    <vscode-badge class=<%= 'boost-' + analysisObj.status %>><%= analysisObj.completed + '/' + (analysisObj.total) %></vscode-badge>
+                </vscode-data-grid-cell>
+                <vscode-data-grid-cell grid-column="3" id="job-<%=analysisObj.analysisType%>" hidden>
+                </vscode-data-grid-cell>
+            </vscode-data-grid-row>
+        <% }); %>
+    </vscode-data-grid>
 
     <div align="center">
-		<vscode-button id="update-summary">Run Selected Analyses</vscode-button>
-		<vscode-progress-ring id="job-progress" class="progress" hidden ></vscode-progress-ring>
-	</div>
-    <script src="<%= jsSrc %>" type="module"> </script>
+        <vscode-button id="update-summary">Run Selected Analyses</vscode-button>
+        <vscode-progress-ring id="job-progress" class="progress" hidden></vscode-progress-ring>
+    </div>
+    <script src="<%= jsSrc %>" type="module"></script>
 </body>
 </html>
