@@ -48,7 +48,7 @@ function main() {
   // To get improved type annotations/IntelliSense the associated class for
   // a given toolkit component can be imported and used to type cast a reference
   // to the element (i.e. the `as Button` syntax)
-  const howdyButton = document.getElementById("update_summary") as Button;
+  const howdyButton = document.getElementById("update-summary") as Button;
   howdyButton?.addEventListener("click", handleAnalyzeAllClick);
 }
 
@@ -63,9 +63,16 @@ function handleAnalyzeAllClick() {
 
 function handleIncomingSummaryMessage(event: MessageEvent) {
   const message = event.data; // The JSON data our extension sent
+  const spinner = document.getElementById('job-progress');
+  const runbutton = document.getElementById('update-summary');
 
   switch (message.command) {
       case 'addJobs':
+          // set our spinner
+
+          spinner?.removeAttribute('hidden');
+          runbutton?.setAttribute('hidden', '');
+
           // first unhide the counter
           const counter = document.getElementById('job-' + message.job);
           counter?.removeAttribute('hidden');
@@ -89,6 +96,9 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
           if (message.count === 0) {
               const counter = document.getElementById('job-' + message.job);
               counter?.setAttribute('hidden', '');
+              // hide the spinner
+              spinner?.setAttribute('hidden', '');
+              runbutton?.removeAttribute('hidden');
           }
           break;
   }

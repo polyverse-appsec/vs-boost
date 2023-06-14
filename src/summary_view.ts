@@ -51,45 +51,63 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 			switch (data.command) {
 				case 'analyze_all':
 					{
+						let runSummary = false;
                         // creates and loads all notebook files
                         await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.loadCurrentFolder, undefined);
 
                         // refresh project data
                         await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
 
-                        // blueprint
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(blueprintKernelName));
+						if( data.analysisTypes.includes('archblueprintCode') ) {
+							
+							// blueprint
+							await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(blueprintKernelName));
 
-                        // refresh project data
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
+							// refresh project data
+							await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
+							runSummary = true;
+						}
 
-                        // explain
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(explainKernelName));
+						if( data.analysisTypes.includes('explainCode') ) {
 
-                        // refresh project data
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
+							// explain
+							await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(explainKernelName));
+							// flow diagram
+							await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(flowDiagramKernelName));
 
-                        // security / bug analysis
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(analyzeKernelName));
+							// refresh project data
+							await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
+						
+							runSummary = true;
+						}
 
-                        // refresh project data
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
+						if( data.analysisTypes.includes('bugAnalysis') ) {
 
-                        // compliance
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(complianceKernelName));
+                        	// security / bug analysis
+                        	await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(analyzeKernelName));
 
-                        // refresh project data
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
+                        	// refresh project data
+                        	await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
+						
+							runSummary = true;
+						}
 
-                        // flow diagram
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(flowDiagramKernelName));
+						if( data.analysisTypes.includes('complianceCode') ) {
+                        	// compliance
+                        	await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(complianceKernelName));
 
-                        // refresh project data
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
+                        	// refresh project data
+                        	await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
 
-                        // summary across all files
-                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(summarizeKernelName));
+							runSummary = true;
+						}
+
+						if( runSummary ) {
+                        	// summary across all files
+                        	await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(summarizeKernelName));
+						}
 					}
+					this.refresh();
 					break;
 				case 'update_summary':
 					{
@@ -108,6 +126,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
 	public refresh() {
 		if (this._view) {
+			this._jobs = {};
 			this._view.webview.html = this._getHtmlForWebview(this._view.webview, this._boostExtension.getBoostProjectData());
 			this._view.show?.(true);
 		}
