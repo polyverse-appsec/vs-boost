@@ -52,7 +52,7 @@
                         <vscode-checkbox analysis-check checked id="check-<%= analysisObj.analysisType%>"><%= analysisObj.analysisType %></vscode-checkbox>
                     <% } %>
                 </vscode-data-grid-cell>
-                <vscode-data-grid-cell grid-column="2" style="margin-left: 20px;">
+                <vscode-data-grid-cell grid-column="2" style="margin-left: 0px;">
                     <vscode-badge class=<%= 'boost-' + analysisObj.status %>><%= analysisObj.completed + '/' + (analysisObj.total) %></vscode-badge>
                 </vscode-data-grid-cell>
                 <vscode-data-grid-cell grid-column="3" id="job-<%=analysisObj.analysisType%>" hidden>
