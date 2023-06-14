@@ -54,7 +54,14 @@ function handleAddClick() {
 
 //for the close click, we need to know which one was clicked. we can get that from the id
 function handleCloseClick(event: Event) {
-    const id = (event.target as HTMLElement).id;
+    const closeButton = event.target as HTMLElement;
+        // in case we get the close click from the actual HTML button inside
+        //    the vscode-button, we need to get the parent
+    const vscodeButton = closeButton.closest("vscode-button") as HTMLElement;
+    let id = closeButton.id;
+    if (!id) {
+        id = vscodeButton.id;
+    }
     vscode.postMessage({
         command: "close-chat",
         chatindex: id.split("-")[1]
