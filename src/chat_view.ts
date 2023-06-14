@@ -105,11 +105,14 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 		const nonce = 'nonce-123456'; // TODO: add a real nonce here
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
 		const chats = this._chats;
-    
+
+        const workspaceFolder = vscode.workspace.workspaceFolders?vscode.workspace.workspaceFolders[0]:""; // Get the first workspace folder
+        const projectName = workspaceFolder?path.basename(workspaceFolder.uri.fsPath):"your workspace";
+
         const template = _.template(rawHtmlContent);
 		const convert = marked.parse;
 		const activeid = this._activeid;
-        const htmlContent = template({ jsSrc, nonce, chats, convert, codiconsUri, activeid});
+        const htmlContent = template({ jsSrc, nonce, chats, convert, codiconsUri, activeid, projectName});
 
         return htmlContent;
     }
