@@ -6,8 +6,9 @@ import * as os from 'os';
 import { BoostExtension } from './BoostExtension';
 import { BoostConfiguration } from './boostConfiguration';
 import { callServiceEndpoint } from './lambda_util';
-import {marked} from 'marked';
+import { marked } from 'marked';
 import { getOrCreateBlueprintUri} from './extension';
+import { boostLogging } from './boostLogging';
 
 
 /*
@@ -262,7 +263,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 		  const data = fs.readFileSync(tempFilename).toString();
 		  return JSON.parse(data);
 		} catch (err) {
-		  vscode.window.showErrorMessage(`Failed to load data: ${(err as Error).message}`);
+		  boostLogging.error(`Boost failued to load Chat history: ${(err as Error).message}`);
 		  return undefined;
 		}
 	}
