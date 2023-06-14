@@ -56,7 +56,8 @@ function main() {
 function handleAnalyzeAllClick() {
   //TODO: we need to show what is checked in the grid.
   vscode.postMessage({
-    command: "update_summary"
+    command: "analyze_all",
+    analysisTypes: getAnalysisTypes()
   });
 }
 
@@ -92,4 +93,24 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
           break;
   }
 }
+
+function getAnalysisTypes(): Array<string> {
+  const analysisTypes: string[] = [];
+  const checkboxes = document.querySelectorAll('vscode-checkbox[analysis-check]');
+
+  checkboxes.forEach((checkbox: Element) => {
+      const id: string | null = (checkbox as HTMLElement).getAttribute('id');
+      const isChecked: boolean = (checkbox as HTMLElement).classList.contains('checked');
+      if(id && isChecked ) {
+          const match = id.match(/check-(.+)/);
+          if (match && match[1]) {
+              analysisTypes.push(match[1]);
+          }
+      }
+  });
+
+  return analysisTypes;
+}
+
+
 

@@ -2,10 +2,16 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as _ from 'lodash';
 import { BoostExtension } from './BoostExtension';
-import { NOTEBOOK_TYPE } from './jupyter_notebook';
-import { summarizeKernelName } from './summary_controller';
-import { BoostCommands, getKernelName } from './extension';
 
+import { BoostCommands, getKernelName } from './extension';
+import { NOTEBOOK_TYPE } from './jupyter_notebook';
+
+import { summarizeKernelName } from './summary_controller';
+import { analyzeKernelName } from './analyze_controller';
+import { complianceKernelName } from './compliance_controller';
+import { blueprintKernelName } from './blueprint_controller';
+import { flowDiagramKernelName } from './flowdiagram_controller';
+import { explainKernelName } from './explain_controller';
 
 export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
@@ -43,6 +49,48 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
 		webviewView.webview.onDidReceiveMessage(async data => {
 			switch (data.command) {
+				case 'analyze_all':
+					{
+                        // creates and loads all notebook files
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.loadCurrentFolder, undefined);
+
+                        // refresh project data
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
+
+                        // blueprint
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(blueprintKernelName));
+
+                        // refresh project data
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
+
+                        // explain
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(explainKernelName));
+
+                        // refresh project data
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
+
+                        // security / bug analysis
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(analyzeKernelName));
+
+                        // refresh project data
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
+
+                        // compliance
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(complianceKernelName));
+
+                        // refresh project data
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
+
+                        // flow diagram
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(flowDiagramKernelName));
+
+                        // refresh project data
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
+
+                        // summary across all files
+                        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(summarizeKernelName));
+					}
+					break;
 				case 'update_summary':
 					{
                         // creates and loads all notebook files
@@ -112,9 +160,5 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 			path: path
 		};
 		this.refresh();
-	}
-
-	public show(){
-		this._view?.show?.(true);
 	}
 }
