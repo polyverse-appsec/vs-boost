@@ -107,7 +107,7 @@ function getVSCodeLanguageId(filename: string): string {
         "makefile": "plaintext"
     };
 
-    return languageMappings[fileExtension] || "unknown";
+    return languageMappings[fileExtension] || "plaintext";
 }
 
 type CodeParser = (code: string) => string[];
@@ -138,8 +138,14 @@ export function parseFunctions(filename: string, code: string): [string, string[
         ? splitCode
         : parsers[languageId];
 
+    // if we have a known parser, use it
     if (parser) {
         return [languageId, parser(code)];
+    // if the language is unknown, treat it as plaintext, and don't parse it
+    //  send one big chunk and presume its small enough to be processed
+    } else if (languageId === "plaintext") {
+        return [languageId, [code]];
+    // otherwise split the code based on default bracket parsing
     } else {
         return [languageId, splitCode(code)];
     }

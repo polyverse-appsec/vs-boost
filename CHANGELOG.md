@@ -10,6 +10,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Enhancements
 - Add support for Paste to Chat window text box
+- Add support for any 'unknown' text file to be loaded and analyzed - regardless of file extension, or no file extension
 
 ### Bug Fixes
 - Fixed broken Chat button when a Boost Cloud Service failure occurs
