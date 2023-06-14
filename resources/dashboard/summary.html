@@ -48,8 +48,7 @@
                     <% } %>
                 </vscode-data-grid-cell>
 				<vscode-data-grid-cell grid-column="2"><vscode-badge class=<%= 'boost-' + analysisObj.status %>><%= analysisObj.completed + '/' + (analysisObj.total) %></vscode-badge></vscode-data-grid-cell>
-				<vscode-data-grid-cell grid-column="3" id="job-<%=analysisObj.analysisType%>" >
-					1 job running
+				<vscode-data-grid-cell grid-column="3" id="job-<%=analysisObj.analysisType%>" hidden>
 				</vscode-data-grid-cell>	
 
 			</vscode-data-grid-row>

@@ -44,7 +44,7 @@ export class BoostExtension {
     public statusBar: vscode.StatusBarItem | undefined;
     kernels: Map<string, KernelControllerBase> = new Map<string, KernelControllerBase>();
 
-    private _summaryViewProvider: BoostSummaryViewProvider | undefined;
+    public summaryViewProvider: BoostSummaryViewProvider | undefined;
 
     constructor(context: vscode.ExtensionContext) {
 
@@ -563,7 +563,7 @@ export class BoostExtension {
         const chat = new BoostChatViewProvider(context, this);
         const docview = new BoostStartViewProvider(context, this);
 
-        this._summaryViewProvider = summary;
+        this.summaryViewProvider = summary;
 
         context.subscriptions.push(
             vscode.window.registerWebviewViewProvider(BoostSummaryViewProvider.viewType, summary));
@@ -1069,10 +1069,13 @@ export class BoostExtension {
 
         try {
             let processedNotebookWaits: Promise<{ notebook: boostnb.BoostNotebook | undefined, result: boolean }>[] = files.map(async (file) => {
-                return this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh);
+                return this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh)
+                    .then((result) => {
+                        this.summaryViewProvider?.finishJobs(targetedKernel.outputType, 1);
+                        return result;}); 
             });
 
-            this._summaryViewProvider?.addJobs(targetedKernel.outputType, processedNotebookWaits.length);
+            this.summaryViewProvider?.addJobs(targetedKernel.outputType, processedNotebookWaits.length);
 
             await Promise.all(processedNotebookWaits)
                 .then((processedNotebooks) => {
@@ -1085,7 +1088,6 @@ export class BoostExtension {
                             );
                         }
                     });
-                    this._summaryViewProvider?.finishJobs(targetedKernel.outputType, processedNotebookWaits.length);
                     boostLogging.info(
                         `${processedNotebookWaits.length.toString()} Boost Notebooks processed for folder ${targetFolder.path}`,
                         false

@@ -94,7 +94,12 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 		//if this._jobs[jobs] exists, add count to it, otherwise set it to zero 
 		//(somehow we finished a job that was never counted as being started)
 		this._jobs[job] ? this._jobs[job] -= count : 0;
-		this.refresh();
+		const payload = {
+			command: 'finishJobs',
+			job: job,
+			count: this._jobs[job]
+		};
+		this._view?.webview.postMessage(payload);
 	}
 
 	//so far, this is not a very useful function.  consider removing it.  all of the jobs are queued up more
@@ -107,5 +112,9 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 			path: path
 		};
 		this.refresh();
+	}
+
+	public show(){
+		this._view?.show?.(true);
 	}
 }

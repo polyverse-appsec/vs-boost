@@ -29,6 +29,19 @@ function main() {
 
 // Callback function that is executed when the howdy button is clicked
 function handleAnalyzeAllClick() {
+  vscode.postMessage({
+    command: "show_summary"
+  });
+}
+
+function openFile(event) {
+  const path = event.target.getAttribute("href");
+  vscode.postMessage({
+      command: 'open_file',
+      file: path
+  });
+}
+
   // Some quick background:
   //
   // Webviews are sandboxed environments where abritrary HTML, CSS, and
@@ -60,15 +73,3 @@ function handleAnalyzeAllClick() {
   //  random: ["arbitrary", "data"],
   // }
   //
-  vscode.postMessage({
-    command: "analyze_all"
-  });
-}
-
-function openFile(event) {
-  const path = event.target.getAttribute("href");
-  vscode.postMessage({
-      command: 'open_file',
-      file: path
-  });
-}

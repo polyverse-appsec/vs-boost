@@ -87,6 +87,7 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
                         // summary across all files
                         await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(summarizeKernelName));
 					}
+					break;
 				case 'open_file':
 					{
 						const path = data.file;
@@ -94,6 +95,13 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
 						const document = await vscode.workspace.openNotebookDocument(blueprintUri);
 						await vscode.window.showNotebookDocument(document);
 					}
+					break;
+
+				case 'show_summary':
+					{
+						this._boostExtension?.summaryViewProvider?.show();
+					}
+					break;
 			}
 		});
 	}

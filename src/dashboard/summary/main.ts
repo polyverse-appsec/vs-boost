@@ -24,6 +24,17 @@ provideVSCodeDesignSystem().register(
 
 const vscode = acquireVsCodeApi();
 
+let options = {
+  useEasing: true,
+  useGrouping: true,
+  separator: ',',
+  decimal: '.',
+  formattingFn: (value) => {
+      return value === 1 ? `${value} job running` : `${value} jobs running`;
+  }
+};
+
+
 // Just like a regular webpage we need to wait for the webview
 // DOM to load before we can reference any of the HTML elements
 // or toolkit components
@@ -52,16 +63,32 @@ function handleAnalyzeAllClick() {
 function handleIncomingSummaryMessage(event: MessageEvent) {
   const message = event.data; // The JSON data our extension sent
 
-  console.log("message is ", message);
-
   switch (message.command) {
       case 'addJobs':
+          // first unhide the counter
+          const counter = document.getElementById('job-' + message.job);
+          counter?.removeAttribute('hidden');
+
           // if we don't have a job counter for this job, add it
           if (!jobCounters[message.job]) {
-              jobCounters[message.job] = new CountUp('job-' + message.job, 0);
+              jobCounters[message.job] = new CountUp('job-' + message.job, message.count, options);
           }
           //start the counter
           jobCounters[message.job].update(message.count);
+          break;
+      case 'finishJobs':
+          // if we don't have a job counter for this job, add it  
+          if (!jobCounters[message.job]) {
+              jobCounters[message.job] = new CountUp('job-' + message.job, 0, options);
+          }
+          //start the counter
+          jobCounters[message.job].update(message.count); 
+
+          // if count is now zero, hide the element
+          if (message.count === 0) {
+              const counter = document.getElementById('job-' + message.job);
+              counter?.setAttribute('hidden', '');
+          }
           break;
   }
 }
