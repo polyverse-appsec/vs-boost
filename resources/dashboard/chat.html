@@ -46,7 +46,7 @@
 			<vscode-panel-view id="view-<%= index%>" <% if(index != activeid) { %> hidden <% } %> >
 				<div class="chat-container">
 					<% chat.messages.forEach((message) => { %>
-						<% if (message.role !== 'system') { %>
+						<% if (message.role !== 'system' && message.content) { %>
 							<div class="<%= message.role  %>">
 								<%= convert(message.content) %>
 							</div>
