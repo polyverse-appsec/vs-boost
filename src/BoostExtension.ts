@@ -106,11 +106,15 @@ export class BoostExtension {
     _boostProjectData = new Map<vscode.Uri, BoostProjectData>();
     // FUTURE: We aren't syncing with files being added or removed from the project, or changes in those files
     private workspaceFoldersChanged(changeEvent: vscode.WorkspaceFoldersChangeEvent) {
-        this.refreshBoostProjectsData();
+        if (this) {
+            this.refreshBoostProjectsData();
+        }
     }
 
     private configurationChanged(changeEvent: vscode.ConfigurationChangeEvent) {
-        this.refreshBoostProjectsData();
+        if (this) {
+            this.refreshBoostProjectsData();
+        }
     }
 
     async refreshBoostProjectsData() : Promise<void> {
