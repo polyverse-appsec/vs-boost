@@ -15,17 +15,19 @@ import { explainOutputType } from './explain_controller';
 
 export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
 
-	public static readonly viewType = 'polyverse-boost-chat-view';
+	public static readonly viewType = 'polyverse-boost-markdown-view';
 
 	private _view?: vscode.WebviewView;
 	private _context: vscode.ExtensionContext;
 	private _boostExtension: BoostExtension;
 	private _type: string;
+    private _initialized: boolean = false;
 
 	constructor(
 		private readonly context: vscode.ExtensionContext,
 		private boostExtension: BoostExtension,
-		private type: string
+		private type: string,
+        private usefulContent : boolean = true
 	) { 
 		this._context = context;
 		this._boostExtension = boostExtension;
@@ -39,6 +41,12 @@ export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
 	) {
 		this._view = webviewView;
 
+    /*
+        const commands = await vscode.commands.getCommands(false);
+        const myCommands = commands.filter((command) => {
+            return command.startsWith(`polyverse-boost-${this._type}`);
+        });
+    */
 
 		webviewView.webview.options = {
 			// Allow scripts in the webview
@@ -48,15 +56,27 @@ export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
 				this.context.extensionUri
 			]
 		};
+    
+		webviewView.webview.onDidReceiveMessage(data => {
+			switch (data.command) {
+				case 'initialize-visibility':
+					{
+                        if (!this._initialized && !this.usefulContent) {
+                            vscode.commands.executeCommand(`polyverse-boost-${this._type}-view.removeView`);
+                        }
+                        break;
+					}
+			}
+		});
+		this.refresh();
+        this._initialized = true;
+}
 
-		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
-
-	}
-
-	public refresh() {
+	public async refresh() {
 		if (this._view) {
 			this._view.webview.html = this._getHtmlForWebview(this._view.webview);
-			this._view.show?.(true);
+
+            this._view.show?.(true);
 		}
 	}
 
@@ -100,7 +120,23 @@ export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
                     break;
             }
             if (ourCellContent) {
-                boostContent = ourCellContent;
+                const summaryError = "\"Error: Boost Summary failed: ";
+                if (ourCellContent.startsWith(summaryError)) {
+                    boostContent =
+                        "***Error Building Summary***\n\n" +
+                        "Please review below error, then run Analyze and Summary to regenerate Summary data\n\n" +
+                        ourCellContent.substring(summaryError.length);
+                    if (boostContent.endsWith("\"")) {
+                        boostContent.substring(0, boostContent.length - 1);
+                    }
+                    this.usefulContent = false;
+                } else {
+                    boostContent = ourCellContent;
+                    this.usefulContent = true;
+                }
+            } else {
+                boostContent = `***Summary Not Generated***\n\nPlease run Analyze and Summary to regenerate Summary data`;
+                this.usefulContent = false;
             }
         }
         const content = boostContent;

@@ -1,6 +1,6 @@
 import {
-  provideVSCodeDesignSystem,
-  vsCodeButton
+    provideVSCodeDesignSystem,
+    vsCodeButton
 } from "@vscode/webview-ui-toolkit";
 
 provideVSCodeDesignSystem().register(vsCodeButton());
@@ -14,5 +14,7 @@ window.addEventListener("load", main);
 
 // Main function that gets executed once the webview DOM loads
 function main() {
-
+    vscode.postMessage({
+        command: "initialize-visibility",
+    });
 }
