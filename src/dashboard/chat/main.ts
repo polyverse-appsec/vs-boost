@@ -29,10 +29,6 @@ function main() {
     const howdyButton = document.getElementById("send") as Button;
     howdyButton?.addEventListener("click", handleSendClick);
 
-    // Add event listener for the "paste" event on the text area
-    const promptTextArea = document.getElementById("prompt") as HTMLTextAreaElement;
-    promptTextArea?.addEventListener("paste", handlePaste);
-
     //now add listeners for the add and close buttons. we don't know how many so we need to loop
     const closeButtons = document.getElementsByClassName("tab-close-button") as HTMLCollectionOf<Button>;
     for (let i = 0; i < closeButtons.length; i++) {
@@ -66,19 +62,6 @@ function handleCloseClick(event: Event) {
         command: "close-chat",
         chatindex: id.split("-")[1]
     });
-}
-
-function handlePaste(event: ClipboardEvent) {
-    const clipboardData = event.clipboardData || (window as any).clipboardData;
-    const pastedContent = clipboardData.getData("text");
-
-    // Handle the pasted content as needed
-    // Example: Update the value of the text area with the pasted content
-    const promptTextArea = event.target as HTMLTextAreaElement;
-    promptTextArea.value += pastedContent;
-
-    // Prevent the default paste behavior
-    event.preventDefault();
 }
 
 // Callback function that is executed when the howdy button is clicked
