@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as nbformat from '@jupyterlab/nbformat';
 import { randomUUID } from 'crypto';
+import { boostLogging } from './boostLogging';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 export const NOTEBOOK_EXTENSION = ".boost-notebook";
@@ -88,6 +89,10 @@ export class BoostNotebookCell /*implements nbformat.ICell */ {
         // Check if any existing output item has the same outputType
         const existingItemIndex = this.outputs.findIndex(item => item.metadata?.outputType === outputType);
 
+        if (!newOutput.metadata || !newOutput.metadata.outputType) {
+            throw new Error('Output metadata must contain an outputType');
+        }
+
         if (existingItemIndex !== -1) {
             // Replace the existing output item with the new one
             this.outputs[existingItemIndex] = newOutput;
@@ -154,6 +159,14 @@ export class BoostNotebook /* implements nbformat.INotebookContent */ {
     }
 
     save(filename: string): void {
+        this.cells.forEach(cell => {
+            cell.outputs.forEach(output => {
+                if (!output.metadata || !output.metadata.outputType) {
+                    boostLogging.error('Output metadata must contain an outputType', false);
+                }
+            });
+        });
+
         this.fsPath = filename;
 
         // no need to persist the path into the file
@@ -169,13 +182,32 @@ export class BoostNotebook /* implements nbformat.INotebookContent */ {
 
     addCell(cell: BoostNotebookCell): void {
         this.cells.push(cell);
+        cell.outputs.forEach(output => {
+            if (!output.metadata || !output.metadata.outputType) {
+                boostLogging.error('Output metadata must contain an outputType', false);
+            }
+        });
     }
 
     replaceCells(cells: BoostNotebookCell[]): void {
+        this.cells.forEach(cell => {
+            cell.outputs.forEach(output => {
+                if (!output.metadata || !output.metadata.outputType) {
+                    boostLogging.error('Output metadata must contain an outputType', false);
+                }
+            });
+        });
         this.cells = cells;
     }
 
     appendCells(cells: BoostNotebookCell[]): void {
+        this.cells.forEach(cell => {
+            cell.outputs.forEach(output => {
+                if (!output.metadata || !output.metadata.outputType) {
+                    boostLogging.error('Output metadata must contain an outputType', false);
+                }
+            });
+        });
         for (const cell of cells) {
             this.cells.push(cell);
         }
