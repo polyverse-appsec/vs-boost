@@ -249,7 +249,7 @@ export class SummarizeKernel extends KernelControllerBase {
                 // Perform async operation for each file
                 const inputFromNotebook = await this.getAnalysisFromNotebook(file, outputType);
                 if (inputFromNotebook && !inputFromNotebook.includes(this.noDataToSummarizeMessage)) {
-                    inputs.push(inputFromNotebook);
+                    inputs.push(this._cleanBeforeSummarizing(inputFromNotebook));
                 }
             }));
     
@@ -273,6 +273,17 @@ export class SummarizeKernel extends KernelControllerBase {
         });
     }
 
+    _cleanBeforeSummarizing(input: string): string {
+        // strip out timestamps from the input
+        // ### Boost Code Compliance Check Summary
+        // Last Updated: Friday, June 16, 2023 at 8:24:17 PM PDT
+
+        // use regex to remove the above info
+        var pattern = /\n\n### Boost [^\n]*\n\nLast Updated: [^\n]*\n\n/g;
+        const cleanedInput = input.replace(pattern, "");
+        return cleanedInput;
+    }
+
     _summarizeCellsAsSingleInput(
         sourceCells : (vscode.NotebookCell | BoostNotebookCell)[],
         usingBoostNotebook : boolean,
@@ -286,7 +297,7 @@ export class SummarizeKernel extends KernelControllerBase {
                 cell.outputs.filter((output) => output.metadata?.outputType === outputType).forEach((output) => {
                     output.items.forEach((item) => {
                         if (item.data) {
-                            inputs.push(item.data);
+                            inputs.push(this._cleanBeforeSummarizing(item.data));
                         }
                     });
                 });
@@ -296,7 +307,7 @@ export class SummarizeKernel extends KernelControllerBase {
                     output.items.forEach((item) => {
                         const decodedText = new TextDecoder().decode(item.data);
                         if (decodedText) {
-                            inputs.push(decodedText);
+                            inputs.push(this._cleanBeforeSummarizing(decodedText));
                         }
                     });
                 });
