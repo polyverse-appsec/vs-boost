@@ -142,6 +142,7 @@ export class SummarizeKernel extends KernelControllerBase {
     }
 
     noDataToSummarizeMessage = "No Data to Summarize";
+    chunkedInputPrefix = 'input_';
 
     async _summarizeCellsForKernel(
         outputType : string,
@@ -153,20 +154,21 @@ export class SummarizeKernel extends KernelControllerBase {
         session: vscode.AuthenticationSession,
         usingBoostNotebook : boolean) {
 
-        let combinedInput : string = "";
+        let combinedInputs : string[];
         if (!summarizeProject) {
             // if we are summarizing a source file, we need to summarize all the cells
-            combinedInput = this._summarizeCellsAsSingleInput(sourceCells, usingBoostNotebook, outputType);
+            combinedInputs = this._summarizeCellsAsSingleInput(sourceCells, usingBoostNotebook, outputType);
         } else {
             // if we are summarizing a project or folder, we need to summarize all the files in it
-            combinedInput = await this._summarizeSourceFilesAsSingleInput(targetNotebook.metadata['sourceFile'] as string, outputType);
+            combinedInputs = await this._summarizeSourceFilesAsSingleInput(targetNotebook.metadata['sourceFile'] as string, outputType);
         }
         // if we got no input, then skip deep processing
         let tempProcessingCell = undefined;
-        if (combinedInput) {
+        if (combinedInputs && combinedInputs.length > 0) {
             // we create a placeholder cell for the input, so we can do processing on the input
-            // then we'll take the resulting data and put into the cell itself
-            tempProcessingCell = new BoostNotebookCell(NotebookCellKind.Markup, combinedInput, "markdown");
+            // then we'll take the resulting data and put it into the metadata (as multiple separate fields)
+            // the value will be empty since we don't want to combine it as one large string (yet)
+            tempProcessingCell = new BoostNotebookCell(NotebookCellKind.Markup, "***placeholder text - real input is in metadata***", "markdown");
             tempProcessingCell.initializeMetadata(
                 {"id": tempProcessingCell.id,
                 "type": "originalCode",
@@ -174,6 +176,11 @@ export class SummarizeKernel extends KernelControllerBase {
                 "analysis_type": outputType,
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 "analysis_label": kernelLabel});
+            if (tempProcessingCell.metadata) {
+                for (let i = 0; i < combinedInputs.length; i++) {
+                    tempProcessingCell.metadata[this.chunkedInputPrefix + i.toString()] = combinedInputs[i];
+                }
+            }
         
             // summaries are written to the side-by-notebook (e.g. e.g. for foo.py, the boost notebook is foo.py.boost-notebook, and summary is foo.py.summary.boost-notebook)
             // the cell written is ONE cell for the entire source file in the summary file
@@ -213,10 +220,10 @@ export class SummarizeKernel extends KernelControllerBase {
         targetNotebook.flushToFS();
     }
 
-    async _summarizeSourceFilesAsSingleInput(sourceFolder: string, outputType: string): Promise<string> {
+    async _summarizeSourceFilesAsSingleInput(sourceFolder: string, outputType: string): Promise<string[]> {
         if (!vscode.workspace.workspaceFolders) {
             boostLogging.error("No workspace folder found for summarizing source files", false);
-            return '';
+            return [];
         }
 
         // if we don't have a workspace folder, just place the Boost file in a new Boostdir - next to the source file
@@ -246,9 +253,7 @@ export class SummarizeKernel extends KernelControllerBase {
                 }
             }));
     
-        // combine all the input into a single long string with input delimiters
-        const combinedInput = inputs.join(summaryInputDelimiter);
-        return combinedInput;
+        return inputs;
     }
 
     async getAnalysisFromNotebook(notebookUri: vscode.Uri, outputType: string): Promise<string> {
@@ -271,7 +276,7 @@ export class SummarizeKernel extends KernelControllerBase {
     _summarizeCellsAsSingleInput(
         sourceCells : (vscode.NotebookCell | BoostNotebookCell)[],
         usingBoostNotebook : boolean,
-        outputType : string) : string {
+        outputType : string) : string[] {
 
         // grab all the cell contents by type/command/kernel for submission
         const inputs: string[] = [];
@@ -298,9 +303,7 @@ export class SummarizeKernel extends KernelControllerBase {
             }
         }
     
-        // combine all the input into a single long string with input delimiters
-        const combinedInput = inputs.join(summaryInputDelimiter);
-        return combinedInput;
+        return inputs;
     }
 
     async onBoostServiceRequest(
@@ -313,6 +316,17 @@ export class SummarizeKernel extends KernelControllerBase {
         //  dynamically add payload properties to send to Boost service
         payload.analysis_type = cell.metadata?.analysis_type;
         payload.analysis_label = cell.metadata?.analysis_label;
+        delete payload.inputs;
+        let countOfInputs = 1;
+        while (cell.metadata) {
+            if (!cell.metadata[`${this.chunkedInputPrefix}${countOfInputs - 1}`]) {
+                break;
+            }
+            payload[`${this.chunkedInputPrefix}${countOfInputs - 1}`] = cell.metadata[`${this.chunkedInputPrefix}${countOfInputs - 1}`];
+            countOfInputs++;
+        }
+        payload.chunks = countOfInputs - 1;
+        payload.chunk_prefix = this.chunkedInputPrefix;
 
         return super.onBoostServiceRequest(cell, serviceEndpoint, payload);
     }

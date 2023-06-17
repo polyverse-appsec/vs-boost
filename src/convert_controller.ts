@@ -139,7 +139,6 @@ export class BoostConvertKernel extends KernelControllerBase {
         //      in a json object summary=summary
         //    dynamically add extra payload properties
         payload.explanation = summarydata.explanation;
-        payload.originalCode = payload.code;
         payload.language = outputLanguage;
 
         successfullyCompleted = false;
