@@ -12,7 +12,7 @@ export class BoostComplianceKernel extends KernelControllerBase {
         super(
             collection,
             complianceKernelName,
-            'Check Compliance',
+            'Check Data Compliance',
             'Evaluates Data and Privacy Compliance of the code',
             complianceOutputType,
             false,
@@ -51,7 +51,7 @@ export class BoostComplianceKernel extends KernelControllerBase {
     }
 
     localizeError(error: Error): Error {
-        error.message = "Boost Code Compliance Analysis failed: " + error.message;
+        error.message = "Boost Data Compliance Analysis failed: " + error.message;
         return error;
     }
 }
