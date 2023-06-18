@@ -62,7 +62,7 @@ export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
 				case 'initialize-visibility':
 					{
                         if (!this._initialized && !this.usefulContent) {
-                            vscode.commands.executeCommand(`polyverse-boost-${this._type}-view.removeView`);
+//                            vscode.commands.executeCommand(`polyverse-boost-${this._type}-view.removeView`);
                         }
                         break;
 					}
