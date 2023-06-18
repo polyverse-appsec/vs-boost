@@ -249,11 +249,17 @@ export class SummarizeKernel extends KernelControllerBase {
                 // Perform async operation for each file
                 const inputFromNotebook = await this.getAnalysisFromNotebook(file, outputType);
                 if (inputFromNotebook && !inputFromNotebook.includes(this.noDataToSummarizeMessage)) {
-                    inputs.push(this._cleanBeforeSummarizing(inputFromNotebook));
+                    if (!this._isEmptySummary(inputFromNotebook)) {
+                        inputs.push(this._cleanBeforeSummarizing(inputFromNotebook));
+                    }
                 }
             }));
     
         return inputs;
+    }
+
+    _isEmptySummary(input: string): boolean {
+        return input.startsWith(this.summaryFailedPrefix);
     }
 
     async getAnalysisFromNotebook(notebookUri: vscode.Uri, outputType: string): Promise<string> {
@@ -296,7 +302,7 @@ export class SummarizeKernel extends KernelControllerBase {
                 const cell = cellToSummarize as BoostNotebookCell;
                 cell.outputs.filter((output) => output.metadata?.outputType === outputType).forEach((output) => {
                     output.items.forEach((item) => {
-                        if (item.data) {
+                        if (item.data && !this._isEmptySummary(item.data)) {
                             inputs.push(this._cleanBeforeSummarizing(item.data));
                         }
                     });
@@ -306,7 +312,7 @@ export class SummarizeKernel extends KernelControllerBase {
                 cell.outputs.filter((output) => output.metadata?.outputType === outputType).forEach((output) => {
                     output.items.forEach((item) => {
                         const decodedText = new TextDecoder().decode(item.data);
-                        if (decodedText) {
+                        if (decodedText && !this._isEmptySummary(decodedText)) {
                             inputs.push(this._cleanBeforeSummarizing(decodedText));
                         }
                     });
@@ -354,8 +360,10 @@ export class SummarizeKernel extends KernelControllerBase {
         return `\n\n---\n\n### Boost ${response.analysis_label} Summary\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
     }
 
+    summaryFailedPrefix = "Error: Boost Summary failed: ";
+
     localizeError(error: Error): Error {
-        error.message = "Boost Summary failed: " + error.message;
+        error.message = this.summaryFailedPrefix + error.message;
         return error;
     }
 }
