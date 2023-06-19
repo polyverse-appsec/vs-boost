@@ -1124,7 +1124,7 @@ export class BoostExtension {
             }
         });
     }
-
+    
     private getCurrentKernel(requestedKernel?: string): KernelControllerBase | undefined {
         if (!requestedKernel && !this.kernelCommand) {
             boostLogging.error(`No Boost Kernel Command selected`);
@@ -1144,6 +1144,24 @@ export class BoostExtension {
             return undefined;
         }
         return targetedKernel;
+    }
+
+    private calculateEstimatedWords(fileSize: number): number {
+        // Custom logic to estimate the number of words based on file size
+        // Adjust this calculation based on the characteristics of your files
+        const averageWordsPerByte = 0.05; // Example value
+        return Math.floor(fileSize * averageWordsPerByte);
+    }
+    
+    private calculateProcessingTime(estimatedWords: number, wordsPerFile: number): number {
+        const oneMinute = 60 * 1000;
+        const processingMinutes = estimatedWords / wordsPerFile;
+        const processingMilliseconds = processingMinutes * oneMinute;
+        return processingMilliseconds;
+    }
+    
+    private delay(ms: number): Promise<void> {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     async processCurrentFolder(uri: vscode.Uri, kernelCommand: string, context: vscode.ExtensionContext, forceAnalysisRefresh: boolean = false) {
@@ -1184,11 +1202,34 @@ export class BoostExtension {
         }
 
         try {
+            // estimated processing about 160 pages of code per minute
+            // Using the same calculation as before, at a rate of 40,000 words per minute (666.67 words per second) and
+            //  assuming an average of 250 words per page:
+            //      Pages processed = (Words processed / Words per page) = (666.67 words per second * 60 seconds) / 250 words per page
+            //      Pages processed = 160 pages
+            
+            const throttleRateTokensPerMinute = 40000; // Approximated as words per minute
+            const totalFiles = files.length;
+            const wordsPerFile = throttleRateTokensPerMinute / totalFiles;
+            const seconds = 1000;
+
             let processedNotebookWaits: Promise<{ notebook: boostnb.BoostNotebook | undefined, result: boolean }>[] = files.map(async (file) => {
-                return this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh)
-                    .then((result) => {
-                        this.summaryViewProvider?.finishJobs(targetedKernel.outputType, 1);
-                        return result;}); 
+                return new Promise<{ notebook: boostnb.BoostNotebook | undefined, result: boolean }>(async (resolve) => {
+                    const fileSize = fs.statSync(file.fsPath).size;
+                    const estimatedWords = this.calculateEstimatedWords(fileSize);
+                    const processingTime = this.calculateProcessingTime(estimatedWords, wordsPerFile);
+
+                    boostLogging.log(`Delaying file ${file.fsPath} with ${estimatedWords} ~items to wait ${processingTime} milliseconds`);
+                    await new Promise(resolve => setTimeout(resolve, processingTime));
+                    // if its been more than 5 seconds, log it - that's about 13 pages of source in 5 seconds (wild estimate)
+                    if (processingTime > 5 * seconds) {
+                        boostLogging.log(`Starting processing file ${file.fsPath} with ${estimatedWords} ~items after waiting ${processingTime} milliseconds`);
+                    }
+
+                    const result = await this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh);
+                    this.summaryViewProvider?.finishJobs(targetedKernel.outputType, 1);
+                    resolve(result);
+                });
             });
 
             this.summaryViewProvider?.addJobs(targetedKernel.outputType, processedNotebookWaits.length);
