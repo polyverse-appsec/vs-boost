@@ -1033,7 +1033,8 @@ export class BoostExtension {
                         await createOrOpenSummaryNotebookFromSourceFile(sourceFileUri);
                     } else {
                         // look up summary for raw source file by stripping off notebook extension
-                        const summaryBoostFile = vscode.Uri.parse(sourceFileUri.fsPath.replace(boostnb.NOTEBOOK_SUMMARY_EXTENSION, '').replace("/" + BoostConfiguration.defaultDir,''));
+                        const summaryBoostFile = vscode.Uri.parse(sourceFileUri.fsPath.replace(boostnb.NOTEBOOK_SUMMARY_EXTENSION, '').
+                            replace("/" + BoostConfiguration.defaultDir,''));
                         await createOrOpenSummaryNotebookFromSourceFile(summaryBoostFile);
                         currentNotebook = await vscode.workspace.openNotebookDocument(sourceFileUri);
                     }
@@ -1219,11 +1220,11 @@ export class BoostExtension {
                     const estimatedWords = this.calculateEstimatedWords(fileSize);
                     const processingTime = this.calculateProcessingTime(estimatedWords, wordsPerFile);
 
-                    boostLogging.log(`Delaying file ${file.fsPath} with ${estimatedWords} ~items to wait ${processingTime} milliseconds`);
+                    boostLogging.log(`Delaying file ${file.fsPath} with ${estimatedWords} ~items to wait ${processingTime * seconds} secs`);
                     await new Promise(resolve => setTimeout(resolve, processingTime));
                     // if its been more than 5 seconds, log it - that's about 13 pages of source in 5 seconds (wild estimate)
                     if (processingTime > 5 * seconds) {
-                        boostLogging.log(`Starting processing file ${file.fsPath} with ${estimatedWords} ~items after waiting ${processingTime} milliseconds`);
+                        boostLogging.log(`Starting processing file ${file.fsPath} with ${estimatedWords} ~items after waiting ${processingTime * seconds} secs`);
                     }
 
                     const result = await this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh);
