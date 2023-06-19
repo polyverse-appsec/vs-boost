@@ -9,6 +9,7 @@ Polyverse Boost Automatic Application Modernization
 - N/A
 
 ### Enhancements
+- Support for processing large files and large functions
 - Add support for Paste to Chat window text box
 - Add support for any 'unknown' text file to be loaded and analyzed - regardless of file extension, or no file extension
 - Improved resiliency of batch-mode and large input processing
