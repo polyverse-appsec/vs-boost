@@ -3,20 +3,26 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 1.0.0: June 14, 2023
+## Version 1.0.0: June 19, 2023
 
 ### New Features
-- 
+- N/A
 
 ### Enhancements
 - Add support for Paste to Chat window text box
 - Add support for any 'unknown' text file to be loaded and analyzed - regardless of file extension, or no file extension
+- Improved resiliency of batch-mode and large input processing
+- Improved Boost UX tab to show progress and status of Summarization of all analysis across project
+- Improved resiliency of client and server under load or at peak processing times
 
 ### Bug Fixes
 - Fixed broken Chat button when a Boost Cloud Service failure occurs
 - Ensure error message is saved to cell Output
 
-## Version 0.9.9: June 8, 2023
+### Known Issues
+- Flow Diagrams may not render correctly in Summary view
+
+## Version 0.9.9: June 10, 2023
 
 ### New Features
 - new UX - Boost Tab view on left side of Visual Studio Code, includes:
