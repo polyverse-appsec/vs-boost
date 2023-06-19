@@ -37,12 +37,15 @@ export enum BoostCommands {
     refreshProjectData = "refreshProjectData",
 }
 
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
     try {
         // we use a friendly name for the channel as this will be displayed to the user in the output pane
         boostLogging.log('Activating Boost Notebook Extension');
 
-        new BoostExtension(context);
+        const extension = new BoostExtension(context);
+
+        await extension.refreshBoostProjectsData();
+
     } catch (error) {
         boostLogging.error(`Unable to activate Boost Notebook Extension due to error:${error}. Please retry launching, check your Boost configuration, or contact Polyverse Boost Support`);
     }

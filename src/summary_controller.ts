@@ -11,8 +11,10 @@ import { getBoostFile, findCellByKernel, BoostFileType, fullPathFromSourceFile }
 import * as fs from 'fs';
 import * as path from 'path';
 
-export const summaryCellMarker = 'summary';
+export const summaryOutputType = 'summary';
 export const summarizeKernelName = 'summarize';
+
+export const summaryFailedPrefix = "Error: Boost Summary failed: ";
 
 const summaryInputDelimiter = '# New Input Follows';
 
@@ -30,7 +32,7 @@ export class SummarizeKernel extends KernelControllerBase {
             summarizeKernelName,
             'Summarize Analysis',
             'Summarizes the analysis across cells',
-            summaryCellMarker,
+            summaryOutputType,
             false,
             false,
             context,
@@ -259,7 +261,7 @@ export class SummarizeKernel extends KernelControllerBase {
     }
 
     _isEmptySummary(input: string): boolean {
-        return input.startsWith(this.summaryFailedPrefix);
+        return input.startsWith(summaryFailedPrefix);
     }
 
     async getAnalysisFromNotebook(notebookUri: vscode.Uri, outputType: string): Promise<string> {
@@ -360,10 +362,8 @@ export class SummarizeKernel extends KernelControllerBase {
         return `\n\n---\n\n### Boost ${response.analysis_label} Summary\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
     }
 
-    summaryFailedPrefix = "Error: Boost Summary failed: ";
-
     localizeError(error: Error): Error {
-        error.message = this.summaryFailedPrefix + error.message;
+        error.message = summaryFailedPrefix + error.message;
         return error;
     }
 }

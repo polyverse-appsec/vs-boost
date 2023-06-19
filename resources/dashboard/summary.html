@@ -48,6 +48,8 @@
                         <vscode-checkbox analysis-check checked id="check-<%= analysisObj.analysisType%>">Compliance</vscode-checkbox>
                     <% } else if (analysisObj.analysisType === 'explainCode') { %>
                         <vscode-checkbox analysis-check checked id="check-<%= analysisObj.analysisType%>">Documentation</vscode-checkbox>
+                    <% } else if (analysisObj.analysisType === 'summary') { %>
+                        <vscode-checkbox analysis-check disabled checked id="check-<%= analysisObj.analysisType%>">Summary</vscode-checkbox>
                     <% } else { %>
                         <vscode-checkbox analysis-check checked id="check-<%= analysisObj.analysisType%>"><%= analysisObj.analysisType %></vscode-checkbox>
                     <% } %>

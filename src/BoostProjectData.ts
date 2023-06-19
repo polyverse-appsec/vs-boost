@@ -72,6 +72,13 @@ export const sampleBoostProjectData: IBoostProjectData = {
             completed: 3,
             error: 0,
             total: 6,
+        },
+        {
+            analysisType: "summary",
+            status: BoostProcessingStatus.notStarted,
+            completed: 17,
+            error: 5,
+            total: 26,
         }
     ],
     analysis: [
@@ -186,6 +193,13 @@ export const emptyProjectData: IBoostProjectData = {
             completed: 0,
             error: 0,
             total: 0,
+        },
+        {
+            analysisType: "summary",
+            status: BoostProcessingStatus.notStarted,
+            completed: 0,
+            error: 0,
+            total: 0,
         }
     ],
     analysis: [
@@ -207,6 +221,10 @@ export const emptyProjectData: IBoostProjectData = {
         },
         {
             name: "explain",
+            children: [],
+        },
+        {
+            name: "summary",
             children: [],
         }
     ]
