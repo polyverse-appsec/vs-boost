@@ -91,13 +91,17 @@ export class KernelControllerBase {
 	private async _executeAll(
         cells: vscode.NotebookCell[],
         notebook: vscode.NotebookDocument,
-        controller: vscode.NotebookController): Promise<void> {
+        _: vscode.NotebookController): Promise<void> {
 
         // if user is explicitly analyzing a single cell via the traditional UI, then just refresh it always
         const forceAnalysisRefresh = cells.length === 1;
 
         return this.executeAllWithAuthorization(cells, notebook, forceAnalysisRefresh);
 	}
+
+    async doAuthorizationExecution(): Promise<vscode.AuthenticationSession> {
+        return fetchGithubSession();
+    }
 
 	async executeAllWithAuthorization(
         cells: vscode.NotebookCell[] | BoostNotebookCell[],
@@ -590,10 +594,6 @@ export class KernelControllerBase {
         // Update the cell reference to the new cell from the replacement so the caller can use it
         cell = notebook.cellAt(i);
         return true;
-    }
-
-    async doAuthorizationExecution(): Promise<vscode.AuthenticationSession> {
-        return fetchGithubSession();
     }
 
     public deserializeErrorAsProblems(cell: vscode.NotebookCell, error: Error) {
