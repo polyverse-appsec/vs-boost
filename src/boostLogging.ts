@@ -71,14 +71,14 @@ export class BoostLogger extends Disposable {
         const logLevel = BoostConfiguration.logLevel.toLowerCase();
 
         switch (messageTarget) {
-            case "debug":
-                return logLevel === "debug";
-            case "info":
-                return logLevel === "debug" || logLevel === "info";
-            case "warn":
-                return logLevel === "debug" || logLevel === "info" || logLevel === "warn";
             case "error":
-                return logLevel === "debug" || logLevel === "info" || logLevel === "warn" || logLevel === "error";
+                return logLevel === "error";
+            case "warn":
+                return logLevel === "error" || logLevel === "warn";
+            case "info":
+                return logLevel === "error" || logLevel === "warn" || logLevel === "info";
+            case "debug":
+                return logLevel === "error" || logLevel === "warn" || logLevel === "info" || logLevel === "debug";
             default:
                 return true;
         }
