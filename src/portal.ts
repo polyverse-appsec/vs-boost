@@ -25,6 +25,24 @@ function serviceEndpoint(): string {
     }
 }
 
+class BoostAuthenticationException extends Error {
+    constructor(message?: string) {
+      super(message);
+      this.name = 'BoostAuthenticationException';
+    }
+}
+
+export async function preflightCheckForCustomerStatus(context: vscode.ExtensionContext, extension : BoostExtension) {
+    const accountStatus = await updateBoostStatusColors(context, undefined, extension);
+    if (accountStatus === 'paid' || accountStatus === 'trial' || accountStatus === 'active') {
+        return;
+    } else {
+        boostLogging.error(`Unable to access Boost Cloud Service due to account status. Please check your account settings.`, false);
+        throw new BoostAuthenticationException(`Unable to access Boost Cloud Service due to account status. Please check your account settings.`);
+    }
+}
+
+
 export async function getCustomerStatus(context: vscode.ExtensionContext): Promise<any> {
     let session = await fetchGithubSession(!context);       // get the session
     let organization = await getCurrentOrganization(context);
@@ -77,9 +95,9 @@ export function registerCustomerPortalCommand(context: vscode.ExtensionContext) 
 
 const gitHubAuthorizationFailureToolTip = 'Unable to access your current account status. Please check your GitHub Authorization status, then network connection status.';
 
-export async function updateBoostStatusColors(context: vscode.ExtensionContext, error: any, closure: BoostExtension) {
+export async function updateBoostStatusColors(context: vscode.ExtensionContext, _: any, closure: BoostExtension) : Promise<string> {
     if (closure.statusBar === undefined) {
-        return;
+        return "unknown";
     }
 
     const accountInfo = await getCustomerStatus(context);
@@ -93,6 +111,11 @@ export async function updateBoostStatusColors(context: vscode.ExtensionContext, 
         closure.statusBar.color = new vscode.ThemeColor('statusBarItem.errorForeground');
         closure.statusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
         closure.statusBar.tooltip = gitHubAuthorizationFailureToolTip;
+        if (!accountInfo) {
+            return "unknown";
+        } else {
+            return accountInfo.message;
+        }
     } else {
         switch (accountInfo['status']) {
         case 'unregistered':
@@ -123,7 +146,8 @@ export async function updateBoostStatusColors(context: vscode.ExtensionContext, 
             closure.statusBar.tooltip = 'Your account is an active trial subscription. Please visit the Account Dashboard to add payment info.';
             break;
         }
-        boostLogging.log(closure.statusBar.tooltip);
+        boostLogging.log(`Customer Status refresh: ${closure.statusBar.tooltip}`);
+        return accountInfo['status'];
     }
 }
 

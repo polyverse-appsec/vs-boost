@@ -29,7 +29,7 @@ import { BoostContentSerializer } from './serializer';
 import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
 import { KernelControllerBase, errorMimeType} from './base_controller';
-import { updateBoostStatusColors, registerCustomerPortalCommand, setupBoostStatus } from './portal';
+import { updateBoostStatusColors, registerCustomerPortalCommand, setupBoostStatus, preflightCheckForCustomerStatus } from './portal';
 import { generatePDFforNotebook } from './convert_pdf';
 import { generateMarkdownforNotebook } from './convert_markdown';
 import { BoostProjectData, BoostProcessingStatus, emptyProjectData, SectionSummary } from './BoostProjectData';
@@ -1202,6 +1202,12 @@ export class BoostExtension {
             return;
         }
 
+        try {
+            await preflightCheckForCustomerStatus(context, this);
+        } catch (error) {
+            boostLogging.error(`Unable to process folder ${targetFolder.fsPath} due to error: ${error}`);
+            return;
+        }
         try {
             // estimated processing about 160 pages of code per minute
             // Using the same calculation as before, at a rate of 40,000 words per minute (666.67 words per second) and
