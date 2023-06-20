@@ -21,8 +21,18 @@ marked.use(markedHighlight({
     }
   }));
 
-export async function convertNotebookToHTML(notebook: BoostNotebook, notebookPath: string, baseFolderPath?: string) {
+export async function convertNotebookToHTML(notebook: BoostNotebook, notebookPath: string, baseFolderPath: string, outputPath: string): Promise<void> {
+    return new Promise<void> (async (resolve, reject) => {
+        convertNotebookToHTMLinMemory(notebook, notebookPath, baseFolderPath).then((html : string) => {
+            fs.writeFileSync(outputPath, html);
+            resolve();
+        }).catch((error : any) => {
+            reject(error);
+        });
+    });
+}
 
+async function convertNotebookToHTMLinMemory(notebook: BoostNotebook, notebookPath: string, baseFolderPath: string): Promise<string> {
     const cells = notebook.cells;
 
     // convert cells to html
