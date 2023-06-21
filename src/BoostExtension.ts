@@ -88,7 +88,7 @@ export class BoostExtension {
         this.setupDashboard(context);
 
         boostLogging.log('Activated Boost Notebook Extension');
-        
+
         if (BoostConfiguration.logLevel === 'debug') {
             boostLogging.info('Polyverse Boost is now active');
         }
@@ -1177,8 +1177,13 @@ export class BoostExtension {
         });
     }
 
-    async processCurrentFile(sourceUri: vscode.Uri, kernelCommand: string, context: vscode.ExtensionContext, forceAnalysisRefresh: boolean = false): Promise<{ notebook: boostnb.BoostNotebook | undefined, result: boolean }> {
-        return new Promise(async (resolve) => {
+    async processCurrentFile(
+        sourceUri: vscode.Uri,
+        kernelCommand: string,
+        _: vscode.ExtensionContext,
+        forceAnalysisRefresh: boolean = false):
+            Promise<boostnb.BoostNotebook> {
+        return new Promise(async (resolve, reject) => {
             try {
 
                 // if we don't have a file selected, then the user didn't right click
@@ -1186,7 +1191,7 @@ export class BoostExtension {
                 if (sourceUri === undefined) {
                     if (vscode.window.activeTextEditor === undefined) {
                         boostLogging.warn(`Unable to identify an active file to Process ${kernelCommand}`);
-                        resolve({ notebook: undefined, result: false });
+                        reject(new Error(`Unable to identify an active file to Process ${kernelCommand}`));
                         return;
                     } else {
                         sourceUri = vscode.window.activeTextEditor?.document.uri;
@@ -1196,7 +1201,7 @@ export class BoostExtension {
                 const targetedKernel = this.getCurrentKernel(kernelCommand);
                 if (targetedKernel === undefined) {
                     boostLogging.warn(`Unable to match analysis kernel for ${kernelCommand}`);
-                    resolve({ notebook: undefined, result: false });
+                    reject(new Error(`Unable to match analysis kernel for ${kernelCommand}`));
                     return;
                 }
 
@@ -1236,14 +1241,14 @@ export class BoostExtension {
                             notebook.save(notebookUri.fsPath);
                             boostLogging.info(`Saved Updated Notebook for ${kernelCommand} in file:[${notebookUri.fsPath}]`, false);
                         }
-                        resolve({ notebook, result: true });
+                        resolve(notebook);
                     })
                     .catch((error) => {
                         boostLogging.warn(`Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${sourceUri.fsPath}] due to error:${error}`);
-                        resolve({ notebook: undefined, result: false });
+                        reject(error);
                     });
             } catch (error) {
-                resolve({ notebook: undefined, result: false });
+                reject(error as Error);
             }
         });
     }
@@ -1343,37 +1348,40 @@ export class BoostExtension {
             const wordsPerFile = throttleRateTokensPerMinute / totalFiles;
             const seconds = 1000;
 
-            let processedNotebookWaits: Promise<{ notebook: boostnb.BoostNotebook | undefined, result: boolean }>[] = files.map(async (file) => {
-                return new Promise<{ notebook: boostnb.BoostNotebook | undefined, result: boolean }>(async (resolve) => {
+            let processedNotebookWaits: Promise<boostnb.BoostNotebook>[] = files.map(async (file) => {
+                return new Promise<boostnb.BoostNotebook>((resolve, reject) => {
                     const fileSize = fs.statSync(file.fsPath).size;
                     const estimatedWords = this.calculateEstimatedWords(fileSize);
                     const processingTime = this.calculateProcessingTime(estimatedWords, wordsPerFile);
-
+            
                     boostLogging.log(`Delaying file ${file.fsPath} with ${estimatedWords} ~items to wait ${processingTime * seconds} secs`);
-                    await new Promise(resolve => setTimeout(resolve, processingTime));
-                    // if its been more than 5 seconds, log it - that's about 13 pages of source in 5 seconds (wild estimate)
-                    if (processingTime > 5 * seconds) {
-                        boostLogging.log(`Starting processing file ${file.fsPath} with ${estimatedWords} ~items after waiting ${processingTime * seconds} secs`);
-                    }
-
-                    const result = await this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh);
-                    this.summaryViewProvider?.finishJobs(targetedKernel.outputType, 1);
-                    resolve(result);
+                    setTimeout(async () => {
+                        // if its been more than 5 seconds, log it - that's about 13 pages of source in 5 seconds (wild estimate)
+                        if (processingTime > 5 * seconds) {
+                            boostLogging.log(`Starting processing file ${file.fsPath} with ${estimatedWords} ~items after waiting ${processingTime * seconds} secs`);
+                        }
+            
+                        this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh).then((notebook) => {
+                            resolve(notebook);
+                        }).catch((error) => {
+                            reject(error);
+                        }).finally(() => {
+                            this.summaryViewProvider?.finishJobs(targetedKernel.outputType, 1);
+                        });
+                    }, processingTime);
                 });
             });
-
+            
             this.summaryViewProvider?.addJobs(targetedKernel.outputType, processedNotebookWaits.length);
 
             await Promise.all(processedNotebookWaits)
                 .then((processedNotebooks) => {
-                    processedNotebooks.forEach(({ notebook, result }) => {
+                    processedNotebooks.forEach((notebook) => {
                         // we let the user know the notebook was processed
-                        if (notebook) {
-                            boostLogging.info(
-                                `Boost Notebook processed with command ${targetedKernel.command}: ${notebook.fsPath}`,
-                                false
-                            );
-                        }
+                        boostLogging.info(
+                            `Boost Notebook processed with command ${targetedKernel.command}: ${notebook.fsPath}`,
+                            false
+                        );
                     });
                     boostLogging.info(
                         `${processedNotebookWaits.length.toString()} Boost Notebooks processed for folder ${targetFolder.path}`,
