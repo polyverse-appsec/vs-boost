@@ -15,6 +15,7 @@ Polyverse Boost Automatic Application Modernization
 ### Bug Fixes
 - Disable Chat text box while Boost Cloud Service is processing request
 - Fix issue with Chat history on secondary chat windows
+- Enable closing of 1st chat window when multiple chat windows are open
 
 ### Known Issues
 - Flow Diagrams may not render correctly in Summary view

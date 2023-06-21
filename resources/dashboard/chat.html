@@ -26,7 +26,7 @@
 	<vscode-panels id="chat-group" activeid="view-<%= activeid %>">
 		<% chats.forEach((chat, index) => { %>
 			<vscode-panel-tab id="view-<%= index %>">CHAT <%= index + 1 %>
-				<% if (index > 0 ){ %>
+				<% if (chats.length > 1 ){ %>
 					<vscode-button class="tab-close-button" appearance="icon" id="tab-close-<%= index %>">
 						<span class="codicon codicon-close"></span>
 					</vscode-button>
