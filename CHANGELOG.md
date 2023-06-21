@@ -13,7 +13,8 @@ Polyverse Boost Automatic Application Modernization
 - Use File Explorer right-click commands to show Analysis details and Summaries for all Source files and Project
 
 ### Bug Fixes
-- N/A
+- Disable Chat text box while Boost Cloud Service is processing request
+- Fix issue with Chat history on secondary chat windows
 
 ### Known Issues
 - Flow Diagrams may not render correctly in Summary view
