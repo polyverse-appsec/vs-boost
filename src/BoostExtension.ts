@@ -1114,6 +1114,12 @@ export class BoostExtension {
                     boostLogging.warn(`No text selected to analyze source code.`, false);
                     return;
                 }
+
+                const targetedKernel = this.getCurrentKernel(BoostConfiguration.currentKernelCommand);
+                if (targetedKernel === undefined) {
+                    boostLogging.warn(`Please select an Analysis command type via Boost Status Bar at bottom of screen`, true);
+                    return;
+                }
         
                 // analyze the source code
                 await this.analyzeSourceCode(selectedText).then((analysisResults : string) => {
