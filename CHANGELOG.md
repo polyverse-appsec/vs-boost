@@ -6,16 +6,17 @@ Polyverse Boost Automatic Application Modernization
 ## Version 1.0.1: June 22, 2023
 
 ### New Features
-- N/A
+- Building and showing exported results in HTML format 
 
 ### Enhancements
-- Polyverse Boost Account Status is checked before all Batch operations, with a visual error message if issue is detected
+- Use File Explorer right-click commands to show Analysis details and Summaries for all Source files and Project
 
 ### Bug Fixes
 - N/A
 
 ### Known Issues
 - Flow Diagrams may not render correctly in Summary view
+
 ## Version 1.0.0: June 19, 2023
 
 ### New Features

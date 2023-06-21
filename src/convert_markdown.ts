@@ -1,7 +1,5 @@
 import { BoostNotebook, SerializedNotebookCellOutput, NOTEBOOK_EXTENSION } from './jupyter_notebook';
 import * as fs from 'fs';
-import * as path from 'path';
-import { Uri } from 'vscode';
 
 export async function generateMarkdownforNotebook(boostNotebookPath : string, baseFolderPath : string) : Promise<string> {
     return new Promise<string> (async (resolve, reject) => {

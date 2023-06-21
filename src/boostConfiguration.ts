@@ -141,6 +141,11 @@ export class BoostConfiguration {
             Defaults.refreshAnalysisAlwaysValue;
     }
 
+    public static get defaultOutputFormat(): string {
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.defaultOutputFormatName) as string)??
+            Defaults.defaultOutputFormatValue;
+    }
+
     static _cachedVersion: string = "";
     public static get version(): string | undefined {
         if (this._cachedVersion) {
@@ -210,4 +215,7 @@ class Defaults {
 
     public static readonly refreshAnalysisAlwaysName : string = "refreshAnalysisAlways";
     public static readonly refreshAnalysisAlwaysValue : boolean = false;
+
+    public static readonly defaultOutputFormatName : string = "defaultOutputFormat";
+    public static readonly defaultOutputFormatValue : string = "markdown";
 }

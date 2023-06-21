@@ -28,12 +28,18 @@ export enum BoostCommands {
     loadCurrentFile = "loadCurrentFile",
     loadCurrentFolder = "loadCurrentFolder",
     loadSummaryFile = "loadSummaryFile",
+
     processCurrentFolder = "processCurrentFolder",
     processCurrentFile = "processCurrentFile",
-    pdfCurrentFile = "pdfCurrentFile",
-    pdfCurrentFolder = "pdfCurrentFolder",
-    markdownCurrentFile = "markdownCurrentFile",
-    markdownCurrentFolder = "markdownCurrentFolder",
+
+    buildCurrentFileOutput = "buildCurrentFileOutput",
+    buildCurrentFileSummaryOutput = "buildCurrentFileSummaryOutput",
+    buildCurrentFolderOutput = "buildCurrentFolderOutput",
+    buildCurrentFolderSummaryOutput = "buildCurrentFolderSummaryOutput",
+    showCurrentFileAnalysisOutput = "showCurrentFileAnalysisOutput",
+    showCurrentFileAnalysisSummaryOutput = "showCurrentFileAnalysisSummaryOutput",
+    showCurrentFolderAnalysisSummaryOutput = "showCurrentFolderAnalysisSummaryOutput",
+
     refreshProjectData = "refreshProjectData",
 }
 

@@ -32,6 +32,7 @@ import { KernelControllerBase, errorMimeType} from './base_controller';
 import { updateBoostStatusColors, registerCustomerPortalCommand, setupBoostStatus, preflightCheckForCustomerStatus } from './portal';
 import { generatePDFforNotebook } from './convert_pdf';
 import { generateMarkdownforNotebook } from './convert_markdown';
+import { generateHTMLforNotebook } from './convert_html';
 import { BoostProjectData, BoostProcessingStatus, emptyProjectData, SectionSummary } from './BoostProjectData';
 import { BoostMarkdownViewProvider } from './markdown_view';
 
@@ -82,9 +83,7 @@ export class BoostExtension {
 
         this.registerFolderRightClickAnalyzeCommand(context);
 
-        this.registerFolderRightClickPdfCommands(context);
-
-        this.registerFolderRightClickMarkdownCommands(context);
+        this.registerFolderRightClickOutputCommands(context);
 
         this.setupDashboard(context);
 
@@ -905,26 +904,177 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
     }
 
-    registerFolderRightClickPdfCommands(context: vscode.ExtensionContext,) {
+    registerFolderRightClickOutputCommands(context: vscode.ExtensionContext,) {
 
-        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.pdfCurrentFile,
+        // register the command to build the current file
+        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.buildCurrentFileOutput,
             async (uri: vscode.Uri) => {
-                await this.pdfFromCurrentFile(uri).then((pdfFile: string) => {
-                    if (!uri) {
-                        boostLogging.info(`PDF ${pdfFile} created`, uri === undefined);
-                    } else {
-                        boostLogging.info(`PDF ${pdfFile} created for file:${uri.fsPath}.`, uri === undefined);
-                    }
+                if (!uri) {
+                    boostLogging.error(`Unable to generate analysis output for current file due to no file selected`, true);
+                    return;
+                }
+
+                await this.buildCurrentFileOutput(uri, false, BoostConfiguration.defaultOutputFormat).then((outputFile: string) => {
+                    boostLogging.info(`${outputFile} created`, uri === undefined);
                 }).catch((error: any) => {
-                    boostLogging.error(`Unable to generate PDF for current file${uri ? ":" + uri.fsPath : ""} due to ${(error as Error).message}`, uri === undefined);
+                    boostLogging.error(`Unable to generate output for current file${uri.fsPath} due to ${(error as Error).message}`, true);
                 });
             });
         context.subscriptions.push(disposable);
 
-        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.pdfCurrentFolder,
+        // register the command to show the current file
+        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.showCurrentFileAnalysisOutput,
+        async (uri: vscode.Uri) => {
+            if (!uri) {
+                boostLogging.error(`Unable to generate analysis output for current file due to no file selected`, true);
+                return;
+            }
+    
+            await this.buildCurrentFileOutput(uri, false, BoostConfiguration.defaultOutputFormat).then((outputFile: string) => {
+                boostLogging.info(`${outputFile} created for file:${uri.fsPath}.`, uri === undefined);
+    
+                // show the file now
+                switch (BoostConfiguration.defaultOutputFormat) {
+                    case "markdown":
+                        vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.parse(outputFile)).then((success) => {
+                            boostLogging.info(`Markdown Preview opened for ${outputFile}`, uri === undefined);
+                        }, (reason) => {
+                            boostLogging.error(`Unable to open Markdown Preview for ${outputFile} due to ${(reason as Error).message}`, true);
+                        });
+                        break;
+                    case "pdf":
+                        boostLogging.info(`PDF Preview not supported for ${outputFile}`, true);
+                        break;
+                    case "html":
+                        vscode.env.openExternal(vscode.Uri.parse(outputFile)).then((success) => {
+                            boostLogging.info(`HTML Preview opened for ${outputFile}`, uri === undefined);
+                        }, (reason) => {
+                            boostLogging.error(`Unable to open HTML Preview for ${outputFile} due to ${(reason as Error).message}`, true);
+                        });
+                        break;
+                    default:
+                        boostLogging.error(`Unable to open output for ${outputFile} due to unknown format ${BoostConfiguration.defaultOutputFormat}`, true);
+                }
+            }).catch((error: any) => {
+                boostLogging.error(`Unable to generate and show output for current file ${uri.fsPath} due to ${(error as Error).message}`, true);
+            });
+        });
+    
+        context.subscriptions.push(disposable);
+
+        // build analysis output files for all files in the current folder
+        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.buildCurrentFolderOutput,
             async (uri: vscode.Uri) => {
-                return this.pdfFromCurrentFolder(uri).catch((error: any) => {
+                return this.buildCurrentFolderOutput(uri, BoostConfiguration.defaultOutputFormat).catch((error: any) => {
                     boostLogging.error((error as Error).message,);
+                });
+            });
+        context.subscriptions.push(disposable);
+
+        // register the command to build the current file summary
+        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.buildCurrentFileSummaryOutput,
+            async (uri: vscode.Uri) => {
+                if (!uri) {
+                    boostLogging.error(`Unable to generate analysis summary output for current file due to no file selected`, true);
+                    return;
+                }
+
+                await this.buildCurrentFileOutput(uri, true, BoostConfiguration.defaultOutputFormat).then((outputFile: string) => {
+                    boostLogging.info(`${outputFile} created for file:${uri.fsPath}.`, uri === undefined);
+                }).catch((error: any) => {
+                    boostLogging.error(`Unable to generate output for current file${uri.fsPath} due to ${(error as Error).message}`, true);
+                });
+            });
+        context.subscriptions.push(disposable);
+
+        // register the command to show the current file as a summary
+        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.showCurrentFileAnalysisSummaryOutput,
+            async (uri: vscode.Uri) => {
+                if (!uri) {
+                    boostLogging.error(`Unable to show analysis summary output for current file due to no file selected`, true);
+                    return;
+                }
+
+                await this.buildCurrentFileOutput(uri, true, BoostConfiguration.defaultOutputFormat).then((outputFile: string) => {
+                    boostLogging.info(`${outputFile} created for file:${uri.fsPath}.`, uri === undefined);
+
+                    // show the file now
+                    switch (BoostConfiguration.defaultOutputFormat) {
+                        case "markdown":
+                            vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.parse(outputFile)).then((success) => {
+                                boostLogging.info(`Markdown Preview opened for ${outputFile}`, uri === undefined);
+                            }, (reason) => {
+                                boostLogging.error(`Unable to open Markdown Preview for ${outputFile} due to ${(reason as Error).message}`, true);
+                            });
+                            break;
+                        case "pdf":
+                            boostLogging.info(`PDF Preview not supported for ${outputFile}`, true);
+                            break;
+                        case "html":
+                            vscode.env.openExternal(vscode.Uri.parse(outputFile)).then((success) => {
+                                boostLogging.info(`HTML Preview opened for ${outputFile}`, uri === undefined);
+                            }, (reason) => {
+                                boostLogging.error(`Unable to open HTML Preview for ${outputFile} due to ${(reason as Error).message}`, true);
+                            });
+                            break;
+                        default:
+                            boostLogging.error(`Unable to open output for ${outputFile} due to unknown format ${BoostConfiguration.defaultOutputFormat}`, true);
+                    }
+                }).catch((error: any) => {
+                    boostLogging.error(`Unable to generate and show summary output for current file${uri.fsPath} due to ${(error as Error).message}`, true);
+                });
+            });
+        context.subscriptions.push(disposable);
+
+        // register the command to build the current folder summary
+        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.buildCurrentFolderSummaryOutput,
+            async (uri: vscode.Uri) => {
+                await this.buildCurrentFileOutput(uri, true, BoostConfiguration.defaultOutputFormat).then((outputFile: string) => {
+                    if (!uri) {
+                        boostLogging.info(`${outputFile} created`, uri === undefined);
+                    } else {
+                        boostLogging.info(`${outputFile} created for file:${uri.fsPath}.`, uri === undefined);
+                    }
+                }).catch((error: any) => {
+                    boostLogging.error(`Unable to generate summary output for current folder${uri ? ":" + uri.fsPath : ""} due to ${(error as Error).message}`, uri === undefined);
+                });
+            });
+        context.subscriptions.push(disposable);
+
+        // register the command to show the current folder summary
+        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.showCurrentFolderAnalysisSummaryOutput,
+            async (uri: vscode.Uri) => {
+                await this.buildCurrentFileOutput(uri, true, BoostConfiguration.defaultOutputFormat).then((outputFile: string) => {
+                    if (!uri) {
+                        boostLogging.info(`${outputFile} created`, uri === undefined);
+                    } else {
+                        boostLogging.info(`${outputFile} created for file:${uri.fsPath}.`, uri === undefined);
+                    }
+
+                    // show the file now
+                    switch (BoostConfiguration.defaultOutputFormat) {
+                        case "markdown":
+                            vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.parse(outputFile)).then((success) => {
+                                boostLogging.info(`Markdown Preview opened for ${outputFile}`, uri === undefined);
+                            }, (reason) => {
+                                boostLogging.error(`Unable to open Markdown Preview for ${outputFile} due to ${(reason as Error).message}`, true);
+                            });
+                            break;
+                        case "pdf":
+                            boostLogging.info(`PDF Preview not supported for ${outputFile}`, true);
+                            break;
+                        case "html":
+                            vscode.env.openExternal(vscode.Uri.parse(outputFile)).then((success) => {
+                                boostLogging.info(`HTML Preview opened for ${outputFile}`, uri === undefined);
+                            }, (reason) => {
+                                boostLogging.error(`Unable to open HTML Preview for ${outputFile} due to ${(reason as Error).message}`, true);
+                            });
+                            break;
+                        default:
+                            boostLogging.error(`Unable to open output for ${outputFile} due to unknown format ${BoostConfiguration.defaultOutputFormat}`, true);
+                    }
+                }).catch((error: any) => {
+                    boostLogging.error(`Unable to generate and show summary output for current folder${uri ? ":" + uri.fsPath : ""} due to ${(error as Error).message}`, true);
                 });
             });
         context.subscriptions.push(disposable);
@@ -938,31 +1088,6 @@ export class BoostExtension {
                     boostLogging.info(`Refreshed Boost Project Data.`, false);
                 }).catch((error: any) => {
                     boostLogging.error(`Unable to Refresh Project Data`, false);
-                });
-            });
-        context.subscriptions.push(disposable);
-    }
-
-    registerFolderRightClickMarkdownCommands(context: vscode.ExtensionContext,) {
-
-        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.markdownCurrentFile,
-            async (uri: vscode.Uri) => {
-                await this.markdownFromCurrentFile(uri).then((markdownFile: string) => {
-                    if (!uri) {
-                        boostLogging.info(`Markdown ${markdownFile} created`, uri === undefined);
-                    } else {
-                        boostLogging.info(`Markdown ${markdownFile} created for file:${uri.fsPath}.`, uri === undefined);
-                    }
-                }).catch((error: any) => {
-                    boostLogging.error(`Unable to generate Markdown for current file${uri ? ":" + uri.fsPath : ""} due to ${(error as Error).message}`, uri === undefined);
-                });
-            });
-        context.subscriptions.push(disposable);
-
-        disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.markdownCurrentFolder,
-            async (uri: vscode.Uri) => {
-                return this.markdownFromCurrentFolder(uri).catch((error: any) => {
-                    boostLogging.error((error as Error).message,);
                 });
             });
         context.subscriptions.push(disposable);
@@ -1205,7 +1330,8 @@ export class BoostExtension {
         try {
             await preflightCheckForCustomerStatus(context, this);
         } catch (error) {
-            boostLogging.error(`Unable to process folder ${targetFolder.fsPath} due to error: ${error}`);
+            const folderName = path.basename(targetFolder.fsPath);
+            boostLogging.error(`Unable to process folder ${folderName} due to error: ${error}`);
             return;
         }
         try {
@@ -1319,26 +1445,33 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
     }
 
-    async pdfFromCurrentFile(uri: vscode.Uri): Promise<string> {
+    async buildCurrentFileOutput(uri: vscode.Uri, summary : boolean, outputFormat : string): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             try {
-                // if we don't have a file selected, then the user didn't right click
-                //      so we need to find the current active editor, if its available
+                // if we don't have a file selected, and asking for single file analysis, then fail
+                //  we only report summaries for folders
                 if (uri === undefined) {
-                    if (vscode.window.activeTextEditor === undefined) {
+                    if (!summary) {
                         boostLogging.warn(`Unable to identify an active file to process ${this.kernelCommand}`);
                         reject(new Error('No active file found'));
                         return;
+                    } else if (!vscode.workspace.workspaceFolders) {
+                        boostLogging.error(`Cannot build summary without a Workspace or Project loaded`);
+                        reject(new Error('Cannot build summary without a Workspace or Project loaded'));
+                        return;
                     }
-                    else {
-                        uri = vscode.window.activeTextEditor?.document.uri;
-                    }
+
+                    uri = vscode.workspace.workspaceFolders[0].uri;
                 }
 
                 let boostUri = uri;
                 // if we got a source file, then load the notebook from it
                 if (!uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
-                    boostUri = getBoostFile(uri);
+                    if (summary) {
+                        boostUri = getBoostFile(uri, BoostFileType.summary);
+                    } else {
+                        boostUri = getBoostFile(uri);
+                    }
                 }
 
                 if (!fs.existsSync(boostUri.fsPath)) {
@@ -1347,15 +1480,43 @@ export class BoostExtension {
                 }
 
                 const baseWorkspacePath = vscode.workspace.workspaceFolders![0].uri.fsPath;
-                const pdfFile = generatePDFforNotebook(boostUri.fsPath, baseWorkspacePath);
-                resolve(pdfFile);
+
+                // if user didn't specify output format, then we'll use configuration
+                if (!outputFormat) {
+                    outputFormat = BoostConfiguration.defaultOutputFormat;
+                }
+                switch (outputFormat.toLowerCase()) {
+                    case 'html':
+                        generateHTMLforNotebook(boostUri.fsPath, baseWorkspacePath).then((htmlFile) => {
+                            resolve(htmlFile);
+                        }).catch((error) => {
+                            reject(error);
+                        });
+                        break;
+                    case 'pdf':
+                        generatePDFforNotebook(boostUri.fsPath, baseWorkspacePath).then((pdfFile) => {
+                            resolve(pdfFile);
+                        }).catch((error) => {
+                            reject(error);
+                        });
+                        break;
+                    case 'markdown':
+                        generateMarkdownforNotebook(boostUri.fsPath, baseWorkspacePath).then((markdownFile) => {
+                            resolve(markdownFile);
+                        }).catch((error) => {
+                            reject(error);
+                        });
+                        break;
+                    default:
+                        reject(new Error(`Unsupported output format ${outputFormat} - please use html, pdf, or markdown`));
+                }
             } catch (error) {
                 reject(error);
             }
         });
     }
 
-    async pdfFromCurrentFolder(folderUri: vscode.Uri) {
+    async buildCurrentFolderOutput(folderUri: vscode.Uri, outputFormat : string) {
         let targetFolder: vscode.Uri;
         // if we don't have a folder selected, then the user didn't right click
         //      so we need to use the workspace folder
@@ -1393,101 +1554,7 @@ export class BoostExtension {
             let convertedNotebookWaits: any[] = [];
 
             files.filter(async (file) => {
-                convertedNotebookWaits.push(this.pdfFromCurrentFile(file));
-            });
-
-            await Promise.all(convertedNotebookWaits)
-                .then((convertedNotebooks) => {
-                    convertedNotebooks.forEach(async (convertedPdf: string) => {
-                        // we let user know the notebook was processed
-                        boostLogging.info(`Boost Notebook converted ${convertedPdf}`, false);
-                    });
-                    boostLogging.info(`${convertedNotebookWaits.length.toString()} Boost Notebooks converted for folder ${targetFolder.path}`, false);
-                })
-                .catch((error) => {
-                    // Handle the error here
-                    boostLogging.error(`Error convertting Notebooks in folder ${targetFolder.path} due to Error: ${error}`);
-                });
-        } catch (error) {
-            boostLogging.error(`Unable to Convert Notebooks in Folder:[${folderUri.fsPath.toString()} due to error:${error}`);
-        }
-    }
-
-    async markdownFromCurrentFile(uri: vscode.Uri): Promise<string> {
-        return new Promise<string>((resolve, reject) => {
-            try {
-                // if we don't have a file selected, then the user didn't right click
-                //      so we need to find the current active editor, if its available
-                if (uri === undefined) {
-                    if (vscode.window.activeTextEditor === undefined) {
-                        boostLogging.warn(`Unable to identify an active file to process ${this.kernelCommand}`);
-                        reject(new Error('No active file found'));
-                        return;
-                    }
-                    else {
-                        uri = vscode.window.activeTextEditor?.document.uri;
-                    }
-                }
-
-                let boostUri = uri;
-                // if we got a source file, then load the notebook from it
-                if (!uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
-                    boostUri = getBoostFile(uri);
-                }
-
-                if (!fs.existsSync(boostUri.fsPath)) {
-                    reject(new Error(`Unable to find Boost notebook for ${uri.fsPath} - please create Boost notebook first`));
-                    return;
-                }
-
-                const baseWorkspacePath = vscode.workspace.workspaceFolders![0].uri.fsPath;
-                const pdfFile = generateMarkdownforNotebook(boostUri.fsPath, baseWorkspacePath);
-                resolve(pdfFile);
-            } catch (error) {
-                reject(error);
-            }
-        });
-    }
-
-    async markdownFromCurrentFolder(folderUri: vscode.Uri) {
-        let targetFolder: vscode.Uri;
-        // if we don't have a folder selected, then the user didn't right click
-        //      so we need to use the workspace folder
-        if (folderUri === undefined) {
-            if (vscode.workspace.workspaceFolders === undefined) {
-                boostLogging.warn(
-                    'Unable to find Workspace Folder. Please open a Project or Folder first');
-                return;
-            }
-
-            // use first folder in workspace
-            targetFolder = vscode.workspace.workspaceFolders[0].uri;
-            boostLogging.debug(`Analyzing Project Wide Boost files in Workspace: ${targetFolder.fsPath}`);
-        }
-        else {
-            targetFolder = folderUri;
-            boostLogging.debug(`Analyzing Boost files in folder: ${folderUri.fsPath}`);
-        }
-
-        let baseWorkspace;
-        if (vscode.workspace.workspaceFolders) {
-            baseWorkspace = vscode.workspace.workspaceFolders![0].uri;
-        } else {
-            baseWorkspace = folderUri;
-        }
-        // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
-        let searchPattern = new vscode.RelativePattern(targetFolder.fsPath, '**/*' + boostnb.NOTEBOOK_EXTENSION);
-        let ignorePattern = await _buildVSCodeIgnorePattern(false);
-        boostLogging.debug("Skipping Boost Notebook files of pattern: " + ignorePattern ?? "none");
-        let files = await vscode.workspace.findFiles(searchPattern, ignorePattern ? new vscode.RelativePattern(targetFolder, ignorePattern) : "");
-
-        boostLogging.debug("Converting " + files.length + " files in folder: " + targetFolder);
-
-        try {
-            let convertedNotebookWaits: any[] = [];
-
-            files.filter(async (file) => {
-                convertedNotebookWaits.push(this.markdownFromCurrentFile(file));
+                convertedNotebookWaits.push(this.buildCurrentFileOutput(file, false, outputFormat));
             });
 
             await Promise.all(convertedNotebookWaits)

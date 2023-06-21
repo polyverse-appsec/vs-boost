@@ -2,10 +2,10 @@ import { BoostNotebook, NotebookCellKind } from './jupyter_notebook';
 import {marked} from 'marked';
 import hljs from 'highlight.js';
 import * as fs from 'fs';
-import * as path from 'path';
-import { Uri } from 'vscode';
 
 import {markedHighlight} from 'marked-highlight';
+
+import { NOTEBOOK_EXTENSION } from './jupyter_notebook';
 
 const cellStyleSheet = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css';
 const mermaidScript = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -20,6 +20,22 @@ marked.use(markedHighlight({
       return hljs.highlight(code, { language }).value;
     }
   }));
+
+
+export async function generateHTMLforNotebook(boostNotebookPath : string, baseFolderPath : string) : Promise<string> {
+    return new Promise<string> (async (resolve, reject) => {
+        try {
+            const htmlFilename = boostNotebookPath.replace(NOTEBOOK_EXTENSION, '.html');
+
+            const boostNotebook = new BoostNotebook();
+            boostNotebook.load(boostNotebookPath);
+            await convertNotebookToHTML(boostNotebook, boostNotebookPath, baseFolderPath, htmlFilename);
+            resolve(htmlFilename);
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
 
 export async function convertNotebookToHTML(notebook: BoostNotebook, notebookPath: string, baseFolderPath: string, outputPath: string): Promise<void> {
     return new Promise<void> (async (resolve, reject) => {
