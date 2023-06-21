@@ -24,7 +24,8 @@ import {
     _syncProblemsInCell, createOrOpenSummaryNotebookFromSourceFile,
     BoostCommands,
     findCellByKernel,
-    cleanCellOutput
+    cleanCellOutput,
+    boostActivityBarId
 } from './extension';
 import { BoostContentSerializer } from './serializer';
 import { BoostConfiguration } from './boostConfiguration';
@@ -1147,6 +1148,9 @@ export class BoostExtension {
                     temperature: 0.1,
                 }; // fast-processing model
                 notebook.cells[0].initializeMetadata(cellMetadata);
+
+                vscode.commands.executeCommand(`workbench.view.extension.${boostActivityBarId}`);
+
                 targetedKernel.executeAllWithAuthorization(notebook.cells, notebook)
                     .then(() => {
                         resolve(cleanCellOutput(notebook.cells[0].outputs[0].items[0].data));
