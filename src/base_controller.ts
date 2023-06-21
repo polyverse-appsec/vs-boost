@@ -227,8 +227,9 @@ export class KernelControllerBase {
             return false;
         }
 
-        // if no useful text to explain, skip it
-        const inputData = usingBoostNotebook? (cell as BoostNotebookCell).value : (cell as vscode.NotebookCell).document.getText();
+        // if no useful text to process, skip it
+        const inputData = usingBoostNotebook? (cell as BoostNotebookCell).value :
+            (cell as vscode.NotebookCell).document.getText();
         
         // skip whitespace trim on MultilineString - not worth code complexity trouble for now
         if (typeof inputData === "string" && (inputData as string).trim().length === 0) {
@@ -277,33 +278,43 @@ export class KernelControllerBase {
             organization: organization
           };
 
-        let newPayload;
-        // pass temperature through
-        if (BoostConfiguration.analysisRankedProbabilityByKernel(this.command)) {
-            newPayload = { ...payload,
+        // read any cell-specific temperature or top_p settings
+        if (cell.metadata?.analysisRankedProbability) {
+            payload = { ...payload,
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                top_p: cell.metadata.analysisRankedProbability};
+        } else if (cell.metadata?.temperature) {
+            payload = { ...payload,
+                temperature: cell.metadata.temperature};
+
+        } else if (BoostConfiguration.analysisRankedProbabilityByKernel(this.command)) {
+            payload = { ...payload,
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 top_p: BoostConfiguration.analysisRankedProbabilityByKernel(this.command)};    
         } else if (BoostConfiguration.analysisRankedProbability) {
-            newPayload = { ...payload,
+            payload = { ...payload,
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 top_p: BoostConfiguration.analysisRankedProbability};    
         } else if (BoostConfiguration.analysisTemperatureByKernel(this.command)) {
-            newPayload = { ...payload,
+            payload = { ...payload,
                 temperature: BoostConfiguration.analysisTemperatureByKernel(this.command)};    
         } else if (BoostConfiguration.analysisTemperature) {
-            newPayload = { ...payload,
+            payload = { ...payload,
                 temperature: BoostConfiguration.analysisTemperature};    
         } else {
-            newPayload = payload;
+            payload = payload;
         }
 
         // model pass through
-        if (BoostConfiguration.analysisModelByKernel(this.command)) {
-            newPayload = { ...payload,
+        if (cell.metadata?.model) {
+            payload = { ...payload,
+                model: cell.metadata.model};
+        } else if (BoostConfiguration.analysisModelByKernel(this.command)) {
+            payload = { ...payload,
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 model: BoostConfiguration.analysisModelByKernel(this.command)};    
         } else if (BoostConfiguration.analysisModel) {
-            newPayload = { ...payload,
+            payload = { ...payload,
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 model: BoostConfiguration.analysisModel};    
         }
@@ -313,7 +324,7 @@ export class KernelControllerBase {
             (cell as vscode.NotebookCell).document.uri.toString();
 
         try {
-            let response = await this.onProcessServiceRequest(execution, notebook, cell, newPayload);
+            let response = await this.onProcessServiceRequest(execution, notebook, cell, payload);
             if (response instanceof Error) {
                 // we failed the call, but it was already logged since it didn't throw, so just report failure
                 successfullyCompleted = false;
@@ -559,24 +570,39 @@ export class KernelControllerBase {
 
         let foundCell = undefined;
         let i = 0;
-        for  (; i < notebook.cellCount; i++) {
-            if (notebook.cellAt(i) === cell) {
-                foundCell = notebook.cellAt(i);
+        for  (; i < (usingBoostNotebook?notebook.cells.length:notebook.cellCount); i++) {
+            if (usingBoostNotebook?notebook.cells[i]:notebook.cellAt(i) === cell) {
+                foundCell = usingBoostNotebook?notebook.cells[i]:notebook.cellAt(i);
                 break;
             }
+        }
+        if (!foundCell) {
+            boostLogging.debug(
+                `Unable to find cell ${(cell instanceof BoostNotebookCell)? cell.id : cell.document.uri.toString()}` +
+                ` in notebook ${usingBoostNotebook?notebook.fsPath:notebook.uri.toString()}`);
+            return false;
         }
 
         // if we're using native boost notebook, update metadata and skip more complex VSC Notebook update process
         if (usingBoostNotebook) {
-            (cell as BoostNotebookCell).initializeMetadata( {"id": i, "type": "originalCode"} );
+            (cell as BoostNotebookCell).initializeMetadata(
+                {
+                ...cell.metadata,
+                "id": cell.metadata?.id ?? i,
+                "type": cell.metadata?.type ?? "originalCode"
+                });
             return true;
         }
 
         const doc = (cell as vscode.NotebookCell).document;
         const newCellData = new vscode.NotebookCellData(vscode.NotebookCellKind.Code,
             doc.getText(), doc.languageId);
-        newCellData.metadata = {"id": i, "type": "originalCode"};
-
+        newCellData.metadata = {
+            ...newCellData.metadata,
+            "id": newCellData.metadata?.id ?? i,
+            "type": newCellData.metadata?.type ?? "originalCode"
+        };
+            
 
         const edit = new vscode.WorkspaceEdit();
 
