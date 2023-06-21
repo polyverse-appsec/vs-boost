@@ -73,7 +73,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 				case 'newprompt':
 					{
 						this._activeid = data.chatindex;
-						this.updatePrompt(data.prompt, data.model);
+						this.updatePrompt(data.prompt, data.chatindex, data.model);
 						break;
 					}
 				case 'add-chat':
@@ -134,10 +134,10 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         
     }
 
-	public async updatePrompt(prompt: string, model: string) {
+	public async updatePrompt(prompt: string, index: number, model: string) {
 		//make a call to the service endpoint with the prompt plus existing context
 		//update the chat view with the response
-		const messages = this._chats[0].messages;
+		const messages = this._chats[index].messages;
 
         let payload = {
 			"code": "",

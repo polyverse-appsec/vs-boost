@@ -136,95 +136,100 @@
         "commands": [
             {
                 "command": "polyverse-boost-notebook.customerPortal",
-                "title": "Polyverse Boost: Open Customer Dashboard"
+                "title": "Boost: Open Account Dashboard"
             },
             {
                 "command": "polyverse-boost-notebook.boostStatus",
-                "title": "Polyverse Boost: Show Account Status"
+                "title": "Boost: Show Account Status"
             },
             {
                 "command": "polyverse-boost-notebook.createJsonNotebook",
-                "title": "Polyverse Boost: Create New Notebook (show in Editor)"
+                "title": "Boost: Create Empty Notebook"
             },
             {
                 "command": "polyverse-boost-notebook.loadCodeFile",
-                "title": "Polyverse Boost: Load Source File (using File Dialog)",
+                "title": "Boost: Load Source File (using File Dialog)",
                 "icon": "$(file-code)"
             },
             {
                 "command": "polyverse-boost-notebook.selectOutputLanguage",
-                "title": "Polyverse Boost: Code Conversion Output Language",
+                "title": "Boost: Code Conversion Output Language",
                 "icon": "$(code)"
             },
             {
                 "command": "polyverse-boost-notebook.selectTestFramework",
-                "title": "Polyverse Boost: Select Test Framework",
+                "title": "Boost: Select Test Framework",
                 "icon": "$(checklist)"
             },
             {
                 "command": "polyverse-boost-notebook.loadCurrentFile",
-                "title": "Polyverse Boost: Open Detailed Analysis Notebook",
+                "title": "Boost: Open Detailed Analysis Notebook",
                 "icon": "$(file)"
             },
             {
                 "command": "polyverse-boost-notebook.loadSummaryFile",
-                "title": "Polyverse Boost: Open Summary Analysis Notebook",
+                "title": "Boost: Open Summary Analysis Notebook",
                 "icon": "$(file)"
             },
             {
                 "command": "polyverse-boost-notebook.loadCurrentFolder",
-                "title": "Polyverse Boost: Batch Build Notebook from Selected Folder (via File Explorer)",
+                "title": "Boost: Batch Build Notebook from Selected Folder (via File Explorer)",
                 "icon": "$(folder)"
             },
             {
                 "command": "polyverse-boost-notebook.processCurrentFile",
-                "title": "Polyverse Boost: Process Current File with Selected Kernel Automatically (Offline)",
+                "title": "Boost: Process Current File with Selected Kernel Automatically (Offline)",
                 "icon": "$(file)"
             },
             {
                 "command": "polyverse-boost-notebook.processCurrentFolder",
-                "title": "Polyverse Boost: Batch Process Folder with Selected Kernel Automatically (Offline)",
+                "title": "Boost: Batch Process Folder with Selected Kernel Automatically (Offline)",
                 "icon": "$(folder)"
             },
             {
                 "command": "polyverse-boost-notebook.buildCurrentFileOutput",
-                "title": "Polyverse Boost: Build Analysis as Output File",
+                "title": "Boost: Build Analysis as Output File",
                 "icon": "$(file)"
             },
             {
                 "command": "polyverse-boost-notebook.buildCurrentFileSummaryOutput",
-                "title": "Polyverse Boost: Build Analysis Summary as Output File",
+                "title": "Boost: Build Analysis Summary as Output File",
                 "icon": "$(file)"
             },
             {
                 "command": "polyverse-boost-notebook.buildCurrentFolderOutput",
-                "title": "Polyverse Boost: Build All Analysis Output Files in Folder",
+                "title": "Boost: Build All Analysis Output Files in Folder",
                 "icon": "$(folder)"
             },
             {
                 "command": "polyverse-boost-notebook.buildCurrentFolderSummaryOutput",
-                "title": "Polyverse Boost: Build Folder or Project Analysis Summary as Output",
+                "title": "Boost: Build Folder or Project Analysis Summary as Output",
                 "icon": "$(folder)"
             },
             {
                 "command": "polyverse-boost-notebook.showCurrentFileAnalysisOutput",
-                "title": "Polyverse Boost: Show Analysis Details",
+                "title": "Boost: Show File Details",
                 "icon": "$(file)"
             },
             {
                 "command": "polyverse-boost-notebook.showCurrentFileAnalysisSummaryOutput",
-                "title": "Polyverse Boost: Show Analysis Summary",
+                "title": "Boost: Show File Summary",
                 "icon": "$(file)"
             },
             {
                 "command": "polyverse-boost-notebook.showCurrentFolderAnalysisSummaryOutput",
-                "title": "Polyverse Boost: Show Summary",
+                "title": "Boost: Show Project Summary",
                 "icon": "$(folder)"
             },
             {
                 "command": "polyverse-boost-notebook.refreshProjectData",
-                "title": "Polyverse Boost: Refresh Project Data",
+                "title": "Boost: Refresh Project Data",
                 "icon": "$(sync)"
+            },
+            {
+                "command": "polyverse-boost-notebook.analyzeSourceCode",
+                "title": "Boost: Analyze Source Code",
+                "icon": "$(search)"
             }
         ],
         "notebooks": [
@@ -239,6 +244,12 @@
             }
         ],
         "menus": {
+            "editor/context": [
+                {
+                    "command": "polyverse-boost-notebook.analyzeSourceCode",
+                    "group": "polyverseBoost"
+                }
+            ],
             "notebook/toolbar": [
                 {
                     "command": "polyverse-boost-notebook.loadCodeFile",
@@ -260,42 +271,42 @@
                 {
                     "command": "polyverse-boost-notebook.loadCurrentFile",
                     "when": "resourceExtname == .toml || resourceExtname == .csproj || resourceExtname == .xcodeproj || resourceExtname == .sln || resourceExtname == .vbproj || resourceExtname == .fsproj || resourceExtname == .gradle || resourceExtname == .xslt || resourceExtname == .coffee || resourceExtname == .pm || resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb",
-                    "group": "navigation"
+                    "group": "polyverseBoost"
                 },
                 {
                     "command": "polyverse-boost-notebook.loadSummaryFile",
                     "when": "resourceExtname == .toml || resourceExtname == .csproj || resourceExtname == .xcodeproj || resourceExtname == .sln || resourceExtname == .vbproj || resourceExtname == .fsproj || resourceExtname == .gradle || resourceExtname == .xslt || resourceExtname == .coffee || resourceExtname == .pm || resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb",
-                    "group": "navigation"
+                    "group": "polyverseBoost"
                 },
                 {
                     "command": "polyverse-boost-notebook.loadCurrentFolder",
                     "when": "(resourceScheme == 'file' && resourceLangId == 'unknown' && resourceExtname == '')",
-                    "group": "navigation"
+                    "group": "polyverseBoost"
                 },
                 {
                     "command": "polyverse-boost-notebook.processCurrentFile",
                     "when": "resourceExtname == .toml || resourceExtname == .csproj || resourceExtname == .xcodeproj || resourceExtname == .sln || resourceExtname == .vbproj || resourceExtname == .fsproj || resourceExtname == .gradle || resourceExtname == .xslt || resourceExtname == .coffee || resourceExtname == .pm || resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb",
-                    "group": "navigation"
+                    "group": "polyverseBoost"
                 },
                 {
                     "command": "polyverse-boost-notebook.processCurrentFolder",
                     "when": "(resourceScheme == 'file' && resourceLangId == 'unknown' && resourceExtname == '')",
-                    "group": "navigation"
+                    "group": "polyverseBoost"
                 },
                 {
                     "command": "polyverse-boost-notebook.showCurrentFileAnalysisOutput",
                     "when": "resourceExtname == .toml || resourceExtname == .csproj || resourceExtname == .xcodeproj || resourceExtname == .sln || resourceExtname == .vbproj || resourceExtname == .fsproj || resourceExtname == .gradle || resourceExtname == .xslt || resourceExtname == .coffee || resourceExtname == .pm || resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb",
-                    "group": "navigation"
+                    "group": "polyverseBoost"
                 },
                 {
                     "command": "polyverse-boost-notebook.showCurrentFileAnalysisSummaryOutput",
                     "when": "resourceExtname == .toml || resourceExtname == .csproj || resourceExtname == .xcodeproj || resourceExtname == .sln || resourceExtname == .vbproj || resourceExtname == .fsproj || resourceExtname == .gradle || resourceExtname == .xslt || resourceExtname == .coffee || resourceExtname == .pm || resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb",
-                    "group": "navigation"
+                    "group": "polyverseBoost"
                 },
                 {
                     "command": "polyverse-boost-notebook.showCurrentFolderAnalysisSummaryOutput",
                     "when": "(resourceScheme == 'file' && resourceLangId == 'unknown' && resourceExtname == '')",
-                    "group": "navigation"
+                    "group": "polyverseBoost"
                 }
             ]
         }

@@ -7,7 +7,7 @@ import * as vscode from 'vscode';
 import { BoostNotebook, BoostNotebookCell,
         NotebookCellKind, NOTEBOOK_SUMMARY_EXTENSION } from './jupyter_notebook';
 import { boostLogging } from './boostLogging';
-import { getBoostFile, findCellByKernel, BoostFileType, fullPathFromSourceFile } from './extension';
+import { getBoostFile, findCellByKernel, BoostFileType, fullPathFromSourceFile, cleanCellOutput } from './extension';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -252,7 +252,7 @@ export class SummarizeKernel extends KernelControllerBase {
                 const inputFromNotebook = await this.getAnalysisFromNotebook(file, outputType);
                 if (inputFromNotebook && !inputFromNotebook.includes(this.noDataToSummarizeMessage)) {
                     if (!this._isEmptySummary(inputFromNotebook)) {
-                        inputs.push(this._cleanBeforeSummarizing(inputFromNotebook));
+                        inputs.push(cleanCellOutput(inputFromNotebook));
                     }
                 }
             }));
@@ -281,17 +281,6 @@ export class SummarizeKernel extends KernelControllerBase {
         });
     }
 
-    _cleanBeforeSummarizing(input: string): string {
-        // strip out timestamps from the input
-        // ### Boost Code Compliance Check Summary
-        // Last Updated: Friday, June 16, 2023 at 8:24:17 PM PDT
-
-        // use regex to remove the above info
-        var pattern = /\n\n### Boost [^\n]*\n\nLast Updated: [^\n]*\n\n/g;
-        const cleanedInput = input.replace(pattern, "");
-        return cleanedInput;
-    }
-
     _summarizeCellsAsSingleInput(
         sourceCells : (vscode.NotebookCell | BoostNotebookCell)[],
         usingBoostNotebook : boolean,
@@ -305,7 +294,7 @@ export class SummarizeKernel extends KernelControllerBase {
                 cell.outputs.filter((output) => output.metadata?.outputType === outputType).forEach((output) => {
                     output.items.forEach((item) => {
                         if (item.data && !this._isEmptySummary(item.data)) {
-                            inputs.push(this._cleanBeforeSummarizing(item.data));
+                            inputs.push(cleanCellOutput(item.data));
                         }
                     });
                 });
@@ -315,7 +304,7 @@ export class SummarizeKernel extends KernelControllerBase {
                     output.items.forEach((item) => {
                         const decodedText = new TextDecoder().decode(item.data);
                         if (decodedText && !this._isEmptySummary(decodedText)) {
-                            inputs.push(this._cleanBeforeSummarizing(decodedText));
+                            inputs.push(cleanCellOutput(decodedText));
                         }
                     });
                 });
@@ -335,6 +324,8 @@ export class SummarizeKernel extends KernelControllerBase {
         //  dynamically add payload properties to send to Boost service
         payload.analysis_type = cell.metadata?.analysis_type;
         payload.analysis_label = cell.metadata?.analysis_label;
+        payload.model = cell.metadata?.model;
+        
         delete payload.inputs;
         let countOfInputs = 1;
         while (cell.metadata) {

@@ -6,13 +6,16 @@ Polyverse Boost Automatic Application Modernization
 ## Version 1.0.1: June 22, 2023
 
 ### New Features
-- Building and showing exported results in HTML format 
+- Building and showing exported results in HTML format (PDF and Markdown previously supported)
+- Enable analysis of selected text in Source Code Text Editor - via right-click "Boost Analyze Selected Text" command
 
 ### Enhancements
 - Use File Explorer right-click commands to show Analysis details and Summaries for all Source files and Project
 
 ### Bug Fixes
-- N/A
+- Disable Chat text box while Boost Cloud Service is processing request
+- Fix issue with Chat history on secondary chat windows
+- Enable closing of 1st chat window when multiple chat windows are open
 
 ### Known Issues
 - Flow Diagrams may not render correctly in Summary view

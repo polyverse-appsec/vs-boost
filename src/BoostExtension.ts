@@ -24,7 +24,9 @@ import {
     _buildVSCodeIgnorePattern, newErrorFromItemData, createOrOpenNotebookFromSourceFile,
     _syncProblemsInCell, createOrOpenSummaryNotebookFromSourceFile,
     BoostCommands,
-    findCellByKernel
+    findCellByKernel,
+    cleanCellOutput,
+    boostActivityBarId
 } from './extension';
 import { BoostContentSerializer } from './serializer';
 import { BoostConfiguration } from './boostConfiguration';
@@ -38,6 +40,9 @@ import { BoostProjectData, BoostProcessingStatus, emptyProjectData, SectionSumma
 import { BoostMarkdownViewProvider } from './markdown_view';
 
 import instructions from './instructions.json';
+import { reject } from 'lodash';
+import { randomUUID } from 'crypto';
+import { ICellMetadata } from '@jupyterlab/nbformat';
 
 export class BoostExtension {
     // for state, we keep it in a few places
@@ -86,10 +91,15 @@ export class BoostExtension {
 
         this.registerFolderRightClickOutputCommands(context);
 
+        this.registerSourceCodeRightClickCommands(context);
+
         this.setupDashboard(context);
 
         boostLogging.log('Activated Boost Notebook Extension');
-        boostLogging.info('Polyverse Boost is now active');
+
+        if (BoostConfiguration.logLevel === 'debug') {
+            boostLogging.info('Polyverse Boost is now active');
+        }
     }
     private _setupBoostProjectDataLifecycle(context: vscode.ExtensionContext) {
         let disposable = vscode.workspace.onDidChangeWorkspaceFolders(this.workspaceFoldersChanged);
@@ -934,25 +944,23 @@ export class BoostExtension {
             }
     
             await this.buildCurrentFileOutput(uri, false, BoostConfiguration.defaultOutputFormat).then((outputFile: string) => {
-                boostLogging.info(`${outputFile} created for file:${uri.fsPath}.`, uri === undefined);
+                boostLogging.info(`${outputFile} created for file:${uri.fsPath}.`, false);
     
                 // show the file now
                 switch (BoostConfiguration.defaultOutputFormat) {
                     case "markdown":
                         vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.parse(outputFile)).then((success) => {
-                            boostLogging.info(`Markdown Preview opened for ${outputFile}`, uri === undefined);
+                            boostLogging.info(`Markdown Preview opened for ${outputFile}`, true);
                         }, (reason) => {
                             boostLogging.error(`Unable to open Markdown Preview for ${outputFile} due to ${(reason as Error).message}`, true);
                         });
                         break;
                     case "pdf":
-                        boostLogging.info(`PDF Preview not supported for ${outputFile}`, true);
-                        break;
                     case "html":
                         vscode.env.openExternal(vscode.Uri.parse(outputFile)).then((success) => {
-                            boostLogging.info(`HTML Preview opened for ${outputFile}`, uri === undefined);
+                            boostLogging.info(`${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview opened for ${outputFile}`, true);
                         }, (reason) => {
-                            boostLogging.error(`Unable to open HTML Preview for ${outputFile} due to ${(reason as Error).message}`, true);
+                            boostLogging.error(`Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview for ${outputFile} due to ${(reason as Error).message}`, true);
                         });
                         break;
                     default:
@@ -1005,19 +1013,17 @@ export class BoostExtension {
                     switch (BoostConfiguration.defaultOutputFormat) {
                         case "markdown":
                             vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.parse(outputFile)).then((success) => {
-                                boostLogging.info(`Markdown Preview opened for ${outputFile}`, uri === undefined);
+                                boostLogging.info(`Markdown Preview opened for ${outputFile}`, false);
                             }, (reason) => {
-                                boostLogging.error(`Unable to open Markdown Preview for ${outputFile} due to ${(reason as Error).message}`, true);
+                                boostLogging.error(`Unable to open Markdown Preview for ${outputFile} due to ${(reason as Error).message}`, false);
                             });
                             break;
                         case "pdf":
-                            boostLogging.info(`PDF Preview not supported for ${outputFile}`, true);
-                            break;
                         case "html":
                             vscode.env.openExternal(vscode.Uri.parse(outputFile)).then((success) => {
-                                boostLogging.info(`HTML Preview opened for ${outputFile}`, uri === undefined);
+                                boostLogging.info(`${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview opened for ${outputFile}`, true);
                             }, (reason) => {
-                                boostLogging.error(`Unable to open HTML Preview for ${outputFile} due to ${(reason as Error).message}`, true);
+                                boostLogging.error(`Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview for ${outputFile} due to ${(reason as Error).message}`, true);
                             });
                             break;
                         default:
@@ -1049,7 +1055,7 @@ export class BoostExtension {
             async (uri: vscode.Uri) => {
                 await this.buildCurrentFileOutput(uri, true, BoostConfiguration.defaultOutputFormat).then((outputFile: string) => {
                     if (!uri) {
-                        boostLogging.info(`${outputFile} created`, uri === undefined);
+                        boostLogging.info(`${outputFile} created`, false);
                     } else {
                         boostLogging.info(`${outputFile} created for file:${uri.fsPath}.`, uri === undefined);
                     }
@@ -1058,19 +1064,17 @@ export class BoostExtension {
                     switch (BoostConfiguration.defaultOutputFormat) {
                         case "markdown":
                             vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.parse(outputFile)).then((success) => {
-                                boostLogging.info(`Markdown Preview opened for ${outputFile}`, uri === undefined);
+                                boostLogging.info(`Markdown Preview opened for ${outputFile}`, false);
                             }, (reason) => {
                                 boostLogging.error(`Unable to open Markdown Preview for ${outputFile} due to ${(reason as Error).message}`, true);
                             });
                             break;
                         case "pdf":
-                            boostLogging.info(`PDF Preview not supported for ${outputFile}`, true);
-                            break;
                         case "html":
                             vscode.env.openExternal(vscode.Uri.parse(outputFile)).then((success) => {
-                                boostLogging.info(`HTML Preview opened for ${outputFile}`, uri === undefined);
+                                boostLogging.info(`${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview opened for ${outputFile}`, true);
                             }, (reason) => {
-                                boostLogging.error(`Unable to open HTML Preview for ${outputFile} due to ${(reason as Error).message}`, true);
+                                boostLogging.error(`Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview for ${outputFile} due to ${(reason as Error).message}`, true);
                             });
                             break;
                         default:
@@ -1094,6 +1098,79 @@ export class BoostExtension {
                 });
             });
         context.subscriptions.push(disposable);
+    }
+
+    registerSourceCodeRightClickCommands(context: vscode.ExtensionContext,) {
+
+        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.analyzeSourceCode,
+            async () => {
+                const editor = vscode.window.activeTextEditor;
+        
+                if (!editor) {
+                    boostLogging.warn(`No active editor found to analyze source code.`, false);
+                    return;
+                }
+
+                // get the user's selected text
+                const selectedText = editor.document.getText(editor.selection);
+                if (selectedText === undefined || selectedText === "") {
+                    boostLogging.warn(`No text selected to analyze source code.`, false);
+                    return;
+                }
+
+                const targetedKernel = this.getCurrentKernel(BoostConfiguration.currentKernelCommand);
+                if (targetedKernel === undefined) {
+                    boostLogging.warn(`Please select an Analysis command type via Boost Status Bar at bottom of screen`, true);
+                    return;
+                }
+        
+                // analyze the source code
+                await this.analyzeSourceCode(selectedText).then((analysisResults : string) => {
+                    boostLogging.info(analysisResults, true);
+                }).catch((error: any) => {
+                    boostLogging.error(`Unable to Analyze Selected Text with ${BoostConfiguration.currentKernelCommand} due to ${error as Error}`, true);
+                });
+            });
+        context.subscriptions.push(disposable);
+    }
+
+    async analyzeSourceCode(selectedText : string) : Promise<string> {
+        return new Promise(async (resolve, reject) => {
+
+            try {
+                if (selectedText === undefined || selectedText === "") {
+                    reject(new Error("No text selected to analyze source code."));
+                    return;
+                }
+
+                // use default selected kernel
+                const targetedKernel = this.getCurrentKernel(BoostConfiguration.currentKernelCommand);
+                if (targetedKernel === undefined) {
+                    reject(new Error(`Unable to match analysis kernel to analyze source code.`));
+                    return;
+                }
+
+                let notebook = new boostnb.BoostNotebook();
+                notebook.addCell(new boostnb.BoostNotebookCell(boostnb.NotebookCellKind.Code, selectedText, "plaintext", undefined));
+                const cellMetadata = {
+                    model: "gpt-3.5-turbo",
+                    temperature: 0.1,
+                }; // fast-processing model
+                notebook.cells[0].initializeMetadata(cellMetadata);
+
+                vscode.commands.executeCommand(`workbench.view.extension.${boostActivityBarId}`);
+
+                targetedKernel.executeAllWithAuthorization(notebook.cells, notebook)
+                    .then(() => {
+                        resolve(cleanCellOutput(notebook.cells[0].outputs[0].items[0].data));
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    });
+            } catch (error) {
+                reject(error as Error);
+            }
+        });
     }
 
     async loadCurrentFile(sourceFileUri: vscode.Uri, context: vscode.ExtensionContext): Promise<boolean> {
@@ -1183,8 +1260,13 @@ export class BoostExtension {
         });
     }
 
-    async processCurrentFile(sourceUri: vscode.Uri, kernelCommand: string, context: vscode.ExtensionContext, forceAnalysisRefresh: boolean = false): Promise<{ notebook: boostnb.BoostNotebook | undefined, result: boolean }> {
-        return new Promise(async (resolve) => {
+    async processCurrentFile(
+        sourceUri: vscode.Uri,
+        kernelCommand: string,
+        _: vscode.ExtensionContext,
+        forceAnalysisRefresh: boolean = false):
+            Promise<boostnb.BoostNotebook> {
+        return new Promise(async (resolve, reject) => {
             try {
 
                 // if we don't have a file selected, then the user didn't right click
@@ -1192,7 +1274,7 @@ export class BoostExtension {
                 if (sourceUri === undefined) {
                     if (vscode.window.activeTextEditor === undefined) {
                         boostLogging.warn(`Unable to identify an active file to Process ${kernelCommand}`);
-                        resolve({ notebook: undefined, result: false });
+                        reject(new Error(`Unable to identify an active file to Process ${kernelCommand}`));
                         return;
                     } else {
                         sourceUri = vscode.window.activeTextEditor?.document.uri;
@@ -1202,7 +1284,7 @@ export class BoostExtension {
                 const targetedKernel = this.getCurrentKernel(kernelCommand);
                 if (targetedKernel === undefined) {
                     boostLogging.warn(`Unable to match analysis kernel for ${kernelCommand}`);
-                    resolve({ notebook: undefined, result: false });
+                    reject(new Error(`Unable to match analysis kernel for ${kernelCommand}`));
                     return;
                 }
 
@@ -1242,14 +1324,14 @@ export class BoostExtension {
                             notebook.save(notebookUri.fsPath);
                             boostLogging.info(`Saved Updated Notebook for ${kernelCommand} in file:[${notebookUri.fsPath}]`, false);
                         }
-                        resolve({ notebook, result: true });
+                        resolve(notebook);
                     })
                     .catch((error) => {
                         boostLogging.warn(`Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${sourceUri.fsPath}] due to error:${error}`);
-                        resolve({ notebook: undefined, result: false });
+                        reject(error);
                     });
             } catch (error) {
-                resolve({ notebook: undefined, result: false });
+                reject(error as Error);
             }
         });
     }
@@ -1349,37 +1431,40 @@ export class BoostExtension {
             const wordsPerFile = throttleRateTokensPerMinute / totalFiles;
             const seconds = 1000;
 
-            let processedNotebookWaits: Promise<{ notebook: boostnb.BoostNotebook | undefined, result: boolean }>[] = files.map(async (file) => {
-                return new Promise<{ notebook: boostnb.BoostNotebook | undefined, result: boolean }>(async (resolve) => {
+            let processedNotebookWaits: Promise<boostnb.BoostNotebook>[] = files.map(async (file) => {
+                return new Promise<boostnb.BoostNotebook>((resolve, reject) => {
                     const fileSize = fs.statSync(file.fsPath).size;
                     const estimatedWords = this.calculateEstimatedWords(fileSize);
                     const processingTime = this.calculateProcessingTime(estimatedWords, wordsPerFile);
-
+            
                     boostLogging.log(`Delaying file ${file.fsPath} with ${estimatedWords} ~items to wait ${processingTime * seconds} secs`);
-                    await new Promise(resolve => setTimeout(resolve, processingTime));
-                    // if its been more than 5 seconds, log it - that's about 13 pages of source in 5 seconds (wild estimate)
-                    if (processingTime > 5 * seconds) {
-                        boostLogging.log(`Starting processing file ${file.fsPath} with ${estimatedWords} ~items after waiting ${processingTime * seconds} secs`);
-                    }
-
-                    const result = await this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh);
-                    this.summaryViewProvider?.finishJobs(targetedKernel.outputType, 1);
-                    resolve(result);
+                    setTimeout(async () => {
+                        // if its been more than 5 seconds, log it - that's about 13 pages of source in 5 seconds (wild estimate)
+                        if (processingTime > 5 * seconds) {
+                            boostLogging.log(`Starting processing file ${file.fsPath} with ${estimatedWords} ~items after waiting ${processingTime * seconds} secs`);
+                        }
+            
+                        this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh).then((notebook) => {
+                            resolve(notebook);
+                        }).catch((error) => {
+                            reject(error);
+                        }).finally(() => {
+                            this.summaryViewProvider?.finishJobs(targetedKernel.outputType, 1);
+                        });
+                    }, processingTime);
                 });
             });
-
+            
             this.summaryViewProvider?.addJobs(targetedKernel.outputType, processedNotebookWaits.length);
 
             await Promise.all(processedNotebookWaits)
                 .then((processedNotebooks) => {
-                    processedNotebooks.forEach(({ notebook, result }) => {
+                    processedNotebooks.forEach((notebook) => {
                         // we let the user know the notebook was processed
-                        if (notebook) {
-                            boostLogging.info(
-                                `Boost Notebook processed with command ${targetedKernel.command}: ${notebook.fsPath}`,
-                                false
-                            );
-                        }
+                        boostLogging.info(
+                            `Boost Notebook processed with command ${targetedKernel.command}: ${notebook.fsPath}`,
+                            false
+                        );
                     });
                     boostLogging.info(
                         `${processedNotebookWaits.length.toString()} Boost Notebooks processed for folder ${targetFolder.path}`,

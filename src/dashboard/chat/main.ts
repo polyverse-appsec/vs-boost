@@ -80,10 +80,11 @@ function handleSendClick() {
 
     const sendButton = document.getElementById("send") as Button;
     const progressRing = document.getElementById("progress") as HTMLElement;
+    const promptBox = document.getElementById("prompt") as HTMLTextAreaElement;
     //disable the button and show the progress ring by adding/removing the hidden attribute
     sendButton.setAttribute("hidden", "");
+    promptBox.setAttribute("disabled", "");
     progressRing.removeAttribute("hidden");
-
 
     vscode.postMessage({
         chatindex: chatindex,
