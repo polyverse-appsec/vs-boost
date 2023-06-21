@@ -23,7 +23,8 @@ import {
     _buildVSCodeIgnorePattern, newErrorFromItemData, createOrOpenNotebookFromSourceFile,
     _syncProblemsInCell, createOrOpenSummaryNotebookFromSourceFile,
     BoostCommands,
-    findCellByKernel
+    findCellByKernel,
+    cleanCellOutput
 } from './extension';
 import { BoostContentSerializer } from './serializer';
 import { BoostConfiguration } from './boostConfiguration';
@@ -37,6 +38,9 @@ import { BoostProjectData, BoostProcessingStatus, emptyProjectData, SectionSumma
 import { BoostMarkdownViewProvider } from './markdown_view';
 
 import instructions from './instructions.json';
+import { reject } from 'lodash';
+import { randomUUID } from 'crypto';
+import { ICellMetadata } from '@jupyterlab/nbformat';
 
 export class BoostExtension {
     // for state, we keep it in a few places
@@ -84,6 +88,8 @@ export class BoostExtension {
         this.registerFolderRightClickAnalyzeCommand(context);
 
         this.registerFolderRightClickOutputCommands(context);
+
+        this.registerSourceCodeRightClickCommands(context);
 
         this.setupDashboard(context);
 
@@ -1088,6 +1094,70 @@ export class BoostExtension {
                 });
             });
         context.subscriptions.push(disposable);
+    }
+
+    registerSourceCodeRightClickCommands(context: vscode.ExtensionContext,) {
+
+        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.analyzeSourceCode,
+            async () => {
+                const editor = vscode.window.activeTextEditor;
+        
+                if (!editor) {
+                    boostLogging.warn(`No active editor found to analyze source code.`, false);
+                    return;
+                }
+
+                // get the user's selected text
+                const selectedText = editor.document.getText(editor.selection);
+                if (selectedText === undefined || selectedText === "") {
+                    boostLogging.warn(`No text selected to analyze source code.`, false);
+                    return;
+                }
+        
+                // analyze the source code
+                await this.analyzeSourceCode(selectedText).then((analysisResults : string) => {
+                    boostLogging.info(analysisResults, true);
+                }).catch((error: any) => {
+                    boostLogging.error(`Unable to Analyze Selected Text with ${BoostConfiguration.currentKernelCommand} due to ${error as Error}`, true);
+                });
+            });
+        context.subscriptions.push(disposable);
+    }
+
+    async analyzeSourceCode(selectedText : string) : Promise<string> {
+        return new Promise(async (resolve, reject) => {
+
+            try {
+                if (selectedText === undefined || selectedText === "") {
+                    reject(new Error("No text selected to analyze source code."));
+                    return;
+                }
+
+                // use default selected kernel
+                const targetedKernel = this.getCurrentKernel(BoostConfiguration.currentKernelCommand);
+                if (targetedKernel === undefined) {
+                    reject(new Error(`Unable to match analysis kernel to analyze source code.`));
+                    return;
+                }
+
+                let notebook = new boostnb.BoostNotebook();
+                notebook.addCell(new boostnb.BoostNotebookCell(boostnb.NotebookCellKind.Code, selectedText, "plaintext", undefined));
+                const cellMetadata = {
+                    model: "gpt-3.5-turbo",
+                    temperature: 0.1,
+                }; // fast-processing model
+                notebook.cells[0].initializeMetadata(cellMetadata);
+                targetedKernel.executeAllWithAuthorization(notebook.cells, notebook)
+                    .then(() => {
+                        resolve(cleanCellOutput(notebook.cells[0].outputs[0].items[0].data));
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    });
+            } catch (error) {
+                reject(error as Error);
+            }
+        });
     }
 
     async loadCurrentFile(sourceFileUri: vscode.Uri, context: vscode.ExtensionContext): Promise<boolean> {
