@@ -943,8 +943,6 @@ export class BoostExtension {
                         });
                         break;
                     case "pdf":
-                        boostLogging.info(`PDF Preview not supported for ${outputFile}`, true);
-                        break;
                     case "html":
                         vscode.env.openExternal(vscode.Uri.parse(outputFile)).then((success) => {
                             boostLogging.info(`HTML Preview opened for ${outputFile}`, uri === undefined);
@@ -1008,8 +1006,6 @@ export class BoostExtension {
                             });
                             break;
                         case "pdf":
-                            boostLogging.info(`PDF Preview not supported for ${outputFile}`, true);
-                            break;
                         case "html":
                             vscode.env.openExternal(vscode.Uri.parse(outputFile)).then((success) => {
                                 boostLogging.info(`HTML Preview opened for ${outputFile}`, uri === undefined);
@@ -1061,8 +1057,6 @@ export class BoostExtension {
                             });
                             break;
                         case "pdf":
-                            boostLogging.info(`PDF Preview not supported for ${outputFile}`, true);
-                            break;
                         case "html":
                             vscode.env.openExternal(vscode.Uri.parse(outputFile)).then((success) => {
                                 boostLogging.info(`HTML Preview opened for ${outputFile}`, uri === undefined);

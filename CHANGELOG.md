@@ -6,7 +6,7 @@ Polyverse Boost Automatic Application Modernization
 ## Version 1.0.1: June 22, 2023
 
 ### New Features
-- Building and showing exported results in HTML format 
+- Building and showing exported results in HTML format (PDF and Markdown previously supported)
 
 ### Enhancements
 - Use File Explorer right-click commands to show Analysis details and Summaries for all Source files and Project
