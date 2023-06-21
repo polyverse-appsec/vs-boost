@@ -4,17 +4,17 @@ import {
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 
-export const analyzeKernelName = 'analyze';
-export const analyzeOutputType = 'bugAnalysis';
+export const analyzeKernelName = 'analyze_function';
+export const analyzeOutputType = 'bugAnalysisList';
 
 //set a helper variable of the base url.  this should eventually be a config setting
-export class BoostAnalyzeKernel extends KernelControllerBase {
+export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis: any, collection: DiagnosticCollection) {
         super(
             collection,
             analyzeKernelName,
-            'Analyze Code for Security Vulnerabilities',
-            'Deep analysis of all targeted source code for security vulnerabiities, bugs and potential design flaws',
+            'Quick scan for security vulnerabilities',
+            'Quickly analyzes all targeted source code for security vulnerabiities, bugs and potential design flaws',
             analyzeOutputType,
             true,
             true, 
@@ -27,15 +27,15 @@ export class BoostAnalyzeKernel extends KernelControllerBase {
         switch (BoostConfiguration.cloudServiceStage)
         {
             case "local":
-                return 'http://127.0.0.1:8000/analyze';
+                return 'http://127.0.0.1:8000/analyze_function';
             case 'dev':
-                return 'https://iyn66vkb6lmlcb4log6d3ah7d40axgqu.lambda-url.us-west-2.on.aws/';
+                return 'need_dev_url';
             case "test":
-                return 'https://avfacpvmtvwcns7sq3si46noxy0zcyrb.lambda-url.us-west-2.on.aws/';
+                return 'need_test_url';
             case 'staging':
             case 'prod':
             default:
-                return 'https://2av3vd7bxvxu3zfymtdgqziuoy0lvpge.lambda-url.us-west-2.on.aws/';
+                return 'need_prod_url';
         }
     }
 
@@ -47,7 +47,7 @@ export class BoostAnalyzeKernel extends KernelControllerBase {
         if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return `\n\n---\n\n### Boost Code Analysis\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
+        return response.analysis;
     }
 
     localizeError(error: Error): Error {

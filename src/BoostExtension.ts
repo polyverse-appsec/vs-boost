@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as boostnb from './jupyter_notebook';
 
 import { BoostAnalyzeKernel, analyzeOutputType } from './analyze_controller';
+import { BoostAnalyzeFunctionKernel} from './analyze_function_controller';
 import { BoostTestgenKernel } from './testgen_controller';
 import { BoostConvertKernel } from './convert_controller';
 import { BoostComplianceKernel, complianceOutputType } from './compliance_controller';
@@ -637,6 +638,8 @@ export class BoostExtension {
         this.kernels.set(explainKernel.command, explainKernel);
         let analyzeKernel = new BoostAnalyzeKernel(context, updateBoostStatusColors.bind(this), this, collection);
         this.kernels.set(analyzeKernel.command, analyzeKernel);
+        let analyzeFunctionKernel = new BoostAnalyzeFunctionKernel(context, updateBoostStatusColors.bind(this), this, collection);
+        this.kernels.set(analyzeFunctionKernel.command, analyzeFunctionKernel);
         let testgenKernel = new BoostTestgenKernel(context, updateBoostStatusColors.bind(this), this, collection);
         this.kernels.set(testgenKernel.command, testgenKernel);
         let complianceKernel = new BoostComplianceKernel(context, updateBoostStatusColors.bind(this), this, collection);
