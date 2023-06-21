@@ -88,7 +88,10 @@ export class BoostExtension {
         this.setupDashboard(context);
 
         boostLogging.log('Activated Boost Notebook Extension');
-        boostLogging.info('Polyverse Boost is now active');
+        
+        if (BoostConfiguration.logLevel === 'debug') {
+            boostLogging.info('Polyverse Boost is now active');
+        }
     }
     private _setupBoostProjectDataLifecycle(context: vscode.ExtensionContext) {
         let disposable = vscode.workspace.onDidChangeWorkspaceFolders(this.workspaceFoldersChanged);
@@ -931,13 +934,13 @@ export class BoostExtension {
             }
     
             await this.buildCurrentFileOutput(uri, false, BoostConfiguration.defaultOutputFormat).then((outputFile: string) => {
-                boostLogging.info(`${outputFile} created for file:${uri.fsPath}.`, uri === undefined);
+                boostLogging.info(`${outputFile} created for file:${uri.fsPath}.`, false);
     
                 // show the file now
                 switch (BoostConfiguration.defaultOutputFormat) {
                     case "markdown":
                         vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.parse(outputFile)).then((success) => {
-                            boostLogging.info(`Markdown Preview opened for ${outputFile}`, uri === undefined);
+                            boostLogging.info(`Markdown Preview opened for ${outputFile}`, true);
                         }, (reason) => {
                             boostLogging.error(`Unable to open Markdown Preview for ${outputFile} due to ${(reason as Error).message}`, true);
                         });
@@ -945,9 +948,9 @@ export class BoostExtension {
                     case "pdf":
                     case "html":
                         vscode.env.openExternal(vscode.Uri.parse(outputFile)).then((success) => {
-                            boostLogging.info(`HTML Preview opened for ${outputFile}`, uri === undefined);
+                            boostLogging.info(`${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview opened for ${outputFile}`, true);
                         }, (reason) => {
-                            boostLogging.error(`Unable to open HTML Preview for ${outputFile} due to ${(reason as Error).message}`, true);
+                            boostLogging.error(`Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview for ${outputFile} due to ${(reason as Error).message}`, true);
                         });
                         break;
                     default:
@@ -1000,17 +1003,17 @@ export class BoostExtension {
                     switch (BoostConfiguration.defaultOutputFormat) {
                         case "markdown":
                             vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.parse(outputFile)).then((success) => {
-                                boostLogging.info(`Markdown Preview opened for ${outputFile}`, uri === undefined);
+                                boostLogging.info(`Markdown Preview opened for ${outputFile}`, false);
                             }, (reason) => {
-                                boostLogging.error(`Unable to open Markdown Preview for ${outputFile} due to ${(reason as Error).message}`, true);
+                                boostLogging.error(`Unable to open Markdown Preview for ${outputFile} due to ${(reason as Error).message}`, false);
                             });
                             break;
                         case "pdf":
                         case "html":
                             vscode.env.openExternal(vscode.Uri.parse(outputFile)).then((success) => {
-                                boostLogging.info(`HTML Preview opened for ${outputFile}`, uri === undefined);
+                                boostLogging.info(`${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview opened for ${outputFile}`, true);
                             }, (reason) => {
-                                boostLogging.error(`Unable to open HTML Preview for ${outputFile} due to ${(reason as Error).message}`, true);
+                                boostLogging.error(`Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview for ${outputFile} due to ${(reason as Error).message}`, true);
                             });
                             break;
                         default:
@@ -1042,7 +1045,7 @@ export class BoostExtension {
             async (uri: vscode.Uri) => {
                 await this.buildCurrentFileOutput(uri, true, BoostConfiguration.defaultOutputFormat).then((outputFile: string) => {
                     if (!uri) {
-                        boostLogging.info(`${outputFile} created`, uri === undefined);
+                        boostLogging.info(`${outputFile} created`, false);
                     } else {
                         boostLogging.info(`${outputFile} created for file:${uri.fsPath}.`, uri === undefined);
                     }
@@ -1051,7 +1054,7 @@ export class BoostExtension {
                     switch (BoostConfiguration.defaultOutputFormat) {
                         case "markdown":
                             vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.parse(outputFile)).then((success) => {
-                                boostLogging.info(`Markdown Preview opened for ${outputFile}`, uri === undefined);
+                                boostLogging.info(`Markdown Preview opened for ${outputFile}`, false);
                             }, (reason) => {
                                 boostLogging.error(`Unable to open Markdown Preview for ${outputFile} due to ${(reason as Error).message}`, true);
                             });
@@ -1059,9 +1062,9 @@ export class BoostExtension {
                         case "pdf":
                         case "html":
                             vscode.env.openExternal(vscode.Uri.parse(outputFile)).then((success) => {
-                                boostLogging.info(`HTML Preview opened for ${outputFile}`, uri === undefined);
+                                boostLogging.info(`${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview opened for ${outputFile}`, true);
                             }, (reason) => {
-                                boostLogging.error(`Unable to open HTML Preview for ${outputFile} due to ${(reason as Error).message}`, true);
+                                boostLogging.error(`Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview for ${outputFile} due to ${(reason as Error).message}`, true);
                             });
                             break;
                         default:
