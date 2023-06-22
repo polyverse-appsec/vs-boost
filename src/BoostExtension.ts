@@ -1183,6 +1183,10 @@ export class BoostExtension {
                     }
                     else {
                         sourceFileUri = vscode.window.activeTextEditor?.document.uri;
+                        if (!fs.existsSync(sourceFileUri.fsPath)) {
+                            reject(new Error(`${sourceFileUri} is not saved to disk. Please save and try again.`));
+                            return;
+                        }
                     }
                 }
 
