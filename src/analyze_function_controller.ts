@@ -3,12 +3,18 @@ import {
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
+import * as vscode from 'vscode';
+import * as boostnb from './jupyter_notebook';
+
 
 export const analyzeKernelName = 'analyze_function';
 export const analyzeOutputType = 'bugAnalysisList';
 
 //set a helper variable of the base url.  this should eventually be a config setting
 export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
+
+    private _securityIssueCollection: DiagnosticCollection;
+
 	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis: any, collection: DiagnosticCollection) {
         super(
             collection,
@@ -21,6 +27,7 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
             context,
             otherThis,
             onServiceErrorHandler);
+        this._securityIssueCollection = vscode.languages.createDiagnosticCollection(boostnb.NOTEBOOK_TYPE + '.security');
 	}
 
     public get serviceEndpoint(): string {
@@ -57,6 +64,16 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
             markdown += `   **Description**: ${bug.description}\n`;
             markdown += `   **Solution**: ${bug.solution}\n\n`;
         });
+
+        //now add the bugs to the security issue collection
+        let diagnostics: vscode.Diagnostic[] = [];
+        response.details.forEach((bug: any, index: number) => {
+            let range = new vscode.Range(bug.lineNumber - 1, 0, bug.lineNumber - 1, 0);
+            let diagnostic = new vscode.Diagnostic(range, bug.description, vscode.DiagnosticSeverity.Error);
+            diagnostics.push(diagnostic);
+        });
+        this._securityIssueCollection.set(vscode.Uri.parse(response.file), diagnostics);
+        
         return markdown;
     }
 
