@@ -8,6 +8,7 @@ Polyverse Boost Automatic Application Modernization
 ### New Features
 - Building and showing exported results in HTML format (PDF and Markdown previously supported)
 - Enable analysis of selected text in Source Code Text Editor - via right-click "Boost Analyze Selected Text" command
+- Enable AI Chat window for Source and Architectural analysis
 
 ### Enhancements
 - Use File Explorer right-click commands to show Analysis details and Summaries for all Source files and Project

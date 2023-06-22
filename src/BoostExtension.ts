@@ -657,6 +657,9 @@ export class BoostExtension {
         this.kernels.set(blueprintKernel.command, blueprintKernel);
         let flowDiagramKernel = new BoostFlowDiagramKernel(context, updateBoostStatusColors.bind(this), this, collection);
         this.kernels.set(flowDiagramKernel.command, flowDiagramKernel);
+        let customProcessKernel = new BoostCustomProcessKernel(context, updateBoostStatusColors.bind(this), this, collection);
+        this.kernels.set(customProcessKernel.command, customProcessKernel);
+        context.subscriptions.push(customProcessKernel);
         let summarizeKernel = new SummarizeKernel(context, updateBoostStatusColors.bind(this), this, collection, this.kernels);
         this.kernels.set(summarizeKernel.command, summarizeKernel);
 
@@ -677,9 +680,7 @@ export class BoostExtension {
 
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
-            let customProcessKernel = new BoostCustomProcessKernel(context, updateBoostStatusColors.bind(this), this, collection);
-            this.kernels.set(customProcessKernel.command, customProcessKernel);
-            context.subscriptions.push(customProcessKernel);
+            // register the dev only kernels
         }
     }
 
