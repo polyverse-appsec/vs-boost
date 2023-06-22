@@ -12,10 +12,28 @@ export async function fetchGithubSession(forceNewSession : boolean = false): Pro
     // https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/
     const SCOPES = ['user:email', 'read:org'];
   
-    const session = await vscode.authentication.getSession(GITHUB_AUTH_PROVIDER_ID, SCOPES,
-        { createIfNone: !forceNewSession, forceNewSession: forceNewSession});
-    if (!session) {
-        throw new Error("Unable to retrieve GitHub session token from Visual Studio Code - please re-authorize GitHub and try again.");
+    let session = undefined;
+    let errorMessage = undefined;
+    try {
+        session = await vscode.authentication.getSession(GITHUB_AUTH_PROVIDER_ID, SCOPES,
+            { createIfNone: !forceNewSession, forceNewSession: forceNewSession});
+    } catch (err : any) {
+        if ((err.message as string).includes('Git model not found')) {
+            // don't show error UI popup since we may running in an API, batch mode operation
+            const errorMessage = "Please verify local installation of Git software. Git is required for Visual Studio Code to access GitHub.";
+            boostLogging.error(errorMessage, false);
+            throw new Error(errorMessage);
+        }
+        // otherwise rethrow the error
+        boostLogging.warn(`Error fetching GitHub session from Visual StudioCode: ${boostLogging.shouldLog("debug")?(err as Error).stack:err}`);
+        errorMessage = err.message;
+    }
+    if (!session || errorMessage) {
+        const userError = "Unable to retrieve GitHub session token from Visual Studio Code - please re-authorize GitHub and try again.";
+        if (errorMessage) {
+            errorMessage = `${userError} ${errorMessage}`;
+        }
+        throw new Error(userError);
     }
     return session;
 }
