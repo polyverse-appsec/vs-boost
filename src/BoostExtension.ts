@@ -640,52 +640,38 @@ export class BoostExtension {
         context: vscode.ExtensionContext,
         collection: vscode.DiagnosticCollection) {
 
-        // build a map of output types to kernels so we can reverse lookup the kernels from their output
-
-        let convertKernel = new BoostConvertKernel(context, updateBoostStatusColors.bind(this), this, collection);
-        this.kernels.set(convertKernel.command, convertKernel);
-        let explainKernel = new BoostExplainKernel(context, updateBoostStatusColors.bind(this), this, collection);
-        this.kernels.set(explainKernel.command, explainKernel);
-        let analyzeKernel = new BoostAnalyzeKernel(context, updateBoostStatusColors.bind(this), this, collection);
-        this.kernels.set(analyzeKernel.command, analyzeKernel);
-        let testgenKernel = new BoostTestgenKernel(context, updateBoostStatusColors.bind(this), this, collection);
-        this.kernels.set(testgenKernel.command, testgenKernel);
-        let complianceKernel = new BoostComplianceKernel(context, updateBoostStatusColors.bind(this), this, collection);
-        this.kernels.set(complianceKernel.command, complianceKernel);
-        let guidelinesKernel = new BoostCodeGuidelinesKernel(context, updateBoostStatusColors.bind(this), this, collection);
-        this.kernels.set(guidelinesKernel.command, guidelinesKernel);
-        let blueprintKernel = new BoostArchitectureBlueprintKernel(context, updateBoostStatusColors.bind(this), this, collection);
-        this.kernels.set(blueprintKernel.command, blueprintKernel);
-        let flowDiagramKernel = new BoostFlowDiagramKernel(context, updateBoostStatusColors.bind(this), this, collection);
-        this.kernels.set(flowDiagramKernel.command, flowDiagramKernel);
-        let customProcessKernel = new BoostCustomProcessKernel(context, updateBoostStatusColors.bind(this), this, collection);
-        this.kernels.set(customProcessKernel.command, customProcessKernel);
-        let summarizeKernel = new SummarizeKernel(context, updateBoostStatusColors.bind(this), this, collection, this.kernels);
-        this.kernels.set(summarizeKernel.command, summarizeKernel);
-
         context.subscriptions.push(
             vscode.workspace.registerNotebookSerializer(
                 boostnb.NOTEBOOK_TYPE, new BoostContentSerializer(), { transientOutputs: false }
-            ),
-            convertKernel,
-            analyzeKernel,
-            explainKernel,
-            testgenKernel,
-            complianceKernel,
-            guidelinesKernel,
-            blueprintKernel,
-            flowDiagramKernel,
-            summarizeKernel,
-            customProcessKernel
-        );
-
+            ));
+        let kernelTypes = [
+                BoostConvertKernel,
+                BoostExplainKernel,
+                BoostAnalyzeKernel,
+                BoostTestgenKernel,
+                BoostComplianceKernel,
+                BoostCodeGuidelinesKernel,
+                BoostArchitectureBlueprintKernel,
+                BoostFlowDiagramKernel,
+                BoostCustomProcessKernel,
+                SummarizeKernel
+            ];
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
             // register the dev only kernels
-            let analyzeFunctionKernel = new BoostAnalyzeFunctionKernel(context, updateBoostStatusColors.bind(this), this, collection);
-            this.kernels.set(analyzeFunctionKernel.command, analyzeFunctionKernel);
-            context.subscriptions.push(analyzeFunctionKernel);
+            const devKernelTypes = [
+                BoostAnalyzeFunctionKernel
+                ];
+            kernelTypes = kernelTypes.concat(devKernelTypes);
         }
+        // constructor and save all kernels
+        for (const kernelType of kernelTypes) {
+            const kernel = new kernelType(context, updateBoostStatusColors.bind(this), this, collection, this.kernels);
+            this.kernels.set(kernel.command, kernel);
+            // ensure all kernels are registered as subscriptions for disposal on exit
+            context.subscriptions.push(kernel);
+        }
+
     }
 
     setupDashboard(context: vscode.ExtensionContext) {
