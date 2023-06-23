@@ -110,6 +110,8 @@ Billing and Usage rates are available on your Polyverse Boost account page - acc
 
    ![GitHub.com account access authorization](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_10.03.32_PM.jpg?width=500)
 
+   If you have not already installed Git for your operating system, you will need to do so. Visual Studio Code requires Git to be installed to access GitHub functionality. You can download Git at [https://git-scm.com/downloads](https://git-scm.com/downloads).
+
 3. **Create your first Boost Notebook** - using the Command dropdown and selecting `Create Polyverse Boost Notebook` (Ctrl+Shift+P or Cmd+Shift+P on Mac) 
 
    ![Create Boost Notebook](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-26_at_5.40.18_PM.jpg?width=500)
@@ -182,9 +184,10 @@ Configure Polyverse Boost extension settings in the Visual Studio settings, unde
 A: Most modern programming languages are supported, including: Python, Rust, Ruby, Golang, Swift, Visual Basic, Java, C\#, C++, HTML/XML, TypeScript, and JavaScript.
 
 **Q: I don't have a [GitHub.com](https://GitHub.com) account. Can I still use the Boost extension?**
-A: You must have your email address registered with a valid [GitHub.com](https://GitHub.com) account. You do not need to store any source code on GitHub.com, but you do need to have a valid verified email so we can confirm your license key
+A: You must have your email address registered with a valid [GitHub.com](https://GitHub.com) account. You do not need to store any source code on GitHub.com, but you do need to have a valid verified email so we can confirm your license key at runtime.
 
- at runtime.
+**Q: The Boost Extension Status Bar at the bottom of my Visual Studio Code window says "Boost: Organization is *Error*" or I see a popup Error that says "Unable to Select organization: Git model not found"
+A: You must have a valid [GitHub.com](https://GitHub.com) account and have your email address registered with a valid [GitHub.com](https://GitHub.com) account. Additionally, you may not have Git fully installed and configured on your system. Please see the [Git Installation Guide](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) for more information. Boost does not directly use Git. Visual Studio Code requires Git to be installed to validate the email account you have provided to Boost.
 
 **Q: My source code is proprietary to me or my company, and I do not want to store it on other servers. Can I still use the Boost extension?**
 A: Yes. The Boost extension does not require you to store any source code on GitHub.com. Also, Polyverse does NOT store or retain any of your source code during analysis. Your source code is only stored on your local system running Visual Studio Code.

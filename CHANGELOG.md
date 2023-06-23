@@ -12,6 +12,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Enhancements
 - Use File Explorer right-click commands to show Analysis details and Summaries for all Source files and Project
+- Improved handling for Git errors when Git software is not installed
 
 ### Bug Fixes
 - Disable Chat text box while Boost Cloud Service is processing request

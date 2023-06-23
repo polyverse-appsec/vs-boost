@@ -9,6 +9,7 @@ Welcome to the Polyverse Boost Visual Studio extension! Boost is a powerful Visu
 
 ### Prerequisites
 - **Set up a [GitHub.com](https://GitHub.com) account**: To link your auto-generated Polyverse Trial license to your email address. Note: Even if your GitHub email account is marked as private, you can still use it to link your license to your email address. Polyverse Boost does not share your email with any third party. Your email is only used to link your email to your billing account.
+- ** Install Git** Visual Studio Code requires a local install of the Git software (e.g. Windows or Mac OS). You can download Git from [https://git-scm.com/downloads](https://git-scm.com/downloads). Note: Visual Studio Code automatically includes Git integration, so no special Git Extensions should be required.
 - **Trial License and Usage Billing**: Polyverse Boost is a paid subscription service. Your Auto-generated Polyverse Trial license is valid for a limited amount of trial usage. Once your trial license expires, you will need to update your Polyverse Boost account with a credit card to continue using Boost. Billing and Usage rates are available on your Polyverse Boost account page, accessible via the Extension Status bar.
 
 ### Installation
