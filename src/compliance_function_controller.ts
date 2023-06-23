@@ -36,9 +36,9 @@ export class BoostComplianceFunctionKernel extends KernelControllerBase {
             case "local":
                 return 'http://127.0.0.1:8000/compliance_function';
             case 'dev':
-                return '';
+                return 'https://t4so4gqwf5rr5fr7pvlpytvkne0prvcv.lambda-url.us-west-2.on.aws/';
             case "test":
-                return '';
+                return 'https://obzwdrxuel32tuozt5vdafb4gy0vjpls.lambda-url.us-west-2.on.aws/';
             case 'staging':
             case 'prod':
             default:
