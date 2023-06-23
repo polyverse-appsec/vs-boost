@@ -767,6 +767,7 @@ export class BoostExtension {
                 const notebookEditor = vscode.window.activeNotebookEditor;
                 // this should never happen, if it does, we are doing Notebook operations without a Notebook
                 if (notebookEditor === undefined) {
+                    boostLogging.error('Currently active editor is not a Boost Notebook.');
                     return;
                 }
 
@@ -1183,9 +1184,9 @@ export class BoostExtension {
                     }
                     else {
                         sourceFileUri = vscode.window.activeTextEditor?.document.uri;
+
                         if (!fs.existsSync(sourceFileUri.fsPath)) {
-                            reject(new Error(`${sourceFileUri} is not saved to disk. Please save and try again.`));
-                            return;
+                            boostLogging.warn(`Unable to find file ${sourceFileUri.fsPath} to Boost. It may not be saved to disk yet.`, false);
                         }
                     }
                 }
@@ -1270,6 +1271,7 @@ export class BoostExtension {
             Promise<boostnb.BoostNotebook> {
         return new Promise(async (resolve, reject) => {
             try {
+                let inMemorySourceFile = false; // the source file is in memory (either Notebook or raw source)
 
                 // if we don't have a file selected, then the user didn't right click
                 // so we need to find the current active editor if it's available
@@ -1280,6 +1282,14 @@ export class BoostExtension {
                         return;
                     } else {
                         sourceUri = vscode.window.activeTextEditor?.document.uri;
+                        if (!fs.existsSync(sourceUri.fsPath)) {
+                            inMemorySourceFile = true;
+                            boostLogging.error(`Canceling in-memory source file processing ${sourceUri.toString()}`, false);
+                            reject(new Error(`Please save ${sourceUri.toString()} before processing`));
+                            return;
+                        } else if (vscode.window.activeTextEditor?.document.isDirty) {
+                            boostLogging.warn(`File ${sourceUri.toString() } has unsaved changes.`, true);
+                        }
                     }
                 }
 
