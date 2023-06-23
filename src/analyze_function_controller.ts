@@ -63,11 +63,11 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
         }
 
         response.details.forEach((bug: any, index: number) => {
-            markdown += `${index + 1}. **Severity**: ${bug.severity}/10\n`;
-            markdown += `   **Line Number**: ${bug.lineNumber}\n`;
-            markdown += `   **Bug Type**: ${bug.bugType}\n`;
-            markdown += `   **Description**: ${bug.description}\n`;
-            markdown += `   **Solution**: ${bug.solution}\n\n`;
+            markdown += `${index + 1}. **Severity**: ${bug.severity}/10\n\n`;
+            markdown += `   **Line Number**: ${bug.lineNumber}\n\n`;
+            markdown += `   **Bug Type**: ${bug.bugType}\n\n`;
+            markdown += `   **Description**: ${bug.description}\n\n`;
+            markdown += `   **Solution**: ${bug.solution}\n\n\n`;
         });
 
         return markdown;
