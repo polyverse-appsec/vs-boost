@@ -8,7 +8,7 @@ import * as boostnb from './jupyter_notebook';
 import { fullPathFromSourceFile } from './extension';
 
 export const analyzeFunctionKernelName = 'analyze_function';
-export const analyzeOutputType = 'bugAnalysisList';
+export const analyzeFunctionOutputType = 'bugAnalysisList';
 
 //set a helper variable of the base url.  this should eventually be a config setting
 export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
@@ -21,7 +21,7 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
             analyzeFunctionKernelName,
             'Quick source scan for security vulnerabilities',
             'Quickly analyzes all targeted source code for security vulnerabiities, bugs and potential design flaws',
-            analyzeOutputType,
+            analyzeFunctionOutputType,
             true,
             true, 
             context,
@@ -81,7 +81,7 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
     }
 
     localizeError(error: Error): Error {
-        error.message = "Boost Code Analysis failed: " + error.message;
+        error.message = "Boost Security Analysis failed: " + error.message;
         return error;
     }
     onKernelProcessResponseDetails(response: any, cell : vscode.NotebookCell | boostnb.BoostNotebookCell, notebook: vscode.NotebookDocument | boostnb.BoostNotebook, mimetype : any) : any {
