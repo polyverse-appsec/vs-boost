@@ -12,7 +12,7 @@ Polyverse Boost Automatic Application Modernization
 - N/A
 
 ### Bug Fixes
-- N/A
+- Fix issue with Boost Activity Bar 'Run All' handling of checked Analysis Types
 
 ### Known Issues
 - N/A
