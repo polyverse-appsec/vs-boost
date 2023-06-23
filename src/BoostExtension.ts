@@ -1446,6 +1446,8 @@ export class BoostExtension {
                             boostLogging.log(`Starting processing file ${file.fsPath} with ${estimatedWords} ~items after waiting ${processingTime * seconds} secs`);
                         }
             
+                        this.summaryViewProvider?.addJobs(targetedKernel.outputType, 1);
+            
                         this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh).then((notebook) => {
                             resolve(notebook);
                         }).catch((error) => {
@@ -1456,8 +1458,6 @@ export class BoostExtension {
                     }, processingTime);
                 });
             });
-            
-            this.summaryViewProvider?.addJobs(targetedKernel.outputType, processedNotebookWaits.length);
 
             await Promise.all(processedNotebookWaits)
                 .then((processedNotebooks) => {

@@ -3,6 +3,18 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 1.0.3: June 23, 2023
+
+### New Features
+- N/A
+
+### Enhancements
+- N/A
+
+### Bug Fixes
+- Fix potential timing issue with Jobs reporting in Summary Activity Bar tab
+- Enable Fast Security Scan in Summary Activity Bar Tab
+
 ## Version 1.0.2: June 23, 2023
 
 ### New Features
