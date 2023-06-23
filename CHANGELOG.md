@@ -6,7 +6,7 @@ Polyverse Boost Automatic Application Modernization
 ## Version 1.0.3: June 23, 2023
 
 ### New Features
-- N/A
+- New Fast Data and Privacy Compliance Scan with source line mapping and solution recommendations
 
 ### Enhancements
 - N/A

@@ -8,6 +8,7 @@ import { BoostAnalyzeFunctionKernel} from './analyze_function_controller';
 import { BoostTestgenKernel } from './testgen_controller';
 import { BoostConvertKernel } from './convert_controller';
 import { BoostComplianceKernel, complianceOutputType } from './compliance_controller';
+import { BoostComplianceFunctionKernel } from './compliance_function_controller';
 import { BoostExplainKernel, explainOutputType } from './explain_controller';
 import { BoostCodeGuidelinesKernel } from './codeguidelines_controller';
 import { BoostArchitectureBlueprintKernel, blueprintOutputType } from './blueprint_controller';
@@ -40,9 +41,6 @@ import { BoostProjectData, BoostProcessingStatus, emptyProjectData, SectionSumma
 import { BoostMarkdownViewProvider } from './markdown_view';
 
 import instructions from './instructions.json';
-import { reject } from 'lodash';
-import { randomUUID } from 'crypto';
-import { ICellMetadata } from '@jupyterlab/nbformat';
 
 export class BoostExtension {
     // for state, we keep it in a few places
@@ -655,7 +653,8 @@ export class BoostExtension {
                 BoostFlowDiagramKernel,
                 BoostCustomProcessKernel,
                 SummarizeKernel,
-                BoostAnalyzeFunctionKernel
+                BoostAnalyzeFunctionKernel,
+                BoostComplianceFunctionKernel
             ];
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {

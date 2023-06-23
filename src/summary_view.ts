@@ -15,6 +15,7 @@ import { flowDiagramKernelName } from './flowdiagram_controller';
 import { explainKernelName } from './explain_controller';
 import { boostLogging } from './boostLogging';
 import { BoostConfiguration } from './boostConfiguration';
+import { complianceFunctionKernelName } from './compliance_function_controller';
 
 export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
@@ -66,7 +67,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                             ['archblueprintCode', [getKernelName(blueprintKernelName)]],
                             ['explainCode', [getKernelName(explainKernelName), getKernelName(flowDiagramKernelName)]],
                             ['bugAnalysis', [getKernelName(analyzeKernelName), getKernelName(analyzeFunctionKernelName)]],
-                            ['complianceCode', [getKernelName(complianceKernelName)]]
+                            ['complianceCode', [getKernelName(complianceKernelName), getKernelName(complianceFunctionKernelName)]]
                           ]);
 
                         try {
