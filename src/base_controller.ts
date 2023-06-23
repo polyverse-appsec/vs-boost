@@ -439,7 +439,7 @@ export class KernelControllerBase {
                 vscode.NotebookCellOutputItem.error(this.localizeError(serviceError as Error));
         }
 
-        let details = this.onKernelOutputItemDetails(response, cell, mimetype);
+        let details = this.onKernelProcessResponseDetails(response, cell, notebook, mimetype);
 
         // extend the outputItem.metadata field with the results of a call to onKernelOutputItemDetails
         this._updateCellOutput(execution, cell, details, outputItem, serviceError);
@@ -581,11 +581,7 @@ export class KernelControllerBase {
         throw new Error("Not implemented");
     }
 
-    onKernelOutputItemDetails(response: any, cell : vscode.NotebookCell | BoostNotebookCell, mimetype : any) : any {
-        //if the response.details field exists, then we will use that as the output as an object
-        if (response.details) {
-            return response.details;
-        }
+    onKernelProcessResponseDetails(response: any, cell : vscode.NotebookCell | BoostNotebookCell, notebook: vscode.NotebookDocument | BoostNotebook, mimetype : any) : any {
         return {};
     }
 

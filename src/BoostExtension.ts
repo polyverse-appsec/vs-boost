@@ -648,8 +648,6 @@ export class BoostExtension {
         this.kernels.set(explainKernel.command, explainKernel);
         let analyzeKernel = new BoostAnalyzeKernel(context, updateBoostStatusColors.bind(this), this, collection);
         this.kernels.set(analyzeKernel.command, analyzeKernel);
-        let analyzeFunctionKernel = new BoostAnalyzeFunctionKernel(context, updateBoostStatusColors.bind(this), this, collection);
-        this.kernels.set(analyzeFunctionKernel.command, analyzeFunctionKernel);
         let testgenKernel = new BoostTestgenKernel(context, updateBoostStatusColors.bind(this), this, collection);
         this.kernels.set(testgenKernel.command, testgenKernel);
         let complianceKernel = new BoostComplianceKernel(context, updateBoostStatusColors.bind(this), this, collection);
@@ -662,6 +660,8 @@ export class BoostExtension {
         this.kernels.set(flowDiagramKernel.command, flowDiagramKernel);
         let summarizeKernel = new SummarizeKernel(context, updateBoostStatusColors.bind(this), this, collection, this.kernels);
         this.kernels.set(summarizeKernel.command, summarizeKernel);
+        let customProcessKernel = new BoostCustomProcessKernel(context, updateBoostStatusColors.bind(this), this, collection);
+        this.kernels.set(customProcessKernel.command, customProcessKernel);
 
         context.subscriptions.push(
             vscode.workspace.registerNotebookSerializer(
@@ -680,8 +680,8 @@ export class BoostExtension {
 
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
-            let customProcessKernel = new BoostCustomProcessKernel(context, updateBoostStatusColors.bind(this), this, collection);
-            this.kernels.set(customProcessKernel.command, customProcessKernel);
+            let analyzeFunctionKernel = new BoostAnalyzeFunctionKernel(context, updateBoostStatusColors.bind(this), this, collection);
+            this.kernels.set(analyzeFunctionKernel.command, analyzeFunctionKernel);
             context.subscriptions.push(customProcessKernel);
         }
     }
