@@ -3,6 +3,7 @@ import {
  } from './base_controller';
 import { BoostConfiguration } from './boostConfiguration';
 import * as vscode from 'vscode';
+import { BoostNotebookCell } from './jupyter_notebook';
 
 export const blueprintOutputType = 'archblueprintCode';
 export const blueprintKernelName = 'blueprint';
@@ -44,7 +45,12 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
 
     readonly kernelMarkdownPrefix = "### Boost Architectural Blueprint\n";
 
-    onKernelOutputItem(response: any): string {
+
+    onKernelOutputItem(
+        response: any,
+        cell : vscode.NotebookCell | BoostNotebookCell,
+        mimetype : any) : string {
+
         if (response.blueprint === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }

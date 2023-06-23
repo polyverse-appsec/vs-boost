@@ -577,7 +577,11 @@ export class KernelControllerBase {
         });
     }
 
-    onKernelOutputItem(response: any, cell : vscode.NotebookCell | BoostNotebookCell, mimetype : any) : string {
+    onKernelOutputItem(
+        response: any,
+        cell : vscode.NotebookCell | BoostNotebookCell,
+        mimetype : any) : string {
+
         throw new Error("Not implemented");
     }
 

@@ -341,7 +341,11 @@ export class SummarizeKernel extends KernelControllerBase {
         return super.onBoostServiceRequest(cell, serviceEndpoint, payload);
     }
 
-    onKernelOutputItem(response: any, mimetype : any): string {
+    onKernelOutputItem(
+        response: any,
+        _ : vscode.NotebookCell | BoostNotebookCell,
+        __ : any) : string {
+
         if (response.analysis === undefined) {
             throw new Error("Unexpected missing analysis from Boost Service");
         } else if (response.analysis_label === undefined) {

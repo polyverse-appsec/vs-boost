@@ -55,7 +55,11 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
         
     }
     
-    onKernelOutputItem(response: any, mimetype : any): string {
+    onKernelOutputItem(
+        response: any,
+        cell : vscode.NotebookCell | BoostNotebookCell,
+        mimetype : any) : string {
+
         if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }

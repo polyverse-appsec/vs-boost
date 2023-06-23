@@ -1,8 +1,9 @@
 import {
     KernelControllerBase, onServiceErrorHandler
  } from './base_controller';
-import { DiagnosticCollection, ExtensionContext } from 'vscode';
+import { DiagnosticCollection, ExtensionContext, NotebookCell } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
+import { BoostNotebookCell } from './jupyter_notebook';
 
 export const complianceOutputType = 'complianceCode';
 export const complianceKernelName = 'compliance';
@@ -43,8 +44,12 @@ export class BoostComplianceKernel extends KernelControllerBase {
         
     }
     
-    onKernelOutputItem(response: any, mimetype : any): string {
-        if (response.analysis === undefined) {
+    onKernelOutputItem(
+        response: any,
+        cell : NotebookCell | BoostNotebookCell,
+        mimetype : any) : string {
+
+            if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
         return `\n\n---\n\n### Boost Code Compliance Check\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;

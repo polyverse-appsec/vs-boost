@@ -1,8 +1,9 @@
 import {
     KernelControllerBase, onServiceErrorHandler
  } from './base_controller';
-import { DiagnosticCollection, ExtensionContext} from 'vscode';
+import { DiagnosticCollection, ExtensionContext, NotebookCell } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
+import { BoostNotebookCell } from './jupyter_notebook';
 
 export const explainOutputType = 'explainCode';
 export const explainKernelName = 'explain';
@@ -42,7 +43,10 @@ export class BoostExplainKernel extends KernelControllerBase {
         }
     }
 
-    onKernelOutputItem(response: any, mimetype : any): string {
+    onKernelOutputItem(
+        response: any,
+        cell : NotebookCell | BoostNotebookCell,
+        mimetype : any) : string {
         if (response.explanation === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
