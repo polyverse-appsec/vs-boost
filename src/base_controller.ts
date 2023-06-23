@@ -332,7 +332,7 @@ export class KernelControllerBase {
         } catch (err) {
             successfullyCompleted = false;
             this._updateCellOutput(
-                execution, cell,
+                execution, cell, {},
                 usingBoostNotebook? this._getBoostNotebookCellOutputError(this.localizeError(err as Error)) :
                 vscode.NotebookCellOutputItem.error(this.localizeError(err as Error)),
                 err);
@@ -439,7 +439,10 @@ export class KernelControllerBase {
                 vscode.NotebookCellOutputItem.error(this.localizeError(serviceError as Error));
         }
 
-        this._updateCellOutput(execution, cell, outputItem, serviceError);
+        let details = this.onKernelProcessResponseDetails(response, cell, notebook, mimetype);
+
+        // extend the outputItem.metadata field with the results of a call to onKernelOutputItemDetails
+        this._updateCellOutput(execution, cell, details, outputItem, serviceError);
         if (!successfullyCompleted) {
             const cellId = usingBoostNotebook?cell.id : cell.document.uri.toString();
             boostLogging.error(`Error in cell ${cellId}: ${serviceError.message}`, false);
@@ -454,6 +457,7 @@ export class KernelControllerBase {
     private _updateCellOutput(
         execution: vscode.NotebookCellExecution | undefined,
         cell : vscode.NotebookCell | BoostNotebookCell,
+        details: any,
         outputItem : vscode.NotebookCellOutputItem | SerializedNotebookCellOutput,
         err: unknown) {
 
@@ -462,6 +466,11 @@ export class KernelControllerBase {
         if (usingBoostNotebook || !execution) {
             const boostCell = cell as BoostNotebookCell;
             const boostOutput = outputItem as SerializedNotebookCellOutput;
+            //extend boostOutput.medata with details
+            boostOutput.metadata = {
+                ...boostOutput.metadata,
+                ...details  
+            };
             boostCell.updateOutputItem( this._outputType, boostOutput);
             return;
         }
@@ -476,9 +485,22 @@ export class KernelControllerBase {
             output => output.metadata?.outputType === this._outputType);
         if (existingOutput) {
             execution.replaceOutputItems(outputItems, existingOutput);
+            //udpate existingOutput.metadata with details, replacing any existing details
+            if (existingOutput.metadata?.details ){
+                delete existingOutput.metadata.details;
+            } 
+            existingOutput.metadata = {
+                ...existingOutput.metadata,
+                details: details  
+            };
+
         } else {
             // create a new NotebookCellOutput with the outputItems array
-            const output = new vscode.NotebookCellOutput(outputItems, { outputType: this._outputType });
+            let metadata = {
+                outputType: this._outputType,
+                details: details
+            };
+            const output = new vscode.NotebookCellOutput(outputItems, metadata);
 
             execution.appendOutput(output);
         }
@@ -557,6 +579,10 @@ export class KernelControllerBase {
 
     onKernelOutputItem(response: any, cell : vscode.NotebookCell | BoostNotebookCell, mimetype : any) : string {
         throw new Error("Not implemented");
+    }
+
+    onKernelProcessResponseDetails(response: any, cell : vscode.NotebookCell | BoostNotebookCell, notebook: vscode.NotebookDocument | BoostNotebook, mimetype : any) : any {
+        return {};
     }
 
     async initializeMetaData(

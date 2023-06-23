@@ -14,7 +14,7 @@ export class BoostAnalyzeKernel extends KernelControllerBase {
             collection,
             analyzeKernelName,
             'Analyze Code for Security Vulnerabilities',
-            'Analyzes all targeted source code for security vulnerabiities, bugs and potential design flaws',
+            'Deep analysis of all targeted source code for security vulnerabiities, bugs and potential design flaws',
             analyzeOutputType,
             true,
             true, 

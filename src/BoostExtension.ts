@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as boostnb from './jupyter_notebook';
 
 import { BoostAnalyzeKernel, analyzeOutputType } from './analyze_controller';
+import { BoostAnalyzeFunctionKernel} from './analyze_function_controller';
 import { BoostTestgenKernel } from './testgen_controller';
 import { BoostConvertKernel } from './convert_controller';
 import { BoostComplianceKernel, complianceOutputType } from './compliance_controller';
@@ -659,7 +660,6 @@ export class BoostExtension {
         this.kernels.set(flowDiagramKernel.command, flowDiagramKernel);
         let customProcessKernel = new BoostCustomProcessKernel(context, updateBoostStatusColors.bind(this), this, collection);
         this.kernels.set(customProcessKernel.command, customProcessKernel);
-        context.subscriptions.push(customProcessKernel);
         let summarizeKernel = new SummarizeKernel(context, updateBoostStatusColors.bind(this), this, collection, this.kernels);
         this.kernels.set(summarizeKernel.command, summarizeKernel);
 
@@ -675,12 +675,16 @@ export class BoostExtension {
             guidelinesKernel,
             blueprintKernel,
             flowDiagramKernel,
-            summarizeKernel
+            summarizeKernel,
+            customProcessKernel
         );
 
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
             // register the dev only kernels
+            let analyzeFunctionKernel = new BoostAnalyzeFunctionKernel(context, updateBoostStatusColors.bind(this), this, collection);
+            this.kernels.set(analyzeFunctionKernel.command, analyzeFunctionKernel);
+            context.subscriptions.push(analyzeFunctionKernel);
         }
     }
 
