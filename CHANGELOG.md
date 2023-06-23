@@ -13,6 +13,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Bug Fixes
 - Fix issue with Boost Activity Bar 'Run All' handling of checked Analysis Types
+- Fix missing Mime-Type in some Test Generation outputs
 
 ### Known Issues
 - N/A
