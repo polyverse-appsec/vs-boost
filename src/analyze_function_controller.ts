@@ -19,7 +19,7 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
         super(
             collection,
             analyzeFunctionKernelName,
-            'Quick scan for security vulnerabilities',
+            'Quick source scan for security vulnerabilities',
             'Quickly analyzes all targeted source code for security vulnerabiities, bugs and potential design flaws',
             analyzeOutputType,
             true,
@@ -54,8 +54,13 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
         if (response.details === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        //loop through the details field and create a markdown string to return 
-        let markdown = "# Boost Bug Analysis\n\n";
+
+        let markdown = `\n\n---\n\n### Boost Source-Level Bug Analysis\n\nLast Updated: ${this.currentDateTime}\n\n`;
+
+        if (response.details.length === 0) {
+            markdown += '**No bugs found**\n\n';
+            return markdown;
+        }
 
         response.details.forEach((bug: any, index: number) => {
             markdown += `${index + 1}. **Severity**: ${bug.severity}/10\n`;
@@ -64,8 +69,6 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
             markdown += `   **Description**: ${bug.description}\n`;
             markdown += `   **Solution**: ${bug.solution}\n\n`;
         });
-
-
 
         return markdown;
     }
