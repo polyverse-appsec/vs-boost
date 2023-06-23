@@ -654,13 +654,13 @@ export class BoostExtension {
                 BoostArchitectureBlueprintKernel,
                 BoostFlowDiagramKernel,
                 BoostCustomProcessKernel,
-                SummarizeKernel
+                SummarizeKernel,
+                BoostAnalyzeFunctionKernel
             ];
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
             // register the dev only kernels
-            const devKernelTypes = [
-                BoostAnalyzeFunctionKernel
+            const devKernelTypes : any[ ]= [
                 ];
             kernelTypes = kernelTypes.concat(devKernelTypes);
         }
