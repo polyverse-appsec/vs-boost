@@ -146,6 +146,11 @@ export class BoostConfiguration {
             Defaults.defaultOutputFormatValue;
     }
 
+    public static get runAllTargetAnalysisType(): string {
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.runAllTargetAnalysisTypeName) as string)??
+            Defaults.runAllTargetAnalysisTypeValue;
+    }
+
     static _cachedVersion: string = "";
     public static get version(): string | undefined {
         if (this._cachedVersion) {
@@ -218,4 +223,13 @@ class Defaults {
 
     public static readonly defaultOutputFormatName : string = "defaultOutputFormat";
     public static readonly defaultOutputFormatValue : string = "markdown";
+
+    // enables targeting a specific kernel for analysis when using run all in UX
+    // for example, if you want to run only security analysis with source id and no summary, use:
+    // bugAnalysis.analyze_function ( analysis type . kernel name)
+    // Summary won't be run at all in this case
+    // if you want to run only documentation analysis (all kernels) but no summary use:
+    // explainCode (the name of the analysis type)
+    public static readonly runAllTargetAnalysisTypeName : string = "runAllTargetAnalysisType";
+    public static readonly runAllTargetAnalysisTypeValue : string = "";
 }
