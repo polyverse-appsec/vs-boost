@@ -69,7 +69,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
                         try {
                             for (const [key, value] of analysisMap) {
-                                if (key in data.analysisTypes) {
+                                if (!(key in data.analysisTypes)) {
                                     continue;
                                 }
                                 try {
