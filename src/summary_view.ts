@@ -8,11 +8,13 @@ import { NOTEBOOK_TYPE } from './jupyter_notebook';
 
 import { summarizeKernelName } from './summary_controller';
 import { analyzeKernelName } from './analyze_controller';
+import { analyzeFunctionKernelName } from './analyze_function_controller';
 import { complianceKernelName } from './compliance_controller';
 import { blueprintKernelName } from './blueprint_controller';
 import { flowDiagramKernelName } from './flowdiagram_controller';
 import { explainKernelName } from './explain_controller';
 import { boostLogging } from './boostLogging';
+import { BoostConfiguration } from './boostConfiguration';
 
 export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
@@ -63,17 +65,26 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                           const analysisMap = new Map([
                             ['archblueprintCode', [getKernelName(blueprintKernelName)]],
                             ['explainCode', [getKernelName(explainKernelName), getKernelName(flowDiagramKernelName)]],
-                            ['bugAnalysis', [getKernelName(analyzeKernelName)]],
+                            ['bugAnalysis', [getKernelName(analyzeKernelName), getKernelName(analyzeFunctionKernelName)]],
                             ['complianceCode', [getKernelName(complianceKernelName)]]
                           ]);
 
                         try {
                             for (const [key, value] of analysisMap) {
-                                if (!(key in data.analysisTypes)) {
+                                if (!data.analysisTypes.includes(key)) {
+                                    continue;
+                                }
+                                if (BoostConfiguration.runAllTargetAnalysisType &&
+                                    !((BoostConfiguration.runAllTargetAnalysisType as string).includes(key))) {
                                     continue;
                                 }
                                 try {
                                     for (const analysisKernelName of value) {
+                                        if (BoostConfiguration.runAllTargetAnalysisType &&
+                                            !((BoostConfiguration.runAllTargetAnalysisType as string).includes(analysisKernelName))) {
+                                            continue;
+                                        }
+
                                         await vscode.commands.executeCommand(
                                             NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder,
                                             undefined,
@@ -88,7 +99,12 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                 await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
                             }
 
-                            if (runSummary) {
+                            if ((runSummary &&
+                                // don't run summary if dev overrode it, or requested it specifically
+                                !BoostConfiguration.runAllTargetAnalysisType) ||
+                                (BoostConfiguration.runAllTargetAnalysisType &&
+                                (BoostConfiguration.runAllTargetAnalysisType as string).includes(summarizeKernelName))) {
+
                                 // summary across all files
                                 await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(summarizeKernelName));
                             }

@@ -7,9 +7,7 @@ import * as vscode from 'vscode';
 import * as boostnb from './jupyter_notebook';
 import { fullPathFromSourceFile } from './extension';
 
-
-
-export const analyzeKernelName = 'analyze_function';
+export const analyzeFunctionKernelName = 'analyze_function';
 export const analyzeOutputType = 'bugAnalysisList';
 
 //set a helper variable of the base url.  this should eventually be a config setting
@@ -20,7 +18,7 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis: any, collection: DiagnosticCollection) {
         super(
             collection,
-            analyzeKernelName,
+            analyzeFunctionKernelName,
             'Quick scan for security vulnerabilities',
             'Quickly analyzes all targeted source code for security vulnerabiities, bugs and potential design flaws',
             analyzeOutputType,
@@ -38,9 +36,9 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
             case "local":
                 return 'http://127.0.0.1:8000/analyze_function';
             case 'dev':
-                return 'need_dev_url';
+                return 'https://fubldwjkv4nau5qcnbrqilv6ba0dmkcc.lambda-url.us-west-2.on.aws/';
             case "test":
-                return 'need_test_url';
+                return 'https://axzomrjvbnlqtkoeyetikjmek40qovdu.lambda-url.us-west-2.on.aws/';
             case 'staging':
             case 'prod':
             default:
