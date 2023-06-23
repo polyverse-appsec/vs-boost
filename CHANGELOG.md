@@ -6,10 +6,12 @@ Polyverse Boost Automatic Application Modernization
 ## Version 1.0.2: June 23, 2023
 
 ### New Features
-- N/A
+- New Fast Security Scan with source line mapping and solution recommendations
+- New Boost specific Diagnostic/Problems tab - showing identified issues in source code with analysis and line numbers and link to original file
+    NOTE: Currently, existing Boost Notebooks will need to be rebuilt from original source to include precise source line mappings
 
 ### Enhancements
-- N/A
+- Improvements to Mermaid rendering in Summary views
 
 ### Bug Fixes
 - Fix issue with Boost Activity Bar 'Run All' handling of checked Analysis Types
