@@ -67,10 +67,13 @@ export class BoostTestgenKernel extends KernelControllerBase {
 
     onKernelOutputItem(
         response: any,
-        cell : vscode.NotebookCell,
-        mimetype : any): string {
+        cell : vscode.NotebookCell | BoostNotebookCell,
+        mimetype : any) : string {
+
+        const usingBoostNotebook = "value" in cell; // if the cell has a value property, then it's a BoostNotebookCell
+
         //get the outputLanguage from the language set on the cell, NOT the language set on the notebook
-		let outputLanguage = cell.document.languageId ??
+        let outputLanguage = usingBoostNotebook?cell.languageId:cell.document.languageId ??
             BoostConfiguration.defaultOutputLanguage;
 
         if (response.testcode === undefined) {
