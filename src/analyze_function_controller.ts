@@ -42,7 +42,7 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
             case 'staging':
             case 'prod':
             default:
-                return 'need_prod_url';
+                return 'https://scqfjxbrko57bekv4lqkvu24fa0cmapi.lambda-url.us-west-2.on.aws/';
         }
     }
 
@@ -50,8 +50,13 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
 		super.dispose();
 	}
 
-    onKernelOutputItem(response: any): string {
-        if (response.details === undefined) {
+
+    onKernelOutputItem(
+        response: any,
+        cell : vscode.NotebookCell | boostnb.BoostNotebookCell,
+        mimetype : any) : string {
+
+            if (response.details === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
 
@@ -62,9 +67,11 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
             return markdown;
         }
 
+        const baseLineNumber = lineNumberBaseFromCell(cell);
+
         response.details.forEach((bug: any, index: number) => {
             markdown += `${index + 1}. **Severity**: ${bug.severity}/10\n\n`;
-            markdown += `   **Line Number**: ${bug.lineNumber}\n\n`;
+            markdown += `   **Line Number**: ${baseLineNumber + bug.lineNumber}\n\n`;
             markdown += `   **Bug Type**: ${bug.bugType}\n\n`;
             markdown += `   **Description**: ${bug.description}\n\n`;
             markdown += `   **Solution**: ${bug.solution}\n\n\n`;
@@ -90,10 +97,11 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
             sourceFile = notebook.uri.fsPath;
         } else {
             sourceFile = fullPathFromSourceFile(notebook.metadata.sourceFile);
-        }   
+        }
+        const lineNumberBase = lineNumberBaseFromCell(cell);
         let diagnostics: vscode.Diagnostic[] = [];
         response.details.forEach((bug: any, index: number) => {
-            let range = new vscode.Range(bug.lineNumber - 1, 0, bug.lineNumber - 1, 0);
+            let range = new vscode.Range(lineNumberBase + bug.lineNumber - 1, 0, lineNumberBase + bug.lineNumber - 1, 0);
             let diagnostic = new vscode.Diagnostic(range, bug.description, vscode.DiagnosticSeverity.Warning);
             diagnostics.push(diagnostic);
         });
@@ -102,4 +110,17 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
         return response.details;
 
     }
+}
+
+function lineNumberBaseFromCell(cell: vscode.NotebookCell | boostnb.BoostNotebookCell): number {
+    let lineNumberBase: any;
+
+    if (cell instanceof boostnb.BoostNotebookCell) {
+        lineNumberBase = cell.metadata ? cell.metadata.lineNumberBase : undefined;
+    } else {
+        lineNumberBase = cell.metadata ? cell.metadata.lineNumberBase : undefined;
+    }
+
+    // Check if lineNumberBase is a number, if not, return 0
+    return typeof lineNumberBase === 'number' ? lineNumberBase : 0;
 }

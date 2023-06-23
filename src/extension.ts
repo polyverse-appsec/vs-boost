@@ -242,7 +242,7 @@ export async function parseFunctionsFromFile(
     
     // turn fileContents into a string and call splitCode
     const fileContentsString = fileContents.toString();
-    const [languageId, splitCodeResult] = parseFunctions(
+    const [languageId, splitCodeResult, lineNumbers] = parseFunctions(
         fileUri.fsPath,
         fileContentsString);
 
@@ -254,7 +254,14 @@ export async function parseFunctionsFromFile(
         const cell = (targetNotebook instanceof boostnb.BoostNotebook)?
             new boostnb.BoostNotebookCell(boostnb.NotebookCellKind.Code, splitCodeResult[i], languageId, i.toString()) :
             new vscode.NotebookCellData(vscode.NotebookCellKind.Code, splitCodeResult[i], languageId);
-        cell.metadata = {"id": i, "type": "originalCode"};
+        cell.metadata = {
+            "id": i,
+            "type": "originalCode",
+                // if the lineNumbers info is not available (very unlikely, but defensive), then
+                //   set the base to line number 0 in the file
+                // otherwise, set the base to the line number BEFORE the line of this splitCell text
+            "lineNumberBase": lineNumbers ? lineNumbers[i] - 1 : 0
+        };
         cells.push(cell);
     }
 
