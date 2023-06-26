@@ -9,10 +9,13 @@ Welcome to the Polyverse Boost Visual Studio extension! Boost is a powerful Visu
 
 ### Prerequisites
 - **Set up a [GitHub.com](https://GitHub.com) account**: To link your auto-generated Polyverse Trial license to your email address. Note: Even if your GitHub email account is marked as private, you can still use it to link your license to your email address. Polyverse Boost does not share your email with any third party. Your email is only used to link your email to your billing account.
+
 - ** Install Git** Visual Studio Code requires a local install of the Git software (e.g. Windows or Mac OS). You can download Git from [https://git-scm.com/downloads](https://git-scm.com/downloads). Note: Visual Studio Code automatically includes Git integration, so no special Git Extensions should be required.
+
 - **Trial License and Usage Billing**: Polyverse Boost is a paid subscription service. Your Auto-generated Polyverse Trial license is valid for a limited amount of trial usage. Once your trial license expires, you will need to update your Polyverse Boost account with a credit card to continue using Boost. Billing and Usage rates are available on your Polyverse Boost account page, accessible via the Extension Status bar.
 
 ### Installation
+
 1. **Install the Boost Modernization extension** from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Polyverse.polyverse-boost). Note: A restart of Visual Studio Code may be required.
 
 2. **Authorize and Link Your GitHub.com account with Boost**: The first time you launch Boost, you may need to allow and authorize Boost to access GitHub.com. This is only required to link your license to your email address. If you have not already done so, you will need to create a GitHub.com account.
@@ -55,12 +58,19 @@ Welcome to the Polyverse Boost Visual Studio extension! Boost is a powerful Visu
 
 
 8. **Review the Results**: Each Boost Notebook cell will contain the results of the AI-enhanced processing.
+
   * **For Architectural Blueprints**: You can analyze all aspects of your code and project to produce a high-level Architectural Blueprint.
+
   * **For Defect and Security Analysis**: You can edit the code in each Cell and re-run the analysis to see the results.
+
   * **For Data Compliance**: You can review the data compliance issues in each Cell and learn more about how your code uses data.
+
   * **For Coding Guidelines**: You can review the analysis in each Cell to see how your code follows best practices or differs from standard coding guidelines.
+
   * **For Code Conversion**: You can review the new code in each Cell for integration into your new modernized project.
+
   * **For Documentation and Flow Diagrams**: You can read the documentation to better understand legacy code, review for architectural or potential redesign, and better understand how the original code actually worked.
+  
   * **For Test Generation**: You can review the test cases and integrate them into your automated test harness or CI/CD/CT system.
 
 9. **Batch Mode Processing**: For Batch Mode processing, you can select a folder or project, and Boost will process all files in the folder or project. You can also select a single file, and Boost will process that file. Right-click any folder or source file to launch "Batch Processing" on the target. Alternatively, for project-wide analysis, launch the command from the "Command Menu".
