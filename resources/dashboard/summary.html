@@ -55,7 +55,7 @@
                     <% } %>
                 </vscode-data-grid-cell>
                 <vscode-data-grid-cell grid-column="2" style="margin-left: 0px;">
-                    <vscode-badge class=<%= 'boost-' + analysisObj.status %>><%= analysisObj.completed + '/' + (analysisObj.total) %></vscode-badge>
+                    <vscode-badge id='badge-<%= analysisObj.analysisType%>' class=<%= 'boost-' + analysisObj.status %>><%= analysisObj.completed + '/' + (analysisObj.total) %></vscode-badge>
                 </vscode-data-grid-cell>
                 <vscode-data-grid-cell grid-column="3" id="job-<%=analysisObj.analysisType%>" hidden>
                 </vscode-data-grid-cell>
@@ -66,6 +66,9 @@
     <div align="center">
         <vscode-button id="update-summary">Run Selected Analyses</vscode-button>
         <vscode-progress-ring id="job-progress" class="progress" hidden></vscode-progress-ring>
+    </div>
+    <div id="progress-text">
+        Sara says:
     </div>
     <script src="<%= jsSrc %>" type="module"></script>
 </body>

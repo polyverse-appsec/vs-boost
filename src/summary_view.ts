@@ -112,7 +112,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         } finally {
                             // refresh project data
                             await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
-
+							this.finishAllJobs();
                             this.refresh();
                         }
                     }
@@ -155,38 +155,55 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         return htmlContent;
     }
 
-	public addJobs(job: string, count: number) {
+	public addJobs(job: string, files: [string], count: number) {
 		//if this._jobs[jobs] exists, add count to it, otherwise set it to count
 		this._jobs[job] ? this._jobs[job] += count : this._jobs[job] = count;
 		const payload = {
 			command: 'addJobs',
 			job: job,
+			files: files,
 			count: this._jobs[job]
 		};
 		this._view?.webview.postMessage(payload);
 	}
 
-	public finishJobs(job: string, count: number) {
+	public finishJobs(job: string, files: [string], error: Error | null, count: number) {
 		//if this._jobs[jobs] exists, add count to it, otherwise set it to zero 
 		//(somehow we finished a job that was never counted as being started)
 		this._jobs[job] ? this._jobs[job] -= count : 0;
 		const payload = {
 			command: 'finishJobs',
 			job: job,
+			files: files,
+			error: error,
 			count: this._jobs[job]
 		};
 		this._view?.webview.postMessage(payload);
 	}
 
-	//so far, this is not a very useful function.  consider removing it.  all of the jobs are queued up more
-	//or less all at once.  so there really isn't a "current" job. 
-	public currentJob(job: string, path: string) {
-		//if this._jobs[jobs] exists, add count to it, otherwise set it to zero 
-		//(somehow we finished a job that was never counted as being started)
-		this._currentJob = {
-			job: job,
-			path: path
+	public finishAllJobs() {
+		this._jobs = {};
+		const payload = {
+			command: 'finishAllJobs'
 		};
-		this.refresh();
+		this._view?.webview.postMessage(payload);
+	}
+
+	public addQueue(job: string, files: [string], ms: number) {
+		const payload = {
+			command: 'addQueue',
+			file: files,
+			ms: ms,
+			job: job
+		};
+		this._view?.webview.postMessage(payload);
+	}
+
+	public updateStatus(status: string) {
+		const payload = {
+			command: 'updateStatus',
+			status: status
+		};
+		this._view?.webview.postMessage(payload);
 	}
 }

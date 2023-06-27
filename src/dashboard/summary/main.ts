@@ -42,6 +42,8 @@ window.addEventListener("load", main);
 window.addEventListener("message", handleIncomingSummaryMessage);
 
 let jobCounters = {};
+let queue = {};
+let started = {};
 
 // Main function that gets executed once the webview DOM loads
 function main() {
@@ -65,6 +67,8 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
   const message = event.data; // The JSON data our extension sent
   const spinner = document.getElementById('job-progress');
   const runbutton = document.getElementById('update-summary');
+  const progressText = document.getElementById('progress-text') as HTMLElement;
+  let text = "";
 
   switch (message.command) {
       case 'addJobs':
@@ -83,6 +87,26 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
           }
           //start the counter
           jobCounters[message.job].update(message.count);
+
+          // update the status field progress-text
+
+          text = 'Now processing file: ' + message.files[0];
+          if (message.files.length > 1) {
+            text = 'Now processing files: ' + message.files.join(', ');
+          }
+          //set the inner text of the progress-text div element
+          if( progressText ){
+            progressText.innerText = text;
+          }
+
+          //add the files to the started object
+          message.files.forEach( (file: string) => {
+            if( !started[message.job]){
+              started[message.job] = {};
+            }
+            started[message.job][file] = true;
+          });
+
           break;
       case 'finishJobs':
           // if we don't have a job counter for this job, add it  
@@ -96,11 +120,105 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
           if (message.count === 0) {
               const counter = document.getElementById('job-' + message.job);
               counter?.setAttribute('hidden', '');
-              // hide the spinner
-              spinner?.setAttribute('hidden', '');
-              runbutton?.removeAttribute('hidden');
+              
+              //if we don't have any active jobs, now show the jobs that are queued up.
+              //get the keys of the queue object 
+              //after five seconds, refresh the progress text
+              setTimeout( () => {
+                refreshProgressText(progressText);
+              }, 5000);
           }
+
+          // update the status field progress-text
+
+          text = 'Finished processing file: ' + message.files[0];
+          if (message.files.length > 1) {
+            text = 'Finished processing files: ' + message.files.join(', ');
+          }
+
+          if( message.error ){
+            text = "Error processing files: " + message.files.join(', ') + " - " + message.error;
+          }
+          //set the inner text of the progress-text div element
+          if( progressText ){
+            progressText.innerText = text;
+          }  
+          
+          // now remove the files from the started and queued objects
+          message.files.forEach( (file: string) => {
+            if( started[message.job] && started[message.job][file] ){
+              delete started[message.job][file];
+            }
+            if( queue[message.job] && queue[message.job][file] ){
+              delete queue[message.job][file];
+            } 
+          });
+
+          //after five seconds, refresh the progress text
+          setTimeout( () => {
+            refreshProgressText(progressText);
+          }, 5000);
           break;
+      case 'finishAllJobs':
+          // hide the spinner
+          spinner?.setAttribute('hidden', '');
+          runbutton?.removeAttribute('hidden');
+          queue = {};
+          started = {};
+          break;
+
+      case 'updateSummary':
+          // update the progress summary
+          if( progressText ){
+            progressText.innerText = message.summary;
+          } 
+          break;
+      case 'addQueue':
+          if( progressText ){
+            progressText.innerText = "Queued " + message.files.join(', ') + " for processing in " + (message.ms / 1000) + "seconds.";
+          }
+          //loop through each file and add to the queue
+          message.files.forEach( (file: string) => {
+            if( !queue[message.job]){
+              queue[message.job] = {};
+            }
+            queue[message.job][file] = message.ms;
+          });
+          break;
+  }
+}
+
+//this function is called to clear out the 'finished' jobs text and show what is queued up.
+
+function refreshProgressText(progressText: HTMLElement | null) {
+  // if there are any started jobs, show those first.
+  if( Object.keys(started).length > 0 ){
+    const keys = Object.keys(started);
+    //loop the keys and show the files
+    const files: string[] = [];
+    keys.forEach( (key: string) => {
+      files.push( Object.keys(started[key]).join(', ') );
+    });
+    const text = "Processing " + files.join(', ');
+    if(progressText){
+      progressText.innerText = text;
+    }
+    return;
+  }
+
+  //otherwise, let's check the queue object
+  if( Object.keys(queue).length > 0 ){
+    const keys = Object.keys(queue);
+    //loop the keys and show the files
+    const files: string[] = [];
+    keys.forEach( (key: string) => {
+      files.push( Object.keys(queue[key]).join(', ') );
+    });
+    const text = "Queued " + files.join(', ') + " in " + (queue[keys[0]][files[0]] / 1000) + "seconds.";
+    if(progressText){
+      progressText.innerText = text;
+    }
+    return;
   }
 }
 

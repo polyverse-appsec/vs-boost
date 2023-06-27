@@ -6,6 +6,14 @@ import { fetchGithubSession, getCurrentOrganization } from './authorization';
 import { mapError } from './error';
 import { BoostNotebookCell, BoostNotebook, SerializedNotebookCellOutput, NOTEBOOK_TYPE } from './jupyter_notebook';
 import { fullPathFromSourceFile, getKernelName } from './extension';
+import axiosRetry from 'axios-retry';
+
+// we can get timeouts and other errors from both openai and lambda. This is a generic handler for those
+// conditions to attempt a retry.
+axiosRetry(axios, { 
+    retries: 3,
+    retryDelay: axiosRetry.exponentialDelay
+});
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type onServiceErrorHandler = (context: vscode.ExtensionContext, error: any, closure: any) => void;

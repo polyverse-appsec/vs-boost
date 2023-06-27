@@ -423,6 +423,27 @@ export async function _buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = tru
     if (!patterns.find((pattern) => pattern === '**/.boostignore')) {
         patterns.push('**/.boostignore');
     }
+    // add common binary file types to the exclude patterns
+    const binaryFilePatterns = [
+        '**/*.jpg',
+        '**/*.jpeg',
+        '**/*.png',
+        '**/*.gif',
+        '**/*.bmp',
+        '**/*.tiff',
+        '**/*.ico',
+        '**/*.pdf',
+        '**/*.zip',
+        '**/*.tar',
+        '**/*.gz',
+        '**/*.rar',
+        '**/*.7z',
+        '**/*.exe',
+        '**/*.dll',
+        '**/*.so',
+        '**/*.bin'
+    ];
+    patterns = patterns.concat(binaryFilePatterns);    
   
     // const exclude = '{**/node_modules/**,**/bower_components/**}';
     const excludePatterns = "{" + patterns.join(',') + "}";

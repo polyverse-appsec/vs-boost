@@ -1438,21 +1438,22 @@ export class BoostExtension {
                     const estimatedWords = this.calculateEstimatedWords(fileSize);
                     const processingTime = this.calculateProcessingTime(estimatedWords, wordsPerFile);
             
-                    boostLogging.log(`Delaying file ${file.fsPath} with ${estimatedWords} ~items to wait ${processingTime * seconds} secs`);
+                    boostLogging.log(`Delaying file ${file.fsPath} with ${estimatedWords} ~items to wait ${processingTime / seconds} secs`);
+                    this.summaryViewProvider?.addQueue(targetedKernel.outputType, [file.fsPath], processingTime);
                     setTimeout(async () => {
                         // if its been more than 5 seconds, log it - that's about 13 pages of source in 5 seconds (wild estimate)
                         if (processingTime > 5 * seconds) {
                             boostLogging.log(`Starting processing file ${file.fsPath} with ${estimatedWords} ~items after waiting ${processingTime * seconds} secs`);
                         }
             
-                        this.summaryViewProvider?.addJobs(targetedKernel.outputType, 1);
+                        this.summaryViewProvider?.addJobs(targetedKernel.outputType, [file.fsPath], 1);
             
                         this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh).then((notebook) => {
+                            this.summaryViewProvider?.finishJobs(targetedKernel.outputType, [file.fsPath], null, 1);
                             resolve(notebook);
                         }).catch((error) => {
+                            this.summaryViewProvider?.finishJobs(targetedKernel.outputType, [file.fsPath], error, 1);
                             reject(error);
-                        }).finally(() => {
-                            this.summaryViewProvider?.finishJobs(targetedKernel.outputType, 1);
                         });
                     }, processingTime);
                 });
