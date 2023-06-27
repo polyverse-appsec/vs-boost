@@ -148,9 +148,15 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
           message.files.forEach( (file: string) => {
             if( started[message.job] && started[message.job][file] ){
               delete started[message.job][file];
+              if( Object.keys(started[message.job]).length === 0 ){
+                delete started[message.job];
+              }
             }
             if( queue[message.job] && queue[message.job][file] ){
               delete queue[message.job][file];
+              if( Object.keys(queue[message.job]).length === 0 ){
+                delete queue[message.job];
+              }
             } 
           });
 
