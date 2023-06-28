@@ -102,7 +102,7 @@ export class BoostComplianceFunctionKernel extends KernelControllerBase {
         let diagnostics: vscode.Diagnostic[] = [];
         response.details.forEach((bug: any, index: number) => {
             let range = new vscode.Range(lineNumberBase + bug.lineNumber - 1, 0, lineNumberBase + bug.lineNumber - 1, 0);
-            let diagnostic = new vscode.Diagnostic(range, bug.description, vscode.DiagnosticSeverity.Warning);
+            let diagnostic = new vscode.Diagnostic(range, `Severity: ${bug.severity}\n${bug.description}`, vscode.DiagnosticSeverity.Warning);
             diagnostics.push(diagnostic);
         });
         this._complianceIssueCollection.set(vscode.Uri.parse(sourceFile), diagnostics);

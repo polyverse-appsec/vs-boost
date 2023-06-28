@@ -60,7 +60,7 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
             throw new Error("Unexpected missing data from Boost Service");
         }
 
-        let markdown = `\n\n---\n\n### Boost Source-Level Bug Analysis\n\nLast Updated: ${this.currentDateTime}\n\n`;
+        let markdown = `\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: ${this.currentDateTime}\n\n`;
 
         if (response.details.length === 0) {
             markdown += '**No bugs found**\n\n';
@@ -102,7 +102,7 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
         let diagnostics: vscode.Diagnostic[] = [];
         response.details.forEach((bug: any, index: number) => {
             let range = new vscode.Range(lineNumberBase + bug.lineNumber - 1, 0, lineNumberBase + bug.lineNumber - 1, 0);
-            let diagnostic = new vscode.Diagnostic(range, bug.description, vscode.DiagnosticSeverity.Warning);
+            let diagnostic = new vscode.Diagnostic(range, `Severity: ${bug.severity}\n${bug.description}`, vscode.DiagnosticSeverity.Warning);
             diagnostics.push(diagnostic);
         });
         this._securityIssueCollection.set(vscode.Uri.parse(sourceFile), diagnostics);
