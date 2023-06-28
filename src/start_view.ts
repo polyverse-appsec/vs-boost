@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as _ from 'lodash';
 import { BoostExtension } from './BoostExtension';
 import { getOrCreateBlueprintUri, BoostCommands, getKernelName} from './extension';
+import { boostLogging } from './boostLogging';
 
 
 
@@ -43,8 +44,12 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
 					{
 						const path = data.file;
 						const blueprintUri = await getOrCreateBlueprintUri(this.context, path);
-						const document = await vscode.workspace.openNotebookDocument(blueprintUri);
-						await vscode.window.showNotebookDocument(document);
+                        try {
+                            const document = await vscode.workspace.openNotebookDocument(blueprintUri);
+                            await vscode.window.showNotebookDocument(document);
+                        } catch (e) {
+                            boostLogging.error(`Could not open Boost Project Summary ${blueprintUri} due to ${e}`, true);
+                        }
 					}
 					break;
 

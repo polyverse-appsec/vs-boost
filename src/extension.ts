@@ -12,6 +12,7 @@ import { TextDecoder } from 'util';
 import { PROJECT_EXTENSION } from './BoostProjectData';
 import { errorMimeType } from './base_controller';
 import { BoostExtension } from './BoostExtension';
+import { blueprintOutputType } from './blueprint_controller';
 
 
 export enum BoostFileType {
@@ -190,7 +191,7 @@ export async function createOrOpenSummaryNotebookFromSourceFile(sourceFile : vsc
     const summaryFileExists = fs.existsSync(notebookSummaryPath.fsPath);
     // if doesn't exist, create it
     if (!summaryFileExists) {
-        const newNotebook = await createEmptyNotebook(notebookSummaryPath, true) as boostnb.BoostNotebook;
+        const newNotebook = await createEmptyNotebook(notebookSummaryPath, false) as boostnb.BoostNotebook;
 
         const sourceFilePath = sourceFileFromFullPath(sourceFile);
 
@@ -243,7 +244,7 @@ export async function createOrOpenNotebookFromSourceFile(
             newNotebook = existingNotebook;
         }
     } else {
-        newNotebook = await createEmptyNotebook(notebookPath, useBoostNotebookWithNoUI);
+        newNotebook = await createEmptyNotebook(notebookPath, !useBoostNotebookWithNoUI);
     }
 
     // load/parse source file into new notebook
@@ -530,11 +531,11 @@ async function _extractIgnorePatternsFromFile(ignoreFile : string) : Promise<str
     return patterns;
 }
 
-async function createEmptyNotebook(filename : vscode.Uri, useBoostNotebookWithNoUI : boolean) :
+async function createEmptyNotebook(filename : vscode.Uri, useUINotebook : boolean) :
         Promise<vscode.NotebookDocument | boostnb.BoostNotebook> {
 
     // if no UI, then create BoostNotebook directly and return it
-    if (useBoostNotebookWithNoUI) {
+    if (!useUINotebook) {
         const boostNb = new boostnb.BoostNotebook();
         boostNb.metadata = { defaultDir : BoostConfiguration.defaultDir};
         return boostNb;
@@ -593,11 +594,22 @@ export async function getOrCreateBlueprintUri(context: vscode.ExtensionContext, 
         // If the file doesn't exist, create it with data from blueprint_template.md
         const extensionPath = context.extensionPath;
         const templatePath = path.join(extensionPath, 'resources', 'blueprint_template.md');
-        const data = fs.readFileSync(templatePath);
+        const data = fs.readFileSync(templatePath, 'utf8');
+
         //filePath might point to a directory that does not exist yet. check for that and create it if necessary
         const folderPath = path.dirname(absoluteFilePath);
         fs.mkdirSync(folderPath, { recursive: true });
-        fs.writeFileSync(absoluteFilePath, data);
+
+        // technically this cached markdown file is not a normal notebook file - and since the
+        //  project summary is in a notebook form, we need to convert it into a new notebook with a Blueprint summary cell
+
+        const newBlueprintSummaryNotebook : boostnb.BoostNotebook = await createEmptyNotebook(uri, false) as boostnb.BoostNotebook;
+
+        const newBlueprintCell = new boostnb.BoostNotebookCell(boostnb.NotebookCellKind.Markup, "", "markdown");
+        newBlueprintCell.initializeMetadata({"id": newBlueprintCell.id, "outputType": blueprintOutputType});
+        newBlueprintCell.value = data;
+        newBlueprintSummaryNotebook.addCell(newBlueprintCell);
+        newBlueprintSummaryNotebook.save(uri.fsPath);
     }
     return uri;
 }

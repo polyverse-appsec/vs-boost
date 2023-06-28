@@ -13,6 +13,7 @@ Polyverse Boost Automatic Application Modernization
 - Boost will not analyze binary files (e.g. images, movies, zip files, etc) - and will not generate Boost Notebooks
 
 ### Bug Fixes
+- Fix bug in Boost Activity Tab 'Start' panel Summary link causing creation of invalid Summary file (invalid JSON error)
 - Display Flow Diagrams in Documentation Summary Activity Bar tab
 - Fix issue with empty Analysis summaries not printing a message
 
