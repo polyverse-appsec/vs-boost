@@ -46,8 +46,6 @@ import { BoostMarkdownViewProvider } from './markdown_view';
 
 import instructions from './instructions.json';
 
-export const sampleGuidelineRegEx = /^# Enter Your \w+ Guidelines Here\n\nYou can describe your goals, constraints, or hints for analysis$/;
-
 export class BoostExtension {
     // for state, we keep it in a few places
     // 1. here, in the extension object.  this should really just be transient state like UI objects
@@ -57,6 +55,8 @@ export class BoostExtension {
     kernels: Map<string, KernelControllerBase> = new Map<string, KernelControllerBase>();
 
     public summaryViewProvider: BoostSummaryViewProvider | undefined;
+
+    public readonly sampleGuidelineRegEx = /^# Enter Your \w+ Guidelines Here\n\nYou can describe your goals, constraints, or hints for analysis$/;
 
     constructor(context: vscode.ExtensionContext) {
 

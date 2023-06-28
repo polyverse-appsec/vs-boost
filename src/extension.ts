@@ -11,7 +11,7 @@ import { boostLogging } from './boostLogging';
 import { TextDecoder } from 'util';
 import { PROJECT_EXTENSION } from './BoostProjectData';
 import { errorMimeType } from './base_controller';
-import { BoostExtension, sampleGuidelineRegEx } from './BoostExtension';
+import { BoostExtension } from './BoostExtension';
 import { blueprintOutputType } from './blueprint_controller';
 
 
