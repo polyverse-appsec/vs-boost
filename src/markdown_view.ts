@@ -3,13 +3,14 @@ import * as fs from 'fs';
 import * as _ from 'lodash';
 import { BoostExtension } from './BoostExtension';
 import {marked} from 'marked';
-import { BoostFileType, findCellByKernel, getBoostFile } from './extension';
+import { BoostFileType, BoostUserAnalysisType, findCellByKernel, getBoostFile } from './extension';
 import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';
 
 import { analyzeOutputType } from './analyze_controller';
 import { complianceOutputType } from './compliance_controller';
 import { blueprintOutputType } from './blueprint_controller';
 import { explainOutputType } from './explain_controller';
+import { flowDiagramOutputType } from './flowdiagram_controller';
 
 
 
@@ -105,14 +106,15 @@ export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
             switch (this._type) {
                 case "doc":
                     ourCellContent = (findCellByKernel(boostNotebook, explainOutputType) as BoostNotebookCell)?.value;
+                    ourCellContent = `\n\n${(findCellByKernel(boostNotebook, flowDiagramOutputType ) as BoostNotebookCell)?.value}`;
                     break;
-                case "security":
+                case BoostUserAnalysisType.security:
                     ourCellContent = (findCellByKernel(boostNotebook, analyzeOutputType) as BoostNotebookCell)?.value;
                     break;
-                case "compliance":
+                case BoostUserAnalysisType.compliance:
                     ourCellContent = (findCellByKernel(boostNotebook, complianceOutputType) as BoostNotebookCell)?.value;
                     break;
-                case "blueprint":
+                case BoostUserAnalysisType.blueprint:
                     ourCellContent = (findCellByKernel(boostNotebook, blueprintOutputType ) as BoostNotebookCell)?.value;
                     break;
                 default:

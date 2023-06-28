@@ -6,13 +6,13 @@ Polyverse Boost Automatic Application Modernization
 ## Version 1.0.4: June 28, 2023
 
 ### New Features
-- N/A
+- Enable User-Editable Project Guidelines and Best Practices to be used in analysis
 
 ### Enhancements
 - N/A
 
 ### Bug Fixes
-- N/A
+- Display Flow Diagrams in Documentation Summary Activity Bar tab
 
 ## Version 1.0.3: June 23, 2023
 
