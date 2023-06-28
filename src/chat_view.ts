@@ -145,9 +145,9 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
             const messages = [await this._getInitialSystemMessage()];
             messages.push(...chatMessages);
 
-            let payload = {
+            let finalPayload;
+            const payload = {
                 "code": "",
-                "model": model,
                 "prompt": prompt,
                 "messages": JSON.stringify([
                     ...messages,
@@ -157,8 +157,16 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
                     }
                 ]),
             };
+            if (BoostConfiguration.analysisModel) {
+                finalPayload = {
+                    ...payload,
+                    "model": BoostConfiguration.analysisModel
+                };
+            } else {
+                finalPayload = payload;
+            }
 
-            const response = await callServiceEndpoint(this.context, this.serviceEndpoint, "custom_process", payload);
+            const response = await callServiceEndpoint(this.context, this.serviceEndpoint, "custom_process", finalPayload);
 
             this._addResponse(prompt, response.analysis);
         } catch (error) {

@@ -18,6 +18,7 @@ Polyverse Boost Automatic Application Modernization
 - Display Flow Diagrams in Documentation Summary Activity Bar tab
 - Fix issue with empty Analysis summaries not printing a message
 - Fix issue with Analysis Summary not being loaded correctly into the Chat context on startup
+- Remove redundant 'model' radio button from Chat window - default is used, unless the Boost configuration is changed on the project
 
 ## Version 1.0.3: June 23, 2023
 
