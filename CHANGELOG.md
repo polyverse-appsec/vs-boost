@@ -16,6 +16,7 @@ Polyverse Boost Automatic Application Modernization
 - Fix bug in Boost Activity Tab 'Start' panel Summary link causing creation of invalid Summary file (invalid JSON error)
 - Display Flow Diagrams in Documentation Summary Activity Bar tab
 - Fix issue with empty Analysis summaries not printing a message
+- Fix issue with Analysis Summary not being loaded correctly into the Chat context
 
 ## Version 1.0.3: June 23, 2023
 

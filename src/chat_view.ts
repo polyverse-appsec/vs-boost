@@ -7,8 +7,10 @@ import { BoostExtension } from './BoostExtension';
 import { BoostConfiguration } from './boostConfiguration';
 import { callServiceEndpoint } from './lambda_util';
 import { marked } from 'marked';
-import { getOrCreateBlueprintUri} from './extension';
+import { findCellByKernel, getOrCreateBlueprintUri} from './extension';
 import { boostLogging } from './boostLogging';
+import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';
+import { blueprintOutputType } from './blueprint_controller';
 
 
 /*
@@ -212,7 +214,14 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         let blueprintdata = "";
         if (blueprintUri && fs.existsSync(blueprintUri.fsPath)) {
             //now load the blueprint from the file system and get the first prompt
-            blueprintdata = fs.readFileSync(blueprintUri.fsPath, 'utf8');
+            const projectSummaryNotebook = new BoostNotebook();
+            projectSummaryNotebook.load(blueprintUri.fsPath);
+            const blueprintCell = findCellByKernel(projectSummaryNotebook, blueprintOutputType) as BoostNotebookCell;
+            if (!blueprintCell) {
+                boostLogging.warn(`No blueprint found in ${blueprintUri.fsPath}`);
+            } else {
+                blueprintdata = blueprintCell.value;
+            }
         }
 		const systemPrompt = "You are an AI programming assistant working on a project described after ####. You prioritize accurate responses and all responses are in markdown format. ####\n";
 		return {
