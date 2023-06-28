@@ -55,6 +55,18 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         context: vscode.WebviewViewResolveContext,
         _token: vscode.CancellationToken,
     ) {
+        try {
+            this.resolveWebviewView(webviewView, context, _token);
+        } catch (e) {
+            boostLogging.error(`Could not refresh Boost Chat View due to ${e}`, false);
+        }
+    }
+
+    async _resolveWebviewView(
+        webviewView: vscode.WebviewView,
+        context: vscode.WebviewViewResolveContext,
+        _token: vscode.CancellationToken,
+    ) {
         this._view = webviewView;
 
         this._chats = await this._initializeChats();
@@ -93,6 +105,13 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
     }
 
     public refresh() {
+        try {
+            this.refresh();
+        } catch (e) {
+            boostLogging.error(`Could not refresh Boost Chat View due to ${e}`, false);
+        }
+    }
+    _refresh() {
         if (this._view) {
             this._view.webview.html = this._getHtmlForWebview(this._view.webview);
             this._view.show?.(true);

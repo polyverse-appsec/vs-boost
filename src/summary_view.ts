@@ -31,7 +31,20 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 		private _boostExtension: BoostExtension
 	) { }
 
-	public resolveWebviewView(
+
+	public async resolveWebviewView(
+		webviewView: vscode.WebviewView,
+		context: vscode.WebviewViewResolveContext,
+		_token: vscode.CancellationToken,
+	) {
+        try {
+            this._resolveWebviewView(webviewView, context, _token);
+        } catch (e) {
+            boostLogging.error(`Could not load Boost Summary View due to ${e}`, false);
+        }
+    }
+
+	async _resolveWebviewView(
 		webviewView: vscode.WebviewView,
 		context: vscode.WebviewViewResolveContext,
 		_token: vscode.CancellationToken,
@@ -133,7 +146,15 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 		});
 	}
 
-	public refresh() {
+    public refresh() {
+        try {
+            this._refresh();
+        } catch (e) {
+            boostLogging.error(`Could not refresh Boost Summary View due to ${e}`, false);
+        }
+    }
+
+	async _refresh() {
 		if (this._view) {
 			this._jobs = {};
 			this._view.webview.html = this._getHtmlForWebview(this._view.webview, this._boostExtension.getBoostProjectData());

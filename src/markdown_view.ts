@@ -5,6 +5,7 @@ import { BoostExtension } from './BoostExtension';
 import {marked} from 'marked';
 import { BoostFileType, BoostUserAnalysisType, findCellByKernel, getBoostFile } from './extension';
 import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';
+import { boostLogging } from './boostLogging';
 
 import { analyzeOutputType } from './analyze_controller';
 import { complianceOutputType } from './compliance_controller';
@@ -12,7 +13,13 @@ import { blueprintOutputType } from './blueprint_controller';
 import { explainOutputType } from './explain_controller';
 import { flowDiagramOutputType } from './flowdiagram_controller';
 
-
+/*
+    // ability to get all VS commands - whether internal or not, filtered by prefix
+    const commands = await vscode.commands.getCommands(false);
+    const myCommands = commands.filter((command) => {
+        return command.startsWith(`polyverse-boost-${this._type}`);
+    });
+*/
 
 export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
 
@@ -40,14 +47,19 @@ export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
 		context: vscode.WebviewViewResolveContext,
 		_token: vscode.CancellationToken,
 	) {
-		this._view = webviewView;
+        try {
+            this._resolveWebviewView(webviewView, context, _token);
+        } catch (e) {
+            boostLogging.error(`Could not load Boost Start View due to ${e}`, false);
+        }
+    }
 
-    /*
-        const commands = await vscode.commands.getCommands(false);
-        const myCommands = commands.filter((command) => {
-            return command.startsWith(`polyverse-boost-${this._type}`);
-        });
-    */
+	async _resolveWebviewView(
+		webviewView: vscode.WebviewView,
+		context: vscode.WebviewViewResolveContext,
+		_token: vscode.CancellationToken,
+	) {
+		this._view = webviewView;
 
 		webviewView.webview.options = {
 			// Allow scripts in the webview
@@ -71,9 +83,17 @@ export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
 		});
 		this.refresh();
         this._initialized = true;
-}
+    }
 
-	public async refresh() {
+    public refresh() {
+        try {
+            this._refresh();
+        } catch (e) {
+            boostLogging.error(`Could not refresh Boost Markdown View due to ${e}`, false);
+        }
+    }
+
+	async _refresh() {
 		if (this._view) {
 			this._view.webview.html = this._getHtmlForWebview(this._view.webview);
 
