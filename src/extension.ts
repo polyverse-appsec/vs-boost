@@ -10,8 +10,8 @@ import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
 import { TextDecoder } from 'util';
 import { PROJECT_EXTENSION } from './BoostProjectData';
-import { BoostExtension } from './BoostExtension';
 import { errorMimeType } from './base_controller';
+import { BoostExtension } from './BoostExtension';
 
 
 export enum BoostFileType {
@@ -19,6 +19,14 @@ export enum BoostFileType {
     summary = "summary",
     status = "status",
     guidelines = "guidelines"
+}
+
+
+export enum BoostUserAnalysisType {
+    blueprint = "blueprint",
+    security = "security",
+    documentation = "documentation",
+    compliance = "compliance"
 }
 
 export function getKernelName(kernelName: string): string {

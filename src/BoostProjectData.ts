@@ -1,7 +1,6 @@
 import * as fs from 'fs';
-import { type } from 'os';
 import * as path from 'path';
-import * as vscode from 'vscode'; 
+import { BoostUserAnalysisType } from './extension';
 
 export const PROJECT_EXTENSION = ".boost-project";
 
@@ -83,7 +82,7 @@ export const sampleBoostProjectData: IBoostProjectData = {
     ],
     analysis: [
         {
-            name: "security",
+            name: BoostUserAnalysisType.security,
             children: [
                 {
                     name: 'Security Topic 1',
@@ -103,7 +102,7 @@ export const sampleBoostProjectData: IBoostProjectData = {
             ]
         },
         {
-            name: "compliance",
+            name: BoostUserAnalysisType.compliance,
             children: [
                 {
                     name: 'Compliance Topic 1',

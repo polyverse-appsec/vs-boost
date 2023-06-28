@@ -3,17 +3,17 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as boostnb from './jupyter_notebook';
 
-import { BoostAnalyzeKernel, analyzeOutputType } from './analyze_controller';
-import { BoostAnalyzeFunctionKernel} from './analyze_function_controller';
-import { BoostTestgenKernel } from './testgen_controller';
-import { BoostConvertKernel } from './convert_controller';
-import { BoostComplianceKernel, complianceOutputType } from './compliance_controller';
-import { BoostComplianceFunctionKernel } from './compliance_function_controller';
-import { BoostExplainKernel, explainOutputType } from './explain_controller';
-import { BoostCodeGuidelinesKernel } from './codeguidelines_controller';
-import { BoostArchitectureBlueprintKernel, blueprintOutputType } from './blueprint_controller';
-import { BoostCustomProcessKernel } from './custom_controller';
-import { BoostFlowDiagramKernel } from './flowdiagram_controller';
+import { BoostAnalyzeKernel, analyzeOutputType, analyzeKernelName } from './analyze_controller';
+import { BoostAnalyzeFunctionKernel, analyzeFunctionKernelName } from './analyze_function_controller';
+import { BoostTestgenKernel, testgenKernelName } from './testgen_controller';
+import { BoostConvertKernel, convertKernelName } from './convert_controller';
+import { BoostComplianceKernel, complianceOutputType, complianceKernelName } from './compliance_controller';
+import { BoostComplianceFunctionKernel, complianceFunctionKernelName } from './compliance_function_controller';
+import { BoostExplainKernel, explainOutputType, explainKernelName } from './explain_controller';
+import { BoostCodeGuidelinesKernel, codeGuidelinesKernelName } from './codeguidelines_controller';
+import { BoostArchitectureBlueprintKernel, blueprintOutputType, blueprintKernelName } from './blueprint_controller';
+import { BoostCustomProcessKernel, customProcessCellMarker } from './custom_controller';
+import { BoostFlowDiagramKernel, flowDiagramKernelName } from './flowdiagram_controller';
 import { SummarizeKernel, summarizeKernelName, summaryFailedPrefix, summaryOutputType } from './summary_controller';
 
 import { BoostSummaryViewProvider } from './summary_view';
@@ -27,8 +27,10 @@ import {
     BoostCommands,
     findCellByKernel,
     cleanCellOutput,
-    boostActivityBarId
+    boostActivityBarId,
+    BoostUserAnalysisType
 } from './extension';
+
 import { BoostContentSerializer } from './serializer';
 import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
@@ -41,6 +43,29 @@ import { BoostProjectData, BoostProcessingStatus, emptyProjectData, SectionSumma
 import { BoostMarkdownViewProvider } from './markdown_view';
 
 import instructions from './instructions.json';
+
+export function getUserAnalysisType(kernelName : string) : string {
+    switch (kernelName) {
+        case analyzeKernelName:
+        case analyzeFunctionKernelName:
+            return BoostUserAnalysisType.security;
+        case complianceKernelName:
+        case complianceFunctionKernelName:
+            return BoostUserAnalysisType.compliance;
+        case flowDiagramKernelName:
+        case explainKernelName:
+            return BoostUserAnalysisType.documentation;
+        case blueprintKernelName:
+        case summarizeKernelName:
+        case codeGuidelinesKernelName:
+        case convertKernelName:
+        case testgenKernelName:
+        case customProcessCellMarker:
+            return BoostUserAnalysisType.blueprint;
+    default:
+        return kernelName;
+    }
+}
 
 export class BoostExtension {
     // for state, we keep it in a few places
