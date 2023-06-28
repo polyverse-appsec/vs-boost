@@ -44,29 +44,6 @@ import { BoostMarkdownViewProvider } from './markdown_view';
 
 import instructions from './instructions.json';
 
-export function getUserAnalysisType(kernelName : string) : string {
-    switch (kernelName) {
-        case analyzeKernelName:
-        case analyzeFunctionKernelName:
-            return BoostUserAnalysisType.security;
-        case complianceKernelName:
-        case complianceFunctionKernelName:
-            return BoostUserAnalysisType.compliance;
-        case flowDiagramKernelName:
-        case explainKernelName:
-            return BoostUserAnalysisType.documentation;
-        case blueprintKernelName:
-        case summarizeKernelName:
-        case codeGuidelinesKernelName:
-        case convertKernelName:
-        case testgenKernelName:
-        case customProcessCellMarker:
-            return BoostUserAnalysisType.blueprint;
-    default:
-        return kernelName;
-    }
-}
-
 export class BoostExtension {
     // for state, we keep it in a few places
     // 1. here, in the extension object.  this should really just be transient state like UI objects
@@ -124,6 +101,7 @@ export class BoostExtension {
             boostLogging.info('Polyverse Boost is now active');
         }
     }
+
     private _setupBoostProjectDataLifecycle(context: vscode.ExtensionContext) {
         let disposable = vscode.workspace.onDidChangeWorkspaceFolders(this.workspaceFoldersChanged);
         context.subscriptions.push(disposable);
@@ -1360,6 +1338,29 @@ export class BoostExtension {
                 reject(error as Error);
             }
         });
+    }
+
+    public getUserAnalysisType(kernelName : string) : string {
+        switch (kernelName) {
+            case analyzeKernelName:
+            case analyzeFunctionKernelName:
+                return BoostUserAnalysisType.security;
+            case complianceKernelName:
+            case complianceFunctionKernelName:
+                return BoostUserAnalysisType.compliance;
+            case flowDiagramKernelName:
+            case explainKernelName:
+                return BoostUserAnalysisType.documentation;
+            case blueprintKernelName:
+            case summarizeKernelName:
+            case codeGuidelinesKernelName:
+            case convertKernelName:
+            case testgenKernelName:
+            case customProcessCellMarker:
+                return BoostUserAnalysisType.blueprint;
+        default:
+            return kernelName;
+        }
     }
     
     private getCurrentKernel(requestedKernel?: string): KernelControllerBase | undefined {

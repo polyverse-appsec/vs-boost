@@ -4,8 +4,9 @@ import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
 import { fetchGithubSession, getCurrentOrganization } from './authorization';
 import { mapError } from './error';
-import { BoostNotebookCell, BoostNotebook, SerializedNotebookCellOutput, NOTEBOOK_TYPE } from './jupyter_notebook';
-import { fullPathFromSourceFile, getKernelName } from './extension';
+import { BoostNotebookCell, BoostNotebook, SerializedNotebookCellOutput, NOTEBOOK_TYPE,
+        NOTEBOOK_GUIDELINES_PRE_EXTENSION } from './jupyter_notebook';
+import { BoostFileType, fullPathFromSourceFile, getBoostFile, getKernelName } from './extension';
 import axiosRetry from 'axios-retry';
 
 // we can get timeouts and other errors from both openai and lambda. This is a generic handler for those
@@ -14,6 +15,8 @@ axiosRetry(axios, {
     retries: 3,
     retryDelay: axiosRetry.exponentialDelay
 });
+
+import * as fs from 'fs';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type onServiceErrorHandler = (context: vscode.ExtensionContext, error: any, closure: any) => void;
@@ -286,6 +289,12 @@ export class KernelControllerBase {
             organization: organization
           };
 
+        const guidelines = this.getGuidelines();
+        // Add guidelines to the payload only if it's not undefined or an empty array
+        if (guidelines && guidelines.length > 0) {
+            // we mark it as the system role since it may be used as hints
+            payload.guidelines = JSON.stringify(["system",guidelines]);
+        }
         // read any cell-specific temperature or top_p settings
         if (cell.metadata?.analysisRankedProbability) {
             payload = { ...payload,
@@ -365,6 +374,39 @@ export class KernelControllerBase {
         }
         return successfullyCompleted;
 	}
+
+    getGuidelines(): string[] {
+        // if we're not in a project, no guidelines are available
+        const folders = vscode.workspace.workspaceFolders;
+        if (!folders || folders.length === 0) {
+            return [];
+        }
+
+        const guidelines : string[] = [];
+        const projectGuidelinesFile = getBoostFile(folders[0].uri, BoostFileType.guidelines, false);
+        if (projectGuidelinesFile && fs.existsSync(projectGuidelinesFile.fsPath)) {
+            const projectGuidelines = new BoostNotebook();
+            projectGuidelines.load(projectGuidelinesFile.fsPath);
+            projectGuidelines.cells.forEach(cell => {
+                guidelines.push(cell.value);
+            });
+        }
+
+        // this kernel guideline file
+        const kernelGuidelinesFile =
+            projectGuidelinesFile.fsPath.replace(
+                NOTEBOOK_GUIDELINES_PRE_EXTENSION,
+                `.${this.otherThis.getUserAnalysisType(this.command)}${NOTEBOOK_GUIDELINES_PRE_EXTENSION}`);
+        if (fs.existsSync(kernelGuidelinesFile)) {
+            const projectGuidelines = new BoostNotebook();
+            projectGuidelines.load(kernelGuidelinesFile);
+            projectGuidelines.cells.forEach(cell => {
+                guidelines.push(cell.value);
+            });
+        }
+
+        return guidelines;
+    }
 
     // allow derived classes to override the error - e.g. change the error message
     localizeError(error: Error): Error {
