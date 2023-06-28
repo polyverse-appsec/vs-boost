@@ -1506,10 +1506,19 @@ export class BoostExtension {
                         this.summaryViewProvider?.addJobs(targetedKernel.outputType, [file.fsPath], 1);
             
                         this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh).then((notebook) => {
-                            this.summaryViewProvider?.finishJobs(targetedKernel.outputType, [file.fsPath], null, 1);
+
+                            // get the distance from the workspace folder for the source file
+                                    // for project-level status files, we ignore the relative path
+                            let relativePath = path.relative(targetFolder.fsPath,file.fsPath);
+
+                            this.summaryViewProvider?.finishJobs(targetedKernel.outputType, [relativePath], null, 1);
                             resolve(notebook);
                         }).catch((error) => {
-                            this.summaryViewProvider?.finishJobs(targetedKernel.outputType, [file.fsPath], error, 1);
+                            // get the distance from the workspace folder for the source file
+                            // for project-level status files, we ignore the relative path
+                            let relativePath = path.relative(targetFolder.fsPath,file.fsPath);
+
+                            this.summaryViewProvider?.finishJobs(targetedKernel.outputType, [relativePath], error, 1);
                             reject(error);
                         });
                     }, processingTime);
