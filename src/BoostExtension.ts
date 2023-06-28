@@ -1,7 +1,9 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
+
 import * as boostnb from './jupyter_notebook';
+import { getOrCreateGuideline } from './extension';
 
 import { BoostAnalyzeKernel, analyzeOutputType, analyzeKernelName } from './analyze_controller';
 import { BoostAnalyzeFunctionKernel, analyzeFunctionKernelName } from './analyze_function_controller';
@@ -16,7 +18,7 @@ import { BoostCustomProcessKernel, customProcessCellMarker } from './custom_cont
 import { BoostFlowDiagramKernel, flowDiagramKernelName } from './flowdiagram_controller';
 import { SummarizeKernel, summarizeKernelName, summaryFailedPrefix, summaryOutputType } from './summary_controller';
 
-import { BoostSummaryViewProvider } from './summary_view';
+import { BoostSummaryViewProvider, summaryViewType } from './summary_view';
 import { BoostStartViewProvider } from './start_view';
 import { BoostChatViewProvider } from './chat_view';
 
@@ -43,6 +45,8 @@ import { BoostProjectData, BoostProcessingStatus, emptyProjectData, SectionSumma
 import { BoostMarkdownViewProvider } from './markdown_view';
 
 import instructions from './instructions.json';
+
+export const sampleGuidelineRegEx = /^# Enter Your \w+ Guidelines Here\n\nYou can describe your goals, constraints, or hints for analysis$/;
 
 export class BoostExtension {
     // for state, we keep it in a few places
@@ -691,7 +695,7 @@ export class BoostExtension {
         this.summaryViewProvider = summary;
 
         context.subscriptions.push(
-            vscode.window.registerWebviewViewProvider(BoostSummaryViewProvider.viewType, summary));
+            vscode.window.registerWebviewViewProvider(summaryViewType, summary));
 
         context.subscriptions.push(
             vscode.window.registerWebviewViewProvider(BoostChatViewProvider.viewType, chat));
@@ -1151,10 +1155,10 @@ export class BoostExtension {
                     projectGuidelineFile = vscode.Uri.file(userGuidelinesFile);
                 }
 
-                if (!fs.existsSync(projectGuidelineFile.fsPath)) {
+                if (getOrCreateGuideline(projectGuidelineFile, guidelineType)) {
                     boostLogging.info(`No guidelines found for project. Building ${projectGuidelineFile.fsPath}`, false);
-                    this._buildGuidelineFile(projectGuidelineFile, guidelineType);
                 }
+
                 const guidelinesNotebook = await vscode.workspace.openNotebookDocument(projectGuidelineFile);
                 vscode.window.showNotebookDocument(guidelinesNotebook);
         });
@@ -1733,22 +1737,5 @@ export class BoostExtension {
         } catch (error) {
             boostLogging.error(`Unable to Convert Notebooks in Folder:[${folderUri.fsPath.toString()} due to error:${error}`);
         }
-    }
-
-    public sampleGuidelineRegEx = /^# Enter Your (\w+)?\1?"Project" Guidelines Here$/;
-
-    private _buildGuidelineFile(projectGuidelineFile: vscode.Uri, guidelineType: any) {
-    
-        const sampleGuideline = `# Enter Your ${guidelineType?guidelineType:"Project"} Guidelines Here`;
-    
-        const sampleGuidelineCell = new boostnb.BoostNotebookCell(boostnb.NotebookCellKind.Markup, "", "markdown");
-        const notebookMetadata : any = {"id": sampleGuidelineCell.id};
-        notebookMetadata["guidelineType"] = guidelineType?guidelineType:"Project";
-        sampleGuidelineCell.initializeMetadata(notebookMetadata);
-        sampleGuidelineCell.value = sampleGuideline;
-        const newGuidelineNotebook = new boostnb.BoostNotebook();
-        newGuidelineNotebook.addCell(sampleGuidelineCell);
-    
-        newGuidelineNotebook.save(projectGuidelineFile.fsPath);
     }
 }

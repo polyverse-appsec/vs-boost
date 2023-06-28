@@ -2,9 +2,9 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as _ from 'lodash';
 import { BoostExtension } from './BoostExtension';
-import { getOrCreateBlueprintUri, BoostCommands, getKernelName, getBoostFile, BoostFileType } from './extension';
+import { getOrCreateBlueprintUri, getOrCreateGuideline, getBoostFile, BoostFileType } from './extension';
 import { boostLogging } from './boostLogging';
-
+import { summaryViewType } from './summary_view';
 
 
 export class BoostStartViewProvider implements vscode.WebviewViewProvider {
@@ -54,24 +54,33 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
             switch (data.command) {
                 case 'open_file':
                     {
-                        const path = data.file;
-                        const blueprintUri = await getOrCreateBlueprintUri(this.context, path);
-                        try {
-                            const document = await vscode.workspace.openNotebookDocument(blueprintUri);
-                            await vscode.window.showNotebookDocument(document);
-                        } catch (e) {
-                            boostLogging.error(`Could not open Boost Project Summary ${blueprintUri} due to ${e}`, true);
-                        }
+                        await this._openFile(data.file, boostdata);
                     }
                     break;
 
                 case 'show_summary':
                     {
-                        vscode.commands.executeCommand('polyverse-boost-summary-view.focus');
+                        vscode.commands.executeCommand(`${summaryViewType}.focus`);
                     }
                     break;
             }
         });
+    }
+
+    private async _openFile(filename: string, boostdata : any) {
+        try {
+            let targetNotebookUri;
+            if (filename === boostdata.summary.summaryUrl) {
+                targetNotebookUri = await getOrCreateBlueprintUri(this.context, filename);
+            } else {
+                targetNotebookUri = getBoostFile(undefined, BoostFileType.guidelines);
+                getOrCreateGuideline(targetNotebookUri, BoostFileType.guidelines);
+            }
+            const document = await vscode.workspace.openNotebookDocument(targetNotebookUri as vscode.Uri);
+            await vscode.window.showNotebookDocument(document);
+    } catch (e) {
+            boostLogging.error(`Could not open Boost Project Summary ${filename} due to ${e}`, true);
+        }
     }
 
     public refresh() {
@@ -98,7 +107,7 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
 
         const blueprintFile = boostdata.summary.summaryUrl;
-        const guidelinesFile = getBoostFile(blueprintFile, BoostFileType.guidelines, false).fsPath;
+        const guidelinesFile = getBoostFile(undefined, BoostFileType.guidelines, false).fsPath;
 
         const template = _.template(rawHtmlContent);
         const htmlContent = template({ jsSrc, nonce, boostdata, blueprintFile, guidelinesFile });

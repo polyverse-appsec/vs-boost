@@ -11,7 +11,7 @@ import { boostLogging } from './boostLogging';
 import { TextDecoder } from 'util';
 import { PROJECT_EXTENSION } from './BoostProjectData';
 import { errorMimeType } from './base_controller';
-import { BoostExtension } from './BoostExtension';
+import { BoostExtension, sampleGuidelineRegEx } from './BoostExtension';
 import { blueprintOutputType } from './blueprint_controller';
 
 
@@ -586,31 +586,54 @@ export function fullPathFromSourceFile(sourceFile : string) : vscode.Uri {
     return vscode.Uri.parse(fullPath);
 }
 
+export function getOrCreateGuideline(projectGuidelineFile: vscode.Uri, guidelineType: any) : boolean{
+
+    if (fs.existsSync(projectGuidelineFile.fsPath)) {
+        return false;
+    }
+    const sampleGuideline = `# Enter Your ${guidelineType?guidelineType:"Project"} Guidelines Here\n\nYou can describe your goals, constraints, or hints for analysis`;
+
+    const sampleGuidelineCell = new boostnb.BoostNotebookCell(boostnb.NotebookCellKind.Markup, "", "markdown");
+    const notebookMetadata : any = {"id": sampleGuidelineCell.id};
+    notebookMetadata["guidelineType"] = guidelineType?guidelineType:"Project";
+    sampleGuidelineCell.initializeMetadata(notebookMetadata);
+    sampleGuidelineCell.value = sampleGuideline;
+    const newGuidelineNotebook = new boostnb.BoostNotebook();
+    newGuidelineNotebook.addCell(sampleGuidelineCell);
+
+    newGuidelineNotebook.save(projectGuidelineFile.fsPath);
+
+    return true;
+}
+
 export async function getOrCreateBlueprintUri(context: vscode.ExtensionContext, filePath: string): Promise<vscode.Uri>{
     const workspacePath = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : '';
     const absoluteFilePath = path.resolve(workspacePath, filePath);
     const uri = vscode.Uri.file(absoluteFilePath);
-    if (!fs.existsSync(absoluteFilePath)) {
-        // If the file doesn't exist, create it with data from blueprint_template.md
-        const extensionPath = context.extensionPath;
-        const templatePath = path.join(extensionPath, 'resources', 'blueprint_template.md');
-        const data = fs.readFileSync(templatePath, 'utf8');
-
-        //filePath might point to a directory that does not exist yet. check for that and create it if necessary
-        const folderPath = path.dirname(absoluteFilePath);
-        fs.mkdirSync(folderPath, { recursive: true });
-
-        // technically this cached markdown file is not a normal notebook file - and since the
-        //  project summary is in a notebook form, we need to convert it into a new notebook with a Blueprint summary cell
-
-        const newBlueprintSummaryNotebook : boostnb.BoostNotebook = await createEmptyNotebook(uri, false) as boostnb.BoostNotebook;
-
-        const newBlueprintCell = new boostnb.BoostNotebookCell(boostnb.NotebookCellKind.Markup, "", "markdown");
-        newBlueprintCell.initializeMetadata({"id": newBlueprintCell.id, "outputType": blueprintOutputType});
-        newBlueprintCell.value = data;
-        newBlueprintSummaryNotebook.addCell(newBlueprintCell);
-        newBlueprintSummaryNotebook.save(uri.fsPath);
+    if (fs.existsSync(absoluteFilePath)) {
+        return uri;
     }
+
+    // If the file doesn't exist, create it with data from blueprint_template.md
+    const extensionPath = context.extensionPath;
+    const templatePath = path.join(extensionPath, 'resources', 'blueprint_template.md');
+    const data = fs.readFileSync(templatePath, 'utf8');
+
+    //filePath might point to a directory that does not exist yet. check for that and create it if necessary
+    const folderPath = path.dirname(absoluteFilePath);
+    fs.mkdirSync(folderPath, { recursive: true });
+
+    // technically this cached markdown file is not a normal notebook file - and since the
+    //  project summary is in a notebook form, we need to convert it into a new notebook with a Blueprint summary cell
+
+    const newBlueprintSummaryNotebook : boostnb.BoostNotebook = await createEmptyNotebook(uri, false) as boostnb.BoostNotebook;
+
+    const newBlueprintCell = new boostnb.BoostNotebookCell(boostnb.NotebookCellKind.Markup, "", "markdown");
+    newBlueprintCell.initializeMetadata({"id": newBlueprintCell.id, "outputType": blueprintOutputType});
+    newBlueprintCell.value = data;
+    newBlueprintSummaryNotebook.addCell(newBlueprintCell);
+    newBlueprintSummaryNotebook.save(uri.fsPath);
+
     return uri;
 }
 

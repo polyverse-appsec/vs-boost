@@ -25,6 +25,9 @@ function main() {
 
   const blueprintLink = document.getElementById("blueprint-link") as HTMLAnchorElement;
   blueprintLink?.addEventListener("click", openFile);
+
+  const guidelinesLink = document.getElementById("guidelines-link") as HTMLAnchorElement;
+  guidelinesLink?.addEventListener("click", openFile);
 }
 
 // Callback function that is executed when the howdy button is clicked

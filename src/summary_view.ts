@@ -17,9 +17,9 @@ import { boostLogging } from './boostLogging';
 import { BoostConfiguration } from './boostConfiguration';
 import { complianceFunctionKernelName } from './compliance_function_controller';
 
-export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
+export const summaryViewType = 'polyverse-boost-summary-view';
 
-	public static readonly viewType = 'polyverse-boost-summary-view';
+export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
 	private _view?: vscode.WebviewView;
 
