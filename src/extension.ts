@@ -18,6 +18,7 @@ export enum BoostFileType {
     notebook = "notebook",
     summary = "summary",
     status = "status",
+    guidelines = "guidelines"
 }
 
 export function getKernelName(kernelName: string): string {
@@ -93,11 +94,19 @@ export function getBoostFile(sourceFile : vscode.Uri, format : BoostFileType = B
     // create the .boost file path, from the new boost folder + amended relative source file path
     switch (format) {
         case BoostFileType.summary:
+        case BoostFileType.guidelines:
+
+            // default to summary
+            let extension = boostnb.NOTEBOOK_SUMMARY_EXTENSION;
+            if (format === BoostFileType.guidelines) {
+                extension = boostnb.NOTEBOOK_GUIDELINES_EXTENSION;
+            }
+
             // if the new file is outside of our current workspace, then warn user
             // and place the new .boost file next to it (not great, but better than nothing)
             if (relativePath.startsWith("..")) {
                 boostLogging.warn(`Boost Notebook file ${sourceFile.fsPath} is outside of current workspace ${baseFolder}`, showUI);
-                const externalBoostFile = sourceFile.fsPath + boostnb.NOTEBOOK_SUMMARY_EXTENSION;
+                const externalBoostFile = sourceFile.fsPath + extension;
                 return vscode.Uri.file(externalBoostFile);
             } else {
                 // if we're targeting a folder, and the folder is the workspace name, then name it after the project
@@ -106,7 +115,7 @@ export function getBoostFile(sourceFile : vscode.Uri, format : BoostFileType = B
                 }
                 // create the .boost file path, from the new boost folder + amended relative source file path
                 const absoluteBoostNotebookFile = path.join(
-                    boostFolder, relativePath + boostnb.NOTEBOOK_SUMMARY_EXTENSION);
+                    boostFolder, relativePath + extension);
                 return vscode.Uri.file(absoluteBoostNotebookFile);
             }
         case BoostFileType.status:

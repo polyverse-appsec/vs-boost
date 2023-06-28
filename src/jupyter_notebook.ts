@@ -10,6 +10,9 @@ export const NOTEBOOK_EXTENSION = ".boost-notebook";
 export const NOTEBOOK_SUMMARY_PRE_EXTENSION = '.summary';
 export const NOTEBOOK_SUMMARY_EXTENSION = NOTEBOOK_SUMMARY_PRE_EXTENSION + NOTEBOOK_EXTENSION;
 
+export const NOTEBOOK_GUIDELINES_PRE_EXTENSION = '.guidelines';
+export const NOTEBOOK_GUIDELINES_EXTENSION = NOTEBOOK_GUIDELINES_PRE_EXTENSION + NOTEBOOK_EXTENSION;
+
 export enum NotebookCellKind {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     Markup = 1,
