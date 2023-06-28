@@ -153,7 +153,16 @@ export class BoostNotebook /* implements nbformat.INotebookContent */ {
 
     load(filePath: string): void {
         const jsonString = fs.readFileSync(filePath, 'utf8');
-        this.create(jsonString);
+        try {
+            this.create(jsonString);
+        } catch (e) {
+            if (e instanceof SyntaxError) {
+                boostLogging.error(`Could not parse notebook ${filePath} due to invalid JSON: ${e}`, false);
+                throw new SyntaxError(`Could not parse notebook ${filePath} due to invalid JSON: ${e}`);
+            } else {
+                throw e;
+            }
+        }
         this.fsPath = filePath;
     }
 

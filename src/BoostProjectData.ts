@@ -8,7 +8,7 @@ export interface Summary {
     summaryUrl: string;
     filesToAnalyze: number;
     filesAnalyzed: number;
-    issues: string [];
+    issues: string[];
 }
 
 export enum BoostProcessingStatus {
@@ -233,31 +233,39 @@ export class BoostProjectData implements IBoostProjectData {
     summary: Summary;
     sectionSummary: SectionSummary[];
     analysis: [];
-  
+
     constructor() {
-      this.summary = { summaryUrl: '', filesToAnalyze: 0, filesAnalyzed: 0, issues: [] };
-      this.sectionSummary = [];
-      this.analysis = [];
+        this.summary = { summaryUrl: '', filesToAnalyze: 0, filesAnalyzed: 0, issues: [] };
+        this.sectionSummary = [];
+        this.analysis = [];
     }
-  
+
     create(jsonString: string): void {
-      const projectData = JSON.parse(jsonString) as BoostProjectData;
-      Object.assign(this, projectData);
+        const projectData = JSON.parse(jsonString) as BoostProjectData;
+        Object.assign(this, projectData);
     }
-  
+
     load(filePath: string): void {
-      const jsonString = fs.readFileSync(filePath, 'utf8');
-      this.create(jsonString);
+        const jsonString = fs.readFileSync(filePath, 'utf8');
+        try {
+            this.create(jsonString);
+        } catch (e) {
+            if (e instanceof SyntaxError) {
+                throw new SyntaxError(`Could not parse notebook ${filePath} due to invalid JSON: ${e}`);
+            } else {
+                throw e;
+            }
+        }
     }
-  
+
     save(filename: string): void {
-      const projectDataJson = JSON.stringify(this, null, 2);
-  
-      // Create any necessary folders
-      const folderPath = path.dirname(filename);
-      fs.mkdirSync(folderPath, { recursive: true });
-  
-      fs.writeFileSync(filename, projectDataJson, { encoding: 'utf8' });
+        const projectDataJson = JSON.stringify(this, null, 2);
+
+        // Create any necessary folders
+        const folderPath = path.dirname(filename);
+        fs.mkdirSync(folderPath, { recursive: true });
+
+        fs.writeFileSync(filename, projectDataJson, { encoding: 'utf8' });
     }
 
     static get default(): BoostProjectData {
