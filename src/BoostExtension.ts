@@ -161,6 +161,10 @@ export class BoostExtension {
                         } else {
                             const boostProjectData = new BoostProjectData();
                             boostProjectData.load(boostProjectUri.fsPath);
+                            if (!boostProjectData.summary.projectName) {
+                                boostProjectData.summary.projectName = path.basename(workspaceFolder.uri.fsPath);
+                                boostProjectData.flushToFS();
+                            }
                             this._boostProjectData.set(workspaceFolder.uri, boostProjectData);
                             return boostProjectData;
                         }
@@ -215,6 +219,7 @@ export class BoostExtension {
         await this.getBoostFilesForFolder(workspaceFolder, boostProjectData);
 
         boostProjectData.summary.issues = [ "No issues found" ];
+        boostProjectData.summary.projectName = path.basename(workspaceFolder.fsPath);
 
         boostProjectData.save(getBoostFile(workspaceFolder, BoostFileType.status).fsPath);
     }

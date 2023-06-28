@@ -179,15 +179,15 @@ export class BoostNotebook /* implements nbformat.INotebookContent */ {
             });
         });
 
+        // Create any necessary folders
+        const folderPath = path.dirname(filename);
+        fs.mkdirSync(folderPath, { recursive: true });
+
         this.fsPath = filename;
 
         // no need to persist the path into the file
         const { fsPath, ...dataWithoutFsPath } = this;
         const notebookJson = JSON.stringify(dataWithoutFsPath, null, 2);
-
-        // Create any necessary folders
-        const folderPath = path.dirname(filename);
-        fs.mkdirSync(folderPath, { recursive: true });
 
         fs.writeFileSync(filename, notebookJson, { encoding: 'utf8' });
     }

@@ -5,6 +5,7 @@ import { BoostUserAnalysisType } from './extension';
 export const PROJECT_EXTENSION = ".boost-project";
 
 export interface Summary {
+    projectName: string
     summaryUrl: string;
     filesToAnalyze: number;
     filesAnalyzed: number;
@@ -38,6 +39,7 @@ export interface AnalysisNode {
 
 export const sampleBoostProjectData: IBoostProjectData = {
     summary: {
+        projectName: "Your Project",
         summaryUrl: "",
         filesToAnalyze: 42,
         filesAnalyzed: 0,
@@ -152,6 +154,7 @@ export interface IBoostProjectData {
 
 export const emptyProjectData: IBoostProjectData = {
     summary: {
+        projectName: "",
         summaryUrl: "",
         filesToAnalyze: 0,
         filesAnalyzed: 0,
@@ -233,11 +236,13 @@ export class BoostProjectData implements IBoostProjectData {
     summary: Summary;
     sectionSummary: SectionSummary[];
     analysis: [];
+    fsPath: string;
 
     constructor() {
-        this.summary = { summaryUrl: '', filesToAnalyze: 0, filesAnalyzed: 0, issues: [] };
+        this.summary = { projectName: '', summaryUrl: '', filesToAnalyze: 0, filesAnalyzed: 0, issues: [] };
         this.sectionSummary = [];
         this.analysis = [];
+        this.fsPath = '';
     }
 
     create(jsonString: string): void {
@@ -256,16 +261,25 @@ export class BoostProjectData implements IBoostProjectData {
                 throw e;
             }
         }
+        this.fsPath = filePath;
     }
 
     save(filename: string): void {
-        const projectDataJson = JSON.stringify(this, null, 2);
-
         // Create any necessary folders
         const folderPath = path.dirname(filename);
         fs.mkdirSync(folderPath, { recursive: true });
 
+        this.fsPath = filename;
+
+        // no need to persist the path into the file
+        const { fsPath, ...dataWithoutFsPath } = this;
+        const projectDataJson = JSON.stringify(dataWithoutFsPath, null, 2);
+
         fs.writeFileSync(filename, projectDataJson, { encoding: 'utf8' });
+    }
+
+    flushToFS(): void {
+        this.save(this.fsPath);
     }
 
     static get default(): BoostProjectData {
