@@ -10,7 +10,7 @@ Polyverse Boost Automatic Application Modernization
 - New command showGuidelines to show the the editable Guidelines for the Project or any specific area (e.g. Security, Documentation, Compliance, etc.)
 
 ### Enhancements
-- N/A
+- Boost will not analyze binary files (e.g. images, movies, zip files, etc) - and will not generate Boost Notebooks
 
 ### Bug Fixes
 - Display Flow Diagrams in Documentation Summary Activity Bar tab
