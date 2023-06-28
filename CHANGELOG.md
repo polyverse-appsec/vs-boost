@@ -13,6 +13,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Bug Fixes
 - Display Flow Diagrams in Documentation Summary Activity Bar tab
+- Fix issue with empty Analysis summaries not printing a message
 
 ## Version 1.0.3: June 23, 2023
 

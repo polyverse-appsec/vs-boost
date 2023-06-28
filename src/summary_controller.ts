@@ -212,11 +212,12 @@ export class SummarizeKernel extends KernelControllerBase {
             // generate synthetic no data output cell
             targetCell.value = this.onKernelOutputItem(
                     {"analysis": this.noDataToSummarizeMessage,
-                    // eslint-disable-next-line @typescript-eslint/naming-convention
-                    "analysis_type": outputType,
-                    // eslint-disable-next-line @typescript-eslint/naming-convention
-                    "analysis_label": kernelLabel},
-                outputType);
+                     // eslint-disable-next-line @typescript-eslint/naming-convention
+                     "analysis_type": outputType,
+                     // eslint-disable-next-line @typescript-eslint/naming-convention
+                     "analysis_label": kernelLabel},
+                     targetCell,
+                    outputType);
         }
 
         targetNotebook.flushToFS();
