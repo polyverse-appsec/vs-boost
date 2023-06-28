@@ -376,18 +376,16 @@ export class KernelControllerBase {
 	}
 
     getGuidelines(): string[] {
-        // if we're not in a project, no guidelines are available
-        const folders = vscode.workspace.workspaceFolders;
-        if (!folders || folders.length === 0) {
-            return [];
-        }
-
         const guidelines : string[] = [];
-        const projectGuidelinesFile = getBoostFile(folders[0].uri, BoostFileType.guidelines, false);
+        const projectGuidelinesFile = getBoostFile(undefined, BoostFileType.guidelines, false);
         if (projectGuidelinesFile && fs.existsSync(projectGuidelinesFile.fsPath)) {
             const projectGuidelines = new BoostNotebook();
             projectGuidelines.load(projectGuidelinesFile.fsPath);
             projectGuidelines.cells.forEach(cell => {
+                if (this.otherThis.sampleGuidelineRegEx.test(cell.value)) {
+                    // ignore sample text
+                    return;
+                }
                 guidelines.push(cell.value);
             });
         }
@@ -401,6 +399,10 @@ export class KernelControllerBase {
             const projectGuidelines = new BoostNotebook();
             projectGuidelines.load(kernelGuidelinesFile);
             projectGuidelines.cells.forEach(cell => {
+                if (this.otherThis.sampleGuidelineRegEx.test(cell.value)) {
+                    // ignore sample text
+                    return;
+                }
                 guidelines.push(cell.value);
             });
         }

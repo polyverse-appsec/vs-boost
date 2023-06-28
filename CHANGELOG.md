@@ -7,6 +7,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### New Features
 - Enable User-Editable Project Guidelines and Best Practices to be used in analysis
+- New command showGuidelines to show the the editable Guidelines for the Project or any specific area (e.g. Security, Documentation, Compliance, etc.)
 
 ### Enhancements
 - N/A

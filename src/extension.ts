@@ -54,6 +54,8 @@ export enum BoostCommands {
     analyzeSourceCode = "analyzeSourceCode",
 
     refreshProjectData = "refreshProjectData",
+
+    showGuidelines = "showGuidelines",
 }
 
 export async function activate(context: vscode.ExtensionContext) {
@@ -80,17 +82,28 @@ export async function deactivate(): Promise<void> {
     return undefined;
 }
 
-export function getBoostFile(sourceFile : vscode.Uri, format : BoostFileType = BoostFileType.notebook, showUI : boolean = false) : vscode.Uri {
+export function getBoostFile(sourceFile : vscode.Uri | undefined, format : BoostFileType = BoostFileType.notebook, showUI : boolean = false) : vscode.Uri {
 
     // if we don't have a workspace folder, just place the Boost file in a new Boostdir - next to the source file
     let baseFolder;
     if (!vscode.workspace.workspaceFolders) {
+        if (!sourceFile) {
+            throw new Error("Unable to determine source file for Boost file");
+        }
         baseFolder = path.dirname(sourceFile.fsPath);
     }
     else {
         const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder
         baseFolder = workspaceFolder.uri.fsPath;
+        // if user didn't specify a source file, then we're get the global project file
+        if (!sourceFile) {
+            sourceFile = workspaceFolder.uri;
+        }
     }
+    if (!sourceFile) {
+        throw new Error("Unable to determine source file for Boost file");
+    }
+
     // create the .boost folder if we need to - this is statically located in the workspace folder no matter which child folder is processed
     const boostFolder = path.join(baseFolder, BoostConfiguration.defaultDir);
     fs.mkdirSync(boostFolder, { recursive: true });

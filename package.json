@@ -230,6 +230,10 @@
                 "command": "polyverse-boost-notebook.analyzeSourceCode",
                 "title": "Boost: Analyze Source Code",
                 "icon": "$(search)"
+            },
+            {
+                "command": "polyverse-boost-notebook.showGuidelines",
+                "title": "Boost: Show Project Guidelines"
             }
         ],
         "notebooks": [

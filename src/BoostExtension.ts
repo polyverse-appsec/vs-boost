@@ -93,6 +93,8 @@ export class BoostExtension {
 
         this.registerSourceCodeRightClickCommands(context);
 
+        this.registerShowGuidelinesCommand(context);
+
         this.setupDashboard(context);
 
         boostLogging.log('Activated Boost Notebook Extension');
@@ -887,7 +889,7 @@ export class BoostExtension {
         }
     }
 
-    registerFolderRightClickAnalyzeCommand(context: vscode.ExtensionContext,) {
+    registerFolderRightClickAnalyzeCommand(context: vscode.ExtensionContext) {
 
         let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.loadCurrentFolder,
             async (uri: vscode.Uri) => {
@@ -908,7 +910,7 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
     }
 
-    registerFolderRightClickOutputCommands(context: vscode.ExtensionContext,) {
+    registerFolderRightClickOutputCommands(context: vscode.ExtensionContext) {
 
         // register the command to build the current file
         let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.buildCurrentFileOutput,
@@ -968,7 +970,7 @@ export class BoostExtension {
         disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.buildCurrentFolderOutput,
             async (uri: vscode.Uri) => {
                 return this.buildCurrentFolderOutput(uri, BoostConfiguration.defaultOutputFormat).catch((error: any) => {
-                    boostLogging.error((error as Error).message,);
+                    boostLogging.error((error as Error).message);
                 });
             });
         context.subscriptions.push(disposable);
@@ -1078,7 +1080,7 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
     }
 
-    registerRefreshProjectDataCommands(context: vscode.ExtensionContext,) {
+    registerRefreshProjectDataCommands(context: vscode.ExtensionContext) {
 
         let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData,
             async () => {
@@ -1091,7 +1093,7 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
     }
 
-    registerSourceCodeRightClickCommands(context: vscode.ExtensionContext,) {
+    registerSourceCodeRightClickCommands(context: vscode.ExtensionContext) {
 
         let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.analyzeSourceCode,
             async () => {
@@ -1122,6 +1124,35 @@ export class BoostExtension {
                     boostLogging.error(`Unable to Analyze Selected Text with ${BoostConfiguration.currentKernelCommand} due to ${error as Error}`, true);
                 });
             });
+        context.subscriptions.push(disposable);
+    }
+
+    registerShowGuidelinesCommand(context: vscode.ExtensionContext) {
+            
+        let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.showGuidelines,
+            async (guidelineType) => {
+                const globalProjectGuidelineFile = getBoostFile(undefined, BoostFileType.guidelines, false);
+                let projectGuidelineFile;
+                if (!guidelineType) {
+                    projectGuidelineFile = globalProjectGuidelineFile;
+                } else {
+                    if (!(guidelineType in BoostUserAnalysisType)) {
+                        guidelineType = this.getUserAnalysisType(guidelineType);
+                    }
+                    // this user guideline file
+                    const userGuidelinesFile = globalProjectGuidelineFile.fsPath.replace(
+                            boostnb.NOTEBOOK_GUIDELINES_PRE_EXTENSION,
+                            `.${guidelineType}${boostnb.NOTEBOOK_GUIDELINES_PRE_EXTENSION}`);
+                    projectGuidelineFile = vscode.Uri.file(userGuidelinesFile);
+                }
+
+                if (!fs.existsSync(projectGuidelineFile.fsPath)) {
+                    boostLogging.info(`No guidelines found for project. Building ${projectGuidelineFile.fsPath}`, false);
+                    this._buildGuidelineFile(projectGuidelineFile, guidelineType);
+                }
+                const guidelinesNotebook = await vscode.workspace.openNotebookDocument(projectGuidelineFile);
+                vscode.window.showNotebookDocument(guidelinesNotebook);
+        });
         context.subscriptions.push(disposable);
     }
 
@@ -1516,7 +1547,7 @@ export class BoostExtension {
         }
     }
 
-    registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext,) {
+    registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext) {
 
         let disposable = vscode.commands.registerCommand(boostnb.NOTEBOOK_TYPE + '.' + BoostCommands.loadCurrentFile,
             async (uri: vscode.Uri) => {
@@ -1688,5 +1719,22 @@ export class BoostExtension {
         } catch (error) {
             boostLogging.error(`Unable to Convert Notebooks in Folder:[${folderUri.fsPath.toString()} due to error:${error}`);
         }
+    }
+
+    public sampleGuidelineRegEx = /^# Enter Your (\w+)?\1?"Project" Guidelines Here$/;
+
+    private _buildGuidelineFile(projectGuidelineFile: vscode.Uri, guidelineType: any) {
+    
+        const sampleGuideline = `# Enter Your ${guidelineType?guidelineType:"Project"} Guidelines Here`;
+    
+        const sampleGuidelineCell = new boostnb.BoostNotebookCell(boostnb.NotebookCellKind.Markup, "", "markdown");
+        const notebookMetadata : any = {"id": sampleGuidelineCell.id};
+        notebookMetadata["guidelineType"] = guidelineType?guidelineType:"Project";
+        sampleGuidelineCell.initializeMetadata(notebookMetadata);
+        sampleGuidelineCell.value = sampleGuideline;
+        const newGuidelineNotebook = new boostnb.BoostNotebook();
+        newGuidelineNotebook.addCell(sampleGuidelineCell);
+    
+        newGuidelineNotebook.save(projectGuidelineFile.fsPath);
     }
 }
