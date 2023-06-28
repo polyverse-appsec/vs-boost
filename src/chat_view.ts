@@ -56,7 +56,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         _token: vscode.CancellationToken,
     ) {
         try {
-            this.resolveWebviewView(webviewView, context, _token);
+            this._resolveWebviewView(webviewView, context, _token);
         } catch (e) {
             boostLogging.error(`Could not refresh Boost Chat View due to ${e}`, false);
         }
