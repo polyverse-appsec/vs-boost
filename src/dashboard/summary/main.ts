@@ -159,7 +159,7 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
               }
             } 
           });
-
+          
           //after five seconds, refresh the progress text
           setTimeout( () => {
             refreshProgressText(progressText);

@@ -337,7 +337,8 @@ export class BoostExtension {
 
             let errorCount = 0;
             let completedCount = 0;
-            boostProjectData.files[boostFileUri.fsPath] = {
+            let relativePath = path.relative(workspaceFolder.fsPath,file.fsPath);
+            boostProjectData.files[relativePath] = {
                 "total": boostNotebook.cells.length,
                 "completed": 0,
                 "error": 0,
