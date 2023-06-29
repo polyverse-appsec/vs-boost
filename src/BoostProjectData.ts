@@ -25,6 +25,7 @@ export interface SectionSummary {
     error: number;
     completed: number;
     total: number;
+    filesAnalyzed: number;
 }
 
 export interface Analysis {
@@ -59,6 +60,7 @@ export const sampleBoostProjectData: IBoostProjectData = {
             completed: 3,
             error: 0,
             total: 6,
+            filesAnalyzed: 3
         },
         {
             analysisType: "compliance",
@@ -66,6 +68,7 @@ export const sampleBoostProjectData: IBoostProjectData = {
             completed: 3,
             error: 0,
             total: 6,
+            filesAnalyzed: 3
         },
         {
             analysisType: "bugAnalysis",
@@ -73,6 +76,7 @@ export const sampleBoostProjectData: IBoostProjectData = {
             completed: 3,
             error: 0,
             total: 6,
+            filesAnalyzed: 3
         },
         {
             analysisType: "explain",
@@ -80,6 +84,7 @@ export const sampleBoostProjectData: IBoostProjectData = {
             completed: 3,
             error: 0,
             total: 6,
+            filesAnalyzed: 3
         },
         {
             analysisType: "summary",
@@ -87,6 +92,7 @@ export const sampleBoostProjectData: IBoostProjectData = {
             completed: 17,
             error: 5,
             total: 26,
+            filesAnalyzed: 3
         }
     ],
     analysis: [
@@ -178,6 +184,7 @@ export const emptyProjectData: IBoostProjectData = {
             completed: 0,
             error: 0,
             total: 0,
+            filesAnalyzed: 0
         },
         {
             analysisType: "explain",
@@ -185,6 +192,7 @@ export const emptyProjectData: IBoostProjectData = {
             completed: 0,
             error: 0,
             total: 0,
+            filesAnalyzed: 0
         },
         {
             analysisType: "flowDiagram",
@@ -192,6 +200,7 @@ export const emptyProjectData: IBoostProjectData = {
             completed: 0,
             error: 0,
             total: 0,
+            filesAnalyzed: 0
         },
         {
             analysisType: "bugAnalyze",
@@ -199,6 +208,7 @@ export const emptyProjectData: IBoostProjectData = {
             completed: 0,
             error: 0,
             total: 0,
+            filesAnalyzed: 0
         },
         {
             analysisType: "compliance",
@@ -206,6 +216,7 @@ export const emptyProjectData: IBoostProjectData = {
             completed: 0,
             error: 0,
             total: 0,
+            filesAnalyzed: 0
         },
         {
             analysisType: "summary",
@@ -213,6 +224,7 @@ export const emptyProjectData: IBoostProjectData = {
             completed: 0,
             error: 0,
             total: 0,
+            filesAnalyzed: 0
         }
     ],
     analysis: [

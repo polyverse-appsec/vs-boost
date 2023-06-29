@@ -55,7 +55,7 @@
                     <% } %>
                 </vscode-data-grid-cell>
                 <vscode-data-grid-cell grid-column="2" style="margin-left: 0px;">
-                    <vscode-badge id='badge-<%= analysisObj.analysisType%>' class=<%= 'boost-' + analysisObj.status %>><%= analysisObj.completed + '/' + (analysisObj.total) %></vscode-badge>
+                    <vscode-badge id='badge-<%= analysisObj.analysisType%>' class=<%= 'boost-' + analysisObj.status %>><%= analysisObj.filesAnalyzed.toString() + '/' + (boostdata.summary.filesToAnalyze) %></vscode-badge>
                 </vscode-data-grid-cell>
                 <vscode-data-grid-cell grid-column="3" id="job-<%=analysisObj.analysisType%>" hidden>
                 </vscode-data-grid-cell>

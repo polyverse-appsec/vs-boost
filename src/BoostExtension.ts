@@ -261,6 +261,7 @@ export class BoostExtension {
             completed: 0,
             error: 0,
             total: 0,
+            filesAnalyzed: 0
         });
         sectionMap.set(blueprintOutputType, {
             analysisType: blueprintOutputType,
@@ -268,6 +269,7 @@ export class BoostExtension {
             completed: 0,
             error: 0,
             total: 0,
+            filesAnalyzed: 0
         });
         sectionMap.set(complianceOutputType, {
             analysisType: complianceOutputType,
@@ -275,6 +277,7 @@ export class BoostExtension {
             completed: 0,
             error: 0,
             total: 0,
+            filesAnalyzed: 0
         });
         sectionMap.set(analyzeOutputType, {
             analysisType: analyzeOutputType,
@@ -282,6 +285,7 @@ export class BoostExtension {
             completed: 0,
             error: 0,
             total: 0,
+            filesAnalyzed: 0
         });
         sectionMap.set(summaryOutputType, {
             analysisType: summaryOutputType,
@@ -289,6 +293,7 @@ export class BoostExtension {
             completed: 0,
             error: 0,
             total: 0,
+            filesAnalyzed: 0
         });
         boostProjectData.sectionSummary = Array.from(sectionMap.values());
         boostProjectData.analysis = [];
@@ -345,6 +350,7 @@ export class BoostExtension {
                 "sourceFile": boostNotebook.metadata.sourceFile as string || "",
             };
 
+            let sectionCompleted: { [key: string]: boolean } = {};
             boostNotebook.cells.forEach((cell) => {
                 cell.outputs.forEach((output) => {
                     output.items.forEach((outputItem) => {
@@ -358,9 +364,21 @@ export class BoostExtension {
                         } else if (outputItem.data) {
                             thisSection.completed++;
                             completedCount++;
+                            sectionCompleted[output.metadata.outputType] = true;
                         }
                     });
                 });
+            });
+
+            //now update the section summary to increment the number of files analyzed
+            //based on the number of sections that have been completed
+            let sectionsCompleted = Object.keys(sectionCompleted);
+            sectionsCompleted.forEach((section) => {
+                let thisSection = sectionMap.get(section);
+                if (!thisSection) {
+                    return;
+                }
+                thisSection.filesAnalyzed++;
             });
 
             boostProjectData.files[boostFileUri.fsPath].completed = completedCount;
