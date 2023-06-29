@@ -8,6 +8,8 @@ import { BoostNotebookCell, BoostNotebook, SerializedNotebookCellOutput, NOTEBOO
         NOTEBOOK_GUIDELINES_PRE_EXTENSION } from './jupyter_notebook';
 import { BoostFileType, fullPathFromSourceFile, getBoostFile, getKernelName } from './extension';
 import axiosRetry from 'axios-retry';
+import PQueue from 'p-queue';;
+import * as fs from 'fs';
 
 // we can get timeouts and other errors from both openai and lambda. This is a generic handler for those
 // conditions to attempt a retry.
@@ -16,7 +18,9 @@ axiosRetry(axios, {
     retryDelay: axiosRetry.exponentialDelay
 });
 
-import * as fs from 'fs';
+const queue = new PQueue({ concurrency: 1 });
+
+
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type onServiceErrorHandler = (context: vscode.ExtensionContext, error: any, closure: any) => void;
@@ -592,13 +596,15 @@ export class KernelControllerBase {
             'User-Agent': `Boost-VSCE/${BoostConfiguration.version}`
         };
         
-        return axios.post(
+        // Add the request to the queue
+        return queue.add(() => axios.post(
             serviceEndpoint,
             payload, { headers }).then((response) => {
                 return response.data;
             }).catch((error) => {
                 throw error;
-            });
+            })
+        );
     }
 
     isCellOutputMissingOrError(cell : vscode.NotebookCell | BoostNotebookCell) : boolean {
