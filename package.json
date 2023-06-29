@@ -235,6 +235,26 @@
                 "command": "polyverse-boost-notebook.showGuidelines",
                 "title": "Boost: Show Project Guidelines",
                 "icon": "$(gear)"
+            },
+            {
+                "command": "polyverse-boost-notebook.showGuidelines.blueprint",
+                "title": "Boost: Show Blueprint Guidelines",
+                "icon": "$(gear)"
+            },
+            {
+                "command": "polyverse-boost-notebook.showGuidelines.documentation",
+                "title": "Boost: Show Documentation Guidelines",
+                "icon": "$(gear)"
+            },
+            {
+                "command": "polyverse-boost-notebook.showGuidelines.security",
+                "title": "Boost: Show Security Guidelines",
+                "icon": "$(gear)"
+            },
+            {
+                "command": "polyverse-boost-notebook.showGuidelines.compliance",
+                "title": "Boost: Show Compliance Guidelines",
+                "icon": "$(gear)"
             }
         ],
         "notebooks": [
@@ -251,9 +271,24 @@
         "menus": {
             "view/title": [
                 {
-                    "command": "polyverse-boost-notebook.showGuidelines",
+                    "command": "polyverse-boost-notebook.showGuidelines.blueprint",
                     "group": "navigation",
                     "when": "view == polyverse-boost-blueprint-view"
+                },
+                {
+                    "command": "polyverse-boost-notebook.showGuidelines.documentation",
+                    "group": "navigation",
+                    "when": "view == polyverse-boost-doc-view"
+                },
+                {
+                    "command": "polyverse-boost-notebook.showGuidelines.security",
+                    "group": "navigation",
+                    "when": "view == polyverse-boost-security-view"
+                },
+                {
+                    "command": "polyverse-boost-notebook.showGuidelines.compliance",
+                    "group": "navigation",
+                    "when": "view == polyverse-boost-compliance-view"
                 }
 
             ],
