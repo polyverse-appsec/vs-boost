@@ -6,7 +6,7 @@ import { fetchGithubSession, getCurrentOrganization } from './authorization';
 import { mapError } from './error';
 import { BoostNotebookCell, BoostNotebook, SerializedNotebookCellOutput, NOTEBOOK_TYPE,
         NOTEBOOK_GUIDELINES_PRE_EXTENSION } from './jupyter_notebook';
-import { BoostFileType, fullPathFromSourceFile, getBoostFile, getKernelName } from './extension';
+import { BoostFileType, BoostUserAnalysisType, fullPathFromSourceFile, getBoostFile, getKernelName } from './extension';
 import axiosRetry from 'axios-retry';
 import PQueue from 'p-queue';;
 import * as fs from 'fs';
@@ -111,7 +111,14 @@ export class KernelControllerBase {
         // if user is explicitly analyzing a single cell via the traditional UI, then just refresh it always
         const forceAnalysisRefresh = cells.length === 1;
 
-        return this.executeAllWithAuthorization(cells, notebook, forceAnalysisRefresh);
+        return new Promise<void>(async (resolve, reject) => {
+            try {
+                await this.executeAllWithAuthorization(cells, notebook, forceAnalysisRefresh);
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        });
 	}
 
     async doAuthorizationExecution(): Promise<vscode.AuthenticationSession> {
@@ -261,12 +268,12 @@ export class KernelControllerBase {
 		// and one for the generated code
 		// if the cell is original code, run the summary generation
 		if (!this.useOriginalCodeCheck || cell.metadata.type === 'originalCode') {
-            return await this._doKernelExecution(notebook, cell, session, organization);
+            return await this._doKernelExecutionWithExecutionTracking(notebook, cell, session, organization);
         }
         return true;
     }
 
-	private async _doKernelExecution(
+	private async _doKernelExecutionWithExecutionTracking(
         notebook : vscode.NotebookDocument | BoostNotebook,
         cell: vscode.NotebookCell | BoostNotebookCell,
         session: vscode.AuthenticationSession,
@@ -276,11 +283,54 @@ export class KernelControllerBase {
         const execution = usingBoostNotebook? undefined : this._controller.createNotebookCellExecution(cell as vscode.NotebookCell);
         let successfullyCompleted = true;
 
+        const cellId = usingBoostNotebook?
+            (cell as BoostNotebookCell).id:
+            (cell as vscode.NotebookCell).document.uri.toString();
+
         const startTime = Date.now();
         if (execution) {
             execution.executionOrder = ++this._executionOrder;
             execution.start(startTime);
         }
+        try {
+            return await this._doKernelExecution(notebook, cell, session, organization, execution);
+        } catch (err) {
+            successfullyCompleted = false;
+            this._updateCellOutput(
+                execution, cell, {},
+                usingBoostNotebook? this._getBoostNotebookCellOutputError(this.localizeError(err as Error)) :
+                vscode.NotebookCellOutputItem.error(this.localizeError(err as Error)),
+                err);
+            boostLogging.error(`Error executing cell ${cellId}: ${(err as Error).message}`, false);
+            if (!usingBoostNotebook) {
+                this.addDiagnosticProblem((cell as vscode.NotebookCell), err as Error);
+            }
+            return false;
+        }
+        finally {
+            const duration = Date.now() - startTime;
+            const minutes = Math.floor(duration / 60000);
+            const seconds = ((duration % 60000) / 1000).toFixed(0);
+            if (execution) {
+                execution.end(successfullyCompleted, Date.now());
+            }
+            
+            if (successfullyCompleted) {
+                boostLogging.info(`SUCCESS running ${this.command} update of Notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+            } else {
+                boostLogging.error(`Error while running ${this.command} update of Notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
+            }
+        }
+    }
+
+    private async _doKernelExecution(
+        notebook : vscode.NotebookDocument | BoostNotebook,
+        cell: vscode.NotebookCell | BoostNotebookCell,
+        session: vscode.AuthenticationSession,
+        organization: string,
+        execution: vscode.NotebookCellExecution | undefined): Promise<boolean> {
+
+        const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
 
         // get the code from the cell
         const input = usingBoostNotebook? (cell as BoostNotebookCell).value : (cell as vscode.NotebookCell).document.getText();
@@ -291,7 +341,7 @@ export class KernelControllerBase {
             inputMetadata: JSON.stringify(cell.metadata),
             session: session.accessToken,
             organization: organization
-          };
+        };
 
         const guidelines = this.getGuidelines();
         // Add guidelines to the payload only if it's not undefined or an empty array
@@ -299,6 +349,14 @@ export class KernelControllerBase {
             // we mark it as the system role since it may be used as hints
             payload.guidelines = JSON.stringify(["system",guidelines]);
         }
+
+        const summaries = this.otherThis.getSummaries(BoostUserAnalysisType.blueprint);
+        // Add summaries to the payload only if it's not undefined or an empty array
+        if (summaries && summaries.length > 0) {
+            // we mark it as the system role since it may be used as hints
+            payload.summaries = JSON.stringify(["system",summaries]);
+        }
+
         // read any cell-specific temperature or top_p settings
         if (cell.metadata?.analysisRankedProbability) {
             payload = { ...payload,
@@ -340,43 +398,9 @@ export class KernelControllerBase {
                 model: BoostConfiguration.analysisModel};    
         }
 
-        const cellId = usingBoostNotebook?
-            (cell as BoostNotebookCell).id:
-            (cell as vscode.NotebookCell).document.uri.toString();
-
-        try {
-            let response = await this.onProcessServiceRequest(execution, notebook, cell, payload);
-            if (response instanceof Error) {
-                // we failed the call, but it was already logged since it didn't throw, so just report failure
-                successfullyCompleted = false;
-            }
-        } catch (err) {
-            successfullyCompleted = false;
-            this._updateCellOutput(
-                execution, cell, {},
-                usingBoostNotebook? this._getBoostNotebookCellOutputError(this.localizeError(err as Error)) :
-                vscode.NotebookCellOutputItem.error(this.localizeError(err as Error)),
-                err);
-            boostLogging.error(`Error executing cell ${cellId}: ${(err as Error).message}`, false);
-            if (!usingBoostNotebook) {
-                this.addDiagnosticProblem((cell as vscode.NotebookCell), err as Error);
-            }
-        }
-        finally {
-            const duration = Date.now() - startTime;
-            const minutes = Math.floor(duration / 60000);
-            const seconds = ((duration % 60000) / 1000).toFixed(0);
-            if (execution) {
-                execution.end(successfullyCompleted, Date.now());
-            }
-            
-            if (successfullyCompleted) {
-                boostLogging.info(`SUCCESS running ${this.command} update of Notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
-            } else {
-                boostLogging.error(`Error while running ${this.command} update of Notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
-            }
-        }
-        return successfullyCompleted;
+        const response = await this.onProcessServiceRequest(execution, notebook, cell, payload);
+        // we failed the call, but it was already logged since it didn't throw, so just report failure
+        return !(response instanceof Error);
 	}
 
     getGuidelines(): string[] {

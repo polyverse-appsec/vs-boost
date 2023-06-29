@@ -1750,4 +1750,18 @@ export class BoostExtension {
             boostLogging.error(`Unable to Convert Notebooks in Folder:[${folderUri.fsPath.toString()} due to error:${error}`);
         }
     }
+
+   public getSummaries(analysisType: BoostUserAnalysisType): string[] {
+        const summaries : string[] = [];
+        const projectSummaryFile = getBoostFile(undefined, BoostFileType.summary, false);
+        if (projectSummaryFile && fs.existsSync(projectSummaryFile.fsPath)) {
+            const projectSummary = new boostnb.BoostNotebook();
+            projectSummary.load(projectSummaryFile.fsPath);
+            const summaryCell = findCellByKernel(projectSummary, analysisType) as boostnb.BoostNotebookCell;
+            if (summaryCell) {
+                summaries.push(summaryCell.value);
+            }
+        }
+        return summaries;
+    }
 }
