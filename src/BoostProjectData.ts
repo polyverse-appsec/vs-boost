@@ -37,6 +37,13 @@ export interface AnalysisNode {
     children?: AnalysisNode[];
 }
 
+export interface FileSummaryItem {
+    sourceFile: string;
+    total: number;
+    completed: number;
+    error: number;
+}
+
 export const sampleBoostProjectData: IBoostProjectData = {
     summary: {
         projectName: "Your Project",
@@ -143,13 +150,17 @@ export const sampleBoostProjectData: IBoostProjectData = {
                 }
             ]
         }
-    ]
+    ],
+    files: {}
 };
 
 export interface IBoostProjectData {
     summary: Summary;
     sectionSummary: SectionSummary[];
     analysis: Analysis[];
+    files: {
+        [filename: string]: FileSummaryItem;
+    };
 }
 
 export const emptyProjectData: IBoostProjectData = {
@@ -229,7 +240,8 @@ export const emptyProjectData: IBoostProjectData = {
             name: "summary",
             children: [],
         }
-    ]
+    ],
+    files: {}
 };
 
 export class BoostProjectData implements IBoostProjectData {
@@ -237,12 +249,16 @@ export class BoostProjectData implements IBoostProjectData {
     sectionSummary: SectionSummary[];
     analysis: [];
     fsPath: string;
+    files: {
+        [filename: string]: FileSummaryItem;
+    };
 
     constructor() {
         this.summary = { projectName: '', summaryUrl: '', filesToAnalyze: 0, filesAnalyzed: 0, issues: [] };
         this.sectionSummary = [];
         this.analysis = [];
         this.fsPath = '';
+        this.files = {};
     }
 
     create(jsonString: string): void {

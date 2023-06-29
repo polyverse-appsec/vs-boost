@@ -41,7 +41,7 @@ import { updateBoostStatusColors, registerCustomerPortalCommand, setupBoostStatu
 import { generatePDFforNotebook } from './convert_pdf';
 import { generateMarkdownforNotebook } from './convert_markdown';
 import { generateHTMLforNotebook } from './convert_html';
-import { BoostProjectData, BoostProcessingStatus, emptyProjectData, SectionSummary } from './BoostProjectData';
+import { BoostProjectData, BoostProcessingStatus, emptyProjectData, SectionSummary, FileSummaryItem } from './BoostProjectData';
 import { BoostMarkdownViewProvider } from './markdown_view';
 
 import instructions from './instructions.json';
@@ -335,6 +335,15 @@ export class BoostExtension {
                 sectionSummary.total += boostNotebook.cells.length;
             });
 
+            let errorCount = 0;
+            let completedCount = 0;
+            boostProjectData.files[boostFileUri.fsPath] = {
+                "total": boostNotebook.cells.length,
+                "completed": 0,
+                "error": 0,
+                "sourceFile": boostNotebook.metadata.sourceFile as string || "",
+            };
+
             boostNotebook.cells.forEach((cell) => {
                 cell.outputs.forEach((output) => {
                     output.items.forEach((outputItem) => {
@@ -344,12 +353,17 @@ export class BoostExtension {
                         }
                         if (outputItem.mime === errorMimeType) {
                             thisSection.error++;
+                            errorCount++;
                         } else if (outputItem.data) {
                             thisSection.completed++;
+                            completedCount++;
                         }
                     });
                 });
             });
+
+            boostProjectData.files[boostFileUri.fsPath].completed = completedCount;
+            boostProjectData.files[boostFileUri.fsPath].error = errorCount;
 
             summarySection.total += 1;
 
