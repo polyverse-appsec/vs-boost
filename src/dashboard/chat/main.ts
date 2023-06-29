@@ -67,16 +67,9 @@ function handleCloseClick(event: Event) {
 // Callback function that is executed when the howdy button is clicked
 function handleSendClick() {
     // get the value of the radio button
-    const gpt35 = document.getElementById("gpt35") as HTMLElement;
-    const checked = gpt35.getAttribute("current-checked");
     const chatGroup = document.getElementById("chat-group") as HTMLElement;
     const chatid = chatGroup.getAttribute("activeid");
     const chatindex = chatid?.split("-")[1];
-
-    let model = "gpt-4";
-    if (checked === "true") {
-        model = "gpt-3.5-turbo";
-    }
 
     const sendButton = document.getElementById("send") as Button;
     const progressRing = document.getElementById("progress") as HTMLElement;
@@ -88,7 +81,6 @@ function handleSendClick() {
 
     vscode.postMessage({
         chatindex: chatindex,
-        model: model,
         command: "newprompt",
         prompt: (document.getElementById("prompt") as HTMLTextAreaElement)?.value
     });
