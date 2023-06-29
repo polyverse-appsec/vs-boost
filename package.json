@@ -271,6 +271,11 @@
         "menus": {
             "view/title": [
                 {
+                    "command": "polyverse-boost-notebook.showGuidelines",
+                    "group": "navigation",
+                    "when": "view == polyverse-boost-summary-view"
+                },
+                {
                     "command": "polyverse-boost-notebook.showGuidelines.blueprint",
                     "group": "navigation",
                     "when": "view == polyverse-boost-blueprint-view"
