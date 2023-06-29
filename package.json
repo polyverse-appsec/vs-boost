@@ -130,6 +130,23 @@
                         "PDF binary format"
                     ],
                     "markdownDescription": "Select your preferred *output format* for exporting analysis results."
+                },
+                "polyverse-boost-notebook.logLevel": {
+                    "type": "string",
+                    "default": "error",
+                    "enum": [
+                        "debug",
+                        "info",
+                        "warn",
+                        "error"
+                    ],
+                    "enumDescriptions": [
+                        "All logging for debugging",
+                        "Error, Warning, and Information logging",
+                        "Error and Warning logging",
+                        "Error logging only"
+                    ],
+                    "markdownDescription": "Select the logging level for Polyverse Boost Notebook extension."
                 }
             }
         },

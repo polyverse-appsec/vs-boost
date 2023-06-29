@@ -9,7 +9,7 @@ export const minutes = 60 * seconds;
 
 export function getRandomTestSourceFile() : string {
     const testCodePath = path.resolve(__dirname, '../resources/');
-    const unsupportedExtensions = ['.o', '.out', '.s', '.typescript', 'resources', '.c'];
+    const supportedExtensions = ['.c', '.vb', '.cpp', '.ts', '.php', '.rb'];
 
     // Get all files in the folder
     const allFiles = fs.readdirSync(testCodePath);
@@ -17,7 +17,7 @@ export function getRandomTestSourceFile() : string {
     // Filter files based on extensions (exclude unsupported files)
     const filteredFiles = allFiles.filter(file => {
         const ext = path.extname(file);
-        return ext !== "" && !unsupportedExtensions.includes(ext);
+        return ext !== "" && supportedExtensions.includes(ext);
     });
 
     let randomFile: string;
