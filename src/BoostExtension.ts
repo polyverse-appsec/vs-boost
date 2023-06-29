@@ -381,8 +381,8 @@ export class BoostExtension {
                 thisSection.filesAnalyzed++;
             });
 
-            boostProjectData.files[boostFileUri.fsPath].completed = completedCount;
-            boostProjectData.files[boostFileUri.fsPath].error = errorCount;
+            boostProjectData.files[relativePath].completed = completedCount;
+            boostProjectData.files[relativePath].error = errorCount;
 
             summarySection.total += 1;
 

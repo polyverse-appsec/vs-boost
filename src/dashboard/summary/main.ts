@@ -173,6 +173,8 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
               };
             }
             let analyzedCount = 0;
+            let newStatus = '';
+            let oldStatus = '';
             if( boostdata.files[file].completed === 0){
               boostdata.files[file].completed = 1;  // TODO TODO TODO--this is wrong, we need the actual count of cells completed.
               let found = false;
@@ -184,11 +186,19 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
                   if (summary.analysisType === message.job) {
                       summary.filesAnalyzed += message.count;
                       found = true;
-                      analyzedCount = summary.filesAnalyzed;  
+                      analyzedCount = summary.filesAnalyzed; 
+                      if( summary.filesAnalyzed === boostdata.summary.filesToAnalyze ) {
+                        summary.status = "completed";
+                      } else if( summary.status !== "processing"){
+                        oldStatus = summary.status;
+                        summary.status = "processing";
+                        newStatus = "processing";
+                      }
                       break; // Exit the loop since the object has been found and updated
                   }
               }
-
+             
+            
               // If no matching object is found in the array,
               // create a new object and push it to the sectionSummary array
               if (!found) {
@@ -202,6 +212,14 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
               const badge = document.getElementById('badge-' + message.job);
               if( badge ){
                 badge.innerText = analyzedCount.toString() + '/' + (boostdata.summary.filesToAnalyze);
+                //and now set the class to be boost-{newStatus}, first removing any existing class
+
+                if( newStatus ){
+                  if( oldStatus ){
+                    badge.classList.remove('boost-' + oldStatus);
+                  }
+                  badge.classList.add('boost-' + newStatus);
+                }
               }
             }
           });
