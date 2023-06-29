@@ -82,6 +82,7 @@ function handleSendClick() {
     vscode.postMessage({
         chatindex: chatindex,
         command: "newprompt",
+        showUI: true,
         prompt: (document.getElementById("prompt") as HTMLTextAreaElement)?.value
     });
 }

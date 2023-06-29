@@ -87,7 +87,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
                 case 'newprompt':
                     {
                         this._activeid = data.chatindex;
-                        this.updatePrompt(data.prompt, data.chatindex);
+                        this.updatePrompt(data.prompt, data.chatindex, data.showUI);
                         break;
                     }
                 case 'add-chat':
@@ -154,7 +154,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 
     }
 
-    public async updatePrompt(prompt: string, index: number) {
+    public async updatePrompt(prompt: string, index: number, showUI: boolean = true) {
         //make a call to the service endpoint with the prompt plus existing context
         //update the chat view with the response
 
@@ -189,21 +189,26 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 
             this._addResponse(prompt, response.analysis);
         } catch (error) {
-            this._addResponse(prompt, (error as Error).toString());
+            boostLogging.error(`Chat requested could not complete due to ${error}`, showUI);
+            this._addResponse(prompt, "");
         } finally {
             this._saveJsonData(this._chats);
             this.refresh();
         }
     }
 
-    private _addResponse(prompt: string, chat: string) {
+    private _addResponse(prompt: string, response: string) {
         this._chats[this._activeid].messages.push({
             "role": "user",
             "content": prompt
         });
+
+        if (!response) {
+            return;
+        }
         this._chats[this._activeid].messages.push({
             "role": "assistant",
-            "content": chat
+            "content": response
         });
     }
 
