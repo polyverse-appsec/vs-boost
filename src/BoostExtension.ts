@@ -1163,6 +1163,18 @@ export class BoostExtension {
                 vscode.window.showNotebookDocument(guidelinesNotebook);
         });
         context.subscriptions.push(disposable);
+
+        for (let guidelineTypeKey in BoostUserAnalysisType) {
+            if (Object.prototype.hasOwnProperty.call(BoostUserAnalysisType, guidelineTypeKey)) {
+                let guidelineType = BoostUserAnalysisType[guidelineTypeKey as keyof typeof BoostUserAnalysisType];
+        
+                let disposable = vscode.commands.registerCommand(`${boostnb.NOTEBOOK_TYPE}.${BoostCommands.showGuidelines}.${guidelineType}`,
+                async () => {
+                    await vscode.commands.executeCommand(`${boostnb.NOTEBOOK_TYPE}.${BoostCommands.showGuidelines}`, guidelineType);
+                });
+            }
+            context.subscriptions.push(disposable);
+        }
     }
 
     async analyzeSourceCode(selectedText : string) : Promise<string> {
