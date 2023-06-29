@@ -1790,7 +1790,24 @@ export class BoostExtension {
         if (projectSummaryFile && fs.existsSync(projectSummaryFile.fsPath)) {
             const projectSummary = new boostnb.BoostNotebook();
             projectSummary.load(projectSummaryFile.fsPath);
-            const summaryCell = findCellByKernel(projectSummary, analysisType) as boostnb.BoostNotebookCell;
+            let outputType;
+            switch (analysisType) {
+                case BoostUserAnalysisType.blueprint:
+                    outputType = blueprintOutputType;
+                    break;
+                case BoostUserAnalysisType.compliance:
+                    outputType = complianceOutputType;
+                    break;
+                case BoostUserAnalysisType.security:
+                    outputType = analyzeOutputType;
+                    break;
+                case BoostUserAnalysisType.documentation:
+                    outputType = explainOutputType;
+                    break;
+                default:
+                    throw new Error(`Unknown analysis type ${analysisType}`);
+            }
+            const summaryCell = findCellByKernel(projectSummary, outputType) as boostnb.BoostNotebookCell;
             if (summaryCell) {
                 summaries.push(summaryCell.value);
             }
