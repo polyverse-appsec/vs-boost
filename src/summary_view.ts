@@ -213,7 +213,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 	public addQueue(job: string, files: [string], ms: number) {
 		const payload = {
 			command: 'addQueue',
-			file: files,
+			files: files,
 			ms: ms,
 			job: job
 		};

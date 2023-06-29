@@ -12,6 +12,9 @@ import {
 
 import {CountUp} from 'countup.js';
 
+//declare the boostdata global variable
+declare var boostdata: any;
+
 provideVSCodeDesignSystem().register(
   vsCodeButton(), 
   vsCodeBadge(), 
@@ -158,7 +161,51 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
                 delete queue[message.job];
               }
             } 
+            // now update boostdata and the badge *only* if we had not processed this file already.
+            // we could have just processed some of the internal cells
+            // TODO TODO TODO this needs to be with the real cell data too
+            if( !boostdata.files[file] ) {
+              boostdata.files[file] = {
+                completed: 0,
+                error: 0,
+                sourceFile: file,
+                total: 0
+              };
+            }
+            let analyzedCount = 0;
+            if( boostdata.files[file].completed === 0){
+              boostdata.files[file].completed = 1;  // TODO TODO TODO--this is wrong, we need the actual count of cells completed.
+              let found = false;
+
+              // Loop through the sectionSummary array
+              for (let summary of boostdata.sectionSummary) {
+                  // If an object with the matching analysisType is found,
+                  // increment its filesAnalyzed field
+                  if (summary.analysisType === message.job) {
+                      summary.filesAnalyzed += message.count;
+                      found = true;
+                      analyzedCount = summary.filesAnalyzed;  
+                      break; // Exit the loop since the object has been found and updated
+                  }
+              }
+
+              // If no matching object is found in the array,
+              // create a new object and push it to the sectionSummary array
+              if (!found) {
+                  boostdata.sectionSummary.push({
+                      analysisType: message.job,
+                      filesAnalyzed: message.count
+                  });
+                  analyzedCount = message.count;
+              }
+
+              const badge = document.getElementById('badge-' + message.job);
+              if( badge ){
+                badge.innerText = analyzedCount.toString() + '/' + (boostdata.summary.filesToAnalyze);
+              }
+            }
           });
+
 
           //after five seconds, refresh the progress text
           setTimeout( () => {

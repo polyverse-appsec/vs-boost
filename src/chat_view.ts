@@ -318,7 +318,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
             const data = fs.readFileSync(tempFilename, 'utf-8');
             return JSON.parse(data);
         } catch (err) {
-            boostLogging.error(`Boost failued to load Chat history: ${(err as Error).message}`);
+            boostLogging.error(`Boost failed to load Chat history: ${(err as Error).message}`);
             return undefined;
         }
     }

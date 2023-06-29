@@ -71,7 +71,8 @@
         Sara says:
     </div>
     <script> 
-		let boostdata = "<%= JSON.stringify(boostdata) %>";
+        var boostdataencoded = "<%= Buffer.from(JSON.stringify(boostdata)).toString('base64') %>";
+		var boostdata = JSON.parse(atob(boostdataencoded));
 	</script>
     <script src="<%= jsSrc %>" type="module"></script>
 </body>
