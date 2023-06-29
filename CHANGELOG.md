@@ -19,6 +19,7 @@ Polyverse Boost Automatic Application Modernization
 - Fix issue with empty Analysis summaries not printing a message
 - Fix issue with Analysis Summary not being loaded correctly into the Chat context on startup
 - Remove redundant 'model' radio button from Chat window - default is used, unless the Boost configuration is changed on the project
+- Don't persist chat errors - to ensure they aren't used with the later analysis
 
 ## Version 1.0.3: June 23, 2023
 
