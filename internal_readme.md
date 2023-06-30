@@ -169,6 +169,8 @@ Service faults are useful for testing error handling code when making call outs 
   * The provided test runner will only consider files matching the name pattern `**.test.ts`.
   * You can create folders inside the `test` folder to structure your tests any way you want.
 
+* To run a specific test from the command line, do the following command `npm run test -- src/test/suite/boostdata.test.ts`
+
 ### Packaging for Local or Internal Sharing
 To create a single package file of the Boost code to share or test - without using the Marketplace publishing - use the vsce package command.
 vsce is the Packaging and Publishing command - e.g. Visual Studio Code Extension (VSCE)

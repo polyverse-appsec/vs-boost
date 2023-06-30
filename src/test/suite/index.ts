@@ -1,11 +1,11 @@
 import path from 'path';
 import glob from 'glob';
+import fs from 'fs';
 import Mocha, { test } from 'mocha';
 import { shuffle } from 'lodash';
 
 // specify tests to run
 const testFilter = '**/**.test.js';
-// const testFilter = "**/rightClick_ProcessFile_command.test.js";
 
 export function run(): Promise<void> {
 	const mocha = new Mocha({
@@ -15,11 +15,16 @@ export function run(): Promise<void> {
 
 	const testsRoot = path.resolve(__dirname, '..');
 
+	// Check if targetTestInput.json exists and read it
+	const targetTestInputPath = path.resolve(__dirname, '../resources', 'targetTestInput.json');
+	let targetTestFilename: string = '';
+	if (fs.existsSync(targetTestInputPath)) {
+	    const targetTestInput = JSON.parse(fs.readFileSync(targetTestInputPath, 'utf8'));
+	    targetTestFilename = targetTestInput.filename;
+	}
+
 	return new Promise((resolve, reject) => {
 		glob(testFilter, { cwd: testsRoot }, (err, files) => {
-            files.forEach((file: string) => {
-                console.log('Test file:', file);
-            });
 			if (err) {
 				return reject(err);
 			}
@@ -29,7 +34,10 @@ export function run(): Promise<void> {
 
 			// Add files in randomized order to the test suite
 			shuffledFiles.forEach((file: string) => {
-                mocha.addFile(path.resolve(testsRoot, file));
+				if (!targetTestFilename || file.includes(targetTestFilename)) {
+					console.log('Adding Test file:', file);
+					mocha.addFile(path.resolve(testsRoot, file));
+				}
 			});
 
 			try {
