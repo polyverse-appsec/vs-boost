@@ -58,7 +58,7 @@ suite('BoostProjectData', function() {
         // Update the path to where your test file is located
         // get the current working directory
         const cwd = process.cwd();
-        const file = path.resolve(__dirname, '../resources/security.php.boost-notebook')
+        const file = path.resolve(__dirname, '../resources/security.php.boost-notebook');
         const fileUri = vscode.Uri.file(file);
         const fileSummaryItem: FileSummaryItem = boostNotebookFileToFileSummaryItem(fileUri);
 
@@ -71,7 +71,7 @@ suite('BoostProjectData', function() {
 
     test('should correctly process non-empty boost notebook file', function (done) {
         // Update the path to where your test file is located
-        const file = path.resolve(__dirname, '../resources/high.js.boost-notebook')
+        const file = path.resolve(__dirname, '../resources/high.js.boost-notebook');
         const fileUri = vscode.Uri.file(file);
         const fileSummaryItem: FileSummaryItem = boostNotebookFileToFileSummaryItem(fileUri);
 
@@ -79,6 +79,25 @@ suite('BoostProjectData', function() {
         assert.strictEqual(fileSummaryItem.total, 7);
         assert.strictEqual(fileSummaryItem.completed, 5);
         assert.strictEqual(fileSummaryItem.error, 2);
+        // ...other assertions...
+        done();
+    });
+
+    test('should load up details for security and compliance notebook file', function (done) {
+        // Update the path to where your test file is located
+        const file = path.resolve(__dirname, '../resources/instructions.php.boost-notebook');
+        const fileUri = vscode.Uri.file(file);
+        const fileSummaryItem: FileSummaryItem = boostNotebookFileToFileSummaryItem(fileUri);
+
+        // Add assertions based on what you expect the output to be for a non-empty file
+        assert.strictEqual(fileSummaryItem.total, 2);
+        assert.strictEqual(fileSummaryItem.completed, 2);
+        assert.strictEqual(fileSummaryItem.error, 0);
+        //check that fileSummaryItem.sections.bugAnalysisList.details has one item in the array
+        assert.strictEqual(fileSummaryItem.sections?.bugAnalysisList?.details?.length, 1);
+        //check the same thing for complianceAnalysisList
+        assert.strictEqual(fileSummaryItem.sections?.complianceList?.details?.length, 1);
+
         // ...other assertions...
         done();
     });

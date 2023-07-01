@@ -549,7 +549,7 @@ export class KernelControllerBase {
             //extend boostOutput.medata with details
             boostOutput.metadata = {
                 ...boostOutput.metadata,
-                ...details  
+                details: details  
             };
             boostCell.updateOutputItem( this._outputType, boostOutput);
             return;
