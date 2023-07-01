@@ -18,6 +18,18 @@
 				"kind": "build",
 				"isDefault": true
 			}
+		},
+		{
+			"label": "copy-test-data",
+			"type": "npm",
+			"script": "copy:test-data",
+			"problemMatcher": []
+		},
+		{
+			"label": "preLaunchForTests",
+			"type": "shell",
+			"dependsOn": ["build", "copy-test-data"],
+			"problemMatcher": []
 		}
 	]
 }

@@ -28,7 +28,7 @@
 			"outFiles": [
 				"${workspaceFolder}/out/test/**/*.js"
 			],
-			"preLaunchTask": "${defaultBuildTask}"
+			"preLaunchTask": "preLaunchForTests"
 		},
         {
             "name": "Integration Suite",
@@ -36,6 +36,20 @@
             "request": "launch",
             "runtimeExecutable": "node",
             "runtimeArgs": ["./out/test/runTest.js", ""],
+			"outFiles": [
+				"${workspaceFolder}/out/test/**/*.js"
+			],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "stopOnEntry": true,
+            "autoAttachChildProcesses": true
+        },
+        {
+            "name": "BoostData Test Suite",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "node",
+            "runtimeArgs": ["./out/test/runTest.js", "src/test/suite/boostdata.test.js"],
 			"outFiles": [
 				"${workspaceFolder}/out/test/**/*.js"
 			],

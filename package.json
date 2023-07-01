@@ -435,7 +435,7 @@
         "marked": "^5.0.2",
         "marked-highlight": "^1.0.2",
         "nodejs": "^0.0.0",
-        "p-queue": "^7.3.4",
+        "p-queue": "v6.6.2",
         "puppeteer": "^20.2.1",
         "uuid": "^9.0.0"
     }

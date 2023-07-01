@@ -1,6 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { BoostUserAnalysisType } from './extension';
+import * as boostnb from './jupyter_notebook';
+import * as vscode from 'vscode';
+import { errorMimeType } from './base_controller';
 
 export const PROJECT_EXTENSION = ".boost-project";
 
@@ -26,6 +29,7 @@ export interface SectionSummary {
     completed: number;
     total: number;
     filesAnalyzed: number;
+    details?: Array<any>; // some sections, like security and compliance, will have a list of issues in the details section
 }
 
 export interface Analysis {
@@ -43,6 +47,7 @@ export interface FileSummaryItem {
     total: number;
     completed: number;
     error: number;
+    sections: {[key: string]: SectionSummary};
 }
 
 export const sampleBoostProjectData: IBoostProjectData = {
@@ -316,3 +321,62 @@ export class BoostProjectData implements IBoostProjectData {
         return boostProjectData;
     }
 };
+
+export function boostNotebookToFileSummaryItem(boostNotebook: boostnb.BoostNotebook): FileSummaryItem
+{
+    let summaryItem: FileSummaryItem = {
+        sourceFile: boostNotebook.metadata.filename as string,
+        total: 0,
+        completed: 0,
+        error: 0,
+        sections: {}
+    };
+
+    boostNotebook.cells.forEach((cell) => {
+        cell.outputs.forEach((output) => {
+            let thisSection = summaryItem.sections[output.metadata.outputType];
+            if (!thisSection) {
+                thisSection = {
+                    analysisType: output.metadata.outputType,
+                    status: BoostProcessingStatus.notStarted,
+                    completed: 0,
+                    error: 0,
+                    total: 0,
+                    filesAnalyzed: 1
+                };
+                summaryItem.sections[output.metadata.outputType] = thisSection;
+            }
+            output.items.forEach((outputItem) => {
+                thisSection.total++;
+                summaryItem.total++;
+                if (outputItem.mime === errorMimeType) {
+                    thisSection.error++;
+                    summaryItem.error++;
+                } else if (outputItem.data) {
+                    thisSection.completed++;
+                    summaryItem.completed++;
+                }
+            });
+            //now add the details if it exists on the output metadata.
+            //if thisSection.details does not exist, then assign metadata.details to thisSection.details
+            //otherwise merge the two arrays
+
+            if (output.metadata.details) {
+                if(!thisSection.details ){
+                    thisSection.details = output.metadata.details;
+                } else {
+                    thisSection.details = thisSection.details.concat(output.metadata.details);
+                }
+            }
+        });
+    });
+
+    return summaryItem;
+}
+
+export function boostNotebookFileToFileSummaryItem(file: vscode.Uri): FileSummaryItem {
+    const boostNotebook = new boostnb.BoostNotebook();
+    boostNotebook.load(file.fsPath);
+    return boostNotebookToFileSummaryItem(boostNotebook);
+}
+

@@ -348,6 +348,7 @@ export class BoostExtension {
                 "completed": 0,
                 "error": 0,
                 "sourceFile": boostNotebook.metadata.sourceFile as string || "",
+                sections: {}
             };
 
             let sectionCompleted: { [key: string]: boolean } = {};
