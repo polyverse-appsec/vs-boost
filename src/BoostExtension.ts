@@ -1557,14 +1557,13 @@ export class BoostExtension {
                         if (processingTime > 5 * seconds) {
                             boostLogging.log(`Starting processing file ${file.fsPath} with ${estimatedWords} ~items after waiting ${processingTime * seconds} secs`);
                         }
+                        // get the distance from the workspace folder for the source file
+                        // for project-level status files, we ignore the relative path
+                        let relativePath = path.relative(targetFolder.fsPath,file.fsPath);
             
-                        this.summaryViewProvider?.addJobs(targetedKernel.outputType, [file.fsPath], 1);
+                        this.summaryViewProvider?.addJobs(targetedKernel.outputType, [relativePath], 1);
             
                         this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh).then((notebook) => {
-
-                            // get the distance from the workspace folder for the source file
-                                    // for project-level status files, we ignore the relative path
-                            let relativePath = path.relative(targetFolder.fsPath,file.fsPath);
 
                             this.summaryViewProvider?.finishJobs(targetedKernel.outputType, [relativePath], null, 1);
                             resolve(notebook);
