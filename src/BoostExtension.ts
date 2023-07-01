@@ -21,6 +21,7 @@ import { SummarizeKernel, summarizeKernelName, summaryFailedPrefix, summaryOutpu
 import { BoostSummaryViewProvider, summaryViewType } from './summary_view';
 import { BoostStartViewProvider } from './start_view';
 import { BoostChatViewProvider } from './chat_view';
+import { boostNotebookToFileSummaryItem } from './BoostProjectData';
 
 import {
     getBoostFile, BoostFileType, parseFunctionsFromFile,
@@ -254,76 +255,12 @@ export class BoostExtension {
         let total = 0;
         let exists = 0;
 
-        const sectionMap = new Map<string, SectionSummary>();
-        sectionMap.set(explainOutputType, {
-            analysisType: explainOutputType,
-            status: BoostProcessingStatus.notStarted,
-            completed: 0,
-            error: 0,
-            total: 0,
-            filesAnalyzed: 0
-        });
-        sectionMap.set(blueprintOutputType, {
-            analysisType: blueprintOutputType,
-            status: BoostProcessingStatus.notStarted,
-            completed: 0,
-            error: 0,
-            total: 0,
-            filesAnalyzed: 0
-        });
-        sectionMap.set(complianceOutputType, {
-            analysisType: complianceOutputType,
-            status: BoostProcessingStatus.notStarted,
-            completed: 0,
-            error: 0,
-            total: 0,
-            filesAnalyzed: 0
-        });
-        sectionMap.set(analyzeOutputType, {
-            analysisType: analyzeOutputType,
-            status: BoostProcessingStatus.notStarted,
-            completed: 0,
-            error: 0,
-            total: 0,
-            filesAnalyzed: 0
-        });
-        sectionMap.set(summaryOutputType, {
-            analysisType: summaryOutputType,
-            status: BoostProcessingStatus.notStarted,
-            completed: 0,
-            error: 0,
-            total: 0,
-            filesAnalyzed: 0
-        });
-        boostProjectData.sectionSummary = Array.from(sectionMap.values());
-        boostProjectData.analysis = [];
-
-        const summarySection = sectionMap.get(summaryOutputType);
-        if (!summarySection) {
-            boostLogging.debug(`No section found for ${summaryOutputType}; this should not be possible unless analysis types are out of sync`);
-            return;
-        }
-
         for (const file of files) {
             total++;
             const boostFileUri = getBoostFile(file);
             const fileExists = fs.existsSync(boostFileUri.fsPath);
 
-            // we bail early if the notebook file doesn't exist, even though the summary file may exist
-            //    since we don't trust a summary file without its original source notebook file
             if (!fileExists) {
-                [explainOutputType, blueprintOutputType, complianceOutputType, analyzeOutputType].forEach((outputType) => {
-                    const thisSection = sectionMap.get(outputType);
-                    if (!thisSection) {
-                        boostLogging.debug(`No section found for ${outputType}; this should not be possible unless analysis types are out of sync`);
-                        return;
-                    }
-
-                    // this isn't an accurate count, since it could be many cells missing (e.g. functions), but since we haven't processed
-                    //    the cells or notebook at all, we'll just add one
-                    thisSection.total += 1;
-                });
-
                 continue;
             }
             exists++;
@@ -333,151 +270,14 @@ export class BoostExtension {
             const boostNotebook = new boostnb.BoostNotebook();
             boostNotebook.load(boostFileUri.fsPath);
 
-            sectionMap.forEach((sectionSummary) => {
-                if (sectionSummary.analysisType === summaryOutputType) {
-                    return;
-                }
-                sectionSummary.total += boostNotebook.cells.length;
-            });
+            //get the summary of the notebook file
+            const filesummary = boostNotebookToFileSummaryItem(boostNotebook);
 
-            let errorCount = 0;
-            let completedCount = 0;
+            //now add it to boostdata
             let relativePath = path.relative(workspaceFolder.fsPath,file.fsPath);
-            boostProjectData.files[relativePath] = {
-                "total": boostNotebook.cells.length,
-                "completed": 0,
-                "error": 0,
-                "sourceFile": boostNotebook.metadata.sourceFile as string || "",
-                sections: {}
-            };
-
-            let sectionCompleted: { [key: string]: boolean } = {};
-            boostNotebook.cells.forEach((cell) => {
-                cell.outputs.forEach((output) => {
-                    output.items.forEach((outputItem) => {
-                        const thisSection = sectionMap.get(output.metadata.outputType);
-                        if (!thisSection) {
-                            return;
-                        }
-                        if (outputItem.mime === errorMimeType) {
-                            thisSection.error++;
-                            errorCount++;
-                        } else if (outputItem.data) {
-                            thisSection.completed++;
-                            completedCount++;
-                            sectionCompleted[output.metadata.outputType] = true;
-                        }
-                    });
-                });
-            });
-
-            //now update the section summary to increment the number of files analyzed
-            //based on the number of sections that have been completed
-            let sectionsCompleted = Object.keys(sectionCompleted);
-            sectionsCompleted.forEach((section) => {
-                let thisSection = sectionMap.get(section);
-                if (!thisSection) {
-                    return;
-                }
-                thisSection.filesAnalyzed++;
-            });
-
-            boostProjectData.files[relativePath].completed = completedCount;
-            boostProjectData.files[relativePath].error = errorCount;
-
-            summarySection.total += 1;
-
-            // now collect the summary file data (across all source files)
-            let summaryFile = getBoostFile(file, BoostFileType.summary);
-            const summaryExists = fs.existsSync(summaryFile.fsPath);
-            if (!summaryExists) {
-                continue;
-            }
-
-            // we're going to look through each summary file, and if it has all sections completed, we'll add one for complete
-            const summaryNotebook = new boostnb.BoostNotebook();
-            summaryNotebook.load(summaryFile.fsPath);
-
-            let summaryError = false;
-            let summaryCompleted = false;
-            // we're ignoring flowDiagram at all, as part of explain - since that's cherry on top for content
-            [explainOutputType, blueprintOutputType, complianceOutputType, analyzeOutputType].forEach((outputType) => {
-                const thisSummaryCell = findCellByKernel(summaryNotebook, outputType) as boostnb.BoostNotebookCell;
-                // if the summary cell is missing, we can't be summary complete
-                if (!thisSummaryCell || !thisSummaryCell.value) {
-                    summaryCompleted = false;
-                    return;
-                }
-                // if the summary cell is in error state, we can't be complete either, but we're in error state
-                if (thisSummaryCell.value.startsWith(summaryFailedPrefix)) {
-                    summaryError = true;
-                    return;                    
-                }
-                // if cell exists and has a value, we'll say we're complete (regardless of value)
-                if (!summaryError) {
-                    summaryCompleted = true;
-                }
-            });
-            if (summaryError) {
-                summarySection.error++;
-            } else if (summaryCompleted) {
-                summarySection.completed++;
-            }
+            boostProjectData.files[relativePath] = filesummary;
+            boostProjectData.addFileSummaryToSectionSummaries(filesummary);
         }
-
-        // and one overall summary for the whole project/folder
-        summarySection.total += 1;
-
-        // now collect the summary file data (across all source files)
-        // This whole section is essentially identical code to above, but we're copying it here for now
-        //    since the above code operates on source files only - revisit in future for refactoring
-        let summaryFile = getBoostFile(workspaceFolder, BoostFileType.summary);
-        const summaryExists = fs.existsSync(summaryFile.fsPath);
-        if (summaryExists) {
-
-            // we're going to look the overall summary file, and if it has all sections completed, we'll add one for complete
-            const summaryNotebook = new boostnb.BoostNotebook();
-            summaryNotebook.load(summaryFile.fsPath);
-
-            let summaryError = false;
-            let summaryCompleted = false;
-            // we're ignoring flowDiagram at all, as part of explain - since that's cherry on top for content
-            [explainOutputType, blueprintOutputType, complianceOutputType, analyzeOutputType].forEach((outputType) => {
-                const thisSummaryCell = findCellByKernel(summaryNotebook, outputType) as boostnb.BoostNotebookCell;
-                // if the summary cell is missing, we can't be summary complete
-                if (!thisSummaryCell || !thisSummaryCell.value) {
-                    summaryCompleted = false;
-                    return;
-                }
-                // if the summary cell is in error state, we can't be complete either, but we're in error state
-                if (thisSummaryCell.value.startsWith(summaryFailedPrefix) ||
-                    // we look for an extra Error prefix since the cell may have the Error object displauyed as a string
-                    thisSummaryCell.value.startsWith(`Error: ${summaryFailedPrefix}`)) {
-                    summaryError = true;
-                    return;                    
-                }
-                // if cell exists and has a value, we'll say we're complete (regardless of value)
-                if (!summaryError) {
-                    summaryCompleted = true;
-                }
-            });
-            if (summaryError) {
-                summarySection.error++;
-            } else if (summaryCompleted) {
-                summarySection.completed++;
-            }
-        }
-        
-        sectionMap.forEach((sectionSummary) => {
-            if (sectionSummary.total === sectionSummary.completed) {
-                sectionSummary.status = BoostProcessingStatus.completed;
-            } else if (sectionSummary.completed === 0) {
-                sectionSummary.status = BoostProcessingStatus.notStarted;
-            } else {
-                sectionSummary.status = BoostProcessingStatus.incomplete;
-            }
-        });
-
         boostProjectData.summary.filesToAnalyze = total;
         boostProjectData.summary.filesAnalyzed = exists;
     }

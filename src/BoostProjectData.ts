@@ -12,7 +12,8 @@ export interface Summary {
     summaryUrl: string;
     filesToAnalyze: number;
     filesAnalyzed: number;
-    issues: string[];
+    //an optional issues arrary for *Boost* issues
+    issues?: Array<any>;
 }
 
 export enum BoostProcessingStatus {
@@ -32,15 +33,6 @@ export interface SectionSummary {
     details?: Array<any>; // some sections, like security and compliance, will have a list of issues in the details section
 }
 
-export interface Analysis {
-    name: string;
-    children: AnalysisNode[];
-}
-
-export interface AnalysisNode {
-    name: string;
-    children?: AnalysisNode[];
-}
 
 export interface FileSummaryItem {
     sourceFile: string;
@@ -52,10 +44,11 @@ export interface FileSummaryItem {
 
 export interface IBoostProjectData {
     summary: Summary;
-    sectionSummary: SectionSummary[];
-    analysis: Analysis[];
+    sectionSummary: {
+        [key: string]: SectionSummary;
+    },
     files: {
-        [filename: string]: FileSummaryItem;
+        [key: string]: FileSummaryItem;
     };
 }
 
@@ -65,10 +58,9 @@ export const emptyProjectData: IBoostProjectData = {
         summaryUrl: "",
         filesToAnalyze: 0,
         filesAnalyzed: 0,
-        issues: [],
     },
-    sectionSummary: [
-        {
+    sectionSummary: {
+        blueprint: {
             analysisType: "blueprint",
             status: BoostProcessingStatus.notStarted,
             completed: 0,
@@ -76,7 +68,7 @@ export const emptyProjectData: IBoostProjectData = {
             total: 0,
             filesAnalyzed: 0
         },
-        {
+        explain: {
             analysisType: "explain",
             status: BoostProcessingStatus.notStarted,
             completed: 0,
@@ -84,7 +76,7 @@ export const emptyProjectData: IBoostProjectData = {
             total: 0,
             filesAnalyzed: 0
         },
-        {
+        flowDiagram: {
             analysisType: "flowDiagram",
             status: BoostProcessingStatus.notStarted,
             completed: 0,
@@ -92,7 +84,7 @@ export const emptyProjectData: IBoostProjectData = {
             total: 0,
             filesAnalyzed: 0
         },
-        {
+        bugAnalyze: {
             analysisType: "bugAnalyze",
             status: BoostProcessingStatus.notStarted,
             completed: 0,
@@ -100,7 +92,7 @@ export const emptyProjectData: IBoostProjectData = {
             total: 0,
             filesAnalyzed: 0
         },
-        {
+        compliance: {
             analysisType: "compliance",
             status: BoostProcessingStatus.notStarted,
             completed: 0,
@@ -108,7 +100,7 @@ export const emptyProjectData: IBoostProjectData = {
             total: 0,
             filesAnalyzed: 0
         },
-        {
+        summary: {
             analysisType: "summary",
             status: BoostProcessingStatus.notStarted,
             completed: 0,
@@ -116,49 +108,25 @@ export const emptyProjectData: IBoostProjectData = {
             total: 0,
             filesAnalyzed: 0
         }
-    ],
-    analysis: [
-        {
-            name: "bugAnalyze",
-            children: [],
-        },
-        {
-            name: "compliance",
-            children: [],
-        },
-        {
-            name: "archblueprintCode",
-            children: [],
-        },
-        {
-            name: "flowDiagram",
-            children: [],
-        },
-        {
-            name: "explain",
-            children: [],
-        },
-        {
-            name: "summary",
-            children: [],
-        }
-    ],
+    },
     files: {}
 };
 
 export class BoostProjectData implements IBoostProjectData {
     summary: Summary;
-    sectionSummary: SectionSummary[];
-    analysis: [];
+    sectionSummary: {[key: string]: SectionSummary};
     fsPath: string;
     files: {
         [filename: string]: FileSummaryItem;
     };
 
     constructor() {
-        this.summary = { projectName: '', summaryUrl: '', filesToAnalyze: 0, filesAnalyzed: 0, issues: [] };
-        this.sectionSummary = [];
-        this.analysis = [];
+        this.summary = { ...emptyProjectData.summary };
+        this.sectionSummary = {};
+        //loop through the keys of the emptyProjectData.sectionSummary object and copy the values to the new object
+        Object.keys(emptyProjectData.sectionSummary).forEach((key) => {
+            this.sectionSummary[key] = { ...emptyProjectData.sectionSummary[key] };
+        });
         this.fsPath = '';
         this.files = {};
     }
@@ -198,6 +166,25 @@ export class BoostProjectData implements IBoostProjectData {
 
     flushToFS(): void {
         this.save(this.fsPath);
+    }
+    addFileSummaryToSectionSummaries(fileSummary: FileSummaryItem): void {
+        const sections = Object.keys(fileSummary.sections);
+        sections.forEach((section) => {
+            const sectionSummary = this.sectionSummary[section];
+            if (sectionSummary) {
+                sectionSummary.total += fileSummary.sections[section].total;
+                sectionSummary.completed += fileSummary.sections[section].completed;
+                sectionSummary.error += fileSummary.sections[section].error;
+                sectionSummary.filesAnalyzed++;
+                if(sectionSummary.completed === sectionSummary.total){
+                    sectionSummary.status = BoostProcessingStatus.completed;
+                } else if(sectionSummary.completed > 0){
+                    sectionSummary.status = BoostProcessingStatus.incomplete;
+                } else {
+                    sectionSummary.status = BoostProcessingStatus.notStarted;
+                }
+            }
+        });
     }
 
     static get default(): BoostProjectData {
@@ -252,6 +239,14 @@ export function boostNotebookToFileSummaryItem(boostNotebook: boostnb.BoostNoteb
                 } else {
                     thisSection.details = thisSection.details.concat(output.metadata.details);
                 }
+            }
+            //now set the status of the section
+            if( thisSection.completed === thisSection.total){
+                thisSection.status = BoostProcessingStatus.completed;
+            } else if(thisSection.completed > 0){
+                thisSection.status = BoostProcessingStatus.incomplete;
+            } else {   
+                thisSection.status = BoostProcessingStatus.notStarted;
             }
         });
     });
