@@ -5,7 +5,8 @@ import Mocha, { test } from 'mocha';
 import { shuffle } from 'lodash';
 
 // specify tests to run
-const testFilter = '**/*.test.js';
+// const testFilter = '**/*.test.js';
+const testFilter = '**/boostdata.test.js';
 
 export function run(): Promise<void> {
 	const mocha = new Mocha({

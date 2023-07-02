@@ -4,6 +4,7 @@ import { BoostUserAnalysisType } from './extension';
 import * as boostnb from './jupyter_notebook';
 import * as vscode from 'vscode';
 import { errorMimeType } from './base_controller';
+import { boostLogging } from './boostLogging';
 
 export const PROJECT_EXTENSION = ".boost-project";
 
@@ -92,8 +93,24 @@ export const emptyProjectData: IBoostProjectData = {
             total: 0,
             filesAnalyzed: 0
         },
+        bugAnalysisList: {
+            analysisType: "bugAnalysisList",
+            status: BoostProcessingStatus.notStarted,
+            completed: 0,
+            error: 0,
+            total: 0,
+            filesAnalyzed: 0
+        },
         compliance: {
             analysisType: "compliance",
+            status: BoostProcessingStatus.notStarted,
+            completed: 0,
+            error: 0,
+            total: 0,
+            filesAnalyzed: 0
+        },
+        complianceList: {
+            analysisType: "complianceList",
             status: BoostProcessingStatus.notStarted,
             completed: 0,
             error: 0,
@@ -167,15 +184,39 @@ export class BoostProjectData implements IBoostProjectData {
     flushToFS(): void {
         this.save(this.fsPath);
     }
-    addFileSummaryToSectionSummaries(fileSummary: FileSummaryItem): void {
-        const sections = Object.keys(fileSummary.sections);
+    private addFileSummaryToSectionSummaries(fileSummary: FileSummaryItem, previous: FileSummaryItem): void {
+        // first remove the previous file summary from the section summaries
+        let sections = [];
+        // if previous and fileSummary are the same object, then skip everything and put an error in the log
+        if (previous === fileSummary) {
+            boostLogging.error("previous and fileSummary are the same object");
+            return;
+        }
+        
+        if (previous) {
+            sections = Object.keys(previous.sections);
+            sections.forEach((section) => {
+                const sectionSummary = this.sectionSummary[section];
+                if (sectionSummary) {
+                    sectionSummary.total -= previous.sections[section].total;
+                    sectionSummary.completed -= previous.sections[section].completed;
+                    sectionSummary.error -= previous.sections[section].error;
+                    sectionSummary.filesAnalyzed -= 1;
+                } else {
+                    boostLogging.error(`Section ${section} not found in sectionSummary`);
+                }
+            });
+        }
+
+        sections = Object.keys(fileSummary.sections);
         sections.forEach((section) => {
             const sectionSummary = this.sectionSummary[section];
             if (sectionSummary) {
                 sectionSummary.total += fileSummary.sections[section].total;
                 sectionSummary.completed += fileSummary.sections[section].completed;
                 sectionSummary.error += fileSummary.sections[section].error;
-                sectionSummary.filesAnalyzed++;
+                sectionSummary.filesAnalyzed += 1;
+
                 if(sectionSummary.completed === sectionSummary.total){
                     sectionSummary.status = BoostProcessingStatus.completed;
                 } else if(sectionSummary.completed > 0){
@@ -183,8 +224,21 @@ export class BoostProjectData implements IBoostProjectData {
                 } else {
                     sectionSummary.status = BoostProcessingStatus.notStarted;
                 }
+            } else {
+                boostLogging.error(`Section ${section} not found in sectionSummary`);
             }
         });
+    }
+
+    updateWithFileSummary(fileSummary: FileSummaryItem, relativePath: string): void {
+        const previous = this.files[relativePath];
+        this.addFileSummaryToSectionSummaries(fileSummary, previous);
+        this.files[relativePath] = fileSummary;
+        //now update the overall summary
+        //if it's a new file i.e. no previous), then we update the filesAnalyzed count
+        if (!previous) {
+            this.summary.filesAnalyzed += 1;
+        }
     }
 
     static get default(): BoostProjectData {
@@ -217,7 +271,7 @@ export function boostNotebookToFileSummaryItem(boostNotebook: boostnb.BoostNoteb
                     filesAnalyzed: 1
                 };
                 summaryItem.sections[output.metadata.outputType] = thisSection;
-            }
+            } 
             output.items.forEach((outputItem) => {
                 thisSection.total++;
                 summaryItem.total++;
@@ -254,6 +308,7 @@ export function boostNotebookToFileSummaryItem(boostNotebook: boostnb.BoostNoteb
     return summaryItem;
 }
 
+//NOTE! this will return a new FileSummaryItem object
 export function boostNotebookFileToFileSummaryItem(file: vscode.Uri): FileSummaryItem {
     const boostNotebook = new boostnb.BoostNotebook();
     boostNotebook.load(file.fsPath);

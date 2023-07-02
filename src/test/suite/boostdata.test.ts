@@ -101,5 +101,59 @@ suite('BoostProjectData', function() {
         // ...other assertions...
         done();
     });
+
+    //now test addFileSummaryToSectionSummaries
+    test('should add file summary to section summaries', function (done) {
+        let boostprojectdata = new BoostProjectData();
+        let file = path.resolve(__dirname, '../resources/instructions.php.boost-notebook');
+        let fileUri = vscode.Uri.file(file);
+        let fileSummaryItem: FileSummaryItem = boostNotebookFileToFileSummaryItem(fileUri);
+        boostprojectdata.updateWithFileSummary(fileSummaryItem, file);
+
+        //now grab a second file and add it to the same boostprojectdata
+        file = path.resolve(__dirname, '../resources/high.js.boost-notebook');
+        fileUri = vscode.Uri.file(file);
+        fileSummaryItem = boostNotebookFileToFileSummaryItem(fileUri);
+        boostprojectdata.updateWithFileSummary(fileSummaryItem, file);
+
+        assert.strictEqual(boostprojectdata.sectionSummary.bugAnalysisList.filesAnalyzed, 2);
+        assert.strictEqual(boostprojectdata.sectionSummary.bugAnalysisList.status, 'incomplete');
+        assert.strictEqual(boostprojectdata.sectionSummary.bugAnalysisList.completed, 1);
+        assert.strictEqual(boostprojectdata.sectionSummary.bugAnalysisList.error, 1);
+        assert.strictEqual(boostprojectdata.sectionSummary.complianceList.status, 'incomplete');
+        assert.strictEqual(boostprojectdata.sectionSummary.complianceList.filesAnalyzed, 2);
+        assert.strictEqual(boostprojectdata.sectionSummary.complianceList.completed, 1);
+        assert.strictEqual(boostprojectdata.sectionSummary.complianceList.error, 1);
+        
+        //check the overall summary
+        assert.strictEqual(boostprojectdata.summary.filesAnalyzed, 2);
+
+        //now let's change the data in the fileSummary and do the update, making sure that it's updated correctly
+        fileSummaryItem.sections.bugAnalysisList.details?.push({
+            severity: 10,
+            description: "this is bad"
+        });
+
+        //get a new item for the update
+        let updatedItem = boostNotebookFileToFileSummaryItem(fileUri);
+
+        updatedItem.sections.bugAnalysisList.total = 3;
+        updatedItem.sections.bugAnalysisList.completed = 2;
+        updatedItem.completed = 6;
+        updatedItem.total = 8;
+
+        boostprojectdata.updateWithFileSummary(updatedItem, file);
+
+        assert.strictEqual(boostprojectdata.sectionSummary.bugAnalysisList.filesAnalyzed, 2);
+        assert.strictEqual(boostprojectdata.sectionSummary.bugAnalysisList.status, 'incomplete');
+        assert.strictEqual(boostprojectdata.sectionSummary.bugAnalysisList.completed, 3);
+
+        assert.strictEqual(boostprojectdata.sectionSummary.complianceList.status, 'incomplete');
+        assert.strictEqual(boostprojectdata.sectionSummary.complianceList.filesAnalyzed, 2);
+        assert.strictEqual(boostprojectdata.sectionSummary.complianceList.completed, 1);
+        assert.strictEqual(boostprojectdata.sectionSummary.complianceList.error, 1);    
+        done();
+    });
+
 });
 

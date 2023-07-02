@@ -275,8 +275,7 @@ export class BoostExtension {
 
             //now add it to boostdata
             let relativePath = path.relative(workspaceFolder.fsPath,file.fsPath);
-            boostProjectData.files[relativePath] = filesummary;
-            boostProjectData.addFileSummaryToSectionSummaries(filesummary);
+            boostProjectData.updateWithFileSummary(filesummary, relativePath);
         }
         boostProjectData.summary.filesToAnalyze = total;
         boostProjectData.summary.filesAnalyzed = exists;
