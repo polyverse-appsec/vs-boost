@@ -111,7 +111,7 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
           });
 
           break;
-      case 'finishJobs':
+      case 'finishJob':
           // if we don't have a job counter for this job, add it  
           if (!jobCounters[message.job]) {
               jobCounters[message.job] = new CountUp('job-' + message.job, 0, options);
@@ -134,13 +134,11 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
 
           // update the status field progress-text
 
-          text = 'Finished processing file: ' + message.files[0];
-          if (message.files.length > 1) {
-            text = 'Finished processing files: ' + message.files.join(', ');
-          }
+          text = 'Finished processing file: ' + message.file;
+
 
           if( message.error ){
-            text = "Error processing files: " + message.files.join(', ') + " - " + message.error;
+            text = "Error processing file: " + message.file + " - " + message.error;
           }
           //set the inner text of the progress-text div element
           if( progressText ){
@@ -148,81 +146,81 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
           }  
           
           // now remove the files from the started and queued objects
-          message.files.forEach( (file: string) => {
-            if( started[message.job] && started[message.job][file] ){
-              delete started[message.job][file];
-              if( Object.keys(started[message.job]).length === 0 ){
-                delete started[message.job];
-              }
+          let file = message.file;
+          if( started[message.job] && started[message.job][file] ){
+            delete started[message.job][file];
+            if( Object.keys(started[message.job]).length === 0 ){
+              delete started[message.job];
             }
-            if( queue[message.job] && queue[message.job][file] ){
-              delete queue[message.job][file];
-              if( Object.keys(queue[message.job]).length === 0 ){
-                delete queue[message.job];
-              }
-            } 
-            // now update boostdata and the badge *only* if we had not processed this file already.
-            // we could have just processed some of the internal cells
-            // TODO TODO TODO this needs to be with the real cell data too
-            if( !boostdata.files[file] ) {
-              boostdata.files[file] = {
-                completed: 0,
-                error: 0,
-                sourceFile: file,
-                total: 0
-              };
+          }
+          if( queue[message.job] && queue[message.job][file] ){
+            delete queue[message.job][file];
+            if( Object.keys(queue[message.job]).length === 0 ){
+              delete queue[message.job];
             }
-            let analyzedCount = 0;
-            let newStatus = '';
-            let oldStatus = '';
-            if( boostdata.files[file].completed === 0){
-              boostdata.files[file].completed = 1;  // TODO TODO TODO--this is wrong, we need the actual count of cells completed.
-              let found = false;
+          } 
+          // now update boostdata and the badge *only* if we had not processed this file already.
+          // we could have just processed some of the internal cells
+          // TODO TODO TODO this needs to be with the real cell data too
+          if( !boostdata.files[file] ) {
+            boostdata.files[file] = {
+              completed: 0,
+              error: 0,
+              sourceFile: file,
+              total: 0
+            };
+          }
+          let analyzedCount = 0;
+          let newStatus = '';
+          let oldStatus = '';
+          if( boostdata.files[file].completed === 0){
+            boostdata.files[file].completed = 1;  // TODO TODO TODO--this is wrong, we need the actual count of cells completed.
+            let found = false;
 
-              // Loop through the sectionSummary array
-              for (let summary of boostdata.sectionSummary) {
-                  // If an object with the matching analysisType is found,
-                  // increment its filesAnalyzed field
-                  if (summary.analysisType === message.job) {
-                      summary.filesAnalyzed += message.count;
-                      found = true;
-                      analyzedCount = summary.filesAnalyzed; 
-                      if( summary.filesAnalyzed === boostdata.summary.filesToAnalyze ) {
-                        summary.status = "completed";
-                      } else if( summary.status !== "processing"){
-                        oldStatus = summary.status;
-                        summary.status = "processing";
-                        newStatus = "processing";
-                      }
-                      break; // Exit the loop since the object has been found and updated
-                  }
-              }
-             
-            
-              // If no matching object is found in the array,
-              // create a new object and push it to the sectionSummary array
-              if (!found) {
-                  boostdata.sectionSummary.push({
-                      analysisType: message.job,
-                      filesAnalyzed: message.count
-                  });
-                  analyzedCount = message.count;
-              }
-
-              const badge = document.getElementById('badge-' + message.job);
-              if( badge ){
-                badge.innerText = analyzedCount.toString() + '/' + (boostdata.summary.filesToAnalyze);
-                //and now set the class to be boost-{newStatus}, first removing any existing class
-
-                if( newStatus ){
-                  if( oldStatus ){
-                    badge.classList.remove('boost-' + oldStatus);
-                  }
-                  badge.classList.add('boost-' + newStatus);
+            // Loop through the sectionSummary array
+            for (let summary of boostdata.sectionSummary) {
+                // If an object with the matching analysisType is found,
+                // increment its filesAnalyzed field
+                if (summary.analysisType === message.job) {
+                    summary.filesAnalyzed += message.count;
+                    found = true;
+                    analyzedCount = summary.filesAnalyzed; 
+                    if( summary.filesAnalyzed === boostdata.summary.filesToAnalyze ) {
+                      summary.status = "completed";
+                    } else if( summary.status !== "processing"){
+                      oldStatus = summary.status;
+                      summary.status = "processing";
+                      newStatus = "processing";
+                    }
+                    break; // Exit the loop since the object has been found and updated
                 }
+            }
+            
+          
+            // If no matching object is found in the array,
+            // create a new object and push it to the sectionSummary array
+            if (!found) {
+                boostdata.sectionSummary.push({
+                    analysisType: message.job,
+                    filesAnalyzed: message.count
+                });
+                analyzedCount = message.count;
+            }
+
+            const badge = document.getElementById('badge-' + message.job);
+            if( badge ){
+              badge.innerText = analyzedCount.toString() + '/' + (boostdata.summary.filesToAnalyze);
+              //and now set the class to be boost-{newStatus}, first removing any existing class
+
+              if( newStatus ){
+                if( oldStatus ){
+                  badge.classList.remove('boost-' + oldStatus);
+                }
+                badge.classList.add('boost-' + newStatus);
               }
             }
-          });
+          }
+  
 
 
           //after five seconds, refresh the progress text

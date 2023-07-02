@@ -21,7 +21,7 @@ import { SummarizeKernel, summarizeKernelName, summaryFailedPrefix, summaryOutpu
 import { BoostSummaryViewProvider, summaryViewType } from './summary_view';
 import { BoostStartViewProvider } from './start_view';
 import { BoostChatViewProvider } from './chat_view';
-import { boostNotebookToFileSummaryItem } from './BoostProjectData';
+import { boostNotebookFileToFileSummaryItem, boostNotebookToFileSummaryItem } from './BoostProjectData';
 
 import {
     getBoostFile, BoostFileType, parseFunctionsFromFile,
@@ -1363,15 +1363,15 @@ export class BoostExtension {
                         this.summaryViewProvider?.addJobs(targetedKernel.outputType, [relativePath], 1);
             
                         this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh).then((notebook) => {
-
-                            this.summaryViewProvider?.finishJobs(targetedKernel.outputType, [relativePath], null, 1);
+                            let summary = boostNotebookToFileSummaryItem(notebook);
+                            this.summaryViewProvider?.finishJob(targetedKernel.outputType, relativePath, summary, null);
                             resolve(notebook);
                         }).catch((error) => {
                             // get the distance from the workspace folder for the source file
                             // for project-level status files, we ignore the relative path
                             let relativePath = path.relative(targetFolder.fsPath,file.fsPath);
 
-                            this.summaryViewProvider?.finishJobs(targetedKernel.outputType, [relativePath], error, 1);
+                            this.summaryViewProvider?.finishJob(targetedKernel.outputType, relativePath, null, error);
                             reject(error);
                         });
                     }, processingTime);
