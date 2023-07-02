@@ -16,7 +16,7 @@ import { explainKernelName } from './explain_controller';
 import { boostLogging } from './boostLogging';
 import { BoostConfiguration } from './boostConfiguration';
 import { complianceFunctionKernelName } from './compliance_function_controller';
-import { FileSummaryItem } from './BoostProjectData';
+import { FileSummaryItem, BoostProjectData } from './BoostProjectData';
 
 export const summaryViewType = 'polyverse-boost-summary-view';
 
@@ -189,7 +189,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 		this._view?.webview.postMessage(payload);
 	}
 
-	public finishJob(job: string, file: string, summary: FileSummaryItem | null, error: Error | null) {
+	public finishJob(job: string, file: string, summary: FileSummaryItem | null, boostprojectdata: BoostProjectData, error: Error | null) {
 		//if this._jobs[jobs] exists, add count to it, otherwise set it to zero 
 		//(somehow we finished a job that was never counted as being started)
 		this._jobs[job] ? this._jobs[job] -= 1 : 0;
@@ -199,7 +199,8 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 			file: file,
 			error: error,
 			count: this._jobs[job],
-			summary: summary
+			summary: summary,
+			boostprojectdata: boostprojectdata
 		};
 		this._view?.webview.postMessage(payload);
 	}

@@ -1364,14 +1364,15 @@ export class BoostExtension {
             
                         this.processCurrentFile(file, targetedKernel.id, context, forceAnalysisRefresh).then((notebook) => {
                             let summary = boostNotebookToFileSummaryItem(notebook);
-                            this.summaryViewProvider?.finishJob(targetedKernel.outputType, relativePath, summary, null);
+                            const boostprojectdata = this.getBoostProjectData();
+                            this.summaryViewProvider?.finishJob(targetedKernel.outputType, relativePath, summary, boostprojectdata, null);
                             resolve(notebook);
                         }).catch((error) => {
                             // get the distance from the workspace folder for the source file
                             // for project-level status files, we ignore the relative path
                             let relativePath = path.relative(targetFolder.fsPath,file.fsPath);
-
-                            this.summaryViewProvider?.finishJob(targetedKernel.outputType, relativePath, null, error);
+                            const boostprojectdata = this.getBoostProjectData();
+                            this.summaryViewProvider?.finishJob(targetedKernel.outputType, relativePath, null, boostprojectdata, error);
                             reject(error);
                         });
                     }, processingTime);
