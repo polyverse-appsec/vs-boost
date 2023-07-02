@@ -36,31 +36,7 @@
     </style>
 </head>
 <body>
-    <vscode-data-grid aria-label="Summary">
-        <% _.forEach(boostdata.sectionSummary, function(analysisObj) { %>
-            <vscode-data-grid-row>
-                <vscode-data-grid-cell grid-column="1" class="left-aligned">
-                    <% if (analysisObj.analysisType === 'bugAnalysis') { %>
-                        <vscode-checkbox analysis-check checked id="check-<%= analysisObj.analysisType%>">Security</vscode-checkbox>
-                    <% } else if (analysisObj.analysisType === 'archblueprintCode') { %>
-                        <vscode-checkbox analysis-check checked id="check-<%= analysisObj.analysisType%>">Blueprint</vscode-checkbox>
-                    <% } else if (analysisObj.analysisType === 'complianceCode') { %>
-                        <vscode-checkbox analysis-check checked id="check-<%= analysisObj.analysisType%>">Compliance</vscode-checkbox>
-                    <% } else if (analysisObj.analysisType === 'explainCode') { %>
-                        <vscode-checkbox analysis-check checked id="check-<%= analysisObj.analysisType%>">Documentation</vscode-checkbox>
-                    <% } else if (analysisObj.analysisType === 'summary') { %>
-                        <vscode-checkbox analysis-check disabled checked id="check-<%= analysisObj.analysisType%>">Summary</vscode-checkbox>
-                    <% } else { %>
-                        <vscode-checkbox analysis-check checked id="check-<%= analysisObj.analysisType%>"><%= analysisObj.analysisType %></vscode-checkbox>
-                    <% } %>
-                </vscode-data-grid-cell>
-                <vscode-data-grid-cell grid-column="2" style="margin-left: 0px;">
-                    <vscode-badge id='badge-<%= analysisObj.analysisType%>' class=<%= 'boost-' + analysisObj.status %>><%= analysisObj.filesAnalyzed.toString() + '/' + (boostdata.summary.filesToAnalyze) %></vscode-badge>
-                </vscode-data-grid-cell>
-                <vscode-data-grid-cell grid-column="3" id="job-<%=analysisObj.analysisType%>" hidden>
-                </vscode-data-grid-cell>
-            </vscode-data-grid-row>
-        <% }); %>
+    <vscode-data-grid aria-label="Summary" id="summarygrid">
     </vscode-data-grid>
 
     <div align="center">

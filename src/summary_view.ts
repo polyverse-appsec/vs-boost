@@ -78,10 +78,10 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
 
                           const analysisMap = new Map([
-                            ['archblueprintCode', [getKernelName(blueprintKernelName)]],
-                            ['explainCode', [getKernelName(explainKernelName), getKernelName(flowDiagramKernelName)]],
-                            ['bugAnalysis', [getKernelName(analyzeKernelName), getKernelName(analyzeFunctionKernelName)]],
-                            ['complianceCode', [getKernelName(complianceKernelName), getKernelName(complianceFunctionKernelName)]]
+                            ['deepcode', [getKernelName(blueprintKernelName), getKernelName(analyzeKernelName), getKernelName(complianceKernelName), getKernelName(summarizeKernelName)]],
+                            ['documentation', [getKernelName(explainKernelName), getKernelName(flowDiagramKernelName)]],
+                            ['security', [getKernelName(analyzeFunctionKernelName)]],
+                            ['compliance', [getKernelName(complianceFunctionKernelName)]]
                           ]);
 
                         try {
@@ -113,7 +113,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                 // refresh project data
                                 await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
                             }
-
+/*
                             if ((runSummary &&
                                 // don't run summary if dev overrode it, or requested it specifically
                                 !BoostConfiguration.runAllTargetAnalysisType) ||
@@ -121,8 +121,9 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                 (BoostConfiguration.runAllTargetAnalysisType as string).includes(summarizeKernelName))) {
 
                                 // summary across all files
-                                await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(summarizeKernelName));
+                                await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, );
                             }
+*/
                         } finally {
                             // refresh project data
                             await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.refreshProjectData);
