@@ -50,7 +50,7 @@ export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
         try {
             this._resolveWebviewView(webviewView, context, _token);
         } catch (e) {
-            boostLogging.error(`Could not load Boost Start View due to ${e}`, false);
+            boostLogging.error(`Could not load Boost Markdown View due to ${e}`, false);
         }
     }
 
