@@ -358,7 +358,7 @@ function summaryEnter(enter: any) {
                 
     const cell1 = row.append('vscode-data-grid-cell').attr('grid-column', '1').attr('class', 'left-aligned');
     cell1.append('vscode-checkbox')
-        .attr('checked', true)
+        .attr('checked', (d) => (d.defaultChecked))
         .attr('analysis-check', true)
         .attr('id', (d: any) => 'check-' + d.id)
         .text((d: any) => d.display);
@@ -398,26 +398,32 @@ function summaryUpdate(update: any) {
 // "outputType": "complianceList"
 function displaySummary(boostdata: any) 
 {
+    //TODO: in the future, make the default check settings configuratble and/or remembered
+    //in the state somewhere.
     let summaryView = [
         {
             display: "Documentation",
             id: "documentation",
-            summary: mergeSummary(boostdata, ["explainCode", "flowDiagram"])
+            summary: mergeSummary(boostdata, ["explainCode", "flowDiagram"]),
+            defaultChecked: true
         },
         {
             display: "Security",
             id: "security",
-            summary: mergeSummary(boostdata, ["bugAnalysisList"])
+            summary: mergeSummary(boostdata, ["bugAnalysisList"]),
+            defaultChecked: true
         },
         {
             display: "Compliance",
             id: "compliance",
-            summary: mergeSummary(boostdata, ["complianceList"])
+            summary: mergeSummary(boostdata, ["complianceList"]),
+            defaultChecked: true
         },
         {
             display: "Deep Code Analysis",
             id: "deepcode",
-            summary: mergeSummary(boostdata, ["guidelinesCode", "archblueprintCode", "bugAnalysis", "guidelinesCode"])
+            summary: mergeSummary(boostdata, ["guidelinesCode", "archblueprintCode", "bugAnalysis", "guidelinesCode"]),
+            defaultChecked: false
         }
     ];
     return summaryView;
