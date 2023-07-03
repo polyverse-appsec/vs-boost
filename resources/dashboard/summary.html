@@ -38,7 +38,6 @@
 <body>
     <vscode-data-grid aria-label="Summary" id="summarygrid">
     </vscode-data-grid>
-
     <div align="center">
         <vscode-button id="update-summary">Run Selected Analyses</vscode-button>
         <vscode-progress-ring id="job-progress" class="progress" hidden></vscode-progress-ring>
@@ -46,6 +45,8 @@
     <div id="progress-text">
         Sara says:
     </div>
+    <vscode-data-grid aria-label="Details" id="detailsgrid">
+    </vscode-data-grid>
     <script> 
         var boostdataencoded = "<%= Buffer.from(JSON.stringify(boostdata)).toString('base64') %>";
 		var boostdata = JSON.parse(atob(boostdataencoded));

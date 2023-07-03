@@ -84,21 +84,6 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
             spinner?.removeAttribute("hidden");
             runbutton?.setAttribute("hidden", "");
 
-            // first unhide the counter
-            const counter = document.getElementById("job-" + message.job);
-            counter?.removeAttribute("hidden");
-
-            // if we don't have a job counter for this job, add it
-            if (!jobCounters[message.job]) {
-                jobCounters[message.job] = new CountUp(
-                    "job-" + message.job,
-                    message.count,
-                    options
-                );
-            }
-            //start the counter
-            jobCounters[message.job].update(message.count);
-
             // update the status field progress-text
 
             text = "Now processing file: " + message.files[0];
@@ -110,6 +95,13 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
                 progressText.innerText = text;
             }
 
+            //if we don't have any active jobs, now show the jobs that are queued up.
+            //get the keys of the queue object
+            //after five seconds, refresh the progress text
+            setTimeout(() => {
+                refreshProgressText(progressText);
+            }, 5000);
+
             //add the files to the started object
             message.files.forEach((file: string) => {
                 if (!started[message.job]) {
@@ -120,29 +112,8 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
 
             break;
         case "finishJob":
-            // if we don't have a job counter for this job, add it
-            if (!jobCounters[message.job]) {
-                jobCounters[message.job] = new CountUp(
-                    "job-" + message.job,
-                    0,
-                    options
-                );
-            }
-            //start the counter
-            jobCounters[message.job].update(message.count);
-
-            // if count is now zero, hide the element
-            if (message.count === 0) {
-                const counter = document.getElementById("job-" + message.job);
-                counter?.setAttribute("hidden", "");
-
-                //if we don't have any active jobs, now show the jobs that are queued up.
-                //get the keys of the queue object
-                //after five seconds, refresh the progress text
-                setTimeout(() => {
-                    refreshProgressText(progressText);
-                }, 5000);
-            }
+            //update the job counter
+            updateJobCounter(boostdata, message);
 
             // update the status field progress-text
 
@@ -342,42 +313,73 @@ function getAnalysisTypes(): Array<string> {
 }
 
 function refreshUI(boostdata: any) {
-    let summaryView = displaySummary(boostdata);
+    let summaryView = displaySummaryViewData(boostdata);
+    let detailsView = detailsViewData(boostdata);
+
     d3.select("#summarygrid")
         .selectAll("vscode-data-grid-row")
-            .data(summaryView, (d: any) => d.id)
-            .join(
-                (enter) => summaryEnter(enter),
-                (update) => summaryUpdate(update),
-                (exit) => exit.remove()
-            );
+        .data(summaryView, (d: any) => d.id)
+        .join(
+            (enter) => summaryEnter(enter),
+            (update) => summaryUpdate(update),
+            (exit) => exit.remove()
+        );
+
+    d3.select("#detailsgrid")
+        .selectAll("vscode-data-grid-row")
+        .data(boostdata.files, (d: any) => d.boostNotebookFile)
+        .join(
+            (enter) => detailsEnter(enter),
+            (update) => detailsUpdate(update),
+            (exit) => exit.remove()
+        );
 }
 
 function summaryEnter(enter: any) {
-    const row = enter.append('vscode-data-grid-row');
-                
-    const cell1 = row.append('vscode-data-grid-cell').attr('grid-column', '1').attr('class', 'left-aligned');
-    cell1.append('vscode-checkbox')
-        .attr('checked', (d) => (d.defaultChecked))
-        .attr('analysis-check', true)
-        .attr('id', (d: any) => 'check-' + d.id)
+    const row = enter.append("vscode-data-grid-row");
+
+    const cell1 = row
+        .append("vscode-data-grid-cell")
+        .attr("grid-column", "1")
+        .attr("class", "left-aligned");
+    cell1
+        .append("vscode-checkbox")
+        .attr("checked", (d) => d.defaultChecked)
+        .attr("analysis-check", true)
+        .attr("id", (d: any) => "check-" + d.id)
         .text((d: any) => d.display);
-    
-    const cell2 = row.append('vscode-data-grid-cell').attr('grid-column', '2').style('margin-left', '0px');
-    cell2.append('vscode-badge')
-        .attr('class', (d: any) => 'boost-' + d.summary.status)
-        .attr('id', (d: any) => 'badge-' + d.id)
-        .text((d: any) => d.summary.analyzed + '/' + d.summary.total);
-    
-    row.append('vscode-data-grid-cell')
-        .attr('grid-column', '3')
-        .attr('hidden', true)
-        .attr('id', (d: any) => 'job-' + d.id);
+
+    const cell2 = row
+        .append("vscode-data-grid-cell")
+        .attr("grid-column", "2")
+        .style("margin-left", "0px");
+    cell2
+        .append("vscode-badge")
+        .attr("class", (d: any) => "boost-" + d.summary.status)
+        .attr("id", (d: any) => "badge-" + d.id)
+        .text((d: any) => d.summary.analyzed + "/" + d.summary.total);
+
+    row.append("vscode-data-grid-cell")
+        .attr("grid-column", "3")
+        .attr("hidden", true)
+        .attr("id", (d: any) => "job-" + d.id);
 }
 
 function summaryUpdate(update: any) {
-    update.selectAll('analysis-label').text((d: any) => d.display);
+    update.selectAll("analysis-label").text((d: any) => d.display);
 }
+
+function detailsEnter(enter: any) {
+    const row = enter.append("vscode-data-grid-row");
+
+    const cell1 = row
+        .append("vscode-data-grid-cell")
+        .attr("grid-column", "1")
+        .attr("class", "left-aligned")
+        .text((d: any) => d.sourceFile);
+}
+
+function detailsUpdate(update: any) {}
 
 //compute the display summary of boostdata
 //these are the sections supported currently. Be sure to update this list
@@ -396,8 +398,31 @@ function summaryUpdate(update: any) {
 // "outputType": "flowDiagram"
 // "outputType": "bugAnalysisList"
 // "outputType": "complianceList"
-function displaySummary(boostdata: any) 
-{
+
+const outputTypeToDisplay = {
+    documentation: ["explainCode", "flowDiagram"],
+    security: ["bugAnalysisList"],
+    compliance: ["complianceList"],
+    deepcode: [
+        "guidelinesCode",
+        "archblueprintCode",
+        "bugAnalysis",
+        "guidelinesCode",
+    ],
+};
+
+//find the summary for the given output type by searching through the outputTypeToDisplay structure
+function mapOutputTypeToSummary(outputType: string) {
+    //loop through the outputTypeToDisplay structure and find the summary
+    for (const [key, value] of Object.entries(outputTypeToDisplay)) {
+        if (value.includes(outputType)) {
+            return key;
+        }
+    }
+    return "";
+}
+
+function displaySummaryViewData(boostdata: any) {
     //TODO: in the future, make the default check settings configuratble and/or remembered
     //in the state somewhere.
     let summaryView = [
@@ -405,42 +430,69 @@ function displaySummary(boostdata: any)
             display: "Documentation",
             id: "documentation",
             summary: mergeSummary(boostdata, ["explainCode", "flowDiagram"]),
-            defaultChecked: true
+            defaultChecked: true,
         },
         {
             display: "Security",
             id: "security",
             summary: mergeSummary(boostdata, ["bugAnalysisList"]),
-            defaultChecked: true
+            defaultChecked: true,
         },
         {
             display: "Compliance",
             id: "compliance",
             summary: mergeSummary(boostdata, ["complianceList"]),
-            defaultChecked: true
+            defaultChecked: true,
         },
         {
             display: "Deep Code Analysis",
             id: "deepcode",
-            summary: mergeSummary(boostdata, ["guidelinesCode", "archblueprintCode", "bugAnalysis", "guidelinesCode"]),
-            defaultChecked: false
-        }
+            summary: mergeSummary(boostdata, [
+                "guidelinesCode",
+                "archblueprintCode",
+                "bugAnalysis",
+                "guidelinesCode",
+            ]),
+            defaultChecked: false,
+        },
     ];
     return summaryView;
+}
+
+function detailsViewData(boostdata: any) {
+    let detailsView: {}[] = [];
+
+    //in the files structure, the key is the boostnotebook, sourceFile has the original
+    //file
+    Object.keys(boostdata.files).forEach((file: string) => {
+        let fileData = boostdata.files[file];
+        let fileSummary = {
+            boostNotebookFile: file,
+            ...fileData,
+        };
+        detailsView.push(fileSummary);
+    });
+    return detailsView;
 }
 
 function mergeSummary(boostdata: any, analysisTypes: string[]) {
     let summary = {
         analyzed: 0,
         total: boostdata.summary.filesToAnalyze,
-        status: "not-started"
+        status: "not-started",
     };
     let completed = "not-started";
     analysisTypes.forEach((analysisType: string) => {
         if (boostdata.sectionSummary[analysisType]) {
-            summary.analyzed = Math.max(boostdata.sectionSummary[analysisType].filesAnalyzed, summary.analyzed);
+            summary.analyzed = Math.max(
+                boostdata.sectionSummary[analysisType].filesAnalyzed,
+                summary.analyzed
+            );
             //we have to see a steady string of completed to be completed.  if we see anything else, we are incomplete.
-            if(boostdata.sectionSummary[analysisType].status === 'completed' && completed !== 'incomplete') {
+            if (
+                boostdata.sectionSummary[analysisType].status === "completed" &&
+                completed !== "incomplete"
+            ) {
                 completed = "true";
             } else {
                 completed = "incomplete";
@@ -449,4 +501,27 @@ function mergeSummary(boostdata: any, analysisTypes: string[]) {
     });
     summary.status = completed;
     return summary;
+}
+
+function updateJobCounter(boostdata: any, message: any) {
+    const job = mapOutputTypeToSummary(message.job);
+    // first unhide the counter
+    const counter = document.getElementById("job-" + job);
+    counter?.removeAttribute("hidden");
+
+    // if we don't have a job counter for this job, add it
+    if (!jobCounters[job]) {
+        jobCounters[job] = new CountUp("job-" + job, message.count, options);
+    }
+    //start the counter
+    jobCounters[job].update(message.count);
+
+    //start the counter
+    jobCounters[job].update(message.count);
+
+    // if count is now zero, hide the element
+    if (message.count === 0) {
+        const counter = document.getElementById("job-" + job);
+        counter?.setAttribute("hidden", "");
+    }
 }
