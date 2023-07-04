@@ -85,7 +85,7 @@ export function registerCustomerPortalCommand(context: vscode.ExtensionContext) 
                 let response = await getCustomerStatus(context);
                 url = response['portal_url'];
             } catch (err : any) {
-                boostLogging.error(`Unable to launch customer portal: ${err.message}. Please contact Polyverse Boost Support`);
+                boostLogging.error(`Unable to launch customer portal: ${err.message}. Please contact Polyverse Boost Support`, true);
                 return;
             }
             vscode.env.openExternal(vscode.Uri.parse(url));
@@ -276,7 +276,7 @@ function registerSelectOrganizationCommand(context: vscode.ExtensionContext, clo
                 }
             }
         } catch (err : any) {
-            boostLogging.error(`Unable to select organization: ${err.message}.`);
+            boostLogging.error(`Unable to select organization: ${err.message}.`, true);
         }
     }));
 }

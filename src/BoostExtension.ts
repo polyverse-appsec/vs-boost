@@ -869,7 +869,7 @@ export class BoostExtension {
                     // this should never happen, if it does, we are doing Notebook operations without a Notebook
                     if (notebookEditor === undefined) {
                         boostLogging.error(
-                            "Currently active editor is not a Boost Notebook."
+                            "Currently active editor is not a Boost Notebook.", true
                         );
                         return;
                     }
@@ -888,7 +888,8 @@ export class BoostExtension {
 
                     if (userEnteredData) {
                         boostLogging.warn(
-                            "Existing User-entered data in Cells will be discarded upon loading a new file."
+                            "Existing User-entered data in Cells will be discarded upon loading a new file.",
+                            true
                         );
                     } else if (existingCells.length > 0) {
                         boostLogging.info(
@@ -910,7 +911,8 @@ export class BoostExtension {
                         return;
                     } else if (fileUri.length > 1) {
                         boostLogging.warn(
-                            "Only one source file can be loaded at a time."
+                            "Only one source file can be loaded at a time.",
+                            true
                         );
                     }
 
@@ -921,7 +923,8 @@ export class BoostExtension {
                         );
                     } catch (error) {
                         boostLogging.error(
-                            `Unable to Boost file:[${fileUri[0].fsPath.toString()} due to error:${error}`
+                            `Unable to Boost file:[${fileUri[0].fsPath.toString()} due to error:${error}`,
+                            true
                         );
                     }
                 }
@@ -1525,7 +1528,7 @@ export class BoostExtension {
                 if (selectedText === undefined || selectedText === "") {
                     boostLogging.warn(
                         `No text selected to analyze source code.`,
-                        false
+                        true
                     );
                     return;
                 }
@@ -1697,7 +1700,8 @@ export class BoostExtension {
                 if (sourceFileUri === undefined) {
                     if (vscode.window.activeTextEditor === undefined) {
                         boostLogging.warn(
-                            "Unable to identify an active file to Boost."
+                            "Unable to identify an active file to Boost.",
+                            true
                         );
                         resolve(false);
                     } else {
@@ -1823,7 +1827,8 @@ export class BoostExtension {
                 vscode.window.showNotebookDocument(currentNotebook);
             } catch (error) {
                 boostLogging.error(
-                    `Unable to load Boost file:[${sourceFileUri.fsPath.toString()} due to error:${error}`
+                    `Unable to load Boost file:[${sourceFileUri.fsPath.toString()} due to error:${error}`,
+                    false
                 );
                 resolve(false);
                 return;
@@ -1847,7 +1852,8 @@ export class BoostExtension {
                 if (sourceUri === undefined) {
                     if (vscode.window.activeTextEditor === undefined) {
                         boostLogging.warn(
-                            `Unable to identify an active file to Process ${kernelCommand}`
+                            `Unable to identify an active file to Process ${kernelCommand}`,
+                            true
                         );
                         reject(
                             new Error(
@@ -1884,7 +1890,8 @@ export class BoostExtension {
                 const targetedKernel = this.getCurrentKernel(kernelCommand);
                 if (targetedKernel === undefined) {
                     boostLogging.warn(
-                        `Unable to match analysis kernel for ${kernelCommand}`
+                        `Unable to match analysis kernel for ${kernelCommand}`,
+                        false
                     );
                     reject(
                         new Error(
@@ -1961,7 +1968,8 @@ export class BoostExtension {
                     })
                     .catch((error) => {
                         boostLogging.warn(
-                            `Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${sourceUri.fsPath}] due to error:${error}`
+                            `Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${sourceUri.fsPath}] due to error:${error}`,
+                            true
                         );
                         reject(error);
                     });
@@ -1998,7 +2006,7 @@ export class BoostExtension {
         requestedKernel?: string
     ): KernelControllerBase | undefined {
         if (!requestedKernel && !this.kernelCommand) {
-            boostLogging.error(`No Boost Kernel Command selected`);
+            boostLogging.error(`No Boost Kernel Command selected`, false);
             return undefined;
         } else if (!requestedKernel) {
             requestedKernel = this.kernelCommand;
@@ -2011,7 +2019,7 @@ export class BoostExtension {
             }
         });
         if (targetedKernel === undefined) {
-            boostLogging.error(`Unable to find Kernel for ${requestedKernel}`);
+            boostLogging.error(`Unable to find Kernel for ${requestedKernel}`, false);
             return undefined;
         }
         return targetedKernel;
@@ -2050,7 +2058,8 @@ export class BoostExtension {
         if (uri === undefined) {
             if (vscode.workspace.workspaceFolders === undefined) {
                 boostLogging.warn(
-                    "Unable to find Workspace Folder. Please open a Project or Folder first"
+                    "Unable to find Workspace Folder. Please open a Project or Folder first",
+                    true
                 );
                 return;
             }
@@ -2231,7 +2240,8 @@ export class BoostExtension {
                 .catch((error) => {
                     // Handle the error here
                     boostLogging.error(
-                        `Error Boosting folder ${targetFolder.path} due to Error: ${error}`
+                        `Error Boosting folder ${targetFolder.path} due to Error: ${error}`,
+                        false
                     );
                 });
 
@@ -2254,7 +2264,8 @@ export class BoostExtension {
             }
         } catch (error) {
             boostLogging.error(
-                `Unable to Process ${kernelCommand} on Folder:[${uri.fsPath.toString()} due to error:${error}`
+                `Unable to Process ${kernelCommand} on Folder:[${uri.fsPath.toString()} due to error:${error}`,
+                false
             );
         }
     }
@@ -2319,7 +2330,8 @@ export class BoostExtension {
                         !fs.existsSync(boostFile.fsPath)
                     ) {
                         boostLogging.warn(
-                            `Unable to open Boost Summary Notebook for file:[${uri.fsPath}]; check the Polyverse Boost Output channel for details`
+                            `Unable to open Boost Summary Notebook for file:[${uri.fsPath}]; check the Polyverse Boost Output channel for details`,
+                            true
                         );
                         return;
                     }

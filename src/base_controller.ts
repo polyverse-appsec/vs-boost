@@ -374,7 +374,7 @@ export class KernelControllerBase {
                         cell instanceof BoostNotebookCell
                             ? cell.id
                             : cell.document.uri.toString()
-                    }`
+                    }`, false
                 );
                 return false;
             }

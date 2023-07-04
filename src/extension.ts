@@ -69,7 +69,7 @@ export async function activate(context: vscode.ExtensionContext) {
         await extension.refreshBoostProjectsData();
 
     } catch (error) {
-        boostLogging.error(`Unable to activate Boost Notebook Extension due to error:${error}. Please retry launching, check your Boost configuration, or contact Polyverse Boost Support`);
+        boostLogging.error(`Unable to activate Boost Notebook Extension due to error:${error}. Please retry launching, check your Boost configuration, or contact Polyverse Boost Support`, true);
     }
 }
 
@@ -335,7 +335,7 @@ export async function parseFunctionsFromFile(
                 // Additional notebook edits...
             ]);
         } else {
-            boostLogging.error('Unable to append to existing notebook - Type logic error');
+            boostLogging.error('Unable to append to existing notebook - Type logic error', true);
         }
     } else {
         const sourceFilePath = sourceFileFromFullPath(fileUri);
@@ -359,7 +359,7 @@ export async function parseFunctionsFromFile(
             // store the source file on the notebook metadata, so we can use it for problems or reverse mapping
             edit.set(targetNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata(newMetadata)]);
         } else {
-            boostLogging.error('Unable to replace existing notebook - Type logic error');
+            boostLogging.error('Unable to replace existing notebook - Type logic error', true);
         }
     }
     // only use workspace editor if we are using vscode notebook

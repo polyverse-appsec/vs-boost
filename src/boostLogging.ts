@@ -40,7 +40,7 @@ export class BoostLogger extends Disposable {
         }
     }
 
-    warn(message: string, showUI : boolean = true) {
+    warn(message: string, showUI : boolean = false) {
         if (!this.shouldLog("warn")) {
             return;
         }
@@ -51,7 +51,7 @@ export class BoostLogger extends Disposable {
         }
     }
     
-    error(message: string, showUI : boolean = true) {
+    error(message: string, showUI : boolean = false) {
         if (!this.shouldLog("error")) {
             return;
         }

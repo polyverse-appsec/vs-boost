@@ -39,7 +39,7 @@ export class BoostContentSerializer implements vscode.NotebookSerializer {
         try {
             raw = <RawNotebookData>JSON.parse(contents);
         } catch (err) {
-            boostLogging.error(`Boost error parsing JSON file contents: ${(err as Error).toString()}`);
+            boostLogging.error(`Boost error parsing JSON file contents: ${(err as Error).toString()}`, false);
             raw = { cells: [] };
         }
 

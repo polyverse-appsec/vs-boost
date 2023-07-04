@@ -51,7 +51,7 @@ export class BoostProjectData implements IBoostProjectData {
         } catch (e) {
             if (e instanceof SyntaxError) {
                 throw new SyntaxError(
-                    `Could not parse notebook ${filePath} due to invalid JSON: ${e}`
+                    `Could not parse project ${filePath} due to invalid JSON: ${e}`
                 );
             } else {
                 throw e;
@@ -85,7 +85,7 @@ export class BoostProjectData implements IBoostProjectData {
         let sections = [];
         // if previous and fileSummary are the same object, then skip everything and put an error in the log
         if (previous === fileSummary) {
-            boostLogging.error("previous and fileSummary are the same object");
+            boostLogging.error("previous and fileSummary are the same object", false);
             return;
         }
 
@@ -103,7 +103,8 @@ export class BoostProjectData implements IBoostProjectData {
                     sectionSummary.filesAnalyzed -= 1;
                 } else {
                     boostLogging.error(
-                        `Section ${section} not found in sectionSummary`
+                        `Section ${section} not found in sectionSummary`,
+                        false
                     );
                 }
             });
@@ -132,7 +133,8 @@ export class BoostProjectData implements IBoostProjectData {
                 }
             } else {
                 boostLogging.error(
-                    `Section ${section} not found in sectionSummary`
+                    `Section ${section} not found in sectionSummary`,
+                    false
                 );
             }
         });

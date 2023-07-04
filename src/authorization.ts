@@ -25,7 +25,7 @@ export async function fetchGithubSession(forceNewSession : boolean = false): Pro
             throw new Error(errorMessage);
         }
         // otherwise rethrow the error
-        boostLogging.warn(`Error fetching GitHub session from Visual StudioCode: ${boostLogging.shouldLog("debug")?(err as Error).stack:err}`);
+        boostLogging.warn(`Error fetching GitHub session from Visual StudioCode: ${boostLogging.shouldLog("debug")?(err as Error).stack:err}`, false);
         errorMessage = err.message;
     }
     if (!session || errorMessage) {
