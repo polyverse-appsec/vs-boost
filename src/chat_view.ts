@@ -261,7 +261,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
             projectSummaryNotebook.load(blueprintUri.fsPath);
             const blueprintCell = findCellByKernel(projectSummaryNotebook, blueprintOutputType) as BoostNotebookCell;
             if (!blueprintCell) {
-                boostLogging.warn(`No blueprint found in ${blueprintUri.fsPath}`);
+                boostLogging.warn(`No blueprint found in ${blueprintUri.fsPath}`, false);
             } else {
                 blueprintdata = blueprintCell.value;
             }
@@ -318,7 +318,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
             const data = fs.readFileSync(tempFilename, 'utf-8');
             return JSON.parse(data);
         } catch (err) {
-            boostLogging.error(`Boost failed to load Chat history: ${(err as Error).message}`);
+            boostLogging.error(`Boost failed to load Chat history: ${(err as Error).message}`, true);
             return undefined;
         }
     }
