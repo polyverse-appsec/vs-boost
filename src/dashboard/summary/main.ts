@@ -48,6 +48,7 @@ window.addEventListener("message", handleIncomingSummaryMessage);
 let jobCounters = {};
 let queue = {};
 let started = {};
+let newFiles = {};
 
 // Main function that gets executed once the webview DOM loads
 function main() {
@@ -110,6 +111,7 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
                 started[message.job][file] = true;
             });
 
+            refreshUI(boostdata);
             break;
         case "finishJob":
             //update the job counter
@@ -216,6 +218,7 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
             setTimeout(() => {
                 refreshProgressText(progressText);
             }, 5000);
+            refreshUI(boostdata);
             break;
         case "finishAllJobs":
             // hide the spinner
@@ -223,6 +226,7 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
             runbutton?.removeAttribute("hidden");
             queue = {};
             started = {};
+            refreshUI(boostdata);
             break;
 
         case "updateSummary":
@@ -247,6 +251,8 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
                 }
                 queue[message.job][file] = message.ms;
             });
+            refreshUI(boostdata);
+
             break;
     }
 }
@@ -325,9 +331,10 @@ function refreshUI(boostdata: any) {
             (exit) => exit.remove()
         );
 
+    debugger;
     d3.select("#detailsgrid")
         .selectAll("vscode-data-grid-row")
-        .data(boostdata.files, (d: any) => d.boostNotebookFile)
+        .data(detailsView, (d: any) => d.boostNotebookFile)
         .join(
             (enter) => detailsEnter(enter),
             (update) => detailsUpdate(update),
@@ -370,6 +377,7 @@ function summaryUpdate(update: any) {
 }
 
 function detailsEnter(enter: any) {
+    debugger;
     const row = enter.append("vscode-data-grid-row");
 
     const cell1 = row
@@ -467,7 +475,6 @@ function detailsViewData(boostdata: any) {
     Object.keys(boostdata.files).forEach((file: string) => {
         let fileData = boostdata.files[file];
         let fileSummary = {
-            boostNotebookFile: file,
             ...fileData,
         };
         detailsView.push(fileSummary);

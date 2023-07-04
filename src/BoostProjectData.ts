@@ -1,15 +1,15 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import { BoostUserAnalysisType } from './extension';
-import * as boostnb from './jupyter_notebook';
-import * as vscode from 'vscode';
-import { errorMimeType } from './base_controller';
-import { boostLogging } from './boostLogging';
+import * as fs from "fs";
+import * as path from "path";
+import { BoostUserAnalysisType } from "./extension";
+import * as boostnb from "./jupyter_notebook";
+import * as vscode from "vscode";
+import { errorMimeType } from "./base_controller";
+import { boostLogging } from "./boostLogging";
 
 export const PROJECT_EXTENSION = ".boost-project";
 
 export interface Summary {
-    projectName: string
+    projectName: string;
     summaryUrl: string;
     filesToAnalyze: number;
     filesAnalyzed: number;
@@ -21,7 +21,7 @@ export enum BoostProcessingStatus {
     completed = "completed",
     incomplete = "incomplete",
     processing = "processing",
-    notStarted = "not-started"
+    notStarted = "not-started",
 }
 
 export interface SectionSummary {
@@ -34,20 +34,19 @@ export interface SectionSummary {
     details?: Array<any>; // some sections, like security and compliance, will have a list of issues in the details section
 }
 
-
 export interface FileSummaryItem {
     sourceFile: string;
     total: number;
     completed: number;
     error: number;
-    sections: {[key: string]: SectionSummary};
+    sections: { [key: string]: SectionSummary };
 }
 
 export interface IBoostProjectData {
     summary: Summary;
     sectionSummary: {
         [key: string]: SectionSummary;
-    },
+    };
     files: {
         [key: string]: FileSummaryItem;
     };
@@ -67,7 +66,7 @@ export const emptyProjectData: IBoostProjectData = {
             completed: 0,
             error: 0,
             total: 0,
-            filesAnalyzed: 0
+            filesAnalyzed: 0,
         },
         explain: {
             analysisType: "explain",
@@ -75,7 +74,7 @@ export const emptyProjectData: IBoostProjectData = {
             completed: 0,
             error: 0,
             total: 0,
-            filesAnalyzed: 0
+            filesAnalyzed: 0,
         },
         flowDiagram: {
             analysisType: "flowDiagram",
@@ -83,7 +82,7 @@ export const emptyProjectData: IBoostProjectData = {
             completed: 0,
             error: 0,
             total: 0,
-            filesAnalyzed: 0
+            filesAnalyzed: 0,
         },
         bugAnalyze: {
             analysisType: "bugAnalyze",
@@ -91,7 +90,7 @@ export const emptyProjectData: IBoostProjectData = {
             completed: 0,
             error: 0,
             total: 0,
-            filesAnalyzed: 0
+            filesAnalyzed: 0,
         },
         bugAnalysisList: {
             analysisType: "bugAnalysisList",
@@ -99,7 +98,7 @@ export const emptyProjectData: IBoostProjectData = {
             completed: 0,
             error: 0,
             total: 0,
-            filesAnalyzed: 0
+            filesAnalyzed: 0,
         },
         compliance: {
             analysisType: "compliance",
@@ -107,7 +106,7 @@ export const emptyProjectData: IBoostProjectData = {
             completed: 0,
             error: 0,
             total: 0,
-            filesAnalyzed: 0
+            filesAnalyzed: 0,
         },
         complianceList: {
             analysisType: "complianceList",
@@ -115,7 +114,7 @@ export const emptyProjectData: IBoostProjectData = {
             completed: 0,
             error: 0,
             total: 0,
-            filesAnalyzed: 0
+            filesAnalyzed: 0,
         },
         summary: {
             analysisType: "summary",
@@ -123,15 +122,15 @@ export const emptyProjectData: IBoostProjectData = {
             completed: 0,
             error: 0,
             total: 0,
-            filesAnalyzed: 0
-        }
+            filesAnalyzed: 0,
+        },
     },
-    files: {}
+    files: {},
 };
 
 export class BoostProjectData implements IBoostProjectData {
     summary: Summary;
-    sectionSummary: {[key: string]: SectionSummary};
+    sectionSummary: { [key: string]: SectionSummary };
     fsPath: string;
     files: {
         [filename: string]: FileSummaryItem;
@@ -142,9 +141,11 @@ export class BoostProjectData implements IBoostProjectData {
         this.sectionSummary = {};
         //loop through the keys of the emptyProjectData.sectionSummary object and copy the values to the new object
         Object.keys(emptyProjectData.sectionSummary).forEach((key) => {
-            this.sectionSummary[key] = { ...emptyProjectData.sectionSummary[key] };
+            this.sectionSummary[key] = {
+                ...emptyProjectData.sectionSummary[key],
+            };
         });
-        this.fsPath = '';
+        this.fsPath = "";
         this.files = {};
     }
 
@@ -154,12 +155,14 @@ export class BoostProjectData implements IBoostProjectData {
     }
 
     load(filePath: string): void {
-        const jsonString = fs.readFileSync(filePath, 'utf8');
+        const jsonString = fs.readFileSync(filePath, "utf8");
         try {
             this.create(jsonString);
         } catch (e) {
             if (e instanceof SyntaxError) {
-                throw new SyntaxError(`Could not parse notebook ${filePath} due to invalid JSON: ${e}`);
+                throw new SyntaxError(
+                    `Could not parse notebook ${filePath} due to invalid JSON: ${e}`
+                );
             } else {
                 throw e;
             }
@@ -178,13 +181,16 @@ export class BoostProjectData implements IBoostProjectData {
         const { fsPath, ...dataWithoutFsPath } = this;
         const projectDataJson = JSON.stringify(dataWithoutFsPath, null, 2);
 
-        fs.writeFileSync(filename, projectDataJson, { encoding: 'utf8' });
+        fs.writeFileSync(filename, projectDataJson, { encoding: "utf8" });
     }
 
     flushToFS(): void {
         this.save(this.fsPath);
     }
-    private addFileSummaryToSectionSummaries(fileSummary: FileSummaryItem, previous: FileSummaryItem): void {
+    private addFileSummaryToSectionSummaries(
+        fileSummary: FileSummaryItem,
+        previous: FileSummaryItem
+    ): void {
         // first remove the previous file summary from the section summaries
         let sections = [];
         // if previous and fileSummary are the same object, then skip everything and put an error in the log
@@ -192,18 +198,21 @@ export class BoostProjectData implements IBoostProjectData {
             boostLogging.error("previous and fileSummary are the same object");
             return;
         }
-        
+
         if (previous) {
             sections = Object.keys(previous.sections);
             sections.forEach((section) => {
                 const sectionSummary = this.sectionSummary[section];
                 if (sectionSummary) {
                     sectionSummary.total -= previous.sections[section].total;
-                    sectionSummary.completed -= previous.sections[section].completed;
+                    sectionSummary.completed -=
+                        previous.sections[section].completed;
                     sectionSummary.error -= previous.sections[section].error;
                     sectionSummary.filesAnalyzed -= 1;
                 } else {
-                    boostLogging.error(`Section ${section} not found in sectionSummary`);
+                    boostLogging.error(
+                        `Section ${section} not found in sectionSummary`
+                    );
                 }
             });
         }
@@ -213,24 +222,30 @@ export class BoostProjectData implements IBoostProjectData {
             const sectionSummary = this.sectionSummary[section];
             if (sectionSummary) {
                 sectionSummary.total += fileSummary.sections[section].total;
-                sectionSummary.completed += fileSummary.sections[section].completed;
+                sectionSummary.completed +=
+                    fileSummary.sections[section].completed;
                 sectionSummary.error += fileSummary.sections[section].error;
                 sectionSummary.filesAnalyzed += 1;
 
-                if(sectionSummary.completed === sectionSummary.total){
+                if (sectionSummary.completed === sectionSummary.total) {
                     sectionSummary.status = BoostProcessingStatus.completed;
-                } else if(sectionSummary.completed > 0){
+                } else if (sectionSummary.completed > 0) {
                     sectionSummary.status = BoostProcessingStatus.incomplete;
                 } else {
                     sectionSummary.status = BoostProcessingStatus.notStarted;
                 }
             } else {
-                boostLogging.error(`Section ${section} not found in sectionSummary`);
+                boostLogging.error(
+                    `Section ${section} not found in sectionSummary`
+                );
             }
         });
     }
 
-    updateWithFileSummary(fileSummary: FileSummaryItem, relativePath: string): void {
+    updateWithFileSummary(
+        fileSummary: FileSummaryItem,
+        relativePath: string
+    ): void {
         const previous = this.files[relativePath];
         this.addFileSummaryToSectionSummaries(fileSummary, previous);
         this.files[relativePath] = fileSummary;
@@ -246,16 +261,17 @@ export class BoostProjectData implements IBoostProjectData {
         Object.assign(boostProjectData, emptyProjectData);
         return boostProjectData;
     }
-};
+}
 
-export function boostNotebookToFileSummaryItem(boostNotebook: boostnb.BoostNotebook): FileSummaryItem
-{
+export function boostNotebookToFileSummaryItem(
+    boostNotebook: boostnb.BoostNotebook
+): FileSummaryItem {
     let summaryItem: FileSummaryItem = {
-        sourceFile: boostNotebook.metadata.filename as string,
+        sourceFile: boostNotebook.metadata.sourceFile as string,
         total: 0,
         completed: 0,
         error: 0,
-        sections: {}
+        sections: {},
     };
 
     boostNotebook.cells.forEach((cell) => {
@@ -268,10 +284,10 @@ export function boostNotebookToFileSummaryItem(boostNotebook: boostnb.BoostNoteb
                     completed: 0,
                     error: 0,
                     total: 0,
-                    filesAnalyzed: 1
+                    filesAnalyzed: 1,
                 };
                 summaryItem.sections[output.metadata.outputType] = thisSection;
-            } 
+            }
             output.items.forEach((outputItem) => {
                 thisSection.total++;
                 summaryItem.total++;
@@ -288,18 +304,20 @@ export function boostNotebookToFileSummaryItem(boostNotebook: boostnb.BoostNoteb
             //otherwise merge the two arrays
 
             if (output.metadata.details) {
-                if(!thisSection.details ){
+                if (!thisSection.details) {
                     thisSection.details = output.metadata.details;
                 } else {
-                    thisSection.details = thisSection.details.concat(output.metadata.details);
+                    thisSection.details = thisSection.details.concat(
+                        output.metadata.details
+                    );
                 }
             }
             //now set the status of the section
-            if( thisSection.completed === thisSection.total){
+            if (thisSection.completed === thisSection.total) {
                 thisSection.status = BoostProcessingStatus.completed;
-            } else if(thisSection.completed > 0){
+            } else if (thisSection.completed > 0) {
                 thisSection.status = BoostProcessingStatus.incomplete;
-            } else {   
+            } else {
                 thisSection.status = BoostProcessingStatus.notStarted;
             }
         });
@@ -309,9 +327,10 @@ export function boostNotebookToFileSummaryItem(boostNotebook: boostnb.BoostNoteb
 }
 
 //NOTE! this will return a new FileSummaryItem object
-export function boostNotebookFileToFileSummaryItem(file: vscode.Uri): FileSummaryItem {
+export function boostNotebookFileToFileSummaryItem(
+    file: vscode.Uri
+): FileSummaryItem {
     const boostNotebook = new boostnb.BoostNotebook();
     boostNotebook.load(file.fsPath);
     return boostNotebookToFileSummaryItem(boostNotebook);
 }
-
