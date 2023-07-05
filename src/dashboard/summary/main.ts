@@ -2,6 +2,7 @@ import {
     provideVSCodeDesignSystem,
     vsCodeBadge,
     vsCodeButton,
+    vsCodeDivider,
     vsCodeDataGrid,
     vsCodeDataGridCell,
     vsCodeDataGridRow,
@@ -17,8 +18,8 @@ import {
 } from "../../boostprojectdata_interface";
 
 import { CountUp } from "countup.js";
-import { merge } from "lodash";
-import { enterProgressMeter } from "./progress_bar";
+import { detailsEnter, detailsUpdate } from "./details_list";
+import { summaryEnter, summaryUpdate } from "./summary_list";
 
 //declare the boostdata global variable
 declare var boostdata: any;
@@ -30,7 +31,8 @@ provideVSCodeDesignSystem().register(
     vsCodeDataGridCell(),
     vsCodeDataGridRow(),
     vsCodeCheckbox(),
-    vsCodeProgressRing()
+    vsCodeProgressRing(),
+    vsCodeDivider()
 );
 
 const vscode = acquireVsCodeApi();
@@ -346,54 +348,6 @@ function refreshUI(boostdata: any) {
             (exit) => exit.remove()
         );
 }
-
-function summaryEnter(enter: any) {
-    const row = enter.append("vscode-data-grid-row");
-
-    const cell1 = row
-        .append("vscode-data-grid-cell")
-        .attr("grid-column", "1")
-        .attr("class", "left-aligned");
-    cell1
-        .append("vscode-checkbox")
-        .attr("checked", (d) => d.defaultChecked)
-        .attr("analysis-check", true)
-        .attr("id", (d: any) => "check-" + d.id)
-        .text((d: any) => d.display);
-
-    const cell2 = row
-        .append("vscode-data-grid-cell")
-        .attr("grid-column", "2")
-        .style("margin-left", "0px");
-    cell2
-        .append("vscode-badge")
-        .attr("class", (d: any) => "boost-" + d.summary.status)
-        .attr("id", (d: any) => "badge-" + d.id)
-        .text((d: any) => d.summary.analyzed + "/" + d.summary.total);
-
-    row.append("vscode-data-grid-cell")
-        .attr("grid-column", "3")
-        .attr("hidden", true)
-        .attr("id", (d: any) => "job-" + d.id);
-}
-
-function summaryUpdate(update: any) {
-    update.selectAll("analysis-label").text((d: any) => d.display);
-}
-
-function detailsEnter(enter: any) {
-    const row = enter.append("vscode-data-grid-row");
-
-    const cell1 = row
-        .append("vscode-data-grid-cell")
-        .attr("grid-column", "1")
-        .attr("class", "left-aligned")
-        .text((d: any) => d.sourceFile);
-
-    enterProgressMeter(row);
-}
-
-function detailsUpdate(update: any) {}
 
 //compute the display summary of boostdata
 //these are the sections supported currently. Be sure to update this list

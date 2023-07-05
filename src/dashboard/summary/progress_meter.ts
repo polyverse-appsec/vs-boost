@@ -3,7 +3,7 @@ import * as d3 from "d3";
 const width = 100;
 const height = 3;
 
-export function enterProgressMeter(parent: d3.Selection): d3.Selection {
+export function progressMeterEnter(parent: d3.Selection): d3.Selection {
     // Create SVG
     const svg = parent
         .append("vscode-data-grid-cell")
@@ -14,15 +14,25 @@ export function enterProgressMeter(parent: d3.Selection): d3.Selection {
         .attr("height", height * 4)
         .attr("viewBox", "0 0 " + width + " " + height)
         .attr("preserveAspectRatio", "xMinYMin meet");
-    //.attr("style", "display: block;");
 
     const groups = svg
         .selectAll("g")
         .data((d) => d.progressBar)
         .join("g")
-        .attr("transform", (d, i) => `translate(0, ${i * height})`);
+        .attr("transform", (d, i) => `translate(0, ${i * height})`)
+        .call(barUpdate);
 
-    groups.each(function (pBarData, i) {
+    return groups;
+}
+
+export function progressMeterUpdate(parent: d3.Selection): d3.Selection {
+    const groups = parent.selectAll("g").data((d) => d.progressBar);
+    groups.call(barUpdate);
+    return groups;
+}
+
+function barUpdate(bar: d3.Selection) {
+    bar.each(function (pBarData, i) {
         const withoutIssues = pBarData.completedCells - pBarData.issueCells;
         const totalCells = pBarData.totalCells ? pBarData.totalCells : 1;
         let incomplete = pBarData.totalCells - pBarData.completedCells;
