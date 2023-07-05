@@ -32,5 +32,10 @@ function badgeUpdate(update: any) {
     update
         .attr("id", (d: any) => "badge-" + d.id)
         .text((d: any) => d.summary.analyzed + "/" + d.summary.total)
-        .attr("class", (d: any) => "boost-" + d.summary.status);
+        .attr(
+            "class",
+            (d: any) =>
+                "boost-" + d.summary.status + " " + d.jobStatusStatus?.status ??
+                ""
+        );
 }

@@ -19,6 +19,7 @@ import {
     summaryViewData,
     detailsViewData,
     mapOutputTypeToSummary,
+    JobStatus,
 } from "./compute_view_data";
 
 //declare the boostdata global variable
@@ -56,16 +57,29 @@ window.addEventListener("message", handleIncomingSummaryMessage);
 let jobCounters = {};
 let queue = {};
 let started = {};
-let newFiles = {};
+
+let jobStatus: JobStatus = {};
 
 // Main function that gets executed once the webview DOM loads
 function main() {
+    refreshUI(boostdata);
+    //now setup listeners
+    setupListeners();
+}
+
+function setupListeners() {
     // To get improved type annotations/IntelliSense the associated class for
     // a given toolkit component can be imported and used to type cast a reference
     // to the element (i.e. the `as Button` syntax)
-    const howdyButton = document.getElementById("update-summary") as Button;
-    howdyButton?.addEventListener("click", handleAnalyzeAllClick);
-    refreshUI(boostdata);
+    const runAnalysisButton = document.getElementById(
+        "update-summary"
+    ) as Button;
+    runAnalysisButton?.addEventListener("click", handleAnalyzeAllClick);
+
+    const deepCodeCheckbox = document.getElementById("check-deepcode");
+    deepCodeCheckbox?.addEventListener("click", (event) => {
+        setTimeout(refreshUI, 0);
+    });
 }
 
 // Callback function that is executed when the howdy button is clicked
@@ -94,146 +108,41 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
             runbutton?.setAttribute("hidden", "");
 
             // update the status field progress-text
-
-            text = "Now processing file: " + message.files[0];
-            if (message.files.length > 1) {
-                text = "Now processing files: " + message.files.join(", ");
-            }
-            //set the inner text of the progress-text div element
-            if (progressText) {
-                progressText.innerText = text;
-            }
-
-            //if we don't have any active jobs, now show the jobs that are queued up.
-            //get the keys of the queue object
-            //after five seconds, refresh the progress text
-            setTimeout(() => {
-                refreshProgressText(progressText);
-            }, 5000);
-
-            //add the files to the started object
             message.files.forEach((file: string) => {
-                if (!started[message.job]) {
-                    started[message.job] = {};
+                //create the jobs set if necessary then add message.job to it
+                if (!jobStatus[file]) {
+                    jobStatus[file] = {
+                        status: "processing",
+                        jobs: new Set(),
+                    };
                 }
-                started[message.job][file] = true;
+                jobStatus[file].status = "processing";
+                jobStatus[file].jobs.add(message.job);
             });
 
+            debugger;
             refreshUI(boostdata);
             break;
         case "finishJob":
-            //update the job counter
-            updateJobCounter(boostdata, message);
+            boostdata = message.boostdata;
 
-            // update the status field progress-text
-
-            text = "Finished processing file: " + message.file;
-
-            if (message.error) {
-                text =
-                    "Error processing file: " +
-                    message.file +
-                    " - " +
-                    message.error;
-            }
-            //set the inner text of the progress-text div element
-            if (progressText) {
-                progressText.innerText = text;
-            }
-
-            // now remove the files from the started and queued objects
-            let file = message.file;
-            if (started[message.job] && started[message.job][file]) {
-                delete started[message.job][file];
-                if (Object.keys(started[message.job]).length === 0) {
-                    delete started[message.job];
+            message.files.forEach((file: string) => {
+                //first remove the job from the list
+                jobStatus[file].jobs?.delete(message.job);
+                //if there are no more jobs, then set the status to finished
+                if (jobStatus[file].jobs?.size === 0) {
+                    jobStatus[file].status = "completed";
                 }
-            }
-            if (queue[message.job] && queue[message.job][file]) {
-                delete queue[message.job][file];
-                if (Object.keys(queue[message.job]).length === 0) {
-                    delete queue[message.job];
-                }
-            }
-            // now update boostdata and the badge *only* if we had not processed this file already.
-            // we could have just processed some of the internal cells
-            // TODO TODO TODO this needs to be with the real cell data too
-            if (!boostdata.files[file]) {
-                boostdata.files[file] = {
-                    completed: 0,
-                    error: 0,
-                    sourceFile: file,
-                    total: 0,
-                };
-            }
-            let analyzedCount = 0;
-            let newStatus = "";
-            let oldStatus = "";
-            if (boostdata.files[file].completed === 0) {
-                boostdata.files[file].completed = 1; // TODO TODO TODO--this is wrong, we need the actual count of cells completed.
-                let found = false;
+            });
 
-                // Loop through the sectionSummary array
-                for (let summary of boostdata.sectionSummary) {
-                    // If an object with the matching analysisType is found,
-                    // increment its filesAnalyzed field
-                    if (summary.analysisType === message.job) {
-                        summary.filesAnalyzed += message.count;
-                        found = true;
-                        analyzedCount = summary.filesAnalyzed;
-                        if (
-                            summary.filesAnalyzed ===
-                            boostdata.summary.filesToAnalyze
-                        ) {
-                            summary.status = "completed";
-                        } else if (summary.status !== "processing") {
-                            oldStatus = summary.status;
-                            summary.status = "processing";
-                            newStatus = "processing";
-                        }
-                        break; // Exit the loop since the object has been found and updated
-                    }
-                }
-
-                // If no matching object is found in the array,
-                // create a new object and push it to the sectionSummary array
-                if (!found) {
-                    boostdata.sectionSummary.push({
-                        analysisType: message.job,
-                        filesAnalyzed: message.count,
-                    });
-                    analyzedCount = message.count;
-                }
-
-                const badge = document.getElementById("badge-" + message.job);
-                if (badge) {
-                    badge.innerText =
-                        analyzedCount.toString() +
-                        "/" +
-                        boostdata.summary.filesToAnalyze;
-                    //and now set the class to be boost-{newStatus}, first removing any existing class
-
-                    if (newStatus) {
-                        if (oldStatus) {
-                            badge.classList.remove("boost-" + oldStatus);
-                        }
-                        badge.classList.add("boost-" + newStatus);
-                    }
-                }
-            }
-
-            //after five seconds, refresh the progress text
-            setTimeout(() => {
-                refreshProgressText(progressText);
-            }, 5000);
+            debugger;
             refreshUI(boostdata);
             break;
         case "finishAllJobs":
             // hide the spinner
             spinner?.setAttribute("hidden", "");
             runbutton?.removeAttribute("hidden");
-            queue = {};
-            started = {};
+            jobStatus = {};
             refreshUI(boostdata);
             break;
 
@@ -244,20 +153,17 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
             }
             break;
         case "addQueue":
-            if (progressText) {
-                progressText.innerText =
-                    "Queued " +
-                    message.files.join(", ") +
-                    " for processing in " +
-                    message.ms / 1000 +
-                    "seconds.";
-            }
-            //loop through each file and add to the queue
+            // update the status field progress-text
             message.files.forEach((file: string) => {
-                if (!queue[message.job]) {
-                    queue[message.job] = {};
+                //create the jobs set if necessary then add message.job to it
+                if (!jobStatus[file]) {
+                    jobStatus[file] = {
+                        status: "queued",
+                        jobs: new Set(),
+                    };
                 }
-                queue[message.job][file] = message.ms;
+                jobStatus[file].jobs.add(message.job);
+                jobStatus[file].status = "queued";
             });
             refreshUI(boostdata);
 
@@ -334,8 +240,8 @@ function refreshUI(boostdata: any) {
     if (!analysisTypes.includes("deepcode")) {
         skipFilter.push("deepcode");
     }
-    let summaryView = summaryViewData(boostdata);
-    let detailsView = detailsViewData(boostdata, skipFilter);
+    let summaryView = summaryViewData(boostdata, jobStatus);
+    let detailsView = detailsViewData(boostdata, jobStatus, skipFilter);
 
     d3.select("#summarygrid")
         .selectAll("vscode-data-grid-row")

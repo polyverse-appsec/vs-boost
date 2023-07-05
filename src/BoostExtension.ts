@@ -2138,9 +2138,15 @@ export class BoostExtension {
                                     processingTime / seconds
                                 } secs`
                             );
+                            // get the distance from the workspace folder for the source file
+                            // for project-level status files, we ignore the relative path
+                            let relativePath = path.relative(
+                                targetFolder.fsPath,
+                                file.fsPath
+                            );
                             this.summaryViewProvider?.addQueue(
                                 targetedKernel.outputType,
-                                [file.fsPath],
+                                [relativePath],
                                 processingTime
                             );
                             setTimeout(async () => {
@@ -2154,12 +2160,6 @@ export class BoostExtension {
                                         } secs`
                                     );
                                 }
-                                // get the distance from the workspace folder for the source file
-                                // for project-level status files, we ignore the relative path
-                                let relativePath = path.relative(
-                                    targetFolder.fsPath,
-                                    file.fsPath
-                                );
 
                                 this.summaryViewProvider?.addJobs(
                                     targetedKernel.outputType,

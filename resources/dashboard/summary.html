@@ -33,6 +33,21 @@
             --badge-background: var(--vscode-statusBarItem-errorBackground);
             --badge-foreground: var(--vscode-statusBarItem-errorForeground);
         }
+        @keyframes fading {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+            opacity: 1;
+            }
+        }
+
+        .processing {
+            animation: fading 2s linear infinite;
+        }
+        .queued {
+            opacity: .5
+        }
     </style>
 </head>
 <body>

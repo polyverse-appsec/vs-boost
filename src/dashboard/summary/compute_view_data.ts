@@ -1,4 +1,12 @@
 import { FileSummaryItem } from "../../boostprojectdata_interface";
+
+export type JobStatus = {
+    [key: string]: {
+        status: "processing" | "queued" | "completed";
+        jobs: Set<string>;
+    };
+};
+
 //compute the display summary of boostdata
 //these are the sections supported currently. Be sure to update this list
 //if new analysis are done.
@@ -47,37 +55,45 @@ export function mapOutputTypeToSummary(outputType: string) {
     return "";
 }
 
-export function summaryViewData(boostdata: any) {
+export function summaryViewData(boostdata: any, jobStatus: JobStatus) {
     //TODO: in the future, make the default check settings configuratble and/or remembered
     //in the state somewhere.
     let summaryView = [
         {
             display: displayGroupFriendlyName.documentation,
             id: "documentation",
-            summary: mergeSummary(boostdata, ["explainCode", "flowDiagram"]),
+            summary: mergeSummary(
+                boostdata,
+                ["explainCode", "flowDiagram"],
+                jobStatus
+            ),
             defaultChecked: true,
         },
         {
             display: displayGroupFriendlyName.security,
             id: "security",
-            summary: mergeSummary(boostdata, ["bugAnalysisList"]),
+            summary: mergeSummary(boostdata, ["bugAnalysisList"], jobStatus),
             defaultChecked: true,
         },
         {
             display: displayGroupFriendlyName.compliance,
             id: "compliance",
-            summary: mergeSummary(boostdata, ["complianceList"]),
+            summary: mergeSummary(boostdata, ["complianceList"], jobStatus),
             defaultChecked: true,
         },
         {
             display: displayGroupFriendlyName.deepcode,
             id: "deepcode",
-            summary: mergeSummary(boostdata, [
-                "guidelinesCode",
-                "archblueprintCode",
-                "bugAnalysis",
-                "guidelinesCode",
-            ]),
+            summary: mergeSummary(
+                boostdata,
+                [
+                    "guidelinesCode",
+                    "archblueprintCode",
+                    "bugAnalysis",
+                    "guidelinesCode",
+                ],
+                jobStatus
+            ),
             defaultChecked: false,
         },
     ];
@@ -91,16 +107,34 @@ export interface ProgressBarData {
     totalCells: number;
 }
 
-export function detailsViewData(boostdata: any, skipFilter: string[] = []) {
+export function detailsViewData(
+    boostdata: any,
+    jobstatus: JobStatus,
+    skipFilter: string[] = []
+) {
     let detailsView: {}[] = [];
 
-    //in the files structure, the key is the boostnotebook, sourceFile has the original
-    //file
+    //first add any 'in progress' file to boostdata so we can display it
+    //in the details view
+    Object.keys(jobstatus).forEach((file: string) => {
+        //see if the file is in boostdata.  If not, add it
+        if (!boostdata.files[file]) {
+            boostdata.files[file] = {
+                sourceFile: file,
+                totalCells: 1, //there will always be at least one cell
+                completedCells: 0,
+                errorCells: 0,
+                issueCells: 0,
+                sections: {},
+            } as FileSummaryItem;
+        }
+    });
     Object.keys(boostdata.files).forEach((file: string) => {
         let fileData = boostdata.files[file] as FileSummaryItem;
         let fileSummary = {
             ...fileData,
             progressBar: [] as ProgressBarData[],
+            jobstatus: jobstatus[file] ?? "",
         };
 
         //for each of the four display types, go through the mapping and get the completed
@@ -137,14 +171,20 @@ export function detailsViewData(boostdata: any, skipFilter: string[] = []) {
 
         detailsView.push(fileSummary);
     });
+    debugger;
     return detailsView;
 }
 
-export function mergeSummary(boostdata: any, analysisTypes: string[]) {
+function mergeSummary(
+    boostdata: any,
+    analysisTypes: string[],
+    jobStatus: JobStatus
+) {
     let summary = {
         analyzed: 0,
         total: boostdata.summary.filesToAnalyze,
         status: "not-started",
+        jobStatusStatus: "",
     };
     let completed = "not-started";
     analysisTypes.forEach((analysisType: string) => {
@@ -165,5 +205,26 @@ export function mergeSummary(boostdata: any, analysisTypes: string[]) {
         }
     });
     summary.status = completed;
+    //now go through the job status and see if any of the jobs are processing or queued
+    //if processing, then we are processing and that overrides the queued state
+
+    Object.keys(jobStatus).forEach((key) => {
+        //first check to see if our AnalysisType is in the job status
+        //this is an intersection of the AnalysisArray and the jobStatus.jobs set
+        jobStatus[key].jobs.forEach((job) => {
+            if (analysisTypes.includes(job)) {
+                //we have a job that is processing or queued, processing takes priority over queued
+                if (jobStatus[key].status === "processing") {
+                    summary.jobStatusStatus = jobStatus[key].status;
+                } else if (
+                    jobStatus[key].status === "queued" &&
+                    summary.jobStatusStatus !== "processing"
+                ) {
+                    summary.jobStatusStatus = jobStatus[key].status;
+                }
+            }
+        });
+    });
+
     return summary;
 }
