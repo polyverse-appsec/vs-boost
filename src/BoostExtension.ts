@@ -91,13 +91,13 @@ import {
 import { generatePDFforNotebook } from "./convert_pdf";
 import { generateMarkdownforNotebook } from "./convert_markdown";
 import { generateHTMLforNotebook } from "./convert_html";
+import { BoostProjectData } from "./BoostProjectData";
 import {
-    BoostProjectData,
     BoostProcessingStatus,
     emptyProjectData,
     SectionSummary,
     FileSummaryItem,
-} from "./BoostProjectData";
+} from "./boostprojectdata_interface";
 import { BoostMarkdownViewProvider } from "./markdown_view";
 
 import instructions from "./instructions.json";

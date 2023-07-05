@@ -8,125 +8,15 @@ import { boostLogging } from "./boostLogging";
 
 export const PROJECT_EXTENSION = ".boost-project";
 
-export interface Summary {
-    projectName: string;
-    summaryUrl: string;
-    filesToAnalyze: number;
-    filesAnalyzed: number;
-    //an optional issues arrary for *Boost* issues
-    issues?: Array<any>;
-}
-
-export enum BoostProcessingStatus {
-    completed = "completed",
-    incomplete = "incomplete",
-    processing = "processing",
-    notStarted = "not-started",
-}
-
-export interface SectionSummary {
-    analysisType: string;
-    status: BoostProcessingStatus;
-    error: number;
-    completed: number;
-    total: number;
-    filesAnalyzed: number;
-    details?: Array<any>; // some sections, like security and compliance, will have a list of issues in the details section
-}
-
-export interface FileSummaryItem {
-    sourceFile: string;
-    total: number;
-    completed: number;
-    error: number;
-    sections: { [key: string]: SectionSummary };
-}
-
-export interface IBoostProjectData {
-    summary: Summary;
-    sectionSummary: {
-        [key: string]: SectionSummary;
-    };
-    files: {
-        [key: string]: FileSummaryItem;
-    };
-}
-
-export const emptyProjectData: IBoostProjectData = {
-    summary: {
-        projectName: "",
-        summaryUrl: "",
-        filesToAnalyze: 0,
-        filesAnalyzed: 0,
-    },
-    sectionSummary: {
-        blueprint: {
-            analysisType: "blueprint",
-            status: BoostProcessingStatus.notStarted,
-            completed: 0,
-            error: 0,
-            total: 0,
-            filesAnalyzed: 0,
-        },
-        explain: {
-            analysisType: "explain",
-            status: BoostProcessingStatus.notStarted,
-            completed: 0,
-            error: 0,
-            total: 0,
-            filesAnalyzed: 0,
-        },
-        flowDiagram: {
-            analysisType: "flowDiagram",
-            status: BoostProcessingStatus.notStarted,
-            completed: 0,
-            error: 0,
-            total: 0,
-            filesAnalyzed: 0,
-        },
-        bugAnalyze: {
-            analysisType: "bugAnalyze",
-            status: BoostProcessingStatus.notStarted,
-            completed: 0,
-            error: 0,
-            total: 0,
-            filesAnalyzed: 0,
-        },
-        bugAnalysisList: {
-            analysisType: "bugAnalysisList",
-            status: BoostProcessingStatus.notStarted,
-            completed: 0,
-            error: 0,
-            total: 0,
-            filesAnalyzed: 0,
-        },
-        compliance: {
-            analysisType: "compliance",
-            status: BoostProcessingStatus.notStarted,
-            completed: 0,
-            error: 0,
-            total: 0,
-            filesAnalyzed: 0,
-        },
-        complianceList: {
-            analysisType: "complianceList",
-            status: BoostProcessingStatus.notStarted,
-            completed: 0,
-            error: 0,
-            total: 0,
-            filesAnalyzed: 0,
-        },
-        summary: {
-            analysisType: "summary",
-            status: BoostProcessingStatus.notStarted,
-            completed: 0,
-            error: 0,
-            total: 0,
-            filesAnalyzed: 0,
-        },
-    },
-    files: {},
-};
+import {
+    IBoostProjectData,
+    Summary,
+    SectionSummary,
+    FileSummaryItem,
+    emptyProjectData,
+    BoostProcessingStatus,
+} from "./boostprojectdata_interface";
+import { sum } from "lodash";
 
 export class BoostProjectData implements IBoostProjectData {
     summary: Summary;
@@ -204,10 +94,12 @@ export class BoostProjectData implements IBoostProjectData {
             sections.forEach((section) => {
                 const sectionSummary = this.sectionSummary[section];
                 if (sectionSummary) {
-                    sectionSummary.total -= previous.sections[section].total;
-                    sectionSummary.completed -=
-                        previous.sections[section].completed;
-                    sectionSummary.error -= previous.sections[section].error;
+                    sectionSummary.totalCells -=
+                        previous.sections[section].totalCells;
+                    sectionSummary.completedCells -=
+                        previous.sections[section].completedCells;
+                    sectionSummary.errorCells -=
+                        previous.sections[section].errorCells;
                     sectionSummary.filesAnalyzed -= 1;
                 } else {
                     boostLogging.error(
@@ -221,15 +113,19 @@ export class BoostProjectData implements IBoostProjectData {
         sections.forEach((section) => {
             const sectionSummary = this.sectionSummary[section];
             if (sectionSummary) {
-                sectionSummary.total += fileSummary.sections[section].total;
-                sectionSummary.completed +=
-                    fileSummary.sections[section].completed;
-                sectionSummary.error += fileSummary.sections[section].error;
+                sectionSummary.totalCells +=
+                    fileSummary.sections[section].totalCells;
+                sectionSummary.completedCells +=
+                    fileSummary.sections[section].completedCells;
+                sectionSummary.errorCells +=
+                    fileSummary.sections[section].errorCells;
                 sectionSummary.filesAnalyzed += 1;
 
-                if (sectionSummary.completed === sectionSummary.total) {
+                if (
+                    sectionSummary.completedCells === sectionSummary.totalCells
+                ) {
                     sectionSummary.status = BoostProcessingStatus.completed;
-                } else if (sectionSummary.completed > 0) {
+                } else if (sectionSummary.completedCells > 0) {
                     sectionSummary.status = BoostProcessingStatus.incomplete;
                 } else {
                     sectionSummary.status = BoostProcessingStatus.notStarted;
@@ -268,9 +164,10 @@ export function boostNotebookToFileSummaryItem(
 ): FileSummaryItem {
     let summaryItem: FileSummaryItem = {
         sourceFile: boostNotebook.metadata.sourceFile as string,
-        total: 0,
-        completed: 0,
-        error: 0,
+        totalCells: 0,
+        completedCells: 0,
+        errorCells: 0,
+        issueCells: 0,
         sections: {},
     };
 
@@ -281,22 +178,23 @@ export function boostNotebookToFileSummaryItem(
                 thisSection = {
                     analysisType: output.metadata.outputType,
                     status: BoostProcessingStatus.notStarted,
-                    completed: 0,
-                    error: 0,
-                    total: 0,
+                    completedCells: 0,
+                    errorCells: 0,
+                    issueCells: 0,
+                    totalCells: 0,
                     filesAnalyzed: 1,
                 };
                 summaryItem.sections[output.metadata.outputType] = thisSection;
             }
             output.items.forEach((outputItem) => {
-                thisSection.total++;
-                summaryItem.total++;
+                thisSection.totalCells++;
+                summaryItem.totalCells++;
                 if (outputItem.mime === errorMimeType) {
-                    thisSection.error++;
-                    summaryItem.error++;
+                    thisSection.errorCells++;
+                    summaryItem.errorCells++;
                 } else if (outputItem.data) {
-                    thisSection.completed++;
-                    summaryItem.completed++;
+                    thisSection.completedCells++;
+                    summaryItem.completedCells++;
                 }
             });
             //now add the details if it exists on the output metadata.
@@ -304,6 +202,8 @@ export function boostNotebookToFileSummaryItem(
             //otherwise merge the two arrays
 
             if (output.metadata.details) {
+                thisSection.issueCells++;
+                summaryItem.issueCells++;
                 if (!thisSection.details) {
                     thisSection.details = output.metadata.details;
                 } else {
@@ -313,9 +213,9 @@ export function boostNotebookToFileSummaryItem(
                 }
             }
             //now set the status of the section
-            if (thisSection.completed === thisSection.total) {
+            if (thisSection.completedCells === thisSection.totalCells) {
                 thisSection.status = BoostProcessingStatus.completed;
-            } else if (thisSection.completed > 0) {
+            } else if (thisSection.completedCells > 0) {
                 thisSection.status = BoostProcessingStatus.incomplete;
             } else {
                 thisSection.status = BoostProcessingStatus.notStarted;
