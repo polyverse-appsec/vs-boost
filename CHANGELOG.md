@@ -3,13 +3,14 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 1.0.5: July 5th, 2023
+## Version 1.1.0: July 6th, 2023
 
 ### New Features
-- N/A
+- New Performance analysis Kernel - characterizes performance of code and potential issues with 3rd party frameworks
+- New Performance quick-scan source analysis Kernel - scans code for specific issues in code and creates problems and solutions for followup
 
 ### Enhancements
-- N/A
+- Improved UX around file and folder analysis in Summary View in Activity Bar 
 
 ### Bug Fixes
 - N/A

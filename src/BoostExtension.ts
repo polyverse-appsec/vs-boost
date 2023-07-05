@@ -2,8 +2,11 @@ import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
 
-import * as boostnb from "./jupyter_notebook";
-import { getOrCreateGuideline } from "./extension";
+import * as boostnb from './jupyter_notebook';
+import { getOrCreateGuideline } from './extension';
+
+import { BoostPerformanceFunctionKernel, performanceFunctionKernelName } from './performance_function_controller';
+import { BoostPerformanceKernel, performanceKernelName } from './performance_controller';
 
 import {
     BoostAnalyzeKernel,
@@ -700,19 +703,21 @@ export class BoostExtension {
             )
         );
         let kernelTypes = [
-            BoostConvertKernel,
-            BoostExplainKernel,
-            BoostAnalyzeKernel,
-            BoostTestgenKernel,
-            BoostComplianceKernel,
-            BoostCodeGuidelinesKernel,
-            BoostArchitectureBlueprintKernel,
-            BoostFlowDiagramKernel,
-            BoostCustomProcessKernel,
-            SummarizeKernel,
-            BoostAnalyzeFunctionKernel,
-            BoostComplianceFunctionKernel,
-        ];
+                BoostConvertKernel,
+                BoostExplainKernel,
+                BoostAnalyzeKernel,
+                BoostTestgenKernel,
+                BoostComplianceKernel,
+                BoostCodeGuidelinesKernel,
+                BoostArchitectureBlueprintKernel,
+                BoostFlowDiagramKernel,
+                BoostCustomProcessKernel,
+                SummarizeKernel,
+                BoostAnalyzeFunctionKernel,
+                BoostComplianceFunctionKernel,
+                BoostPerformanceFunctionKernel,
+                BoostPerformanceKernel,
+            ];
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
             // register the dev only kernels
@@ -1995,6 +2000,8 @@ export class BoostExtension {
             case codeGuidelinesKernelName:
             case convertKernelName:
             case testgenKernelName:
+            case performanceKernelName:
+            case performanceFunctionKernelName:
             case customProcessCellMarker:
                 return BoostUserAnalysisType.blueprint;
             default:
