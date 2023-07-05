@@ -11,8 +11,11 @@ export function progressMeterEnter(parent: d3.Selection): d3.Selection {
         .attr("class", "left-aligned")
         .append("svg")
         .attr("width", "100%")
-        .attr("height", height * 4)
-        .attr("viewBox", "0 0 " + width + " " + height)
+        .attr("height", "100%")
+        .attr(
+            "viewBox",
+            (d) => "0 0 " + width + " " + d.progressBar.length * height
+        )
         .attr("preserveAspectRatio", "xMinYMin meet");
 
     const groups = svg
@@ -20,6 +23,7 @@ export function progressMeterEnter(parent: d3.Selection): d3.Selection {
         .data((d) => d.progressBar)
         .join("g")
         .attr("transform", (d, i) => `translate(0, ${i * height})`)
+        .call(addZoom)
         .call(barUpdate);
 
     return groups;
@@ -87,4 +91,17 @@ function barUpdate(bar: d3.Selection) {
             .append("title")
             .text((d) => d.label);
     });
+}
+
+function addZoom(parent: d3.Selection) {
+    parent
+        .on("mouseover", function (event, d) {
+            // Change the opacity
+            d3.select(this).transition().duration(200).attr("opacity", 0.6);
+        })
+        .on("mouseout", function (event, d) {
+            // Return the opacity and stroke back to normal
+            d3.select(this).transition().duration(200).attr("opacity", 1);
+        });
+    return parent;
 }
