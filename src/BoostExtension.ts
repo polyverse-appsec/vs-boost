@@ -104,6 +104,7 @@ import {
 import { BoostMarkdownViewProvider } from "./markdown_view";
 
 import instructions from "./instructions.json";
+import { BoostQuickBlueprintKernel } from "./quick_blueprint_controller";
 
 export class BoostExtension {
     // for state, we keep it in a few places
@@ -721,7 +722,7 @@ export class BoostExtension {
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
             // register the dev only kernels
-            const devKernelTypes: any[] = [];
+            const devKernelTypes: any[] = [ BoostQuickBlueprintKernel];
             kernelTypes = kernelTypes.concat(devKernelTypes);
         }
         // constructor and save all kernels

@@ -35,7 +35,7 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
             case 'dev':
                 return 'https://b7zk2dm2haygvcluz4jx2by3vm0ypljn.lambda-url.us-west-2.on.aws/';
             case "test":
-                throw new Error("Not implememted")
+                throw new Error("Not implememted");
             case 'staging':
             case 'prod':
             default:
@@ -51,7 +51,7 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
             case 'dev':
                 return 'https://c2m6d7mgrgypx3mzktbxoawfpa0acsja.lambda-url.us-west-2.on.aws/';
             case "test":
-                throw new Error("Not implememted")
+                throw new Error("Not implememted");
             case 'staging':
             case 'prod':
             default:
