@@ -8,6 +8,7 @@ Polyverse Boost Automatic Application Modernization
 ### New Features
 - New Performance analysis Kernel - characterizes performance of code and potential issues with 3rd party frameworks
 - New Performance quick-scan source analysis Kernel - scans code for specific issues in code and creates problems and solutions for followup
+- Added Quick Draft Architectural Blueprint Summary Kernel - based on hints about project structure, files and data
 
 ### Enhancements
 - Improved UX around file and folder analysis in Summary View in Activity Bar 
