@@ -3,9 +3,10 @@ import * as os from "os";
 import * as path from "path";
 import {
     BoostProjectData,
-    FileSummaryItem,
     boostNotebookFileToFileSummaryItem,
 } from "../../BoostProjectData"; // Update the path
+import { FileSummaryItem } from "../../boostprojectdata_interface";
+
 import * as assert from "assert";
 import * as vscode from "vscode";
 
@@ -77,8 +78,8 @@ suite("BoostProjectData", function () {
             boostNotebookFileToFileSummaryItem(fileUri);
 
         // Add assertions based on what you expect the output to be for an empty file
-        assert.strictEqual(fileSummaryItem.total, 0);
-        assert.strictEqual(fileSummaryItem.completed, 0);
+        assert.strictEqual(fileSummaryItem.totalCells, 0);
+        assert.strictEqual(fileSummaryItem.completedCells, 0);
         // ...other assertions...
         done();
     });
@@ -94,9 +95,9 @@ suite("BoostProjectData", function () {
             boostNotebookFileToFileSummaryItem(fileUri);
 
         // Add assertions based on what you expect the output to be for a non-empty file
-        assert.strictEqual(fileSummaryItem.total, 7);
-        assert.strictEqual(fileSummaryItem.completed, 5);
-        assert.strictEqual(fileSummaryItem.error, 2);
+        assert.strictEqual(fileSummaryItem.totalCells, 7);
+        assert.strictEqual(fileSummaryItem.completedCells, 5);
+        assert.strictEqual(fileSummaryItem.errorCells, 2);
         // ...other assertions...
         done();
     });
@@ -112,9 +113,9 @@ suite("BoostProjectData", function () {
             boostNotebookFileToFileSummaryItem(fileUri);
 
         // Add assertions based on what you expect the output to be for a non-empty file
-        assert.strictEqual(fileSummaryItem.total, 2);
-        assert.strictEqual(fileSummaryItem.completed, 2);
-        assert.strictEqual(fileSummaryItem.error, 0);
+        assert.strictEqual(fileSummaryItem.totalCells, 2);
+        assert.strictEqual(fileSummaryItem.completedCells, 2);
+        assert.strictEqual(fileSummaryItem.errorCells, 0);
         //check that fileSummaryItem.sections.bugAnalysisList.details has one item in the array
         assert.strictEqual(
             fileSummaryItem.sections?.bugAnalysisList?.details?.length,

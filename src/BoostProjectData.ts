@@ -1,6 +1,5 @@
 import * as fs from "fs";
 import * as path from "path";
-import { BoostUserAnalysisType } from "./extension";
 import * as boostnb from "./jupyter_notebook";
 import * as vscode from "vscode";
 import { errorMimeType } from "./base_controller";
@@ -16,7 +15,6 @@ import {
     emptyProjectData,
     BoostProcessingStatus,
 } from "./boostprojectdata_interface";
-import { sum } from "lodash";
 
 export class BoostProjectData implements IBoostProjectData {
     summary: Summary;
