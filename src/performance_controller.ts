@@ -33,13 +33,13 @@ export class BoostPerformanceKernel extends KernelControllerBase {
             case "local":
                 return 'http://127.0.0.1:8000/performance';
             case 'dev':
-                return '';
+                return 'https://kh5r75yzyxe3idb223bei7tzni0vdyab.lambda-url.us-west-2.on.aws/';
             case "test":
-                return '';
+                throw new Error("Not Implemented");
             case 'staging':
             case 'prod':
             default:
-                return '';
+                return 'https://zr4gcodfteyi3zi5skcqnx2fge0rnjdk.lambda-url.us-west-2.on.aws/';
         }
         
     }
