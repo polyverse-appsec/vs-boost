@@ -87,7 +87,7 @@ export class BoostProjectData implements IBoostProjectData {
             return;
         }
 
-        if (previous) {
+        if (previous && previous.sections) {
             sections = Object.keys(previous.sections);
             sections.forEach((section) => {
                 const sectionSummary = this.sectionSummary[section];
@@ -100,9 +100,8 @@ export class BoostProjectData implements IBoostProjectData {
                         previous.sections[section].errorCells;
                     sectionSummary.filesAnalyzed -= 1;
                 } else {
-                    boostLogging.error(
-                        `Section ${section} not found in sectionSummary`,
-                        false
+                    boostLogging.debug(
+                        `Updating BoostProjectData File Summaries: Previous ${section} sectionSummary not found`
                     );
                 }
             });
@@ -130,11 +129,10 @@ export class BoostProjectData implements IBoostProjectData {
                     sectionSummary.status = BoostProcessingStatus.notStarted;
                 }
             } else {
-                boostLogging.error(
-                    `Section ${section} not found in sectionSummary`,
-                    false
+                boostLogging.debug(
+                    `Updating BoostProjectData File Summaries: New File Summary ${section} sectionSummary not found`
                 );
-            }
+        }
         });
     }
 
