@@ -217,7 +217,7 @@ export function boostNotebookToFileSummaryItem(
     let summaryItem: FileSummaryItem = {
         sourceRelFile: boostNotebook.metadata.sourceFile as string,
         notebookRelFile: boostNotebook.fsPath as string,
-        totalCells: 0,
+        totalCells: boostNotebook.cells.length,
         completedCells: 0,
         errorCells: 0,
         issueCells: 0,
@@ -234,29 +234,24 @@ export function boostNotebookToFileSummaryItem(
                     completedCells: 0,
                     errorCells: 0,
                     issueCells: 0,
-                    totalCells: 0,
+                    totalCells: boostNotebook.cells.length,
                     filesAnalyzed: 1,
                 };
                 summaryItem.sections[output.metadata.outputType] = thisSection;
             }
             output.items.forEach((outputItem) => {
-                thisSection.totalCells++;
-                summaryItem.totalCells++;
                 if (outputItem.mime === errorMimeType) {
                     thisSection.errorCells++;
-                    summaryItem.errorCells++;
                 } else if (outputItem.data) {
                     thisSection.completedCells++;
-                    summaryItem.completedCells++;
                 }
             });
             //now add the details if it exists on the output metadata.
             //if thisSection.details does not exist, then assign metadata.details to thisSection.details
             //otherwise merge the two arrays
 
-            if (output.metadata.details) {
+            if (output.metadata.details && output.metadata.details.length > 0) {
                 thisSection.issueCells++;
-                summaryItem.issueCells++;
                 if (!thisSection.details) {
                     thisSection.details = output.metadata.details;
                 } else {
@@ -276,6 +271,23 @@ export function boostNotebookToFileSummaryItem(
         });
     });
 
+    //now go through and get the max value of all the section counts
+    // An array of the property names you want to check for maximum values
+    const propertiesToCheck = ['completedCells', 'errorCells', 'issueCells'] as const;
+
+    for (const sectionKey in summaryItem.sections) {
+        const section = summaryItem.sections[sectionKey];
+        
+        propertiesToCheck.forEach((property) => {
+            // Check if property exists in both summaryItem and section
+            if (
+                Object.prototype.hasOwnProperty.call(summaryItem, property) &&
+                Object.prototype.hasOwnProperty.call(section, property)
+            ) {
+                summaryItem[property] = Math.max(summaryItem[property], section[property] || 0);
+            }
+        });
+    }
     return summaryItem;
 }
 

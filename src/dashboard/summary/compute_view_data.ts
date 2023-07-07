@@ -215,6 +215,7 @@ export function detailsViewData(
         });
         detailsView.push(data);
     });
+    debugger;
     return detailsView;
 }
 

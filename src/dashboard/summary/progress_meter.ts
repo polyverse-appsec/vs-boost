@@ -55,7 +55,7 @@ function barUpdate(bar: d3.Selection) {
                 color: "green",
                 label: `${pBarData.display} - ${
                     (withoutIssues / totalCells) * 100
-                }% Completed without issues`,
+                }% Completed`,
             },
             {
                 width: widthScale(pBarData.issueCells),
