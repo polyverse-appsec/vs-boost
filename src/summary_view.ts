@@ -18,6 +18,7 @@ import { BoostConfiguration } from "./boostConfiguration";
 import { complianceFunctionKernelName } from "./compliance_function_controller";
 import { BoostProjectData } from "./BoostProjectData";
 import { FileSummaryItem } from "./boostprojectdata_interface";
+import { quickBlueprintKernelName } from "./quick_blueprint_controller";
 
 export const summaryViewType = "polyverse-boost-summary-view";
 
@@ -102,6 +103,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                             [
                                 "documentation",
                                 [
+                                    getKernelName(quickBlueprintKernelName),
                                     getKernelName(explainKernelName),
                                     getKernelName(flowDiagramKernelName),
                                 ],
