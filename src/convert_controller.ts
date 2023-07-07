@@ -67,12 +67,13 @@ export class BoostConvertKernel extends KernelControllerBase {
         }
     }
 
-
     async onProcessServiceRequest(
         execution: vscode.NotebookCellExecution,
         notebook : vscode.NotebookDocument | BoostNotebook,
         cell: vscode.NotebookCell | BoostNotebookCell,
-        payload : any): Promise<boolean> {
+        payload : any,
+        serviceEndpoint: string = this.serviceEndpoint
+        ): Promise<boolean> {
 
         const usingBoostNotebook = "value" in cell; // if the cell has a value property, then it's a BoostNotebookCell
 
