@@ -330,7 +330,8 @@ export class KernelControllerBase {
     async doExecution(
         notebook: vscode.NotebookDocument | BoostNotebook,
         cell: vscode.NotebookCell | BoostNotebookCell,
-        session: vscode.AuthenticationSession
+        session: vscode.AuthenticationSession,
+        serviceEndpoint: string = this.serviceEndpoint
     ): Promise<boolean> {
         const usingBoostNotebook = notebook instanceof BoostNotebook;
 
@@ -391,7 +392,8 @@ export class KernelControllerBase {
                 notebook,
                 cell,
                 session,
-                organization
+                organization,
+                serviceEndpoint
             );
         }
         return true;
@@ -401,7 +403,8 @@ export class KernelControllerBase {
         notebook: vscode.NotebookDocument | BoostNotebook,
         cell: vscode.NotebookCell | BoostNotebookCell,
         session: vscode.AuthenticationSession,
-        organization: string
+        organization: string,
+        serviceEndpoint: string
     ): Promise<boolean> {
         const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
         const execution = usingBoostNotebook
@@ -420,14 +423,19 @@ export class KernelControllerBase {
             execution.executionOrder = ++this._executionOrder;
             execution.start(startTime);
         }
+        const authPayload = {
+            session: session.accessToken,
+            organization: organization,
+        };
         try {
-            return await this._doKernelExecution(
+            const response = await this.doKernelExecution(
                 notebook,
                 cell,
-                session,
-                organization,
-                execution
+                execution,
+                authPayload,
+                serviceEndpoint
             );
+            return !(response instanceof Error);
         } catch (err) {
             successfullyCompleted = false;
             this._updateCellOutput(
@@ -490,13 +498,13 @@ export class KernelControllerBase {
         }
     }
 
-    private async _doKernelExecution(
+    async doKernelExecution(
         notebook: vscode.NotebookDocument | BoostNotebook,
         cell: vscode.NotebookCell | BoostNotebookCell,
-        session: vscode.AuthenticationSession,
-        organization: string,
-        execution: vscode.NotebookCellExecution | undefined
-    ): Promise<boolean> {
+        execution: vscode.NotebookCellExecution | undefined,
+        extraPayload: any,
+        serviceEndpoint: string = this.serviceEndpoint,
+    ): Promise<any> {
         const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
 
         // get the code from the cell
@@ -508,10 +516,10 @@ export class KernelControllerBase {
             [this.dynamicInputKey]: input,
             contextMetadata: JSON.stringify(notebook.metadata),
             inputMetadata: JSON.stringify(cell.metadata),
-            session: session.accessToken,
-            organization: organization,
+            ...extraPayload
         };
 
+        // inject guidelines into the payload to guide analysis with user input
         const guidelines = this.getGuidelines();
         // Add guidelines to the payload only if it's not undefined or an empty array
         if (guidelines && guidelines.length > 0) {
@@ -519,6 +527,7 @@ export class KernelControllerBase {
             payload.guidelines = JSON.stringify(["system", guidelines]);
         }
 
+        // inject blueprint/summaries into the payload for analysis context (overall project view)
         const summaries = this.otherThis.getSummaries(
             BoostUserAnalysisType.blueprint
         );
@@ -592,10 +601,11 @@ export class KernelControllerBase {
             execution,
             notebook,
             cell,
-            payload
+            payload,
+            serviceEndpoint
         );
         // we failed the call, but it was already logged since it didn't throw, so just report failure
-        return !(response instanceof Error);
+        return response;
     }
 
     getGuidelines(): string[] {
@@ -686,7 +696,8 @@ export class KernelControllerBase {
         execution: vscode.NotebookCellExecution | undefined,
         notebook: vscode.NotebookDocument | BoostNotebook,
         cell: vscode.NotebookCell | BoostNotebookCell,
-        payload: any
+        payload: any,
+        serviceEndpoint: string = this.serviceEndpoint
     ): Promise<any> {
         let successfullyCompleted = true;
         const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
@@ -697,7 +708,7 @@ export class KernelControllerBase {
         try {
             response = await this.makeBoostServiceRequest(
                 cell,
-                this.serviceEndpoint,
+                serviceEndpoint,
                 payload
             );
         } catch (err: any) {

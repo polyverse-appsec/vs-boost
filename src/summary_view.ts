@@ -18,6 +18,9 @@ import { BoostConfiguration } from "./boostConfiguration";
 import { complianceFunctionKernelName } from "./compliance_function_controller";
 import { BoostProjectData } from "./BoostProjectData";
 import { FileSummaryItem } from "./boostprojectdata_interface";
+import { quickBlueprintKernelName } from "./quick_blueprint_controller";
+import { performanceKernelName } from "./performance_controller";
+import { performanceFunctionKernelName } from "./performance_function_controller";
 
 export const summaryViewType = "polyverse-boost-summary-view";
 
@@ -88,28 +91,36 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
                         const analysisMap = new Map([
                             [
-                                "deepcode",
-                                [
-                                    getKernelName(blueprintKernelName),
-                                    getKernelName(analyzeKernelName),
-                                    getKernelName(complianceKernelName),
-                                    getKernelName(summarizeKernelName),
-                                ],
-                            ],
-                            [
                                 "documentation",
                                 [
+                                    getKernelName(quickBlueprintKernelName),
                                     getKernelName(explainKernelName),
                                     getKernelName(flowDiagramKernelName),
                                 ],
                             ],
                             [
                                 "security",
-                                [getKernelName(analyzeFunctionKernelName)],
+                                [
+                                    getKernelName(analyzeFunctionKernelName),
+//                                    getKernelName(performanceFunctionKernelName),
+                                ],
+
                             ],
                             [
                                 "compliance",
-                                [getKernelName(complianceFunctionKernelName)],
+                                [
+                                    getKernelName(complianceFunctionKernelName),
+                                ],
+                            ],
+                            [
+                                "deepcode",
+                                [
+                                    getKernelName(blueprintKernelName),
+                                    getKernelName(analyzeKernelName),
+                                    getKernelName(complianceKernelName),
+                                    getKernelName(performanceKernelName),
+                                    getKernelName(summarizeKernelName),
+                                ],
                             ],
                         ]);
 

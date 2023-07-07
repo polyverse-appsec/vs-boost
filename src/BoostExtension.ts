@@ -69,7 +69,7 @@ import {
     getBoostFile,
     BoostFileType,
     parseFunctionsFromFile,
-    _buildVSCodeIgnorePattern,
+    buildVSCodeIgnorePattern,
     newErrorFromItemData,
     createOrOpenNotebookFromSourceFile,
     _syncProblemsInCell,
@@ -104,7 +104,7 @@ import {
 import { BoostMarkdownViewProvider } from "./markdown_view";
 
 import instructions from "./instructions.json";
-import { BoostQuickBlueprintKernel } from "./quick_blueprint_controller";
+import { BoostQuickBlueprintKernel, quickBlueprintKernelName } from "./quick_blueprint_controller";
 
 export class BoostExtension {
     // for state, we keep it in a few places
@@ -151,6 +151,8 @@ export class BoostExtension {
         this.setupTestFrameworkPicker(context);
 
         this.registerOpenCodeFile(context);
+
+        this.registerProjectLevelCommands(context);
 
         this.registerFileRightClickAnalyzeCommand(context);
 
@@ -378,7 +380,7 @@ export class BoostExtension {
             workspaceFolder.fsPath,
             "**/*.*"
         );
-        let ignorePattern = await _buildVSCodeIgnorePattern();
+        let ignorePattern = await buildVSCodeIgnorePattern();
         boostLogging.debug(
             "Skipping source files of pattern: " + (ignorePattern ?? "none")
         );
@@ -973,7 +975,7 @@ export class BoostExtension {
             targetFolder.fsPath,
             "**/*.*"
         );
-        let ignorePattern = await _buildVSCodeIgnorePattern();
+        let ignorePattern = await buildVSCodeIgnorePattern();
         boostLogging.debug(
             "Skipping source files of pattern: " + ignorePattern ?? "none"
         );
@@ -2095,7 +2097,7 @@ export class BoostExtension {
             targetFolder.fsPath,
             "**/*.*"
         );
-        let ignorePattern = await _buildVSCodeIgnorePattern();
+        let ignorePattern = await buildVSCodeIgnorePattern();
         boostLogging.debug(
             "Skipping source files of pattern: " + (ignorePattern ?? "none")
         );
@@ -2278,6 +2280,67 @@ export class BoostExtension {
                 false
             );
         }
+    }
+
+    registerProjectLevelCommands(context: vscode.ExtensionContext) {
+        let disposable = vscode.commands.registerCommand(
+            boostnb.NOTEBOOK_TYPE + "." + BoostCommands.processProject,
+            async (kernelCommand?: string) => {
+                // we only process project level analysis at summary level for now
+                const projectBoostFile = getBoostFile(undefined, BoostFileType.summary, false);
+                // create the Boost file, if it doesn't exist
+                if (!fs.existsSync(projectBoostFile.fsPath)) {
+                    boostLogging.warn(
+                        `Unable to open Project-level Boost Notebook [${projectBoostFile.fsPath}]; check the Polyverse Boost Output channel for details`
+                    );
+                    return;
+                }
+
+                const likelyViaUI =
+                    !kernelCommand || typeof kernelCommand !== "string";
+                if (likelyViaUI) {
+                    kernelCommand = BoostConfiguration.currentKernelCommand;
+                }
+
+                const targetedKernel = this.getCurrentKernel(kernelCommand);
+                if (targetedKernel === undefined) {
+                    boostLogging.warn(
+                        `Unable to match analysis kernel for ${kernelCommand}`,
+                        likelyViaUI
+                    );
+                    return;
+                }
+
+                if (targetedKernel.command !== quickBlueprintKernelName) {
+                    boostLogging.error("Currently, only Quick Blueprint is supported at Project-level", likelyViaUI);
+                    return;
+                }
+
+                let notebook = new boostnb.BoostNotebook();
+                notebook.load(projectBoostFile.fsPath);
+                targetedKernel
+                    .executeAllWithAuthorization(
+                        notebook.cells,
+                        notebook,
+                        true
+                    )
+                    .then(() => {
+                        // ensure we save the notebook if we successfully processed it
+                        notebook.flushToFS();
+                        boostLogging.info(
+                            `Saved Updated Notebook for ${kernelCommand} in file:[${projectBoostFile.fsPath}]`,
+                            likelyViaUI
+                        );
+                    })
+                    .catch((error) => {
+                        boostLogging.warn(
+                            `Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${projectBoostFile.fsPath}] due to error:${error}`,
+                            likelyViaUI
+                        );
+                    });
+                }
+        );
+        context.subscriptions.push(disposable);
     }
 
     registerFileRightClickAnalyzeCommand(context: vscode.ExtensionContext) {
@@ -2500,7 +2563,7 @@ export class BoostExtension {
             targetFolder.fsPath,
             "**/*" + boostnb.NOTEBOOK_EXTENSION
         );
-        let ignorePattern = await _buildVSCodeIgnorePattern(false);
+        let ignorePattern = await buildVSCodeIgnorePattern(false);
         boostLogging.debug(
             "Skipping Boost Notebook files of pattern: " + ignorePattern ??
                 "none"

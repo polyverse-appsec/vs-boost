@@ -6,15 +6,21 @@ Polyverse Boost Automatic Application Modernization
 ## Version 1.1.0: July 6th, 2023
 
 ### New Features
+- Significantly improved UX around scan progress tracking, reliability in Summary View in Activity Bar
+    - includes visualization of individual files and folders
+    - includes visual color coding for status of each file and folder and type of scan
+    - improved performance of UI updates, reduced startup time, and improved reliability when restarting VSC or reopening Activity tab
 - New Performance analysis Kernel - characterizes performance of code and potential issues with 3rd party frameworks
 - New Performance quick-scan source analysis Kernel - scans code for specific issues in code and creates problems and solutions for followup
 - Added Quick Draft Architectural Blueprint Summary Kernel - based on hints about project structure, files and data
+    NOTE: Quick blueprints are only generated when a detailed Summary blueprint is not available
+- Added Project-level Analysis Command - processProject - which supports Quick Blueprint only currently
 
 ### Enhancements
-- Improved UX around file and folder analysis in Summary View in Activity Bar 
+- Deep code analysis runs after quick doc, compliance and security scans
 
 ### Bug Fixes
-- N/A
+- Fixed a bug where some source file analysis was failing due to line number issues
 
 ## Version 1.0.4: June 28, 2023
 

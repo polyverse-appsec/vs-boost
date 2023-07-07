@@ -70,8 +70,13 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
         const baseLineNumber = lineNumberBaseFromCell(cell);
 
         response.details.forEach((bug: any, index: number) => {
+            let calculatedLineNumber = baseLineNumber + bug.lineNumber;            
+            if (calculatedLineNumber < 1) {
+                calculatedLineNumber = 1;
+            }
+
             markdown += `${index + 1}. **Severity**: ${bug.severity}/10\n\n`;
-            markdown += `   **Line Number**: ${baseLineNumber + bug.lineNumber}\n\n`;
+            markdown += `   **Line Number**: ${calculatedLineNumber}\n\n`;
             markdown += `   **Bug Type**: ${bug.bugType}\n\n`;
             markdown += `   **Description**: ${bug.description}\n\n`;
             markdown += `   **Solution**: ${bug.solution}\n\n\n`;
@@ -101,9 +106,17 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
         const lineNumberBase = lineNumberBaseFromCell(cell);
         let diagnostics: vscode.Diagnostic[] = [];
         response.details.forEach((bug: any, index: number) => {
-            let range = new vscode.Range(lineNumberBase + bug.lineNumber - 1, 0, lineNumberBase + bug.lineNumber - 1, 0);
-            let diagnostic = new vscode.Diagnostic(range, `Severity: ${bug.severity}\n${bug.description}`, vscode.DiagnosticSeverity.Warning);
-            diagnostics.push(diagnostic);
+            response.details.forEach((bug: any, index: number) => {
+                let calculatedLineNumber = lineNumberBase + bug.lineNumber - 1;
+            
+                if (calculatedLineNumber < 0) {
+                    calculatedLineNumber = 1;
+                }
+            
+                let range = new vscode.Range(calculatedLineNumber, 0, calculatedLineNumber, 0);
+                let diagnostic = new vscode.Diagnostic(range, `Severity: ${bug.severity}\n${bug.description}`, vscode.DiagnosticSeverity.Warning);
+                diagnostics.push(diagnostic);
+            });
         });
         this._securityIssueCollection.set(vscode.Uri.parse(sourceFile), diagnostics);
 

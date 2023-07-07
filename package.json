@@ -204,6 +204,11 @@
                 "icon": "$(folder)"
             },
             {
+                "command": "polyverse-boost-notebook.processProject",
+                "title": "Boost: Analyze Project with Selected Kernel Automatically (Offline)",
+                "icon": "$(folder)"
+            },
+            {
                 "command": "polyverse-boost-notebook.buildCurrentFileOutput",
                 "title": "Boost: Build Analysis as Output File",
                 "icon": "$(file)"

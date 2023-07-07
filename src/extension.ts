@@ -43,6 +43,7 @@ export enum BoostCommands {
 
     processCurrentFolder = "processCurrentFolder",
     processCurrentFile = "processCurrentFile",
+    processProject = "processProject",
 
     buildCurrentFileOutput = "buildCurrentFileOutput",
     buildCurrentFileSummaryOutput = "buildCurrentFileSummaryOutput",
@@ -291,7 +292,7 @@ export async function parseFunctionsFromFile(
                 // if the lineNumbers info is not available (very unlikely, but defensive), then
                 //   set the base to line number 0 in the file
                 // otherwise, set the base to the line number BEFORE the line of this splitCell text
-            "lineNumberBase": lineNumbers ? lineNumbers[i] - 1 : 0
+            "lineNumberBase": lineNumbers ? ((lineNumbers[i] < 0)?0:lineNumbers[i]) - 1 : 0
         };
         cells.push(cell);
     }
@@ -428,7 +429,48 @@ export function newErrorFromItemData(data: Uint8Array) : Error {
     return errorObject;
 }
 
-export async function _buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true): Promise<string | undefined> {
+export function getProjectName() : string {
+    return path.basename(vscode.workspace.workspaceFolders![0].uri.fsPath);
+}
+
+export async function getAllProjectFiles(useRelativePaths : boolean = false) : Promise<string[]> {
+    let baseWorkspace;
+    if (vscode.workspace.workspaceFolders) {
+        baseWorkspace = vscode.workspace.workspaceFolders![0].uri;
+    } else {
+        throw new Error("No workspace folders found");
+    }
+
+    let searchPattern = new vscode.RelativePattern(
+        baseWorkspace.fsPath,
+        "**/**"
+    );
+    let ignorePattern = await buildVSCodeIgnorePattern(true);
+    boostLogging.debug(
+        "Skipping Boost Notebook files of pattern: " + ignorePattern ??
+            "none"
+    );
+    let files = await vscode.workspace.findFiles(
+        searchPattern,
+        ignorePattern
+            ? new vscode.RelativePattern(baseWorkspace, ignorePattern)
+            : ""
+    );
+
+    const paths : string[] = [];
+    files.forEach((file) => {
+        if (!useRelativePaths) {
+            paths.push(file.fsPath);
+            return;
+        }
+
+        const relativePath = vscode.workspace.asRelativePath(file);
+        paths.push(relativePath);
+    });
+    return paths;
+}
+
+export async function buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true): Promise<string | undefined> {
     let workspaceFolder : vscode.Uri | undefined = vscode.workspace.workspaceFolders?.[0]?.uri;
     // if no workspace root folder, bail
     if (!workspaceFolder) {

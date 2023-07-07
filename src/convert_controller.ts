@@ -46,6 +46,10 @@ export class BoostConvertKernel extends KernelControllerBase {
         }
     }
 
+    get generateEndpoint(): string {
+        return this.serviceEndpoint;
+    }
+
     // NOTE: This code is duplicated in explain_controller.cs
     get explainEndpoint(): string {
         switch (BoostConfiguration.cloudServiceStage)
@@ -63,12 +67,13 @@ export class BoostConvertKernel extends KernelControllerBase {
         }
     }
 
-
     async onProcessServiceRequest(
         execution: vscode.NotebookCellExecution,
         notebook : vscode.NotebookDocument | BoostNotebook,
         cell: vscode.NotebookCell | BoostNotebookCell,
-        payload : any): Promise<boolean> {
+        payload : any,
+        serviceEndpoint: string = this.serviceEndpoint
+        ): Promise<boolean> {
 
         const usingBoostNotebook = "value" in cell; // if the cell has a value property, then it's a BoostNotebookCell
 
@@ -144,7 +149,7 @@ export class BoostConvertKernel extends KernelControllerBase {
         successfullyCompleted = false;
         startTime = Date.now();
         try {
-            const generatedCode = await this.makeBoostServiceRequest(cell, this.serviceEndpoint, payload);
+            const generatedCode = await this.makeBoostServiceRequest(cell, this.generateEndpoint, payload);
             if (generatedCode instanceof Error) {
                 let throwErr = generatedCode as Error;
                 throw throwErr;
