@@ -13,7 +13,8 @@ Polyverse Boost Automatic Application Modernization
 - Added Project-level Analysis Command - processProject - which supports Quick Blueprint only currently
 
 ### Enhancements
-- Improved UX around file and folder analysis in Summary View in Activity Bar 
+- Improved UX around file and folder analysis in Summary View in Activity Bar
+- Deep code analysis runs after quick doc, compliance and security scans
 
 ### Bug Fixes
 - N/A

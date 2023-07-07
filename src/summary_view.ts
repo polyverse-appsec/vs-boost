@@ -92,15 +92,6 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
                         const analysisMap = new Map([
                             [
-                                "deepcode",
-                                [
-                                    getKernelName(blueprintKernelName),
-                                    getKernelName(analyzeKernelName),
-                                    getKernelName(complianceKernelName),
-                                    getKernelName(summarizeKernelName),
-                                ],
-                            ],
-                            [
                                 "documentation",
                                 [
                                     getKernelName(quickBlueprintKernelName),
@@ -115,6 +106,15 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                             [
                                 "compliance",
                                 [getKernelName(complianceFunctionKernelName)],
+                            ],
+                            [
+                                "deepcode",
+                                [
+                                    getKernelName(blueprintKernelName),
+                                    getKernelName(analyzeKernelName),
+                                    getKernelName(complianceKernelName),
+                                    getKernelName(summarizeKernelName),
+                                ],
                             ],
                         ]);
 
