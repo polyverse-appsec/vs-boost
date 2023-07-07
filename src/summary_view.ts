@@ -148,13 +148,24 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                             continue;
                                         }
 
-                                        await vscode.commands.executeCommand(
-                                            NOTEBOOK_TYPE +
-                                                "." +
-                                                BoostCommands.processCurrentFolder,
-                                            undefined,
-                                            analysisKernelName
-                                        );
+                                        // quick blueprint uses the project-level command
+                                        if (analysisKernelName === getKernelName(quickBlueprintKernelName)) {
+                                            await vscode.commands.executeCommand(
+                                                NOTEBOOK_TYPE +
+                                                    "." +
+                                                    BoostCommands.processProject,
+                                                analysisKernelName
+                                            );
+                                        // while all other commands run scans across all source files
+                                        } else {
+                                            await vscode.commands.executeCommand(
+                                                NOTEBOOK_TYPE +
+                                                    "." +
+                                                    BoostCommands.processCurrentFolder,
+                                                undefined,
+                                                analysisKernelName
+                                            );
+                                        }
                                     }
                                     runSummary = true;
                                 } catch (error) {
