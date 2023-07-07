@@ -20,7 +20,7 @@ Polyverse Boost Automatic Application Modernization
 - Deep code analysis runs after quick doc, compliance and security scans
 
 ### Bug Fixes
-- N/A
+- Fixed a bug where some source file analysis was failing due to line number issues
 
 ## Version 1.0.4: June 28, 2023
 

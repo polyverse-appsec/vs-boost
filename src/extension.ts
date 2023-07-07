@@ -292,7 +292,7 @@ export async function parseFunctionsFromFile(
                 // if the lineNumbers info is not available (very unlikely, but defensive), then
                 //   set the base to line number 0 in the file
                 // otherwise, set the base to the line number BEFORE the line of this splitCell text
-            "lineNumberBase": lineNumbers ? lineNumbers[i] - 1 : 0
+            "lineNumberBase": lineNumbers ? ((lineNumbers[i] < 0)?0:lineNumbers[i]) - 1 : 0
         };
         cells.push(cell);
     }
