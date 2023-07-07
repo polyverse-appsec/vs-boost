@@ -10,6 +10,7 @@ import { boostLogging } from './boostLogging';
 import { getBoostFile, findCellByKernel, BoostFileType, fullPathFromSourceFile, cleanCellOutput } from './extension';
 import * as fs from 'fs';
 import * as path from 'path';
+import { blueprintOutputType } from './blueprint_controller';
 
 export const summaryOutputType = 'summary';
 export const summarizeKernelName = 'summarize';
@@ -208,6 +209,13 @@ export class SummarizeKernel extends KernelControllerBase {
         // snap the processed analysis summary from the temp cell and store it as the new summary cell in the summary notebook
         if (tempProcessingCell) {
             targetCell.value = tempProcessingCell.outputs[0].items[0].data;
+            if (outputType === blueprintOutputType) {
+                // store summary as the blueprint type - so quick blueprint doesn't overwrite it
+                targetCell.initializeMetadata({
+                    ...targetCell.metadata,
+                    "blueprintType": "summary"
+                });
+            }
         } else {
             // generate synthetic no data output cell
             targetCell.value = this.onKernelOutputItem(

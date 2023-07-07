@@ -122,6 +122,21 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
     private async _runQuickBlueprintStages(
             notebook: BoostNotebook,
             authPayload: any) {
+
+        // we don't want to overwrite summary blueprints, which are far more detailed and useful in general
+        let existingBlueprintCell = findCellByKernel(notebook, blueprintOutputType) as BoostNotebookCell;
+        if (existingBlueprintCell && existingBlueprintCell.value &&
+            existingBlueprintCell.metadata?.blueprintType) {
+            if (existingBlueprintCell.metadata.blueprintType === "summary") {
+                boostLogging.info(`Skipping ${this.command} of Project-level Notebook " +
+                                  "because it already has a detailed Summary blueprint`, false);
+                return;
+            } else if (existingBlueprintCell.metadata.blueprintType === "quick") {
+                boostLogging.info(`Rebuilding ${this.command} of Project-level Notebook " +
+                                  "from last quick blueprint`, false);
+            }
+        }
+
         // do the core multi-stage processing of Draft first, then Quick blueprint
 
         // we create a placeholder cell for the input, so we can do processing on the input
@@ -188,8 +203,14 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
         let targetCell = findCellByKernel(notebook, blueprintOutputType) as BoostNotebookCell;
         if (!targetCell) {
             targetCell = new BoostNotebookCell(NotebookCellKind.Markup, "", "markdown");
-            targetCell.initializeMetadata({"id": targetCell.id, "outputType": blueprintOutputType});
+            targetCell.initializeMetadata({"id": targetCell.id, "outputType": blueprintOutputType, "blueprintType": "quick"});
             notebook.addCell(targetCell);
+        } else {
+            // store quick as the blueprint type
+            targetCell.initializeMetadata({
+                ...targetCell.metadata,
+                "blueprintType": "quick"
+            });
         }
         // snap the processed quick blueprint from the temp cell and store it in real notebook
         targetCell.value = tempProcessingCell.outputs[0].items[0].data;
