@@ -7,7 +7,7 @@ export function detailsEnter(enter: any) {
         .append("vscode-data-grid-cell")
         .attr("grid-column", "1")
         .attr("class", (d) => "left-aligned " + d.jobStatus?.status ?? "")
-        .text((d: any) => d.sourceFile);
+        .text((d: any) => d.sourceRelFile);
 
     progressMeterEnter(row);
 }

@@ -14,7 +14,9 @@ import {
     FileSummaryItem,
     emptyProjectData,
     BoostProcessingStatus,
+    JobStatus,
 } from "./boostprojectdata_interface";
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 export class BoostProjectData implements IBoostProjectData {
     summary: Summary;
@@ -23,6 +25,7 @@ export class BoostProjectData implements IBoostProjectData {
     files: {
         [filename: string]: FileSummaryItem;
     };
+    jobStatus: JobStatus;
 
     constructor() {
         this.summary = { ...emptyProjectData.summary };
@@ -35,6 +38,7 @@ export class BoostProjectData implements IBoostProjectData {
         });
         this.fsPath = "";
         this.files = {};
+        this.jobStatus = { ...emptyProjectData.jobStatus };
     }
 
     create(jsonString: string): void {
@@ -152,6 +156,56 @@ export class BoostProjectData implements IBoostProjectData {
         }
     }
 
+    addJobs(job: string, relFiles: [string]) {
+        relFiles.forEach((file: string) => {
+            //create the jobs set if necessary then add message.job to it
+            if (!this.jobStatus[file]) {
+                this.jobStatus[file] = {
+                    status: "processing",
+                    jobs: [],
+                };
+            }
+            this.jobStatus[file].status = "processing";
+            if(!this.jobStatus[file].jobs.includes(job)){
+                this.jobStatus[file].jobs.push(job);
+            }
+        });
+    }
+
+    finishJob(
+        job: string,
+        relFile: string,
+        summary: FileSummaryItem | null,
+        error: Error | null
+    ) {
+        //update the file list
+        if( summary ){
+            this.updateWithFileSummary(summary, relFile);
+        }
+        //first remove the job from the list
+        this.jobStatus[relFile].jobs = this.jobStatus[relFile].jobs.filter(j => j !== job);
+        //if there are no more jobs, then set the status to finished
+        if (this.jobStatus[relFile].jobs?.length === 0) {
+            this.jobStatus[relFile].status = "completed";
+        }
+    }
+
+    addQueue(job: string, relFiles: [string]) {
+        relFiles.forEach((file: string) => {
+            //create the jobs set if necessary then add message.job to it
+            if (!this.jobStatus[file]) {
+                this.jobStatus[file] = {
+                    status: "queued",
+                    jobs: [],
+                };
+            }
+            if(!this.jobStatus[file].jobs.includes(job)){
+                this.jobStatus[file].jobs.push(job);
+            }
+            this.jobStatus[file].status = "queued";
+        });
+    }
+
     static get default(): BoostProjectData {
         const boostProjectData = new BoostProjectData();
         Object.assign(boostProjectData, emptyProjectData);
@@ -163,7 +217,8 @@ export function boostNotebookToFileSummaryItem(
     boostNotebook: boostnb.BoostNotebook
 ): FileSummaryItem {
     let summaryItem: FileSummaryItem = {
-        sourceFile: boostNotebook.metadata.sourceFile as string,
+        sourceRelFile: boostNotebook.metadata.sourceFile as string,
+        notebookRelFile: boostNotebook.fsPath as string,
         totalCells: 0,
         completedCells: 0,
         errorCells: 0,

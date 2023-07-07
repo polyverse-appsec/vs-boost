@@ -252,8 +252,8 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 
     private async _getInitialSystemMessage(): Promise<any> {
 
-        const boostdata = this._boostExtension.getBoostProjectData();
-        const blueprintUri = boostdata.summary.summaryUrl ? await getOrCreateBlueprintUri(this.context, boostdata.summary.summaryUrl) : undefined;
+        const boostprojectdata = this._boostExtension.getBoostProjectData();
+        const blueprintUri = boostprojectdata.summary.summaryUrl ? await getOrCreateBlueprintUri(this.context, boostprojectdata.summary.summaryUrl) : undefined;
         let blueprintdata = "";
         if (blueprintUri && fs.existsSync(blueprintUri.fsPath)) {
             //now load the blueprint from the file system and get the first prompt

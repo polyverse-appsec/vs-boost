@@ -15,13 +15,8 @@ export function summaryEnter(enter: any) {
     const cell2 = row
         .append("vscode-data-grid-cell")
         .attr("grid-column", "2")
-        .style("margin-left", "0px");
+        .style("text-align", "center");
     cell2.append("vscode-badge").call(badgeUpdate);
-
-    row.append("vscode-data-grid-cell")
-        .attr("grid-column", "3")
-        .attr("hidden", true)
-        .attr("id", (d: any) => "job-" + d.id);
 }
 
 export function summaryUpdate(update: any) {
@@ -35,7 +30,6 @@ function badgeUpdate(update: any) {
         .attr(
             "class",
             (d: any) =>
-                "boost-" + d.summary.status + " " + d.jobStatusStatus?.status ??
-                ""
+                "boost-" + d.summary.status + " " + d.summary.jobStatusStatus?? ""
         );
 }

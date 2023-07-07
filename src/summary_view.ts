@@ -24,9 +24,6 @@ export const summaryViewType = "polyverse-boost-summary-view";
 export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
     private _view?: vscode.WebviewView;
 
-    private _jobs: any = {};
-    private _currentJob: any = {};
-
     constructor(
         private readonly context: vscode.ExtensionContext,
         private _boostExtension: BoostExtension
@@ -54,7 +51,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
     ) {
         this._view = webviewView;
 
-        const boostdata = this._boostExtension.getBoostProjectData();
+        const boostprojectdata = this._boostExtension.getBoostProjectData();
 
         webviewView.webview.options = {
             // Allow scripts in the webview
@@ -65,7 +62,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
         webviewView.webview.html = this._getHtmlForWebview(
             webviewView.webview,
-            boostdata
+            boostprojectdata
         );
 
         webviewView.webview.onDidReceiveMessage(async (data) => {
@@ -180,7 +177,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                     "." +
                                     BoostCommands.refreshProjectData
                             );
-                            this.finishAllJobs();
+                            this.finishAllJobs(boostprojectdata);
                             this.refresh();
                         }
                     }
@@ -218,7 +215,6 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
     async _refresh() {
         if (this._view) {
-            this._jobs = {};
             this._view.webview.html = this._getHtmlForWebview(
                 this._view.webview,
                 this._boostExtension.getBoostProjectData()
@@ -227,7 +223,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         }
     }
 
-    private _getHtmlForWebview(webview: vscode.Webview, boostdata: any) {
+    private _getHtmlForWebview(webview: vscode.Webview, boostprojectdata: BoostProjectData) {
         const htmlPathOnDisk = vscode.Uri.joinPath(
             this.context.extensionUri,
             "resources",
@@ -246,21 +242,19 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, "utf8");
 
         const template = _.template(rawHtmlContent);
-        const htmlContent = template({ jsSrc, nonce, boostdata });
+        const htmlContent = template({ jsSrc, nonce, boostprojectdata });
 
         return htmlContent;
     }
 
-    public addJobs(job: string, files: [string], count: number) {
+
+    public addJobs(job: string, files: [string], boostprojectdata: BoostProjectData) {
         //if this._jobs[jobs] exists, add count to it, otherwise set it to count
-        this._jobs[job]
-            ? (this._jobs[job] += count)
-            : (this._jobs[job] = count);
+        boostprojectdata.addJobs(job, files); 
         const payload = {
-            command: "addJobs",
-            job: job,
-            files: files,
-            count: this._jobs[job],
+            command: "refreshUI",
+            boostprojectdata: boostprojectdata,
+            error: null
         };
         this._view?.webview.postMessage(payload);
     }
@@ -272,43 +266,28 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         boostprojectdata: BoostProjectData,
         error: Error | null
     ) {
-        //if this._jobs[jobs] exists, add count to it, otherwise set it to zero
-        //(somehow we finished a job that was never counted as being started)
-        this._jobs[job] ? (this._jobs[job] -= 1) : 0;
+        boostprojectdata.finishJob(job, file, summary, error);
         const payload = {
-            command: "finishJob",
-            job: job,
-            file: file,
+            command: "refreshUI",
             error: error,
-            count: this._jobs[job],
-            summary: summary,
             boostprojectdata: boostprojectdata,
         };
         this._view?.webview.postMessage(payload);
     }
 
-    public finishAllJobs() {
-        this._jobs = {};
+    public finishAllJobs(boostprojectdata: BoostProjectData) {
         const payload = {
             command: "finishAllJobs",
+            boostprojectdata: boostprojectdata,
         };
         this._view?.webview.postMessage(payload);
     }
 
-    public addQueue(job: string, files: [string], ms: number) {
+    public addQueue(job: string, files: [string], boostprojectdata: BoostProjectData) {
         const payload = {
-            command: "addQueue",
-            files: files,
-            ms: ms,
-            job: job,
-        };
-        this._view?.webview.postMessage(payload);
-    }
-
-    public updateStatus(status: string) {
-        const payload = {
-            command: "updateStatus",
-            status: status,
+            command: "refreshUI",
+            boostprojectdata: boostprojectdata,
+            error: null
         };
         this._view?.webview.postMessage(payload);
     }

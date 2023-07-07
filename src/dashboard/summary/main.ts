@@ -18,12 +18,14 @@ import { summaryEnter, summaryUpdate } from "./summary_list";
 import {
     summaryViewData,
     detailsViewData,
-    mapOutputTypeToSummary,
-    JobStatus,
+    statusViewData,
+    StatusViewData
 } from "./compute_view_data";
 
-//declare the boostdata global variable
-declare var boostdata: any;
+import { JobStatus, IBoostProjectData } from "../../boostprojectdata_interface";
+
+//declare the boostprojectdata global variable
+declare var boostprojectdata: IBoostProjectData;
 
 provideVSCodeDesignSystem().register(
     vsCodeButton(),
@@ -54,15 +56,9 @@ let options = {
 window.addEventListener("load", main);
 window.addEventListener("message", handleIncomingSummaryMessage);
 
-let jobCounters = {};
-let queue = {};
-let started = {};
-
-let jobStatus: JobStatus = {};
-
 // Main function that gets executed once the webview DOM loads
 function main() {
-    refreshUI(boostdata);
+    refreshUI(boostprojectdata);
     //now setup listeners
     setupListeners();
 }
@@ -101,78 +97,24 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
     let text = "";
 
     switch (message.command) {
-        case "addJobs":
-            // set our spinner
-
-            spinner?.removeAttribute("hidden");
-            runbutton?.setAttribute("hidden", "");
-
-            // update the status field progress-text
-            message.files.forEach((file: string) => {
-                //create the jobs set if necessary then add message.job to it
-                if (!jobStatus[file]) {
-                    jobStatus[file] = {
-                        status: "processing",
-                        jobs: new Set(),
-                    };
-                }
-                jobStatus[file].status = "processing";
-                jobStatus[file].jobs.add(message.job);
-            });
-
-            debugger;
-            refreshUI(boostdata);
+        case "refreshUI":        
+            boostprojectdata = message.boostprojectdata;
+            refreshUI(message.boostprojectdata);
             break;
-        case "finishJob":
-            boostdata = message.boostdata;
 
-            message.files.forEach((file: string) => {
-                //first remove the job from the list
-                jobStatus[file].jobs?.delete(message.job);
-                //if there are no more jobs, then set the status to finished
-                if (jobStatus[file].jobs?.size === 0) {
-                    jobStatus[file].status = "completed";
-                }
-            });
-
-            debugger;
-            refreshUI(boostdata);
-            break;
         case "finishAllJobs":
-            // hide the spinner
-            spinner?.setAttribute("hidden", "");
-            runbutton?.removeAttribute("hidden");
-            jobStatus = {};
-            refreshUI(boostdata);
-            break;
-
-        case "updateSummary":
-            // update the progress summary
-            if (progressText) {
-                progressText.innerText = message.summary;
-            }
-            break;
-        case "addQueue":
-            // update the status field progress-text
-            message.files.forEach((file: string) => {
-                //create the jobs set if necessary then add message.job to it
-                if (!jobStatus[file]) {
-                    jobStatus[file] = {
-                        status: "queued",
-                        jobs: new Set(),
-                    };
-                }
-                jobStatus[file].jobs.add(message.job);
-                jobStatus[file].status = "queued";
-            });
-            refreshUI(boostdata);
-
+            //this could just be refreshUI, but keeping the command
+            //in here for now in case we ever need to do something different
+            //when all jobs are finished.
+            boostprojectdata = message.boostprojectdata;
+            refreshUI(boostprojectdata);
             break;
     }
 }
 
 //this function is called to clear out the 'finished' jobs text and show what is queued up.
 
+/*
 function refreshProgressText(progressText: HTMLElement | null) {
     // if there are any started jobs, show those first.
     if (Object.keys(started).length > 0) {
@@ -209,6 +151,7 @@ function refreshProgressText(progressText: HTMLElement | null) {
         return;
     }
 }
+*/
 
 function getAnalysisTypes(): Array<string> {
     const analysisTypes: string[] = [];
@@ -232,7 +175,7 @@ function getAnalysisTypes(): Array<string> {
     return analysisTypes;
 }
 
-function refreshUI(boostdata: any) {
+function refreshUI(boostprojectdata: IBoostProjectData) {
     const analysisTypes = getAnalysisTypes();
     let skipFilter: string[] = [];
 
@@ -240,8 +183,9 @@ function refreshUI(boostdata: any) {
     if (!analysisTypes.includes("deepcode")) {
         skipFilter.push("deepcode");
     }
-    let summaryView = summaryViewData(boostdata, jobStatus);
-    let detailsView = detailsViewData(boostdata, jobStatus, skipFilter);
+    let summaryView = summaryViewData(boostprojectdata);
+    let detailsView = detailsViewData(boostprojectdata, skipFilter);
+    let statusView = statusViewData(boostprojectdata);
 
     d3.select("#summarygrid")
         .selectAll("vscode-data-grid-row")
@@ -260,27 +204,40 @@ function refreshUI(boostdata: any) {
             (update) => detailsUpdate(update),
             (exit) => exit.remove()
         );
+
+    refreshSpinner(statusView);
+    refreshProgressText(statusView);
 }
 
-function updateJobCounter(boostdata: any, message: any) {
-    const job = mapOutputTypeToSummary(message.job);
-    // first unhide the counter
-    const counter = document.getElementById("job-" + job);
-    counter?.removeAttribute("hidden");
+function refreshSpinner(statusView: StatusViewData) {
+    const spinner = document.getElementById("job-progress");
+    const runbutton = document.getElementById("update-summary");
+    // set our spinner
 
-    // if we don't have a job counter for this job, add it
-    if (!jobCounters[job]) {
-        jobCounters[job] = new CountUp("job-" + job, message.count, options);
+    if( statusView.busy ){
+        spinner?.removeAttribute("hidden");
+        runbutton?.setAttribute("hidden", "");
+    } else {
+        //for finish
+        spinner?.setAttribute("hidden", "");
+        runbutton?.removeAttribute("hidden");
     }
-    //start the counter
-    jobCounters[job].update(message.count);
+}
 
-    //start the counter
-    jobCounters[job].update(message.count);
+function refreshProgressText(statusData: StatusViewData){
+    const progressText = document.getElementById(
+        "progress-text"
+    ) as HTMLElement;
+    let remaining = "";
+    let text = "";
 
-    // if count is now zero, hide the element
-    if (message.count === 0) {
-        const counter = document.getElementById("job-" + job);
-        counter?.setAttribute("hidden", "");
+    if( statusData.busy === true){
+        if( statusData.minutesRemaining > 60 ) {
+            remaining = `${Math.round(statusData.minutesRemaining / 60)} hours`;
+        } else {
+            remaining = `${statusData.minutesRemaining} minutes`;
+        }
+        text = `Sara (the Boost AI) is ${statusData.jobsRunning} processing files right now, with ${statusData.jobsQueued} more queued. ETA ${remaining}. You can continue to use Visual Studio Code in the meantime.`;
     }
+    progressText.innerText = text;
 }

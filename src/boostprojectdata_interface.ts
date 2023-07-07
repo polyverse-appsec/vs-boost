@@ -29,13 +29,20 @@ export interface SectionSummary {
 }
 
 export interface FileSummaryItem {
-    sourceFile: string;
+    sourceRelFile: string;
+    notebookRelFile: string;
     totalCells: number;
     completedCells: number;
     errorCells: number;
     issueCells: number;
-    sections: { [key: string]: SectionSummary };
+    sections: { [outputType: string]: SectionSummary };
 }
+export type JobStatus = {
+    [relFile: string]: {
+        status: "processing" | "queued" | "completed";
+        jobs: string[];
+    };
+};
 
 export interface IBoostProjectData {
     summary: Summary;
@@ -45,6 +52,7 @@ export interface IBoostProjectData {
     files: {
         [key: string]: FileSummaryItem;
     };
+    jobStatus: JobStatus;
 }
 
 export const emptyProjectData: IBoostProjectData = {
@@ -129,4 +137,5 @@ export const emptyProjectData: IBoostProjectData = {
         },
     },
     files: {},
+    jobStatus: {},
 };

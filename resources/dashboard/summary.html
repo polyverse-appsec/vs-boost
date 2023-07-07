@@ -57,15 +57,15 @@
         <vscode-button id="update-summary">Run Selected Analyses</vscode-button>
         <vscode-progress-ring id="job-progress" class="progress" hidden></vscode-progress-ring>
     </div>
-    <vscode-divider></vscode-divider>
     <div id="progress-text" align="left">
-        Details:
     </div>
+    <vscode-divider></vscode-divider>
+    <h4>Details</h4>
     <vscode-data-grid aria-label="Details" id="detailsgrid">
     </vscode-data-grid>
     <script> 
-        var boostdataencoded = "<%= Buffer.from(JSON.stringify(boostdata)).toString('base64') %>";
-		var boostdata = JSON.parse(atob(boostdataencoded));
+        var boostdataencoded = "<%= Buffer.from(JSON.stringify(boostprojectdata)).toString('base64') %>";
+		var boostprojectdata = JSON.parse(atob(boostdataencoded));
 	</script>
     <script src="<%= jsSrc %>" type="module"></script>
 </body>

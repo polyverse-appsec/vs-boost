@@ -37,7 +37,7 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
     ) {
         this._view = webviewView;
 
-        const boostdata = this._boostExtension.getBoostProjectData();
+        const boostprojectdata = this._boostExtension.getBoostProjectData();
 
         webviewView.webview.options = {
             // Allow scripts in the webview
@@ -48,13 +48,13 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
             ]
         };
 
-        webviewView.webview.html = this._getHtmlForWebview(webviewView.webview, boostdata);
+        webviewView.webview.html = this._getHtmlForWebview(webviewView.webview, boostprojectdata);
 
         webviewView.webview.onDidReceiveMessage(async data => {
             switch (data.command) {
                 case 'open_file':
                     {
-                        await this._openFile(data.file, boostdata);
+                        await this._openFile(data.file, boostprojectdata);
                     }
                     break;
 
@@ -67,10 +67,10 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
         });
     }
 
-    private async _openFile(filename: string, boostdata : any) {
+    private async _openFile(filename: string, boostprojectdata : any) {
         try {
             let targetNotebookUri;
-            if (filename === boostdata.summary.summaryUrl) {
+            if (filename === boostprojectdata.summary.summaryUrl) {
                 targetNotebookUri = await getOrCreateBlueprintUri(this.context, filename);
             } else {
                 targetNotebookUri = getBoostFile(undefined, BoostFileType.guidelines);
@@ -98,7 +98,7 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
         }
     }
 
-    private _getHtmlForWebview(webview: vscode.Webview, boostdata: any) {
+    private _getHtmlForWebview(webview: vscode.Webview, boostprojectdata: any) {
 
         const htmlPathOnDisk = vscode.Uri.joinPath(this.context.extensionUri, 'resources', 'dashboard', 'start.html');
         const jsPathOnDisk = vscode.Uri.joinPath(this.context.extensionUri, 'out', 'dashboard', 'start', 'main.js');
@@ -106,11 +106,11 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
         const nonce = 'nonce-123456'; // TODO: add a real nonce here
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
 
-        const blueprintFile = boostdata.summary.summaryUrl;
+        const blueprintFile = boostprojectdata.summary.summaryUrl;
         const guidelinesFile = getBoostFile(undefined, BoostFileType.guidelines, false).fsPath;
 
         const template = _.template(rawHtmlContent);
-        const htmlContent = template({ jsSrc, nonce, boostdata, blueprintFile, guidelinesFile });
+        const htmlContent = template({ jsSrc, nonce, boostprojectdata, blueprintFile, guidelinesFile });
 
         return htmlContent;
     }

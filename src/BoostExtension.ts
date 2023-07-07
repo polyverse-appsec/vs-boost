@@ -178,7 +178,7 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
 
         disposable = vscode.workspace.onDidChangeConfiguration(
-            this.configurationChanged
+            this.configurationChanged.bind(this)
         );
         context.subscriptions.push(disposable);
 
@@ -410,7 +410,7 @@ export class BoostExtension {
             //get the summary of the notebook file
             const filesummary = boostNotebookToFileSummaryItem(boostNotebook);
 
-            //now add it to boostdata
+            //now add it to boostprojectdata
             let relativePath = path.relative(
                 workspaceFolder.fsPath,
                 file.fsPath
@@ -2115,6 +2115,8 @@ export class BoostExtension {
             return;
         }
 
+        const boostprojectdata = await this.getBoostProjectData();
+
         try {
             await preflightCheckForCustomerStatus(context, this);
         } catch (error) {
@@ -2164,7 +2166,7 @@ export class BoostExtension {
                             this.summaryViewProvider?.addQueue(
                                 targetedKernel.outputType,
                                 [relativePath],
-                                processingTime
+                                boostprojectdata
                             );
                             setTimeout(async () => {
                                 // if its been more than 5 seconds, log it - that's about 13 pages of source in 5 seconds (wild estimate)
@@ -2181,7 +2183,7 @@ export class BoostExtension {
                                 this.summaryViewProvider?.addJobs(
                                     targetedKernel.outputType,
                                     [relativePath],
-                                    1
+                                    boostprojectdata
                                 );
 
                                 this.processCurrentFile(
