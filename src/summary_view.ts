@@ -327,7 +327,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
                 const notebookUri = vscode.Uri.file(filename);
                 const document = await vscode.workspace.openNotebookDocument(notebookUri);
-                await vscode.window.showNotebookDocument(document)
+                await vscode.window.showNotebookDocument(document);
             } else {
                 //just open the file
                 const uriDoc = vscode.Uri.file(filename);

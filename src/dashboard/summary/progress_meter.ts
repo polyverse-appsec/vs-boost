@@ -52,21 +52,21 @@ function barUpdate(bar: d3.Selection) {
         const groupData = [
             {
                 width: widthScale(withoutIssues),
-                color: "green",
+                color: "#28a745",
                 label: `${pBarData.display} - ${
                     (withoutIssues / totalCells) * 100
                 }% Completed`,
             },
             {
                 width: widthScale(pBarData.issueCells),
-                color: "red",
+                color: "#dc3545",
                 label: `${pBarData.display} - ${
                     (pBarData.issueCells / totalCells) * 100
                 }% Issues`,
             },
             {
                 width: widthScale(incomplete),
-                color: "gray",
+                color: "#6c757d",
                 label: `${pBarData.display} - ${
                     (incomplete / totalCells) * 100
                 }% Incomplete`,

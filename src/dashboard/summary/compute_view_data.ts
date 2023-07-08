@@ -241,7 +241,7 @@ function mergeSummary(
                 boostprojectdata.sectionSummary[analysisType].status === "completed" &&
                 completed !== "incomplete"
             ) {
-                completed = "true";
+                completed = "completed";
             } else {
                 completed = "incomplete";
             }

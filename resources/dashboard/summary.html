@@ -14,11 +14,16 @@
             min-width: 170px; /* Adjust the width as needed */
         }
 
+        /*  these colors can look too washed out.
         .boost-completed {
             --badge-background: var(--vscode-statusBarItem-prominentBackground);
             --badge-foreground: var(--vscode-statusBarItem-prominentForeground);
         }
-
+        */
+        .boost-completed {
+            --badge-background: #28a745;
+            --badge-foreground: var(--vscode-statusBarItem-remoteForeground);
+        }
         .boost-processing {
             --badge-background: var(--vscode-statusBarItem-prominentBackground);
             --badge-foreground: var(--vscode-statusBarItem-prominentForeground);
@@ -43,7 +48,7 @@
         }
 
         .processing {
-            animation: fading 2s linear infinite;
+            animation: fading 4s linear infinite;
         }
         .queued {
             opacity: .5
