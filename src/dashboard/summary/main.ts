@@ -11,8 +11,7 @@ import {
     Button,
 } from "@vscode/webview-ui-toolkit";
 import * as d3 from "d3";
-
-import { CountUp } from "countup.js";
+import * as _ from 'lodash';
 import { detailsEnter, detailsUpdate } from "./details_list";
 import { summaryEnter, summaryUpdate } from "./summary_list";
 import {
@@ -63,6 +62,8 @@ let options = {
 window.addEventListener("load", main);
 window.addEventListener("message", handleIncomingSummaryMessage);
 
+const slowRefreshUI = _.debounce(refreshUI, 1000, {leading: true});
+
 // Main function that gets executed once the webview DOM loads
 function main() {
     refreshUI(boostprojectdata);
@@ -107,7 +108,7 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
     switch (message.command) {
         case "refreshUI":        
             boostprojectdata = message.boostprojectdata;
-            refreshUI(message.boostprojectdata);
+            slowRefreshUI(message.boostprojectdata);
             break;
 
         case "finishAllJobs":
@@ -115,7 +116,7 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
             //in here for now in case we ever need to do something different
             //when all jobs are finished.
             boostprojectdata = message.boostprojectdata;
-            refreshUI(boostprojectdata);
+            slowRefreshUI(boostprojectdata);
             break;
     }
 }
