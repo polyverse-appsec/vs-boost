@@ -23,9 +23,16 @@ import {
 } from "./compute_view_data";
 
 import { JobStatus, IBoostProjectData } from "../../boostprojectdata_interface";
+import Typewritter from 'typewriter-effect/dist/core';
+import { type } from "os";
 
 //declare the boostprojectdata global variable
 declare var boostprojectdata: IBoostProjectData;
+
+let typewriter = new Typewritter('#progress-text',{
+    delay: 5,
+    cursor: ""
+});
 
 provideVSCodeDesignSystem().register(
     vsCodeButton(),
@@ -77,6 +84,7 @@ function setupListeners() {
         setTimeout(refreshUI, 0);
     });
 }
+
 
 // Callback function that is executed when the howdy button is clicked
 function handleAnalyzeAllClick() {
@@ -231,13 +239,29 @@ function refreshProgressText(statusData: StatusViewData){
     let remaining = "";
     let text = "";
 
+    //get the current text of the progress text
+    let existingText = progressText.innerText;
+
     if( statusData.busy === true){
         if( statusData.minutesRemaining > 60 ) {
             remaining = `${Math.round(statusData.minutesRemaining / 60)} hours`;
         } else {
             remaining = `${statusData.minutesRemaining} minutes`;
         }
-        text = `Sara (the Boost AI) is ${statusData.jobsRunning} processing files right now, with ${statusData.jobsQueued} more queued. ETA ${remaining}. You can continue to use Visual Studio Code in the meantime.`;
+        text = `Sara (the Boost AI) is processing ${statusData.jobsRunning} files right now, with ${statusData.jobsQueued} more queued. ETA ${remaining}. You can continue to use Visual Studio Code in the meantime.`;
+        //if there is no existing text, type it in
+        if( existingText === "" || existingText === undefined){
+            typewriter.typeString(text)
+            .start();
+        } else {
+            progressText.innerText = text;
+        }
+    } else if ( existingText !== "" || existingText !== undefined) {
+        //if we are not busy, and there is text, clear it out slowly to avoid ui jitty
+        typewriter.deleteAll(1)
+        .pauseFor(1000)
+        .start();
     }
-    progressText.innerText = text;
+    // otherwise, do nothing! 
+    
 }
