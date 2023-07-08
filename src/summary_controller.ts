@@ -371,3 +371,4 @@ export class SummarizeKernel extends KernelControllerBase {
         return error;
     }
 }
+

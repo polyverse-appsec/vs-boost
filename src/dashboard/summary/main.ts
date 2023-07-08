@@ -38,7 +38,7 @@ provideVSCodeDesignSystem().register(
     vsCodeDivider()
 );
 
-const vscode = acquireVsCodeApi();
+export const vscode = acquireVsCodeApi();
 
 let options = {
     useEasing: true,
