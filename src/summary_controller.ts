@@ -7,7 +7,7 @@ import * as vscode from 'vscode';
 import { BoostNotebook, BoostNotebookCell,
         NotebookCellKind, NOTEBOOK_SUMMARY_EXTENSION } from './jupyter_notebook';
 import { boostLogging } from './boostLogging';
-import { getBoostFile, findCellByKernel, BoostFileType, fullPathFromSourceFile, cleanCellOutput } from './extension';
+import { getBoostFile, findCellByKernel, BoostFileType, fullPathFromSourceFile, cleanCellOutput, generateCellOutputWithHeader } from './extension';
 import * as fs from 'fs';
 import * as path from 'path';
 import { blueprintOutputType } from './blueprint_controller';
@@ -371,7 +371,7 @@ export class SummarizeKernel extends KernelControllerBase {
             throw new Error("Unexpected missing analysis type from Boost Service");
         }
 
-        return `\n\n---\n\n### Boost ${response.analysis_label} Summary\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
+        return generateCellOutputWithHeader(`${response.analysis_label} Summary`, response.analysis);
     }
 
     localizeError(error: Error): Error {

@@ -25,6 +25,7 @@ Polyverse Boost Automatic Application Modernization
 ### Bug Fixes
 - Fixed a bug where some source file analysis was failing due to line number issues
 - Do not include Errors in summarization of cells and notebooks
+- Fix issue with Summaries of output including duplicate timestamps and headers
 
 ## Version 1.0.4: June 28, 2023
 

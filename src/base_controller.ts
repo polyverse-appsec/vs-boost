@@ -77,19 +77,6 @@ export class KernelControllerBase extends BoostServiceHelper {
         this._controller.dispose();
     }
 
-    get currentDateTime(): string {
-        return new Date().toLocaleDateString("en-US", {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            hour: "numeric",
-            minute: "numeric",
-            second: "numeric",
-            timeZoneName: "short",
-        });
-    }
-
     private async _executeAll(
         cells: vscode.NotebookCell[],
         notebook: vscode.NotebookDocument,

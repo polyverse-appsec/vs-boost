@@ -6,6 +6,7 @@ import { explainOutputType } from './explain_controller';
 import { BoostConfiguration } from './boostConfiguration';
 import { BoostNotebookCell, SerializedNotebookCellOutput, BoostNotebook } from './jupyter_notebook';
 import { boostLogging } from './boostLogging';
+import { generateCellOutputWithHeader } from './extension';
 
 export const convertOutputType = 'generatedCode';
 export const convertKernelName = 'convert';
@@ -90,7 +91,7 @@ export class BoostConvertKernel extends KernelControllerBase {
 
         const summarydata = response;
         const markdownMimetype = 'text/markdown';
-        const outputText = `### Boost Code Explanation\n\nLast Updated: ${this.currentDateTime}\n\n${summarydata.explanation}`;
+        const outputText = generateCellOutputWithHeader(`Code Explanation`, summarydata.explanation);
 
         // we will have one NotebookCellOutput per type of output.
         // first scan the existing outputs of the cell and see if we already have an output of this type
@@ -167,9 +168,10 @@ export class BoostConvertKernel extends KernelControllerBase {
             let header = '';
             if(generatedCode.code.includes(markdownCodeMarker)){
                 mimetypeCode = markdownMimetype;
-                header = `### Boost Converted Code\n\nLast Updated: ${this.currentDateTime}\n\n`;
+                header = generateCellOutputWithHeader(`Converted Code`, generatedCode.code);
+            } else {
+                header = generatedCode.code;
             }
-            header = header + generatedCode.code;
 
             if (usingBoostNotebook) {
                 const outputItems : SerializedNotebookCellOutput[] = [ {

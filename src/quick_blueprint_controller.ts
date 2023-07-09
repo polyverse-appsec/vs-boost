@@ -8,7 +8,7 @@ import { BoostConfiguration } from './boostConfiguration';
 import * as vscode from 'vscode';
 import { BoostNotebookCell, BoostNotebook, NotebookCellKind } from './jupyter_notebook';
 import { boostLogging } from './boostLogging';
-import { findCellByKernel, getAllProjectFiles, getProjectName } from './extension';
+import { findCellByKernel, generateCellOutputWithHeader, getAllProjectFiles, getProjectName } from './extension';
 import { getCurrentOrganization } from "./authorization";
 import { blueprintOutputType } from './blueprint_controller';
 
@@ -228,7 +228,7 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
         if (response.blueprint === undefined && response.details === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return `${this.kernelMarkdownPrefix}\n\nLast Updated: ${this.currentDateTime}\n\n${response.blueprint}`;
+        return generateCellOutputWithHeader(this.kernelMarkdownPrefix, response.blueprint);
     }
 
     localizeError(error: Error): Error {

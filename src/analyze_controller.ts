@@ -4,6 +4,7 @@ import {
 import { DiagnosticCollection, ExtensionContext, NotebookCell } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import { BoostNotebookCell } from './jupyter_notebook';
+import { generateCellOutputWithHeader } from './extension';
 
 export const analyzeKernelName = 'analyze';
 export const analyzeOutputType = 'bugAnalysis';
@@ -52,7 +53,7 @@ export class BoostAnalyzeKernel extends KernelControllerBase {
             if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return `\n\n---\n\n### Boost Code Analysis\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
+        return generateCellOutputWithHeader("Code Analysis", response.analysis);
     }
 
     localizeError(error: Error): Error {

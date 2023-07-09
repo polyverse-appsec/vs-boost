@@ -3,6 +3,7 @@ import {
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
+import { generateCellOutputWithHeader } from './extension';
 
 export const flowDiagramOutputType = 'flowDiagram';
 export const flowDiagramKernelName = 'flowdiagram';
@@ -47,7 +48,7 @@ export class BoostFlowDiagramKernel extends KernelControllerBase {
         if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return `\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
+        return generateCellOutputWithHeader(`Flow Diagram`, response.analysis);
     }
 
     localizeError(error: Error): Error {

@@ -6,6 +6,7 @@ import * as vscode from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
 import { BoostNotebookCell, BoostNotebook } from './jupyter_notebook';
+import { generateCellOutputWithHeader } from './extension';
 
 export const customProcessCellMarker = 'customProcessCode';
 
@@ -67,7 +68,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
         if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return `\n\n---\n\n### Boost Code Custom Process\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
+        return generateCellOutputWithHeader(`Code Custom Process`, response.analysis);
     }
 
     localizeError(error: Error): Error {
