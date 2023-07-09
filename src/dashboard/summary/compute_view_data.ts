@@ -248,6 +248,10 @@ function mergeSummary(
         }
     });
     summary.status = completed;
+    //it is possible that all of the analysis types are completed, but there are still remaining files to analyze
+    if( summary.status === "completed" && summary.analyzed < summary.total) {
+        summary.status = "incomplete";
+    }
     //now go through the job status and see if any of the jobs are processing or queued
     //if processing, then we are processing and that overrides the queued state
 
