@@ -12,6 +12,8 @@ import { boostLogging } from './boostLogging';
 import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';
 import { blueprintOutputType } from './blueprint_controller';
 
+export const aiName = "Sara";
+
 
 /*
 DO NOT USE THIS.  it's a global variable and will setup a second instance of the highlighter
@@ -58,7 +60,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         try {
             this._resolveWebviewView(webviewView, context, _token);
         } catch (e) {
-            boostLogging.error(`Could not refresh Boost Chat View due to ${e}`, false);
+            boostLogging.error(`Could not refresh ${aiName} Chat View due to ${e}`, false);
         }
     }
 
@@ -108,7 +110,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         try {
             this._refresh();
         } catch (e) {
-            boostLogging.error(`Could not refresh Boost Chat View due to ${e}`, false);
+            boostLogging.error(`Could not refresh ${aiName} Chat View due to ${e}`, false);
         }
     }
     _refresh() {
@@ -133,7 +135,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         const template = _.template(rawHtmlContent);
         const convert = marked.parse;
         const activeid = this._activeid;
-        const htmlContent = template({ jsSrc, nonce, chats, convert, codiconsUri, activeid, projectName });
+        const htmlContent = template({ jsSrc, nonce, chats, convert, codiconsUri, activeid, projectName, aiName });
 
         return htmlContent;
     }
@@ -212,12 +214,14 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         });
     }
 
+    readonly _chatTitle = `${aiName} AI Chat`;
+
     private async _initializeChats(): Promise<any> {
         this._chats = this._loadJsonData();
 
         if (this._chats === undefined) {
             this._chats = [{
-                title: "AI Chat",
+                title: this._chatTitle,
                 messages: []
             }];
         } else {
@@ -236,7 +240,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 
     private async _addChat() {
         this._chats.push({
-            title: "AI Chat",
+            title: this._chatTitle,
             messages: []
         });
         this._saveJsonData(this._chats);
@@ -266,7 +270,8 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
                 blueprintdata = blueprintCell.value;
             }
         }
-        const systemPrompt = "You are an AI programming assistant working on a project described after ####. You prioritize accurate responses and all responses are in markdown format. ####\n";
+        const systemPrompt = `You are an AI programming assistant, named ${aiName} working on a project described after ####.` +
+                            ` You prioritize accurate responses and all responses are in markdown format. ####\n`;
         return {
             "role": "system",
             "content": systemPrompt + blueprintdata

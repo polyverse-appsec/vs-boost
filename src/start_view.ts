@@ -5,6 +5,7 @@ import { BoostExtension } from './BoostExtension';
 import { getOrCreateBlueprintUri, getOrCreateGuideline, getBoostFile, BoostFileType } from './extension';
 import { boostLogging } from './boostLogging';
 import { summaryViewType } from './summary_view';
+import { aiName } from './chat_view';
 
 
 export class BoostStartViewProvider implements vscode.WebviewViewProvider {
@@ -110,7 +111,7 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
         const guidelinesFile = getBoostFile(undefined, BoostFileType.guidelines, false).fsPath;
 
         const template = _.template(rawHtmlContent);
-        const htmlContent = template({ jsSrc, nonce, boostprojectdata, blueprintFile, guidelinesFile });
+        const htmlContent = template({ jsSrc, nonce, boostprojectdata, blueprintFile, guidelinesFile, aiName });
 
         return htmlContent;
     }

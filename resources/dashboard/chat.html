@@ -22,7 +22,7 @@
 	</style>
 </head>
 <body>
-	<p>Interactive queries about <%= projectName %></p>
+	<p>Ask <%= aiName %> questions about <%= projectName %></p>
 	<vscode-panels id="chat-group" activeid="view-<%= activeid %>">
 		<% chats.forEach((chat, index) => { %>
 			<vscode-panel-tab id="view-<%= index %>">CHAT <%= index + 1 %>
@@ -61,7 +61,7 @@
 	<vscode-text-area autofocus id="prompt" resize="both" cols="200"></vscode-text-area>
 	<div align="right">
 		<vscode-progress-ring id="progress" class="progress" hidden ></vscode-progress-ring>
-		<vscode-button id="send">Send</vscode-button>
+		<vscode-button id="send">Ask <%= aiName  %></vscode-button>
 	</div>
     <script src="<%= jsSrc %>" type="module"> </script>
 
