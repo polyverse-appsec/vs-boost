@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 import {
-    KernelControllerBase, onServiceErrorHandler
+    KernelControllerBase
  } from './base_controller';
 import { BoostConfiguration } from './boostConfiguration';
 import * as vscode from 'vscode';
@@ -15,7 +15,7 @@ import { blueprintOutputType } from './blueprint_controller';
 export const quickBlueprintKernelName = 'quickblueprint';
 
 export class BoostQuickBlueprintKernel extends KernelControllerBase {
-	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: vscode.DiagnosticCollection) {
+	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
             quickBlueprintKernelName,

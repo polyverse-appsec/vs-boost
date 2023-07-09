@@ -19,6 +19,8 @@ Polyverse Boost Automatic Application Modernization
 
 ### Enhancements
 - Deep code analysis runs after quick doc, compliance and security scans
+- Chat requests now integrate overall project summary blueprint and guidelines as part of the analysis
+- Improved error handling for network errors when processing Chat requests
 
 ### Bug Fixes
 - Fixed a bug where some source file analysis was failing due to line number issues

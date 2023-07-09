@@ -1,5 +1,5 @@
 import {
-    KernelControllerBase, onServiceErrorHandler
+    KernelControllerBase
     } from './base_controller';
 import * as vscode from 'vscode';
 import { explainOutputType } from './explain_controller';
@@ -12,7 +12,7 @@ export const convertKernelName = 'convert';
 
 const markdownCodeMarker = '```';
 export class BoostConvertKernel extends KernelControllerBase {
-	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: vscode.DiagnosticCollection) {
+	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
             convertKernelName,

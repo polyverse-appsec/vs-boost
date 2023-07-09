@@ -1,60 +1,33 @@
-import axios from "axios";
 import * as vscode from "vscode";
 import { BoostConfiguration } from "./boostConfiguration";
+import { BoostServiceHelper } from "./boostServiceHelper";
 import { boostLogging } from "./boostLogging";
 import { fetchGithubSession, getCurrentOrganization } from "./authorization";
-import { mapError } from "./error";
 import {
     BoostNotebookCell,
     BoostNotebook,
     SerializedNotebookCellOutput,
     NOTEBOOK_TYPE,
-    NOTEBOOK_GUIDELINES_PRE_EXTENSION,
 } from "./jupyter_notebook";
 import {
-    BoostFileType,
-    BoostUserAnalysisType,
     fullPathFromSourceFile,
-    getBoostFile,
     getKernelName,
 } from "./extension";
-import axiosRetry from "axios-retry";
-import PQueue from "p-queue";
-import * as fs from "fs";
-
-// we can get timeouts and other errors from both openai and lambda. This is a generic handler for those
-// conditions to attempt a retry.
-axiosRetry(axios, {
-    retries: 3,
-    retryDelay: axiosRetry.exponentialDelay,
-});
-
-const queue = new PQueue({ concurrency: 1 });
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export type onServiceErrorHandler = (
-    context: vscode.ExtensionContext,
-    error: any,
-    closure: any
-) => void;
 
 export const errorMimeType = "application/vnd.code.notebook.error";
-export class KernelControllerBase {
+
+export class KernelControllerBase extends BoostServiceHelper {
     _problemsCollection: vscode.DiagnosticCollection;
     id: string;
     kernelLabel: string;
     description: string;
-    command: string;
     private _supportedLanguages = [];
-    private _outputType: string;
     private _useGeneratedCodeCellOptimization: boolean;
     private useOriginalCodeCheck = false;
-    private dynamicInputKey: string; // name of the input parameter
 
     private _executionOrder = 0;
     private readonly _controller: vscode.NotebookController;
     public context: vscode.ExtensionContext;
-    private otherThis: any;
 
     constructor(
         problemsCollection: vscode.DiagnosticCollection,
@@ -66,22 +39,28 @@ export class KernelControllerBase {
         useOriginalCodeCheck: boolean,
         context: vscode.ExtensionContext,
         otherThis: any,
-        onServiceErrorHandler: onServiceErrorHandler,
+        onServiceErrorHandler: any,
         dynamicInputKey: string = "code"
     ) {
+        super(kernelId, outputType, otherThis, dynamicInputKey,
+            (err : any) =>{
+                    if (onServiceErrorHandler !== undefined) {
+                        onServiceErrorHandler(
+                            this.context,
+                            err as Error,
+                            this.hostExtension
+                        );
+                    }
+                });
+
         this._problemsCollection = problemsCollection;
-        this.command = kernelId;
         this.id = getKernelName(kernelId);
         this.kernelLabel = kernelLabel;
         this.description = description;
-        this._outputType = outputType;
         this._useGeneratedCodeCellOptimization =
             useGeneratedCodeCellOptimization;
         this.useOriginalCodeCheck = useOriginalCodeCheck;
         this.context = context;
-        this.otherThis = otherThis;
-        this.dynamicInputKey = dynamicInputKey;
-        this._onServiceError = onServiceErrorHandler;
 
         this._controller = vscode.notebooks.createNotebookController(
             this.id,
@@ -96,14 +75,6 @@ export class KernelControllerBase {
 
     dispose(): void {
         this._controller.dispose();
-    }
-
-    get outputType(): string {
-        return this._outputType;
-    }
-
-    get serviceEndpoint(): string {
-        throw new Error("serviceEndpoint not implemented");
     }
 
     get currentDateTime(): string {
@@ -438,7 +409,7 @@ export class KernelControllerBase {
             return !(response instanceof Error);
         } catch (err) {
             successfullyCompleted = false;
-            this._updateCellOutput(
+            this.updateCellOutput(
                 execution,
                 cell,
                 [],
@@ -498,415 +469,6 @@ export class KernelControllerBase {
         }
     }
 
-    async doKernelExecution(
-        notebook: vscode.NotebookDocument | BoostNotebook,
-        cell: vscode.NotebookCell | BoostNotebookCell,
-        execution: vscode.NotebookCellExecution | undefined,
-        extraPayload: any,
-        serviceEndpoint: string = this.serviceEndpoint,
-    ): Promise<any> {
-        const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
-
-        // get the code from the cell
-        const input = usingBoostNotebook
-            ? (cell as BoostNotebookCell).value
-            : (cell as vscode.NotebookCell).document.getText();
-
-        let payload = {
-            [this.dynamicInputKey]: input,
-            contextMetadata: JSON.stringify(notebook.metadata),
-            inputMetadata: JSON.stringify(cell.metadata),
-            ...extraPayload
-        };
-
-        // inject guidelines into the payload to guide analysis with user input
-        const guidelines = this.getGuidelines();
-        // Add guidelines to the payload only if it's not undefined or an empty array
-        if (guidelines && guidelines.length > 0) {
-            // we mark it as the system role since it may be used as hints
-            payload.guidelines = JSON.stringify(["system", guidelines]);
-        }
-
-        // inject blueprint/summaries into the payload for analysis context (overall project view)
-        const summaries = this.otherThis.getSummaries(
-            BoostUserAnalysisType.blueprint
-        );
-        // Add summaries to the payload only if it's not undefined or an empty array
-        if (summaries && summaries.length > 0) {
-            // we mark it as the system role since it may be used as hints
-            payload.summaries = JSON.stringify(["system", summaries]);
-        }
-
-        // read any cell-specific temperature or top_p settings
-        if (cell.metadata?.analysisRankedProbability) {
-            payload = {
-                ...payload,
-                // eslint-disable-next-line @typescript-eslint/naming-convention
-                top_p: cell.metadata.analysisRankedProbability,
-            };
-        } else if (cell.metadata?.temperature) {
-            payload = { ...payload, temperature: cell.metadata.temperature };
-        } else if (
-            BoostConfiguration.analysisRankedProbabilityByKernel(this.command)
-        ) {
-            payload = {
-                ...payload,
-                // eslint-disable-next-line @typescript-eslint/naming-convention
-                top_p: BoostConfiguration.analysisRankedProbabilityByKernel(
-                    this.command
-                ),
-            };
-        } else if (BoostConfiguration.analysisRankedProbability) {
-            payload = {
-                ...payload,
-                // eslint-disable-next-line @typescript-eslint/naming-convention
-                top_p: BoostConfiguration.analysisRankedProbability,
-            };
-        } else if (
-            BoostConfiguration.analysisTemperatureByKernel(this.command)
-        ) {
-            payload = {
-                ...payload,
-                temperature: BoostConfiguration.analysisTemperatureByKernel(
-                    this.command
-                ),
-            };
-        } else if (BoostConfiguration.analysisTemperature) {
-            payload = {
-                ...payload,
-                temperature: BoostConfiguration.analysisTemperature,
-            };
-        } else {
-            payload = payload;
-        }
-
-        // model pass through
-        if (cell.metadata?.model) {
-            payload = { ...payload, model: cell.metadata.model };
-        } else if (BoostConfiguration.analysisModelByKernel(this.command)) {
-            payload = {
-                ...payload,
-                // eslint-disable-next-line @typescript-eslint/naming-convention
-                model: BoostConfiguration.analysisModelByKernel(this.command),
-            };
-        } else if (BoostConfiguration.analysisModel) {
-            payload = {
-                ...payload,
-                // eslint-disable-next-line @typescript-eslint/naming-convention
-                model: BoostConfiguration.analysisModel,
-            };
-        }
-
-        const response = await this.onProcessServiceRequest(
-            execution,
-            notebook,
-            cell,
-            payload,
-            serviceEndpoint
-        );
-        // we failed the call, but it was already logged since it didn't throw, so just report failure
-        return response;
-    }
-
-    getGuidelines(): string[] {
-        const guidelines: string[] = [];
-        const projectGuidelinesFile = getBoostFile(
-            undefined,
-            BoostFileType.guidelines,
-            false
-        );
-        if (
-            projectGuidelinesFile &&
-            fs.existsSync(projectGuidelinesFile.fsPath)
-        ) {
-            const projectGuidelines = new BoostNotebook();
-            projectGuidelines.load(projectGuidelinesFile.fsPath);
-            projectGuidelines.cells.forEach((cell) => {
-                if (this.otherThis.sampleGuidelineRegEx.test(cell.value)) {
-                    // ignore sample text
-                    return;
-                }
-                guidelines.push(cell.value);
-            });
-        }
-
-        // this kernel guideline file
-        const kernelGuidelinesFile = projectGuidelinesFile.fsPath.replace(
-            NOTEBOOK_GUIDELINES_PRE_EXTENSION,
-            `.${this.otherThis.getUserAnalysisType(
-                this.command
-            )}${NOTEBOOK_GUIDELINES_PRE_EXTENSION}`
-        );
-        if (fs.existsSync(kernelGuidelinesFile)) {
-            const projectGuidelines = new BoostNotebook();
-            projectGuidelines.load(kernelGuidelinesFile);
-            projectGuidelines.cells.forEach((cell) => {
-                if (this.otherThis.sampleGuidelineRegEx.test(cell.value)) {
-                    // ignore sample text
-                    return;
-                }
-                guidelines.push(cell.value);
-            });
-        }
-
-        return guidelines;
-    }
-
-    // allow derived classes to override the error - e.g. change the error message
-    localizeError(error: Error): Error {
-        return error;
-    }
-
-    _getBoostNotebookCellOutput(
-        output: string,
-        mimeType: string
-    ): SerializedNotebookCellOutput {
-        return {
-            items: [
-                {
-                    mime: mimeType,
-                    data: output,
-                },
-            ],
-            metadata: {
-                outputType: this.outputType,
-            },
-        };
-    }
-
-    _getBoostNotebookCellOutputError(
-        error: Error
-    ): SerializedNotebookCellOutput {
-        return {
-            items: [
-                {
-                    mime: "application/vnd.code.notebook.error", // for compatibility with VS Code
-                    data: error.toString(),
-                },
-            ],
-            metadata: {
-                outputType: this.outputType,
-            },
-        };
-    }
-
-    _onServiceError: onServiceErrorHandler | undefined = undefined;
-
-    async onProcessServiceRequest(
-        execution: vscode.NotebookCellExecution | undefined,
-        notebook: vscode.NotebookDocument | BoostNotebook,
-        cell: vscode.NotebookCell | BoostNotebookCell,
-        payload: any,
-        serviceEndpoint: string = this.serviceEndpoint
-    ): Promise<any> {
-        let successfullyCompleted = true;
-        const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
-
-        // using axios, make a web POST call to Boost Service with the code as in a json object code=code
-        let response;
-        let serviceError: Error = new Error();
-        try {
-            response = await this.makeBoostServiceRequest(
-                cell,
-                serviceEndpoint,
-                payload
-            );
-        } catch (err: any) {
-            successfullyCompleted = false;
-            serviceError = err;
-        }
-        if (successfullyCompleted) {
-            if (response instanceof Error) {
-                successfullyCompleted = false;
-                serviceError = response as Error;
-            } else if (response === undefined) {
-                throw new Error("Unexpected empty result from Boost Service");
-            } else if (response.data instanceof Error) {
-                successfullyCompleted = false;
-                serviceError = response.data as Error;
-            }
-        }
-
-        // we wrap mimeTypes in an object so that we can pass it by reference and change it
-        let mimetype = { str: "text/markdown" };
-
-        let outputItem;
-        if (usingBoostNotebook) {
-            outputItem = successfullyCompleted
-                ? this._getBoostNotebookCellOutput(
-                      this.onKernelOutputItem(response, cell, mimetype),
-                      mimetype.str
-                  )
-                : this._getBoostNotebookCellOutputError(
-                      this.localizeError(serviceError as Error)
-                  );
-        } else {
-            outputItem = successfullyCompleted
-                ? vscode.NotebookCellOutputItem.text(
-                      this.onKernelOutputItem(response, cell, mimetype),
-                      mimetype.str
-                  )
-                : vscode.NotebookCellOutputItem.error(
-                      this.localizeError(serviceError as Error)
-                  );
-        }
-
-        let details = this.onKernelProcessResponseDetails(
-            response,
-            cell,
-            notebook,
-            mimetype
-        );
-
-        // extend the outputItem.metadata field with the results of a call to onKernelOutputItemDetails
-        this._updateCellOutput(
-            execution,
-            cell,
-            details,
-            outputItem,
-            serviceError
-        );
-        if (!successfullyCompleted) {
-            const cellId = usingBoostNotebook
-                ? cell.id
-                : cell.document.uri.toString();
-            boostLogging.error(
-                `Error in cell ${cellId}: ${serviceError.message}`,
-                false
-            );
-            if (!usingBoostNotebook) {
-                this.addDiagnosticProblem(cell, serviceError as Error);
-            }
-        }
-
-        return response;
-    }
-
-    private _updateCellOutput(
-        execution: vscode.NotebookCellExecution | undefined,
-        cell: vscode.NotebookCell | BoostNotebookCell,
-        details: [],
-        outputItem:
-            | vscode.NotebookCellOutputItem
-            | SerializedNotebookCellOutput,
-        err: unknown
-    ) {
-        const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
-
-        if (usingBoostNotebook || !execution) {
-            const boostCell = cell as BoostNotebookCell;
-            const boostOutput = outputItem as SerializedNotebookCellOutput;
-            //extend boostOutput.medata with details
-            boostOutput.metadata = {
-                ...boostOutput.metadata,
-                details: details,
-            };
-            boostCell.updateOutputItem(this._outputType, boostOutput);
-            return;
-        }
-
-        const outputItems: vscode.NotebookCellOutputItem[] = [
-            outputItem as vscode.NotebookCellOutputItem,
-        ];
-
-        // we will have one NotebookCellOutput per type of output.
-        // first scan the existing outputs of the cell and see if we already have an output of this type
-        // if so, replace it
-        let existingOutputs = cell.outputs;
-        let existingOutput = existingOutputs.find(
-            (output) => output.metadata?.outputType === this._outputType
-        );
-        if (existingOutput) {
-            execution.replaceOutputItems(outputItems, existingOutput);
-            //udpate existingOutput.metadata with details, replacing any existing details
-            if (existingOutput.metadata?.details) {
-                delete existingOutput.metadata.details;
-            }
-            existingOutput.metadata = {
-                ...existingOutput.metadata,
-                details: details,
-            };
-        } else {
-            // create a new NotebookCellOutput with the outputItems array
-            let metadata = {
-                outputType: this._outputType,
-                details: details,
-            };
-            const output = new vscode.NotebookCellOutput(outputItems, metadata);
-
-            execution.appendOutput(output);
-        }
-    }
-
-    async makeBoostServiceRequest(
-        cell: vscode.NotebookCell | BoostNotebookCell,
-        serviceEndpoint: string,
-        payload: any
-    ): Promise<any> {
-        try {
-            if (
-                BoostConfiguration.serviceFaultInjection > 0 &&
-                Math.floor(Math.random() * 100) <
-                    BoostConfiguration.serviceFaultInjection
-            ) {
-                const cellId =
-                    cell instanceof BoostNotebookCell
-                        ? cell.id
-                        : cell.document.uri.toString();
-                boostLogging.debug(
-                    `Injecting fault into service request for cell ${cellId} to ${serviceEndpoint}`
-                );
-                await axios.get(
-                    "https://serviceFaultInjection/synthetic/error/"
-                );
-            }
-            let result: any = await this.onBoostServiceRequest(
-                cell,
-                serviceEndpoint,
-                payload
-            );
-            if (result.error) {
-                // if we have an error, throw it - this is generally happens with the local service shim
-                return new Error(
-                    `Boost Service failed with a network error: ${result.error}`
-                );
-            }
-            return result;
-        } catch (err: any) {
-            if (this._onServiceError !== undefined) {
-                this._onServiceError(
-                    this.context,
-                    err as Error,
-                    this.otherThis
-                );
-            }
-            return mapError(err);
-        }
-    }
-
-    async onBoostServiceRequest(
-        cell: vscode.NotebookCell | BoostNotebookCell,
-        serviceEndpoint: string,
-        payload: any
-    ): Promise<string> {
-        const headers = {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            "User-Agent": `Boost-VSCE/${BoostConfiguration.version}`,
-        };
-
-        // Add the request to the queue
-        return queue.add(() =>
-            axios
-                .post(serviceEndpoint, payload, { headers })
-                .then((response) => {
-                    return response.data;
-                })
-                .catch((error) => {
-                    throw error;
-                })
-        );
-    }
-
     isCellOutputMissingOrError(
         cell: vscode.NotebookCell | BoostNotebookCell
     ): boolean {
@@ -918,7 +480,7 @@ export class KernelControllerBase {
         // Check if the cell has any error output
         const hasErrorOutput = cell.outputs.some((output: any) => {
             // ignore outputs that aren't our output type
-            if (output.metadata?.outputType !== this._outputType) {
+            if (output.metadata?.outputType !== this.outputType) {
                 return false;
             }
             for (const item of output.items) {
@@ -933,25 +495,8 @@ export class KernelControllerBase {
         // Check if the cell has existing analysis (e.g. not missing)
         return !cell.outputs.some((output: any) => {
             // ignore outputs that aren't our output type
-            return output.metadata?.outputType === this._outputType;
+            return output.metadata?.outputType === this.outputType;
         });
-    }
-
-    onKernelOutputItem(
-        response: any,
-        cell: vscode.NotebookCell | BoostNotebookCell,
-        mimetype: any
-    ): string {
-        throw new Error("Not implemented");
-    }
-
-    onKernelProcessResponseDetails(
-        response: any,
-        cell: vscode.NotebookCell | BoostNotebookCell,
-        notebook: vscode.NotebookDocument | BoostNotebook,
-        mimetype: any
-    ): any {
-        return [];
     }
 
     async initializeMetaData(
@@ -1053,6 +598,238 @@ export class KernelControllerBase {
         this.addDiagnosticProblem(cell, error);
     }
 
+    openExecutionContext(
+        usingBoostNotebook: boolean,
+        cell: vscode.NotebookCell | BoostNotebookCell
+    ): any {
+        const execution = usingBoostNotebook
+            ? undefined
+            : this._controller.createNotebookCellExecution(
+                  cell as vscode.NotebookCell
+              );
+
+        const startTime = Date.now();
+        if (execution) {
+            execution.executionOrder = ++this._executionOrder;
+            execution.start(startTime);
+        }
+
+        return { execution, startTime };
+    }
+
+    closeExecutionContext(
+        executionContext: any,
+        successfullyCompleted: boolean
+    ) {
+        const duration = Date.now() - executionContext.startTime;
+        const minutes = Math.floor(duration / 60000);
+        const seconds = ((duration % 60000) / 1000).toFixed(0);
+        if (executionContext.execution) {
+            executionContext.execution.end(successfullyCompleted, Date.now());
+        }
+    }
+
+    // allow derived classes to override the error - e.g. change the error message
+    localizeError(error: Error): Error {
+        return error;
+    }
+
+    _getBoostNotebookCellOutput(
+        output: string,
+        mimeType: string
+    ): SerializedNotebookCellOutput {
+        return {
+            items: [
+                {
+                    mime: mimeType,
+                    data: output,
+                },
+            ],
+            metadata: {
+                outputType: this.outputType,
+            },
+        };
+    }
+
+    _getBoostNotebookCellOutputError(
+        error: Error
+    ): SerializedNotebookCellOutput {
+        return {
+            items: [
+                {
+                    mime: "application/vnd.code.notebook.error", // for compatibility with VS Code
+                    data: error.toString(),
+                },
+            ],
+            metadata: {
+                outputType: this.outputType,
+            },
+        };
+    }
+
+    async onProcessServiceRequest(
+        execution: vscode.NotebookCellExecution | undefined,
+        notebook: vscode.NotebookDocument | BoostNotebook,
+        cell: vscode.NotebookCell | BoostNotebookCell,
+        payload: any,
+        serviceEndpoint: string = this.serviceEndpoint
+    ): Promise<any> {
+        let successfullyCompleted = true;
+        const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
+
+        // using axios, make a web POST call to Boost Service with the code as in a json object code=code
+        let response;
+        let serviceError: Error = new Error();
+        try {
+            response = await this.makeBoostServiceRequest(
+                cell,
+                serviceEndpoint,
+                payload
+            );
+        } catch (err: any) {
+            successfullyCompleted = false;
+            serviceError = err;
+        }
+        if (successfullyCompleted) {
+            if (response instanceof Error) {
+                successfullyCompleted = false;
+                serviceError = response as Error;
+            } else if (response === undefined) {
+                throw new Error("Unexpected empty result from Boost Service");
+            } else if (response.data instanceof Error) {
+                successfullyCompleted = false;
+                serviceError = response.data as Error;
+            }
+        }
+
+        // we wrap mimeTypes in an object so that we can pass it by reference and change it
+        let mimetype = { str: "text/markdown" };
+
+        let outputItem;
+        if (usingBoostNotebook) {
+            outputItem = successfullyCompleted
+                ? this._getBoostNotebookCellOutput(
+                      this.onKernelOutputItem(response, cell, mimetype),
+                      mimetype.str
+                  )
+                : this._getBoostNotebookCellOutputError(
+                      this.localizeError(serviceError as Error)
+                  );
+        } else {
+            outputItem = successfullyCompleted
+                ? vscode.NotebookCellOutputItem.text(
+                      this.onKernelOutputItem(response, cell, mimetype),
+                      mimetype.str
+                  )
+                : vscode.NotebookCellOutputItem.error(
+                      this.localizeError(serviceError as Error)
+                  );
+        }
+
+        let details = this.onKernelProcessResponseDetails(
+            response,
+            cell,
+            notebook,
+            mimetype
+        );
+
+        // extend the outputItem.metadata field with the results of a call to onKernelOutputItemDetails
+        this.updateCellOutput(
+            execution,
+            cell,
+            details,
+            outputItem,
+            serviceError
+        );
+        if (!successfullyCompleted) {
+            const cellId = usingBoostNotebook
+                ? cell.id
+                : cell.document.uri.toString();
+            boostLogging.error(
+                `Error in cell ${cellId}: ${serviceError.message}`,
+                false
+            );
+            if (!usingBoostNotebook) {
+                this.addDiagnosticProblem(cell, serviceError as Error);
+            }
+        }
+
+        return response;
+    }
+
+    updateCellOutput(
+        execution: vscode.NotebookCellExecution | undefined,
+        cell: vscode.NotebookCell | BoostNotebookCell,
+        details: [],
+        outputItem:
+            | vscode.NotebookCellOutputItem
+            | SerializedNotebookCellOutput,
+        err: unknown
+    ) {
+        const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
+
+        if (usingBoostNotebook || !execution) {
+            const boostCell = cell as BoostNotebookCell;
+            const boostOutput = outputItem as SerializedNotebookCellOutput;
+            //extend boostOutput.medata with details
+            boostOutput.metadata = {
+                ...boostOutput.metadata,
+                details: details,
+            };
+            boostCell.updateOutputItem(this.outputType, boostOutput);
+            return;
+        }
+
+        const outputItems: vscode.NotebookCellOutputItem[] = [
+            outputItem as vscode.NotebookCellOutputItem,
+        ];
+
+        // we will have one NotebookCellOutput per type of output.
+        // first scan the existing outputs of the cell and see if we already have an output of this type
+        // if so, replace it
+        let existingOutputs = cell.outputs;
+        let existingOutput = existingOutputs.find(
+            (output) => output.metadata?.outputType === this.outputType
+        );
+        if (existingOutput) {
+            execution.replaceOutputItems(outputItems, existingOutput);
+            //udpate existingOutput.metadata with details, replacing any existing details
+            if (existingOutput.metadata?.details) {
+                delete existingOutput.metadata.details;
+            }
+            existingOutput.metadata = {
+                ...existingOutput.metadata,
+                details: details,
+            };
+        } else {
+            // create a new NotebookCellOutput with the outputItems array
+            let metadata = {
+                outputType: this.outputType,
+                details: details,
+            };
+            const output = new vscode.NotebookCellOutput(outputItems, metadata);
+
+            execution.appendOutput(output);
+        }
+    }
+
+    onKernelOutputItem(
+        response: any,
+        cell: vscode.NotebookCell | BoostNotebookCell,
+        mimetype: any
+    ): string {
+        throw new Error("Not implemented");
+    }
+
+    onKernelProcessResponseDetails(
+        response: any,
+        cell: vscode.NotebookCell | BoostNotebookCell,
+        notebook: vscode.NotebookDocument | BoostNotebook,
+        mimetype: any
+    ): any {
+        return [];
+    }
+
     // relatedUri should be the Uri of the original source file
     addDiagnosticProblem(
         // document should be the Cell's document that has the problem(s)
@@ -1117,36 +894,5 @@ export class KernelControllerBase {
                     : undefined,
             },
         ]);
-    }
-
-    openExecutionContext(
-        usingBoostNotebook: boolean,
-        cell: vscode.NotebookCell | BoostNotebookCell
-    ): any {
-        const execution = usingBoostNotebook
-            ? undefined
-            : this._controller.createNotebookCellExecution(
-                  cell as vscode.NotebookCell
-              );
-
-        const startTime = Date.now();
-        if (execution) {
-            execution.executionOrder = ++this._executionOrder;
-            execution.start(startTime);
-        }
-
-        return { execution, startTime };
-    }
-
-    closeExecutionContext(
-        executionContext: any,
-        successfullyCompleted: boolean
-    ) {
-        const duration = Date.now() - executionContext.startTime;
-        const minutes = Math.floor(duration / 60000);
-        const seconds = ((duration % 60000) / 1000).toFixed(0);
-        if (executionContext.execution) {
-            executionContext.execution.end(successfullyCompleted, Date.now());
-        }
     }
 }

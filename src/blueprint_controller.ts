@@ -1,5 +1,5 @@
 import {
-    KernelControllerBase, onServiceErrorHandler
+    KernelControllerBase
  } from './base_controller';
 import { BoostConfiguration } from './boostConfiguration';
 import * as vscode from 'vscode';
@@ -9,7 +9,7 @@ export const blueprintOutputType = 'archblueprintCode';
 export const blueprintKernelName = 'blueprint';
 
 export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
-	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: vscode.DiagnosticCollection) {
+	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
             blueprintKernelName,

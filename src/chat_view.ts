@@ -5,9 +5,10 @@ import * as _ from 'lodash';
 import * as os from 'os';
 import { BoostExtension } from './BoostExtension';
 import { BoostConfiguration } from './boostConfiguration';
-import { callServiceEndpoint } from './lambda_util';
+import { getServiceEndpoint } from './custom_controller';
 import { marked } from 'marked';
 import { findCellByKernel, getOrCreateBlueprintUri } from './extension';
+import { BoostServiceHelper } from './boostServiceHelper';
 import { boostLogging } from './boostLogging';
 import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';
 import { blueprintOutputType } from './blueprint_controller';
@@ -43,6 +44,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
     private _context: vscode.ExtensionContext;
     private _activeid = 0;
     private _boostExtension: BoostExtension;
+    private chatService: BoostServiceHelper;
 
     constructor(
         private readonly context: vscode.ExtensionContext,
@@ -50,6 +52,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
     ) {
         this._context = context;
         this._boostExtension = boostExtension;
+        this.chatService = new BoostServiceHelper("chatService", "chat", boostExtension);
     }
 
     public async resolveWebviewView(
@@ -140,22 +143,6 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         return htmlContent;
     }
 
-    public get serviceEndpoint(): string {
-        switch (BoostConfiguration.cloudServiceStage) {
-            case "local":
-                return 'http://127.0.0.1:8000/customprocess';
-            case 'dev':
-                return 'https://fudpixnolc7qohinghnum2nlm40wmozy.lambda-url.us-west-2.on.aws/';
-            case "test":
-                return 'https://t3ficeuoeknvyxfqz6stoojmfu0dfzzo.lambda-url.us-west-2.on.aws/';
-            case 'staging':
-            case 'prod':
-            default:
-                return 'https://7ntcvdqj4r23uklomzmeiwq7nq0dhblq.lambda-url.us-west-2.on.aws/';
-        }
-
-    }
-
     public async updatePrompt(prompt: string, index: number, showUI: boolean = true) {
         //make a call to the service endpoint with the prompt plus existing context
         //update the chat view with the response
@@ -187,7 +174,8 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
                 finalPayload = payload;
             }
 
-            const response = await callServiceEndpoint(this.context, this.serviceEndpoint, "custom_process", finalPayload);
+            const response = await this.chatService.doKernelExecution(
+                undefined, undefined,undefined, finalPayload, getServiceEndpoint());
 
             this._addResponse(prompt, response.analysis);
         } catch (error) {

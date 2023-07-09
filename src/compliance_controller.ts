@@ -1,5 +1,5 @@
 import {
-    KernelControllerBase, onServiceErrorHandler
+    KernelControllerBase
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext, NotebookCell } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
@@ -9,7 +9,7 @@ export const complianceOutputType = 'complianceCode';
 export const complianceKernelName = 'compliance';
 
 export class BoostComplianceKernel extends KernelControllerBase {
-	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
             complianceKernelName,

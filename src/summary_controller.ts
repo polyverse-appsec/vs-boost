@@ -1,5 +1,5 @@
 import {
-    KernelControllerBase, onServiceErrorHandler
+    KernelControllerBase
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
@@ -23,7 +23,7 @@ export class SummarizeKernel extends KernelControllerBase {
     _kernels : Map<string, KernelControllerBase>;
 	constructor(
         context: ExtensionContext,
-        onServiceErrorHandler: onServiceErrorHandler,
+        onServiceErrorHandler: any,
         otherThis : any,
         collection: DiagnosticCollection,
         kernels : Map<string, KernelControllerBase>) {
@@ -324,20 +324,20 @@ export class SummarizeKernel extends KernelControllerBase {
     }
 
     async onBoostServiceRequest(
-        cell : vscode.NotebookCell | BoostNotebookCell,
+        cell : vscode.NotebookCell | BoostNotebookCell | undefined,
         serviceEndpoint : string,
         payload : any) : Promise<string>
     {
-        const usingBoostNotebook = "value" in cell; // if the cell has a value property, then it's a BoostNotebookCell
+        const usingBoostNotebook = cell?"value" in cell:true; // look for the value property to see if its a BoostNotebookCell
 
         //  dynamically add payload properties to send to Boost service
-        payload.analysis_type = cell.metadata?.analysis_type;
-        payload.analysis_label = cell.metadata?.analysis_label;
-        payload.model = cell.metadata?.model;
+        payload.analysis_type = cell?.metadata?.analysis_type;
+        payload.analysis_label = cell?.metadata?.analysis_label;
+        payload.model = cell?.metadata?.model;
         
         delete payload.inputs;
         let countOfInputs = 1;
-        while (cell.metadata) {
+        while (cell?.metadata) {
             if (!cell.metadata[`${this.chunkedInputPrefix}${countOfInputs - 1}`]) {
                 break;
             }
