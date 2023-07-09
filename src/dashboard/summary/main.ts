@@ -208,7 +208,10 @@ function refreshProgressText(statusData: StatusViewData){
         } else {
             remaining = `${statusData.minutesRemaining} minutes`;
         }
-        text = `Sara (the Boost AI) is processing ${statusData.jobsRunning} files right now, with ${statusData.jobsQueued} more queued. ETA ${remaining}. You can continue to use Visual Studio Code in the meantime.`;
+        let filesText = statusData.jobsRunning === 1 ? "file" : "files";
+        let queuesText = statusData.jobsQueued === 1 ? "file" : "files";
+        let processingText = statusData.jobsRunning === 0 ? "preparing its analysis" : `processing ${statusData.jobsRunning} ${filesText}`;
+        text = `Sara (the Boost AI) is ${processingText} right now, with ${statusData.jobsQueued} ${queuesText} queued. ETA ${remaining}. You can continue to use Visual Studio Code in the meantime.`;
         //if there is no existing text, type it in
         if( existingText === "" || existingText === undefined){
             typewriter.typeString(text)

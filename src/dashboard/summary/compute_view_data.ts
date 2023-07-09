@@ -288,14 +288,14 @@ export function statusViewData(boostprojectdata: IBoostProjectData): StatusViewD
         Object.keys(boostprojectdata.jobStatus).forEach((key) => {
             if (boostprojectdata.jobStatus[key].status !== "completed") {
                 busy = true;
-            } else if (boostprojectdata.jobStatus[key].status === "queued") {
+            }
+            if (boostprojectdata.jobStatus[key].status === "queued") {
                 jobsQueued++;
             } else if (boostprojectdata.jobStatus[key].status === "processing") {
                 jobsRunning++;
             }
         });
     }
-
     return {
         busy: busy,
         jobsRunning: jobsRunning,
