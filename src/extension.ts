@@ -694,7 +694,7 @@ export function generateCellOutputWithHeader(analysisType: string, analysisResul
     return `\n\n---\n\n### Boost ${analysisType}\n\nLast Updated: ${getCurrentDateTime()}\n\n${analysisResults}`;
 }
 
-function getCurrentDateTime(): string {
+export function getCurrentDateTime(): string {
     return new Date().toLocaleDateString("en-US", {
         weekday: "long",
         year: "numeric",

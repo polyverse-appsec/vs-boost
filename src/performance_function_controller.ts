@@ -5,7 +5,7 @@ import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import * as vscode from 'vscode';
 import * as boostnb from './jupyter_notebook';
-import { fullPathFromSourceFile } from './extension';
+import { fullPathFromSourceFile, getCurrentDateTime } from './extension';
 
 export const performanceFunctionKernelName = 'performance_function';
 export const performanceFunctionOutputType = 'performanceList';
@@ -60,7 +60,7 @@ export class BoostPerformanceFunctionKernel extends KernelControllerBase {
             throw new Error("Unexpected missing data from Boost Service");
         }
 
-        let markdown = `\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: ${this.currentDateTime}\n\n`;
+        let markdown = `\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: ${getCurrentDateTime}\n\n`;
 
         if (response.details.length === 0) {
             markdown += '**No bugs found**\n\n';

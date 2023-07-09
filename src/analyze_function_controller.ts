@@ -5,7 +5,8 @@ import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import * as vscode from 'vscode';
 import * as boostnb from './jupyter_notebook';
-import { fullPathFromSourceFile } from './extension';
+import { fullPathFromSourceFile, getCurrentDateTime } from './extension';
+
 
 export const analyzeFunctionKernelName = 'analyze_function';
 export const analyzeFunctionOutputType = 'bugAnalysisList';
@@ -60,7 +61,7 @@ export class BoostAnalyzeFunctionKernel extends KernelControllerBase {
             throw new Error("Unexpected missing data from Boost Service");
         }
 
-        let markdown = `\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: ${this.currentDateTime}\n\n`;
+        let markdown = `\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: ${getCurrentDateTime}\n\n`;
 
         if (response.details.length === 0) {
             markdown += '**No bugs found**\n\n';
