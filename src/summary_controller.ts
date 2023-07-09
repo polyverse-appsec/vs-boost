@@ -1,5 +1,5 @@
 import {
-    KernelControllerBase
+    KernelControllerBase, errorMimeType
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
@@ -302,7 +302,10 @@ export class SummarizeKernel extends KernelControllerBase {
                 const cell = cellToSummarize as BoostNotebookCell;
                 cell.outputs.filter((output) => output.metadata?.outputType === outputType).forEach((output) => {
                     output.items.forEach((item) => {
-                        if (item.data && !this._isEmptySummary(item.data)) {
+                        if (item.data &&
+                                // ignore error cells
+                            item.mime !== errorMimeType &&
+                            !this._isEmptySummary(item.data)) {
                             inputs.push(cleanCellOutput(item.data));
                         }
                     });
@@ -311,6 +314,11 @@ export class SummarizeKernel extends KernelControllerBase {
                 const cell = cellToSummarize as vscode.NotebookCell;
                 cell.outputs.filter((output) => output.metadata?.outputType === outputType).forEach((output) => {
                     output.items.forEach((item) => {
+                        // ignore error blocks
+                        if (item.mime === errorMimeType) {
+                            return;
+                        }
+
                         const decodedText = new TextDecoder().decode(item.data);
                         if (decodedText && !this._isEmptySummary(decodedText)) {
                             inputs.push(cleanCellOutput(decodedText));
