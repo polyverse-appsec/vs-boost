@@ -60,6 +60,7 @@ export class BoostProjectData implements IBoostProjectData {
             }
         }
         this.fsPath = filePath;
+        this.jobStatus = { ...emptyProjectData.jobStatus };
     }
 
     save(filename: string): void {
@@ -70,8 +71,8 @@ export class BoostProjectData implements IBoostProjectData {
         this.fsPath = filename;
 
         // no need to persist the path into the file
-        const { fsPath, ...dataWithoutFsPath } = this;
-        const projectDataJson = JSON.stringify(dataWithoutFsPath, null, 2);
+        const { fsPath, jobStatus, ...dataWithoutFsPathAndJobStatus } = this;
+        const projectDataJson = JSON.stringify(dataWithoutFsPathAndJobStatus, null, 2);
 
         fs.writeFileSync(filename, projectDataJson, { encoding: "utf8" });
     }
@@ -186,6 +187,10 @@ export class BoostProjectData implements IBoostProjectData {
         if (this.jobStatus[relFile].jobs?.length === 0) {
             this.jobStatus[relFile].status = "completed";
         }
+    }
+
+    finishAllJobs(){
+        this.jobStatus = { ...emptyProjectData.jobStatus };
     }
 
     addQueue(job: string, relFiles: [string]) {

@@ -304,6 +304,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
     }
 
     public finishAllJobs(boostprojectdata: BoostProjectData) {
+        boostprojectdata.finishAllJobs();
         const payload = {
             command: "finishAllJobs",
             boostprojectdata: boostprojectdata,
@@ -312,6 +313,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
     }
 
     public addQueue(job: string, files: [string], boostprojectdata: BoostProjectData) {
+        boostprojectdata.addQueue(job, files);
         const payload = {
             command: "refreshUI",
             boostprojectdata: boostprojectdata,

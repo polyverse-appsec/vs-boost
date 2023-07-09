@@ -121,47 +121,6 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
     }
 }
 
-//this function is called to clear out the 'finished' jobs text and show what is queued up.
-
-/*
-function refreshProgressText(progressText: HTMLElement | null) {
-    // if there are any started jobs, show those first.
-    if (Object.keys(started).length > 0) {
-        const keys = Object.keys(started);
-        //loop the keys and show the files
-        const files: string[] = [];
-        keys.forEach((key: string) => {
-            files.push(Object.keys(started[key]).join(", "));
-        });
-        const text = "Processing " + files.join(", ");
-        if (progressText) {
-            progressText.innerText = text;
-        }
-        return;
-    }
-
-    //otherwise, let's check the queue object
-    if (Object.keys(queue).length > 0) {
-        const keys = Object.keys(queue);
-        //loop the keys and show the files
-        const files: string[] = [];
-        keys.forEach((key: string) => {
-            files.push(Object.keys(queue[key]).join(", "));
-        });
-        const text =
-            "Queued " +
-            files.join(", ") +
-            " in " +
-            queue[keys[0]][files[0]] / 1000 +
-            "seconds.";
-        if (progressText) {
-            progressText.innerText = text;
-        }
-        return;
-    }
-}
-*/
-
 function getAnalysisTypes(): Array<string> {
     const analysisTypes: string[] = [];
     const checkboxes = document.querySelectorAll(
