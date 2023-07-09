@@ -3,13 +3,14 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 1.1.0: July 6th, 2023
+## Version 1.1.0: July 9th, 2023
 
 ### New Features
 - Significantly improved UX around scan progress tracking, reliability in Summary View in Activity Bar
     - includes visualization of individual files and folders
     - includes visual color coding for status of each file and folder and type of scan
     - improved performance of UI updates, reduced startup time, and improved reliability when restarting VSC or reopening Activity tab
+- Introducing Sara, the Boost Smart Architectural Reasoning Assistant, who can answer questions about Boost-analyzed software projects.
 - New Performance analysis Kernel - characterizes performance of code and potential issues with 3rd party frameworks
 - New Performance quick-scan source analysis Kernel - scans code for specific issues in code and creates problems and solutions for followup
 - Added Quick Draft Architectural Blueprint Summary Kernel - based on hints about project structure, files and data
@@ -18,9 +19,13 @@ Polyverse Boost Automatic Application Modernization
 
 ### Enhancements
 - Deep code analysis runs after quick doc, compliance and security scans
+- Chat requests now integrate overall project summary blueprint and guidelines as part of the analysis
+- Improved error handling for network errors when processing Chat requests
 
 ### Bug Fixes
 - Fixed a bug where some source file analysis was failing due to line number issues
+- Do not include Errors in summarization of cells and notebooks
+- Fix issue with Summaries of output including duplicate timestamps and headers
 
 ## Version 1.0.4: June 28, 2023
 

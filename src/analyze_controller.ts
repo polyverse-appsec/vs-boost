@@ -1,16 +1,17 @@
 import {
-    KernelControllerBase, onServiceErrorHandler
+    KernelControllerBase
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext, NotebookCell } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import { BoostNotebookCell } from './jupyter_notebook';
+import { generateCellOutputWithHeader } from './extension';
 
 export const analyzeKernelName = 'analyze';
 export const analyzeOutputType = 'bugAnalysis';
 
 //set a helper variable of the base url.  this should eventually be a config setting
 export class BoostAnalyzeKernel extends KernelControllerBase {
-	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis: any, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis: any, collection: DiagnosticCollection) {
         super(
             collection,
             analyzeKernelName,
@@ -52,7 +53,7 @@ export class BoostAnalyzeKernel extends KernelControllerBase {
             if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return `\n\n---\n\n### Boost Code Analysis\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
+        return generateCellOutputWithHeader("Code Analysis", response.analysis);
     }
 
     localizeError(error: Error): Error {

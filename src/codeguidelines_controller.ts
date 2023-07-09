@@ -1,15 +1,16 @@
 import {
-    KernelControllerBase, onServiceErrorHandler
+    KernelControllerBase
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext, NotebookCell } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import { BoostNotebookCell } from './jupyter_notebook';
+import { generateCellOutputWithHeader } from './extension';
 
 export const codeGuidelinesOutputType = 'guidelinesCode';
 export const codeGuidelinesKernelName = 'codeguidelines';
 
 export class BoostCodeGuidelinesKernel extends KernelControllerBase {
-	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
             codeGuidelinesKernelName,
@@ -51,7 +52,7 @@ export class BoostCodeGuidelinesKernel extends KernelControllerBase {
             if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return `\n\n---\n\n### Boost Code Guidelines Evaluation\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
+        return generateCellOutputWithHeader(`Code Guidelines Evaluation`, response.analysis);
     }
 
     localizeError(error: Error): Error {

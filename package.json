@@ -54,7 +54,7 @@
                 {
                     "type": "webview",
                     "id": "polyverse-boost-chat-view",
-                    "name": "AI Chat",
+                    "name": "Sara AI Chat",
                     "icon": "resources/boost_icon_plain.svg"
                 },
                 {

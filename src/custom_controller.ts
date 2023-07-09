@@ -1,13 +1,31 @@
 import {
-    KernelControllerBase, onServiceErrorHandler
+    KernelControllerBase
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import * as vscode from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import { boostLogging } from './boostLogging';
 import { BoostNotebookCell, BoostNotebook } from './jupyter_notebook';
+import { generateCellOutputWithHeader } from './extension';
 
 export const customProcessCellMarker = 'customProcessCode';
+
+
+export function getServiceEndpoint() {
+    switch (BoostConfiguration.cloudServiceStage)
+    {
+        case "local":
+            return 'http://127.0.0.1:8000/customprocess';
+        case 'dev':
+            return 'https://fudpixnolc7qohinghnum2nlm40wmozy.lambda-url.us-west-2.on.aws/';
+        case "test":
+            return 'https://t3ficeuoeknvyxfqz6stoojmfu0dfzzo.lambda-url.us-west-2.on.aws/';
+        case 'staging':
+        case 'prod':
+        default:
+            return 'https://7ntcvdqj4r23uklomzmeiwq7nq0dhblq.lambda-url.us-west-2.on.aws/';
+    }
+}
 
 export class BoostCustomProcessKernel extends KernelControllerBase {
 
@@ -20,7 +38,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
 
     _customPrompt : string = this.defaultPrompt;
 
-	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
             'custom',
@@ -39,20 +57,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
 	}
 
     public get serviceEndpoint(): string {
-        switch (BoostConfiguration.cloudServiceStage)
-        {
-            case "local":
-                return 'http://127.0.0.1:8000/customprocess';
-            case 'dev':
-                return 'https://fudpixnolc7qohinghnum2nlm40wmozy.lambda-url.us-west-2.on.aws/';
-            case "test":
-                return 'https://t3ficeuoeknvyxfqz6stoojmfu0dfzzo.lambda-url.us-west-2.on.aws/';
-            case 'staging':
-            case 'prod':
-            default:
-                return 'https://7ntcvdqj4r23uklomzmeiwq7nq0dhblq.lambda-url.us-west-2.on.aws/';
-        }
-        
+        return getServiceEndpoint();
     }
     
     onKernelOutputItem(
@@ -63,7 +68,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
         if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return `\n\n---\n\n### Boost Code Custom Process\n\nLast Updated: ${this.currentDateTime}\n\n${response.analysis}`;
+        return generateCellOutputWithHeader(`Code Custom Process`, response.analysis);
     }
 
     localizeError(error: Error): Error {

@@ -268,6 +268,9 @@ function registerSelectOrganizationCommand(context: vscode.ExtensionContext, clo
 
                 //put the organization in the metadata for the extension
                 context.globalState.update('organization', organization);
+
+                BoostConfiguration.defaultOrganization = organization;
+
                 //now set the selectOrgnanizationButton text
                 if( closure.statusBar){
                     closure.statusBar.text = "Boost: Organization is " + organization;

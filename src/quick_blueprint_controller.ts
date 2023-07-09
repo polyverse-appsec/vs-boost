@@ -2,20 +2,20 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 import {
-    KernelControllerBase, onServiceErrorHandler
+    KernelControllerBase
  } from './base_controller';
 import { BoostConfiguration } from './boostConfiguration';
 import * as vscode from 'vscode';
 import { BoostNotebookCell, BoostNotebook, NotebookCellKind } from './jupyter_notebook';
 import { boostLogging } from './boostLogging';
-import { findCellByKernel, getAllProjectFiles, getProjectName } from './extension';
+import { findCellByKernel, generateCellOutputWithHeader, getAllProjectFiles, getProjectName } from './extension';
 import { getCurrentOrganization } from "./authorization";
 import { blueprintOutputType } from './blueprint_controller';
 
 export const quickBlueprintKernelName = 'quickblueprint';
 
 export class BoostQuickBlueprintKernel extends KernelControllerBase {
-	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: vscode.DiagnosticCollection) {
+	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
             quickBlueprintKernelName,
@@ -228,7 +228,7 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
         if (response.blueprint === undefined && response.details === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return `${this.kernelMarkdownPrefix}\n\nLast Updated: ${this.currentDateTime}\n\n${response.blueprint}`;
+        return generateCellOutputWithHeader(this.kernelMarkdownPrefix, response.blueprint);
     }
 
     localizeError(error: Error): Error {

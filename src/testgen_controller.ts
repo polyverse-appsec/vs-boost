@@ -1,15 +1,21 @@
 import {
-    KernelControllerBase, onServiceErrorHandler
+    KernelControllerBase
     } from './base_controller';
 import * as vscode from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import { BoostNotebookCell } from './jupyter_notebook';
+import { generateCellOutputWithHeader } from './extension';
 
 export const testgenKernelName = 'testgen';
 export const testgenOutputName = 'testGeneration';
 
 export class BoostTestgenKernel extends KernelControllerBase {
-	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis : any, collection: vscode.DiagnosticCollection) {
+	constructor(
+        context: vscode.ExtensionContext,
+        onServiceErrorHandler: any,
+        otherThis : any,
+        collection: vscode.DiagnosticCollection) {
+
         super(
             collection,
             testgenKernelName,
@@ -83,7 +89,7 @@ export class BoostTestgenKernel extends KernelControllerBase {
             //quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
         if(response.testcode.includes('```')){
             mimetype = 'text/markdown';
-            return `\n\n---\n\n### Boost Test Generation\n\nLast Updated: ${this.currentDateTime}\n\n${response.testcode}`;
+            return generateCellOutputWithHeader(`Test Generation`, response.testcode);
         }
         else {
             mimetype.str = 'text/x-' + outputLanguage;

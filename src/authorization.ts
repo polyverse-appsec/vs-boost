@@ -37,12 +37,16 @@ export async function fetchGithubSession(forceNewSession : boolean = false): Pro
     }
     return session;
 }
-  
-export async function getCurrentOrganization(context: vscode.ExtensionContext): Promise<string> {
+
+export async function getCurrentOrganization(organizationCache: vscode.ExtensionContext | undefined = undefined): Promise<string> {
 
     // if we have a cached value, return it
-    let org: string = context?.globalState?.get("organization") ?? "";
+    let org: string = organizationCache?.globalState?.get("organization") ?? "";
     if (org) {
+        // if we have an extension cache org, then update the default boost config org as well to keep in sync
+        if (BoostConfiguration.defaultOrganization !== org) {
+            BoostConfiguration.defaultOrganization = org;
+        }
         return org;
     }
 
@@ -53,7 +57,7 @@ export async function getCurrentOrganization(context: vscode.ExtensionContext): 
         return org;
     }
 
-    // if we still don't have a value, try looking in the environment and getting the organizaiton
+    // if we still don't have a value, try looking in the environment and getting the organization
     // of the current repository
     org = await getCurrentGithubOrganizationFromWorkspace();
     if (org) {

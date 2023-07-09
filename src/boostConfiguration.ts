@@ -73,6 +73,11 @@ export class BoostConfiguration {
         return command;
     }
 
+    public static set defaultOrganization(value: string) {
+        workspace.getConfiguration(NOTEBOOK_TYPE, null)
+            .update(Defaults.defaultOrganizationName, value, ConfigurationTarget.Global);
+    }
+
     public static get enableDevOnlyKernels(): boolean {
         return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.enableDevOnlyKernelsName) as boolean)??
             Defaults.enableDevOnlyKernelsValue;

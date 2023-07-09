@@ -1,12 +1,11 @@
 import {
-    KernelControllerBase, onServiceErrorHandler
+    KernelControllerBase
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import * as vscode from 'vscode';
 import * as boostnb from './jupyter_notebook';
 import { fullPathFromSourceFile } from './extension';
-import { boostLogging } from './boostLogging';
 
 export const performanceFunctionKernelName = 'performance_function';
 export const performanceFunctionOutputType = 'performanceList';
@@ -16,7 +15,7 @@ export class BoostPerformanceFunctionKernel extends KernelControllerBase {
 
     private _performanceIssueCollection: DiagnosticCollection;
 
-	constructor(context: ExtensionContext, onServiceErrorHandler: onServiceErrorHandler, otherThis: any, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis: any, collection: DiagnosticCollection) {
         super(
             collection,
             performanceFunctionKernelName,
