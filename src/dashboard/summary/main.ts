@@ -166,7 +166,7 @@ function refreshUI(boostprojectdata: IBoostProjectData) {
 
     d3.select("#detailsgrid")
         .selectAll("vscode-data-grid-row")
-        .data(detailsView, (d: any) => (d) => d.notebookRelFile ? d.notebookRelFile : d.sourceRelFile)
+        .data(detailsView, (d: any) => d.notebookRelFile ? d.notebookRelFile : d.sourceRelFile)
         .join(
             (enter) => detailsEnter(enter),
             (update) => detailsUpdate(update),

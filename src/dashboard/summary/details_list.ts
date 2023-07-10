@@ -3,12 +3,13 @@ import { vscode } from "./main";
 
 
 export function detailsEnter(enter: any) {
-    const row = enter.append("vscode-data-grid-row");
+    const row = enter.append("vscode-data-grid-row")
+        .attr("class", (d) => d.jobStatus?.status ?? "completed");
 
     const cell1 = row
         .append("vscode-data-grid-cell")
         .attr("grid-column", "1")
-        .attr("class", (d) => "left-aligned " + d.jobStatus?.status ?? "")
+        .attr("class", (d) => "left-aligned")
         .append("a")
             .attr("href", (d) => d.notebookRelFile ? d.notebookRelFile : d.sourceRelFile)
             .on("click", openFile)
@@ -18,6 +19,7 @@ export function detailsEnter(enter: any) {
 }
 
 export function detailsUpdate(update: any) {
+    update.attr("class", (d) => d.jobStatus?.status ?? "completed");
     update.call(progressMeterUpdate);
 }
 

@@ -26,7 +26,7 @@ export interface DetailsViewData {
     sourceRelFile: string;
     notebookRelFile: string;
     progressBar: ProgressBarData[],
-    jobstatus: JobStatus
+    jobStatus: JobStatus
 };
 
 export interface StatusViewData {
@@ -147,7 +147,7 @@ export function detailsViewData(
             sourceRelFile: boostprojectdata.files[file].sourceRelFile,
             notebookRelFile: boostprojectdata.files[file].notebookRelFile,
             progressBar: [],
-            jobstatus: jobstatus,
+            jobStatus: jobstatus,
         };
 
         //for each of the four display types, go through the mapping and get the completed
@@ -196,7 +196,7 @@ export function detailsViewData(
             sourceRelFile: file,
             notebookRelFile: "",
             progressBar: [],
-            jobstatus: jobstatus
+            jobStatus: jobstatus
         };
                //for each of the four display types, go through the mapping and get the completed
         //cells, total cells, and number of cells with issues
@@ -215,6 +215,8 @@ export function detailsViewData(
         });
         detailsView.push(data);
     });
+
+    //console.log("details VIEW is ", JSON.stringify(detailsView, null, 4));
     return detailsView;
 }
 

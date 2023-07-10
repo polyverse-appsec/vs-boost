@@ -20,7 +20,7 @@ export function summaryEnter(enter: any) {
 }
 
 export function summaryUpdate(update: any) {
-    update.selectAll("vscode-badge").call(badgeUpdate);
+    update.select("vscode-badge").call(badgeUpdate);
 }
 
 function badgeUpdate(update: any) {
@@ -30,7 +30,7 @@ function badgeUpdate(update: any) {
         .attr(
             "class",
             (d: any) =>{
-                let val = "boost-" + d.summary.status + " " + d.summary.jobStatusStatus?? "";
-                return val;}
+                return "boost-" + d.summary.status + " " + d.summary.jobStatusStatus?? "";
+                }
         );
 }
