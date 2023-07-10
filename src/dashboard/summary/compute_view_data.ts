@@ -147,7 +147,7 @@ export function detailsViewData(
             sourceRelFile: boostprojectdata.files[file].sourceRelFile,
             notebookRelFile: boostprojectdata.files[file].notebookRelFile,
             progressBar: [],
-            jobStatus: jobstatus,
+            jobStatus: jobstatus[file],
         };
 
         //for each of the four display types, go through the mapping and get the completed
@@ -215,8 +215,6 @@ export function detailsViewData(
         });
         detailsView.push(data);
     });
-
-    //console.log("details VIEW is ", JSON.stringify(detailsView, null, 4));
     return detailsView;
 }
 
