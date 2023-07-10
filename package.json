@@ -430,7 +430,6 @@
     },
     "dependencies": {
         "@jupyterlab/nbformat": "^3.6.3",
-        "@thirdweb-dev/sdk": "^3.10.28",
         "@types/countup.js": "^2.0.4",
         "@vscode/codicons": "^0.0.33",
         "@vscode/webview-ui-toolkit": "^1.2.2",

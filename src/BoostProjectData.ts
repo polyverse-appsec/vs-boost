@@ -16,7 +16,6 @@ import {
     BoostProcessingStatus,
     JobStatus,
 } from "./boostprojectdata_interface";
-import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 export class BoostProjectData implements IBoostProjectData {
     summary: Summary;
