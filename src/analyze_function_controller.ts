@@ -11,10 +11,10 @@ export class BoostAnalyzeFunctionKernel extends FunctionKernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis: any, collection: DiagnosticCollection) {
         super(
             collection,
-            analyzeKernelName,
+            analyzeFunctionKernelName,
             'Quick source scan for security vulnerabilities',
             'Quickly analyzes all targeted source code for security vulnerabiities, bugs and potential design flaws',
-            analyzeOutputType,
+            analyzeFunctionOutputType,
             "security",
             "Security Analysis",
             context,
