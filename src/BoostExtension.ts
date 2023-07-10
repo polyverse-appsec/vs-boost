@@ -53,15 +53,12 @@ import {
 import {
     SummarizeKernel,
     summarizeKernelName,
-    summaryFailedPrefix,
-    summaryOutputType,
 } from "./summary_controller";
 
 import { BoostSummaryViewProvider, summaryViewType } from "./summary_view";
 import { BoostStartViewProvider } from "./start_view";
 import { BoostChatViewProvider } from "./chat_view";
 import {
-    boostNotebookFileToFileSummaryItem,
     boostNotebookToFileSummaryItem,
 } from "./BoostProjectData";
 

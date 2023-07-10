@@ -21,6 +21,7 @@ export class KernelControllerBase extends BoostServiceHelper {
     id: string;
     kernelLabel: string;
     description: string;
+    outputHeader: string;
     private _supportedLanguages = [];
     private _useGeneratedCodeCellOptimization: boolean;
     private useOriginalCodeCheck = false;
@@ -35,6 +36,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         kernelLabel: string,
         description: string,
         outputType: string,
+        outputHeader: string,
         useGeneratedCodeCellOptimization: boolean,
         useOriginalCodeCheck: boolean,
         context: vscode.ExtensionContext,
@@ -57,6 +59,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         this.id = getKernelName(kernelId);
         this.kernelLabel = kernelLabel;
         this.description = description;
+        this.outputHeader = outputHeader;
         this._useGeneratedCodeCellOptimization =
             useGeneratedCodeCellOptimization;
         this.useOriginalCodeCheck = useOriginalCodeCheck;
@@ -618,6 +621,7 @@ export class KernelControllerBase extends BoostServiceHelper {
 
     // allow derived classes to override the error - e.g. change the error message
     localizeError(error: Error): Error {
+        error.message = `Boost ${this.outputHeader} failed: ${error.message}`;
         return error;
     }
 

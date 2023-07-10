@@ -10,8 +10,10 @@ import { generateCellOutputWithHeader } from './extension';
 
 export const convertOutputType = 'generatedCode';
 export const convertKernelName = 'convert';
+const convertOutputHeader = `Code Conversion`;
 
 const markdownCodeMarker = '```';
+
 export class BoostConvertKernel extends KernelControllerBase {
 	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
@@ -20,6 +22,7 @@ export class BoostConvertKernel extends KernelControllerBase {
             'Convert Legacy Code to New Code',
             'Converts targeted source code into a new programming language, using the best practices of the target language',
             convertOutputType,
+            convertOutputHeader,
             false,
             true,
             context,
@@ -168,7 +171,7 @@ export class BoostConvertKernel extends KernelControllerBase {
             let header = '';
             if(generatedCode.code.includes(markdownCodeMarker)){
                 mimetypeCode = markdownMimetype;
-                header = generateCellOutputWithHeader(`Converted Code`, generatedCode.code);
+                header = generateCellOutputWithHeader(this.outputHeader, generatedCode.code);
             } else {
                 header = generatedCode.code;
             }
@@ -210,10 +213,5 @@ export class BoostConvertKernel extends KernelControllerBase {
         }
 
         return true;
-    }
-
-    localizeError(error: Error): Error {
-        error.message = "Boost Code Conversion failed: " + error.message;
-        return error;
     }
 }

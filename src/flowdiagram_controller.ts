@@ -7,6 +7,7 @@ import { generateCellOutputWithHeader } from './extension';
 
 export const flowDiagramOutputType = 'flowDiagram';
 export const flowDiagramKernelName = 'flowdiagram';
+const flowDiagramOutputHeader = `Flow Diagram`;
 
 export class BoostFlowDiagramKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: DiagnosticCollection) {
@@ -16,6 +17,7 @@ export class BoostFlowDiagramKernel extends KernelControllerBase {
             'Create Flow Diagrams',
             'Creates a flow diagram from the code',
             flowDiagramOutputType,
+            flowDiagramOutputHeader,
             false,
             false,
             context,
@@ -48,11 +50,6 @@ export class BoostFlowDiagramKernel extends KernelControllerBase {
         if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return generateCellOutputWithHeader(`Flow Diagram`, response.analysis);
-    }
-
-    localizeError(error: Error): Error {
-        error.message = "Boost Flow Diagram Generation failed: " + error.message;
-        return error;
+        return generateCellOutputWithHeader(this.outputHeader, response.analysis);
     }
 }

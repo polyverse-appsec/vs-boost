@@ -9,6 +9,8 @@ import { BoostNotebookCell, BoostNotebook } from './jupyter_notebook';
 import { generateCellOutputWithHeader } from './extension';
 
 export const customProcessCellMarker = 'customProcessCode';
+export const customProcessKernelName = 'custom';
+const customProcessOutputHeader = `Custom Code Analysis`;
 
 
 export function getServiceEndpoint() {
@@ -45,6 +47,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
             'Custom Process Code',
             'Uses a custom prompt from user to process the targeted source code',
             customProcessCellMarker,
+            customProcessOutputHeader,
             false,
             false,
             context,
@@ -68,12 +71,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
         if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return generateCellOutputWithHeader(`Code Custom Process`, response.analysis);
-    }
-
-    localizeError(error: Error): Error {
-        error.message = "Boost Code Custom Processing failed: " + error.message;
-        return error;
+        return generateCellOutputWithHeader(this.outputHeader, response.analysis);
     }
 
     async executeAll(
@@ -98,7 +96,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
             return super.executeAll(cells, notebook, session, forceAnalysisRefresh);
         } else {
             // write user canceled warning to output, without UI
-            boostLogging.warn("Boost Code Custom Processing cancelled by user", false);
+            boostLogging.warn(`Boost ${this.outputHeader} cancelled by user`, false);
         }
     }
 

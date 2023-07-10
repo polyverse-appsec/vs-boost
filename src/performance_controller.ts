@@ -8,6 +8,7 @@ import { generateCellOutputWithHeader } from './extension';
 
 export const performanceOutputType = 'performanceCode';
 export const performanceKernelName = 'performance';
+const performanceOutputHeader = `Performance Analysis`;
 
 export class BoostPerformanceKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: DiagnosticCollection) {
@@ -17,6 +18,7 @@ export class BoostPerformanceKernel extends KernelControllerBase {
             'Check Code Performance',
             'Evaluates Performance characteristics of the code',
             performanceOutputType,
+            performanceOutputHeader,
             false,
             false,
             context,
@@ -53,11 +55,6 @@ export class BoostPerformanceKernel extends KernelControllerBase {
             if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return generateCellOutputWithHeader("Performance Analysis", response.analysis);
-    }
-
-    localizeError(error: Error): Error {
-        error.message = "Boost Performance Analysis failed: " + error.message;
-        return error;
+        return generateCellOutputWithHeader(this.outputHeader, response.analysis);
     }
 }

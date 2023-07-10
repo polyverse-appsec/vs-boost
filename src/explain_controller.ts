@@ -8,6 +8,7 @@ import { generateCellOutputWithHeader } from './extension';
 
 export const explainOutputType = 'explainCode';
 export const explainKernelName = 'explain';
+const explainOutputHeader = 'Code Explanation';
 
 export class BoostExplainKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: DiagnosticCollection) {
@@ -17,6 +18,7 @@ export class BoostExplainKernel extends KernelControllerBase {
             'Explain Code',
             'Explains the targeted source code in English, including algorithms, referenced frameworks and design patterns',
             explainOutputType,
+            explainOutputHeader,
             false,
             false,
             context,
@@ -51,11 +53,6 @@ export class BoostExplainKernel extends KernelControllerBase {
         if (response.explanation === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return generateCellOutputWithHeader(`Code Explanation`, response.explanation);
-    }
-
-    localizeError(error: Error): Error {
-        error.message = "Boost Code Explanation failed: " + error.message;
-        return error;
+        return generateCellOutputWithHeader(this.outputHeader, response.explanation);
     }
 }

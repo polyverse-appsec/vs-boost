@@ -8,6 +8,7 @@ import { generateCellOutputWithHeader } from './extension';
 
 export const testgenKernelName = 'testgen';
 export const testgenOutputName = 'testGeneration';
+const testgenOutputHeader = `Test Generation`;
 
 export class BoostTestgenKernel extends KernelControllerBase {
 	constructor(
@@ -22,6 +23,7 @@ export class BoostTestgenKernel extends KernelControllerBase {
             'Generate Test Cases for Code',
             'Generates a set of unit Test Cases for testing the targeted source code using a specifie Test Framework',
             testgenOutputName,
+            testgenOutputHeader,
             true,
             true,
             context,
@@ -89,7 +91,7 @@ export class BoostTestgenKernel extends KernelControllerBase {
             //quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
         if(response.testcode.includes('```')){
             mimetype = 'text/markdown';
-            return generateCellOutputWithHeader(`Test Generation`, response.testcode);
+            return generateCellOutputWithHeader(this.outputHeader, response.testcode);
         }
         else {
             mimetype.str = 'text/x-' + outputLanguage;

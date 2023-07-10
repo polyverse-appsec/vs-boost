@@ -9,7 +9,6 @@ import { fullPathFromSourceFile, generateCellOutputWithHeader } from './extensio
 export class FunctionKernelControllerBase extends KernelControllerBase {
 
     private _functionIssueCollection: DiagnosticCollection;
-    private outputHeader : string;
 
 	constructor(
         collection: DiagnosticCollection,
@@ -30,6 +29,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
             kernelLabel,
             description,
             outputType,
+            outputHeader,
             true,
             true, 
             context,
@@ -74,11 +74,6 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         });
 
         return generateCellOutputWithHeader(`Source-Level ${this.outputHeader}`, markdown);
-    }
-
-    localizeError(error: Error): Error {
-        error.message = `Boost ${this.outputHeader} failed: ${error.message}`;
-        return error;
     }
 
     onKernelProcessResponseDetails(response: any, cell : vscode.NotebookCell | boostnb.BoostNotebookCell, notebook: vscode.NotebookDocument | boostnb.BoostNotebook, mimetype : any) : any {

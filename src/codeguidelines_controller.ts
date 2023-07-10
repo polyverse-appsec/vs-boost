@@ -8,6 +8,7 @@ import { generateCellOutputWithHeader } from './extension';
 
 export const codeGuidelinesOutputType = 'guidelinesCode';
 export const codeGuidelinesKernelName = 'codeguidelines';
+const codeGuidelinesOutputHeader = `Code Guidelines Evaluation`;
 
 export class BoostCodeGuidelinesKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: DiagnosticCollection) {
@@ -17,6 +18,7 @@ export class BoostCodeGuidelinesKernel extends KernelControllerBase {
             'Evaluate Code Guidelines',
             'Evaluates targeted source code for following Code Guidelines for programming language and framework',
             codeGuidelinesOutputType,
+            codeGuidelinesOutputHeader,
             false,
             false,
             context,
@@ -52,11 +54,6 @@ export class BoostCodeGuidelinesKernel extends KernelControllerBase {
             if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return generateCellOutputWithHeader(`Code Guidelines Evaluation`, response.analysis);
-    }
-
-    localizeError(error: Error): Error {
-        error.message = "Boost Code Guidelines Analysis failed: " + error.message;
-        return error;
+        return generateCellOutputWithHeader(this.outputHeader, response.analysis);
     }
 }

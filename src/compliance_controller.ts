@@ -8,6 +8,7 @@ import { generateCellOutputWithHeader } from './extension';
 
 export const complianceOutputType = 'complianceCode';
 export const complianceKernelName = 'compliance';
+const complianceOutputHeader = `Data Compliance Check`;
 
 export class BoostComplianceKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: DiagnosticCollection) {
@@ -17,6 +18,7 @@ export class BoostComplianceKernel extends KernelControllerBase {
             'Check Data Compliance',
             'Evaluates Data and Privacy Compliance of the code',
             complianceOutputType,
+            complianceOutputHeader,
             false,
             false,
             context,
@@ -53,11 +55,6 @@ export class BoostComplianceKernel extends KernelControllerBase {
             if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return generateCellOutputWithHeader(`Data Compliance Check`, response.analysis);
-    }
-
-    localizeError(error: Error): Error {
-        error.message = "Boost Data Compliance Analysis failed: " + error.message;
-        return error;
+        return generateCellOutputWithHeader(this.outputHeader, response.analysis);
     }
 }

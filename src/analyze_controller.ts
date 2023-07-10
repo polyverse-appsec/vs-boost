@@ -8,6 +8,7 @@ import { generateCellOutputWithHeader } from './extension';
 
 export const analyzeKernelName = 'analyze';
 export const analyzeOutputType = 'bugAnalysis';
+const analysisOutputHeader = 'Code Analysis';
 
 export class BoostAnalyzeKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis: any, collection: DiagnosticCollection) {
@@ -17,6 +18,7 @@ export class BoostAnalyzeKernel extends KernelControllerBase {
             'Analyze for bug and design flaws',
             'Deep analysis of all targeted source code for security vulnerabiities, bugs and potential design flaws',
             analyzeOutputType,
+            analysisOutputHeader,
             true,
             true, 
             context,
@@ -49,14 +51,9 @@ export class BoostAnalyzeKernel extends KernelControllerBase {
         _ : NotebookCell | BoostNotebookCell,
         __ : any) : string {
 
-            if (response.analysis === undefined) {
+        if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return generateCellOutputWithHeader("Code Analysis", response.analysis);
-    }
-
-    localizeError(error: Error): Error {
-        error.message = "Boost Code Analysis failed: " + error.message;
-        return error;
+        return generateCellOutputWithHeader(this.outputHeader, response.analysis);
     }
 }

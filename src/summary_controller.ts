@@ -14,8 +14,7 @@ import { blueprintOutputType } from './blueprint_controller';
 
 export const summaryOutputType = 'summary';
 export const summarizeKernelName = 'summarize';
-
-export const summaryFailedPrefix = "Error: Boost Summary failed: ";
+export const summmarizeOutputHeader = 'Summary';
 
 const summaryInputDelimiter = '# New Input Follows';
 
@@ -34,6 +33,7 @@ export class SummarizeKernel extends KernelControllerBase {
             'Summarize Analysis',
             'Summarizes the analysis across cells',
             summaryOutputType,
+            summmarizeOutputHeader,
             false,
             false,
             context,
@@ -270,7 +270,7 @@ export class SummarizeKernel extends KernelControllerBase {
     }
 
     _isEmptySummary(input: string): boolean {
-        return input.startsWith(summaryFailedPrefix);
+        return input.startsWith(`Boost ${this.outputHeader} failed:`);
     }
 
     async getAnalysisFromNotebook(notebookUri: vscode.Uri, outputType: string): Promise<string> {
@@ -372,11 +372,6 @@ export class SummarizeKernel extends KernelControllerBase {
         }
 
         return generateCellOutputWithHeader(`${response.analysis_label} Summary`, response.analysis);
-    }
-
-    localizeError(error: Error): Error {
-        error.message = summaryFailedPrefix + error.message;
-        return error;
     }
 }
 

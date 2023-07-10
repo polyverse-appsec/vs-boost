@@ -13,6 +13,7 @@ import { getCurrentOrganization } from "./authorization";
 import { blueprintOutputType } from './blueprint_controller';
 
 export const quickBlueprintKernelName = 'quickblueprint';
+const quickBlueprintOutputHeader = `Architectural Quick Blueprint`;
 
 export class BoostQuickBlueprintKernel extends KernelControllerBase {
 	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection) {
@@ -22,6 +23,7 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
             'Quick Architectural Blueprint Code',
             'Quickly builds an Archiectural Blueprint from hints about project and source code.',
             blueprintOutputType,
+            quickBlueprintOutputHeader,
             false,
             false,
             context,
@@ -218,8 +220,6 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
         notebook.flushToFS();
     }
 
-    readonly kernelMarkdownPrefix = "### Boost Architectural Quick Blueprint\n";
-
     onKernelOutputItem(
         response: any,
         cell : vscode.NotebookCell | BoostNotebookCell,
@@ -228,11 +228,6 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
         if (response.blueprint === undefined && response.details === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return generateCellOutputWithHeader(this.kernelMarkdownPrefix, response.blueprint);
-    }
-
-    localizeError(error: Error): Error {
-        error.message = "Boost Architectural Quick Blueprint failed: " + error.message;
-        return error;
+        return generateCellOutputWithHeader(this.outputHeader, response.blueprint);
     }
 }

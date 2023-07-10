@@ -8,6 +8,7 @@ import { generateCellOutputWithHeader } from './extension';
 
 export const blueprintOutputType = 'archblueprintCode';
 export const blueprintKernelName = 'blueprint';
+const blueprintOutputHeader = 'Architectural Blueprint';
 
 export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
 	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection) {
@@ -17,6 +18,7 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
             'Architectural Blueprint Code',
             'Builds Archiectural Blueprint of targeted source code by identifying architectural principles, patterns, licensing, performance, etc.',
             blueprintOutputType,
+            blueprintOutputHeader,
             false,
             false,
             context,
@@ -55,11 +57,6 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
         if (response.blueprint === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return generateCellOutputWithHeader(`Architectural Blueprint`, response.blueprint);
-    }
-
-    localizeError(error: Error): Error {
-        error.message = "Boost Architectural Blueprint failed: " + error.message;
-        return error;
+        return generateCellOutputWithHeader(this.outputHeader, response.blueprint);
     }
 }
