@@ -4,7 +4,7 @@ import {
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import * as vscode from 'vscode';
 import * as boostnb from './jupyter_notebook';
-import { fullPathFromSourceFile, getCurrentDateTime } from './extension';
+import { fullPathFromSourceFile, generateCellOutputWithHeader } from './extension';
 
 export class FunctionKernelControllerBase extends KernelControllerBase {
 
@@ -47,19 +47,17 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
     onKernelOutputItem(
         response: any,
         cell : vscode.NotebookCell | boostnb.BoostNotebookCell,
-        mimetype : any) : string {
+        _ : any) : string {
 
-            if (response.details === undefined) {
+        if (response.details === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
 
-        let markdown = `\n\n---\n\n### Boost Source-Level ${this.outputHeader}\n\nLast Updated: ${getCurrentDateTime()}\n\n`;
-
         if (response.details.length === 0) {
-            markdown += '**No bugs found**\n\n';
-            return markdown;
+            return generateCellOutputWithHeader(`Source-Level ${this.outputHeader}`, `**No bugs found**`);
         }
 
+        let markdown = '';
         const baseLineNumber = lineNumberBaseFromCell(cell);
 
         response.details.forEach((bug: any, index: number) => {
@@ -75,13 +73,14 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
             markdown += `   **Solution**: ${bug.solution}\n\n\n`;
         });
 
-        return markdown;
+        return generateCellOutputWithHeader(`Source-Level ${this.outputHeader}`, markdown);
     }
 
     localizeError(error: Error): Error {
         error.message = `Boost ${this.outputHeader} failed: ${error.message}`;
         return error;
     }
+
     onKernelProcessResponseDetails(response: any, cell : vscode.NotebookCell | boostnb.BoostNotebookCell, notebook: vscode.NotebookDocument | boostnb.BoostNotebook, mimetype : any) : any {
            //if the response.details field exists, then we will use that as the output as an object
         if (!response.details) {
