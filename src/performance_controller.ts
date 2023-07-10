@@ -38,7 +38,7 @@ export class BoostPerformanceKernel extends KernelControllerBase {
             case 'dev':
                 return 'https://kh5r75yzyxe3idb223bei7tzni0vdyab.lambda-url.us-west-2.on.aws/';
             case "test":
-                throw new Error("Not Implemented");
+                return 'https://7jbcpiwhdx4yesneiujibmccem0ceazu.lambda-url.us-west-2.on.aws/';
             case 'staging':
             case 'prod':
             default:

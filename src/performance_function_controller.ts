@@ -30,7 +30,7 @@ export class BoostPerformanceFunctionKernel extends FunctionKernelControllerBase
             case 'dev':
                 return 'https://6ucgf5nhzygxehglg5r7nd73640lykwa.lambda-url.us-west-2.on.aws/';
             case "test":
-                throw new Error("Not Implemented");
+                return 'https://smp4ywxcghte7ipzgwxyyiii4m0wfdax.lambda-url.us-west-2.on.aws/';
             case 'staging':
             case 'prod':
             default:
