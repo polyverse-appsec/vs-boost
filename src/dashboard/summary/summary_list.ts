@@ -29,7 +29,8 @@ function badgeUpdate(update: any) {
         .text((d: any) => d.summary.analyzed + "/" + d.summary.total)
         .attr(
             "class",
-            (d: any) =>
-                "boost-" + d.summary.status + " " + d.summary.jobStatusStatus?? ""
+            (d: any) =>{
+                let val = "boost-" + d.summary.status + " " + d.summary.jobStatusStatus?? "";
+                return val;}
         );
 }

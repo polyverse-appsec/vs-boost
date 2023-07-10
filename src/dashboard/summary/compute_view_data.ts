@@ -272,7 +272,6 @@ function mergeSummary(
             }
         };
     });
-
     return summary;
 }
 
