@@ -53,7 +53,7 @@ export class BoostComplianceKernel extends KernelControllerBase {
             if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }
-        return generateCellOutputWithHeader(`Code Compliance Check`, response.analysis);
+        return generateCellOutputWithHeader(`Data Compliance Check`, response.analysis);
     }
 
     localizeError(error: Error): Error {

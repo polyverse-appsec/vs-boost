@@ -9,7 +9,6 @@ import { generateCellOutputWithHeader } from './extension';
 export const analyzeKernelName = 'analyze';
 export const analyzeOutputType = 'bugAnalysis';
 
-//set a helper variable of the base url.  this should eventually be a config setting
 export class BoostAnalyzeKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis: any, collection: DiagnosticCollection) {
         super(
