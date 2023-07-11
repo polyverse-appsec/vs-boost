@@ -157,7 +157,7 @@ export class BoostConfiguration {
     }
 
     static _cachedVersion: string = "";
-    public static get version(): string | undefined {
+    public static get version(): string {
         if (this._cachedVersion) {
             return this._cachedVersion;
         }
@@ -169,7 +169,7 @@ export class BoostConfiguration {
           return this._cachedVersion;
         }
 
-        return undefined;
+        return "";
     }
 }
 
