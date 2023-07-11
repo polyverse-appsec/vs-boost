@@ -72,13 +72,13 @@ import {
     findCellByKernel,
     cleanCellOutput,
     boostActivityBarId,
-    BoostUserAnalysisType,
 } from "./extension";
+import { BoostUserAnalysisType } from './userAnalysisType';
 
 import { BoostContentSerializer } from "./serializer";
 import { BoostConfiguration } from "./boostConfiguration";
 import { boostLogging } from "./boostLogging";
-import { KernelControllerBase, errorMimeType } from "./base_controller";
+import { KernelControllerBase } from "./base_controller";
 import {
     updateBoostStatusColors,
     registerCustomerPortalCommand,
@@ -90,10 +90,7 @@ import { generateMarkdownforNotebook } from "./convert_markdown";
 import { generateHTMLforNotebook } from "./convert_html";
 import { BoostProjectData } from "./BoostProjectData";
 import {
-    BoostProcessingStatus,
     emptyProjectData,
-    SectionSummary,
-    FileSummaryItem,
 } from "./boostprojectdata_interface";
 import { BoostMarkdownViewProvider } from "./markdown_view";
 
@@ -779,17 +776,17 @@ export class BoostExtension {
         const security = new BoostMarkdownViewProvider(
             context,
             this,
-            "security"
+            BoostUserAnalysisType.security
         );
         const compliance = new BoostMarkdownViewProvider(
             context,
             this,
-            "compliance"
+            BoostUserAnalysisType.compliance
         );
         const blueprint = new BoostMarkdownViewProvider(
             context,
             this,
-            "blueprint"
+            BoostUserAnalysisType.blueprint
         );
 
         context.subscriptions.push(

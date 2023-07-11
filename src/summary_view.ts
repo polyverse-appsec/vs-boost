@@ -20,7 +20,7 @@ import { BoostProjectData } from "./BoostProjectData";
 import { FileSummaryItem } from "./boostprojectdata_interface";
 import { quickBlueprintKernelName } from "./quick_blueprint_controller";
 import { performanceKernelName } from "./performance_controller";
-import { getOrCreateBlueprintUri, getOrCreateGuideline, getBoostFile, BoostFileType } from './extension';
+import { BoostUserAnalysisType } from "./userAnalysisType";
 
 
 export const summaryViewType = "polyverse-boost-summary-view";
@@ -97,7 +97,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
                         const analysisMap = new Map([
                             [
-                                "documentation",
+                                BoostUserAnalysisType.documentation,
                                 [
                                     getKernelName(quickBlueprintKernelName),
                                     getKernelName(explainKernelName),
@@ -105,7 +105,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                 ],
                             ],
                             [
-                                "security",
+                                BoostUserAnalysisType.security,
                                 [
                                     getKernelName(analyzeFunctionKernelName),
 //                                    getKernelName(performanceFunctionKernelName),
@@ -113,13 +113,13 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
                             ],
                             [
-                                "compliance",
+                                BoostUserAnalysisType.compliance,
                                 [
                                     getKernelName(complianceFunctionKernelName),
                                 ],
                             ],
                             [
-                                "deepcode",
+                                BoostUserAnalysisType.deepCode,
                                 [
                                     getKernelName(blueprintKernelName),
                                     getKernelName(analyzeKernelName),

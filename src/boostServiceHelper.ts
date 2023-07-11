@@ -7,7 +7,8 @@ import { mapError } from "./error";
 
 import { BoostNotebook, BoostNotebookCell,
     NOTEBOOK_GUIDELINES_PRE_EXTENSION } from "./jupyter_notebook";
-import { getBoostFile, BoostFileType, BoostUserAnalysisType} from "./extension";
+import { getBoostFile, BoostFileType } from "./extension";
+import { BoostUserAnalysisType } from './userAnalysisType';
 import { BoostConfiguration } from "./boostConfiguration";
 import { boostLogging } from "./boostLogging";
 import { fetchGithubSession, getCurrentOrganization } from "./authorization";

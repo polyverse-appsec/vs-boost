@@ -22,14 +22,6 @@ export enum BoostFileType {
     guidelines = "guidelines"
 }
 
-
-export enum BoostUserAnalysisType {
-    blueprint = "blueprint",
-    security = "security",
-    documentation = "documentation",
-    compliance = "compliance"
-}
-
 export function getKernelName(kernelName: string): string {
     return 'polyverse-boost-' + kernelName + '-kernel';
 }

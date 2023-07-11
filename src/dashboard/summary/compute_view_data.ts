@@ -1,9 +1,7 @@
 import { IBoostProjectData, JobStatus } from "../../boostprojectdata_interface";
 
-import {
-    ControllerOutputType,
-} from "../../controllerOutputTypes";
-
+import { ControllerOutputType } from "../../controllerOutputTypes";
+import { BoostUserAnalysisType, displayGroupFriendlyName } from "../../userAnalysisType";
 
 export interface AnalysisSectionSummary {
     analyzed: number;
@@ -55,13 +53,6 @@ export const outputTypeToDisplayGroup = {
     ],
 };
 
-export const displayGroupFriendlyName = {
-    documentation: "Documentation",
-    security: "Security",
-    compliance: "Compliance",
-    deepcode: "Deep Code Analysis",
-};
-
 //find the summary for the given output type by searching through the outputTypeToDisplay structure
 export function mapOutputTypeToSummary(outputType: string) {
     //loop through the outputTypeToDisplay structure and find the summary
@@ -80,7 +71,7 @@ export function summaryViewData(boostprojectdata: IBoostProjectData): SummaryVie
     let summaryView = [
         {
             display: displayGroupFriendlyName.documentation,
-            id: "documentation",
+            id: BoostUserAnalysisType.documentation,
             summary: mergeSummary(
                 boostprojectdata,
                 [ControllerOutputType.explain, ControllerOutputType.flowDiagram],
@@ -90,13 +81,13 @@ export function summaryViewData(boostprojectdata: IBoostProjectData): SummaryVie
         },
         {
             display: displayGroupFriendlyName.security,
-            id: "security",
+            id: BoostUserAnalysisType.security,
             summary: mergeSummary(boostprojectdata, [ControllerOutputType.analyzeFunction], jobStatus),
             defaultChecked: true,
         },
         {
             display: displayGroupFriendlyName.compliance,
-            id: "compliance",
+            id: BoostUserAnalysisType.compliance,
             summary: mergeSummary(boostprojectdata, [ControllerOutputType.complianceFunction], jobStatus),
             defaultChecked: true,
         },
