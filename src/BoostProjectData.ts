@@ -60,7 +60,7 @@ export class BoostProjectData implements IBoostProjectData {
         const [majorData = 0, minorData = 0] = dataVersion.split('.').map(Number);
         const [majorClient, minorClient] = BoostConfiguration.version.split('.').map(Number);
 
-        if (majorData !== majorClient || minorData === minorClient) {
+        if (majorData !== majorClient || minorData !== minorClient) {
             throw new IncompatibleVersionException(
                 `Data Format version is ${dataVersion}. Expected compatibility with ${BoostConfiguration.version}`);
         }
