@@ -335,8 +335,6 @@ export class SummarizeKernel extends KernelControllerBase {
         serviceEndpoint : string,
         payload : any) : Promise<string>
     {
-        const usingBoostNotebook = cell?"value" in cell:true; // look for the value property to see if its a BoostNotebookCell
-
         //  dynamically add payload properties to send to Boost service
         payload.analysis_type = cell?.metadata?.analysis_type;
         payload.analysis_label = cell?.metadata?.analysis_label;
