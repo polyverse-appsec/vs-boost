@@ -16,6 +16,7 @@ import {
     BoostProcessingStatus,
     JobStatus,
 } from "./boostprojectdata_interface";
+import { ControllerOutputType } from "./controllerOutputTypes";
 
 export class BoostProjectData implements IBoostProjectData {
     summary: Summary;
@@ -45,10 +46,28 @@ export class BoostProjectData implements IBoostProjectData {
         Object.assign(this, projectData);
     }
 
+    readonly oldComplianceFunctionType = 'complianceList';
     load(filePath: string): void {
         const jsonString = fs.readFileSync(filePath, "utf8");
         try {
-            this.create(jsonString);
+            const parsedJson = JSON.parse(jsonString, (key, value) => {
+                if (key === 'analysisType' && value === this.oldComplianceFunctionType) {
+                    return ControllerOutputType.complianceFunction;
+                } else {
+                    return value;
+                }
+            });
+    
+            // Check and update the keys under sections in files
+            if (parsedJson.files) {
+                Object.values(parsedJson.files).forEach((file: any) => {
+                    if (file.sections && file.sections[this.oldComplianceFunctionType]) {
+                        file.sections[ControllerOutputType.complianceFunction] = file.sections[this.oldComplianceFunctionType];
+                        delete file.sections[this.oldComplianceFunctionType];
+                    }
+                });
+            }
+            this.create(parsedJson);
         } catch (e) {
             if (e instanceof SyntaxError) {
                 throw new SyntaxError(
