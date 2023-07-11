@@ -5,8 +5,8 @@ import { DiagnosticCollection, ExtensionContext, NotebookCell } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import { BoostNotebookCell } from './jupyter_notebook';
 import { generateCellOutputWithHeader } from './extension';
+import { ControllerOutputType } from './controllerOutputTypes';
 
-export const performanceOutputType = 'performanceCode';
 export const performanceKernelName = 'performance';
 const performanceOutputHeader = `Performance Analysis`;
 
@@ -17,7 +17,7 @@ export class BoostPerformanceKernel extends KernelControllerBase {
             performanceKernelName,
             'Check Code Performance',
             'Evaluates Performance characteristics of the code',
-            performanceOutputType,
+            ControllerOutputType.performance,
             performanceOutputHeader,
             false,
             false,

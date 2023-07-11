@@ -1,10 +1,10 @@
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import { FunctionKernelControllerBase } from './function_base_controller';
-import { performanceKernelName, performanceOutputType } from './performance_controller';
+import { performanceKernelName } from './performance_controller';
+import { ControllerOutputType } from './controllerOutputTypes';
 
 export const performanceFunctionKernelName = performanceKernelName + '_function';
-export const performanceFunctionOutputType = performanceOutputType + 'List';
 
 export class BoostPerformanceFunctionKernel extends FunctionKernelControllerBase {
 
@@ -14,7 +14,7 @@ export class BoostPerformanceFunctionKernel extends FunctionKernelControllerBase
             performanceFunctionKernelName,
             'Quick source scan for performance issues',
             'Quickly analyzes all targeted source code for performance issues',
-            performanceFunctionOutputType,
+            ControllerOutputType.performanceFunction,
             "performance",
             "Performance Analysis", 
             context,
