@@ -89,7 +89,7 @@ export function getBoostFile(sourceFile : vscode.Uri | undefined, format : Boost
     else {
         const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder
         baseFolder = workspaceFolder.uri.fsPath;
-        // if user didn't specify a source file, then we're get the global project file
+        // if user didn't specify a source file, then we'll get the global project file
         if (!sourceFile) {
             sourceFile = workspaceFolder.uri;
         }
