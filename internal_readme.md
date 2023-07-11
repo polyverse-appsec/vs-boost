@@ -206,3 +206,33 @@ npm run publish
  INFO  Hub URL: https://marketplace.visualstudio.com/manage/publishers/polyversecorporation/extensions/polyverse-boost-notebook/hub
  DONE  Published polyversecorporation.polyverse-boost-notebook v0.9.5.
 ```
+
+
+###TEMPORARY###
+disabled the following panels for now until we have a better way to handle them
+```
+                {
+                    "type": "webview",
+                    "id": "polyverse-boost-blueprint-view",
+                    "name": "Blueprint Summary",
+                    "icon": "resources/boost_icon_plain.svg"
+                },
+                {
+                    "type": "webview",
+                    "id": "polyverse-boost-doc-view",
+                    "name": "Documentation",
+                    "icon": "resources/boost_icon_plain.svg"
+                },
+                {
+                    "type": "webview",
+                    "id": "polyverse-boost-security-view",
+                    "name": "Security Scan",
+                    "icon": "resources/boost_icon_plain.svg"
+                },
+                {
+                    "type": "webview",
+                    "id": "polyverse-boost-compliance-view",
+                    "name": "Compliance Scan",
+                    "icon": "resources/boost_icon_plain.svg"
+                }
+```

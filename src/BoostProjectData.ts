@@ -232,9 +232,9 @@ export class BoostProjectData implements IBoostProjectData {
         }
         //first remove the job from the list
         this.jobStatus[relFile].jobs = this.jobStatus[relFile].jobs.filter(j => j !== job);
-        //if there are no more jobs, then set the status to finished
+        //if there are no more jobs, then remove the job from the jobStatus object.
         if (this.jobStatus[relFile].jobs?.length === 0) {
-            this.jobStatus[relFile].status = "completed";
+            delete(this.jobStatus[relFile]);
         }
     }
 

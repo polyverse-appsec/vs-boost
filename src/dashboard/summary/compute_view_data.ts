@@ -29,6 +29,7 @@ export interface DetailsViewData {
     notebookRelFile: string;
     progressBar: ProgressBarData[],
     jobStatus: JobStatus
+    progressStatus: "completed" | "incomplete" | "not-started" | "processing" | "queued";
 };
 
 export interface StatusViewData {
@@ -128,6 +129,7 @@ export function detailsViewData(
             notebookRelFile: boostprojectdata.files[file].notebookRelFile,
             progressBar: [],
             jobStatus: jobstatus[file],
+            progressStatus: "not-started"
         };
 
         //for each of the four display types, go through the mapping and get the completed
@@ -160,6 +162,14 @@ export function detailsViewData(
                 );
             });
             data.progressBar.push(progressbardata);
+
+            if( progressbardata.completedCells > 0 && 
+                progressbardata.completedCells === progressbardata.totalCells 
+                && (data.progressStatus !== "processing" && data.progressStatus !== "incomplete")){
+                data.progressStatus = "completed";
+            } else if (progressbardata.completedCells > 0 || progressbardata.issueCells > 0) {
+                data.progressStatus = "incomplete";
+            }
         });
 
         detailsView.push(data);
@@ -168,15 +178,28 @@ export function detailsViewData(
     //now go through the jobStatus and create entries for each of those files
     //that are not in the boostprojectdata.files
     Object.keys(jobstatus).forEach((file: string) => {
-        //if the file is in the boostprojectdata.files, skip it
+        //if the file is in the boostprojectdata.files, skip it, but update the progressStatus to show it's
+        //being processed.
         if (boostprojectdata.files[file]) {
+            //find it in the detailsView array and update the progressStatus
+            let index = detailsView.findIndex((element) => {
+                return element.sourceRelFile === boostprojectdata.files[file].sourceRelFile && 
+                element.notebookRelFile === boostprojectdata.files[file].notebookRelFile;
+            });
+            //if we're completed, we want that to take procedence over the processing state
+            //except for the case of 'processing'.
+            if (index !== -1 && (detailsView[index].progressStatus !== "completed"
+             && jobstatus[file].status !== "processing")) {
+                detailsView[index].progressStatus = jobstatus[file].status;
+            }
             return;
         }
         let data: DetailsViewData = {
             sourceRelFile: file,
             notebookRelFile: "",
             progressBar: [],
-            jobStatus: jobstatus
+            jobStatus: jobstatus[file],
+            progressStatus: "not-started"
         };
                //for each of the four display types, go through the mapping and get the completed
         //cells, total cells, and number of cells with issues

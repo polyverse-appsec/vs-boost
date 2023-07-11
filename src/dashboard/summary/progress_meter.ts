@@ -3,7 +3,7 @@ import * as d3 from "d3";
 const width = 100;
 const height = 3;
 
-export function progressMeterEnter(parent: d3.Selection): d3.Selection {
+export function progressMeterEnter(parent: d3.selection): d3.selection {
     // Create SVG
     const svg = parent
         .append("vscode-data-grid-cell")
@@ -29,13 +29,13 @@ export function progressMeterEnter(parent: d3.Selection): d3.Selection {
     return parent;
 }
 
-export function progressMeterUpdate(parent: d3.Selection): d3.Selection {
+export function progressMeterUpdate(parent: d3.selection): d3.selection {
     const groups = parent.selectAll("g").data((d) => d.progressBar);
     groups.call(barUpdate);
     return groups;
 }
 
-function barUpdate(bar: d3.Selection) {
+function barUpdate(bar: d3.selection) {
     bar.each(function (pBarData, i) {
         const withoutIssues = pBarData.completedCells - pBarData.issueCells;
         const totalCells = pBarData.totalCells ? pBarData.totalCells : 1;
@@ -93,7 +93,7 @@ function barUpdate(bar: d3.Selection) {
     });
 }
 
-function addZoom(parent: d3.Selection) {
+function addZoom(parent: d3.selection) {
     parent
         .on("mouseover", function (event, d) {
             // Change the opacity

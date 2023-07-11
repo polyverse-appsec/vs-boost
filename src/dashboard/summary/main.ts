@@ -173,10 +173,27 @@ function refreshUI(boostprojectdata: IBoostProjectData) {
             (exit) => exit.remove()
         )
         .sort((a: any, b: any) => {
+            const statuses = {
+                "processing": 1,
+                "completed": 2,
+                "incomplete": 3,
+                "queued": 4,
+                "not-started": 5,
+            };
+            const aStatus = a.progressStatus;
+            const bStatus = b.progressStatus;
+            // Compare statuses first
+            if (statuses[aStatus] !== statuses[bStatus]) {
+                return statuses[aStatus] - statuses[bStatus];
+            }
+    
+            // If statuses are equal, compare filenames
             let fileA = a.notebookRelFile ? a.notebookRelFile : a.sourceRelFile;
             let fileB = b.notebookRelFile ? b.notebookRelFile : b.sourceRelFile;
             return d3.ascending(fileA, fileB);
-        });
+        })
+        .transition()
+            .duration(100);
 
     refreshSpinner(statusView);
     refreshProgressText(statusView);

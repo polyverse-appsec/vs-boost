@@ -56,30 +56,6 @@
                     "id": "polyverse-boost-chat-view",
                     "name": "Sara AI Chat",
                     "icon": "resources/boost_icon_plain.svg"
-                },
-                {
-                    "type": "webview",
-                    "id": "polyverse-boost-blueprint-view",
-                    "name": "Blueprint Summary",
-                    "icon": "resources/boost_icon_plain.svg"
-                },
-                {
-                    "type": "webview",
-                    "id": "polyverse-boost-doc-view",
-                    "name": "Documentation",
-                    "icon": "resources/boost_icon_plain.svg"
-                },
-                {
-                    "type": "webview",
-                    "id": "polyverse-boost-security-view",
-                    "name": "Security Scan",
-                    "icon": "resources/boost_icon_plain.svg"
-                },
-                {
-                    "type": "webview",
-                    "id": "polyverse-boost-compliance-view",
-                    "name": "Compliance Scan",
-                    "icon": "resources/boost_icon_plain.svg"
                 }
             ]
         },
