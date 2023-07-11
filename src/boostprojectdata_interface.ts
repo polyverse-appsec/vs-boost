@@ -63,8 +63,8 @@ export const emptyProjectData: IBoostProjectData = {
         filesAnalyzed: 0,
     },
     sectionSummary: {
-        blueprint: {
-            analysisType: "blueprint",
+        archblueprintCode: {
+            analysisType: "archblueprintCode",
             status: BoostProcessingStatus.notStarted,
             completedCells: 0,
             errorCells: 0,
@@ -72,8 +72,8 @@ export const emptyProjectData: IBoostProjectData = {
             totalCells: 0,
             filesAnalyzed: 0,
         },
-        explain: {
-            analysisType: "explain",
+        explainCode: {
+            analysisType: "explainCode",
             status: BoostProcessingStatus.notStarted,
             completedCells: 0,
             errorCells: 0,
@@ -90,8 +90,8 @@ export const emptyProjectData: IBoostProjectData = {
             totalCells: 0,
             filesAnalyzed: 0,
         },
-        bugAnalyze: {
-            analysisType: "bugAnalyze",
+        bugAnalysis: {
+            analysisType: "bugAnalysis",
             status: BoostProcessingStatus.notStarted,
             completedCells: 0,
             errorCells: 0,
@@ -108,8 +108,8 @@ export const emptyProjectData: IBoostProjectData = {
             totalCells: 0,
             filesAnalyzed: 0,
         },
-        compliance: {
-            analysisType: "compliance",
+        complianceCode: {
+            analysisType: "complianceCode",
             status: BoostProcessingStatus.notStarted,
             completedCells: 0,
             errorCells: 0,
@@ -117,8 +117,8 @@ export const emptyProjectData: IBoostProjectData = {
             totalCells: 0,
             filesAnalyzed: 0,
         },
-        complianceList: {
-            analysisType: "complianceList",
+        complianceCodeList: {
+            analysisType: "complianceCodeList",
             status: BoostProcessingStatus.notStarted,
             completedCells: 0,
             errorCells: 0,

@@ -57,7 +57,7 @@ export interface StatusViewData {
 export const outputTypeToDisplayGroup = {
     documentation: ["explainCode", "flowDiagram"],
     security: ["bugAnalysisList"],
-    compliance: ["complianceList"],
+    compliance: ["complianceCodeList"],
     deepcode: [
         "guidelinesCode",
         "archblueprintCode",
@@ -127,6 +127,7 @@ export function summaryViewData(boostprojectdata: IBoostProjectData): SummaryVie
             defaultChecked: false,
         },
     ];
+    console.log("summaryViewData", JSON.stringify(summaryView, null, 4));
     return summaryView;
 }
 
@@ -242,7 +243,7 @@ function mergeSummary(
                 completed !== "incomplete"
             ) {
                 completed = "completed";
-            } else {
+            } else if (boostprojectdata.sectionSummary[analysisType].filesAnalyzed > 0 ){
                 completed = "incomplete";
             }
         }
