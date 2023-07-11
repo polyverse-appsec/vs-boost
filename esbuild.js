@@ -117,7 +117,7 @@ const watchConfig = {
       await build(summaryConfig);
       await build(chatConfig);
       await build(startConfig);
-      await build(markdownConfig)
+      await build(markdownConfig);
       
       console.log("build complete");
     }
