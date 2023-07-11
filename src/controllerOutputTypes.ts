@@ -11,7 +11,7 @@ export enum ControllerOutputType {
     performanceFunction = performance + functionOutputTypeExtension,
     flowDiagram = 'flowDiagram',
     summary = 'summary',
-    explain = 'explain',
+    explain = 'explainCode',
     codeGuidelines = 'guidelinesCode',
     convert = 'generatedCode',
 
