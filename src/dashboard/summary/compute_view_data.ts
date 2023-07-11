@@ -1,4 +1,13 @@
-import { FileSummaryItem, IBoostProjectData, JobStatus } from "../../boostprojectdata_interface";
+import { analyzeOutputType } from "../../analyze_controller";
+import { analyzeFunctionOutputType } from "../../analyze_function_controller";
+import { blueprintOutputType } from "../../blueprint_controller";
+import { IBoostProjectData, JobStatus } from "../../boostprojectdata_interface";
+import { codeGuidelinesOutputType } from "../../codeguidelines_controller";
+import { complianceOutputType } from "../../compliance_controller";
+import { complianceFunctionOutputType } from "../../compliance_function_controller";
+import { explainOutputType } from "../../explain_controller";
+
+import { flowDiagramOutputType } from "../../flowdiagram_controller";
 
 
 export interface AnalysisSectionSummary {
@@ -39,30 +48,15 @@ export interface StatusViewData {
 //compute the display summary of boostprojectdata
 //these are the sections supported currently. Be sure to update this list
 //if new analysis are done.
-// "outputType": "guidelinesCode"
-// "outputType": "explainCode"
-// "outputType": "generatedCode"
-// "outputType": "bugAnalysis"
-// "outputType": "explainCode"
-// "outputType": "generatedCode"
-// "outputType": "explainCode"
-// "outputType": "generatedCode"
-// "outputType": "testGeneration"
-// "outputType": "archblueprintCode"
-// "outputType": "guidelinesCode"
-// "outputType": "flowDiagram"
-// "outputType": "bugAnalysisList"
-// "outputType": "complianceCodeList"
-
 export const outputTypeToDisplayGroup = {
-    documentation: ["explainCode", "flowDiagram"],
-    security: ["bugAnalysisList"],
-    compliance: ["complianceCodeList"],
+    documentation: [explainOutputType, flowDiagramOutputType],
+    security: [analyzeFunctionOutputType],
+    compliance: [complianceFunctionOutputType],
     deepcode: [
-        "guidelinesCode",
-        "archblueprintCode",
-        "bugAnalysis",
-        "guidelinesCode",
+        complianceOutputType,
+        blueprintOutputType,
+        analyzeOutputType,
+        codeGuidelinesOutputType,
     ],
 };
 
