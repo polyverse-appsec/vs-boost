@@ -88,7 +88,7 @@ export function summaryViewData(boostprojectdata: IBoostProjectData): SummaryVie
             id: "documentation",
             summary: mergeSummary(
                 boostprojectdata,
-                ["explainCode", "flowDiagram"],
+                [explainOutputType, flowDiagramOutputType],
                 jobStatus
             ),
             defaultChecked: true,
@@ -96,13 +96,13 @@ export function summaryViewData(boostprojectdata: IBoostProjectData): SummaryVie
         {
             display: displayGroupFriendlyName.security,
             id: "security",
-            summary: mergeSummary(boostprojectdata, ["bugAnalysisList"], jobStatus),
+            summary: mergeSummary(boostprojectdata, [analyzeFunctionOutputType], jobStatus),
             defaultChecked: true,
         },
         {
             display: displayGroupFriendlyName.compliance,
             id: "compliance",
-            summary: mergeSummary(boostprojectdata, ["complianceCodeList"], jobStatus),
+            summary: mergeSummary(boostprojectdata, [complianceFunctionOutputType], jobStatus),
             defaultChecked: true,
         },
         {
@@ -111,10 +111,10 @@ export function summaryViewData(boostprojectdata: IBoostProjectData): SummaryVie
             summary: mergeSummary(
                 boostprojectdata,
                 [
-                    "guidelinesCode",
-                    "archblueprintCode",
-                    "bugAnalysis",
-                    "guidelinesCode",
+                    complianceOutputType,
+                    blueprintOutputType,
+                    analyzeOutputType,
+                    codeGuidelinesOutputType,
                 ],
                 jobStatus
             ),
