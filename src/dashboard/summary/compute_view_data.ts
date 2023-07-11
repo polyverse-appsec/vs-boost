@@ -1,13 +1,8 @@
-import { analyzeOutputType } from "../../analyze_controller";
-import { analyzeFunctionOutputType } from "../../analyze_function_controller";
-import { blueprintOutputType } from "../../blueprint_controller";
 import { IBoostProjectData, JobStatus } from "../../boostprojectdata_interface";
-import { codeGuidelinesOutputType } from "../../codeguidelines_controller";
-import { complianceOutputType } from "../../compliance_controller";
-import { complianceFunctionOutputType } from "../../compliance_function_controller";
-import { explainOutputType } from "../../explain_controller";
 
-import { flowDiagramOutputType } from "../../flowdiagram_controller";
+import {
+    ControllerOutputType,
+} from "../../controllerOutputTypes";
 
 
 export interface AnalysisSectionSummary {
@@ -49,14 +44,14 @@ export interface StatusViewData {
 //these are the sections supported currently. Be sure to update this list
 //if new analysis are done.
 export const outputTypeToDisplayGroup = {
-    documentation: [explainOutputType, flowDiagramOutputType],
-    security: [analyzeFunctionOutputType],
-    compliance: [complianceFunctionOutputType],
+    documentation: [ControllerOutputType.explain, ControllerOutputType.flowDiagram],
+    security: [ControllerOutputType.analyzeFunction],
+    compliance: [ControllerOutputType.complianceFunction],
     deepcode: [
-        complianceOutputType,
-        blueprintOutputType,
-        analyzeOutputType,
-        codeGuidelinesOutputType,
+        ControllerOutputType.compliance,
+        ControllerOutputType.blueprint,
+        ControllerOutputType.analyze,
+        ControllerOutputType.codeGuidelines,
     ],
 };
 
@@ -71,7 +66,7 @@ export const displayGroupFriendlyName = {
 export function mapOutputTypeToSummary(outputType: string) {
     //loop through the outputTypeToDisplay structure and find the summary
     for (const [key, value] of Object.entries(outputTypeToDisplayGroup)) {
-        if (value.includes(outputType)) {
+        if (value.toString().includes(outputType)) {
             return key;
         }
     }
@@ -88,7 +83,7 @@ export function summaryViewData(boostprojectdata: IBoostProjectData): SummaryVie
             id: "documentation",
             summary: mergeSummary(
                 boostprojectdata,
-                [explainOutputType, flowDiagramOutputType],
+                [ControllerOutputType.explain, ControllerOutputType.flowDiagram],
                 jobStatus
             ),
             defaultChecked: true,
@@ -96,13 +91,13 @@ export function summaryViewData(boostprojectdata: IBoostProjectData): SummaryVie
         {
             display: displayGroupFriendlyName.security,
             id: "security",
-            summary: mergeSummary(boostprojectdata, [analyzeFunctionOutputType], jobStatus),
+            summary: mergeSummary(boostprojectdata, [ControllerOutputType.analyzeFunction], jobStatus),
             defaultChecked: true,
         },
         {
             display: displayGroupFriendlyName.compliance,
             id: "compliance",
-            summary: mergeSummary(boostprojectdata, [complianceFunctionOutputType], jobStatus),
+            summary: mergeSummary(boostprojectdata, [ControllerOutputType.complianceFunction], jobStatus),
             defaultChecked: true,
         },
         {
@@ -111,10 +106,10 @@ export function summaryViewData(boostprojectdata: IBoostProjectData): SummaryVie
             summary: mergeSummary(
                 boostprojectdata,
                 [
-                    complianceOutputType,
-                    blueprintOutputType,
-                    analyzeOutputType,
-                    codeGuidelinesOutputType,
+                    ControllerOutputType.compliance,
+                    ControllerOutputType.blueprint,
+                    ControllerOutputType.analyze,
+                    ControllerOutputType.codeGuidelines,
                 ],
                 jobStatus
             ),

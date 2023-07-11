@@ -1,10 +1,10 @@
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import { FunctionKernelControllerBase } from './function_base_controller';
-import { analyzeKernelName, analyzeOutputType } from './analyze_controller';
+import { analyzeKernelName } from './analyze_controller';
+import { ControllerOutputType } from './controllerOutputTypes';
 
 export const analyzeFunctionKernelName = analyzeKernelName + '_function';
-export const analyzeFunctionOutputType = analyzeOutputType + 'List';
 
 export class BoostAnalyzeFunctionKernel extends FunctionKernelControllerBase {
 
@@ -14,7 +14,7 @@ export class BoostAnalyzeFunctionKernel extends FunctionKernelControllerBase {
             analyzeFunctionKernelName,
             'Quick source scan for security vulnerabilities',
             'Quickly analyzes all targeted source code for security vulnerabiities, bugs and potential design flaws',
-            analyzeFunctionOutputType,
+            ControllerOutputType.analyzeFunction,
             "security",
             "Security Analysis",
             context,

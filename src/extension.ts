@@ -12,7 +12,7 @@ import { TextDecoder } from 'util';
 import { PROJECT_EXTENSION } from './BoostProjectData';
 import { errorMimeType } from './base_controller';
 import { BoostExtension } from './BoostExtension';
-import { blueprintOutputType } from './blueprint_controller';
+import { ControllerOutputType } from './controllerOutputTypes';
 
 
 export enum BoostFileType {
@@ -671,7 +671,7 @@ export async function getOrCreateBlueprintUri(context: vscode.ExtensionContext, 
     const newBlueprintSummaryNotebook : boostnb.BoostNotebook = await createEmptyNotebook(uri, false) as boostnb.BoostNotebook;
 
     const newBlueprintCell = new boostnb.BoostNotebookCell(boostnb.NotebookCellKind.Markup, "", "markdown");
-    newBlueprintCell.initializeMetadata({"id": newBlueprintCell.id, "outputType": blueprintOutputType});
+    newBlueprintCell.initializeMetadata({"id": newBlueprintCell.id, "outputType": ControllerOutputType.blueprint});
     newBlueprintCell.value = data;
     newBlueprintSummaryNotebook.addCell(newBlueprintCell);
     newBlueprintSummaryNotebook.save(uri.fsPath);

@@ -5,8 +5,8 @@ import { DiagnosticCollection, ExtensionContext, NotebookCell } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import { BoostNotebookCell } from './jupyter_notebook';
 import { generateCellOutputWithHeader } from './extension';
+import { ControllerOutputType } from './controllerOutputTypes';
 
-export const complianceOutputType = 'complianceCode';
 export const complianceKernelName = 'compliance';
 const complianceOutputHeader = `Data Compliance Check`;
 
@@ -17,7 +17,7 @@ export class BoostComplianceKernel extends KernelControllerBase {
             complianceKernelName,
             'Check Data Compliance',
             'Evaluates Data and Privacy Compliance of the code',
-            complianceOutputType,
+            ControllerOutputType.compliance,
             complianceOutputHeader,
             false,
             false,

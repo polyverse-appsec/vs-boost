@@ -6,12 +6,7 @@ import {marked} from 'marked';
 import { BoostFileType, BoostUserAnalysisType, findCellByKernel, getBoostFile } from './extension';
 import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';
 import { boostLogging } from './boostLogging';
-
-import { analyzeOutputType } from './analyze_controller';
-import { complianceOutputType } from './compliance_controller';
-import { blueprintOutputType } from './blueprint_controller';
-import { explainOutputType } from './explain_controller';
-import { flowDiagramOutputType } from './flowdiagram_controller';
+import { ControllerOutputType } from './controllerOutputTypes';
 
 /*
     // ability to get all VS commands - whether internal or not, filtered by prefix
@@ -125,17 +120,17 @@ export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
             let ourCellContent = "";
             switch (this._type) {
                 case "doc":
-                    ourCellContent = (findCellByKernel(boostNotebook, explainOutputType) as BoostNotebookCell)?.value;
-                    ourCellContent = `\n\n${(findCellByKernel(boostNotebook, flowDiagramOutputType ) as BoostNotebookCell)?.value}`;
+                    ourCellContent = (findCellByKernel(boostNotebook, ControllerOutputType.explain) as BoostNotebookCell)?.value;
+                    ourCellContent = `\n\n${(findCellByKernel(boostNotebook, ControllerOutputType.flowDiagram ) as BoostNotebookCell)?.value}`;
                     break;
                 case BoostUserAnalysisType.security:
-                    ourCellContent = (findCellByKernel(boostNotebook, analyzeOutputType) as BoostNotebookCell)?.value;
+                    ourCellContent = (findCellByKernel(boostNotebook, ControllerOutputType.analyze) as BoostNotebookCell)?.value;
                     break;
                 case BoostUserAnalysisType.compliance:
-                    ourCellContent = (findCellByKernel(boostNotebook, complianceOutputType) as BoostNotebookCell)?.value;
+                    ourCellContent = (findCellByKernel(boostNotebook, ControllerOutputType.compliance) as BoostNotebookCell)?.value;
                     break;
                 case BoostUserAnalysisType.blueprint:
-                    ourCellContent = (findCellByKernel(boostNotebook, blueprintOutputType ) as BoostNotebookCell)?.value;
+                    ourCellContent = (findCellByKernel(boostNotebook, ControllerOutputType.blueprint ) as BoostNotebookCell)?.value;
                     break;
                 default:
                     ourCellContent = `Unexpected type of Analysis: ${this._type} - Unable to render markdown`;

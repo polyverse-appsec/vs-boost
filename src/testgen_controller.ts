@@ -5,9 +5,9 @@ import * as vscode from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import { BoostNotebookCell } from './jupyter_notebook';
 import { generateCellOutputWithHeader } from './extension';
+import { ControllerOutputType } from './controllerOutputTypes';
 
 export const testgenKernelName = 'testgen';
-export const testgenOutputName = 'testGeneration';
 const testgenOutputHeader = `Test Generation`;
 
 export class BoostTestgenKernel extends KernelControllerBase {
@@ -22,7 +22,7 @@ export class BoostTestgenKernel extends KernelControllerBase {
             testgenKernelName,
             'Generate Test Cases for Code',
             'Generates a set of unit Test Cases for testing the targeted source code using a specifie Test Framework',
-            testgenOutputName,
+            ControllerOutputType.testgen,
             testgenOutputHeader,
             true,
             true,

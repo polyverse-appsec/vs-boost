@@ -5,8 +5,8 @@ import { DiagnosticCollection, ExtensionContext, NotebookCell } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import { BoostNotebookCell } from './jupyter_notebook';
 import { generateCellOutputWithHeader } from './extension';
+import { ControllerOutputType } from './controllerOutputTypes';
 
-export const explainOutputType = 'explainCode';
 export const explainKernelName = 'explain';
 const explainOutputHeader = 'Code Explanation';
 
@@ -17,7 +17,7 @@ export class BoostExplainKernel extends KernelControllerBase {
             explainKernelName,
             'Explain Code',
             'Explains the targeted source code in English, including algorithms, referenced frameworks and design patterns',
-            explainOutputType,
+            ControllerOutputType.explain,
             explainOutputHeader,
             false,
             false,

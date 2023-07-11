@@ -5,8 +5,8 @@ import { DiagnosticCollection, ExtensionContext, NotebookCell } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import { BoostNotebookCell } from './jupyter_notebook';
 import { generateCellOutputWithHeader } from './extension';
+import { ControllerOutputType } from './controllerOutputTypes';
 
-export const codeGuidelinesOutputType = 'guidelinesCode';
 export const codeGuidelinesKernelName = 'codeguidelines';
 const codeGuidelinesOutputHeader = `Code Guidelines Evaluation`;
 
@@ -17,7 +17,7 @@ export class BoostCodeGuidelinesKernel extends KernelControllerBase {
             codeGuidelinesKernelName,
             'Evaluate Code Guidelines',
             'Evaluates targeted source code for following Code Guidelines for programming language and framework',
-            codeGuidelinesOutputType,
+            ControllerOutputType.codeGuidelines,
             codeGuidelinesOutputHeader,
             false,
             false,

@@ -2,10 +2,10 @@
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import { FunctionKernelControllerBase } from './function_base_controller';
-import { complianceKernelName, complianceOutputType } from './compliance_controller';
+import { complianceKernelName } from './compliance_controller';
+import { ControllerOutputType } from './controllerOutputTypes';
 
 export const complianceFunctionKernelName = complianceKernelName + '_function';
-export const complianceFunctionOutputType = complianceOutputType + 'List';
 
 export class BoostComplianceFunctionKernel extends FunctionKernelControllerBase {
 
@@ -15,7 +15,7 @@ export class BoostComplianceFunctionKernel extends FunctionKernelControllerBase 
             complianceFunctionKernelName,
             'Quick source scan for data and privacy compliance issues',
             'Quickly analyzes all targeted source code for data and privacy compliance issues',
-            complianceFunctionOutputType,
+            ControllerOutputType.complianceFunction,
             "compliance",
             "Data and Privacy Compliance Analysis", 
             context,

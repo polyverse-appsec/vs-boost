@@ -2,13 +2,12 @@ import {
     KernelControllerBase
     } from './base_controller';
 import * as vscode from 'vscode';
-import { explainOutputType } from './explain_controller';
 import { BoostConfiguration } from './boostConfiguration';
 import { BoostNotebookCell, SerializedNotebookCellOutput, BoostNotebook } from './jupyter_notebook';
 import { boostLogging } from './boostLogging';
 import { generateCellOutputWithHeader } from './extension';
+import { ControllerOutputType } from './controllerOutputTypes';
 
-export const convertOutputType = 'generatedCode';
 export const convertKernelName = 'convert';
 const convertOutputHeader = `Code Conversion`;
 
@@ -21,7 +20,7 @@ export class BoostConvertKernel extends KernelControllerBase {
             convertKernelName,
             'Convert Legacy Code to New Code',
             'Converts targeted source code into a new programming language, using the best practices of the target language',
-            convertOutputType,
+            ControllerOutputType.convert,
             convertOutputHeader,
             false,
             true,
@@ -108,19 +107,19 @@ export class BoostConvertKernel extends KernelControllerBase {
             if (usingBoostNotebook) {
                 const outputItems : SerializedNotebookCellOutput[] = [ {
                     items: [ { mime: markdownMimetype, data : outputText } ],
-                    metadata : { outputType: explainOutputType} } ];
+                    metadata : { outputType: ControllerOutputType.explain} } ];
                 
-                cell.updateOutputItem(explainOutputType, outputItems[0]);
+                cell.updateOutputItem(ControllerOutputType.explain, outputItems[0]);
             } else {
                 const outputItems: vscode.NotebookCellOutputItem[] = [ vscode.NotebookCellOutputItem.text(outputText, markdownMimetype) ];
 
-                let existingOutput = cell.outputs.find(output => output.metadata?.outputType === explainOutputType);
+                let existingOutput = cell.outputs.find(output => output.metadata?.outputType === ControllerOutputType.explain);
 
                 if (existingOutput) {
                     execution.replaceOutputItems(outputItems, existingOutput);
                 } else {
                     // create a new NotebookCellOutput with the outputItems array
-                    const output = new vscode.NotebookCellOutput(outputItems, { outputType: explainOutputType });
+                    const output = new vscode.NotebookCellOutput(outputItems, { outputType: ControllerOutputType.explain });
                     execution.appendOutput(output);
                 }
             }

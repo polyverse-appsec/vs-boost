@@ -10,7 +10,7 @@ import { BoostNotebookCell, BoostNotebook, NotebookCellKind } from './jupyter_no
 import { boostLogging } from './boostLogging';
 import { findCellByKernel, generateCellOutputWithHeader, getAllProjectFiles, getProjectName } from './extension';
 import { getCurrentOrganization } from "./authorization";
-import { blueprintOutputType } from './blueprint_controller';
+import { ControllerOutputType } from './controllerOutputTypes';
 
 export const quickBlueprintKernelName = 'quickblueprint';
 const quickBlueprintOutputHeader = `Architectural Quick Blueprint`;
@@ -22,7 +22,7 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
             quickBlueprintKernelName,
             'Quick Architectural Blueprint Code',
             'Quickly builds an Archiectural Blueprint from hints about project and source code.',
-            blueprintOutputType,
+            ControllerOutputType.blueprint,
             quickBlueprintOutputHeader,
             false,
             false,
@@ -126,7 +126,7 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
             authPayload: any) {
 
         // we don't want to overwrite summary blueprints, which are far more detailed and useful in general
-        let existingBlueprintCell = findCellByKernel(notebook, blueprintOutputType) as BoostNotebookCell;
+        let existingBlueprintCell = findCellByKernel(notebook, ControllerOutputType.blueprint) as BoostNotebookCell;
         if (existingBlueprintCell && existingBlueprintCell.value &&
             existingBlueprintCell.metadata?.blueprintType) {
             if (existingBlueprintCell.metadata.blueprintType === "summary") {
@@ -202,10 +202,10 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
             throw throwErr;
         }
 
-        let targetCell = findCellByKernel(notebook, blueprintOutputType) as BoostNotebookCell;
+        let targetCell = findCellByKernel(notebook, ControllerOutputType.blueprint) as BoostNotebookCell;
         if (!targetCell) {
             targetCell = new BoostNotebookCell(NotebookCellKind.Markup, "", "markdown");
-            targetCell.initializeMetadata({"id": targetCell.id, "outputType": blueprintOutputType, "blueprintType": "quick"});
+            targetCell.initializeMetadata({"id": targetCell.id, "outputType": ControllerOutputType.blueprint, "blueprintType": "quick"});
             notebook.addCell(targetCell);
         } else {
             // store quick as the blueprint type

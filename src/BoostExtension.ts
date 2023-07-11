@@ -10,7 +10,6 @@ import { BoostPerformanceKernel, performanceKernelName } from './performance_con
 
 import {
     BoostAnalyzeKernel,
-    analyzeOutputType,
     analyzeKernelName,
 } from "./analyze_controller";
 import {
@@ -21,7 +20,6 @@ import { BoostTestgenKernel, testgenKernelName } from "./testgen_controller";
 import { BoostConvertKernel, convertKernelName } from "./convert_controller";
 import {
     BoostComplianceKernel,
-    complianceOutputType,
     complianceKernelName,
 } from "./compliance_controller";
 import {
@@ -30,7 +28,6 @@ import {
 } from "./compliance_function_controller";
 import {
     BoostExplainKernel,
-    explainOutputType,
     explainKernelName,
 } from "./explain_controller";
 import {
@@ -39,7 +36,6 @@ import {
 } from "./codeguidelines_controller";
 import {
     BoostArchitectureBlueprintKernel,
-    blueprintOutputType,
     blueprintKernelName,
 } from "./blueprint_controller";
 import {
@@ -54,6 +50,7 @@ import {
     SummarizeKernel,
     summarizeKernelName,
 } from "./summary_controller";
+import { ControllerOutputType } from './controllerOutputTypes';
 
 import { BoostSummaryViewProvider, summaryViewType } from "./summary_view";
 import { BoostStartViewProvider } from "./start_view";
@@ -455,7 +452,7 @@ export class BoostExtension {
                             ) => {
                                 if (
                                     value !== output.metadata?.outputType ??
-                                    explainOutputType
+                                    ControllerOutputType.explain
                                 ) {
                                     return;
                                 }
@@ -2627,16 +2624,16 @@ export class BoostExtension {
             let outputType;
             switch (analysisType) {
                 case BoostUserAnalysisType.blueprint:
-                    outputType = blueprintOutputType;
+                    outputType = ControllerOutputType.blueprint;
                     break;
                 case BoostUserAnalysisType.compliance:
-                    outputType = complianceOutputType;
+                    outputType = ControllerOutputType.compliance;
                     break;
                 case BoostUserAnalysisType.security:
-                    outputType = analyzeOutputType;
+                    outputType = ControllerOutputType.analyze;
                     break;
                 case BoostUserAnalysisType.documentation:
-                    outputType = explainOutputType;
+                    outputType = ControllerOutputType.explain;
                     break;
                 default:
                     throw new Error(`Unknown analysis type ${analysisType}`);

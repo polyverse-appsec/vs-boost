@@ -11,7 +11,7 @@ import { findCellByKernel, getOrCreateBlueprintUri } from './extension';
 import { BoostServiceHelper } from './boostServiceHelper';
 import { boostLogging } from './boostLogging';
 import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';
-import { blueprintOutputType } from './blueprint_controller';
+import { ControllerOutputType } from './controllerOutputTypes';
 
 export const aiName = "Sara";
 
@@ -251,7 +251,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
             //now load the blueprint from the file system and get the first prompt
             const projectSummaryNotebook = new BoostNotebook();
             projectSummaryNotebook.load(blueprintUri.fsPath);
-            const blueprintCell = findCellByKernel(projectSummaryNotebook, blueprintOutputType) as BoostNotebookCell;
+            const blueprintCell = findCellByKernel(projectSummaryNotebook, ControllerOutputType.blueprint) as BoostNotebookCell;
             if (!blueprintCell) {
                 boostLogging.warn(`No blueprint found in ${blueprintUri.fsPath}`, false);
             } else {

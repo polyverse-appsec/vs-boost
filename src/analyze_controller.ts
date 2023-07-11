@@ -5,9 +5,9 @@ import { DiagnosticCollection, ExtensionContext, NotebookCell } from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
 import { BoostNotebookCell } from './jupyter_notebook';
 import { generateCellOutputWithHeader } from './extension';
+import { ControllerOutputType } from './controllerOutputTypes';
 
 export const analyzeKernelName = 'analyze';
-export const analyzeOutputType = 'bugAnalysis';
 const analysisOutputHeader = 'Code Analysis';
 
 export class BoostAnalyzeKernel extends KernelControllerBase {
@@ -17,7 +17,7 @@ export class BoostAnalyzeKernel extends KernelControllerBase {
             analyzeKernelName,
             'Analyze for bug and design flaws',
             'Deep analysis of all targeted source code for security vulnerabiities, bugs and potential design flaws',
-            analyzeOutputType,
+            ControllerOutputType.analyze,
             analysisOutputHeader,
             true,
             true, 
