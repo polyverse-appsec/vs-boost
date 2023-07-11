@@ -143,8 +143,10 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
 
         // we create a placeholder cell for the input, so we can do processing on the input
         // then we'll take the resulting data and run a 2nd pass with updated cell metadata
+        // note: we need to pass an empty string for cell contents, so it isn't injected into the payload
+        //    automatically
         const tempProcessingCell = new BoostNotebookCell(NotebookCellKind.Markup,
-            "***placeholder text - real input is in metadata***", "markdown");
+            "", "markdown");
 
         const files = await getAllProjectFiles(true);
         const projectName = getProjectName();
