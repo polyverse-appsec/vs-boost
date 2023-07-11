@@ -171,7 +171,12 @@ function refreshUI(boostprojectdata: IBoostProjectData) {
             (enter) => detailsEnter(enter),
             (update) => detailsUpdate(update),
             (exit) => exit.remove()
-        );
+        )
+        .sort((a: any, b: any) => {
+            let fileA = a.notebookRelFile ? a.notebookRelFile : a.sourceRelFile;
+            let fileB = b.notebookRelFile ? b.notebookRelFile : b.sourceRelFile;
+            return d3.ascending(fileA, fileB);
+        });
 
     refreshSpinner(statusView);
     refreshProgressText(statusView);

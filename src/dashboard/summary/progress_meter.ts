@@ -26,7 +26,7 @@ export function progressMeterEnter(parent: d3.Selection): d3.Selection {
         .call(addZoom)
         .call(barUpdate);
 
-    return groups;
+    return parent;
 }
 
 export function progressMeterUpdate(parent: d3.Selection): d3.Selection {

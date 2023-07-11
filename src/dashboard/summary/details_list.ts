@@ -15,12 +15,13 @@ export function detailsEnter(enter: any) {
             .on("click", openFile)
             .text((d: any) => d.sourceRelFile);
 
-    progressMeterEnter(row);
+    return progressMeterEnter(row);
 }
 
 export function detailsUpdate(update: any) {
     update.attr("class", (d) => d.jobStatus?.status ?? "completed");
     update.call(progressMeterUpdate);
+    return update;
 }
 
 function openFile(event) {
