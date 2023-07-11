@@ -127,7 +127,6 @@ export function summaryViewData(boostprojectdata: IBoostProjectData): SummaryVie
             defaultChecked: false,
         },
     ];
-    console.log("summaryViewData", JSON.stringify(summaryView, null, 4));
     return summaryView;
 }
 
