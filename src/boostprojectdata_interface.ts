@@ -47,6 +47,7 @@ export type JobStatus = {
 };
 
 export interface IBoostProjectData {
+    dataFormatVersion: string;
     summary: Summary;
     sectionSummary: {
         [key: string]: SectionSummary;
@@ -58,6 +59,7 @@ export interface IBoostProjectData {
 }
 
 export const emptyProjectData: IBoostProjectData = {
+    dataFormatVersion: "0.0.0",
     summary: {
         projectName: "",
         summaryUrl: "",

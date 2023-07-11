@@ -2,16 +2,19 @@ import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
 
-import * as boostnb from './jupyter_notebook';
-import { getOrCreateGuideline } from './extension';
-
-import { BoostPerformanceFunctionKernel, performanceFunctionKernelName } from './performance_function_controller';
-import { BoostPerformanceKernel, performanceKernelName } from './performance_controller';
+import * as boostnb from "./jupyter_notebook";
+import { getOrCreateGuideline } from "./extension";
 
 import {
-    BoostAnalyzeKernel,
-    analyzeKernelName,
-} from "./analyze_controller";
+    BoostPerformanceFunctionKernel,
+    performanceFunctionKernelName,
+} from "./performance_function_controller";
+import {
+    BoostPerformanceKernel,
+    performanceKernelName,
+} from "./performance_controller";
+
+import { BoostAnalyzeKernel, analyzeKernelName } from "./analyze_controller";
 import {
     BoostAnalyzeFunctionKernel,
     analyzeFunctionKernelName,
@@ -26,10 +29,7 @@ import {
     BoostComplianceFunctionKernel,
     complianceFunctionKernelName,
 } from "./compliance_function_controller";
-import {
-    BoostExplainKernel,
-    explainKernelName,
-} from "./explain_controller";
+import { BoostExplainKernel, explainKernelName } from "./explain_controller";
 import {
     BoostCodeGuidelinesKernel,
     codeGuidelinesKernelName,
@@ -46,18 +46,13 @@ import {
     BoostFlowDiagramKernel,
     flowDiagramKernelName,
 } from "./flowdiagram_controller";
-import {
-    SummarizeKernel,
-    summarizeKernelName,
-} from "./summary_controller";
-import { ControllerOutputType } from './controllerOutputTypes';
+import { SummarizeKernel, summarizeKernelName } from "./summary_controller";
+import { ControllerOutputType } from "./controllerOutputTypes";
 
 import { BoostSummaryViewProvider, summaryViewType } from "./summary_view";
 import { BoostStartViewProvider } from "./start_view";
 import { BoostChatViewProvider } from "./chat_view";
-import {
-    boostNotebookToFileSummaryItem,
-} from "./BoostProjectData";
+import { boostNotebookToFileSummaryItem } from "./BoostProjectData";
 
 import {
     getBoostFile,
@@ -73,7 +68,7 @@ import {
     cleanCellOutput,
     boostActivityBarId,
 } from "./extension";
-import { BoostUserAnalysisType } from './userAnalysisType';
+import { BoostUserAnalysisType } from "./userAnalysisType";
 
 import { BoostContentSerializer } from "./serializer";
 import { BoostConfiguration } from "./boostConfiguration";
@@ -89,13 +84,15 @@ import { generatePDFforNotebook } from "./convert_pdf";
 import { generateMarkdownforNotebook } from "./convert_markdown";
 import { generateHTMLforNotebook } from "./convert_html";
 import { BoostProjectData } from "./BoostProjectData";
-import {
-    emptyProjectData,
-} from "./boostprojectdata_interface";
+import { IncompatibleVersionException } from "./incompatibleVersionException";
+import { emptyProjectData } from "./boostprojectdata_interface";
 import { BoostMarkdownViewProvider } from "./markdown_view";
 
 import instructions from "./instructions.json";
-import { BoostQuickBlueprintKernel, quickBlueprintKernelName } from "./quick_blueprint_controller";
+import {
+    BoostQuickBlueprintKernel,
+    quickBlueprintKernelName,
+} from "./quick_blueprint_controller";
 
 export class BoostExtension {
     // for state, we keep it in a few places
@@ -206,56 +203,13 @@ export class BoostExtension {
                     return;
                 }
 
-                folders.forEach(async (workspaceFolder) => {
-                    // if we already have it, then no need to do anything
-                    // otherwise, we need to either load it, or create it
-                    let boostProjectData = this._boostProjectData.get(
-                        workspaceFolder.uri
-                    );
-                    let boostProjectUri = getBoostFile(
-                        workspaceFolder.uri,
-                        BoostFileType.status
-                    );
-
-                    if (!boostProjectData) {
-                        boostProjectData = new BoostProjectData();
-                        if (!fs.existsSync(boostProjectUri.fsPath)) {
-                            // we need to create the new boost project file
-                            boostLogging.debug(
-                                `No boost project file found at ${boostProjectUri.fsPath} - creating new one`
-                            );
-
-                            // create the boost project file
-                            await this.initializeFromWorkspaceFolder(
-                                boostProjectData,
-                                workspaceFolder.uri
-                            );
-                            this._boostProjectData.set(
-                                workspaceFolder.uri,
-                                boostProjectData
-                            );
-                            return boostProjectData;
-                        } else {
-                            const boostProjectData = new BoostProjectData();
-                            boostProjectData.load(boostProjectUri.fsPath);
-                            if (!boostProjectData.summary.projectName) {
-                                boostProjectData.summary.projectName =
-                                    path.basename(workspaceFolder.uri.fsPath);
-                                boostProjectData.flushToFS();
-                            }
-                            this._boostProjectData.set(
-                                workspaceFolder.uri,
-                                boostProjectData
-                            );
-                            return boostProjectData;
-                        }
+                folders.forEach(
+                    async (workspaceFolder: vscode.WorkspaceFolder) => {
+                        this.refreshProjectDataCacheForWorkspaceFolder(
+                            workspaceFolder
+                        );
                     }
-                    await this.refreshProjectData(
-                        boostProjectData,
-                        workspaceFolder.uri
-                    );
-                    boostProjectData.save(boostProjectUri.fsPath);
-                });
+                );
 
                 // unload/release any boost project data for folders that are no longer in the workspace
                 this._boostProjectData.forEach(
@@ -277,6 +231,83 @@ export class BoostExtension {
                 reject(error);
             }
         });
+    }
+
+    async refreshProjectDataCacheForWorkspaceFolder(
+        workspaceFolder: vscode.WorkspaceFolder
+    ) {
+        // Check if boost project data already exists
+        let boostProjectData = this._boostProjectData.get(workspaceFolder.uri);
+        let boostProjectUri = getBoostFile(
+            workspaceFolder.uri,
+            BoostFileType.status
+        );
+
+        if (boostProjectData) {
+            // Refresh project data and save boost project data
+            await this.refreshProjectData(boostProjectData, workspaceFolder.uri);
+            boostProjectData.save(boostProjectUri.fsPath);
+        }
+
+        // Create new boost project data if it doesn't exist
+        boostProjectData = new BoostProjectData();
+
+        if (!fs.existsSync(boostProjectUri.fsPath)) {
+            // Create new boost project file
+            boostLogging.debug(
+                `No boost project file found at ${boostProjectUri.fsPath} - creating new one`
+            );
+            await this.initializeFromWorkspaceFolder(
+                boostProjectData,
+                workspaceFolder.uri
+            );
+        } else {
+            try {
+                // Load existing boost project data
+                boostProjectData.load(boostProjectUri.fsPath);
+            } catch (error) {
+                if (error instanceof IncompatibleVersionException) {
+                    // Create new boost project file if incompatible version is found
+                    boostLogging.info(
+                        `Older version ${error.actualVersion} of Boost Project Data Cache found ${boostProjectUri.fsPath} - creating cache at version ${error.expectedVersion}`
+                    );
+                    boostProjectData = undefined;
+                } else if (error instanceof SyntaxError) {
+                    // Create new boost project file if JSON is malformed
+                    boostLogging.info(
+                        `Existing Boost Project Data Cache corrupted at ${boostProjectUri.fsPath} - creating new cache`
+                    );
+                    boostProjectData = undefined;
+                } else {
+                    throw error;
+                }
+            } finally {
+                // Recreate boost project data from scratch if failed to load
+                if (!boostProjectData) {
+                    boostProjectData = new BoostProjectData();
+                    fs.renameSync(
+                        boostProjectUri.fsPath,
+                        boostProjectUri.fsPath + ".previous"
+                    );
+                    await this.initializeFromWorkspaceFolder(
+                        boostProjectData,
+                        workspaceFolder.uri
+                    );
+                }
+            }
+
+            // Set project name in boost project data if not already set
+            if (!boostProjectData.summary.projectName) {
+                boostProjectData.summary.projectName = path.basename(
+                    workspaceFolder.uri.fsPath
+                );
+                boostProjectData.flushToFS();
+            }
+        }
+
+        // Update boost project data map with new boost project data
+        this._boostProjectData.set(workspaceFolder.uri, boostProjectData);
+        return boostProjectData;
     }
 
     async refreshProjectData(
@@ -332,6 +363,7 @@ export class BoostExtension {
         workspaceFolder: vscode.Uri
     ) {
         Object.assign(boostProjectData, emptyProjectData);
+        boostProjectData.dataFormatVersion = BoostConfiguration.version;
 
         boostProjectData.summary.summaryUrl = getBoostFile(
             workspaceFolder,
@@ -697,25 +729,25 @@ export class BoostExtension {
             )
         );
         let kernelTypes = [
-                BoostConvertKernel,
-                BoostExplainKernel,
-                BoostAnalyzeKernel,
-                BoostTestgenKernel,
-                BoostComplianceKernel,
-                BoostCodeGuidelinesKernel,
-                BoostArchitectureBlueprintKernel,
-                BoostFlowDiagramKernel,
-                BoostCustomProcessKernel,
-                SummarizeKernel,
-                BoostAnalyzeFunctionKernel,
-                BoostComplianceFunctionKernel,
-                BoostPerformanceFunctionKernel,
-                BoostPerformanceKernel,
-            ];
+            BoostConvertKernel,
+            BoostExplainKernel,
+            BoostAnalyzeKernel,
+            BoostTestgenKernel,
+            BoostComplianceKernel,
+            BoostCodeGuidelinesKernel,
+            BoostArchitectureBlueprintKernel,
+            BoostFlowDiagramKernel,
+            BoostCustomProcessKernel,
+            SummarizeKernel,
+            BoostAnalyzeFunctionKernel,
+            BoostComplianceFunctionKernel,
+            BoostPerformanceFunctionKernel,
+            BoostPerformanceKernel,
+        ];
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
             // register the dev only kernels
-            const devKernelTypes: any[] = [ BoostQuickBlueprintKernel];
+            const devKernelTypes: any[] = [BoostQuickBlueprintKernel];
             kernelTypes = kernelTypes.concat(devKernelTypes);
         }
         // constructor and save all kernels
@@ -868,7 +900,8 @@ export class BoostExtension {
                     // this should never happen, if it does, we are doing Notebook operations without a Notebook
                     if (notebookEditor === undefined) {
                         boostLogging.error(
-                            "Currently active editor is not a Boost Notebook.", true
+                            "Currently active editor is not a Boost Notebook.",
+                            true
                         );
                         return;
                     }
@@ -2020,7 +2053,10 @@ export class BoostExtension {
             }
         });
         if (targetedKernel === undefined) {
-            boostLogging.error(`Unable to find Kernel for ${requestedKernel}`, false);
+            boostLogging.error(
+                `Unable to find Kernel for ${requestedKernel}`,
+                false
+            );
             return undefined;
         }
         return targetedKernel;
@@ -2278,7 +2314,11 @@ export class BoostExtension {
             boostnb.NOTEBOOK_TYPE + "." + BoostCommands.processProject,
             async (kernelCommand?: string) => {
                 // we only process project level analysis at summary level for now
-                const projectBoostFile = getBoostFile(undefined, BoostFileType.summary, false);
+                const projectBoostFile = getBoostFile(
+                    undefined,
+                    BoostFileType.summary,
+                    false
+                );
                 // create the Boost file, if it doesn't exist
                 if (!fs.existsSync(projectBoostFile.fsPath)) {
                     boostLogging.warn(
@@ -2303,18 +2343,17 @@ export class BoostExtension {
                 }
 
                 if (targetedKernel.command !== quickBlueprintKernelName) {
-                    boostLogging.error("Currently, only Quick Blueprint is supported at Project-level", likelyViaUI);
+                    boostLogging.error(
+                        "Currently, only Quick Blueprint is supported at Project-level",
+                        likelyViaUI
+                    );
                     return;
                 }
 
                 let notebook = new boostnb.BoostNotebook();
                 notebook.load(projectBoostFile.fsPath);
                 targetedKernel
-                    .executeAllWithAuthorization(
-                        notebook.cells,
-                        notebook,
-                        true
-                    )
+                    .executeAllWithAuthorization(notebook.cells, notebook, true)
                     .then(() => {
                         // ensure we save the notebook if we successfully processed it
                         notebook.flushToFS();
@@ -2329,7 +2368,7 @@ export class BoostExtension {
                             likelyViaUI
                         );
                     });
-                }
+            }
         );
         context.subscriptions.push(disposable);
     }

@@ -2,8 +2,10 @@ import * as fs from "fs";
 import * as path from "path";
 import * as boostnb from "./jupyter_notebook";
 import * as vscode from "vscode";
+
 import { errorMimeType } from "./base_controller";
 import { boostLogging } from "./boostLogging";
+import { IncompatibleVersionException } from "./incompatibleVersionException";
 
 export const PROJECT_EXTENSION = ".boost-project";
 
@@ -17,8 +19,10 @@ import {
     JobStatus,
 } from "./boostprojectdata_interface";
 import { ControllerOutputType } from "./controllerOutputTypes";
+import { BoostConfiguration } from "./boostConfiguration";
 
 export class BoostProjectData implements IBoostProjectData {
+    dataFormatVersion: string;
     summary: Summary;
     sectionSummary: { [key: string]: SectionSummary };
     fsPath: string;
@@ -28,6 +32,7 @@ export class BoostProjectData implements IBoostProjectData {
     jobStatus: JobStatus;
 
     constructor() {
+        this.dataFormatVersion = BoostConfiguration.version;
         this.summary = { ...emptyProjectData.summary };
         this.sectionSummary = {};
         //loop through the keys of the emptyProjectData.sectionSummary object and copy the values to the new object
@@ -46,10 +51,28 @@ export class BoostProjectData implements IBoostProjectData {
         Object.assign(this, projectData);
     }
 
+    checkDataFormatVersion(dataVersion: string) {
+        if (!dataVersion) {
+            throw new IncompatibleVersionException(
+                `Data Format version is undefined. Expected compatibility with ${BoostConfiguration.version}`);
+        }
+
+        const [majorData = 0, minorData = 0] = dataVersion.split('.').map(Number);
+        const [majorClient, minorClient] = BoostConfiguration.version.split('.').map(Number);
+
+        if (majorData !== majorClient || minorData === minorClient) {
+            throw new IncompatibleVersionException(
+                `Data Format version is ${dataVersion}. Expected compatibility with ${BoostConfiguration.version}`);
+        }
+    }
+
     readonly oldComplianceFunctionType = 'complianceList';
     performCompatFixups(jsonString: string) : string {
         const parsedJson = JSON.parse(jsonString, (key, value) => {
-            if (key === 'analysisType' && value === this.oldComplianceFunctionType) {
+            if (key === 'dataFormatVersion') {
+                this.checkDataFormatVersion(value);
+            }
+            else if (key === 'analysisType' && value === this.oldComplianceFunctionType) {
                 return ControllerOutputType.complianceFunction;
             } else {
                 return value;
@@ -65,6 +88,10 @@ export class BoostProjectData implements IBoostProjectData {
                 }
             });
         }
+
+        // remove any transient job status
+        this.jobStatus = { ...emptyProjectData.jobStatus };
+
         return parsedJson;
     }
 
@@ -72,7 +99,7 @@ export class BoostProjectData implements IBoostProjectData {
         const jsonString = fs.readFileSync(filePath, "utf8");
         try {
             const parsedJson = this.performCompatFixups(jsonString);
-            this.create(parsedJson);
+            this.create(JSON.stringify(parsedJson));
         } catch (e) {
             if (e instanceof SyntaxError) {
                 throw new SyntaxError(
@@ -83,7 +110,6 @@ export class BoostProjectData implements IBoostProjectData {
             }
         }
         this.fsPath = filePath;
-        this.jobStatus = { ...emptyProjectData.jobStatus };
     }
 
     save(filename: string): void {
