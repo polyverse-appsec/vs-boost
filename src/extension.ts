@@ -543,15 +543,9 @@ export async function buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true
         '**/*.sql',
         '**/*.ttf',
         '**/*.otf',
-        '**/*.md',
-        '**/*.markdown',
         '**/*.ipynb',
         '**/*.ipynb_checkpoints',
         '**/*.ipynb_checkpoints/**',
-        '**/*.html',
-        '**/*.htm',
-        '**/*.css',
-        '**/*.txt',
         '**/*.*ignore',
         '**/*.gitignore',
         '**/*.gitattributes',
@@ -569,19 +563,13 @@ export async function buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true
         '**/*.rpm',
         '**/*.elf',
         '**/*.sys',
-        '**/*.dockerfile',
-        '**/*.yml',
-        '**/*.yaml',
-        '**/*.json',
-        '**/*.xml',
         '**/*.csv',
         '**/*.tsv',
         '**/*.dockerignore',
         '**/*.gitkeep',
         '**/*.gitmodules',
         '**/*.gitconfig',
-        '**/*.dist',
-        '**/*.ini'
+        '**/*.dist'
     ];
    
     patterns = patterns.concat(binaryFilePatterns);    

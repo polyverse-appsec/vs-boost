@@ -56,6 +56,12 @@
                     "id": "polyverse-boost-chat-view",
                     "name": "Sara AI Chat",
                     "icon": "resources/boost_icon_plain.svg"
+                },
+                {
+                    "type": "webview",
+                    "id": "polyverse-boost-blueprint-view",
+                    "name": "Blueprint Summary",
+                    "icon": "resources/boost_icon_plain.svg"
                 }
             ]
         },
