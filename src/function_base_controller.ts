@@ -19,8 +19,8 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         collectionType: string,
         outputHeader: string,
         context: ExtensionContext,
-        onServiceErrorHandler: any,
         otherThis: any,
+        onServiceErrorHandler: any
         ) {
 
         super(
