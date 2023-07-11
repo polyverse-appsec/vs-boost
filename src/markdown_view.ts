@@ -117,25 +117,30 @@ export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
         } else {
             const summaryDataUri = getBoostFile(workspaceFolder.uri, BoostFileType.summary);
             const boostNotebook = new BoostNotebook();
-            boostNotebook.load(summaryDataUri.fsPath);
+            // if we have a summary file, load it
             let ourCellContent = "";
-            switch (this._type) {
-                case "doc":
-                    ourCellContent = (findCellByKernel(boostNotebook, ControllerOutputType.explain) as BoostNotebookCell)?.value;
-                    ourCellContent = `\n\n${(findCellByKernel(boostNotebook, ControllerOutputType.flowDiagram ) as BoostNotebookCell)?.value}`;
-                    break;
-                case BoostUserAnalysisType.security:
-                    ourCellContent = (findCellByKernel(boostNotebook, ControllerOutputType.analyze) as BoostNotebookCell)?.value;
-                    break;
-                case BoostUserAnalysisType.compliance:
-                    ourCellContent = (findCellByKernel(boostNotebook, ControllerOutputType.compliance) as BoostNotebookCell)?.value;
-                    break;
-                case BoostUserAnalysisType.blueprint:
-                    ourCellContent = (findCellByKernel(boostNotebook, ControllerOutputType.blueprint ) as BoostNotebookCell)?.value;
-                    break;
-                default:
-                    ourCellContent = `Unexpected type of Analysis: ${this._type} - Unable to render markdown`;
-                    break;
+            if (fs.existsSync(summaryDataUri.fsPath)) {
+                boostNotebook.load(summaryDataUri.fsPath);
+                switch (this._type) {
+                    case "doc":
+                        ourCellContent = (findCellByKernel(boostNotebook, ControllerOutputType.explain) as BoostNotebookCell)?.value;
+                        ourCellContent = `\n\n${(findCellByKernel(boostNotebook, ControllerOutputType.flowDiagram ) as BoostNotebookCell)?.value}`;
+                        break;
+                    case BoostUserAnalysisType.security:
+                        ourCellContent = (findCellByKernel(boostNotebook, ControllerOutputType.analyze) as BoostNotebookCell)?.value;
+                        break;
+                    case BoostUserAnalysisType.compliance:
+                        ourCellContent = (findCellByKernel(boostNotebook, ControllerOutputType.compliance) as BoostNotebookCell)?.value;
+                        break;
+                    case BoostUserAnalysisType.blueprint:
+                        ourCellContent = (findCellByKernel(boostNotebook, ControllerOutputType.blueprint ) as BoostNotebookCell)?.value;
+                        break;
+                    default:
+                        ourCellContent = `Unexpected type of Analysis: ${this._type} - Unable to render markdown`;
+                        break;
+                }
+            } else {
+                boostLogging.debug(`No summary file found at ${summaryDataUri.fsPath}`);
             }
             if (ourCellContent) {
                 const summaryError = "\"Error: Boost Summary failed: ";
