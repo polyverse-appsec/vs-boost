@@ -389,7 +389,7 @@
         "clean": "rm -rf out",
         "build-instructions": "bash ./build_instructions.sh raw_instructions.md >./src/instructions.json",
         "compile": "tsc -p ./ && npm run build-instructions && node ./esbuild.js",
-        "watch": "node ./esbuild.js --watch & tsc -watch -p ./",
+        "watch": "node ./esbuild.js --watch && tsc -watch -p ./",
         "lint": "eslint src --ext ts",
         "copy:test-data": "mkdir -p out/test && cp -R src/test/resources/ out/test/resources/",
         "pretest": "npm run clean && npm run compile && npm run lint && npm run copy:test-data",
