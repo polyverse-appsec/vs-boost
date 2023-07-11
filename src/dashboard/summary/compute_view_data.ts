@@ -299,6 +299,6 @@ export function statusViewData(boostprojectdata: IBoostProjectData): StatusViewD
         busy: busy,
         jobsRunning: jobsRunning,
         jobsQueued: jobsQueued,
-        minutesRemaining: jobsQueued //assume 1 minute per job
+        minutesRemaining: jobsQueued + jobsRunning//assume 1 minute per job
     };
 }
