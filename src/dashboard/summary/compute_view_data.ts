@@ -52,7 +52,7 @@ export interface StatusViewData {
 // "outputType": "guidelinesCode"
 // "outputType": "flowDiagram"
 // "outputType": "bugAnalysisList"
-// "outputType": "complianceList"
+// "outputType": "complianceCodeList"
 
 export const outputTypeToDisplayGroup = {
     documentation: ["explainCode", "flowDiagram"],
@@ -108,7 +108,7 @@ export function summaryViewData(boostprojectdata: IBoostProjectData): SummaryVie
         {
             display: displayGroupFriendlyName.compliance,
             id: "compliance",
-            summary: mergeSummary(boostprojectdata, ["complianceList"], jobStatus),
+            summary: mergeSummary(boostprojectdata, ["complianceCodeList"], jobStatus),
             defaultChecked: true,
         },
         {
