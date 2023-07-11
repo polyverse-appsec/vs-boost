@@ -47,26 +47,31 @@ export class BoostProjectData implements IBoostProjectData {
     }
 
     readonly oldComplianceFunctionType = 'complianceList';
+    performCompatFixups(jsonString: string) : string {
+        const parsedJson = JSON.parse(jsonString, (key, value) => {
+            if (key === 'analysisType' && value === this.oldComplianceFunctionType) {
+                return ControllerOutputType.complianceFunction;
+            } else {
+                return value;
+            }
+        });
+
+        // Check and update the keys under sections in files
+        if (parsedJson.files) {
+            Object.values(parsedJson.files).forEach((file: any) => {
+                if (file.sections && file.sections[this.oldComplianceFunctionType]) {
+                    file.sections[ControllerOutputType.complianceFunction] = file.sections[this.oldComplianceFunctionType];
+                    delete file.sections[this.oldComplianceFunctionType];
+                }
+            });
+        }
+        return parsedJson;
+    }
+
     load(filePath: string): void {
         const jsonString = fs.readFileSync(filePath, "utf8");
         try {
-            const parsedJson = JSON.parse(jsonString, (key, value) => {
-                if (key === 'analysisType' && value === this.oldComplianceFunctionType) {
-                    return ControllerOutputType.complianceFunction;
-                } else {
-                    return value;
-                }
-            });
-    
-            // Check and update the keys under sections in files
-            if (parsedJson.files) {
-                Object.values(parsedJson.files).forEach((file: any) => {
-                    if (file.sections && file.sections[this.oldComplianceFunctionType]) {
-                        file.sections[ControllerOutputType.complianceFunction] = file.sections[this.oldComplianceFunctionType];
-                        delete file.sections[this.oldComplianceFunctionType];
-                    }
-                });
-            }
+            const parsedJson = this.performCompatFixups(jsonString);
             this.create(parsedJson);
         } catch (e) {
             if (e instanceof SyntaxError) {
