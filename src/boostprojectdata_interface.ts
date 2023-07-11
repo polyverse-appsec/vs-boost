@@ -1,6 +1,8 @@
 //IMPORTANT!!  This file is shared with webviews, which are packaged separately.
 //do not import any depdencies or use any code that is not available in the webview
 
+import { ControllerOutputType } from "./controllerOutputTypes";
+
 export interface Summary {
     projectName: string;
     summaryUrl: string;
@@ -64,7 +66,7 @@ export const emptyProjectData: IBoostProjectData = {
     },
     sectionSummary: {
         archblueprintCode: {
-            analysisType: "archblueprintCode",
+            analysisType: ControllerOutputType.blueprint,
             status: BoostProcessingStatus.notStarted,
             completedCells: 0,
             errorCells: 0,
@@ -73,7 +75,7 @@ export const emptyProjectData: IBoostProjectData = {
             filesAnalyzed: 0,
         },
         explainCode: {
-            analysisType: "explainCode",
+            analysisType: ControllerOutputType.explain,
             status: BoostProcessingStatus.notStarted,
             completedCells: 0,
             errorCells: 0,
@@ -82,7 +84,7 @@ export const emptyProjectData: IBoostProjectData = {
             filesAnalyzed: 0,
         },
         flowDiagram: {
-            analysisType: "flowDiagram",
+            analysisType: ControllerOutputType.flowDiagram,
             status: BoostProcessingStatus.notStarted,
             completedCells: 0,
             errorCells: 0,
@@ -91,7 +93,7 @@ export const emptyProjectData: IBoostProjectData = {
             filesAnalyzed: 0,
         },
         bugAnalysis: {
-            analysisType: "bugAnalysis",
+            analysisType: ControllerOutputType.analyze,
             status: BoostProcessingStatus.notStarted,
             completedCells: 0,
             errorCells: 0,
@@ -100,7 +102,7 @@ export const emptyProjectData: IBoostProjectData = {
             filesAnalyzed: 0,
         },
         bugAnalysisList: {
-            analysisType: "bugAnalysisList",
+            analysisType: ControllerOutputType.analyzeFunction,
             status: BoostProcessingStatus.notStarted,
             completedCells: 0,
             errorCells: 0,
@@ -109,7 +111,7 @@ export const emptyProjectData: IBoostProjectData = {
             filesAnalyzed: 0,
         },
         complianceCode: {
-            analysisType: "complianceCode",
+            analysisType: ControllerOutputType.compliance,
             status: BoostProcessingStatus.notStarted,
             completedCells: 0,
             errorCells: 0,
@@ -118,7 +120,7 @@ export const emptyProjectData: IBoostProjectData = {
             filesAnalyzed: 0,
         },
         complianceCodeList: {
-            analysisType: "complianceCodeList",
+            analysisType: ControllerOutputType.complianceFunction,
             status: BoostProcessingStatus.notStarted,
             completedCells: 0,
             errorCells: 0,
@@ -127,7 +129,7 @@ export const emptyProjectData: IBoostProjectData = {
             filesAnalyzed: 0,
         },
         summary: {
-            analysisType: "summary",
+            analysisType: ControllerOutputType.summary,
             status: BoostProcessingStatus.notStarted,
             completedCells: 0,
             errorCells: 0,
