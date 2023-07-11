@@ -5,7 +5,7 @@ export enum ControllerOutputType {
     analyzeFunction = analyze + functionOutputTypeExtension,
     blueprint = 'archblueprintCode',
     testgen = 'testGeneration',
-    compliance = 'compliance',
+    compliance = 'complianceCode',
     complianceFunction = compliance + functionOutputTypeExtension,
     performance = 'performance',
     performanceFunction = performance + functionOutputTypeExtension,
