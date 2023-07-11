@@ -104,7 +104,7 @@ export function getBoostFile(sourceFile : vscode.Uri | undefined, format : Boost
 
     // get the distance from the workspace folder for the source file
             // for project-level status files, we ignore the relative path
-    let relativePath = (baseFolder === sourceFile.path)?
+    let relativePath = (baseFolder === sourceFile.fsPath)?
         path.basename(baseFolder):path.relative(baseFolder,sourceFile.fsPath);
     // create the .boost file path, from the new boost folder + amended relative source file path
     switch (format) {
@@ -195,7 +195,7 @@ export async function createOrOpenSummaryNotebookFromSourceFile(sourceFile : vsc
         newNotebook.metadata = newMetadata;
 
         // boost notebook needs to be saved explicitly - while the VSC notebook background saves
-        newNotebook.save(notebookSummaryPath.path);
+        newNotebook.save(notebookSummaryPath.fsPath);
         return newNotebook;
     } else {
         const newNotebook = new boostnb.BoostNotebook();
@@ -245,14 +245,14 @@ export async function createOrOpenNotebookFromSourceFile(
 
     if (!BoostConfiguration.processFoldersInASingleNotebook) {
         if (useBoostNotebookWithNoUI) {
-            newNotebook.save(notebookPath.path);
+            newNotebook.save(notebookPath.fsPath);
         } else {
             // Save the notebook to disk
             const notebookData = await (new BoostContentSerializer()).serializeNotebookFromDoc(newNotebook as vscode.NotebookDocument);
             await vscode.workspace.fs.writeFile(notebookPath, notebookData);
         }
     } else if (useBoostNotebookWithNoUI) {
-        newNotebook.save(notebookPath.path);
+        newNotebook.save(notebookPath.fsPath);
     }
     return newNotebook;
 }

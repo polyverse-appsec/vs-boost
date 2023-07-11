@@ -320,7 +320,7 @@ export class BoostExtension {
                 const summaryPath = getBoostFile(
                     workspaceFolder,
                     BoostFileType.summary
-                ).path;
+                ).fsPath;
                 const relativeSummaryPath = path.relative(
                     workspaceFolder.fsPath,
                     summaryPath
@@ -513,7 +513,7 @@ export class BoostExtension {
                 problems.forEach((value, key) => {
                     boostLogging.debug(
                         `Evaluating ${
-                            value.path
+                            value.fsPath
                         } against ${cell.document.uri.toString()}`
                     );
                 });
@@ -1073,7 +1073,7 @@ export class BoostExtension {
                         );
                         boostLogging.info(
                             `${newNotebookWaits.length.toString()} Boost Notebooks reloaded for folder ${
-                                targetFolder.path
+                                targetFolder.fsPath
                             }`,
                             false
                         );
@@ -1081,13 +1081,13 @@ export class BoostExtension {
                     .catch((error) => {
                         // Handle the error here
                         boostLogging.error(
-                            `Error Boosting folder ${targetFolder.path} due Error: ${error}`
+                            `Error Boosting folder ${targetFolder.fsPath} due to Error: ${error}`
                         );
                     });
             }
         } catch (error) {
             boostLogging.error(
-                `Error Boosting folder ${targetFolder} due Error: ${error}`
+                `Error Boosting folder ${targetFolder} due to Error: ${error}`
             );
         }
     }
@@ -2271,7 +2271,7 @@ export class BoostExtension {
                     });
                     boostLogging.info(
                         `${processedNotebookWaits.length.toString()} Boost Notebooks processed for folder ${
-                            targetFolder.path
+                            targetFolder.fsPath
                         }`,
                         false
                     );
@@ -2279,7 +2279,7 @@ export class BoostExtension {
                 .catch((error) => {
                     // Handle the error here
                     boostLogging.error(
-                        `Error Boosting folder ${targetFolder.path} due to Error: ${error}`,
+                        `Error Boosting folder ${targetFolder.fsPath} due to Error: ${error}`,
                         false
                     );
                 });
@@ -2629,7 +2629,7 @@ export class BoostExtension {
                     });
                     boostLogging.info(
                         `${convertedNotebookWaits.length.toString()} Boost Notebooks converted for folder ${
-                            targetFolder.path
+                            targetFolder.fsPath
                         }`,
                         false
                     );
@@ -2637,7 +2637,7 @@ export class BoostExtension {
                 .catch((error) => {
                     // Handle the error here
                     boostLogging.error(
-                        `Error convertting Notebooks in folder ${targetFolder.path} due to Error: ${error}`
+                        `Error convertting Notebooks in folder ${targetFolder.fsPath} due to Error: ${error}`
                     );
                 });
         } catch (error) {
