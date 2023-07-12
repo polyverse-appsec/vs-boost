@@ -152,7 +152,7 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
         const projectName = getProjectName();
 
         const payloadDraft = {
-            'filelist': JSON.stringify(files),
+            'filelist': files,
             'projectName': projectName,
             ...authPayload
         };
@@ -187,7 +187,7 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
         const projectFileContents = !fs.existsSync(fullProjectFilePath)?"":fs.readFileSync(normalizedFullProjectFilePath, 'utf8');
 
         const payloadQuick = {
-            'filelist': JSON.stringify(files),
+            'filelist': files,
             'projectName': projectName,
             'projectFile': projectFileContents,
             'draftBlueprint': draftResponse.details.draftBlueprint,
