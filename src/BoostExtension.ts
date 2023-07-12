@@ -1057,16 +1057,14 @@ export class BoostExtension {
                                 return self.indexOf(value) === index;
                             }
                         );
-                        newNotebooks.forEach(
-                            async (notebook: boostnb.BoostNotebook) => {
-                                // we let user know the new scratch notebook was created
-                                boostLogging.info(
-                                    "Boost Notebook reloaded: " +
-                                        notebook.fsPath,
-                                    false
-                                );
-                            }
-                        );
+                        for (const notebook of newNotebooks) {
+                            // we let user know the new scratch notebook was created
+                            boostLogging.info(
+                                "Boost Notebook reloaded: " +
+                                    notebook.fsPath,
+                                false
+                            );
+                        }
                         boostLogging.info(
                             `${newNotebookWaits.length.toString()} Boost Notebooks reloaded for folder ${
                                 targetFolder.fsPath
@@ -2616,7 +2614,7 @@ export class BoostExtension {
 
             await Promise.all(convertedNotebookWaits)
                 .then((convertedNotebooks) => {
-                    convertedNotebooks.forEach(async (convertedPdf: string) => {
+                    convertedNotebooks.forEach((convertedPdf: string) => {
                         // we let user know the notebook was processed
                         boostLogging.info(
                             `Boost Notebook converted ${convertedPdf}`,
