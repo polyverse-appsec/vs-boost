@@ -530,11 +530,6 @@ export async function buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true
         '**/*.docx',
         '**/*.xls',
         '**/*.xlsx',
-        '**/*.odt',
-        '**/*.ods',
-        '**/*.odp',
-        '**/*.rtf',
-        '**/*.svg',
         '**/*.psd',
         '**/*.ai',
         '**/*.flv',
@@ -557,21 +552,14 @@ export async function buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true
         '**/*.class',
         '**/*.sqlite',
         '**/*.db',
-        '**/*.sql',
         '**/*.ttf',
         '**/*.otf',
-        '**/*.ipynb',
         '**/*.ipynb_checkpoints',
         '**/*.ipynb_checkpoints/**',
-        '**/*.*ignore',
-        '**/*.gitignore',
-        '**/*.gitattributes',
         '**/*.git',
         '**/*.svn',
         '**/*.hg',
         '**/*.bz2',
-        '**/*.log',
-        '**/*.out',
         '**/*.app',
         '**/*.appx',
         '**/*.appxbundle',
@@ -580,16 +568,34 @@ export async function buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true
         '**/*.rpm',
         '**/*.elf',
         '**/*.sys',
-        '**/*.csv',
-        '**/*.tsv',
+        '**/*.odt',
+        '**/*.ods',
+        '**/*.odp',
+    ];
+
+    const textFilePatterns = [
+        '**/*.svg',
+        '**/*.*ignore',
+        '**/*.gitignore',
+        '**/*.gitattributes',
+        '**/*.log',
+        '**/*.out',
         '**/*.dockerignore',
         '**/*.gitkeep',
         '**/*.gitmodules',
         '**/*.gitconfig',
-        '**/*.dist'
-    ];
-   
-    patterns = patterns.concat(binaryFilePatterns);    
+    ];          
+
+    const potentiallyUsefulTextFiles = [
+        '**/*.ipynb',   // Jupyter notebooks
+        '**/*.sql',     // SQL scripts
+        '**/*.rtf',     // Rich text files
+        '**/*.csv',     // Data files that might be read by scripts
+        '**/*.tsv',     // Data files that might be read by scripts
+        '**/*.dist',    // Often used for distribution config files
+    ];          
+
+    patterns = patterns.concat(binaryFilePatterns, textFilePatterns, potentiallyUsefulTextFiles);    
   
     // const exclude = '{**/node_modules/**,**/bower_components/**}';
     const excludePatterns = "{" + patterns.join(',') + "}";
