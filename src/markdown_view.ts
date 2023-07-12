@@ -158,7 +158,7 @@ export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
                     this.usefulContent = true;
                 }
             } else {
-                boostContent = `***Summary Not Generated***\n\nPlease run Analyze and Summary to regenerate Summary data`;
+                boostContent = `***To Generate Summary***\n\nPlease check the "Documentation" analysis from the Analysis Summary panel above and press "Run Selected Analyses" button`;
                 this.usefulContent = false;
             }
         }
