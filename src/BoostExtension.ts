@@ -193,7 +193,7 @@ export class BoostExtension {
     }
 
     async refreshBoostProjectsData(): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
+        return new Promise<void>(async (resolve, reject) => {
             try {
                 // future improvement - use changeEvent.added and changeEvent.removed to add or remove folders rather than resyncing everything
 
@@ -203,13 +203,9 @@ export class BoostExtension {
                     return;
                 }
 
-                folders.forEach(
-                    async (workspaceFolder: vscode.WorkspaceFolder) => {
-                        this.refreshProjectDataCacheForWorkspaceFolder(
-                            workspaceFolder
-                        );
-                    }
-                );
+                for (const workspaceFolder of folders) {
+                    await this.refreshProjectDataCacheForWorkspaceFolder(workspaceFolder);
+                }
 
                 // unload/release any boost project data for folders that are no longer in the workspace
                 this._boostProjectData.forEach(
