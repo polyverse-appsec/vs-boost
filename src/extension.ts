@@ -76,8 +76,7 @@ export async function deactivate(): Promise<void> {
     return undefined;
 }
 
-export function getBoostFile(sourceFile : vscode.Uri | undefined, format : BoostFileType = BoostFileType.notebook, showUI : boolean = false) : vscode.Uri {
-
+export function getBoostFile(sourceFile: vscode.Uri | undefined, format: BoostFileType = BoostFileType.notebook, showUI: boolean = false): vscode.Uri {
     // if we don't have a workspace folder, just place the Boost file in a new Boostdir - next to the source file
     let baseFolder;
     if (!vscode.workspace.workspaceFolders) {
@@ -98,9 +97,20 @@ export function getBoostFile(sourceFile : vscode.Uri | undefined, format : Boost
         throw new Error("Unable to determine source file for Boost file");
     }
 
+    // Check if baseFolder exists
+    if (!fs.existsSync(baseFolder)) {
+        throw new Error(`Base folder does not exist: ${baseFolder}`);
+    }
+
     // create the .boost folder if we need to - this is statically located in the workspace folder no matter which child folder is processed
     const boostFolder = path.join(baseFolder, BoostConfiguration.defaultDir);
-    fs.mkdirSync(boostFolder, { recursive: true });
+    if (!fs.existsSync(boostFolder)) {
+        try {
+            fs.mkdirSync(boostFolder, { recursive: true });
+        } catch (error) {
+            throw new Error(`Failed to create Boost folder at ${boostFolder} due to Error: ${error}`);
+        }
+    }
 
     // get the distance from the workspace folder for the source file
             // for project-level status files, we ignore the relative path
