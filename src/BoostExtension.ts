@@ -193,7 +193,7 @@ export class BoostExtension {
     }
 
     async refreshBoostProjectsData(): Promise<void> {
-        new Promise<void>((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             try {
                 // future improvement - use changeEvent.added and changeEvent.removed to add or remove folders rather than resyncing everything
 
@@ -1532,7 +1532,7 @@ export class BoostExtension {
                     })
                     .catch((error: any) => {
                         boostLogging.error(
-                            `Unable to Refresh Project Data`,
+                            `Unable to Refresh Project Data due to error ${(error as Error).message}`,
                             false
                         );
                     });
