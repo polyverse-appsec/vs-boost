@@ -110,6 +110,8 @@ export class BoostExtension {
     public readonly sampleGuidelineRegEx =
         /^# Enter Your \w+ Guidelines Here\n\nYou can describe your goals, constraints, or hints for analysis$/;
 
+    public blueprintPanel: BoostMarkdownViewProvider | undefined;
+
     constructor(context: vscode.ExtensionContext) {
         // ensure logging is shutdown
         context.subscriptions.push(boostLogging);
@@ -811,7 +813,7 @@ export class BoostExtension {
             this,
             BoostUserAnalysisType.compliance
         );
-        const blueprint = new BoostMarkdownViewProvider(
+        this.blueprintPanel = new BoostMarkdownViewProvider(
             context,
             this,
             BoostUserAnalysisType.blueprint
@@ -838,7 +840,7 @@ export class BoostExtension {
         context.subscriptions.push(
             vscode.window.registerWebviewViewProvider(
                 "polyverse-boost-blueprint-view",
-                blueprint
+                this.blueprintPanel
             )
         );
     }
@@ -2351,6 +2353,9 @@ export class BoostExtension {
                     .then(() => {
                         // ensure we save the notebook if we successfully processed it
                         notebook.flushToFS();
+                        // TODO, this should be more general once we have more than one project level command
+                        this.blueprintPanel?.refresh();
+
                         boostLogging.info(
                             `Saved Updated Notebook for ${kernelCommand} in file:[${projectBoostFile.fsPath}]`,
                             likelyViaUI
