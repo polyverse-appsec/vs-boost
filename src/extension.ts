@@ -103,12 +103,13 @@ export function getBoostFile(sourceFile: vscode.Uri | undefined, format: BoostFi
     }
 
     // create the .boost folder if we need to - this is statically located in the workspace folder no matter which child folder is processed
-    const boostFolder = path.join(baseFolder, BoostConfiguration.defaultDir);
+    const nonNormalizedBoostFolder = path.join(baseFolder, BoostConfiguration.defaultDir);
+    const boostFolder = path.normalize(nonNormalizedBoostFolder);
     if (!fs.existsSync(boostFolder)) {
         try {
             fs.mkdirSync(boostFolder, { recursive: true });
         } catch (error) {
-            throw new Error(`Failed to create Boost folder at ${boostFolder} due to Error: ${error}`);
+            throw new Error(`Failed to create Boost folder at ${boostFolder} due to Error: ${error} - possible permission issue`);
         }
     }
 
@@ -141,11 +142,15 @@ export function getBoostFile(sourceFile: vscode.Uri | undefined, format: BoostFi
                 // create the .boost file path, from the new boost folder + amended relative source file path
                 const absoluteBoostNotebookFile = path.join(
                     boostFolder, relativePath + extension);
-                return vscode.Uri.file(absoluteBoostNotebookFile);
+                const normalizedAbsoluteBoostNotebookFile = path.normalize(absoluteBoostNotebookFile);
+
+                return vscode.Uri.file(normalizedAbsoluteBoostNotebookFile);
             }
         case BoostFileType.status:
             const absoluteboostProjectDataFile = path.join(boostFolder, relativePath + PROJECT_EXTENSION);
-            let boostProjectDataFile = vscode.Uri.file(absoluteboostProjectDataFile);
+            const normalizedAbsoluteBoostProjectDataFile = path.normalize(absoluteboostProjectDataFile);
+            
+            let boostProjectDataFile = vscode.Uri.file(normalizedAbsoluteBoostProjectDataFile);
             return boostProjectDataFile;
         case BoostFileType.notebook:
         default:
@@ -163,7 +168,9 @@ export function getBoostFile(sourceFile: vscode.Uri | undefined, format: BoostFi
                 // create the .boost file path, from the new boost folder + amended relative source file path
                 const absoluteBoostNotebookFile = path.join(
                     boostFolder, relativePath + boostnb.NOTEBOOK_EXTENSION);
-                return vscode.Uri.file(absoluteBoostNotebookFile);
+                const normalizedAbsoluteBoostNotebookFile = path.normalize(absoluteBoostNotebookFile);
+
+                return vscode.Uri.file(normalizedAbsoluteBoostNotebookFile);
             }
     }
 }
@@ -652,6 +659,8 @@ export function fullPathFromSourceFile(sourceFile : string) : vscode.Uri {
             const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder
             baseFolder = workspaceFolder.uri.fsPath;
             fullPath = path.join(baseFolder, sourceFile);
+            const normalizedFullPath = path.normalize(fullPath);
+            fullPath = normalizedFullPath;
         }
     }
     return vscode.Uri.parse(fullPath);
@@ -688,7 +697,8 @@ export async function getOrCreateBlueprintUri(context: vscode.ExtensionContext, 
     // If the file doesn't exist, create it with data from blueprint_template.md
     const extensionPath = context.extensionPath;
     const templatePath = path.join(extensionPath, 'resources', 'blueprint_template.md');
-    const data = fs.readFileSync(templatePath, 'utf8');
+    const normalizedTemplatePath = path.normalize(templatePath);
+    const data = fs.readFileSync(normalizedTemplatePath, 'utf8');
 
     //filePath might point to a directory that does not exist yet. check for that and create it if necessary
     const folderPath = path.dirname(absoluteFilePath);

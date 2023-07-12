@@ -29,7 +29,8 @@ async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : 
 
             // Write the HTML to a temporary file with the random filename
             const tempHtmlPath = path.join(baseFolderPath, randomFilename);
-            await convertNotebookToHTML(boostNotebook, notebookPath, baseFolderPath, tempHtmlPath);
+            const normalizedTempHtmlPath = path.normalize(tempHtmlPath);
+            await convertNotebookToHTML(boostNotebook, notebookPath, baseFolderPath, normalizedTempHtmlPath);
 
             try {
                 // convert the html file to pdf using puppeteer
@@ -46,7 +47,7 @@ async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : 
                 // delete the temporary html file so we don't leak the file in the user's workspace
                 // this means debugging failures will be harder to diagnose, but it's better than alternative
                 // we can use a debug flag in future to keep the file around for debugging
-                fs.unlinkSync(tempHtmlPath);
+                fs.unlinkSync(normalizedTempHtmlPath);
             }
 
             resolve();

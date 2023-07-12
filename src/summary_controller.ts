@@ -241,11 +241,13 @@ export class SummarizeKernel extends KernelControllerBase {
 
         // create the .boost folder if we need to - this is statically located in the workspace folder no matter which child folder is processed
         const boostFolder = path.join(workspaceFolder.uri.fsPath, BoostConfiguration.defaultDir);
-        const searchFolder = path.join(boostFolder, sourceFolder);
+        const normalizedBoostFolder = path.normalize(boostFolder);
+        const searchFolder = path.join(normalizedBoostFolder, sourceFolder);
+        const normalizedSearchFolder = path.normalize(searchFolder);
         const summaryNotebookFileUri = getBoostFile(workspaceFolder.uri, BoostFileType.summary);
         
         // we're going to search for every boost summary notebook under our target folder (which is under Boost folder)
-        const searchPattern = new vscode.RelativePattern(searchFolder, '**/*' + NOTEBOOK_SUMMARY_EXTENSION);
+        const searchPattern = new vscode.RelativePattern(normalizedSearchFolder, '**/*' + NOTEBOOK_SUMMARY_EXTENSION);
         const files = await vscode.workspace.findFiles(searchPattern);
 
         // grab all the cell contents by type/command/kernel for submission

@@ -176,12 +176,15 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
         const fullSourcePath = path.join(
             vscode.workspace.workspaceFolders![0].uri.fsPath,
             draftResponse.details.recommendedSampleSourceFile);
-        const sampleCode = !fs.existsSync(fullSourcePath)?"":fs.readFileSync(fullSourcePath, 'utf8');
+        const normalizedFullSourcePath = path.normalize(fullSourcePath);
+
+        const sampleCode = !fs.existsSync(fullSourcePath)?"":fs.readFileSync(normalizedFullSourcePath, 'utf8');
 
         const fullProjectFilePath = path.join(
             vscode.workspace.workspaceFolders![0].uri.fsPath,
             draftResponse.details.recommendedProjectDeploymentFile);
-        const projectFileContents = !fs.existsSync(fullProjectFilePath)?"":fs.readFileSync(fullProjectFilePath, 'utf8');
+        const normalizedFullProjectFilePath = path.normalize(fullProjectFilePath);
+        const projectFileContents = !fs.existsSync(fullProjectFilePath)?"":fs.readFileSync(normalizedFullProjectFilePath, 'utf8');
 
         const payloadQuick = {
             'filelist': JSON.stringify(files),

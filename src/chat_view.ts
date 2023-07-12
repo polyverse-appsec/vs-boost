@@ -285,8 +285,9 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         }
 
         const tempFilePath = path.join(os.tmpdir(), `${filenamePrefix}.json`);
-        this._tempFilename = tempFilePath;
-        return tempFilePath;
+        const normalizedTempPath = path.normalize(tempFilePath);
+        this._tempFilename = normalizedTempPath;
+        return normalizedTempPath;
     }
 
     private _saveJsonData(data: any): void {

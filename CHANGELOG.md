@@ -3,7 +3,7 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 1.1.0: July 9th, 2023
+## Version 1.1.0: July 12th, 2023
 
 ### New Features
 - Significantly improved UX around scan progress tracking, reliability in Summary View in Activity Bar
@@ -26,6 +26,7 @@ Polyverse Boost Automatic Application Modernization
 - Fixed a bug where some source file analysis was failing due to line number issues
 - Do not include Errors in summarization of cells and notebooks
 - Fix issue with Summaries of output including duplicate timestamps and headers
+- Fix path normalization issue with Boost folders on Windows platform
 
 ## Version 1.0.4: June 28, 2023
 

@@ -28,6 +28,7 @@ suite("BoostProjectData", function () {
     // Get the temporary directory and define the path for sampleData.json
     const tempDirectory = os.tmpdir();
     const sampleDataFilePath = path.join(tempDirectory, "sampleData.json");
+    const normalizedSampleDataFilePath = path.normalize(sampleDataFilePath);
 
     suiteSetup(function (done) {
         // Write the sample data to a file before tests
