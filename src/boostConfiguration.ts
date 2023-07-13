@@ -58,11 +58,6 @@ export class BoostConfiguration {
             Defaults.useSourceFileForProblemsValue;
     }
 
-    public static get processFoldersInASingleNotebook(): boolean {
-        return workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.processFoldersInASingleNotebookName)??
-            Defaults.processFoldersInASingleNotebookValue;
-    }
-
     public static get defaultOrganization(): string {
         let command = workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.defaultOrganizationName) as any;
         if (command) {
@@ -203,9 +198,6 @@ class Defaults {
     
     public static readonly serializationOfCellsContainingErrorsName = "serializationOfCellsContainingErrors";
     public static readonly serializationOfCellsContainingErrorsValue = true;
-    
-    public static readonly processFoldersInASingleNotebookName = "processFoldersInASingleNotebook";
-    public static readonly processFoldersInASingleNotebookValue = false;
 
     public static readonly defaultOrganizationName : string = "defaultOrganization";
     public static readonly defaultOrganizationValue : string = "";
