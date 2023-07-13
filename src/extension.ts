@@ -243,42 +243,24 @@ export async function createOrOpenNotebookFromSourceFile(
     }
 
     boostLogging.debug(`Boosting file: ${sourceFile.fsPath} as ${notebookPath.fsPath}`);
-
-    if (BoostConfiguration.processFoldersInASingleNotebook) {
-        if (!existingNotebook) {
-            if (useBoostNotebookWithNoUI) {
-                newNotebook = new boostnb.BoostNotebook();
-            } else {
-                newNotebook = await vscode.workspace.openNotebookDocument(boostnb.NOTEBOOK_TYPE, new vscode.NotebookData([]));
-            }
-        } else {
-            newNotebook = existingNotebook;
-        }
-    } else {
-        newNotebook = await createEmptyNotebook(notebookPath, !useBoostNotebookWithNoUI);
-    }
+    newNotebook = await createEmptyNotebook(notebookPath, !useBoostNotebookWithNoUI);
 
     // load/parse source file into new notebook
-    await parseFunctionsFromFile(sourceFile, newNotebook, BoostConfiguration.processFoldersInASingleNotebook);
+    await parseFunctionsFromFile(sourceFile, newNotebook);
 
-    if (!BoostConfiguration.processFoldersInASingleNotebook) {
-        if (useBoostNotebookWithNoUI) {
-            newNotebook.save(notebookPath.fsPath);
-        } else {
-            // Save the notebook to disk
-            const notebookData = await (new BoostContentSerializer()).serializeNotebookFromDoc(newNotebook as vscode.NotebookDocument);
-            await vscode.workspace.fs.writeFile(notebookPath, notebookData);
-        }
-    } else if (useBoostNotebookWithNoUI) {
+    if (useBoostNotebookWithNoUI) {
         newNotebook.save(notebookPath.fsPath);
+    } else {
+        // Save the notebook to disk
+        const notebookData = await (new BoostContentSerializer()).serializeNotebookFromDoc(newNotebook as vscode.NotebookDocument);
+        await vscode.workspace.fs.writeFile(notebookPath, notebookData);
     }
     return newNotebook;
 }
 
 export async function parseFunctionsFromFile(
     fileUri : vscode.Uri,
-    targetNotebook : boostnb.BoostNotebook | vscode.NotebookDocument,
-    appendToExistingNotebook : boolean = false) {
+    targetNotebook : boostnb.BoostNotebook | vscode.NotebookDocument) {
 
     const fileContents = fs.readFileSync(fileUri.fsPath, 'utf8');
     
@@ -315,8 +297,7 @@ export async function parseFunctionsFromFile(
     }
 
     // if the Notebook has unsaved changes, prompt user before erasing them
-    if (!appendToExistingNotebook &&
-        targetNotebook.isDirty &&
+    if (targetNotebook.isDirty &&
             // if there are multiple cells, or
         (targetNotebook.cellCount > 1 ||
             // unless there's only one cell and its the default Instructions (e.g. not code)
@@ -334,44 +315,28 @@ export async function parseFunctionsFromFile(
         new vscode.NotebookRange(0, targetNotebook.cellCount):undefined;
     const edit = (!(targetNotebook instanceof boostnb.BoostNotebook))?new vscode.WorkspaceEdit():undefined;
 
-    if (appendToExistingNotebook) {
-        if (targetNotebook instanceof boostnb.BoostNotebook) {
-            targetNotebook.appendCells(cells as boostnb.BoostNotebookCell[]);
-        } else if (edit) {
-            // Use .set to add one or more edits to the notebook
-            edit.set(targetNotebook.uri, [
-                // Create an edit that replaces all the cells in the notebook with new cells created from the file
-                vscode.NotebookEdit.insertCells(targetNotebook.cellCount, cells as vscode.NotebookCellData[]),
+    const sourceFilePath = sourceFileFromFullPath(fileUri);
+        
+    let newMetadata = {
+        ...targetNotebook.metadata,
+        sourceFile: sourceFilePath};
 
-                // Additional notebook edits...
-            ]);
-        } else {
-            boostLogging.error('Unable to append to existing notebook - Type logic error', true);
-        }
+    if (targetNotebook instanceof boostnb.BoostNotebook) {
+        targetNotebook.replaceCells(cells as boostnb.BoostNotebookCell[]);
+        targetNotebook.metadata = newMetadata;
+    } else if (edit) {
+        // Use .set to add one or more edits to the notebook
+        edit.set(targetNotebook.uri, [
+            // Create an edit that replaces all the cells in the notebook with new cells created from the file
+            vscode.NotebookEdit.replaceCells(range as vscode.NotebookRange, cells as vscode.NotebookCellData[]),
+
+            // Additional notebook edits...
+        ]);
+
+        // store the source file on the notebook metadata, so we can use it for problems or reverse mapping
+        edit.set(targetNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata(newMetadata)]);
     } else {
-        const sourceFilePath = sourceFileFromFullPath(fileUri);
-            
-        let newMetadata = {
-            ...targetNotebook.metadata,
-            sourceFile: sourceFilePath};
-
-        if (targetNotebook instanceof boostnb.BoostNotebook) {
-            targetNotebook.replaceCells(cells as boostnb.BoostNotebookCell[]);
-            targetNotebook.metadata = newMetadata;
-        } else if (edit) {
-            // Use .set to add one or more edits to the notebook
-            edit.set(targetNotebook.uri, [
-                // Create an edit that replaces all the cells in the notebook with new cells created from the file
-                vscode.NotebookEdit.replaceCells(range as vscode.NotebookRange, cells as vscode.NotebookCellData[]),
-
-                // Additional notebook edits...
-            ]);
-
-            // store the source file on the notebook metadata, so we can use it for problems or reverse mapping
-            edit.set(targetNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata(newMetadata)]);
-        } else {
-            boostLogging.error('Unable to replace existing notebook - Type logic error', true);
-        }
+        boostLogging.error('Unable to replace existing notebook - Type logic error', true);
     }
     // only use workspace editor if we are using vscode notebook
     if (!(targetNotebook instanceof boostnb.BoostNotebook)) {

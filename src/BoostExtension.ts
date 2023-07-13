@@ -1007,75 +1007,51 @@ export class BoostExtension {
             "Analyzing " + files.length + " files in folder: " + targetFolder
         );
         try {
-            if (BoostConfiguration.processFoldersInASingleNotebook) {
-                // we're going to create a single notebook for all the files
-                let newNotebook: vscode.NotebookDocument | undefined;
-                for (const file of files) {
-                    newNotebook = (await createOrOpenNotebookFromSourceFile(
-                        file,
-                        false,
-                        true,
-                        newNotebook
-                    )) as vscode.NotebookDocument;
-                    await createOrOpenSummaryNotebookFromSourceFile(file);
-                }
-                // create the folder level rollup
-                await createOrOpenSummaryNotebookFromSourceFile(targetFolder);
 
-                if (newNotebook) {
-                    // we let user know the new scratch notebook was created
-                    boostLogging.warn(
-                        "Scratch Notebook opened: " +
-                            newNotebook.uri.toString(),
-                        true
-                    );
-                }
-            } else {
-                let newNotebookWaits: any[] = [];
+            let newNotebookWaits: any[] = [];
 
-                files.filter(async (file) => {
-                    newNotebookWaits.push(
-                        createOrOpenNotebookFromSourceFile(file, true)
-                    );
-                    newNotebookWaits.push(
-                        createOrOpenSummaryNotebookFromSourceFile(file)
-                    );
-                });
-                // create project level rollup
+            files.filter(async (file) => {
                 newNotebookWaits.push(
-                    createOrOpenSummaryNotebookFromSourceFile(targetFolder)
+                    createOrOpenNotebookFromSourceFile(file, true)
                 );
+                newNotebookWaits.push(
+                    createOrOpenSummaryNotebookFromSourceFile(file)
+                );
+            });
+            // create project level rollup
+            newNotebookWaits.push(
+                createOrOpenSummaryNotebookFromSourceFile(targetFolder)
+            );
 
-                await Promise.all(newNotebookWaits)
-                    .then((createdNotebooks) => {
-                        // we are generally creating one new notebook during this process, but in case, we de-dupe it
-                        const newNotebooks = createdNotebooks.filter(
-                            (value, index, self) => {
-                                return self.indexOf(value) === index;
-                            }
-                        );
-                        for (const notebook of newNotebooks) {
-                            // we let user know the new scratch notebook was created
-                            boostLogging.info(
-                                "Boost Notebook reloaded: " +
-                                    notebook.fsPath,
-                                false
-                            );
+            await Promise.all(newNotebookWaits)
+                .then((createdNotebooks) => {
+                    // we are generally creating one new notebook during this process, but in case, we de-dupe it
+                    const newNotebooks = createdNotebooks.filter(
+                        (value, index, self) => {
+                            return self.indexOf(value) === index;
                         }
+                    );
+                    for (const notebook of newNotebooks) {
+                        // we let user know the new scratch notebook was created
                         boostLogging.info(
-                            `${newNotebookWaits.length.toString()} Boost Notebooks reloaded for folder ${
-                                targetFolder.fsPath
-                            }`,
+                            "Boost Notebook reloaded: " +
+                                notebook.fsPath,
                             false
                         );
-                    })
-                    .catch((error) => {
-                        // Handle the error here
-                        boostLogging.error(
-                            `Error Boosting folder ${targetFolder.fsPath} due to Error: ${error}`
-                        );
-                    });
-            }
+                    }
+                    boostLogging.info(
+                        `${newNotebookWaits.length.toString()} Boost Notebooks reloaded for folder ${
+                            targetFolder.fsPath
+                        }`,
+                        false
+                    );
+                })
+                .catch((error) => {
+                    // Handle the error here
+                    boostLogging.error(
+                        `Error Boosting folder ${targetFolder.fsPath} due to Error: ${error}`
+                    );
+                });
         } catch (error) {
             boostLogging.error(
                 `Error Boosting folder ${targetFolder} due to Error: ${error}`
