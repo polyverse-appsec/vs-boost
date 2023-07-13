@@ -870,6 +870,8 @@ export class KernelControllerBase extends BoostServiceHelper {
         if (!cellRange) {
             cellRange = new vscode.Range(0, 0, 0, 0);
         }
+        // example VSCode cell uri:
+        //      vscode-notebook-cell:/path/project-name/.boost/src/filename.boost-notebook#W1sZmlsZQ%3D%3D
         this._problemsCollection.set(usingBoostNotebook?vscode.Uri.parse(cell.id as string):cell.document.uri, [
             {
                 code: error.name, // '<CodeBlockContextGoesHere>',

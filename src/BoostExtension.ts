@@ -473,7 +473,7 @@ export class BoostExtension {
                                 __: Map<string, KernelControllerBase>
                             ) => {
                                 if (
-                                    value !== output.metadata?.outputType ??
+                                    value.outputType !== output.metadata?.outputType ??
                                     ControllerOutputType.explain
                                 ) {
                                     return;
