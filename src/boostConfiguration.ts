@@ -146,6 +146,11 @@ export class BoostConfiguration {
             Defaults.refreshAnalysisAlwaysValue;
     }
 
+    public static get alwaysRunSummary(): boolean {
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.alwaysRunSummaryName) as boolean)??
+            Defaults.alwaysRunSummaryValue;
+    }
+
     public static get defaultOutputFormat(): string {
         return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.defaultOutputFormatName) as string)??
             Defaults.defaultOutputFormatValue;
@@ -225,6 +230,9 @@ class Defaults {
 
     public static readonly refreshAnalysisAlwaysName : string = "refreshAnalysisAlways";
     public static readonly refreshAnalysisAlwaysValue : boolean = false;
+
+    public static readonly alwaysRunSummaryName : string = "alwaysRunSummary";
+    public static readonly alwaysRunSummaryValue : boolean = false;
 
     public static readonly defaultOutputFormatName : string = "defaultOutputFormat";
     public static readonly defaultOutputFormatValue : string = "markdown";

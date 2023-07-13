@@ -173,7 +173,10 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                             );
                                         }
                                     }
-                                    runSummary = true;
+
+                                    if (BoostConfiguration.alwaysRunSummary) {
+                                        runSummary = true;
+                                    }
                                 } catch (error) {
                                     boostLogging.error(
                                         `Error while running ${key} analysis:: ${error}`,
@@ -187,7 +190,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                         BoostCommands.refreshProjectData
                                 );
                             }
-                            /*
+
                             if ((runSummary &&
                                 // don't run summary if dev overrode it, or requested it specifically
                                 !BoostConfiguration.runAllTargetAnalysisType) ||
@@ -195,9 +198,9 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                 (BoostConfiguration.runAllTargetAnalysisType as string).includes(summarizeKernelName))) {
 
                                 // summary across all files
-                                await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, );
+                                await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, getKernelName(summarizeKernelName));
                             }
-*/
+
                         } finally {
                             // refresh project data
                             await vscode.commands.executeCommand(
@@ -211,7 +214,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     }
 
                     break;
-                case "update_summary": {
+                case "refresh_deep_summary": {
                     // creates and loads all notebook files
                     await vscode.commands.executeCommand(
                         NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
@@ -224,7 +227,12 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     );
 
                     // summary across all files
-                    // await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(summarizeKernelName));
+                    await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(summarizeKernelName));
+
+                    // refresh project data
+                    await vscode.commands.executeCommand(
+                        NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
+                    );
                 }
             }
         });
