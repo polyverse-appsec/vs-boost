@@ -12,7 +12,7 @@ Polyverse Boost Automatic Application Modernization
 - N/A
 
 ### Bug Fixes
-- N/A
+- Restore Summarization of all analysis across project in Boost UX tab
 
 ## Version 1.1.0: July 12th, 2023
 
