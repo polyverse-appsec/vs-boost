@@ -651,7 +651,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         return {
             items: [
                 {
-                    mime: "application/vnd.code.notebook.error", // for compatibility with VS Code
+                    mime: errorMimeType, // for compatibility with VS Code
                     data: error.toString(),
                 },
             ],

@@ -73,7 +73,7 @@ import { BoostUserAnalysisType } from "./userAnalysisType";
 import { BoostContentSerializer } from "./serializer";
 import { BoostConfiguration } from "./boostConfiguration";
 import { boostLogging } from "./boostLogging";
-import { KernelControllerBase } from "./base_controller";
+import { KernelControllerBase, errorMimeType } from "./base_controller";
 import {
     updateBoostStatusColors,
     registerCustomerPortalCommand,
@@ -457,10 +457,7 @@ export class BoostExtension {
                 cell.outputs.forEach((output) => {
                     output.items.forEach((item) => {
                         let thisItem = item as vscode.NotebookCellOutputItem;
-                        if (
-                            thisItem.mime !==
-                            "application/vnd.code.notebook.error"
-                        ) {
+                        if (thisItem.mime !== errorMimeType) {
                             return;
                         }
 
