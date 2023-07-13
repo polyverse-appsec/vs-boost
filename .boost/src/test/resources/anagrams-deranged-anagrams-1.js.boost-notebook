@@ -1,0 +1,133 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "javascript",
+      "id": "0",
+      "value": "#!/usr/bin/env js\n\nfunction main() {\n    var wordList = read('unixdict.txt').split(/\\s+/);\n    var anagrams = findAnagrams(wordList);\n    var derangedAnagrams = findDerangedAnagrams(anagrams);\n    var longestPair = findLongestDerangedPair(derangedAnagrams);\n    print(longestPair.join(' '));\n\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "javascript",
+      "id": "1",
+      "value": "\nfunction findLongestDerangedPair(danas) {\n    var longestLen = danas[0][0].length;\n    var longestPair = danas[0];\n    for (var i in danas) {\n        if (danas[i][0].length > longestLen) {\n            longestLen = danas[i][0].length;\n            longestPair = danas[i];\n        }\n    }\n    return longestPair;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 10
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "javascript",
+      "id": "2",
+      "value": "\nfunction findDerangedAnagrams(anagrams) {\n    var deranged = [];\n\n    function isDeranged(w1, w2) {\n        for (var c = 0; c < w1.length; c++) {\n            if (w1[c] == w2[c]) {\n                return false;\n            }\n        }\n        return true;\n    }\n\n    function findDeranged(anas) {\n        for (var a = 0; a < anas.length; a++) {\n            for (var b = a + 1; b < anas.length; b++) {\n                if (isDeranged(anas[a], anas[b])) {\n                    deranged.push([anas[a], anas[b]]);\n                }\n            }\n        }\n    }\n\n    for (var a in anagrams) {\n        var anas = anagrams[a];\n        findDeranged(anas);\n    }\n\n    return deranged;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 22
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "javascript",
+      "id": "3",
+      "value": "\nfunction findAnagrams(wordList) {\n    var anagrams = {};\n\n    for (var wordNum in wordList) {\n        var word = wordList[wordNum];\n        var key = word.split('').sort().join('');\n        if (!(key in anagrams)) {\n            anagrams[key] = [];\n        }\n        anagrams[key].push(word);\n    }\n\n    for (var a in anagrams) {\n        if (anagrams[a].length < 2) {\n            delete(anagrams[a]);\n        }\n    }\n\n    return anagrams;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 52
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "javascript",
+      "id": "4",
+      "value": "\nmain();\n\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 52
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/resources/anagrams-deranged-anagrams-1.js"
+  }
+}

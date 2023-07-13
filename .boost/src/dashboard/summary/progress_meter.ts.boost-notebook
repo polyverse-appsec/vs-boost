@@ -1,0 +1,108 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:00:28 PM PDT\n\nThis code is written in TypeScript and uses the D3.js library to create a progress bar visualization. D3.js (Data-Driven Documents) is a powerful JavaScript library used for creating data visualizations. \n\nHere's a breakdown of the code:\n\n1. `import * as d3 from \"d3\";` - This line imports the D3.js library.\n\n2. `const width = 100;` and `const height = 3;` - These lines define the constants for the width and height of the progress bar.\n\n3. `export function progressMeterEnter(parent: d3.selection): d3.selection {` - This line defines and exports a function named `progressMeterEnter` that takes a D3 selection as an argument and returns a D3 selection.\n\n4. The function begins by creating an SVG element within the parent selection using D3's `append` function. It then sets several attributes on the SVG element, including \"grid-column\", \"class\", \"width\", \"height\", \"viewBox\", and \"preserveAspectRatio\". \n\n5. `const groups = svg.selectAll(\"g\")` - This line selects all \"g\" elements (SVG group elements) within the SVG element.\n\n6. `.data((d) => d.progressBar)` - This line binds the data to the selected elements. Here, the data is an array of progress bar values.\n\n7. `.join(\"g\")` - This line creates a \"g\" element for each data point if it doesn't already exist.\n\n8. `.attr(\"transform\", (d, i) => translate(0, ${i * height}))` - This line sets the \"transform\" attribute of each \"g\" element to translate it vertically based on its index in the data array. \n\n9. `.call(addZoom)` and `.call(barUpdate);` - These lines call the `addZoom` and `barUpdate` functions on each \"g\" element. These functions are not defined in the provided code, but typically, `addZoom` would add zoom functionality and `barUpdate` would update the progress bar.\n\n10. `return parent;` - Finally, the function returns the parent selection.\n\nThis code does not appear to conflict with any specific architectural guidelines as none were provided. The code is modular and uses D3.js to create a data visualization, which is a common use case for this library.\n\nFor more information on D3.js, refer to the official documentation: https://d3js.org/."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as d3 from \"d3\";\n\nconst width = 100;\nconst height = 3;\n\nexport function progressMeterEnter(parent: d3.selection): d3.selection {\n    // Create SVG\n    const svg = parent\n        .append(\"vscode-data-grid-cell\")\n        .attr(\"grid-column\", \"2\")\n        .attr(\"class\", \"left-aligned\")\n        .append(\"svg\")\n        .attr(\"width\", \"100%\")\n        .attr(\"height\", \"100%\")\n        .attr(\n            \"viewBox\",\n            (d) => \"0 0 \" + width + \" \" + d.progressBar.length * height\n        )\n        .attr(\"preserveAspectRatio\", \"xMinYMin meet\");\n\n    const groups = svg\n        .selectAll(\"g\")\n        .data((d) => d.progressBar)\n        .join(\"g\")\n        .attr(\"transform\", (d, i) => `translate(0, ${i * height})`)\n        .call(addZoom)\n        .call(barUpdate);\n\n    return parent;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 4
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:01:01 PM PDT\n\nThis code is written in TypeScript, a statically typed superset of JavaScript. It uses D3.js, a JavaScript library for creating dynamic and interactive data visualizations in the browser. \n\nThe function `progressMeterUpdate` is exported, meaning it can be imported and used in other modules. It takes a `parent` parameter which is a D3 selection. A D3 selection is a data structure representing a group of nodes selected from the document. \n\nThe `progressMeterUpdate` function is responsible for updating a progress bar visualization. \n\nHere's a detailed explanation of the code:\n\n1. `const groups = parent.selectAll(\"g\").data((d) => d.progressBar);` \n\n   This line of code selects all 'g' elements from the parent selection. The 'g' element in SVG is a container used to group other SVG elements. \n\n   The `.data((d) => d.progressBar)` part binds data to the selected elements. The data is retrieved by calling the `progressBar` property on each item in the parent's data set. The `d` in the arrow function `(d) => d.progressBar` represents each item in the parent's data set.\n\n2. `groups.call(barUpdate);` \n\n   This line of code calls the `barUpdate` function on each of the groups. The `barUpdate` function is not shown in the provided code, but it is presumably responsible for updating the appearance of the progress bar based on the bound data.\n\n3. `return groups;` \n\n   The function then returns the groups selection. This can be useful for chaining further operations on the groups.\n\nAs for the algorithm used, this code follows the general update pattern of D3.js, which is select elements, bind data to them, and then apply changes to the data-bound elements.\n\nFor more information on D3.js and its patterns, you can visit the official D3.js website: https://d3js.org/ or the D3.js GitHub repository: https://github.com/d3/d3."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\nexport function progressMeterUpdate(parent: d3.selection): d3.selection {\n    const groups = parent.selectAll(\"g\").data((d) => d.progressBar);\n    groups.call(barUpdate);\n    return groups;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 30
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:01:35 PM PDT\n\nThis JavaScript function, `barUpdate`, is designed to update a bar chart using the D3.js library. D3.js is a powerful library for creating and manipulating data-driven documents, often used for creating interactive visualizations in a web browser.\n\nHere's a breakdown of what the code does:\n\n1. The function `barUpdate` takes a single argument `bar`, which is a D3 selection. A D3 selection is a set of elements from the Document Object Model (DOM), and they are the primary way of interacting with elements in D3.\n\n2. The function uses the `each` method to iterate over each element in the selection. The callback function passed to `each` is invoked once per element, and it receives the data bound to the current element (`pBarData`) and its index (`i`).\n\n3. For each bar, it calculates the number of cells `withoutIssues` by subtracting the number of cells with issues (`pBarData.issueCells`) from the number of completed cells (`pBarData.completedCells`). It also calculates the total number of cells (`totalCells`). If the bar data does not have a total number of cells, it defaults to 1.\n\n4. It then calculates the number of incomplete cells. If there are no incomplete cells, it defaults to 1.\n\n5. The `widthScale` is a linear scale that maps the domain `[0, totalCells]` to the range `[0, width]`. This scale is used to calculate the width of each segment of the bar.\n\n6. It then prepares an array of objects `groupData`, each representing a segment of the bar with its width, color, and label.\n\n7. Using D3's `select` method, it selects the current element and binds the `groupData` to all `rect` elements within it.\n\n8. It uses the `join` method to enter, update, or exit `rect` elements based on the data.\n\n9. It sets various attributes to each `rect` element such as its `x` position, `y` position, `width`, `height`, and `fill` color.\n\n10. Finally, it appends a `title` element to each `rect` element, setting its text to the label of the data.\n\nThe algorithm used in this code is a common pattern for creating and updating visualizations in D3.js. You can learn more about D3.js and its patterns from the official website: [D3.js - Data-Driven Documents](https://d3js.org/)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "\nfunction barUpdate(bar: d3.selection) {\n    bar.each(function (pBarData, i) {\n        const withoutIssues = pBarData.completedCells - pBarData.issueCells;\n        const totalCells = pBarData.totalCells ? pBarData.totalCells : 1;\n        let incomplete = pBarData.totalCells - pBarData.completedCells;\n        if (incomplete === 0) {\n            incomplete = 1;\n        }\n\n        const widthScale = d3\n            .scaleLinear()\n            .domain([0, totalCells])\n            .range([0, width]);\n\n        const groupData = [\n            {\n                width: widthScale(withoutIssues),\n                color: \"#28a745\",\n                label: `${pBarData.display} - ${\n                    (withoutIssues / totalCells) * 100\n                }% Completed`,\n            },\n            {\n                width: widthScale(pBarData.issueCells),\n                color: \"#dc3545\",\n                label: `${pBarData.display} - ${\n                    (pBarData.issueCells / totalCells) * 100\n                }% Issues`,\n            },\n            {\n                width: widthScale(incomplete),\n                color: \"#6c757d\",\n                label: `${pBarData.display} - ${\n                    (incomplete / totalCells) * 100\n                }% Incomplete`,\n            },\n        ];\n\n        d3.select(this)\n            .selectAll(\"rect\")\n            .data(groupData)\n            .join(\"rect\")\n            .attr(\"x\", (d, j) =>\n                j === 0\n                    ? 0\n                    : groupData\n                          .slice(0, j)\n                          .reduce((acc, cur) => acc + cur.width, 0)\n            )\n            .attr(\"y\", 0)\n            .attr(\"width\", (d) => d.width)\n            .attr(\"height\", height)\n            .attr(\"fill\", (d) => d.color)\n            .append(\"title\")\n            .text((d) => d.label);\n    });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 36
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:02:12 PM PDT\n\nThe code provided is written in JavaScript and uses the D3.js library, which is a powerful tool for creating data-driven documents. D3.js allows you to bind arbitrary data to a Document Object Model (DOM), and then apply data-driven transformations to the document.\n\nThe code defines a function named `addZoom` that takes a `parent` argument. The `parent` argument is expected to be a D3 selection. A D3 selection is a set of elements from the DOM. \n\nThe `addZoom` function adds two event listeners to the `parent` selection: one for the \"mouseover\" event and one for the \"mouseout\" event. \n\nThe \"mouseover\" event is fired when the mouse pointer is moved onto an element. When this event is fired, the function passed to the `on` method is executed. This function takes two arguments: `event` and `d`. `event` is the event object and `d` is the datum associated with the selected element. Inside this function, the opacity of the selected element is changed to 0.6 over a duration of 200 milliseconds. This is done by chaining the `transition`, `duration`, and `attr` methods on `d3.select(this)`. \n\nThe \"mouseout\" event is fired when the mouse pointer is moved out of an element. When this event is fired, the function passed to the `on` method is executed. This function also takes `event` and `d` as arguments. Inside this function, the opacity of the selected element is returned to 1 over a duration of 200 milliseconds. \n\nThe `addZoom` function then returns the `parent` selection. This allows for method chaining, which is a common pattern in D3.js.\n\nIn summary, the `addZoom` function changes the opacity of a D3 selection when the mouse pointer is moved over and out of the selection. This could be used to create a zoom effect, where the selection appears to come forward when the mouse pointer is over it and recedes when the mouse pointer is moved away.\n\nFor more information on D3.js, you can visit the official documentation: https://d3js.org/"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "\nfunction addZoom(parent: d3.selection) {\n    parent\n        .on(\"mouseover\", function (event, d) {\n            // Change the opacity\n            d3.select(this).transition().duration(200).attr(\"opacity\", 0.6);\n        })\n        .on(\"mouseout\", function (event, d) {\n            // Return the opacity and stroke back to normal\n            d3.select(this).transition().duration(200).attr(\"opacity\", 1);\n        });\n    return parent;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 94
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/dashboard/summary/progress_meter.ts"
+  }
+}

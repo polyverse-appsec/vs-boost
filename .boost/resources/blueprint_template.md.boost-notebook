@@ -1,0 +1,33 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "markdown",
+      "id": "0",
+      "value": "# Architectural Blueprint Summary for: Name of Software\n* Software Project Type: web app, server code, cloud web service, mobile app, shared library, etc.\n* Software Principles: multi-threaded, event-driven, data transformation, server processing, client app code, etc\n* Data Storage: shared memory, disk, database, SQL vs NoSQL, non-persisted, data separated from code\n* Software Licensing: Commercial & Non-Commercial licenses, Open Source licenses (BSD, MIT, GPL, LGPL, Apache, etc.). Identify conflicting licenses.\n* Security Handling: encrypted vs non-encrypted data, memory buffer management, shared memory protections, all input is untrusted or trusted\n* Performance characteristics: multi-threaded, non-blocking code, extra optimized, background tasks, CPU bound processing, etc.\n* Software resiliency patterns: fail fast, parameter validation, defensive code, error logging, etc.\n* Analysis of the architectural soundness and best practices: code is consistent with its programming language style, structure is consistent with its application or server framework\n* Architectural Problems Identified: coarse locks in multi-threaded, global and shared memory in library, UI in a non-interactive server, versioning fragility, etc.\n* Short summary of the above that can be used as a reference for analyzing other code in this codebase\n\n\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": -1
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./resources/blueprint_template.md"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "cpp",
+      "id": "0",
+      "value": "#include <algorithm>\n#include <fstream>\n#include <functional>\n#include <iostream>\n#include <map>\n#include <numeric>\n#include <set>\n#include <string>\n\nbool is_deranged(const std::string& left, const std::string& right)\n{\n    return (left.size() == right.size()) &&\n        (std::inner_product(left.begin(), left.end(), right.begin(), 0, std::plus<int>(), std::equal_to<char>()) == 0);\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 9
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "cpp",
+      "id": "1",
+      "value": "\nint main()\n{\n    std::ifstream input(\"unixdict.txt\");\n    if (!input) {\n        std::cerr << \"can't open input file\\n\";\n        return EXIT_FAILURE;\n    }\n\n    typedef std::set<std::string> WordList;\n    typedef std::map<std::string, WordList> AnagraMap;\n    AnagraMap anagrams;\n\n    std::pair<std::string, std::string> result;\n    size_t longest = 0;\n\n    for (std::string value; input >> value; /**/) {\n        std::string key(value);\n        std::sort(key.begin(), key.end());\n\n        if (longest < value.length()) { // is it a long candidate?\n            if (0 < anagrams.count(key)) { // is it an anagram?\n                for (const auto& prior : anagrams[key]) {\n                    if (is_deranged(prior, value)) { // are they deranged?\n                        result = std::make_pair(prior, value);\n                        longest = value.length();\n                    }\n                }\n            }\n        }\n        anagrams[key].insert(value);\n    }\n\n    std::cout << result.first << ' ' << result.second << '\\n';\n    return EXIT_SUCCESS;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 15
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/resources/anagrams-deranged-anagrams.cpp"
+  }
+}

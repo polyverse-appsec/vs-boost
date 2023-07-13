@@ -1,0 +1,33 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "0",
+      "value": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n\t<meta charset=\"UTF-8\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\t<title>Polyverse Boost Start Panel</title>\n</head>\n<body>\n\t<p>Welcome to Polyverse Boost!</p>\n\t<p>Boost will automatically document the <%= boostprojectdata.summary.filesToAnalyze %> files in <%= boostprojectdata.summary.projectName %> and analyze them for security and compliance issues.</p>\n\t<p>The <vscode-link id=\"blueprint-link\" href=\"<%= blueprintFile %>\"> Boost Architectural Summary </vscode-link> is an automatically generated file with high-level analysis of all aspects of your project code.</p>\n    <p></p>\n\t<p>You can customize your <%= boostprojectdata.summary.projectName %> project goals, and set guidelines for analysis by editing the <vscode-link id=\"guidelines-link\" href=\"<%= guidelinesFile %>\"> Boost Project Guidelines </vscode-link>. Guidelines can be written in free form natural language, and will be used to specialize all analysis across your </p>\n    <p>You can also ask <%= aiName %>, the Boost AI, for advice and recommendations about your project in the <%= aiName %> Chat window below.</p>\n\t<div align=\"center\">\n    \t<vscode-button align=\"center\" id=\"analyze_all\">Show Boost Analysis Controls</vscode-button>\n\t</div>\n\t<p>&nbsp</p>\n    <script src=\"<%= jsSrc %>\" type=\"module\"> </script>\n\n</body>\n</html>\n\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": -1
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./resources/dashboard/start.html"
+  }
+}

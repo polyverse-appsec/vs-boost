@@ -1,0 +1,158 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import {\n  provideVSCodeDesignSystem,\n  vsCodeLink,\n  vsCodeButton,\n  Button\n} from \"@vscode/webview-ui-toolkit\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": -1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\nprovideVSCodeDesignSystem().register(vsCodeButton(), vsCodeLink(), vsCodeLink());\n\n// Get access to the VS Code API from within the webview context\nconst vscode = acquireVsCodeApi();\n\n// Just like a regular webpage we need to wait for the webview\n// DOM to load before we can reference any of the HTML elements\n// or toolkit components\nwindow.addEventListener(\"load\", main);\n\n// Main function that gets executed once the webview DOM loads\nfunction main() {\n  // To get improved type annotations/IntelliSense the associated class for\n  // a given toolkit component can be imported and used to type cast a reference\n  // to the element (i.e. the `as Button` syntax)\n  const howdyButton = document.getElementById(\"analyze_all\") as Button;\n  howdyButton?.addEventListener(\"click\", handleAnalyzeAllClick);\n\n  const blueprintLink = document.getElementById(\"blueprint-link\") as HTMLAnchorElement;\n  blueprintLink?.addEventListener(\"click\", openFile);\n\n  const guidelinesLink = document.getElementById(\"guidelines-link\") as HTMLAnchorElement;\n  guidelinesLink?.addEventListener(\"click\", openFile);\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 17
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "\n// Callback function that is executed when the howdy button is clicked\nfunction handleAnalyzeAllClick() {\n  vscode.postMessage({\n    command: \"show_summary\"\n  });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 32
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "\nfunction openFile(event) {\n  const path = event.target.getAttribute(\"href\");\n  vscode.postMessage({\n      command: 'open_file',\n      file: path\n  });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 38
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "\n  // Some quick background:\n  //\n  // Webviews are sandboxed environments where abritrary HTML, CSS, and\n  // JavaScript can be executed and rendered (i.e. it's basically an iframe).\n  //\n  // Because of this sandboxed nature, VS Code uses a mechanism of message\n  // passing to get data from the extension context (i.e. src/panels/HelloWorldPanel.ts)\n  // to the webview context (this file), all while maintaining security.\n  //\n  // vscode.postMessage() is the API that can be used to pass data from\n  // the webview context back to the extension context––you can think of\n  // this like sending data from the frontend to the backend of the extension.\n  //\n  // Note: If you instead want to send data from the extension context to the\n  // webview context (i.e. backend to frontend), you can find documentation for\n  // that here:\n  //\n  // https://code.visualstudio.com/api/extension-guides/webview#passing-messages-from-an-extension-to-a-webview\n  //\n  // The main thing to note is that postMessage() takes an object as a parameter.\n  // This means arbitrary data (key-value pairs) can be added to the object\n  // and then accessed when the message is recieved in the extension context.\n  //\n  // For example, the below object could also look like this:\n  //\n  // {\n  //  command: \"hello\",\n  //  text: \"Hey there partner! 🤠\",\n  //  random: [\"arbitrary\", \"data\"],\n  // }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 71
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "  //\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 71
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/dashboard/start/main.ts"
+  }
+}

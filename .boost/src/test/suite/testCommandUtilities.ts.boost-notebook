@@ -1,0 +1,83 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as vscode from 'vscode';\nimport { NOTEBOOK_TYPE } from '../../jupyter_notebook';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import * as assert from 'assert';\nimport { debug } from 'console';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 2
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import * as fs from 'fs';\n\n\nexport async function rightClickLoadFileCommandTest(context: Mocha.Context, fileUri: vscode.Uri, boostUri: vscode.Uri) {\n\n    // we need to avoid hanging on the save dialog when exiting visual studio\n    //    so we disable save on exit/shutdown\n    await vscode.workspace.getConfiguration().update('files.hotExit', 'off', vscode.ConfigurationTarget.Global);\n\n    console.log(`Looking for existing Boost file ${boostUri.fsPath}`);\n    // if the Boost notebook file already exists, delete it\n    if (fs.existsSync(boostUri.fsPath + '.boost')) {\n        console.log(`Found existing Boost notebook file ${boostUri.fsPath}`);\n        fs.rmSync(boostUri.fsPath);\n        console.log(`Deleted existing Boost notebook file ${boostUri.fsPath}`);\n    } else {\n        console.log(`Boost notebook file ${boostUri.fsPath} not found`);\n    }\n\n    // Execute the \"createJsonNotebook\" command\n    await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.loadCurrentFile',\n        fileUri);\n\n    // Wait for the notebook to be created\n    await new Promise((resolve) => {\n        setTimeout(resolve, 2000); // 2 seconds to make sure notebook is created\n    });\n\n    // Get all the cells in the newly created notebook\n    const notebookEditor = vscode.window.activeNotebookEditor;\n    assert.ok(notebookEditor, 'Notebook editor not found');\n\n    // Save the active text editor window\n//    await vscode.commands.executeCommand('workbench.action.files.save');\n\n    assert.ok(fs.existsSync(boostUri.fsPath), `Notebook file ${boostUri.fsPath} not created`);\n    if (!fs.existsSync(boostUri.fsPath)) {\n        assert.fail(`rightClickLoadFileCommandTest: Notebook file ${boostUri.fsPath} not created`);\n    } else {\n        console.log(`rightClickLoadFileCommandTest: Notebook file ${boostUri.fsPath} created`);\n    }\n\n    const cells = notebookEditor.notebook.getCells();\n\n    assert.ok(cells.length > 1, 'Not enough cells ' + cells.length.toString() + ' found in the notebook');\n    \n    cells.forEach((cell : vscode.NotebookCell) => {\n//            debug(cell.document.getText());\n        });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 6
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/suite/testCommandUtilities.ts"
+  }
+}

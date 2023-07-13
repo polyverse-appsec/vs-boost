@@ -1,0 +1,58 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as vscode from 'vscode';\nimport * as assert from 'assert';\nimport { NOTEBOOK_TYPE } from '../../jupyter_notebook';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\nsuite('Notebook Command', function() {\n\n  this.timeout(20000); // set test timeout to be 20 seconds\n\n  vscode.window.showInformationMessage('Start Create Notebook tests.');\n\n  test('Create Notebook Command Test', async function() {\n\n    this.timeout(5000);\n\n    // we need to avoid hanging on the save dialog when exiting visual studio\n    //    so we disable save on exit/shutdown\n    await vscode.workspace.getConfiguration().update('files.hotExit', 'off', vscode.ConfigurationTarget.Global);\n\n    // Execute the \"createJsonNotebook\" command\n    await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.createJsonNotebook',\n        { timeout: 2000 }); // give the command 2 seconds to execute\n\n    // Wait for the notebook to be created\n    await new Promise((resolve) =>\n        setTimeout(resolve, 2000)); // 2 seconds to make sure notebook is created\n\n    // Check if the notebook is created\n    const notebooks = vscode.workspace.notebookDocuments;\n\n    assert.notEqual(notebooks.length, 0, 'Notebook not created!');\n\n  });\n});\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 3
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/suite/create_notebook_command.test.ts"
+  }
+}

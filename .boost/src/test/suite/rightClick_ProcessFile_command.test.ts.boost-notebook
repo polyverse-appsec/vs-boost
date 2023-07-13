@@ -1,0 +1,208 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as vscode from 'vscode';\nimport { NOTEBOOK_TYPE } from '../../jupyter_notebook';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import { getRandomTestSourceFile, seconds, minutes } from '../suite/utils';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import * as assert from 'assert';\nimport { getBoostFile} from '../../extension';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 3
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "import { debug } from 'console';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 4
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "import { BoostConfiguration } from '../../boostConfiguration';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 5
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "import * as fs from 'fs';\nimport { BoostNotebook } from '../../jupyter_notebook';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 7
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "import { rightClickLoadFileCommandTest } from './testCommandUtilities';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 8
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "7",
+      "value": "\n\nsuite('Right Click Process File Command', function() {\n\n    this.timeout(5 * minutes); // set test timeout to be 200 seconds (over 3 minutes to include Boost service request time)\n  \n    const randomFile = getRandomTestSourceFile();\n    console.log(`${this.title} random source: ${randomFile}`);\n    const fileUri = vscode.Uri.parse(randomFile);\n\n    const boostUri = getBoostFile(fileUri);\n    console.log(`${this.title} Boost Uri: ${boostUri.fsPath}`);\n\n    test('Right Click Load File Command Test (Pre-Step for Processing)', async function() {\n\n        await rightClickLoadFileCommandTest(this, fileUri, boostUri);\n\n        assert.ok(fs.existsSync(boostUri.fsPath), `Notebook file ${boostUri.fsPath} not found`);\n\n    });\n\n    test('Right Click Process File Command Test', async function() {\n\n        BoostConfiguration.logLevel = 'debug';\n        BoostConfiguration.currentKernelCommand = 'polyverse-boost-explain-kernel';\n        assert.ok(BoostConfiguration.currentKernelCommand === 'polyverse-boost-explain-kernel',\n            `BoostConfig is not polyverse-boost-explain-kernel`);\n\n        assert.ok(fs.existsSync(boostUri.fsPath), `Notebook file ${boostUri.fsPath} not found`);\n\n        console.log(`Running processCurrentFile command on ${boostUri.fsPath}`);\n        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.processCurrentFile',\n            fileUri, BoostConfiguration.currentKernelCommand);\n\n        console.log(`Ran processCurrentFile command on ${boostUri.fsPath}`);\n\n            // Wait for the file to be processed\n        await new Promise((resolve) =>\n            setTimeout(resolve, 2.5 * minutes)); // 2.5 minutes to make sure Boost Service call completes\n\n        console.log(`Finished waiting for processCurrentFile command on ${boostUri.fsPath}`);\n\n        assert.ok(fs.existsSync(boostUri.fsPath), `Notebook file ${boostUri.fsPath} not created`);\n\n        const processedNotebook = new BoostNotebook();\n        processedNotebook.load(boostUri.fsPath);\n\n        processedNotebook.cells.forEach((cell : any) => {\n            assert.ok(cell.outputs.length > 0, `No outputs found for cell ${cell.source}`);\n            assert.ok(cell.outputs[0].metadata.outputType === 'explainCode', `First output is not explain`);\n        });\n\n    });\n  \n});\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 11
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/suite/rightClick_ProcessFile_command.test.ts"
+  }
+}

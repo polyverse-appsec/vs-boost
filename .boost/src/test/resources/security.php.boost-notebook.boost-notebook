@@ -1,0 +1,20 @@
+{
+  "cells": [
+    {
+      "outputs": [],
+      "languageId": "plaintext",
+      "id": "0",
+      "value": "{\n  \"cells\": [],\n  \"metadata\": {\n    \"defaultDir\": \".boost\",\n    \"sourceFile\": \"./security.php\"\n  }\n}",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": -1
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/resources/security.php.boost-notebook"
+  }
+}

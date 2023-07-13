@@ -1,0 +1,83 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as path from 'path';\nimport * as fs from 'fs';\n\nimport { runTests } from '@vscode/test-electron';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 2
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\nasync function main(argv : string[]) {\n\n\ttry {\n        const filenames = argv[2]?.split(\",\",1);\n        let filename : string | undefined = filenames?filenames[0]:undefined;\n\n        let targetTestInputPath : string | undefined = undefined;\n        try\n        {\n            if (filename) {\n                console.log('Target Test filename:', filename);\n                const targetTestInput = { filename };\n                targetTestInputPath = path.resolve(__dirname, '../test/resources', 'targetTestInput.json');\n                fs.writeFileSync(targetTestInputPath, JSON.stringify(targetTestInput, null, 2));\n                console.log(`Created ${targetTestInputPath}`);\n            }\n\n            // The folder containing the Extension Manifest package.json\n            // Passed to `--extensionDevelopmentPath`\n            const extensionDevelopmentPath = path.resolve(__dirname, '../../');\n\n            // The path to test runner\n            // Passed to --extensionTestsPath\n            const extensionTestsPath = path.resolve(__dirname, './suite/index');\n\n            // Download VS Code, unzip it and run the integration test\n            let args = [ ];\n            if (filename) {\n                args.push(filename);\n            }\n            await runTests( { extensionDevelopmentPath : extensionDevelopmentPath, extensionTestsPath : extensionTestsPath,\n                launchArgs: args });\n\n        } finally {\n            if (targetTestInputPath) {\n                fs.unlinkSync(targetTestInputPath);\n                console.log(`Deleted ${targetTestInputPath}`);\n            }\n        }\n\t} catch (err) {\n\t\tconsole.error('Failed to run tests', err);\n\t\tprocess.exit(1);\n\t}\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 4
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "\nmain(process.argv);\n\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 4
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/runTest.ts"
+  }
+}

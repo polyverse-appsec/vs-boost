@@ -1,0 +1,33 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 1:14:21 PM PDT\n\nThis is a simple C program that prints the string \"hello world!\" to the console. \n\nLet's break it down:\n\n`#include <stdio.h>`: This is a preprocessor directive that includes the standard input/output library in the program. This library contains functions for input/output operations.\n\n`int main(int argc, char **argv)`: This is the main function where the program execution begins. It takes two arguments: an integer `argc` and a pointer to an array of character pointers `argv`. `argc` holds the number of command-line arguments passed to the program and `argv` is an array of pointers to these arguments. In this case, they are not used in the program.\n\n`printf(\"hello world!\\n\");`: This is a function call to `printf`, a function from the `stdio.h` library. It prints the string \"hello world!\" followed by a newline (`\\n`) to the console.\n\n`}`: This marks the end of the `main` function.\n\nThe program does not use any complex algorithms, it's a straightforward usage of the `printf` function to output a string to the console.\n\nFor more information on C programming, you can refer to this link: [C Programming](https://www.learn-c.org/)\n\nAs for the architecture, this simple code does not have any specific architectural guidelines or constraints, and it does not conflict with any common software design principles. It's a simple, standalone program with a single function."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "c",
+      "id": "0",
+      "value": "#include <stdio.h>\n\nint main(int argc, char **argv){\n\n\tprintf(\"hello world!\\n\");\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 1
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/resources/hello.c"
+  }
+}

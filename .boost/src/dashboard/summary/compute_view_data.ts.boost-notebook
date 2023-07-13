@@ -1,0 +1,358 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:05:51 PM PDT\n\nThis piece of code is written in TypeScript, which is a strongly typed superset of JavaScript that adds optional static types. It's used for large-scale JavaScript applications.\n\nThe code is importing specific items from a module. Here is a detailed explanation:\n\n`import { IBoostProjectData, JobStatus } from \"../../boostprojectdata_interface\";`\n\n- `import`: This is a keyword in TypeScript (as well as in JavaScript ES6) used to import functions, objects or values from another module (a file or package).\n\n- `{ IBoostProjectData, JobStatus }`: These are the specific items that are being imported from the module. `IBoostProjectData` and `JobStatus` could be any valid JavaScript identifiers like variables, functions, classes, interfaces, or types. In this case, they are likely to be an interface and a type or an enum respectively, given the naming conventions used (starting with 'I' for interfaces and using PascalCase for types or enums).\n\n- `from \"../../boostprojectdata_interface\"`: This is the module from which `IBoostProjectData` and `JobStatus` are being imported. The string represents a path to the module. The `..` at the beginning of the path means to move up a directory. So, this code is importing from a module that is two directories up from the current module and then down into a file named `boostprojectdata_interface` (the .ts extension is implied and not needed in import statements).\n\nAs for the architectural guidelines, since the code provided is just an import statement, it doesn't give much insight into the architecture of the project. However, the use of imports does suggest a modular architecture, where functionality is split across different files and then imported where needed.\n\nThis is a fundamental part of TypeScript and JavaScript ES6, and you can learn more about it here: [JavaScript Modules: A Beginner’s Guide](https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import { IBoostProjectData, JobStatus } from \"../../boostprojectdata_interface\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": -1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:06:14 PM PDT\n\nThe provided code snippet is very brief and it is written in TypeScript, a statically typed superset of JavaScript that adds types to the language. \n\nThis line of code is importing a type definition from another module in the project. \n\n```typescript\nimport { ControllerOutputType } from \"../../controllerOutputTypes\";\n```\n\nHere's a breakdown of what's happening:\n\n- `import`: This is a keyword in JavaScript (and thus in TypeScript) that is used to import functions, objects or values from another module or file.\n\n- `{ ControllerOutputType }`: This is the specific item that we're importing from the module. In this case, it's a type definition named `ControllerOutputType`. The curly braces are used for named exports, which means that `ControllerOutputType` is a named export in the module we're importing from.\n\n- `from \"../../controllerOutputTypes\";`: This specifies the path to the module that we're importing from. The `..` means to go up one directory level, so this is going up two directory levels and then going into a file or module named `controllerOutputTypes`.\n\nAs the code snippet is very short and doesn't provide any specific functionality or algorithm, there isn't much more to explain about it. It's a simple import statement in TypeScript.\n\nFor more information on TypeScript's `import` syntax, you can refer to the official TypeScript documentation: [TypeScript - Modules](https://www.typescriptlang.org/docs/handbook/modules.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\nimport { ControllerOutputType } from \"../../controllerOutputTypes\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:06:39 PM PDT\n\nThe code you've provided is a JavaScript (or TypeScript) import statement, which is used to import functions, objects, or values from other files or modules into the current file. This particular line is importing two items, `BoostUserAnalysisType` and `displayGroupFriendlyName`, from the file at the path `\"../../userAnalysisType\"`.\n\nLet's break it down:\n\n- `import`: This keyword is used to import bindings that are exported by another module.\n\n- `{ BoostUserAnalysisType, displayGroupFriendlyName }`: These are the specific items being imported from the other module. In this case, `BoostUserAnalysisType` and `displayGroupFriendlyName` are likely either functions, objects, or constants that have been exported from the `userAnalysisType` module.\n\n- `from \"../../userAnalysisType\"`: This is the relative path to the module being imported. The `..` means to go up one directory level, so `../../` means to go up two directory levels. Then, `userAnalysisType` is the file (or directory if an index file is being implicitly targeted) in that location.\n\nIn terms of algorithms, there aren't any present in this specific code snippet. Import statements are a feature of the JavaScript language (and TypeScript, which is a superset of JavaScript) and don't involve any algorithms on the part of the developer writing the code. The JavaScript engine in the browser or Node.js environment, however, does use algorithms to resolve the path to the module and load the specified exports into memory.\n\nFor more information about JavaScript modules and import/export statements, you can refer to the [Mozilla Developer Network (MDN) documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import { BoostUserAnalysisType, displayGroupFriendlyName } from \"../../userAnalysisType\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 2
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:07:00 PM PDT\n\nThis code defines an interface in TypeScript. An interface in TypeScript is a way of defining a contract for a certain structure of an object. It's a powerful way to define and enforce consistency across your code.\n\nThe `AnalysisSectionSummary` interface is defining a structure that should be followed by any object of this type. This structure includes four properties:\n\n1. `analyzed`: This is a number. The exact meaning of this property is not clear from the interface definition itself, but based on the name, it could represent the number of items that have been analyzed in some form of analysis process.\n\n2. `total`: This is also a number. It could represent the total number of items that are to be analyzed.\n\n3. `status`: This is a string. It could represent the status of the analysis process. The exact values this could take are not specified in the interface.\n\n4. `jobStatusStatus`: This is also a string. The name suggests it could represent the status of a job status. This is a bit unclear without more context.\n\nThere are no algorithms used in this code. It's only defining a data structure. However, this interface could be used in other parts of the code where algorithms are implemented.\n\nThe code doesn't seem to conflict with any architectural guidelines as mentioned, but without more context, it's hard to say if it's consistent with the overall architecture of the project.\n\nFor more information on TypeScript interfaces, you can refer to the TypeScript handbook: https://www.typescriptlang.org/docs/handbook/interfaces.html"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "\nexport interface AnalysisSectionSummary {\n    analyzed: number;\n    total: number;\n    status: string;\n    jobStatusStatus: string;    \n};\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 4
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:07:27 PM PDT\n\nThis code is written in TypeScript, which is a statically typed superset of JavaScript that adds types to the language. This piece of code is defining an interface, which is a powerful way to define contracts within your code and contracts with code outside of your project.\n\nThe code is defining an interface named `SummaryViewData`. This interface has four properties: `display`, `id`, `summary`, and `defaultChecked`.\n\nHere is a detailed explanation of each property:\n\n- `display`: This property is of type `string`. It might be used to hold some text that is intended to be displayed on a user interface.\n\n- `id`: This is also a `string` type property. It's commonly used to hold unique identifiers for each instance of `SummaryViewData`.\n\n- `summary`: This property is of type `AnalysisSectionSummary`. This suggests that there is another interface or type defined elsewhere in the code named `AnalysisSectionSummary`. This `summary` property might be used to hold the summary of an analysis section.\n\n- `defaultChecked`: This is a `boolean` type property. Given its name, it might be used to hold a default checked state, possibly for a checkbox in a user interface.\n\nInterfaces in TypeScript are a design tool that allow the developer to define the shape of JSON objects. The `SummaryViewData` interface can be used to type-check objects that have the same shape.\n\nFor example, if there is a function that expects an argument of type `SummaryViewData`, TypeScript will ensure that any argument passed to that function has the correct shape, i.e., it has all four properties (`display`, `id`, `summary`, `defaultChecked`) with the correct types.\n\nFor more information about interfaces in TypeScript, you can check out the TypeScript Handbook here: https://www.typescriptlang.org/docs/handbook/interfaces.html\n\nThis code does not seem to conflict with any architectural guidelines as none are specified."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "\nexport interface SummaryViewData {\n    display: string;\n    id: string;\n    summary: AnalysisSectionSummary;\n    defaultChecked: boolean;\n};\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 11
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:07:51 PM PDT\n\nThe provided code is in TypeScript, which is a statically typed superset of JavaScript that adds types to the language. \n\nThis code defines an interface named \"ProgressBarData\". In TypeScript, an interface is a way to define a contract on a function or object to define how the function or object should behave. You can think of it as a blueprint for creating objects.\n\nHere's what each property in the interface represents:\n\n1. `display`: This is a string property. It could be used to hold the text that will be displayed on the progress bar.\n\n2. `completedCells`: This is a number property. It could represent the number of cells (or tasks) that have been completed.\n\n3. `issueCells`: This is a number property. It could represent the number of cells (or tasks) that have encountered issues.\n\n4. `totalCells`: This is a number property. It could represent the total number of cells (or tasks) that need to be completed.\n\nThe semicolon at the end of each property is optional in TypeScript and is used to improve readability.\n\nThis interface could be used to create progress bars in a user interface, where each bar represents the progress of a task or a set of tasks. The `display` property could be used to label the progress bar, `completedCells` to show the progress, `issueCells` to show errors or issues, and `totalCells` to show the total progress possible.\n\nThis code doesn't use any specific algorithms, as it is a simple data structure with no logic or behavior. \n\nFor more information on TypeScript interfaces, you can refer to the official TypeScript documentation: https://www.typescriptlang.org/docs/handbook/interfaces.html. \n\nRegarding the architectural guidelines mentioned, since there are no specific guidelines or constraints provided, this code appears to be in line with general good practices for TypeScript development. The interface is clearly defined and the property names are descriptive, which is good for readability and maintainability."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "\nexport interface ProgressBarData {\n    display: string;\n    completedCells: number;\n    issueCells: number;\n    totalCells: number;\n};\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 18
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:08:22 PM PDT\n\nThis code is written in TypeScript, which is a statically typed superset of JavaScript that adds optional types, classes, and modules to the language, among other features. TypeScript code is transpiled to JavaScript to run in a browser or on a server.\n\nThe code defines an interface named `DetailsViewData`. An interface in TypeScript is a way to define a contract on a function or object to have a particular structure. An interface is a shape of an object.\n\n```\nexport interface DetailsViewData {\n    sourceRelFile: string;\n    notebookRelFile: string;\n    progressBar: ProgressBarData[],\n    jobStatus: JobStatus\n    progressStatus: \"completed\" | \"incomplete\" | \"not-started\" | \"processing\" | \"queued\";\n};\n```\n\nIn this `DetailsViewData` interface:\n\n- `sourceRelFile` and `notebookRelFile` are properties of type `string`. These likely represent relative file paths for some source file and a notebook file, respectively.\n\n- `progressBar` is an array of `ProgressBarData` objects. `ProgressBarData` is likely another interface or type that is defined elsewhere in the codebase.\n\n- `jobStatus` is of type `JobStatus`. `JobStatus` is likely another interface or type that is defined elsewhere in the codebase.\n\n- `progressStatus` is a property that can have one of five specific string values: \"completed\", \"incomplete\", \"not-started\", \"processing\", or \"queued\". This is a way to create a 'string enum' in TypeScript.\n\nThe `export` keyword means that this interface is exposed for other modules in the codebase to import and use.\n\nThis interface doesn't directly use any specific algorithms, but it does provide a structure that can be used to organize and manage data in a consistent way across the codebase. \n\nFor more information about TypeScript interfaces, you can visit the official TypeScript documentation here: https://www.typescriptlang.org/docs/handbook/interfaces.html."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "\nexport interface DetailsViewData {\n    sourceRelFile: string;\n    notebookRelFile: string;\n    progressBar: ProgressBarData[],\n    jobStatus: JobStatus\n    progressStatus: \"completed\" | \"incomplete\" | \"not-started\" | \"processing\" | \"queued\";\n};\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 25
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:08:49 PM PDT\n\nThis piece of code is written in TypeScript, a statically typed superset of JavaScript. It's not a complete program or algorithm, but a declaration of a TypeScript `interface` named `StatusViewData`.\n\nAn interface in TypeScript is a way of defining a contract for a certain structure of an object. It's a powerful way to define custom types, making the code more readable and maintainable. \n\nHere's a breakdown of the `StatusViewData` interface:\n\n- `busy`: This is a boolean property. It could be used to indicate whether a certain process or system is busy or not.\n- `jobsRunning`: This is a number property. It could be used to keep track of the number of jobs that are currently running.\n- `jobsQueued`: This is a number property. It could be used to keep track of the number of jobs that are currently in a queue, waiting to be processed.\n- `minutesRemaining`: This is a number property. It could be used to indicate the estimated time remaining for a certain process or job to complete.\n\nThis interface could be used in various ways throughout a TypeScript codebase. For example, you might have a function that accepts an argument of type `StatusViewData`, or an object that implements this interface.\n\nIn terms of the architectural guidelines mentioned, this piece of code doesn't seem to conflict with any guidelines, as it's a fairly standard TypeScript interface. It's also worth noting that this interface could be easily extended or modified to fit specific architectural needs.\n\nFor more information and learning resources on TypeScript interfaces, you can refer to the [official TypeScript documentation](https://www.typescriptlang.org/docs/handbook/interfaces.html)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "7",
+      "value": "\nexport interface StatusViewData {\n    busy: boolean;\n    jobsRunning: number;\n    jobsQueued: number;\n    minutesRemaining: number\n};\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 33
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:09:28 PM PDT\n\nThe provided code is written in JavaScript and is a part of a module that exports a constant object named `outputTypeToDisplayGroup`. This object is used to map different types of output to their respective display groups. This is a simple and efficient way to organize different types of outputs under specific categories. \n\nThe `outputTypeToDisplayGroup` object contains four properties: `documentation`, `security`, `compliance`, and `deepcode`. Each of these properties is an array of `ControllerOutputType` values. \n\n`ControllerOutputType` is not defined in the provided code, but it appears to be an object or an enumeration that contains various types of outputs that a controller can produce. \n\nHere is a brief explanation of each property:\n\n- `documentation`: This property is an array that contains two elements, `ControllerOutputType.explain` and `ControllerOutputType.flowDiagram`. This suggests that the `documentation` display group includes explanations and flow diagrams.\n\n- `security`: This property is an array that contains one element, `ControllerOutputType.analyzeFunction`. This suggests that the `security` display group includes the analysis of functions.\n\n- `compliance`: This property is an array that contains one element, `ControllerOutputType.complianceFunction`. This suggests that the `compliance` display group includes compliance functions.\n\n- `deepcode`: This property is an array that contains four elements, `ControllerOutputType.compliance`, `ControllerOutputType.blueprint`, `ControllerOutputType.analyze`, and `ControllerOutputType.codeGuidelines`. This suggests that the `deepcode` display group includes compliance, blueprints, analysis, and code guidelines.\n\nThis code does not appear to use any specific algorithms. It's a simple mapping of categories to their respective elements. \n\nSince this code is written in JavaScript and uses ES6 syntax, you may want to read more about JavaScript objects and ES6 syntax. Here are some resources:\n\n- [JavaScript Objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects)\n- [ES6 Syntax and Feature Overview](https://flaviocopes.com/es6/) \n\nRegarding the architectural guidelines, the provided code does not seem to violate any common architectural principles. It's a clear, straightforward way to categorize different types of outputs. However, without knowing more about the overall architecture of the software, it's not possible to provide a more detailed analysis."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "8",
+      "value": "\n//compute the display summary of boostprojectdata\n//these are the sections supported currently. Be sure to update this list\n//if new analysis are done.\nexport const outputTypeToDisplayGroup = {\n    documentation: [ControllerOutputType.explain, ControllerOutputType.flowDiagram],\n    security: [ControllerOutputType.analyzeFunction],\n    compliance: [ControllerOutputType.complianceFunction],\n    deepcode: [\n        ControllerOutputType.compliance,\n        ControllerOutputType.blueprint,\n        ControllerOutputType.analyze,\n        ControllerOutputType.codeGuidelines,\n    ],\n};\n",
+      "kind": 2,
+      "metadata": {
+        "id": 8,
+        "type": "originalCode",
+        "lineNumberBase": 43
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:10:04 PM PDT\n\nThe provided code is a JavaScript function that is used to find and return the summary for a given output type by searching through a structure called `outputTypeToDisplayGroup`. The `outputTypeToDisplayGroup` is not defined in the provided code, but it is assumed to be an object where each key-value pair represents a group of output types and their corresponding summary.\n\nHere's a detailed breakdown of the function:\n\n1. The function `mapOutputTypeToSummary` is declared with one parameter `outputType`. This function is expected to be used in an ES6 module since it's being exported, meaning it can be imported and used in another JavaScript file.\n\n2. Inside the function, a for...of loop is used to iterate over the `outputTypeToDisplayGroup` object. The `Object.entries()` function is used to create an array of the object's enumerable string-keyed property [key, value] pairs. This array is then iterated over, with each iteration providing an array where the first element is the key and the second element is the value.\n\n3. In each iteration, it checks if the `value` (which is converted to a string using `toString()`) includes the `outputType` passed to the function. The `includes()` method determines whether one string may be found within another string, returning `true` or `false` as appropriate.\n\n4. If the `value` includes the `outputType`, it returns the `key`. This `key` is assumed to be the summary for the given output type.\n\n5. If the function loops through all the entries in the `outputTypeToDisplayGroup` object without finding a match, it returns an empty string.\n\nThis function uses a simple linear search algorithm to find the summary for a given output type. The time complexity of this function is O(n), where n is the number of entries in the `outputTypeToDisplayGroup` object.\n\nFor more information on the methods and concepts used in this function, you can refer to these resources:\n- [Object.entries()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries)\n- [for...of](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of)\n- [includes()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes)\n\nThis code appears to be consistent with general software architectural guidelines, as it is modular, uses descriptive function and variable names, and handles the case where the output type is not found in the `outputTypeToDisplayGroup` object. However, without specific architectural guidelines or constraints for this project, it's hard to provide a more detailed analysis in this regard."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "9",
+      "value": "\n//find the summary for the given output type by searching through the outputTypeToDisplay structure\nexport function mapOutputTypeToSummary(outputType: string) {\n    //loop through the outputTypeToDisplay structure and find the summary\n    for (const [key, value] of Object.entries(outputTypeToDisplayGroup)) {\n        if (value.toString().includes(outputType)) {\n            return key;\n        }\n    }\n    return \"\";\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 9,
+        "type": "originalCode",
+        "lineNumberBase": 56
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:10:46 PM PDT\n\nThe provided code is written in TypeScript, which is a statically typed superset of JavaScript that adds optional types to the language. This function, `summaryViewData()`, is exported so it can be used in other parts of the application. \n\nThe function takes one argument, `boostprojectdata`, which is of type `IBoostProjectData`. This suggests that `boostprojectdata` is an object that adheres to an interface `IBoostProjectData`, but without additional context, we can't say what properties this interface has.\n\nThe function returns an array of objects, each representing a summary view of some aspect of the boost project data. Each object in the array has four properties: `display`, `id`, `summary`, and `defaultChecked`.\n\nHere's a breakdown of what each property represents:\n\n- `display`: This is a user-friendly name for the group. It's derived from `displayGroupFriendlyName`, which is not defined in the provided code but is presumably an object with properties that map to user-friendly names.\n\n- `id`: This is a unique identifier for the group. It seems to be derived from `BoostUserAnalysisType`, which is also not defined in the provided code but is presumably an enumeration or object that maps to unique identifiers.\n\n- `summary`: This is a summary of the group. It's derived from a call to the `mergeSummary()` function, which takes three arguments: the boost project data, an array of output types, and the job status. The output types are derived from `ControllerOutputType`, which is not defined in the provided code but is presumably an enumeration or object that maps to different types of output.\n\n- `defaultChecked`: This is a boolean that indicates whether the group is checked by default. It's hard-coded as either `true` or `false`.\n\nThe function `mergeSummary()` is not defined in the provided code, so we can't say exactly what it does. However, based on its usage in the `summaryViewData()` function, it seems to take the boost project data, a list of output types, and the job status, and return a summary of the data.\n\nThe algorithm used in this function is quite straightforward. It creates a fixed array of objects, each representing a summary view of some aspect of the boost project data. It then returns this array.\n\nAs for architectural guidelines, this function seems to adhere to common best practices for TypeScript. It uses type annotations, which help ensure type safety, and it exports the function, which allows it to be used in other parts of the application. However, without additional context, it's hard to say whether this function adheres to any specific architectural guidelines or constraints."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "10",
+      "value": "\nexport function summaryViewData(boostprojectdata: IBoostProjectData): SummaryViewData[] {\n    //TODO: in the future, make the default check settings configuratble and/or remembered\n    //in the state somewhere.\n    const jobStatus = boostprojectdata.jobStatus;\n    let summaryView = [\n        {\n            display: displayGroupFriendlyName.documentation,\n            id: BoostUserAnalysisType.documentation,\n            summary: mergeSummary(\n                boostprojectdata,\n                [ControllerOutputType.explain, ControllerOutputType.flowDiagram],\n                jobStatus\n            ),\n            defaultChecked: true,\n        },\n        {\n            display: displayGroupFriendlyName.security,\n            id: BoostUserAnalysisType.security,\n            summary: mergeSummary(boostprojectdata, [ControllerOutputType.analyzeFunction], jobStatus),\n            defaultChecked: true,\n        },\n        {\n            display: displayGroupFriendlyName.compliance,\n            id: BoostUserAnalysisType.compliance,\n            summary: mergeSummary(boostprojectdata, [ControllerOutputType.complianceFunction], jobStatus),\n            defaultChecked: true,\n        },\n        {\n            display: displayGroupFriendlyName.deepcode,\n            id: \"deepcode\",\n            summary: mergeSummary(\n                boostprojectdata,\n                [\n                    ControllerOutputType.compliance,\n                    ControllerOutputType.blueprint,\n                    ControllerOutputType.analyze,\n                    ControllerOutputType.codeGuidelines,\n                ],\n                jobStatus\n            ),\n            defaultChecked: false,\n        },\n    ];\n    return summaryView;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 10,
+        "type": "originalCode",
+        "lineNumberBase": 66
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:11:31 PM PDT\n\nThe function `detailsViewData` is a JavaScript function that takes in two parameters: `boostprojectdata` and `skipFilter`. `boostprojectdata` is an object that contains information about a project, including its job status and files. `skipFilter` is an optional array of strings that contains keys to be ignored in the `boostprojectdata` object.\n\nThe function returns an array of `DetailsViewData` objects, which are derived from the `boostprojectdata`.\n\nHere is a step-by-step explanation of the function:\n\n1. An empty array `detailsView` is created to hold the `DetailsViewData` objects.\n\n2. The function iterates over the keys of `boostprojectdata.files` (which are filenames) using `Object.keys()` and `forEach()`. For each file, it creates an object `data` with the properties `sourceRelFile`, `notebookRelFile`, `progressBar`, `jobStatus`, and `progressStatus`.\n\n3. It then iterates over the keys of `outputTypeToDisplayGroup` (which are output types). For each output type, if it's not included in `skipFilter`, it calculates the `completedCells`, `issueCells`, and `totalCells` for each section of the output type. It then creates an object `progressbardata` with these values and adds it to `data.progressBar`.\n\n4. The function then checks the `completedCells`, `totalCells`, and `issueCells` of `progressbardata` to update `data.progressStatus`.\n\n5. The `data` object is then pushed to the `detailsView` array.\n\n6. After iterating over all files in `boostprojectdata.files`, the function iterates over the keys of `jobstatus` (which are filenames). For each file, if it's not in `boostprojectdata.files`, it creates a new `DetailsViewData` object with default values and adds it to the `detailsView` array.\n\n7. The function finally returns the `detailsView` array.\n\nThe algorithm used in this function is a combination of iteration and condition checking. The `Object.keys()` and `forEach()` methods are used for iteration, and `if` conditions are used to check the status and update values accordingly. \n\nThis function does not seem to conflict with any architectural guidelines as it follows standard JavaScript coding practices. \n\nFor more information on JavaScript objects and methods used in this function, you can refer to the following links:\n- [JavaScript Objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects)\n- [Array.prototype.forEach()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach)\n- [Array.prototype.push()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push)\n- [Object.keys()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "11",
+      "value": "\n\n\nexport function detailsViewData(\n    boostprojectdata: any,\n    skipFilter: string[] = []\n): DetailsViewData[] {\n    let detailsView: DetailsViewData[] = [];\n    let jobstatus = boostprojectdata.jobStatus;\n\n    Object.keys(boostprojectdata.files).forEach((file: string) => {\n\n        let fileData = boostprojectdata.files[file];\n\n        let data: DetailsViewData = {\n            sourceRelFile: boostprojectdata.files[file].sourceRelFile,\n            notebookRelFile: boostprojectdata.files[file].notebookRelFile,\n            progressBar: [],\n            jobStatus: jobstatus[file],\n            progressStatus: \"not-started\"\n        };\n\n        //for each of the four display types, go through the mapping and get the completed\n        //cells, total cells, and number of cells with issues\n        Object.keys(outputTypeToDisplayGroup).forEach((key) => {\n            //if the key is in the skip filter, skip it\n            if (skipFilter.includes(key)) {\n                return;\n            }\n            let sections = outputTypeToDisplayGroup[key];\n            let progressbardata = {\n                completedCells: 0,\n                issueCells: 0,\n                totalCells: 0,\n                display: displayGroupFriendlyName[key],\n            } as ProgressBarData;\n\n            sections.forEach((section) => {\n                progressbardata.completedCells = Math.max(\n                    fileData.sections[section]?.completedCells ?? 0,\n                    progressbardata.completedCells\n                );\n                progressbardata.issueCells = Math.max(\n                    fileData.sections[section]?.issueCells ?? 0,\n                    progressbardata.issueCells\n                );\n                progressbardata.totalCells = Math.max(\n                    fileData.sections[section]?.totalCells ?? 0,\n                    progressbardata.totalCells\n                );\n            });\n            data.progressBar.push(progressbardata);\n\n            if( progressbardata.completedCells > 0 && \n                progressbardata.completedCells === progressbardata.totalCells \n                && (data.progressStatus !== \"processing\" && data.progressStatus !== \"incomplete\")){\n                data.progressStatus = \"completed\";\n            } else if (progressbardata.completedCells > 0 || progressbardata.issueCells > 0) {\n                data.progressStatus = \"incomplete\";\n            }\n        });\n\n        detailsView.push(data);\n    });\n\n    //now go through the jobStatus and create entries for each of those files\n    //that are not in the boostprojectdata.files\n    Object.keys(jobstatus).forEach((file: string) => {\n        //if the file is in the boostprojectdata.files, skip it, but update the progressStatus to show it's\n        //being processed.\n        if (boostprojectdata.files[file]) {\n            //find it in the detailsView array and update the progressStatus\n            let index = detailsView.findIndex((element) => {\n                return element.sourceRelFile === boostprojectdata.files[file].sourceRelFile && \n                element.notebookRelFile === boostprojectdata.files[file].notebookRelFile;\n            });\n            //if we're completed, we want that to take procedence over the processing state\n            //except for the case of 'processing'.\n            if (index !== -1 && (detailsView[index].progressStatus !== \"completed\"\n             && jobstatus[file].status !== \"processing\")) {\n                detailsView[index].progressStatus = jobstatus[file].status;\n            }\n            return;\n        }\n        let data: DetailsViewData = {\n            sourceRelFile: file,\n            notebookRelFile: \"\",\n            progressBar: [],\n            jobStatus: jobstatus[file],\n            progressStatus: \"not-started\"\n        };\n               //for each of the four display types, go through the mapping and get the completed\n        //cells, total cells, and number of cells with issues\n        Object.keys(outputTypeToDisplayGroup).forEach((key) => {\n            //if the key is in the skip filter, skip it\n            if (skipFilter.includes(key)) {\n                return;\n            }\n            let progressbardata = {\n                completedCells: 0,\n                issueCells: 0,\n                totalCells: 1,\n                display: displayGroupFriendlyName[key],\n            } as ProgressBarData;\n            data.progressBar.push(progressbardata);\n        });\n        detailsView.push(data);\n    });\n    return detailsView;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 11,
+        "type": "originalCode",
+        "lineNumberBase": 117
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:12:05 PM PDT\n\nThe function `mergeSummary` is written in TypeScript, which is a statically typed superset of JavaScript that adds optional types, classes, and modules to the language.\n\nThis function is used to merge the summary of a project's analysis status. It takes three parameters: `boostprojectdata`, `analysisTypes`, and `jobStatus`.\n\nThe `boostprojectdata` parameter is an object that contains project data, the `analysisTypes` parameter is an array of strings representing different types of analysis, and `jobStatus` is an object representing the status of different jobs.\n\nThe function begins by initializing a `summary` object with some default values. The `analyzed` property is set to 0, the `total` property is set to the total number of files to be analyzed from the project data, and the `status` and `jobStatusStatus` properties are both set to \"not-started\".\n\nThe function then iterates over the `analysisTypes` array using the `forEach` method. For each type of analysis, it checks if the project data has a summary for that type of analysis. If it does, it updates the `analyzed` property of the `summary` object to be the maximum of the current `analyzed` value and the number of files analyzed for the current type of analysis.\n\nThe function then checks the status of the current type of analysis. If the status is \"completed\" and the overall status is not \"incomplete\", it sets the overall status to \"completed\". If the number of files analyzed for the current type of analysis is greater than 0, it sets the overall status to \"incomplete\".\n\nAfter iterating over all the types of analysis, the function checks if all types of analysis are completed but there are still files remaining to be analyzed. If this is the case, it sets the overall status to \"incomplete\".\n\nThe function then iterates over the `jobStatus` object using the `Object.keys` method. For each job, it checks if the job is included in the `analysisTypes` array. If it is, it checks the status of the job. If the job is \"processing\", it sets the `jobStatusStatus` property of the `summary` object to \"processing\". If the job is \"queued\" and the `jobStatusStatus` is not \"processing\", it sets the `jobStatusStatus` property to \"queued\".\n\nFinally, the function returns the `summary` object.\n\nThis function uses a few different algorithms and techniques, including iteration over arrays and objects, conditional logic, and updating object properties. It doesn't appear to use any complex algorithms, but it does use some basic JavaScript and TypeScript features. For more information on these features, you can refer to the [Mozilla Developer Network's JavaScript Guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "12",
+      "value": "\nfunction mergeSummary(\n    boostprojectdata: any,\n    analysisTypes: string[],\n    jobStatus: JobStatus\n) {\n    let summary = {\n        analyzed: 0,\n        total: boostprojectdata.summary.filesToAnalyze,\n        status: \"not-started\",\n        jobStatusStatus: \"\",\n    };\n    let completed = \"not-started\";\n    analysisTypes.forEach((analysisType: string) => {\n        if (boostprojectdata.sectionSummary[analysisType]) {\n            summary.analyzed = Math.max(\n                boostprojectdata.sectionSummary[analysisType].filesAnalyzed,\n                summary.analyzed\n            );\n            //we have to see a steady string of completed to be completed.  if we see anything else, we are incomplete.\n            if (\n                boostprojectdata.sectionSummary[analysisType].status === \"completed\" &&\n                completed !== \"incomplete\"\n            ) {\n                completed = \"completed\";\n            } else if (boostprojectdata.sectionSummary[analysisType].filesAnalyzed > 0 ){\n                completed = \"incomplete\";\n            }\n        }\n    });\n    summary.status = completed;\n    //it is possible that all of the analysis types are completed, but there are still remaining files to analyze\n    if( summary.status === \"completed\" && summary.analyzed < summary.total) {\n        summary.status = \"incomplete\";\n    }\n    //now go through the job status and see if any of the jobs are processing or queued\n    //if processing, then we are processing and that overrides the queued state\n\n    Object.keys(jobStatus).forEach((key) => {\n        //first check to see if our AnalysisType is in the job status\n        //this is an intersection of the AnalysisArray and the jobStatus.jobs set\n        for ( const job of jobStatus[key].jobs ) {\n            if (analysisTypes.includes(job)) {\n                //we have a job that is processing or queued, processing takes priority over queued\n                if (jobStatus[key].status === \"processing\") {\n                    summary.jobStatusStatus = jobStatus[key].status;\n                } else if (\n                    jobStatus[key].status === \"queued\" &&\n                    summary.jobStatusStatus !== \"processing\"\n                ) {\n                    summary.jobStatusStatus = jobStatus[key].status;\n                }\n            }\n        };\n    });\n    return summary;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 12,
+        "type": "originalCode",
+        "lineNumberBase": 226
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:12:42 PM PDT\n\nThe provided code is a JavaScript function that accepts a `boostprojectdata` object as an argument and returns a `StatusViewData` object. The function is used to determine the status of various jobs associated with the `boostprojectdata` object.\n\nHere's a step-by-step explanation:\n\n1. The function `statusViewData` is exported so it can be used in other parts of the codebase. It takes a single parameter `boostprojectdata` which is of type `IBoostProjectData`.\n\n2. Three variables are initialized: `busy` (a boolean indicating whether any job is currently being processed or queued), `jobsRunning` (a count of jobs currently being processed), and `jobsQueued` (a count of jobs waiting to be processed).\n\n3. The function then checks if the `boostprojectdata` object has a `jobStatus` property. If it does, it means there are jobs associated with this project.\n\n4. It then iterates over each key in the `jobStatus` object using `Object.keys()`. For each key, it checks the status of the job.\n\n5. If the status of the job is not \"completed\", it sets the `busy` variable to `true`.\n\n6. If the status of the job is \"queued\", it increments the `jobsQueued` counter. If the status is \"processing\", it increments the `jobsRunning` counter.\n\n7. After iterating over all jobs, the function returns an object containing the `busy`, `jobsRunning`, `jobsQueued`, and `minutesRemaining` (calculated as the sum of `jobsQueued` and `jobsRunning`, assuming each job takes 1 minute to complete) properties.\n\nIn terms of algorithms, this function employs a simple linear search through the `jobStatus` object to count the number of queued and running jobs. This is a straightforward and efficient approach given that the data is stored in an object without any specific order.\n\nFor more information on JavaScript objects and methods used in this function, you can refer to these resources:\n\n- [JavaScript Objects (MDN)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects)\n- [Object.keys() (MDN)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys)\n- [JavaScript Functions (MDN)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions)\n\nThere are no specific architectural guidelines provided for this analysis. However, the code appears to follow good programming practices such as clear naming conventions, use of const and let for variable declaration, and concise, readable code."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "13",
+      "value": "\nexport function statusViewData(boostprojectdata: IBoostProjectData): StatusViewData\n{\n    let busy = false;\n    let jobsRunning = 0;\n    let jobsQueued = 0;\n\n    //if we have a job status, then we are busy\n    if (boostprojectdata.jobStatus) {\n        //now go through the job status and see if any of the jobs not completed\n        Object.keys(boostprojectdata.jobStatus).forEach((key) => {\n            if (boostprojectdata.jobStatus[key].status !== \"completed\") {\n                busy = true;\n            }\n            if (boostprojectdata.jobStatus[key].status === \"queued\") {\n                jobsQueued++;\n            } else if (boostprojectdata.jobStatus[key].status === \"processing\") {\n                jobsRunning++;\n            }\n        });\n    }\n    return {\n        busy: busy,\n        jobsRunning: jobsRunning,\n        jobsQueued: jobsQueued,\n        minutesRemaining: jobsQueued + jobsRunning//assume 1 minute per job\n    };\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 13,
+        "type": "originalCode",
+        "lineNumberBase": 280
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/dashboard/summary/compute_view_data.ts"
+  }
+}

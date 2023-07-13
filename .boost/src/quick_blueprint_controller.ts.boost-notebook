@@ -1,0 +1,208 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:30:04 PM PDT\n\nThis is a piece of code written in TypeScript, a statically typed superset of JavaScript. It's a very small piece of code so there's not much to explain, but here's a breakdown of what's happening:\n\n1. The `import` statements: These are ECMAScript 6 (ES6) import statements used to include modules in the code. In this case, `path` and `fs` are Node.js built-in modules. The `path` module provides utilities for working with file and directory paths. The `fs` module provides an API to interact with the file system in a manner closely modeled around standard POSIX functions. More about `path` and `fs` can be found in the official Node.js documentation: [path](https://nodejs.org/api/path.html) and [fs](https://nodejs.org/api/fs.html).\n\n2. The third `import` statement imports a class named `KernelControllerBase` from a local file named `base_controller`. This class might be a base class for other controllers in your project, providing shared functionality. Since the code for this class isn't provided, I can't give a detailed explanation, but the concept of base classes and inheritance is a fundamental part of object-oriented programming.\n\nAs for the architectural guidelines, since there are no specific guidelines provided, we can only assume that the code follows general good practices such as separation of concerns (having a separate controller base), modularity (importing modules as needed), and using built-in Node.js modules for file system operations."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as path from 'path';\nimport * as fs from 'fs';\n\nimport {\n    KernelControllerBase\n } from './base_controller';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 2
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:30:35 PM PDT\n\nThis line of code is written in TypeScript, which is a statically typed superset of JavaScript that adds types to the language. TypeScript is mainly used for large JavaScript projects where type checking can help catch potential bugs and make the code more maintainable.\n\nThe code is a single line that imports a module named `BoostConfiguration` from a local file named `boostConfiguration`. \n\nLet's break it down:\n\n- `import`: This is a keyword in ES6 (ECMAScript 6, also known as ES2015) JavaScript and TypeScript that allows one module to use functionality exported from another module. This is a part of the module system in JavaScript, which is a way to share code across multiple files.\n\n- `{ BoostConfiguration }`: This is the name of the specific export from the 'boostConfiguration' module that this file needs to use. By using the curly braces, we are using a named import. This means that 'BoostConfiguration' is not the default export of 'boostConfiguration', but a specific named export. If 'BoostConfiguration' was the default export, the import statement would not use curly braces.\n\n- `from './boostConfiguration'`: This specifies the module to import from. The `./` at the beginning of the string means that the module is a local file in the same directory as the file that this import statement is in. The file is named 'boostConfiguration' (with a .ts or .js extension, not shown here).\n\nThere are no specific algorithms used in this line of code. It's just a way to include functionality from another file. \n\nHere's a link to the TypeScript documentation for more information on its module system: https://www.typescriptlang.org/docs/handbook/modules.html\n\nRegarding the architectural guidelines mentioned, since no specific constraints or guidelines are provided, we can only say that this code follows general best practices for modular programming. By importing only the specific parts of modules that are needed, the code can be more efficient and easier to understand and maintain."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import { BoostConfiguration } from './boostConfiguration';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 5
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:31:06 PM PDT\n\nThe code you've provided is written in TypeScript, a statically typed superset of JavaScript that adds types to the language. This code is the starting part of a larger codebase which seems to be related to a Visual Studio Code (VS Code) extension for Jupyter notebooks. \n\nLet's break down each line:\n\n1. `import * as vscode from 'vscode';`: This line imports all exported APIs from the 'vscode' module into an object named 'vscode'. The 'vscode' module is a library provided by Visual Studio Code that allows you to interact with the editor and its components.\n\n2. `import { BoostNotebookCell, BoostNotebook, NotebookCellKind } from './jupyter_notebook';`: This line imports specific exports (BoostNotebookCell, BoostNotebook, and NotebookCellKind) from a local module named 'jupyter_notebook'. The './' before the module name indicates that the module is located in the same directory as the current file.\n\nThe `BoostNotebookCell`, `BoostNotebook`, and `NotebookCellKind` are likely custom classes or types defined in the 'jupyter_notebook' module, but without the context of that module, I can't provide a detailed explanation of what they do.\n\nAs for algorithms, this piece of code doesn't include any. It's simply setting up dependencies for the rest of the code that follows. These dependencies will likely be used to interact with VS Code and manipulate Jupyter notebooks in some way.\n\nFor more information on TypeScript and its syntax, you can refer to the official TypeScript documentation: [TypeScript Documentation](https://www.typescriptlang.org/docs/)\n\nFor more information about developing extensions for VS Code, you can refer to the official VS Code Extensions documentation: [VS Code Extensions Documentation](https://code.visualstudio.com/api)\n\nFor more information about Jupyter notebooks, you can refer to the official Jupyter documentation: [Jupyter Documentation](https://jupyter.org/documentation)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import * as vscode from 'vscode';\nimport { BoostNotebookCell, BoostNotebook, NotebookCellKind } from './jupyter_notebook';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 7
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:31:27 PM PDT\n\nThis code snippet is written in JavaScript, specifically using the ECMAScript 6 (ES6) module syntax. It is importing a module named `boostLogging` from another file in the same directory named `boostLogging.js`.\n\nHere's a breakdown of the code:\n\n- `import`: This is a reserved keyword in JavaScript used to import functions, objects or values from another module or file. This allows you to use code written in other files, promoting reusability and modularity.\n\n- `{ boostLogging }`: This is an object destructuring assignment. It means that the `boostLogging` function or object is being imported from the module. If the module exports multiple functions or objects, you could import the ones you need by including their names in the curly braces.\n\n- `from`: This is another reserved keyword in JavaScript used in conjunction with `import`. It specifies the path to the module or file from which the import is being done.\n\n- `'./boostLogging'`: This is the path to the module or file from which the import is happening. The `./` at the beginning of the path means that the file is in the same directory as the current file. If the file was in a subdirectory, the path might look like `'./subdirectory/boostLogging'`.\n\nThis specific code doesn't use any specific algorithm, it's a feature of ES6 JavaScript for importing modules. \n\nYou can learn more about ES6 modules and `import` statement on Mozilla Developer Network (MDN) web docs: [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n\nAs for the architectural guidelines, since no specific guidelines or constraints are provided, it can be assumed that this code follows common JavaScript best practices for modularity and code reuse by using `import` to bring in functionality from other modules."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "import { boostLogging } from './boostLogging';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 8
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:31:51 PM PDT\n\nThis is a piece of JavaScript code that is used to import specific functions from another module named 'extension'. These functions can then be used within the context of the current module. \n\nHere are the functions being imported:\n\n1. `findCellByKernel`: This function is not defined here, but based on the name, it likely searches for a specific cell (in the context of Jupyter notebooks, a cell can be a block of code or markdown) that is associated with a particular kernel (a kernel is a computational engine that executes the code contained in a Jupyter notebook).\n\n2. `generateCellOutputWithHeader`: Again, this function is not defined here, but based on the name, it likely generates the output of a cell along with some header information. In the context of Jupyter notebooks, this could be used to display the result of a computation along with some additional information in a header.\n\n3. `getAllProjectFiles`: This function likely retrieves all the files associated with a particular project. The specifics of how it does this would depend on how the project and files are structured.\n\n4. `getProjectName`: This function likely retrieves the name of the current project. How it does this would depend on where and how the project name is stored.\n\nThe specific algorithms used by these functions are not shown in this code snippet, as these functions are defined elsewhere in the 'extension' module. \n\nThis code follows the general architectural guidelines of modular programming, where code is broken down into reusable and interchangeable modules. This improves readability, maintainability, and testing of the code.\n\nFor more information on JavaScript modules, you can refer to this link: [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "import { findCellByKernel, generateCellOutputWithHeader, getAllProjectFiles, getProjectName } from './extension';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 9
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:32:13 PM PDT\n\nThe code you've provided is a single line of JavaScript (JS), specifically a module import statement. It doesn't contain any algorithms, and the context it's used in is not provided. However, I can still explain what this line does.\n\n```javascript\nimport { getCurrentOrganization } from \"./authorization\";\n```\n\nThis line is using the ES6 (ECMAScript 2015) module system to import a specific function, `getCurrentOrganization`, from another JavaScript module located in the same directory, named `authorization.js`.\n\nThe `import` statement is used to read and utilize functions, objects, or values exported from another module. In this case, the `getCurrentOrganization` function is being imported.\n\nThe `{ getCurrentOrganization }` syntax is known as named imports. It means the `authorization.js` module exports `getCurrentOrganization` using the `export` keyword. If the module exported a default function, the import would look like this:\n\n```javascript\nimport getCurrentOrganization from './authorization';\n```\n\nThe `\"./authorization\"` part of the statement refers to the relative path to the `authorization.js` module. The `.` denotes the current directory.\n\nAs for the architectural guidelines, since none were provided, we can't evaluate the code against any specific guidelines. However, this code follows standard ES6 module system conventions, which is common in many modern JavaScript codebases.\n\nFor more on ES6 modules, you can check out the Mozilla Developer Network (MDN) documentation here: [MDN import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "import { getCurrentOrganization } from \"./authorization\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 10
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:32:45 PM PDT\n\nThe line of code you have provided is a single import statement from a JavaScript or TypeScript file. It imports a type or interface called `ControllerOutputType` from another file named `controllerOutputTypes`.\n\nLet's break it down:\n\n- `import`: This keyword is used to import functions, objects or values from another file or module in JavaScript/TypeScript.\n\n- `{ ControllerOutputType }`: The curly braces are used when you want to import specific exports from the module. In this case, `ControllerOutputType` is being imported. This could be a type, an interface, a function, a class, or an object that has been exported from the `controllerOutputTypes` module.\n\n- `from './controllerOutputTypes'`: The `from` keyword is used to specify the path to the module from which the import is being made. The `./` at the beginning of the path means that the module is in the same directory as the current file. The file name `controllerOutputTypes` is the name of the module being imported from. In JavaScript/TypeScript, you don't need to add the `.js` or `.ts` extension when importing.\n\nThis particular line of code doesn't contain any algorithms, but is a fundamental part of structuring code in JavaScript and TypeScript projects. By importing and exporting modules, you can break your code down into smaller, reusable parts.\n\nIf you want to learn more about `import` and `export` in JavaScript/TypeScript, you can check out these resources:\n\n- [JavaScript Modules: Import and Export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)\n- [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/modules.html)\n\nAs for the architectural guidelines, since there are no special architectural guidelines or constraints mentioned for this software project, this line of code doesn't conflict with any stated principles. It's a common practice in JavaScript/TypeScript projects to import and export modules for better code organization and reuse."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "import { ControllerOutputType } from './controllerOutputTypes';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 11
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:33:21 PM PDT\n\nThis code is a part of a larger project written in TypeScript that uses the Visual Studio Code (VSCode) API to extend its functionalities. The code defines a class `BoostQuickBlueprintKernel` which extends the `KernelControllerBase` class. This class is responsible for creating a quick architectural blueprint of a software project.\n\nThe class contains several methods:\n\n- `constructor`: This method initializes the class with a set of parameters including the context of the VSCode extension, an error handler, a collection of diagnostics, etc. It calls the parent class's constructor with these parameters.\n\n- `dispose`: This method is for resource cleanup. It calls the parent class's dispose method.\n\n- `serviceEndpoint` and `quickServiceEndpoint`: These getter methods return the URL of the service endpoint based on the cloud service stage. The service endpoint is used to draft a blueprint, and the quick service endpoint is used to create a quick blueprint.\n\n- `draftServiceEndpoint`: This getter method returns the URL of the draft service endpoint. It's more explicit for internal readability.\n\n- `executeAll`: This method is responsible for executing all the tasks needed to create a quick architectural blueprint. It checks if the notebook is a BoostNotebook and if the analysis is project-wide. It then gets the current organization and executes the `_runQuickBlueprintStages` method.\n\n- `_runQuickBlueprintStages`: This method is responsible for running the stages of creating a quick blueprint. It first checks if there's an existing blueprint cell. If there is, it skips the creation process. If there isn't, it starts the process by getting all the project files and the project name. It then sends a request to the draft service endpoint to create a draft blueprint, and then sends another request to the quick service endpoint to create a quick blueprint. It finally saves the quick blueprint in a new cell in the notebook.\n\n- `onKernelOutputItem`: This method is responsible for handling the output from the kernel. It checks if the response from the Boost Service contains the necessary data and generates a cell output with a header.\n\nThis code does not seem to use any specific algorithms, but it does use the VSCode API and the Boost Service API. It also uses the Node.js built-in `path` and `fs` modules to work with file paths and the file system, respectively.\n\nYou can learn more about extending VSCode [here](https://code.visualstudio.com/api/overview/vscode-api) and about the Node.js `path` and `fs` modules [here](https://nodejs.org/api/path.html) and [here](https://nodejs.org/api/fs.html), respectively. \n\nThe architectural guidelines mentioned in the question do not seem to conflict with this code. The code appears to be well-structured and follows good object-oriented programming practices."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "7",
+      "value": "\nexport const quickBlueprintKernelName = 'quickblueprint';\nconst quickBlueprintOutputHeader = `Architectural Quick Blueprint`;\n\nexport class BoostQuickBlueprintKernel extends KernelControllerBase {\n\tconstructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection) {\n        super(\n            collection,\n            quickBlueprintKernelName,\n            'Quick Architectural Blueprint Code',\n            'Quickly builds an Archiectural Blueprint from hints about project and source code.',\n            ControllerOutputType.blueprint,\n            quickBlueprintOutputHeader,\n            false,\n            false,\n            context,\n            otherThis,\n            onServiceErrorHandler);\n\t}\n\n\tdispose(): void {\n\t\tsuper.dispose();\n\t}\n\n    public get serviceEndpoint(): string {\n        switch (BoostConfiguration.cloudServiceStage)\n        {\n            case \"local\":\n                return 'http://127.0.0.1:8000/draft-blueprint';\n            case 'dev':\n                return 'https://b7zk2dm2haygvcluz4jx2by3vm0ypljn.lambda-url.us-west-2.on.aws/';\n            case \"test\":\n                return 'https://7hcsi442ct5fty7tkw3syxjhka0ehlds.lambda-url.us-west-2.on.aws/';\n            case 'staging':\n            case 'prod':\n            default:\n                return 'https://7qpij3jplvcmdaojfumgj32e7e0vcchc.lambda-url.us-west-2.on.aws/';\n        }\n    }\n\n    // for internal readability, we use a more explicit name to know which endpoint is being used\n    get draftServiceEndpoint(): string {\n        return this.serviceEndpoint;\n    }\n\n    public get quickServiceEndpoint(): string {\n        switch (BoostConfiguration.cloudServiceStage)\n        {\n            case \"local\":\n                return 'http://127.0.0.1:8000/quick-blueprint';\n            case 'dev':\n                return 'https://c2m6d7mgrgypx3mzktbxoawfpa0acsja.lambda-url.us-west-2.on.aws/';\n            case \"test\":\n                return 'https://nvw7caoex6ipyisd7matillvci0eclws.lambda-url.us-west-2.on.aws/';\n            case 'staging':\n            case 'prod':\n            default:\n                return 'https://vryv4jotc6rghitxmwaz5whrqm0obehc.lambda-url.us-west-2.on.aws/';\n        }\n    }\n\n    async executeAll(\n        _: (vscode.NotebookCell | BoostNotebookCell)[],\n        notebook: vscode.NotebookDocument | BoostNotebook,\n        session: vscode.AuthenticationSession,\n        forceAnalysisRefresh: boolean = false\n    ): Promise<void>  {\n        const usingBoostNotebook = notebook instanceof BoostNotebook;\n\n        // for now, we ignore forceAnalysisRefresh - and always re-analyze\n        forceAnalysisRefresh = true;\n\n        if (!usingBoostNotebook) {\n            throw new Error(\"Quick Blueprint can only be run on offline Notebooks\");\n        }\n\n        // are we analyzing a source file or a project?\n        let projectWideAnalysis = (notebook.metadata['sourceFile'] as string) === './';\n        if (!projectWideAnalysis) {\n            throw new Error(\"Quick Blueprint can only be run at the Project level\");\n        }\n\n        // now get the current organization\n        let organization = await getCurrentOrganization(this.context);\n        if (!organization) {\n            throw new Error(\"Organization not found\");\n        }\n\n        const authPayload = {\n            session: session.accessToken,\n            organization: organization,\n        };\n    \n        boostLogging.info(`Starting ${this.command} of Notebook ${notebook.fsPath}`, false);\n\n        let successfullyCompleted = true;\n        try\n        {\n            await this._runQuickBlueprintStages(notebook, authPayload);\n\n        } catch (rethrow) {\n            successfullyCompleted = false;\n            boostLogging.error(`Error during ${this.command} of Project-level Notebook at ${new Date().toLocaleTimeString()}`, false);\n            throw rethrow;\n        }\n        finally {\n            boostLogging.info(`Finished ${this.command} of Project-level Notebook at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);\n            }    \n    }\n\n    private async _runQuickBlueprintStages(\n            notebook: BoostNotebook,\n            authPayload: any) {\n\n        // we don't want to overwrite summary blueprints, which are far more detailed and useful in general\n        let existingBlueprintCell = findCellByKernel(notebook, ControllerOutputType.blueprint) as BoostNotebookCell;\n        if (existingBlueprintCell && existingBlueprintCell.value &&\n            existingBlueprintCell.metadata?.blueprintType) {\n            if (existingBlueprintCell.metadata.blueprintType === \"summary\") {\n                boostLogging.info(`Skipping ${this.command} of Project-level Notebook \" +\n                                  \"because it already has a detailed Summary blueprint`, false);\n                return;\n            } else if (existingBlueprintCell.metadata.blueprintType === \"quick\") {\n                boostLogging.info(`Rebuilding ${this.command} of Project-level Notebook \" +\n                                  \"from last quick blueprint`, false);\n            }\n        }\n\n        // do the core multi-stage processing of Draft first, then Quick blueprint\n\n        // we create a placeholder cell for the input, so we can do processing on the input\n        // then we'll take the resulting data and run a 2nd pass with updated cell metadata\n        // note: we need to pass an empty string for cell contents, so it isn't injected into the payload\n        //    automatically\n        const tempProcessingCell = new BoostNotebookCell(NotebookCellKind.Markup,\n            \"\", \"markdown\");\n\n        const files = await getAllProjectFiles(true);\n        const projectName = getProjectName();\n\n        const payloadDraft = {\n            'filelist': files,\n            'projectName': projectName,\n            ...authPayload\n        };\n\n        // execute the draft blueprint service\n        const draftResponse = await this.doKernelExecution(notebook, tempProcessingCell, undefined,\n            payloadDraft, this.draftServiceEndpoint);\n        // assert response.payload['statusCode'] == 200\n        if (draftResponse instanceof Error) {\n            let throwErr = draftResponse as Error;\n            throw throwErr;\n        } else if (draftResponse.data instanceof Error) {\n            let throwErr = draftResponse.data as Error;\n            throw throwErr;\n        }\n\n        if (draftResponse.status !== 1) {\n            throw new Error(\"Unable to create a draft blueprint - please check your project files and try again\");\n        }\n\n        const fullSourcePath = path.join(\n            vscode.workspace.workspaceFolders![0].uri.fsPath,\n            draftResponse.details.recommendedSampleSourceFile);\n        const normalizedFullSourcePath = path.normalize(fullSourcePath);\n\n        const sampleCode = !fs.existsSync(fullSourcePath)?\"\":fs.readFileSync(normalizedFullSourcePath, 'utf8');\n\n        const fullProjectFilePath = path.join(\n            vscode.workspace.workspaceFolders![0].uri.fsPath,\n            draftResponse.details.recommendedProjectDeploymentFile);\n        const normalizedFullProjectFilePath = path.normalize(fullProjectFilePath);\n        const projectFileContents = !fs.existsSync(fullProjectFilePath)?\"\":fs.readFileSync(normalizedFullProjectFilePath, 'utf8');\n\n        const payloadQuick = {\n            'filelist': files,\n            'projectName': projectName,\n            'projectFile': projectFileContents,\n            'draftBlueprint': draftResponse.details.draftBlueprint,\n            'code': sampleCode,\n            ...authPayload\n        };\n\n        // execute the draft blueprint service\n        const quickResponse = await this.doKernelExecution(notebook, tempProcessingCell, undefined,\n            payloadQuick, this.quickServiceEndpoint);\n        // assert response.payload['statusCode'] == 200\n        if (quickResponse instanceof Error) {\n            let throwErr = quickResponse as Error;\n            throw throwErr;\n        } else if (quickResponse.data instanceof Error) {\n            let throwErr = quickResponse.data as Error;\n            throw throwErr;\n        }\n\n        let targetCell = findCellByKernel(notebook, ControllerOutputType.blueprint) as BoostNotebookCell;\n        if (!targetCell) {\n            targetCell = new BoostNotebookCell(NotebookCellKind.Markup, \"\", \"markdown\");\n            targetCell.initializeMetadata({\"id\": targetCell.id, \"outputType\": ControllerOutputType.blueprint, \"blueprintType\": \"quick\"});\n            notebook.addCell(targetCell);\n        } else {\n            // store quick as the blueprint type\n            targetCell.initializeMetadata({\n                ...targetCell.metadata,\n                \"blueprintType\": \"quick\"\n            });\n        }\n        // snap the processed quick blueprint from the temp cell and store it in real notebook\n        targetCell.value = tempProcessingCell.outputs[0].items[0].data;\n\n        notebook.flushToFS();\n    }\n\n    onKernelOutputItem(\n        response: any,\n        cell : vscode.NotebookCell | BoostNotebookCell,\n        mimetype : any) : string {\n\n        if (response.blueprint === undefined && response.details === undefined) {\n            throw new Error(\"Unexpected missing data from Boost Service\");\n        }\n        return generateCellOutputWithHeader(this.outputHeader, response.blueprint);\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 16
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/quick_blueprint_controller.ts"
+  }
+}

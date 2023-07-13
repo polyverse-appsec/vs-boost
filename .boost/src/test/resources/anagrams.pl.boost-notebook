@@ -1,0 +1,83 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "perl",
+      "id": "0",
+      "value": "sub load_words {\n    my ($file_path) = @_;\n    open my $fh, '<', $file_path or die \"Cannot open file '$file_path': $!\";\n    my @words = map { chomp; $_ } <$fh>;\n    close $fh;\n    return @words;\n}",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 9
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "perl",
+      "id": "1",
+      "value": "sub find_anagrams {\n    my (@words) = @_;\n    my %anagrams;\n    foreach my $word (@words) {\n        my $sorted_word = join(\"\", sort split(\"\", $word));\n        push @{$anagrams{$sorted_word}}, $word;\n    }\n    return %anagrams;\n}",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 17
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "perl",
+      "id": "2",
+      "value": "sub print_anagrams {\n    my (%anagrams) = @_;\n    foreach my $sorted_word (keys %anagrams) {\n        my @anagram_list = @{$anagrams{$sorted_word}};\n        if (@anagram_list > 1) {\n            print join(\", \", @anagram_list), \"\\n\";\n        }\n    }\n}",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 27
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/resources/anagrams.pl"
+  }
+}

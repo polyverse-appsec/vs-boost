@@ -1,0 +1,83 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "export function summaryEnter(enter: any) {\n    const row = enter.append(\"vscode-data-grid-row\");\n\n    const cell1 = row\n        .append(\"vscode-data-grid-cell\")\n        .attr(\"grid-column\", \"1\")\n        .attr(\"class\", \"left-aligned\");\n    cell1\n        .append(\"vscode-checkbox\")\n        .attr(\"checked\", (d) => d.defaultChecked)\n        .attr(\"analysis-check\", true)\n        .attr(\"id\", (d: any) => \"check-\" + d.id)\n        .text((d: any) => d.display);\n\n    const cell2 = row\n        .append(\"vscode-data-grid-cell\")\n        .attr(\"grid-column\", \"2\")\n        .style(\"text-align\", \"center\");\n    cell2.append(\"vscode-badge\").call(badgeUpdate);\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": -1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\nexport function summaryUpdate(update: any) {\n    update.select(\"vscode-badge\").call(badgeUpdate);\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 20
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "\nfunction badgeUpdate(update: any) {\n    update\n        .attr(\"id\", (d: any) => \"badge-\" + d.id)\n        .text((d: any) => d.summary.analyzed + \"/\" + d.summary.total)\n        .attr(\n            \"class\",\n            (d: any) =>{\n                return \"boost-\" + d.summary.status + \" \" + d.summary.jobStatusStatus?? \"\";\n                }\n        );\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 24
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/dashboard/summary/summary_list.ts"
+  }
+}

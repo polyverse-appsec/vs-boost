@@ -1,0 +1,208 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:50:49 PM PDT\n\nThis line of code is written in TypeScript, a typed superset of JavaScript that adds static types. It's used in Node.js environments or in the frontend with libraries like React, Angular, etc. \n\nThe code is importing specific elements from a module called 'jupyter_notebook'. Importing is a way to bring in functions, objects or values from another file or module, to use in the current file.\n\nHere's a detailed explanation:\n\n1. `import { BoostNotebook, NotebookCellKind } from './jupyter_notebook';`\n\nThis line is using ES6 (ECMAScript 6) syntax to import specific exports from another module. The `import` keyword is used to import bindings that are exported by another module. \n\nThe elements being imported are `BoostNotebook` and `NotebookCellKind`. These could be anything that the module could export: a function, a class, an object, a constant, etc. The specifics of what they do or represent would depend on their implementation in the 'jupyter_notebook' module.\n\nThe `from './jupyter_notebook'` part specifies the module to import from. The `./` at the beginning of the module name is specifying that the module is located in the same directory as the current file. The file extension is not needed when importing in JavaScript/TypeScript. \n\nIn terms of architectural guidelines, this code seems to follow common best practices for modular JavaScript/TypeScript development. It's keeping related code in separate modules and importing them where needed, which can make the code more readable and maintainable.\n\nIf you want to learn more about `import` and `export` in JavaScript/TypeScript, you can refer to these resources:\n\n1. [MDN Web Docs: import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n2. [TypeScript: Modules](https://www.typescriptlang.org/docs/handbook/modules.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import { BoostNotebook, NotebookCellKind } from './jupyter_notebook';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": -1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:51:13 PM PDT\n\nThe code you've shared is a simple one-liner import statement in JavaScript, specifically using ES6 (ECMAScript 2015) module syntax. \n\n```javascript\nimport {marked} from 'marked';\n```\n\nThis line is importing a specific export, `marked`, from a module named `marked`. The `marked` module is a popular markdown parser and compiler built for speed. It's written in JavaScript and designed to be easy to use.\n\nThe `marked` function takes markdown text as input and outputs HTML. It's often used in applications that need to convert markdown to HTML, such as content management systems or static site generators.\n\nHere's an example of how you might use it:\n\n```javascript\nimport { marked } from 'marked';\n\nlet markdownString = '# Hello, Marked!';\n\nconsole.log(marked(markdownString));  // Outputs: \"<h1 id=\"hello-marked\">Hello, Marked!</h1>\"\n```\n\nHere, a string of markdown is passed to the `marked` function, which returns a string of HTML.\n\nAs for the algorithms used, `marked` uses a Lexer/Tokenizer to break the input down into tokens, and a Parser to build these tokens into an Abstract Syntax Tree (AST) representing the structure of the markdown document. It then walks this tree to generate the HTML output.\n\nIf you're interested in learning more about the `marked` library, you can check out its GitHub repository: [https://github.com/markedjs/marked](https://github.com/markedjs/marked)\n\nRegarding the architectural guidelines, since no specific guidelines or constraints are provided, the only thing to note is that this code is using ES6 modules, so it would need to be run in an environment that supports them (like modern browsers or Node.js with the `--experimental-modules` flag)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import {marked} from 'marked';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:51:38 PM PDT\n\nThis is a simple JavaScript code snippet, which uses ES6 import syntax to import a few dependencies. Here is a line-by-line explanation of the code:\n\n`import hljs from 'highlight.js';`\nThis line imports the `highlight.js` library into the variable `hljs`. Highlight.js is a syntax highlighter written in JavaScript. It works in the browser as well as on the server. It works with pretty much any markup, doesn’t depend on any framework, and has automatic language detection. Highlight.js is used in various applications and websites to display code in a more readable and visually appealing format. Here is the [link](https://highlightjs.org/) to the official website for more details.\n\n`import * as fs from 'fs';`\nThis line imports the built-in Node.js `fs` (File System) module. The `fs` module provides an API for interacting with the file system in a manner closely modeled around standard POSIX functions. All file system operations have synchronous, callback, and promise-based forms. It allows you to work with files and directories on your server. Here is the [link](https://nodejs.org/api/fs.html) to the official Node.js documentation for `fs`.\n\n`import {markedHighlight} from 'marked-highlight';`\nThis line imports the `markedHighlight` function from the `marked-highlight` module. `marked-highlight` is a wrapper around the `marked` markdown parser and compiler, which adds syntax highlighting to the outputted HTML using `highlight.js`. You can use it to parse markdown text and output HTML with syntax highlighting. Unfortunately, I couldn't find a specific link for `marked-highlight`, but here is the [link](https://marked.js.org/) to the official `marked` library documentation.\n\nRegarding the architectural guidelines, since there are no additional special architectural guidelines or constraints for this software project, this code is consistent with typical JavaScript and Node.js coding standards and practices."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import hljs from 'highlight.js';\nimport * as fs from 'fs';\n\nimport {markedHighlight} from 'marked-highlight';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 4
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:52:15 PM PDT\n\nThis code is written in JavaScript using the ES6 syntax and it's part of a module system, which is a part of the Node.js runtime environment. \n\nThe `import` keyword is used to import bindings which are exported by another module. Imported modules are in strict mode whether you declare them as such or not. The `import` statement cannot be used in embedded scripts unless such script has a type=\"module\". Bindings imported are called live bindings because they are updated by the module that exported the binding.\n\nHere's a breakdown of what the code does:\n\n- `import { NOTEBOOK_EXTENSION } from './jupyter_notebook';`\n\nThis line is importing a specific exported constant, `NOTEBOOK_EXTENSION`, from another JavaScript module file named `jupyter_notebook.js`. The `./` in front of `jupyter_notebook` signifies that the file is located in the same directory as the current file.\n\nThe constant `NOTEBOOK_EXTENSION` is not defined in this code snippet, but we can infer that it's probably a string that contains the file extension used by Jupyter notebooks (likely `.ipynb`).\n\nThis constant is probably used elsewhere in the code to handle files of this type, for example to parse them, create them, validate them, etc.\n\nAs for the algorithms used, this code snippet is too short to contain any algorithm. It's just an import statement, part of the module system in JavaScript.\n\nFor more information and education about JavaScript modules and import/export syntax, you can visit the following links:\n\n- [JavaScript Modules: A Beginner’s Guide](https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/)\n- [import - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [Export and Import in JavaScript](https://javascript.info/import-export)\n\nRegarding architectural guidelines, this code snippet is too small to make any definitive statements. It does however demonstrate good practice in terms of modular design, with different parts of the application separated into different modules. This promotes code reusability and separation of concerns."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "\nimport { NOTEBOOK_EXTENSION } from './jupyter_notebook';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 6
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:52:48 PM PDT\n\nThis JavaScript code uses the `marked` library to convert Markdown into HTML. The `marked` library is a low-level compiler for parsing markdown without caching or blocking for long periods of time. You can find more about it [here](https://marked.js.org/).\n\nThe `highlight.js` library is used for syntax highlighting of the code blocks in the markdown. It's a JavaScript library that's used for syntax highlighting. It works in the browser as well as on the server. It supports more than 180 languages and 100 styles. Here is the link to the official [website](https://highlightjs.org/).\n\nThe `mermaid` library is used for creating diagrams and flowcharts with markdown-like syntax. It's a simple markdown-like script language for generating charts from text via JavaScript. You can find more about it [here](https://mermaid-js.github.io/mermaid/#/).\n\nThe `marked.use()` function is used to extend the functionality of `marked`. It's taking an object as an argument. This object contains a `highlight` function that takes two parameters: `code` (the code to be highlighted) and `lang` (the language of the code).\n\nIf the language is 'mermaid', it wraps the code inside a `pre` tag with the class 'mermaid'. This is done because mermaid diagrams are typically written inside `pre` tags with the class 'mermaid' to be recognized by the mermaid library.\n\nIf the language is not 'mermaid', it checks if the language is supported by `highlight.js` using the `hljs.getLanguage(lang)` function. If the language is supported, it uses that language for highlighting. If it's not supported, it defaults to 'plaintext'.\n\nThe `hljs.highlight(code, { language }).value` function is used to highlight the code. It takes the code and an options object as arguments. The options object contains a `language` property that specifies the language of the code. The `value` property of the returned object contains the highlighted code.\n\nThe `langPrefix` property is used to add a prefix to the language class. This is used by `highlight.js` to determine the language of the code.\n\nThe two constants `cellStyleSheet` and `mermaidScript` are links to the CSS style sheet for `highlight.js` and the script for the `mermaid` library, respectively. They are hosted on a CDN (Content Delivery Network) to improve the loading speed of the resources."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "\nconst cellStyleSheet = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css';\nconst mermaidScript = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';\n\nmarked.use(markedHighlight({\n    langPrefix: 'hljs language-',\n    highlight(code: string, lang: string) {\n      if( lang === \"mermaid\") {\n        return `<pre class=\"mermaid\">${code}</pre>`;\n      }\n      const language = hljs.getLanguage(lang) ? lang : 'plaintext';\n      return hljs.highlight(code, { language }).value;\n    }\n  }));\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 11
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:53:22 PM PDT\n\nThe provided code is written in TypeScript, which is a statically typed superset of JavaScript. The code exports an asynchronous function called `generateHTMLforNotebook`. This function is responsible for generating an HTML version of a notebook that is stored in a BoostNotebook format.\n\nHere's a step-by-step breakdown of the code:\n\n1. The `generateHTMLforNotebook` function is declared with two parameters: `boostNotebookPath` and `baseFolderPath`. `boostNotebookPath` is the path to the BoostNotebook file that needs to be converted to HTML, and `baseFolderPath` is the directory path where the generated HTML file will be stored.\n\n2. The function returns a Promise that will eventually resolve with a string, which is the name of the generated HTML file. The Promise is necessary because the function is asynchronous - it performs operations (like reading from a file or converting the notebook to HTML) that may take some time to complete.\n\n3. Inside the Promise, a try-catch block is used to handle any errors that might occur during the execution of the asynchronous operations.\n\n4. In the try block, an HTML filename is created by replacing the notebook extension with '.html' in the provided notebook path.\n\n5. A new instance of `BoostNotebook` is created and the notebook from the provided path is loaded into this instance.\n\n6. The `convertNotebookToHTML` function is called with the loaded notebook, the original notebook path, the base folder path, and the generated HTML filename as arguments. This function is awaited because it's likely an asynchronous operation that may involve file I/O or other time-consuming tasks.\n\n7. If everything goes well, the Promise is resolved with the HTML filename.\n\n8. If an error occurs at any point in the try block, the catch block will be executed and the Promise will be rejected with the error.\n\nThe code doesn't seem to use any specific algorithm; it's more about asynchronous file operations and error handling. It uses the built-in Promise object in JavaScript for handling asynchronous operations.\n\nFor more information on Promises and async/await in JavaScript, you can visit the following links:\n- [Promises - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)\n- [async function - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "\n\nexport async function generateHTMLforNotebook(boostNotebookPath : string, baseFolderPath : string) : Promise<string> {\n    return new Promise<string> (async (resolve, reject) => {\n        try {\n            const htmlFilename = boostNotebookPath.replace(NOTEBOOK_EXTENSION, '.html');\n\n            const boostNotebook = new BoostNotebook();\n            boostNotebook.load(boostNotebookPath);\n            await convertNotebookToHTML(boostNotebook, boostNotebookPath, baseFolderPath, htmlFilename);\n            resolve(htmlFilename);\n        } catch (error) {\n            reject(error);\n        }\n    });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 23
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:53:58 PM PDT\n\nThis is a TypeScript function named `convertNotebookToHTML`. It is an asynchronous function, meaning that it is designed to perform operations that might take some time to complete, such as reading from or writing to a file, without blocking the rest of the application.\n\nThis function takes four parameters:\n\n1. `notebook`: This is an object of type `BoostNotebook`. The exact nature of this object isn't clear from the provided code, but it's presumably a representation of a notebook in the BoostNote application.\n\n2. `notebookPath`: This is a string that presumably represents the file path of the notebook to be converted.\n\n3. `baseFolderPath`: This is a string that presumably represents the base folder path where the notebook resides.\n\n4. `outputPath`: This is a string that presumably represents the path where the converted HTML file should be written.\n\nThe function returns a `Promise<void>`. Promises in JavaScript (and by extension TypeScript) are objects that represent the eventual completion or failure of an asynchronous operation, and its resulting value. A `Promise<void>` is a promise that doesn't return a value upon resolution.\n\nThe function body creates a new Promise. Inside the executor function of this promise, it calls another function `convertNotebookToHTMLinMemory(notebook, notebookPath, baseFolderPath)`. This function is also expected to be asynchronous and return a promise that resolves with a string (the HTML representation of the notebook). \n\nIf `convertNotebookToHTMLinMemory` fulfills its promise (i.e., completes without errors), the function writes the HTML string to a file at the `outputPath` using `fs.writeFileSync(outputPath, html)`. `fs.writeFileSync()` is a function from Node.js's File System module that synchronously writes data to a file, replacing the file if it already exists. After the file has been written, the outer promise is resolved with no value (`resolve()`).\n\nIf `convertNotebookToHTMLinMemory` rejects its promise (i.e., encounters an error), the outer promise is also rejected with the same error (`reject(error)`).\n\nIn terms of architecture, this function follows common practices for asynchronous operations in JavaScript and TypeScript. However, without knowing more about the rest of the project, it's hard to say whether it's consistent with the overall architecture.\n\nFor more information about Promises in JavaScript, you can refer to the [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). For more information about the File System module in Node.js, you can refer to the [Node.js docs](https://nodejs.org/api/fs.html)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "\nexport async function convertNotebookToHTML(notebook: BoostNotebook, notebookPath: string, baseFolderPath: string, outputPath: string): Promise<void> {\n    return new Promise<void> (async (resolve, reject) => {\n        convertNotebookToHTMLinMemory(notebook, notebookPath, baseFolderPath).then((html : string) => {\n            fs.writeFileSync(outputPath, html);\n            resolve();\n        }).catch((error : any) => {\n            reject(error);\n        });\n    });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 38
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:54:55 PM PDT\n\nThis code is a function in TypeScript that converts a notebook (presumably a Jupyter Notebook) to HTML format. The function is asynchronous, meaning it returns a Promise that resolves to a string (the HTML representation of the notebook).\n\nHere's a breakdown of the code:\n\n1. The function `convertNotebookToHTMLinMemory` takes three parameters: a `BoostNotebook` object, a `notebookPath` string, and a `baseFolderPath` string.\n\n2. The `cells` constant is assigned the cells of the notebook.\n\n3. The `html` variable is initialized with the starting tags for an HTML document, including a link to a stylesheet and a script for initializing mermaid, a JavaScript-based diagram and flowchart generating tool. The `@page` CSS rule sets the page margin to 2cm.\n\n4. The `stats` constant is assigned the result of the `fs.statSync(notebookPath)`, which retrieves the details of the file at `notebookPath`.\n\n5. The `timestamp` constant is assigned the modification time of the file, and `fileStamp` is assigned its ISO string representation.\n\n6. Metadata from the notebook is retrieved and added to the `html` string. This includes a page title, the producer of the document, the source file, and the date the file was generated.\n\n7. The function then iterates over each cell in the notebook. If the cell is of type `NotebookCellKind.Markup`, it is parsed as Markdown using the `marked.parse` function and added to the `html` string. If the cell is of type `NotebookCellKind.Code`, its language and content are added to the `html` string, with the content being highlighted using the `hljs.highlightAuto` function.\n\n8. If a cell has outputs, these are also processed. For each output, the function iterates over its items. If the item's MIME type starts with `text/x-`, it is treated as a programming language and added to the `html` string. If the MIME type doesn't start with `text/markdown`, it is treated as an output type and added to the `html` string. The item's data is then parsed as Markdown and added to the `html` string.\n\n9. Finally, the function closes the HTML tags and returns the `html` string.\n\nIn terms of algorithms, there are no complex algorithms used in this code. It mainly involves string concatenation and iteration over arrays. The `marked.parse` function is used for parsing Markdown text into HTML, and the `hljs.highlightAuto` function is used for syntax highlighting of code.\n\nFor more on the `marked` library, you can visit this link: [https://marked.js.org/](https://marked.js.org/)\n\nFor more on the `highlight.js` library, you can visit this link: [https://highlightjs.org/](https://highlightjs.org/)\n\nFor more on the `fs.statSync` function, you can visit this link: [https://nodejs.org/api/fs.html#fs_fs_statsync_path_options](https://nodejs.org/api/fs.html#fs_fs_statsync_path_options)\n\nFor more on Promises and async functions in JavaScript, you can visit this link: [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "7",
+      "value": "\nasync function convertNotebookToHTMLinMemory(notebook: BoostNotebook, notebookPath: string, baseFolderPath: string): Promise<string> {\n    const cells = notebook.cells;\n\n    // convert cells to html\n    let html = `<html><head><link rel=\"stylesheet\" href=\"${cellStyleSheet}\"> ` +\n               `<script type=\"module\">import mermaid from \"${mermaidScript}\";` +\n               ` mermaid.initialize({ startOnLoad: true });</script>  <style>@page {margin: 2cm;}</style></head><body>`;\n  \n    const stats = fs.statSync(notebookPath);\n    const timestamp = stats.mtime;\n    const fileStamp = timestamp.toISOString();\n    \n               // Retrieve metadata from the notebook\n    const pageTitle = `Polyverse Boost-generated Source Documentation`;\n    const producer = 'Polyverse Boost';\n    const sourceFile = notebook.metadata['sourceFile'] as string;\n\n    // Add the title and source file information\n    html += `<h1>${pageTitle}</h1>`;\n    html += `<p>Producer: ${producer}</p>`;\n    html += `<p>Source File: ${sourceFile}</p>`;\n    html += `<p>Date Generated: ${fileStamp}</p>`;\n\n    for (let cell of cells) {\n        // we use Jupyter type to avoid direct dependencies on VS Code\n        // however tbis should be identical value in JSON\n        if (cell.kind === NotebookCellKind.Markup) {\n            html += marked.parse(cell.value, {\n                highlight: function (code, lang) {\n                    return hljs.highlightAuto(code, [lang]).value;\n                }\n            });\n        } else if (cell.kind === NotebookCellKind.Code) {\n            html += `<p>Programming Language: ${cell.languageId}</p>`;\n            html += `<p>Original Code:</p>`;\n  \n            const value = hljs.highlightAuto(cell.value);\n            html += '<pre><code>' + value.value + '</code></pre>';\n        }\n        if (cell.outputs) {\n          for (let output of cell.outputs) {\n            output.items.forEach(item => {\n\n                if (item.mime.startsWith('text/x-')) {\n                    html += `<p>Converted Programming Language: ${item.mime.replace('text/x-', '')}</p>`;\n                } else if (!item.mime.startsWith('text/markdown')) {\n                    html += `<p>Output Type: ${item.mime}</p>`;\n                }\n                            \n                html += marked.parse(item.data, {\n                  highlight: function (code, lang) {\n                      return hljs.highlightAuto(code, [lang]).value;\n                  }\n              });\n            });    \n          }\n        }\n    }\n    html += '</body></html>';\n\n    return html;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 49
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/convert_html.ts"
+  }
+}

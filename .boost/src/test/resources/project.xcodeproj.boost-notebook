@@ -1,0 +1,33 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "plaintext",
+      "id": "0",
+      "value": "{\n  \"project_name\": \"Example\",\n  \"targets\": [\n    {\n      \"name\": \"ExampleApp\",\n      \"type\": \"application\",\n      \"source_files\": [\n        \"Sources/Main.swift\",\n        \"Sources/ViewController.swift\"\n      ],\n      \"dependencies\": [\n        \"Framework1\",\n        \"Framework2\"\n      ]\n    },\n    {\n      \"name\": \"Framework1\",\n      \"type\": \"framework\",\n      \"source_files\": [\n        \"Sources/Utility.swift\"\n      ],\n      \"dependencies\": [\n        \"Framework3\"\n      ]\n    },\n    {\n      \"name\": \"Framework2\",\n      \"type\": \"framework\",\n      \"source_files\": [\n        \"Sources/Networking.swift\"\n      ],\n      \"dependencies\": [\n        \"Framework3\"\n      ]\n    },\n    {\n      \"name\": \"Framework3\",\n      \"type\": \"framework\",\n      \"source_files\": [\n        \"Sources/Models.swift\",\n        \"Sources/Helpers.swift\"\n      ]\n    }\n  ]\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": -1
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/resources/project.xcodeproj"
+  }
+}

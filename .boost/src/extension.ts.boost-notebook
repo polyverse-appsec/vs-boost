@@ -1,0 +1,833 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:16:31 PM PDT\n\nThis code is written in TypeScript, a statically typed superset of JavaScript that adds optional types to the language. It is used to develop applications in Node.js, a JavaScript runtime built on Chrome's V8 JavaScript engine. \n\nThe code is a part of a Visual Studio Code (VSCode) extension, as it imports the `vscode` module. VSCode extensions are add-ons that you can use to increase your productivity or to integrate with additional services. They are written in TypeScript or JavaScript and can be debugged directly in VSCode.\n\nHere is a line-by-line explanation of the code:\n\n1. `import * as vscode from 'vscode';` \n\nThis line is importing the entire `vscode` module for use in this file. The `vscode` module provides the VSCode extensibility API, and includes all the types, interfaces, and functions required to implement and manipulate VSCode extensions.\n\n2. `import * as fs from 'fs';`\n\nThis line is importing the Node.js built-in `fs` (file system) module. This module provides an API to interact with the file system and includes methods for creating, deleting, and modifying files and directories.\n\n3. `import * as path from 'path';`\n\nThis line is importing the Node.js built-in `path` module. This module provides utilities for working with file and directory paths.\n\n4. `import * as boostnb from './jupyter_notebook';`\n\nThis line is importing a module named `jupyter_notebook` from the current directory. The actual content of this module isn't shown in the provided code, but it's likely that it provides some functionality related to Jupyter notebooks, which are documents that contain both code (e.g., python or R) and rich text elements (paragraphs, equations, figures, links, etc…).\n\n5. `import { BoostContentSerializer } from './serializer';`\n\nThis line is importing a specific export (`BoostContentSerializer`) from a module named `serializer` in the current directory. The `BoostContentSerializer` is likely a class or a function that is used for serializing content in some way.\n\nIn terms of algorithms, there are none explicitly shown in this code. This code is purely for importing modules and specific exports from those modules.\n\nFor more information about these topics, you can check these links:\n- [VSCode Extensions](https://code.visualstudio.com/api/get-started/your-first-extension)\n- [TypeScript](https://www.typescriptlang.org/docs/)\n- [Node.js `fs` module](https://nodejs.org/api/fs.html)\n- [Node.js `path` module](https://nodejs.org/api/path.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as vscode from 'vscode';\n\nimport * as fs from 'fs';\nimport * as path from 'path';\nimport * as boostnb from './jupyter_notebook';\n\nimport { BoostContentSerializer } from './serializer';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 5
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:16:55 PM PDT\n\nThis code is a single line of JavaScript, specifically using ES6 module syntax to import a function from another module. \n\nHere's a breakdown:\n\n1. `import`: This is a reserved keyword in JavaScript ES6. It's used to import bindings that are exported by another module.\n\n2. `{ parseFunctions }`: These are the specific bindings to import. In this case, we're importing a function named `parseFunctions`. The curly braces are used for named imports, meaning the function `parseFunctions` is a named export in the module we're importing from.\n\n3. `from`: This is another reserved keyword used in conjunction with `import`. It specifies the path to the module from which to import the specified bindings.\n\n4. `'./split'`: This is the path to the module we're importing from. The `./` indicates that `split.js` is in the same directory as the current module. \n\nThe algorithm used here is pretty straightforward: the JavaScript engine will look for an exported function named `parseFunctions` in the `split.js` file located in the same directory as the current file. If it finds it, it will import that function and make it available for use in the current module.\n\nIf you want to learn more about JavaScript ES6 modules, you can check out this resource: [MDN Web Docs - import statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n\nAs for the architectural guidelines, since there are no special constraints or guidelines provided, we can assume that this line of code adheres to common best practices for modular JavaScript development, which includes keeping related code in separate modules and importing/exporting functions as needed."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import { parseFunctions } from './split';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 6
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:17:25 PM PDT\n\nThis line of code is written in TypeScript, a statically typed superset of JavaScript that adds types to the language. TypeScript is commonly used in large codebases due to its scalability and maintainability.\n\nThe code you've shared is an import statement. Import statements are used to include functions, objects, or values from other files or modules into the current file.\n\nHere's a breakdown of the code:\n\n```import { BoostConfiguration } from './boostConfiguration';```\n\n- `import`: This is a keyword in TypeScript (and ES6 JavaScript) that allows you to import functions, objects, or values from another module or file.\n\n- `{ BoostConfiguration }`: This is the specific item that is being imported from the module. The use of curly braces `{}` indicates that `BoostConfiguration` is a named export from the module. Named exports are useful when a module exports multiple things, such as objects, functions, or values.\n\n- `from './boostConfiguration'`: This specifies the path to the module or file that contains the `BoostConfiguration` export. The `./` at the beginning of the path indicates that the module is located in the same directory as the current file.\n\nThis code doesn't really use any specific algorithms, but it does use the module system in ES6 JavaScript, which TypeScript also uses. The module system is a way of organizing code into separate files and modules, which can then be imported and used in other files. This helps to organize code and make it more reusable and maintainable.\n\nFor more information on TypeScript and its import/export syntax, you can check out the official TypeScript documentation: https://www.typescriptlang.org/docs/handbook/modules.html\n\nAs for the architectural guidelines, since no specific guidelines were provided, we can only say that this code follows general best practices for modular code organization in TypeScript and ES6 JavaScript."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import { BoostConfiguration } from './boostConfiguration';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 7
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:17:46 PM PDT\n\nThe code you provided is quite short and doesn't contain any algorithms, but I can explain what it does.\n\nThis is a single line of JavaScript code that is importing a module named 'boostLogging' from another JavaScript file in the same directory. \n\nThe 'import' statement is used to import functions, objects or values that have been exported from an external module, another script, or any other code file. \n\nThe syntax of an import statement in JavaScript is as follows:\n\n```import { export } from \"module\"```\n\nIn your code snippet, 'boostLogging' is the name of the export (which could be a function, an object, a class, etc.) and './boostLogging' is the module from which it's being imported. The './' before the module name means that the module is in the same directory as the current file.\n\nThe 'boostLogging' module is likely to contain some sort of logging functionality that enhances or \"boosts\" the standard console logging in JavaScript. This could include features like additional log levels, formatted output, log to file, etc.\n\nUnfortunately, without additional context or access to the 'boostLogging' module, it's impossible to provide more specific details about what this line of code does.\n\nFor more information about JavaScript modules and import/export statements, you can refer to the following link: [JavaScript Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) from Mozilla Developer Network (MDN) Web Docs."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "import { boostLogging } from './boostLogging';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 8
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:18:12 PM PDT\n\nThis line of code is a single import statement in JavaScript, specifically using Node.js syntax. It imports the `TextDecoder` class from the 'util' module. \n\nThe `TextDecoder` class is a utility for decoding buffer data to a string in a specific character encoding. By default, it uses 'utf-8' encoding but it can be configured to use other types of encoding.\n\nHere's a brief example of how you might use `TextDecoder`:\n\n```javascript\nlet uint8Array = new Uint8Array([72, 101, 108, 108, 111]);\nlet decoder = new TextDecoder();\nlet text = decoder.decode(uint8Array);\nconsole.log(text);  // Outputs: Hello\n```\n\nIn this example, we first create a `Uint8Array` which is a typed array that represents an array of 8-bit unsigned integers. The array is initialized with the byte values of the ASCII representation of the string \"Hello\". \n\nThen we create a new `TextDecoder` instance and use its `decode` method to convert the `Uint8Array` back into a string.\n\nThe `TextDecoder` class is part of the Encoding API, which provides interfaces for decoding and encoding text. It's primarily used for working with binary data and text in various character encodings.\n\nFor more information on `TextDecoder`, you can visit the following link to the official Node.js documentation: https://nodejs.org/api/util.html#util_class_util_textdecoder\n\nAs for the architectural guidelines you mentioned, since there are no additional special architectural guidelines or constraints for this software project, there's not much to say in that regard. This import statement is quite standard and doesn't appear to conflict with any general or common architectural principles."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "import { TextDecoder } from 'util';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 9
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:18:46 PM PDT\n\nThe provided code snippet is very short and it's written in JavaScript, specifically in a style that is common in Node.js and front-end JavaScript frameworks like React.\n\nHere's a detailed explanation:\n\n1. `import { PROJECT_EXTENSION } from './BoostProjectData';`\n\nThis line is using the ES6 (ECMAScript 2015) import statement to import a specific export (`PROJECT_EXTENSION`) from another JavaScript module (`BoostProjectData.js`). The `./` in front of `BoostProjectData` means that the module is in the same directory as the current file.\n\nThe `PROJECT_EXTENSION` is likely a constant that is used to denote the file extension for a project. The actual value of `PROJECT_EXTENSION` is not shown in this code snippet, but it is defined in the `BoostProjectData.js` file.\n\nFor example, if `BoostProjectData.js` contains `export const PROJECT_EXTENSION = '.boost';`, then after the import statement, `PROJECT_EXTENSION` can be used in the current file and it will have the value of `'.boost'`.\n\nThe ES6 import/export system is a way to share code between different files in JavaScript. It helps to organize the code into modules, each with its own responsibility, and it makes it easier to track where specific pieces of code are coming from.\n\nYou can read more about ES6 import/export system from this link: [MDN Web Docs - import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n\nAs for the architectural guidelines, since there are no additional special architectural guidelines or constraints provided, we can say that this code is following good practices in terms of modularity and code organization. It's importing only what it needs from the `BoostProjectData.js` file, which helps to keep the global namespace clean and reduce the chance of name collisions."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "import { PROJECT_EXTENSION } from './BoostProjectData';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 10
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:19:16 PM PDT\n\nThis is a very short piece of JavaScript (JS) code that imports a specific function or variable from another JS module. \n\nHere's a breakdown:\n\n`import { errorMimeType } from './base_controller';`\n\nThe `import` statement is used to import functions, objects, or values from an external module or file into the current file. This is part of the ES6 (ECMAScript 2015) module system. \n\n`{ errorMimeType }` is the specific function or variable that is being imported from the external module. The curly braces `{}` are used to import specific exports from the module. This is called named import. If the module exports multiple functions or variables, you can import the ones you need by naming them in the curly braces.\n\n`from './base_controller';` specifies the relative path to the module that contains the `errorMimeType` function or variable. The `./` at the beginning of the path indicates that the `base_controller` file is in the same directory as the current file. \n\nThe statement ends with a semicolon `;` which is a common practice in JavaScript to prevent certain types of errors.\n\nIn terms of algorithms, there isn't any in this specific line of code. It's just a simple import statement.\n\nIn terms of the architectural guidelines you provided, there doesn't seem to be any specific guidelines or constraints. The import statement is a standard feature of JavaScript and is widely used in modern JS development.\n\nFor more information about JavaScript modules and import/export, you can refer to this MDN Web Docs page: [JavaScript Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "import { errorMimeType } from './base_controller';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 11
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:19:41 PM PDT\n\nThe provided code snippet is very short and doesn't contain any specific algorithm or complex logic to explain. It's written in TypeScript, which is a statically typed superset of JavaScript that adds types to the language.\n\nThis line of code is an import statement:\n\n```import { BoostExtension } from './BoostExtension';```\n\nThis statement is importing an object, `BoostExtension`, from another module named `BoostExtension` located in the same directory as this file. The `./` before `BoostExtension` indicates that the module is in the same directory. \n\nModules in TypeScript are reusable pieces of code that can export any number of their own methods or properties. These exported functionalities can then be imported in other TypeScript files and used. This helps in organizing code, enhancing readability, and reusability.\n\nIn this case, `BoostExtension` is likely to be a class, function, or an object that's been exported from the `BoostExtension` module. The exact nature and use of `BoostExtension` would be apparent only if we look at the `BoostExtension` module.\n\nFor more information about TypeScript modules, you can refer to the official TypeScript documentation: [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/modules.html)\n\nAs for the architectural guidelines, since no specific guidelines or constraints are provided, it's hard to say if this code is in conflict with any. But in general, it's a common practice in many architectural styles to organize code into separate modules and import them when needed, as it's being done here."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "7",
+      "value": "import { BoostExtension } from './BoostExtension';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 12
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:20:06 PM PDT\n\nThe code provided is a single line of code written in TypeScript, a statically typed superset of JavaScript. This line of code is an import statement that is used to include external modules or files into the current file.\n\n```javascript\nimport { ControllerOutputType } from './controllerOutputTypes';\n```\n\nThis line of code is importing a specific export, `ControllerOutputType`, from another module/file named `controllerOutputTypes`. The `controllerOutputTypes` file is located in the same directory as the current file, as denoted by the `./` before the file name. The exact contents or purpose of `ControllerOutputType` cannot be determined from this single line of code, but it's likely to be a TypeScript type, interface, class, function, or constant that is used elsewhere in the current file.\n\nAs for the architectural guidelines, there are no special constraints or guidelines provided. However, in general, this code follows common practices for modular programming. By importing only the necessary parts from other modules, it helps keep the code clean, organized, and easier to maintain. This also helps to avoid potential naming conflicts in the global scope.\n\nFor more information about the `import` statement in JavaScript and TypeScript, you can refer to the Mozilla Developer Network (MDN) documentation on `import` statement: [MDN import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n\nFor more information about TypeScript, you can refer to the official TypeScript documentation: [TypeScript Documentation](https://www.typescriptlang.org/docs/)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "8",
+      "value": "import { ControllerOutputType } from './controllerOutputTypes';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 8,
+        "type": "originalCode",
+        "lineNumberBase": 13
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:20:45 PM PDT\n\nThis code is written in TypeScript, which is a statically typed superset of JavaScript that adds optional types to the language. The code is defining an enumeration (or enum), which is a special type used to define a collection of related values that can be numeric or string values.\n\nThe `BoostFileType` enum is defined with the `export` keyword, meaning it can be imported and used in other files in the project. This enum has four string values: `notebook`, `summary`, `status`, and `guidelines`.\n\nHere's a breakdown of the code:\n\n- `export`: This keyword is used to make the enum available for import in other TypeScript files. \n\n- `enum`: This keyword is used to declare an enumeration, a distinct type that consists of a set of named constants called elements, members, enumeral, or enumerators of the enumeration.\n\n- `BoostFileType`: This is the name of the enum. By convention, enum names start with a capital letter.\n\n- `notebook = \"notebook\", summary = \"summary\", status = \"status\", guidelines = \"guidelines\"`: These are the members of the enum. Each member is assigned a string value. The members are separated by commas.\n\nIn terms of algorithms, there are none being used in this code. It's simply a declaration of an enum type.\n\nEnums in TypeScript are a way of giving more friendly names to sets of numeric or string values. They can make your code more readable and less error-prone. \n\nFor more information on TypeScript enums, you can visit the TypeScript documentation here: [TypeScript Enums](https://www.typescriptlang.org/docs/handbook/enums.html) \n\nAs for the architectural guidelines, since there are no special architectural guidelines or constraints provided, this code should be evaluated based on general best practices for TypeScript development. The given code follows the best practices for defining enums in TypeScript, and there doesn't seem to be any conflicts with general software design principles."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "9",
+      "value": "\n\nexport enum BoostFileType {\n    notebook = \"notebook\",\n    summary = \"summary\",\n    status = \"status\",\n    guidelines = \"guidelines\"\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 9,
+        "type": "originalCode",
+        "lineNumberBase": 16
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:21:14 PM PDT\n\nThis is a simple JavaScript function that is part of an ES6 module. The function `getKernelName` takes a string argument `kernelName` and returns a new string that is a concatenation of 'polyverse-boost-', the input `kernelName`, and '-kernel'.\n\nThe function is defined using the ES6 `function` keyword, and it is exported using the `export` keyword, which makes it available for import by other modules in the same project.\n\nHere is a detailed explanation of the function:\n\n- The function `getKernelName` is defined with one parameter, `kernelName`. This parameter should be a string that represents the name of a kernel. \n\n- Inside the function, a new string is created by concatenating 'polyverse-boost-', the `kernelName` argument, and '-kernel'. This is done using the `+` operator, which in JavaScript can be used to concatenate strings.\n\n- The new string is then returned as the result of the function.\n\nThis function does not use any complex algorithms, it simply concatenates strings. It is a simple utility function that follows the principle of Single Responsibility - it does one thing (formats a kernel name) and does it well.\n\nSince this function is very straightforward, there are no conflicts with any architectural guidelines. It is a stateless function that does not have any side effects, which makes it easy to test and reason about.\n\nFor more information on JavaScript functions and modules, you can refer to the following links:\n\n- [JavaScript Functions - MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions)\n- [JavaScript Modules - MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "10",
+      "value": "\nexport function getKernelName(kernelName: string): string {\n    return 'polyverse-boost-' + kernelName + '-kernel';\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 10,
+        "type": "originalCode",
+        "lineNumberBase": 23
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:22:05 PM PDT\n\nThis code is written in TypeScript, a statically typed superset of JavaScript that adds types to the language. It exports two entities: a constant `boostActivityBarId` and an enumeration `BoostCommands`.\n\n1. `boostActivityBarId` is a constant string with a value of \"polyverse-boost-explorer\". This is likely used as an identifier for a specific activity bar in a larger application. An activity bar in the context of a software application usually refers to a UI element where various activities or options are presented to the user.\n\n2. `BoostCommands` is an enumeration, which is a type in TypeScript that allows for a variable to be one of a set of predefined constants. The constants are given human-readable names, which can make code more readable and easier to debug. \n\n   The `BoostCommands` enumeration defines a set of string constants that are likely used to identify different commands that can be executed within the application. These commands seem to be related to loading, processing, building, showing, analyzing, and refreshing data related to files, folders, and projects.\n\n   For example, `loadCurrentFile` might be a command to load the currently selected file in the application, while `processCurrentFolder` might be a command to perform some processing operation on the currently selected folder.\n\nHere is a brief description of each command:\n\n- `loadCurrentFile`, `loadCurrentFolder`, and `loadSummaryFile`: These commands might be used to load the current file, current folder, and a summary file respectively.\n\n- `processCurrentFolder`, `processCurrentFile`, and `processProject`: These commands might be used to perform some processing on the current folder, current file, and the entire project respectively.\n\n- `buildCurrentFileOutput`, `buildCurrentFileSummaryOutput`, `buildCurrentFolderOutput`, and `buildCurrentFolderSummaryOutput`: These commands might be used to generate some output based on the current file or folder.\n\n- `showCurrentFileAnalysisOutput`, `showCurrentFileAnalysisSummaryOutput`, and `showCurrentFolderAnalysisSummaryOutput`: These commands might be used to display the analysis output of the current file or folder.\n\n- `analyzeSourceCode`: This command might be used to perform some analysis on the source code.\n\n- `refreshProjectData`: This command might be used to refresh the data related to the project.\n\n- `showGuidelines`: This command might be used to display some guidelines.\n\nThis code does not seem to use any specific algorithms, but rather defines a set of commands that are likely used elsewhere in the application to perform various tasks.\n\nFor a deeper understanding of TypeScript enums, you can refer to the TypeScript documentation: [TypeScript Enums](https://www.typescriptlang.org/docs/handbook/enums.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "11",
+      "value": "\nexport const boostActivityBarId = \"polyverse-boost-explorer\";\n\nexport enum BoostCommands {\n    loadCurrentFile = \"loadCurrentFile\",\n    loadCurrentFolder = \"loadCurrentFolder\",\n    loadSummaryFile = \"loadSummaryFile\",\n\n    processCurrentFolder = \"processCurrentFolder\",\n    processCurrentFile = \"processCurrentFile\",\n    processProject = \"processProject\",\n\n    buildCurrentFileOutput = \"buildCurrentFileOutput\",\n    buildCurrentFileSummaryOutput = \"buildCurrentFileSummaryOutput\",\n    buildCurrentFolderOutput = \"buildCurrentFolderOutput\",\n    buildCurrentFolderSummaryOutput = \"buildCurrentFolderSummaryOutput\",\n    showCurrentFileAnalysisOutput = \"showCurrentFileAnalysisOutput\",\n    showCurrentFileAnalysisSummaryOutput = \"showCurrentFileAnalysisSummaryOutput\",\n    showCurrentFolderAnalysisSummaryOutput = \"showCurrentFolderAnalysisSummaryOutput\",\n\n    analyzeSourceCode = \"analyzeSourceCode\",\n\n    refreshProjectData = \"refreshProjectData\",\n\n    showGuidelines = \"showGuidelines\",\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 11,
+        "type": "originalCode",
+        "lineNumberBase": 29
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:22:35 PM PDT\n\nThe code provided is written in TypeScript and is part of a Visual Studio Code (VSCode) extension. It's responsible for activating the extension when VSCode starts or when the extension is installed. \n\nHere's a detailed breakdown of the code:\n\n1. The code exports an asynchronous function named `activate`. This function is a special function that VSCode calls when it's time to activate your extension. The `context` parameter is of type `vscode.ExtensionContext` and provides properties and methods that you can use to interact with VSCode.\n\n2. The function body is wrapped in a try-catch block to handle any errors that might occur during the activation process.\n\n3. Inside the try block, a log message is written indicating the start of the activation process of the \"Boost Notebook Extension\". This is done using the `boostLogging.log` method.\n\n4. A new instance of `BoostExtension` is created, passing the `context` as an argument. This `BoostExtension` class is not shown in the provided code, but it presumably encapsulates the main functionality of the extension.\n\n5. The `refreshBoostProjectsData` method of the `BoostExtension` instance is called. This is an asynchronous operation, indicated by the `await` keyword, which means the function will pause until this operation is complete. This method likely updates or retrieves the data related to the Boost projects.\n\n6. If any error occurs during the activation process, the catch block will handle it. An error message will be logged using the `boostLogging.error` method, providing details about the error and suggesting potential solutions to the user.\n\nRegarding the algorithms used, there aren't any specific algorithms used in this code snippet. This code is a standard pattern for initializing a VSCode extension, which involves creating an instance of the main class and calling a method to refresh or load data.\n\nFor more information about developing extensions for VSCode, you can refer to the official VSCode Extension API documentation: https://code.visualstudio.com/api/references/vscode-api."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "12",
+      "value": "\nexport async function activate(context: vscode.ExtensionContext) {\n    try {\n        // we use a friendly name for the channel as this will be displayed to the user in the output pane\n        boostLogging.log('Activating Boost Notebook Extension');\n\n        const extension = new BoostExtension(context);\n\n        await extension.refreshBoostProjectsData();\n\n    } catch (error) {\n        boostLogging.error(`Unable to activate Boost Notebook Extension due to error:${error}. Please retry launching, check your Boost configuration, or contact Polyverse Boost Support`, true);\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 12,
+        "type": "originalCode",
+        "lineNumberBase": 53
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:23:11 PM PDT\n\nThe provided code is a TypeScript function named `deactivate`. This function is often used in Visual Studio Code (VSCode) extensions to perform cleanup tasks when the extension is deactivated. The function is asynchronous, meaning it can perform operations that take some time to complete, such as I/O operations, without blocking the rest of the program.\n\nHere's a step-by-step explanation of the code:\n\n1. `export async function deactivate(): Promise<void>`: This line declares an asynchronous function named `deactivate` which doesn't return any meaningful value (returns a Promise that resolves to `void`). The `export` keyword means this function can be imported and used in other modules.\n\n2. `const outputChannel = vscode.window.createOutputChannel(boostnb.NOTEBOOK_TYPE);`: This line creates an output channel in the VSCode window. An output channel is a pane in the VSCode window where extensions can display status messages, logs, etc. The `boostnb.NOTEBOOK_TYPE` is likely a string that gives the output channel a specific name related to the \"Boost Notebook\" feature of this extension.\n\n3. `outputChannel.appendLine('Deactivating Boost Notebook Extension');`: This line appends a line of text to the output channel. This is likely used to inform the user that the Boost Notebook Extension is being deactivated.\n\n4. `return undefined;`: This line ends the function and returns `undefined`. In JavaScript and TypeScript, functions return `undefined` by default if no return value is specified, so this line could be omitted without changing the behavior of the function.\n\nThe algorithm used here is quite straightforward. The function creates an output channel, logs a message to it, and then returns. There's no complex logic or data manipulation involved.\n\nFor more information on creating and managing VSCode extensions, you can refer to the [VSCode Extension API](https://code.visualstudio.com/api/references/vscode-api) documentation. For more in-depth information about asynchronous functions and Promises in JavaScript and TypeScript, you can refer to the [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "13",
+      "value": "\n// for completeness, we provide a deactivate function - asynchronous return\n//    if we have resources to cleanup in the future\nexport async function deactivate(): Promise<void> {\n    const outputChannel = vscode.window.createOutputChannel(boostnb.NOTEBOOK_TYPE);\n\n    outputChannel.appendLine('Deactivating Boost Notebook Extension');\n  \n    return undefined;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 13,
+        "type": "originalCode",
+        "lineNumberBase": 69
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:23:52 PM PDT\n\nThis code exports a function named `getBoostFile()` which is used to generate a Boost file in your workspace. The function takes three parameters: `sourceFile`, `format`, and `showUI`. \n\nThe `sourceFile` parameter is of type `vscode.Uri` and it represents the path of the source file. The `format` parameter is of type `BoostFileType` and it is used to specify the type of the Boost file to be created. The `showUI` parameter is a boolean value that indicates whether or not to display the user interface.\n\nThe function starts by checking if there are workspace folders. If there are no workspace folders and the source file is not provided, it throws an error. If the workspace folders exist, it sets the `baseFolder` to the path of the first workspace folder and sets the `sourceFile` to the Uri of the workspace folder if it's not provided.\n\nNext, it checks if the `baseFolder` exists. If it doesn't exist, it throws an error. It then creates a `.boost` folder in the `baseFolder` if it doesn't exist already.\n\nThe function then calculates the relative path of the source file from the `baseFolder`. If the `baseFolder` is the same as the source file path, it sets the `relativePath` to the base name of the `baseFolder`, otherwise, it sets it to the relative path from the `baseFolder` to the source file path.\n\nThe function then switches on the `format` parameter to determine the type of Boost file to create. It can create a summary, guidelines, status, or notebook file. \n\nFor summary and guidelines files, it checks if the relative path starts with \"..\", which indicates that the new file is outside the current workspace. If it is, it logs a warning and creates the Boost file next to the source file. Otherwise, it creates the Boost file in the `.boost` folder with the relative source file path.\n\nFor status files, it creates the Boost file in the `.boost` folder with the relative source file path.\n\nFor notebook files, it behaves the same way as for summary and guidelines files, but uses a different file extension.\n\nThe function returns a `vscode.Uri` object representing the path of the created Boost file.\n\nThe code uses the Node.js `path` and `fs` (file system) modules to manipulate file paths and interact with the file system, respectively. \n\nFor more information about the `path` and `fs` modules, you can check the Node.js documentation:\n\n- `path` module: https://nodejs.org/api/path.html\n- `fs` module: https://nodejs.org/api/fs.html\n\nFor more information about the `vscode.Uri` object, you can check the Visual Studio Code API:\n\n- `vscode.Uri`: https://code.visualstudio.com/api/references/vscode-api#Uri\n\nThe code does not appear to conflict with any architectural guidelines or constraints."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "14",
+      "value": "\nexport function getBoostFile(sourceFile: vscode.Uri | undefined, format: BoostFileType = BoostFileType.notebook, showUI: boolean = false): vscode.Uri {\n    // if we don't have a workspace folder, just place the Boost file in a new Boostdir - next to the source file\n    let baseFolder;\n    if (!vscode.workspace.workspaceFolders) {\n        if (!sourceFile) {\n            throw new Error(\"Unable to determine source file for Boost file\");\n        }\n        baseFolder = path.dirname(sourceFile.fsPath);\n    }\n    else {\n        const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder\n        baseFolder = workspaceFolder.uri.fsPath;\n        // if user didn't specify a source file, then we'll get the global project file\n        if (!sourceFile) {\n            sourceFile = workspaceFolder.uri;\n        }\n    }\n    if (!sourceFile) {\n        throw new Error(\"Unable to determine source file for Boost file\");\n    }\n\n    // Check if baseFolder exists\n    if (!fs.existsSync(baseFolder)) {\n        throw new Error(`Base folder does not exist: ${baseFolder}`);\n    }\n\n    // create the .boost folder if we need to - this is statically located in the workspace folder no matter which child folder is processed\n    const nonNormalizedBoostFolder = path.join(baseFolder, BoostConfiguration.defaultDir);\n    const boostFolder = path.normalize(nonNormalizedBoostFolder);\n    if (!fs.existsSync(boostFolder)) {\n        try {\n            fs.mkdirSync(boostFolder, { recursive: true });\n        } catch (error) {\n            throw new Error(`Failed to create Boost folder at ${boostFolder} due to Error: ${error} - possible permission issue`);\n        }\n    }\n\n    // get the distance from the workspace folder for the source file\n            // for project-level status files, we ignore the relative path\n    let relativePath = (baseFolder === sourceFile.fsPath)?\n        path.basename(baseFolder):path.relative(baseFolder,sourceFile.fsPath);\n    // create the .boost file path, from the new boost folder + amended relative source file path\n    switch (format) {\n        case BoostFileType.summary:\n        case BoostFileType.guidelines:\n\n            // default to summary\n            let extension = boostnb.NOTEBOOK_SUMMARY_EXTENSION;\n            if (format === BoostFileType.guidelines) {\n                extension = boostnb.NOTEBOOK_GUIDELINES_EXTENSION;\n            }\n\n            // if the new file is outside of our current workspace, then warn user\n            // and place the new .boost file next to it (not great, but better than nothing)\n            if (relativePath.startsWith(\"..\")) {\n                boostLogging.warn(`Boost Notebook file ${sourceFile.fsPath} is outside of current workspace ${baseFolder}`, showUI);\n                const externalBoostFile = sourceFile.fsPath + extension;\n                return vscode.Uri.file(externalBoostFile);\n            } else {\n                // if we're targeting a folder, and the folder is the workspace name, then name it after the project\n                if (!relativePath) {\n                    relativePath = path.basename(baseFolder);\n                }\n                // create the .boost file path, from the new boost folder + amended relative source file path\n                const absoluteBoostNotebookFile = path.join(\n                    boostFolder, relativePath + extension);\n                const normalizedAbsoluteBoostNotebookFile = path.normalize(absoluteBoostNotebookFile);\n\n                return vscode.Uri.file(normalizedAbsoluteBoostNotebookFile);\n            }\n        case BoostFileType.status:\n            const absoluteboostProjectDataFile = path.join(boostFolder, relativePath + PROJECT_EXTENSION);\n            const normalizedAbsoluteBoostProjectDataFile = path.normalize(absoluteboostProjectDataFile);\n            \n            let boostProjectDataFile = vscode.Uri.file(normalizedAbsoluteBoostProjectDataFile);\n            return boostProjectDataFile;\n        case BoostFileType.notebook:\n        default:\n            // if the new file is outside of our current workspace, then warn user\n            // and place the new .boost file next to it (not great, but better than nothing)\n            if (relativePath.startsWith(\"..\")) {\n                boostLogging.warn(`Boost Notebook file ${sourceFile.fsPath} is outside of current workspace ${baseFolder}`, showUI);\n                const externalBoostFile = sourceFile.fsPath + boostnb.NOTEBOOK_EXTENSION;\n                return vscode.Uri.file(externalBoostFile);\n            } else {\n                // if we're targeting a folder, and the folder is the workspace name, then name it after the project\n                if (!relativePath) {\n                    relativePath = path.basename(baseFolder);\n                }\n                // create the .boost file path, from the new boost folder + amended relative source file path\n                const absoluteBoostNotebookFile = path.join(\n                    boostFolder, relativePath + boostnb.NOTEBOOK_EXTENSION);\n                const normalizedAbsoluteBoostNotebookFile = path.normalize(absoluteBoostNotebookFile);\n\n                return vscode.Uri.file(normalizedAbsoluteBoostNotebookFile);\n            }\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 14,
+        "type": "originalCode",
+        "lineNumberBase": 77
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:24:31 PM PDT\n\nThis JavaScript function, `findCellByKernel`, is used to find a specific cell in a notebook document based on the output type. It works with two types of notebooks, `vscode.NotebookDocument` and `boostnb.BoostNotebook`, and returns the first cell with the specified output type.\n\nHere's a detailed explanation:\n\n1. The function `findCellByKernel` is exported so it can be used in other modules. It takes two parameters:\n   - `targetNotebook`: This can be an instance of either `vscode.NotebookDocument` or `boostnb.BoostNotebook`.\n   - `outputType`: This is a string that specifies the output type of the cell to be found.\n\n2. The function starts by declaring an empty array `cells`, which will hold the cells of the `targetNotebook`.\n\n3. The `usingBoostNotebook` constant is set to `true` if `targetNotebook` is an instance of `boostnb.BoostNotebook`, and `false` otherwise.\n\n4. The function then checks if `usingBoostNotebook` is `true`. If it is, the cells of `targetNotebook` are assigned to the `cells` array. If not, the `getCells` method of `targetNotebook` is called to get the cells, and the result is assigned to the `cells` array.\n\n5. The function then loops over each cell in the `cells` array. If the `outputType` of a cell's metadata matches the `outputType` passed to the function, that cell is immediately returned.\n\n6. If no matching cell is found after checking all cells, the function returns `undefined`.\n\nThe algorithm used here is a simple linear search algorithm, which iterates over each item in a list (in this case, the cells of a notebook) until a match is found or all items have been checked. \n\nFor more information about the VS Code's Notebook API, you can refer to this link: [VS Code Notebook API](https://code.visualstudio.com/api/extension-guides/notebook) \n\nNote: The `boostnb.BoostNotebook` seems to be a custom or project-specific interface or class as it's not a standard part of VS Code's API or any known library. You would need to refer to your project's documentation or source code for more information about it."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "15",
+      "value": "\nexport function findCellByKernel(targetNotebook: vscode.NotebookDocument | boostnb.BoostNotebook, outputType: string): vscode.NotebookCell | boostnb.BoostNotebookCell | undefined {\n    let cells: (vscode.NotebookCell | boostnb.BoostNotebookCell)[] = [];\n\n    const usingBoostNotebook = targetNotebook instanceof boostnb.BoostNotebook;\n    if (usingBoostNotebook) {\n        cells = targetNotebook.cells;\n    } else {\n        cells = targetNotebook.getCells();\n    }\n\n    for (const cell of cells) {\n        if (cell.metadata?.outputType === outputType) {\n            return cell;\n        }\n    }\n\n    return undefined;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 15,
+        "type": "originalCode",
+        "lineNumberBase": 176
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:25:17 PM PDT\n\nThis JavaScript function, `createOrOpenSummaryNotebookFromSourceFile`, is an asynchronous function that takes a `sourceFile` as an argument and returns a Promise of type `boostnb.BoostNotebook`. \n\nThe function is designed to either create a new summary notebook or open an existing one based on the source file provided. It uses the BoostNotebook API (`boostnb`) to create or manipulate notebooks.\n\nHere is a step by step explanation of the code:\n\n1. The function first uses the `getBoostFile` function with the `sourceFile` and `BoostFileType.summary` as arguments to get the path to the summary notebook file. This is stored in `notebookSummaryPath`.\n\n2. The function then checks if the summary file exists using the `fs.existsSync` method. This method is a part of Node.js's built-in `fs` (file system) module. It synchronously checks if the file at the provided path exists and returns a boolean.\n\n3. If the summary file does not exist (`!summaryFileExists`), the function proceeds to create a new notebook.\n\n   - It calls the `createEmptyNotebook` function with `notebookSummaryPath` and `false` as arguments. The `await` keyword is used to pause and resume the async function and wait for the promise's resolution or rejection. The result is cast to `boostnb.BoostNotebook` and stored in `newNotebook`.\n\n   - It then gets the source file path using the `sourceFileFromFullPath` function and stores it in `sourceFilePath`.\n\n   - The function then creates a new metadata object `newMetadata` which is a copy of the existing metadata in `newNotebook` (using the spread operator `...`) with the `sourceFile` property added and set to `sourceFilePath`.\n\n   - This new metadata is then assigned back to `newNotebook`.\n\n   - The function then calls the `save` method on `newNotebook` with `notebookSummaryPath.fsPath` as argument to save the notebook.\n\n   - Finally, it returns the `newNotebook`.\n\n4. If the summary file does exist, the function creates a new instance of `boostnb.BoostNotebook`, loads the existing summary file using the `load` method and then returns the `newNotebook`.\n\nThis function does not appear to use any particular algorithm, it's more of a procedural code that creates or opens a BoostNotebook based on the existence of a file.\n\nFor more information on the concepts used in this code, you can refer to the following resources:\n\n- JavaScript async functions: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function\n- Promise in JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise\n- fs.existsSync: https://nodejs.org/api/fs.html#fs_fs_existssync_path\n- Spread syntax (...): https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax\n- BoostNotebook API: As it is not a standard API, you may need to refer to the specific documentation provided by the API developer."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "16",
+      "value": "\nexport async function createOrOpenSummaryNotebookFromSourceFile(sourceFile : vscode.Uri) :\n        Promise<boostnb.BoostNotebook> {\n\n    const notebookSummaryPath = getBoostFile(sourceFile, BoostFileType.summary);\n    const summaryFileExists = fs.existsSync(notebookSummaryPath.fsPath);\n    // if doesn't exist, create it\n    if (!summaryFileExists) {\n        const newNotebook = await createEmptyNotebook(notebookSummaryPath, false) as boostnb.BoostNotebook;\n\n        const sourceFilePath = sourceFileFromFullPath(sourceFile);\n\n        let newMetadata = {\n            ...newNotebook.metadata,\n            sourceFile: sourceFilePath};\n\n        newNotebook.metadata = newMetadata;\n\n        // boost notebook needs to be saved explicitly - while the VSC notebook background saves\n        newNotebook.save(notebookSummaryPath.fsPath);\n        return newNotebook;\n    } else {\n        const newNotebook = new boostnb.BoostNotebook();\n        newNotebook.load(notebookSummaryPath.fsPath);\n        return newNotebook;\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 16,
+        "type": "originalCode",
+        "lineNumberBase": 196
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:26:07 PM PDT\n\nThis code is written in TypeScript and is part of a larger project that integrates with Visual Studio Code (VSCode) and BoostNotebook. It defines an asynchronous function named `createOrOpenNotebookFromSourceFile` which either creates a new notebook or opens an existing one from a source file. The function returns a Promise that resolves to either a VSCode NotebookDocument or a BoostNotebook.\n\nThe function takes four parameters:\n- `sourceFile`: a Uri object representing the source file.\n- `useBoostNotebookWithNoUI`: a boolean indicating whether to use BoostNotebook without UI.\n- `overwriteIfExists`: a boolean indicating whether to overwrite the notebook if it already exists. It defaults to false.\n- `existingNotebook`: an optional parameter representing an existing notebook document. It can be either a VSCode NotebookDocument or a BoostNotebook.\n\nThe function first gets the path of the BoostNotebook file associated with the source file by calling the `getBoostFile` function. It then checks if the file exists using the `fs.existsSync` function. If the file exists, it either loads the notebook into a BoostNotebook object (if `useBoostNotebookWithNoUI` is true) or opens the notebook document in VSCode (if `useBoostNotebookWithNoUI` is false). The function then returns the opened notebook.\n\nIf the file does not exist, the function logs a debug message indicating that it is \"boosting\" the source file. It then checks the `BoostConfiguration.processFoldersInASingleNotebook` configuration. If it's true, the function either creates a new BoostNotebook (if `useBoostNotebookWithNoUI` is true), opens a new notebook document in VSCode (if `useBoostNotebookWithNoUI` is false), or uses the existing notebook (if one is provided). If the configuration is false, the function creates an empty notebook by calling the `createEmptyNotebook` function.\n\nThe function then parses functions from the source file into the new notebook by calling the `parseFunctionsFromFile` function.\n\nFinally, the function saves the notebook to disk. If `BoostConfiguration.processFoldersInASingleNotebook` is false, it either saves the BoostNotebook (if `useBoostNotebookWithNoUI` is true) or writes the VSCode NotebookDocument to disk (if `useBoostNotebookWithNoUI` is false). If `BoostConfiguration.processFoldersInASingleNotebook` is true and `useBoostNotebookWithNoUI` is true, it saves the BoostNotebook. The function then returns the new notebook.\n\nFor more information on the VSCode API and BoostNotebook, you can refer to their official documentation:\n- [VSCode API](https://code.visualstudio.com/api)\n- [BoostNotebook](https://boostnote.io/) (Note: the official documentation for BoostNotebook is not available online, so this link points to the BoostNote homepage instead.)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "17",
+      "value": "\nexport async function createOrOpenNotebookFromSourceFile(\n    sourceFile : vscode.Uri,\n    useBoostNotebookWithNoUI : boolean,\n    overwriteIfExists : boolean = false,\n    existingNotebook : vscode.NotebookDocument | boostnb.BoostNotebook | undefined = undefined) :\n        Promise<vscode.NotebookDocument | boostnb.BoostNotebook> {\n\n    let newNotebook : vscode.NotebookDocument | boostnb.BoostNotebook;\n    const notebookPath = getBoostFile(sourceFile);\n    const fileExists = fs.existsSync(notebookPath.fsPath);\n    if (fileExists) {\n        if (useBoostNotebookWithNoUI) {\n            newNotebook = new boostnb.BoostNotebook();\n            newNotebook.load(notebookPath.fsPath);\n        } else {\n            newNotebook = await vscode.workspace.openNotebookDocument(notebookPath);\n        }\n        return newNotebook;\n    }\n\n    boostLogging.debug(`Boosting file: ${sourceFile.fsPath} as ${notebookPath.fsPath}`);\n\n    if (BoostConfiguration.processFoldersInASingleNotebook) {\n        if (!existingNotebook) {\n            if (useBoostNotebookWithNoUI) {\n                newNotebook = new boostnb.BoostNotebook();\n            } else {\n                newNotebook = await vscode.workspace.openNotebookDocument(boostnb.NOTEBOOK_TYPE, new vscode.NotebookData([]));\n            }\n        } else {\n            newNotebook = existingNotebook;\n        }\n    } else {\n        newNotebook = await createEmptyNotebook(notebookPath, !useBoostNotebookWithNoUI);\n    }\n\n    // load/parse source file into new notebook\n    await parseFunctionsFromFile(sourceFile, newNotebook, BoostConfiguration.processFoldersInASingleNotebook);\n\n    if (!BoostConfiguration.processFoldersInASingleNotebook) {\n        if (useBoostNotebookWithNoUI) {\n            newNotebook.save(notebookPath.fsPath);\n        } else {\n            // Save the notebook to disk\n            const notebookData = await (new BoostContentSerializer()).serializeNotebookFromDoc(newNotebook as vscode.NotebookDocument);\n            await vscode.workspace.fs.writeFile(notebookPath, notebookData);\n        }\n    } else if (useBoostNotebookWithNoUI) {\n        newNotebook.save(notebookPath.fsPath);\n    }\n    return newNotebook;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 17,
+        "type": "originalCode",
+        "lineNumberBase": 227
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:26:41 PM PDT\n\nThis JavaScript function, `parseFunctionsFromFile`, is a part of a Visual Studio Code extension that works with BoostNotebook or Visual Studio Code's Notebook API. It reads a file, parses its functions, and creates cells in a notebook for each function it finds.\n\nHere's how it works:\n\n1. The function takes three parameters: a `fileUri` which represents the location of the file to parse, a `targetNotebook` which is either a BoostNotebook or a Visual Studio Code Notebook, and an optional `appendToExistingNotebook` flag which defaults to `false`.\n\n2. It reads the file contents using Node.js's `fs.readFileSync` method.\n\n3. The contents of the file are converted into a string and passed to a `parseFunctions` function. This function is expected to return an array containing the language ID, the parsed code, and line numbers.\n\n4. The function then iterates over the parsed code and creates a cell for each item. If the `targetNotebook` is an instance of `BoostNotebook`, it creates a `BoostNotebookCell`. Otherwise, it creates a `vscode.NotebookCellData`. These cells are stored in an array.\n\n5. If `targetNotebook` is `undefined`, it logs a warning message and returns from the function.\n\n6. If the notebook has unsaved changes and is not meant to be appended to, it prompts the user for confirmation before proceeding.\n\n7. Depending on whether the code is to be appended to an existing notebook or replace the existing cells, it creates a `vscode.NotebookRange` and a `vscode.WorkspaceEdit`. It then either appends the new cells to the notebook or replaces the existing cells with the new ones.\n\n8. Finally, if the `targetNotebook` is not an instance of `BoostNotebook`, it applies the workspace edit.\n\nThe function uses the Factory Method design pattern to create cells for the notebook. It also uses the Singleton design pattern for logging.\n\nThe function relies heavily on the Visual Studio Code Extension API, specifically the Notebook API. You can learn more about this API at the following link: [VS Code Extension API](https://code.visualstudio.com/api/extension-guides/notebook)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "18",
+      "value": "\nexport async function parseFunctionsFromFile(\n    fileUri : vscode.Uri,\n    targetNotebook : boostnb.BoostNotebook | vscode.NotebookDocument,\n    appendToExistingNotebook : boolean = false) {\n\n    const fileContents = fs.readFileSync(fileUri.fsPath, 'utf8');\n    \n    // turn fileContents into a string and call splitCode\n    const fileContentsString = fileContents.toString();\n    const [languageId, splitCodeResult, lineNumbers] = parseFunctions(\n        fileUri.fsPath,\n        fileContentsString);\n\n    //now loop through the splitCodeResult and create a cell for each item,\n    //  adding to an array of cells\n    const cells = [];\n\n    for (let i = 0; i < splitCodeResult.length; i++) {\n        const cell = (targetNotebook instanceof boostnb.BoostNotebook)?\n            new boostnb.BoostNotebookCell(boostnb.NotebookCellKind.Code, splitCodeResult[i], languageId, i.toString()) :\n            new vscode.NotebookCellData(vscode.NotebookCellKind.Code, splitCodeResult[i], languageId);\n        cell.metadata = {\n            \"id\": i,\n            \"type\": \"originalCode\",\n                // if the lineNumbers info is not available (very unlikely, but defensive), then\n                //   set the base to line number 0 in the file\n                // otherwise, set the base to the line number BEFORE the line of this splitCell text\n            \"lineNumberBase\": lineNumbers ? ((lineNumbers[i] < 0)?0:lineNumbers[i]) - 1 : 0\n        };\n        cells.push(cell);\n    }\n\n    // if we still failed to find an available Notebook, then warn and give up\n    if (targetNotebook === undefined) {\n        boostLogging.warn(\n            'Missing open Boost Notebook. Please create or activate your Boost Notebook first');\n        return;\n    }\n\n    // if the Notebook has unsaved changes, prompt user before erasing them\n    if (!appendToExistingNotebook &&\n        targetNotebook.isDirty &&\n            // if there are multiple cells, or\n        (targetNotebook.cellCount > 1 ||\n            // unless there's only one cell and its the default Instructions (e.g. not code)\n        targetNotebook.cellCount === 1 && targetNotebook.cellAt(0).kind !== boostnb.NotebookCellKind.Markup )) {\n        const choice = await vscode.window.showInformationMessage(\n            \"The default Boost Notebook has unsaved data in it. If you proceed, that data will likely be lost. \" +\n            \"Do you wish to proceed?\", { \"modal\": true}, 'Yes', 'No');\n        if (choice !== 'Yes') {\n            return;\n        }\n    }\n\n    // get the range of the cells in the notebook\n    const range = (!(targetNotebook instanceof boostnb.BoostNotebook))?\n        new vscode.NotebookRange(0, targetNotebook.cellCount):undefined;\n    const edit = (!(targetNotebook instanceof boostnb.BoostNotebook))?new vscode.WorkspaceEdit():undefined;\n\n    if (appendToExistingNotebook) {\n        if (targetNotebook instanceof boostnb.BoostNotebook) {\n            targetNotebook.appendCells(cells as boostnb.BoostNotebookCell[]);\n        } else if (edit) {\n            // Use .set to add one or more edits to the notebook\n            edit.set(targetNotebook.uri, [\n                // Create an edit that replaces all the cells in the notebook with new cells created from the file\n                vscode.NotebookEdit.insertCells(targetNotebook.cellCount, cells as vscode.NotebookCellData[]),\n\n                // Additional notebook edits...\n            ]);\n        } else {\n            boostLogging.error('Unable to append to existing notebook - Type logic error', true);\n        }\n    } else {\n        const sourceFilePath = sourceFileFromFullPath(fileUri);\n            \n        let newMetadata = {\n            ...targetNotebook.metadata,\n            sourceFile: sourceFilePath};\n\n        if (targetNotebook instanceof boostnb.BoostNotebook) {\n            targetNotebook.replaceCells(cells as boostnb.BoostNotebookCell[]);\n            targetNotebook.metadata = newMetadata;\n        } else if (edit) {\n            // Use .set to add one or more edits to the notebook\n            edit.set(targetNotebook.uri, [\n                // Create an edit that replaces all the cells in the notebook with new cells created from the file\n                vscode.NotebookEdit.replaceCells(range as vscode.NotebookRange, cells as vscode.NotebookCellData[]),\n\n                // Additional notebook edits...\n            ]);\n\n            // store the source file on the notebook metadata, so we can use it for problems or reverse mapping\n            edit.set(targetNotebook.uri, [vscode.NotebookEdit.updateNotebookMetadata(newMetadata)]);\n        } else {\n            boostLogging.error('Unable to replace existing notebook - Type logic error', true);\n        }\n    }\n    // only use workspace editor if we are using vscode notebook\n    if (!(targetNotebook instanceof boostnb.BoostNotebook)) {\n        await vscode.workspace.applyEdit(edit as vscode.WorkspaceEdit);\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 18,
+        "type": "originalCode",
+        "lineNumberBase": 278
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:27:13 PM PDT\n\nThis code is a function in TypeScript that is used to synchronize problems in a cell in Visual Studio Code's Notebook API. The function is named `_syncProblemsInCell` and it takes three parameters: `cell`, `problems`, and `cellsBeingRemoved`.\n\nThe `cell` parameter is a `vscode.NotebookCell` object which represents a cell in a notebook. The `problems` parameter is a `vscode.DiagnosticCollection` object which represents a collection of diagnostics (problems or errors). The `cellsBeingRemoved` parameter is a boolean that indicates whether cells are being removed or not.\n\nHere's the step-by-step explanation of the code:\n\n1. It first gets the URI of the document associated with the cell.\n\n2. Then it checks if there are any problems associated with this cell. If there are no problems, it simply returns and the function ends.\n\n3. It checks if the cell has any error output. This is done by looping over the cell's outputs and checking if any of them has a MIME type of `errorMimeType`.\n\n4. If the cell does not have any error output, it removes all problems associated with this cell and returns.\n\n5. It creates an empty array `diagnostics` to store the diagnostics that will be re-added.\n\n6. It then loops over each problem associated with the cell. For each problem, it checks if there is an error output that matches the problem. If a matching error output is found and the cell is not being removed, it adds the problem back to the `diagnostics` array.\n\n7. Finally, it updates the `problems` collection with the updated `diagnostics` array.\n\nThis function is part of the Visual Studio Code API and is used to manage and synchronize the problems or errors associated with a cell in a notebook. The algorithm used here is a simple loop and conditional checks to match problems with error outputs.\n\nFor more information about Visual Studio Code's Notebook API, you can check the official documentation here: https://code.visualstudio.com/api/extension-guides/notebook."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "19",
+      "value": "\nexport function _syncProblemsInCell(\n    cell: vscode.NotebookCell,\n    problems: vscode.DiagnosticCollection,\n    cellsBeingRemoved : boolean = false) {\n    const cellUri = cell.document.uri;\n\n    \n    // if no problems for this cell, skip it\n    const thisCellProblems = problems.get(cellUri);\n    if (!thisCellProblems || thisCellProblems.length === 0) {\n        return;\n    }\n    \n    // Check if the cell has any error output\n    const hasErrorOutput = cell.outputs.some((output : any) => {\n        for (const item of output.items) {\n            return item.mime === errorMimeType;\n        }\n    });\n    // If the cell has error output, check if there are any problems associated with it\n\n    // if the cell has no error output, remove all problems associated with it\n    if (!hasErrorOutput) {\n        problems.delete(cellUri);\n        return;\n    }\n    const diagnostics: vscode.Diagnostic[] = [];\n    // Loop through each problem and check if it can still be matched to an error output\n    for (const problem of thisCellProblems) {\n        const errorOutputIndex = cell.outputs.findIndex((output) => {\n            for (const item of output.items) {\n                return item.mime === errorMimeType;\n                //    && output.metadata?.cellId === problem?.source?.toString();\n            }\n        });\n        // Error output found for the problem, add it back to the diagnostics\n        // unless the cell is being removed, in which case, we'll drop it (e.g. skip the re-add)\n        if (errorOutputIndex !== -1 && !cellsBeingRemoved) {\n            diagnostics.push(problem);\n        }\n    }\n    // Replace the problems with the updated diagnostics\n    problems.set(cellUri, diagnostics);\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 19,
+        "type": "originalCode",
+        "lineNumberBase": 382
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:28:01 PM PDT\n\nThis JavaScript function `newErrorFromItemData` takes a `Uint8Array` object as input and returns an `Error` object. The `Uint8Array` is supposed to be a serialized JSON representation of an `Error` object. \n\nHere's how it works:\n\n1. It first uses `TextDecoder().decode(data)` to decode the `Uint8Array` into a string. `TextDecoder` is a built-in JavaScript class that provides a method `decode()` to convert typed arrays into strings. The `decode()` method takes a `Uint8Array` object as an argument and returns a string. More information can be found here: [MDN Web Docs - TextDecoder](https://developer.mozilla.org/en-US/docs/Web/API/TextDecoder/decode)\n\n2. The resulting string is assumed to be a JSON string, which is then parsed with `JSON.parse()`. `JSON.parse()` is a method in JavaScript that parses a JSON string and constructs the JavaScript value or object described by the string. More information can be found here: [MDN Web Docs - JSON.parse](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse)\n\n3. The `JSON.parse()` method takes a second argument, a reviver function. This function prescribes how the value originally produced by parsing is transformed, before being returned. In this case, the reviver function checks if the key is an empty string (which is the case for the root object), and if so, it creates a new `Error` object, assigns all the properties from the parsed object to the new `Error` object, and returns it. If the key is not an empty string, it simply returns the value as is.\n\n4. The final result of `JSON.parse()` is an `Error` object with the properties from the original serialized `Error` object, and this is returned by the `newErrorFromItemData` function.\n\nThis function could be used in a system where `Error` objects are serialized to `Uint8Array` for transmission or storage, and then need to be reconstructed at a later point. It's important to note that not all properties of an `Error` object are enumerable and therefore won't be included in the serialized version or the reconstructed version. This includes the `stack` property, which may be important for debugging purposes."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "20",
+      "value": "\nexport function newErrorFromItemData(data: Uint8Array) : Error {\n    const errorJson = new TextDecoder().decode(data);\n\n    const errorObject = JSON.parse(errorJson, (key, value) => {\n      if (key === '') {\n        const error = new Error();\n        Object.assign(error, value);\n        return error;\n      }\n      return value;\n    });\n    \n    return errorObject;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 20,
+        "type": "originalCode",
+        "lineNumberBase": 424
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:28:32 PM PDT\n\nThis is a TypeScript function named `getProjectName` that doesn't accept any parameters and returns a string. \n\nThe function uses the `basename` function from the Node.js `path` module and the `workspace` property of the `vscode` object to return the name of the current project. \n\nHere's a line-by-line explanation of the code:\n\n1. `export function getProjectName() : string {`: This line declares an exported function named `getProjectName`. The `export` keyword makes the function accessible to other modules. The `: string` after the parentheses indicates that this function will return a string.\n\n2. `return path.basename(vscode.workspace.workspaceFolders![0].uri.fsPath);`: This line is where the function performs its main task. It returns the last portion of a path, which typically is the file name. In this case, it's used to get the name of the project.\n\n   - `vscode.workspace.workspaceFolders![0].uri.fsPath`: This is the path of the first folder in the workspace. The `vscode.workspace.workspaceFolders` property is an array that contains all the folders in the workspace. The `![0]` after `workspaceFolders` gets the first folder in this array. The `.uri.fsPath` property of a workspace folder is a string representing the file system path of the folder.\n\n   - `path.basename()`: This is a function from the Node.js `path` module. It returns the last portion of a path. In this case, it returns the name of the project.\n\n3. `}`: This line closes the function.\n\nThe algorithm used in this function is simple. It just retrieves the first workspace folder and extracts the base name from its file system path.\n\nFor more information, you can refer to the following resources:\n\n- [Node.js path module](https://nodejs.org/api/path.html#path_path_basename_path_ext)\n- [Visual Studio Code Extension API](https://code.visualstudio.com/api/references/vscode-api#workspace)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "21",
+      "value": "\nexport function getProjectName() : string {\n    return path.basename(vscode.workspace.workspaceFolders![0].uri.fsPath);\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 21,
+        "type": "originalCode",
+        "lineNumberBase": 439
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:29:13 PM PDT\n\nThis code is written in TypeScript and is a function definition for `getAllProjectFiles`. The function is asynchronous, meaning it's designed to perform operations that may take a while to complete, such as file I/O or network requests, without blocking the rest of the code execution. It returns a promise that will resolve to an array of strings.\n\nHere is a step-by-step explanation:\n\n1. The function `getAllProjectFiles` takes a single optional argument `useRelativePaths` which is a boolean value. If it's not provided, it defaults to `false`.\n\n2. It first checks if there are any workspace folders in the current Visual Studio Code (VS Code) workspace. If there are, it sets `baseWorkspace` to the URI of the first workspace folder. If there are no workspace folders, it throws an error.\n\n3. It then creates a `RelativePattern` object with the file system path of the `baseWorkspace` and the pattern `\"**/**\"`, which matches any files or folders at any level of the directory structure.\n\n4. It calls the `buildVSCodeIgnorePattern` function with `true` as an argument and awaits its result. This function presumably returns a pattern representing files to be ignored, but the function is not provided in the code snippet.\n\n5. It logs a debug message about which Boost Notebook files are being skipped, based on the `ignorePattern`.\n\n6. It calls the `findFiles` method on the VS Code workspace. This method takes two arguments: a search pattern and an ignore pattern. The search pattern is the one defined earlier, and the ignore pattern is a `RelativePattern` object created with `baseWorkspace` and `ignorePattern`, if `ignorePattern` is truthy; otherwise, it's an empty string.\n\n7. It then creates an empty array `paths`.\n\n8. It loops over each file it found. If `useRelativePaths` is `false`, it adds the file system path of the file to `paths`. If `useRelativePaths` is `true`, it adds the path of the file relative to the workspace to `paths`.\n\n9. Finally, it returns `paths`.\n\nThe algorithm used here is essentially a file system traversal, using the VS Code API's `findFiles` method to do the heavy lifting. This method likely uses some form of depth-first or breadth-first search to find all files matching the given pattern.\n\nFor more information about the VS Code API methods used here, check the official VS Code API documentation: https://code.visualstudio.com/api/references/vscode-api"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "22",
+      "value": "\nexport async function getAllProjectFiles(useRelativePaths : boolean = false) : Promise<string[]> {\n    let baseWorkspace;\n    if (vscode.workspace.workspaceFolders) {\n        baseWorkspace = vscode.workspace.workspaceFolders![0].uri;\n    } else {\n        throw new Error(\"No workspace folders found\");\n    }\n\n    let searchPattern = new vscode.RelativePattern(\n        baseWorkspace.fsPath,\n        \"**/**\"\n    );\n    let ignorePattern = await buildVSCodeIgnorePattern(true);\n    boostLogging.debug(\n        \"Skipping Boost Notebook files of pattern: \" + ignorePattern ??\n            \"none\"\n    );\n    let files = await vscode.workspace.findFiles(\n        searchPattern,\n        ignorePattern\n            ? new vscode.RelativePattern(baseWorkspace, ignorePattern)\n            : \"\"\n    );\n\n    const paths : string[] = [];\n    files.forEach((file) => {\n        if (!useRelativePaths) {\n            paths.push(file.fsPath);\n            return;\n        }\n\n        const relativePath = vscode.workspace.asRelativePath(file);\n        paths.push(relativePath);\n    });\n    return paths;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 22,
+        "type": "originalCode",
+        "lineNumberBase": 443
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:29:47 PM PDT\n\nThis code is written in TypeScript and is part of a larger codebase that interacts with Visual Studio Code (VSCode) - a popular code editor. The function `buildVSCodeIgnorePattern` is exported and can be imported and used in other parts of the codebase. It is used to build a string of patterns that should be ignored by some process, presumably related to VSCode. \n\nIt uses the VSCode API to interact with the user's workspace and files. The function is asynchronous, meaning it returns a Promise that resolves with a string (the ignore pattern) or `undefined` if no workspace folder is found.\n\nHere's a detailed breakdown:\n\n1. `workspaceFolder` is assigned the URI of the first workspace folder. If there are no workspace folders, it is `undefined`.\n\n2. If `workspaceFolder` is `undefined`, the function returns `undefined`.\n\n3. The `.vscodeignore` file within the workspace folder is read and its patterns are extracted using `_extractIgnorePatternsFromFile` function. The result is an array of strings (`patterns`).\n\n4. The `.boostignore` file within the workspace folder is also read and its patterns are added to the `patterns` array.\n\n5. If `ignoreBoostFolder` is `true` and `**/.boost/**` is not already in `patterns`, `**/.boost/**` is added to `patterns`. If `ignoreBoostFolder` is `false`, `**/.boost/**` is removed from `patterns`.\n\n6. If `**/.boostignore` is not in `patterns`, it is added. This ensures that the `.boostignore` file is always ignored.\n\n7. A list of common binary and text file types are defined and added to `patterns`.\n\n8. The `patterns` array is joined into a single string, with each pattern separated by a comma. This string is surrounded by `{}` and returned.\n\nThe function uses the `Array.prototype.concat()` method to merge multiple arrays, and `Array.prototype.push()` to add elements to an array. It also uses `Array.prototype.find()` to search for an element in an array, and `Array.prototype.splice()` to remove an element from an array.\n\nFor more information on the VSCode API, see the [VSCode API documentation](https://code.visualstudio.com/api/references/vscode-api). For more information on Promises and async functions, see the [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) and [MDN documentation on async functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) respectively."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "23",
+      "value": "\nexport async function buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true): Promise<string | undefined> {\n    let workspaceFolder : vscode.Uri | undefined = vscode.workspace.workspaceFolders?.[0]?.uri;\n    // if no workspace root folder, bail\n    if (!workspaceFolder) {\n        return undefined;\n    }\n\n    // read the .vscodeignore file\n    let vscignoreFile = vscode.Uri.joinPath(workspaceFolder, \".vscodeignore\");\n    let patterns = await _extractIgnorePatternsFromFile(vscignoreFile.fsPath);\n\n    // add the contents of the .boostignore file\n    let boostignoreFile = vscode.Uri.joinPath(workspaceFolder, \".boostignore\");\n    patterns = patterns.concat(await _extractIgnorePatternsFromFile(boostignoreFile.fsPath));\n\n    // never include the .boost folder - since that's where we store our notebooks\n    if (ignoreBoostFolder && !patterns.find((pattern) => pattern === '**/.boost/**')) {\n        patterns.push('**/.boost/**');\n    } else if (!ignoreBoostFolder) {\n        patterns.splice(patterns.indexOf('**/.boost/**'), 1);\n    }\n\n    // never include the .boostignore file since that's where we store our ignore patterns\n    if (!patterns.find((pattern) => pattern === '**/.boostignore')) {\n        patterns.push('**/.boostignore');\n    }\n    // add common binary file types to the exclude patterns\n    const binaryFilePatterns = [\n        '**/*.jpg',\n        '**/*.jpeg',\n        '**/*.png',\n        '**/*.gif',\n        '**/*.bmp',\n        '**/*.tiff',\n        '**/*.ico',\n        '**/*.pdf',\n        '**/*.zip',\n        '**/*.tar',\n        '**/*.gz',\n        '**/*.rar',\n        '**/*.7z',\n        '**/*.exe',\n        '**/*.dll',\n        '**/*.so',\n        '**/*.bin',\n        '**/*.ppt',\n        '**/*.pptx',\n        '**/*.doc',\n        '**/*.docx',\n        '**/*.xls',\n        '**/*.xlsx',\n        '**/*.psd',\n        '**/*.ai',\n        '**/*.flv',\n        '**/*.mp4',\n        '**/*.avi',\n        '**/*.mkv',\n        '**/*.mpeg',\n        '**/*.mp3',\n        '**/*.wav',\n        '**/*.flac',\n        '**/*.aac',\n        '**/*.ogg',\n        '**/*.iso',\n        '**/*.dmg',\n        '**/*.jar',\n        '**/*.war',\n        '**/*.ear',\n        '**/*.pyc',\n        '**/*.pyo',\n        '**/*.class',\n        '**/*.sqlite',\n        '**/*.db',\n        '**/*.ttf',\n        '**/*.otf',\n        '**/*.ipynb_checkpoints',\n        '**/*.ipynb_checkpoints/**',\n        '**/*.git',\n        '**/*.svn',\n        '**/*.hg',\n        '**/*.bz2',\n        '**/*.app',\n        '**/*.appx',\n        '**/*.appxbundle',\n        '**/*.msi',\n        '**/*.deb',\n        '**/*.rpm',\n        '**/*.elf',\n        '**/*.sys',\n        '**/*.odt',\n        '**/*.ods',\n        '**/*.odp',\n    ];\n\n    const textFilePatterns = [\n        '**/*.svg',\n        '**/*.*ignore',\n        '**/*.gitignore',\n        '**/*.gitattributes',\n        '**/*.log',\n        '**/*.out',\n        '**/*.dockerignore',\n        '**/*.gitkeep',\n        '**/*.gitmodules',\n        '**/*.gitconfig',\n    ];          \n\n    const potentiallyUsefulTextFiles = [\n        '**/*.ipynb',   // Jupyter notebooks\n        '**/*.sql',     // SQL scripts\n        '**/*.rtf',     // Rich text files\n        '**/*.csv',     // Data files that might be read by scripts\n        '**/*.tsv',     // Data files that might be read by scripts\n        '**/*.dist',    // Often used for distribution config files\n    ];          \n\n    patterns = patterns.concat(binaryFilePatterns, textFilePatterns, potentiallyUsefulTextFiles);    \n  \n    // const exclude = '{**/node_modules/**,**/bower_components/**}';\n    const excludePatterns = \"{\" + patterns.join(',') + \"}\";\n    return excludePatterns;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 23,
+        "type": "originalCode",
+        "lineNumberBase": 480
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:30:23 PM PDT\n\nThis code is written in TypeScript, which is a statically typed superset of JavaScript. It defines an asynchronous function `_extractIgnorePatternsFromFile`. The function takes a file path as a string parameter `ignoreFile` and returns a promise that will resolve to an array of strings. This function is designed to read the contents of a file, extract certain patterns from it, and return those patterns.\n\nThe function follows these steps:\n\n1. It checks if the file at the provided path exists using the `fs.existsSync()` method from Node.js's built-in `fs` (file system) module. If the file does not exist, it immediately returns an empty array.\n\n2. If the file exists, it reads the file using `fs.promises.readFile()`. This method returns a promise that resolves with the contents of the file as a `Buffer`.\n\n3. After the promise resolves, it converts the `Buffer` to a string using the `.toString()` method.\n\n4. It then splits the string into an array of lines using the `.split()` method with the regular expression `/\\r?\\n/` as the separator. This regular expression matches both the Linux/Mac (`\\n`) and Windows (`\\r\\n`) line endings.\n\n5. It filters out empty lines and lines that start with a hash (`#`) using the `.filter()` method. This is done by checking if the trimmed line is not an empty string and does not start with a hash.\n\n6. Finally, it returns the filtered array of lines (patterns).\n\nThis function uses the `async/await` syntax which is a way to handle promises in a more synchronous-looking manner. It also uses the `fs.promises` API which is an asynchronous version of the `fs` API that returns promises instead of using callbacks.\n\nFor more information on the `fs` module and its methods, you can refer to the Node.js documentation: [Node.js fs module](https://nodejs.org/api/fs.html)\n\nFor more information on `async/await`, you can refer to the MDN Web Docs: [async function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) and [Using async/await](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "24",
+      "value": "\nasync function _extractIgnorePatternsFromFile(ignoreFile : string) : Promise<string[]> {\n    // if no ignore file, bail\n    if (!fs.existsSync(ignoreFile)) {\n        return [];\n    }\n\n    const data = await fs.promises.readFile(ignoreFile);\n    const patterns = data.toString().split(/\\r?\\n/).filter((line) => {\n      return line.trim() !== '' && !line.startsWith('#');\n    });\n    return patterns;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 24,
+        "type": "originalCode",
+        "lineNumberBase": 603
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:31:05 PM PDT\n\nThis JavaScript code is an asynchronous function named `createEmptyNotebook` that creates an empty notebook. It uses two libraries: Visual Studio Code (vscode) and BoostNotebook (boostnb). The function takes two parameters: `filename` and `useUINotebook`. \n\nThe `filename` parameter is a URI (Uniform Resource Identifier) that specifies the location of the notebook to be created. The `useUINotebook` is a boolean that determines whether to create a Visual Studio Code notebook or a BoostNotebook. \n\nHere is a step-by-step explanation of the function:\n\n1. If `useUINotebook` is false, it creates a new BoostNotebook object, assigns a metadata attribute to it with the default directory from the BoostConfiguration, and returns the BoostNotebook object.\n\n2. If `useUINotebook` is true, it creates a new Visual Studio Code notebook. This involves several steps:\n\n   - It first creates a `notebookData` object that contains an empty array of cells and metadata with the default directory from BoostConfiguration.\n\n   - It creates a `CancellationTokenSource` (a way to manage cancellation of asynchronous operations in JavaScript) and retrieves its token.\n\n   - It then creates a new instance of `BoostContentSerializer` and calls its `serializeNotebook` method to convert the `notebookData` into a binary format. This is done asynchronously, so the function waits for the operation to complete using the `await` keyword.\n\n   - The serialized notebook data is then written to the file specified by `filename` using `vscode.workspace.fs.writeFile`. This is also an asynchronous operation, so the function waits for it to complete.\n\n   - Finally, it opens the newly created notebook document using `vscode.workspace.openNotebookDocument`, waits for the operation to complete, and returns the opened notebook document.\n\nIn terms of algorithm used, this function primarily uses the built-in methods provided by the vscode and boostnb libraries. It does not implement any specific algorithm like sorting or searching. It's more of a procedural code that executes a series of steps to create a notebook.\n\nFor more information on the vscode library, you can visit [VS Code API](https://code.visualstudio.com/api/references/vscode-api). For more information on BoostNotebook, you would need to refer to the documentation or source code of that library, which is not provided here."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "25",
+      "value": "\nasync function createEmptyNotebook(filename : vscode.Uri, useUINotebook : boolean) :\n        Promise<vscode.NotebookDocument | boostnb.BoostNotebook> {\n\n    // if no UI, then create BoostNotebook directly and return it\n    if (!useUINotebook) {\n        const boostNb = new boostnb.BoostNotebook();\n        boostNb.metadata = { defaultDir : BoostConfiguration.defaultDir};\n        return boostNb;\n    }\n\n    // otherwise, create a VSC notebook document and return it\n    const notebookData: vscode.NotebookData = {\n        metadata: { defaultDir : BoostConfiguration.defaultDir},\n        cells: []\n    };\n    const dummmyToken = new vscode.CancellationTokenSource().token;\n\n    const notebookBlob = await (new BoostContentSerializer()).serializeNotebook(notebookData, dummmyToken);\n    await vscode.workspace.fs.writeFile(filename, notebookBlob);\n\n    const newNotebook = await vscode.workspace.openNotebookDocument(filename);\n\n    return newNotebook;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 25,
+        "type": "originalCode",
+        "lineNumberBase": 617
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:31:48 PM PDT\n\nThis function, `sourceFileFromFullPath`, is written in TypeScript and is used to return the relative path of a file from the root of the workspace. It is designed to be used within the Visual Studio Code (VSCode) environment and uses some of its APIs. \n\nLet's break down the function:\n\n1. The function accepts one parameter, `fileUri`, which is of type `vscode.Uri`. This is the full path of the file as a URI.\n\n2. The function initializes two variables: `baseFolder` and `sourceFilePath`. `baseFolder` will store the path of the workspace folder, and `sourceFilePath` initially stores the file system path of the `fileUri`.\n\n3. The function then checks if there are any workspace folders open in VSCode using `vscode.workspace.workspaceFolders`. If there are, it proceeds to the next steps; otherwise, it skips to the end and returns the `sourceFilePath` as it is.\n\n4. If there are workspace folders, it gets the first one (`vscode.workspace.workspaceFolders[0]`) and assigns its file system path to `baseFolder`.\n\n5. It then calculates the relative path from `baseFolder` to `sourceFilePath` using the `path.relative` function from Node.js's `path` module.\n\n6. If the relative path starts with '..', it means the file is outside the workspace. In this case, it leaves `sourceFilePath` as it is (i.e., it uses the absolute path). If the file is within the workspace, it prepends './' to the relative path and assigns this to `sourceFilePath`.\n\n7. Finally, it returns `sourceFilePath`, which is either the absolute path (if the file is outside the workspace) or the relative path from the workspace root (if the file is inside the workspace).\n\nThis function does not seem to use any complex algorithms. It mainly uses APIs provided by VSCode and Node.js to manipulate file paths. It's a utility function designed to provide a consistent way to reference files within a VSCode workspace.\n\nYou can learn more about the APIs used from these links:\n- VSCode's Uri class: https://code.visualstudio.com/api/references/vscode-api#Uri\n- VSCode's workspace API: https://code.visualstudio.com/api/references/vscode-api#workspace\n- Node.js's path module: https://nodejs.org/api/path.html"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "26",
+      "value": "\nexport function sourceFileFromFullPath(fileUri: vscode.Uri) : string {\n    // we need to write the relativePath to the workspace into the notebook, so the source path isn't local to the system\n    // if there is a workspace... otherwise, we just write it as is\n    let baseFolder : string;\n    let sourceFilePath = fileUri.fsPath;\n    if (vscode.workspace.workspaceFolders) {\n        const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder\n        baseFolder = workspaceFolder.uri.fsPath;\n        const relativePath = path.relative(baseFolder, sourceFilePath);\n        // just use full path if the file is outside our workspace\n        if (!relativePath.startsWith('..')) {\n            sourceFilePath = \"./\" + relativePath;\n        }\n    }\n    return sourceFilePath;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 26,
+        "type": "originalCode",
+        "lineNumberBase": 641
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:32:23 PM PDT\n\nThis code is a function definition in JavaScript (or TypeScript) that is used to generate a full path from a source file. The function is part of a Visual Studio Code (VS Code) extension, as it uses the VS Code API. \n\nThe function `fullPathFromSourceFile` takes a `sourceFile` string as an argument, which is expected to be a relative path to a file. The function then returns a `vscode.Uri` object that represents the full path to the source file.\n\nHere's a step-by-step explanation of what the function does:\n\n1. The function first declares two variables: `baseFolder` and `fullPath`. The `baseFolder` is not assigned a value immediately, while `fullPath` is assigned the value of `sourceFile`.\n\n2. The function then checks if there are any workspace folders open in VS Code using `vscode.workspace.workspaceFolders`. \n\n3. If there are workspace folders, it checks if the `sourceFile` string starts with `./`, which indicates a relative path.\n\n4. If the `sourceFile` is a relative path, it retrieves the first workspace folder using `vscode.workspace.workspaceFolders[0]`. This workspace folder is then used as the base folder for constructing the full path.\n\n5. The `baseFolder` is assigned the file system path of the workspace folder using `workspaceFolder.uri.fsPath`.\n\n6. The `fullPath` is then constructed by joining the `baseFolder` and `sourceFile` using `path.join()`. This is a method from Node.js's `path` module that joins all given path segments together.\n\n7. The `fullPath` is then normalized using `path.normalize()`, which resolves '..' and '.' segments in the path.\n\n8. Finally, the function returns a `vscode.Uri` object that represents the `fullPath`, created using `vscode.Uri.parse()`.\n\nThis code does not appear to use any specific algorithm. It's a straightforward procedure for generating a full file path given a relative path and a base folder.\n\nFor more information on the VS Code API and Node.js's `path` module, you can check out the following links:\n- VS Code API: https://code.visualstudio.com/api/references/vscode-api\n- Node.js Path Module: https://nodejs.org/api/path.html"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "27",
+      "value": "\nexport function fullPathFromSourceFile(sourceFile : string) : vscode.Uri {\n    let baseFolder : string;\n    let fullPath = sourceFile;\n    if ( vscode.workspace.workspaceFolders) {\n        if (sourceFile.startsWith(\"./\")) {\n            const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder\n            baseFolder = workspaceFolder.uri.fsPath;\n            fullPath = path.join(baseFolder, sourceFile);\n            const normalizedFullPath = path.normalize(fullPath);\n            fullPath = normalizedFullPath;\n        }\n    }\n    return vscode.Uri.parse(fullPath);\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 27,
+        "type": "originalCode",
+        "lineNumberBase": 658
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:33:15 PM PDT\n\nThis JavaScript function `getOrCreateGuideline` is designed to create a guideline file for a project if it doesn't already exist. The function uses the `vscode.Uri` object to represent the file path of the guideline file and the `boostnb` module to create and manipulate a notebook. The function returns a boolean value indicating whether a new guideline file was created.\n\nHere is a step-by-step explanation of the code:\n\n1. The function `getOrCreateGuideline` is exported so it can be used in other modules. It takes two parameters: `projectGuidelineFile` which is a `vscode.Uri` object representing the file path of the guideline file, and `guidelineType` which is an optional parameter representing the type of the guideline.\n\n2. The function uses the `fs.existsSync` method to check if the guideline file already exists at the given path. If it does, the function returns `false`.\n\n3. If the guideline file does not exist, the function creates a string `sampleGuideline` which is a template for the guideline. If `guidelineType` is provided, it is used in the template, otherwise \"Project\" is used.\n\n4. Then, the function creates a new `BoostNotebookCell` object `sampleGuidelineCell` with the cell kind as `Markup`, an empty string for the language, and \"markdown\" for the mime type.\n\n5. The function creates an object `notebookMetadata` with the id of `sampleGuidelineCell`. If `guidelineType` is provided, it is added to the metadata, otherwise \"Project\" is added.\n\n6. The function calls the `initializeMetadata` method of `sampleGuidelineCell` to initialize its metadata with `notebookMetadata`, and sets its value to `sampleGuideline`.\n\n7. The function creates a new `BoostNotebook` object `newGuidelineNotebook` and adds `sampleGuidelineCell` to it by calling the `addCell` method.\n\n8. The function calls the `save` method of `newGuidelineNotebook` to save the notebook with the guideline to the file path represented by `projectGuidelineFile.fsPath`.\n\n9. Finally, the function returns `true`, indicating that a new guideline file was created.\n\nThe function doesn't use any specific algorithms, but it uses the `BoostNotebook` module to create and manipulate a notebook. The `BoostNotebook` module is not a standard JavaScript or Node.js module, and there is no online documentation available for it. It appears to be a custom module related to the Boostnote application, which is a note-taking app for programmers.\n\nThe code seems to follow standard JavaScript and Node.js conventions and doesn't appear to conflict with any architectural guidelines. However, without the context of the rest of the project, it's difficult to say for sure. The function could potentially be improved by adding error handling, for example to handle the case where the file path is not valid or the file cannot be saved for some reason."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "28",
+      "value": "\nexport function getOrCreateGuideline(projectGuidelineFile: vscode.Uri, guidelineType: any) : boolean{\n\n    if (fs.existsSync(projectGuidelineFile.fsPath)) {\n        return false;\n    }\n    const sampleGuideline = `# Enter Your ${guidelineType?guidelineType:\"Project\"} Guidelines Here\\n\\nYou can describe your goals, constraints, or hints for analysis`;\n\n    const sampleGuidelineCell = new boostnb.BoostNotebookCell(boostnb.NotebookCellKind.Markup, \"\", \"markdown\");\n    const notebookMetadata : any = {\"id\": sampleGuidelineCell.id};\n    notebookMetadata[\"guidelineType\"] = guidelineType?guidelineType:\"Project\";\n    sampleGuidelineCell.initializeMetadata(notebookMetadata);\n    sampleGuidelineCell.value = sampleGuideline;\n    const newGuidelineNotebook = new boostnb.BoostNotebook();\n    newGuidelineNotebook.addCell(sampleGuidelineCell);\n\n    newGuidelineNotebook.save(projectGuidelineFile.fsPath);\n\n    return true;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 28,
+        "type": "originalCode",
+        "lineNumberBase": 673
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:34:09 PM PDT\n\nThis code is written in TypeScript, a statically typed superset of JavaScript, and is part of a Visual Studio Code (VSCode) extension. It exports an asynchronous function named `getOrCreateBlueprintUri` that takes in two parameters: a `context` of type `vscode.ExtensionContext`, which provides access to the VSCode extension API, and a `filePath` of type `string`.\n\nThe function returns a Promise that resolves to a `vscode.Uri`, which represents a Uniform Resource Identifier (URI) that points to the location of a file.\n\nHere is a step-by-step explanation of the code:\n\n1. The function first retrieves the path of the workspace folder in VSCode. If there are no workspace folders, it defaults to an empty string.\n\n2. It then resolves the absolute file path of the `filePath` relative to the `workspacePath` using Node.js's `path.resolve()` method.\n\n3. It creates a `vscode.Uri` object from the absolute file path.\n\n4. The function checks if a file already exists at the absolute file path using Node.js's `fs.existsSync()` method. If the file exists, it returns the `vscode.Uri` object.\n\n5. If the file does not exist, the function reads the contents of a file named `blueprint_template.md` located in the `resources` directory of the extension's path. It does this using Node.js's `fs.readFileSync()` method.\n\n6. It checks if the directory of the absolute file path exists. If the directory does not exist, it creates the directory using Node.js's `fs.mkdirSync()` method with the `recursive` option set to `true`. This option ensures that parent directories are also created if they do not exist.\n\n7. The function then creates a new notebook using the `createEmptyNotebook()` method. This notebook is not a normal notebook file, so it needs to be converted into a new notebook with a Blueprint summary cell.\n\n8. It creates a new cell in the notebook with the contents of the `blueprint_template.md` file. It initializes the metadata of the cell and sets its value to the data read from the `blueprint_template.md` file.\n\n9. It adds the new cell to the notebook and saves the notebook at the location specified by the `vscode.Uri` object.\n\n10. Finally, it returns the `vscode.Uri` object.\n\nThis function is useful for creating a new notebook file from a template if the file does not already exist. The notebook file is saved in the location specified by the `filePath` parameter. If the directory of the `filePath` does not exist, it is created.\n\nFor more information on the VSCode extension API, Node.js's `path` and `fs` modules, and the BoostNotebook API, you can visit the following links:\n\n- [VSCode extension API](https://code.visualstudio.com/api/references/vscode-api)\n- [Node.js path module](https://nodejs.org/api/path.html)\n- [Node.js fs module](https://nodejs.org/api/fs.html)\n- [BoostNotebook API](https://github.com/BoostIO/BoostNote-App) (I couldn't find an official documentation link for this API, so I linked to the GitHub repository instead. You may want to search for more specific documentation if you need it.)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "29",
+      "value": "\nexport async function getOrCreateBlueprintUri(context: vscode.ExtensionContext, filePath: string): Promise<vscode.Uri>{\n    const workspacePath = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : '';\n    const absoluteFilePath = path.resolve(workspacePath, filePath);\n    const uri = vscode.Uri.file(absoluteFilePath);\n    if (fs.existsSync(absoluteFilePath)) {\n        return uri;\n    }\n\n    // If the file doesn't exist, create it with data from blueprint_template.md\n    const extensionPath = context.extensionPath;\n    const templatePath = path.join(extensionPath, 'resources', 'blueprint_template.md');\n    const normalizedTemplatePath = path.normalize(templatePath);\n    const data = fs.readFileSync(normalizedTemplatePath, 'utf8');\n\n    //filePath might point to a directory that does not exist yet. check for that and create it if necessary\n    const folderPath = path.dirname(absoluteFilePath);\n    fs.mkdirSync(folderPath, { recursive: true });\n\n    // technically this cached markdown file is not a normal notebook file - and since the\n    //  project summary is in a notebook form, we need to convert it into a new notebook with a Blueprint summary cell\n\n    const newBlueprintSummaryNotebook : boostnb.BoostNotebook = await createEmptyNotebook(uri, false) as boostnb.BoostNotebook;\n\n    const newBlueprintCell = new boostnb.BoostNotebookCell(boostnb.NotebookCellKind.Markup, \"\", \"markdown\");\n    newBlueprintCell.initializeMetadata({\"id\": newBlueprintCell.id, \"outputType\": ControllerOutputType.blueprint});\n    newBlueprintCell.value = data;\n    newBlueprintSummaryNotebook.addCell(newBlueprintCell);\n    newBlueprintSummaryNotebook.save(uri.fsPath);\n\n    return uri;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 29,
+        "type": "originalCode",
+        "lineNumberBase": 693
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:34:50 PM PDT\n\nThis code is a JavaScript function named `cleanCellOutput`. The purpose of this function is to remove certain information from a given string input. This function is implemented using Regular Expressions (regex). \n\nHere is a detailed explanation of the code:\n\n1. `export function cleanCellOutput(input: string): string {`: This line defines the function `cleanCellOutput` which takes a single argument `input` of type `string` and returns a `string`. The `export` keyword is used to make this function available for import by other modules in the codebase.\n\n2. `var pattern = /\\n\\n---\\n\\n### Boost [^\\n]*\\n\\nLast Updated: [^\\n]*\\n\\n/g;`: This line defines a regular expression pattern. This pattern matches a string that starts with two newline characters, followed by \"---\", followed by two newline characters, followed by \"### Boost \", followed by any characters that are not a newline character, followed by two newline characters, followed by \"Last Updated: \", followed by any characters that are not a newline character, followed by two newline characters. The \"g\" at the end of the pattern makes it a global search, meaning it will match all instances of this pattern in the string, not just the first one.\n\n3. `const cleanedInput = input.replace(pattern, \"\");`: This line of code replaces all instances of the defined pattern in the input string with an empty string. The `replace` method is a built-in JavaScript method for strings that takes two parameters: the pattern to replace and the string to replace it with.\n\n4. `return cleanedInput;`: This line returns the cleaned input string, i.e., the original input string with all instances of the defined pattern removed.\n\nThe algorithm used in this function is a simple string search and replace algorithm, implemented using JavaScript's built-in `replace` method for strings and regular expressions.\n\nFor more information about JavaScript's `replace` method and regular expressions, you can check out the following resources:\n- [JavaScript String replace() Method on W3Schools](https://www.w3schools.com/jsref/jsref_replace.asp)\n- [JavaScript Regular Expressions on MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "30",
+      "value": "\nexport function cleanCellOutput(input: string): string {\n    // strip out timestamps from the input\n    // ### Boost Code Compliance Check Summary\n    // Last Updated: Friday, June 16, 2023 at 8:24:17 PM PDT\n\n    // use regex to remove the above info\n    var pattern = /\\n\\n---\\n\\n### Boost [^\\n]*\\n\\nLast Updated: [^\\n]*\\n\\n/g;\n    const cleanedInput = input.replace(pattern, \"\");\n    return cleanedInput;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 30,
+        "type": "originalCode",
+        "lineNumberBase": 725
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:35:30 PM PDT\n\nThe provided code is written in TypeScript, a statically typed superset of JavaScript, and it defines a function named `generateCellOutputWithHeader`.\n\nThe function takes two parameters: \n1. `analysisType`: a string that represents the type of analysis.\n2. `analysisResults`: a string that represents the results of the analysis.\n\nThe function returns a formatted string that includes the analysis type, the current date and time, and the analysis results.\n\nNow let's break down the function:\n\n1. `export`: This keyword is used to make the function available for import in other modules.\n\n2. `function generateCellOutputWithHeader(analysisType: string, analysisResults: string): string`: This is the function declaration. The function name is `generateCellOutputWithHeader` and it takes two parameters, both of type string. The function is expected to return a string.\n\n3. Inside the function, a string is returned using template literals. Template literals are enclosed by backticks (`` ` ``) and allow embedded expressions, which will be evaluated and then converted into a string.\n\n4. `\\n\\n---\\n\\n### Boost ${analysisType}\\n\\nLast Updated: ${getCurrentDateTime()}\\n\\n${analysisResults}`: This is the template literal. It starts and ends with backticks. `${analysisType}`, `${getCurrentDateTime()}`, and `${analysisResults}` are expressions embedded in the template literal. They will be replaced by the values of `analysisType`, the result of `getCurrentDateTime()` function, and `analysisResults`, respectively. The `\\n` is a newline character, and `---` and `###` are markdown syntax for a horizontal line and a heading, respectively.\n\n5. `getCurrentDateTime()`: This is a function call. The function `getCurrentDateTime` is expected to return the current date and time. However, the function is not defined in the provided code, so it should be defined somewhere else in your project.\n\nThis function is useful for generating a formatted output of an analysis result, which can be used in a markdown file or displayed in a markdown-friendly interface.\n\nAs for the architectural guidelines, since there are no special guidelines or constraints provided, this function should generally follow good coding practices such as clear naming conventions, single responsibility principle (each function does one thing), and modularity (code is organized into small, independent modules).\n\nFor more information on template literals in JavaScript/TypeScript, you can refer to this link: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "31",
+      "value": "\nexport function generateCellOutputWithHeader(analysisType: string, analysisResults: string): string {\n    return `\\n\\n---\\n\\n### Boost ${analysisType}\\n\\nLast Updated: ${getCurrentDateTime()}\\n\\n${analysisResults}`;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 31,
+        "type": "originalCode",
+        "lineNumberBase": 736
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 7:36:02 PM PDT\n\nThis is a JavaScript function named `getCurrentDateTime` which does not take any parameters and returns a string. This function is a part of an ES6 module, as indicated by the `export` keyword which makes it available for import in other JavaScript files.\n\nThe function uses the built-in JavaScript `Date` object to get the current date and time. The `new Date()` constructor creates a new `Date` object with the current date and time.\n\nThe `toLocaleDateString` method is then called on the `Date` object. This method is used to convert a date object to a string, using locale conventions. The method takes two parameters:\n\n1. The locale parameter: This is a string that represents a language tag. In this case, it is set to \"en-US\", which represents English as used in the United States.\n\n2. The options parameter: This is an object that can contain several properties to define how the date should be formatted. In this case, the properties are set to display a long representation of the weekday, year, month, day, hour, minute, second, and the time zone name in short form.\n\nThe `toLocaleDateString` method returns a string that represents the date and time in the specified format. This string is then returned by the `getCurrentDateTime` function.\n\nThis function doesn't use any specific algorithm but uses built-in JavaScript methods to get the current date and time and format it according to the specified locale and options.\n\nYou can learn more about the `Date` object and `toLocaleDateString` method on the Mozilla Developer Network (MDN) web docs:\n\n- Date: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date\n- toLocaleDateString: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString\n\nThere are no special architectural guidelines or constraints specified for this project, so this function appears to be consistent with general good practices for JavaScript code. It is simple, straightforward, and does not appear to have any bugs or issues."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "32",
+      "value": "\nexport function getCurrentDateTime(): string {\n    return new Date().toLocaleDateString(\"en-US\", {\n        weekday: \"long\",\n        year: \"numeric\",\n        month: \"long\",\n        day: \"numeric\",\n        hour: \"numeric\",\n        minute: \"numeric\",\n        second: \"numeric\",\n        timeZoneName: \"short\",\n    });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 32,
+        "type": "originalCode",
+        "lineNumberBase": 740
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/extension.ts"
+  }
+}

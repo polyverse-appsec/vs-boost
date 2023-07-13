@@ -1,0 +1,83 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "swift",
+      "id": "0",
+      "value": "import Foundation\n\nlet wordsURL = NSURL(string: \"http://wiki.puzzlers.org/pub/wordlists/unixdict.txt\")!\n\nlet wordsstring = try NSString(contentsOfURL:wordsURL , encoding: NSUTF8StringEncoding)\nlet allwords = wordsstring.componentsSeparatedByString(\"\\n\")\n\nlet words = allwords//[0..<100] // used to limit the size while testing\n\nextension String {\n    var charactersAscending : String {\n        return String(Array(characters).sort())\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 8
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "swift",
+      "id": "1",
+      "value": "\nvar charsToWords = [String:Set<String>]()\n\nvar biggest = 0\nvar biggestlists = [Set<String>]()\n\nfor thisword in words {\n    let chars = thisword.charactersAscending\n\n    var knownwords = charsToWords[chars] ?? Set<String>()\n    knownwords.insert(thisword)\n    charsToWords[chars] = knownwords\n\n    if knownwords.count > biggest {\n        biggest = knownwords.count\n\n        biggestlists = [knownwords]\n    }\n    else if knownwords.count == biggest {\n        biggestlists.append(knownwords)\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 19
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "swift",
+      "id": "2",
+      "value": "\nprint(\"Found \\(biggestlists.count) sets of anagrams with \\(biggest) members each\")\nfor (i, thislist) in biggestlists.enumerate() {\n    print(\"set \\(i): \\(thislist.sort())\")\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 37
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/resources/anagrams.swift"
+  }
+}

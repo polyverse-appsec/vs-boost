@@ -1,0 +1,58 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as assert from 'assert';\nimport * as vscode from 'vscode';\nimport { NOTEBOOK_TYPE } from '../../jupyter_notebook';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\nsuite('Extension Commands', () => {\n  vscode.window.showInformationMessage('Start Command verification tests.');\n\n  test('createJsonNotebook command should be present', () => {\n    assert.ok(vscode.commands.getCommands().then(cmds => {\n      return cmds.indexOf(NOTEBOOK_TYPE + '.createJsonNotebook') !== -1;\n    }));\n  });\n\n  test('loadCodeFile command should be present', () => {\n    assert.ok(vscode.commands.getCommands().then(cmds => {\n      return cmds.indexOf(NOTEBOOK_TYPE + '.loadCodeFile') !== -1;\n    }));\n  });\n\n  test('selectOutputLanguage command should be present', () => {\n    assert.ok(vscode.commands.getCommands().then(cmds => {\n      return cmds.indexOf(NOTEBOOK_TYPE + '.selectOutputLanguage') !== -1;\n    }));\n  });\n\n  test('selectTestFramework command should be present', () => {\n    assert.ok(vscode.commands.getCommands().then(cmds => {\n      return cmds.indexOf(NOTEBOOK_TYPE + '.selectTestFramework') !== -1;\n    }));\n  });\n\n  test('customerPortal command should be present', () => {\n    assert.ok(vscode.commands.getCommands().then(cmds => {\n      return cmds.indexOf(NOTEBOOK_TYPE + '.customerPortal') !== -1;\n    }));\n  });\n\n  test('boostStatus command should be present', () => {\n    assert.ok(vscode.commands.getCommands().then(cmds => {\n      return cmds.indexOf(NOTEBOOK_TYPE + '.boostStatus') !== -1;\n    }));\n  });\n\n  test('loadCurrentFile command should be present', () => {\n    assert.ok(vscode.commands.getCommands().then(cmds => {\n      return cmds.indexOf(NOTEBOOK_TYPE + '.loadCurrentFile') !== -1;\n    }));\n  });\n\n  test('loadCurrentFolder command should be present', () => {\n    assert.ok(vscode.commands.getCommands().then(cmds => {\n      return cmds.indexOf(NOTEBOOK_TYPE + '.loadCurrentFolder') !== -1;\n    }));\n  });\n\n  test('processCurrentFile command should be present', () => {\n    assert.ok(vscode.commands.getCommands().then(cmds => {\n      return cmds.indexOf(NOTEBOOK_TYPE + '.processCurrentFile') !== -1;\n    }));\n  });\n\n  test('processCurrentFolder command should be present', () => {\n    assert.ok(vscode.commands.getCommands().then(cmds => {\n      return cmds.indexOf(NOTEBOOK_TYPE + '.processCurrentFolder') !== -1;\n    }));\n  });\n\n});\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 3
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/suite/commands_exist.test.ts"
+  }
+}

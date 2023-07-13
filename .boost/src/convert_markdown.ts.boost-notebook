@@ -1,0 +1,158 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:21:02 PM PDT\n\nThe code snippet you provided is an import statement in JavaScript, specifically using the ECMAScript 2015 (ES6) module syntax. This import statement is used to include specific functions, objects, or values from a module into the current file.\n\nHere is a detailed explanation of the code:\n\n1. `import { BoostNotebook, SerializedNotebookCellOutput, NOTEBOOK_EXTENSION } from './jupyter_notebook';`\n\n   This line of code is importing three specific exports (`BoostNotebook`, `SerializedNotebookCellOutput`, `NOTEBOOK_EXTENSION`) from a module/file named `jupyter_notebook` located in the same directory as the current file (indicated by `./`).\n\n   - `BoostNotebook`: This is likely a class, function, or object that is related to a \"notebook\" in the BoostNote application. A notebook in this context is a document containing both code (e.g., python or javascript) and rich text elements (paragraphs, equations, links, etc...). The specific implementation and usage of `BoostNotebook` would depend on the details in the `jupyter_notebook` module.\n   \n   - `SerializedNotebookCellOutput`: This is likely a data structure or type that represents the output of a cell in a serialized form. In Jupyter notebooks, a cell is a container for text to be displayed in the notebook or code to be executed by the notebook’s kernel. The output of a cell would be the result of executing the code in the cell, and serializing this output would convert it into a format that can be stored or transmitted.\n   \n   - `NOTEBOOK_EXTENSION`: This is likely a constant that represents the file extension used for notebook files. For Jupyter notebooks, this is typically `.ipynb`.\n\nRegarding the algorithms used, as this is just an import statement, there are no specific algorithms being used in this code snippet. However, the imported elements might be used in algorithms within the file.\n\nAs for the architectural guidelines, since there are no additional special architectural guidelines or constraints provided, we can only assume that this import statement adheres to the general best practices for module organization and code reuse in JavaScript.\n\nFor more information about ES6 modules and import statement, you can refer to the following resources:\n- [Mozilla Developer Network (MDN) documentation on import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [ES6 Modules in Depth](https://ponyfoo.com/articles/es6-modules-in-depth)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import { BoostNotebook, SerializedNotebookCellOutput, NOTEBOOK_EXTENSION } from './jupyter_notebook';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": -1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:21:36 PM PDT\n\nThis code is written in TypeScript, a statically typed superset of JavaScript. TypeScript adds static types, classes, and modules to JavaScript, allowing for better tooling and better documentation through type inference.\n\nThe code defines and exports an asynchronous function `generateMarkdownforNotebook` that accepts two parameters `boostNotebookPath` and `baseFolderPath`. This function returns a Promise that resolves to a string.\n\nHere is a detailed breakdown of the code:\n\n1. Import `fs` (file system) module from Node.js: This module provides an API for interacting with the file system in a manner closely modeled around standard POSIX functions.\n\n2. The `generateMarkdownforNotebook` function is declared as `async`, meaning it returns a Promise. It takes two arguments: `boostNotebookPath` and `baseFolderPath`. These are presumably the path to the Boostnote notebook file and the base folder path where the markdown file will be generated.\n\n3. Inside the function, a new Promise is created. This Promise is designed to resolve with a string (the markdown filename) or reject with an error.\n\n4. In the Promise executor function, a try-catch block is used to handle any errors that might occur during the execution of the code.\n\n5. Inside the try block, the extension of the boostNotebookPath is replaced with '.md' to create the markdown filename.\n\n6. A new instance of `BoostNotebook` is created and loaded with the Boostnote notebook file.\n\n7. The `generateMarkdownFromJson` function is called with the Boostnote notebook, the notebook path, the base folder path, and the markdown filename as arguments. This function presumably converts the Boostnote notebook into a markdown file. Since this function is awaited, it is assumed to be asynchronous and return a Promise.\n\n8. If all the above operations are successful, the Promise is resolved with the markdown filename.\n\n9. If any error occurs, the Promise is rejected with the error.\n\nThe algorithm used in this code is straightforward: it loads a Boostnote notebook, converts it into a markdown file, and saves the markdown file with the same name as the notebook but with a '.md' extension.\n\nUnfortunately, without additional context or access to the `BoostNotebook` and `generateMarkdownFromJson` functions, it's difficult to provide more detailed information or links for further reading."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import * as fs from 'fs';\n\nexport async function generateMarkdownforNotebook(boostNotebookPath : string, baseFolderPath : string) : Promise<string> {\n    return new Promise<string> (async (resolve, reject) => {\n        try {\n            const mdFilename = boostNotebookPath.replace(NOTEBOOK_EXTENSION, '.md');\n\n            const boostNotebook = new BoostNotebook();\n            boostNotebook.load(boostNotebookPath);\n            await generateMarkdownFromJson(boostNotebook, boostNotebookPath, baseFolderPath, mdFilename);\n            resolve(mdFilename);\n        } catch (error) {\n            reject(error);\n        }\n    });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 2
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:22:10 PM PDT\n\nThis JavaScript code defines an asynchronous function named `generateMarkdownFromJson`. This function is designed to transform a BoostNotebook object into Markdown format and then save it to a file. The function uses JavaScript's Promise object, which is used for asynchronous computations and can represent a value which may be available now, or in the future, or never.\n\nHere's a detailed breakdown of the code:\n\n1. **Function Declaration**: The function `generateMarkdownFromJson` is declared with four parameters:\n   - `boostNotebook`: This is presumably a JSON object representing the notebook to be converted into Markdown.\n   - `notebookPath`: This is the path where the notebook is located.\n   - `baseFolderPath`: This is the base folder path where the notebook file is located.\n   - `outputPath`: This is the path where the output Markdown file will be saved.\n\n2. **Promise Creation**: The function returns a new Promise object. This Promise object is used to handle the asynchronous nature of the function `generateMarkdownFromObject` which is presumably used to convert the BoostNotebook object to Markdown format.\n\n3. **Markdown Generation**: Inside the Promise, the function `generateMarkdownFromObject` is called with the `boostNotebook`, `notebookPath`, `baseFolderPath` parameters along with an object that has three properties: `showOutputMetadata`, `printSourceCodeBorder`, and `wrapText` all set to `false`. This function is awaited using the `await` keyword, which pauses the execution of the function until the Promise is resolved or rejected. The result of this function is stored in the `markdown` constant.\n\n4. **Saving Markdown to File**: The `fs.writeFileSync` function is used to write the generated Markdown into a file at the `outputPath`. This is a synchronous operation, meaning the execution of the code will halt until the file is written.\n\n5. **Error Handling**: If any error occurs during the execution of the Promise, it is caught in the `catch` block and the Promise is rejected with the error. If no error occurs, the Promise is resolved with no value (`resolve()`).\n\nThis function uses the concept of Promises and async/await in JavaScript for handling asynchronous operations. Here is a link for more information on these topics:\n- Promises: [MDN Web Docs - Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)\n- Async/await: [MDN Web Docs - async function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) \n\nAs for architectural guidelines, without specific constraints or guidelines provided, it's assumed that this code follows standard JavaScript best practices. The function is modular, takes in clear inputs, and returns a Promise, making it easy to integrate into larger codebases that use Promise-based asynchronous handling."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "\nasync function generateMarkdownFromJson(boostNotebook: BoostNotebook, notebookPath : string, baseFolderPath : string, outputPath: string): Promise<void> {\n    return new Promise<void> (async (resolve, reject) => {\n        try {\n            const markdown = await generateMarkdownFromObject(boostNotebook, notebookPath, baseFolderPath,\n                { showOutputMetadata: false,\n                  printSourceCodeBorder: false,\n                  wrapText: false } );\n          \n            // Save the Markdown to a file\n            fs.writeFileSync(outputPath, markdown);\n            resolve();\n        } catch (error) {\n            reject(error);\n        }\n    });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 17
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:22:43 PM PDT\n\nThe provided code snippet is written in TypeScript, a statically typed superset of JavaScript that adds optional types to the language. TypeScript is designed for development of large applications and transcompiles to JavaScript.\n\nThe code defines an interface called `PrintOptions`. In TypeScript, an interface is a way to define a contract on a function or object to have a particular structure. An interface is not to be confused with classes, they are different concepts. An interface is a structure that defines the contract in your application. It defines the syntax for classes to follow, which means a class that implements an interface must adhere to the structure provided by the interface.\n\nThe `PrintOptions` interface in this case contains three properties:\n\n1. `showOutputMetadata`: This is a boolean property. If it's true, the output metadata will be shown, otherwise it won't be shown.\n\n2. `printSourceCodeBorder`: This is also a boolean property. If it's true, the source code border will be printed, otherwise it won't be printed.\n\n3. `wrapText`: This is a boolean property as well. If it's true, the text will be wrapped, otherwise it won't be wrapped.\n\nThe purpose of this interface is to provide a structure for print options in the application. Any object that is used as print options should have these three properties. This helps ensure consistency and reduces the chance of errors.\n\nAs for the architecture, this code is well-structured and does not seem to conflict with any architectural guidelines or constraints. However, without additional context, it's hard to provide a more detailed analysis.\n\nFor more information about TypeScript interfaces, you can refer to the official TypeScript documentation: [TypeScript Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "\ninterface PrintOptions {\n  showOutputMetadata: boolean;\n  printSourceCodeBorder: boolean;\n  wrapText: boolean;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 34
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:23:22 PM PDT\n\nThis is an asynchronous function in JavaScript that generates a Markdown formatted string from a BoostNotebook object. Markdown is a lightweight markup language for creating formatted text using a plain text editor. The function takes four parameters: a BoostNotebook object, a path to a notebook file, a base folder path, and print options. It returns a promise that resolves to a string.\n\nHere's a breakdown of what the function does:\n\n1. The function first defines some constants for font sizes that are not used in the provided code.\n\n2. It uses Node.js's `fs.statSync()` function to get the metadata of the file located at `notebookPath`. It then retrieves the modification time of the file and converts it to an ISO string.\n\n3. It sets the page title to \"Polyverse Boost-generated Source Documentation\".\n\n4. It retrieves the source file name from the metadata of the BoostNotebook.\n\n5. It creates a section heading that includes the source file name and the date the file was generated.\n\n6. It initializes a string `markdownContent` with the page title and the section heading, both formatted in Markdown.\n\n7. It iterates over each cell in the BoostNotebook. For each cell, it appends to the `markdownContent` string the cell ID, the programming language of the cell, and the original code in the cell. The original code is formatted in a Markdown code block.\n\n8. It replaces all tab characters in the cell content with spaces.\n\n9. It retrieves the outputs of the cell, if any, and formats them according to the provided print options. The formatted outputs are then appended to the `markdownContent` string.\n\n10. At the end of the function, it returns the `markdownContent` string.\n\nThe function doesn't seem to use any specific algorithms. It primarily uses string concatenation and the map function to format the BoostNotebook into a Markdown string.\n\nThis function could be part of a larger system for generating documentation from source code or for exporting code notebooks to Markdown.\n\nHere are some links for further reading:\n\n- [Node.js fs.statSync() function](https://nodejs.org/api/fs.html#fs_fs_statsync_path_options)\n- [Markdown Guide](https://www.markdownguide.org/)\n- [JavaScript Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises)\n- [JavaScript map function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)\n\nNote: The code does not conflict with any architectural guidelines as none were provided. The code is simple, easy to understand, and does not appear to violate any common best practices."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "async function generateMarkdownFromObject(\n    boostNotebook: BoostNotebook,\n    notebookPath: string,\n    baseFolderPath: string,\n    printOptions: PrintOptions\n  ): Promise<string> {\n    const largeFontSize = 16;\n    const mediumFontSize = 12;\n    const smallFixedFontSize = 9;\n  \n    const stats = fs.statSync(notebookPath);\n    const timestamp = stats.mtime;\n    const fileStamp = timestamp.toISOString();\n  \n    const pageTitle = `Polyverse Boost-generated Source Documentation`;\n  \n    const sourceFile = boostNotebook.metadata['sourceFile'] as string;\n  \n    const sectionHeading = `Source File: ${sourceFile}\\nDate Generated: ${fileStamp}`;\n  \n    let markdownContent =\n        `# ${pageTitle}\\n\\n` +\n        `## ${sectionHeading}\\n\\n`;\n  \n    for (const boostCell of boostNotebook.cells) {\n      markdownContent += `\\n### Cell ${boostCell.id}:\\n`;\n      markdownContent += `Programming Language: ${boostCell.languageId}\\n`;\n      markdownContent += `## Original Code:\\n\\n`;\n  \n      let cellContent = boostCell.value.replace(/\\t/g, ' ');\n  \n      markdownContent += \"```\\n\" + `${cellContent}` + '\\n```\\n';\n  \n      const cellOutputs = boostCell.outputs || [];\n      const outputText = cellOutputs\n        .map((output) => formatOutput(output, printOptions))\n        .join('\\n');\n  \n      markdownContent += `## Boost Analysis:\\n${outputText}\\n\\n`;\n    }\n  \n    return markdownContent;\n  }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 44
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:24:14 PM PDT\n\nThis is a TypeScript function named `formatOutput` that takes two parameters: `output` and `printOptions`. The `output` parameter is of type `SerializedNotebookCellOutput`, which suggests that it represents the serialized output from a cell in a notebook, likely from a Jupyter notebook or a similar interactive programming environment. The `printOptions` parameter is of type `PrintOptions`, which suggests that it controls how the output is formatted for printing or displaying.\n\nThe function `formatOutput` processes the `output` and `printOptions` to generate a formatted string representation of the output. The steps it follows are:\n\n1. It iterates over the `items` array in the `output` object. Each `item` is expected to have two properties: `mime`, a string that represents the MIME type of the item's data, and `data`, the actual data of the item.\n\n2. For each `item`, it initializes an empty string `text`. It then checks the `mime` property of the `item`. If the `mime` starts with 'text/x-', it appends a string to `text` that indicates the programming language the data is in, which is obtained by removing 'text/x-' from the `mime`. If the `mime` does not start with 'text/markdown', it appends a string to `text` that indicates the MIME type of the data.\n\n3. It then appends the `data` of the `item` to `text`, separated by a newline character.\n\n4. After processing all items, it joins all the `text` strings into a single string `items`, with each `text` separated by a newline character.\n\n5. It then checks if `showOutputMetadata` is true in `printOptions` and if `metadata` is present in `output`. If both conditions are true, it generates a string `metadata` that represents the metadata of the output in a pretty-printed JSON format. If either condition is false, `metadata` is an empty string.\n\n6. Finally, it returns a string that concatenates `items` and `metadata`, separated by a newline character.\n\nThis function does not seem to use any specific algorithms. It primarily uses string processing and conditional checks to format the output. \n\nFor more information on JavaScript's string methods and JSON.stringify, you can refer to the following links:\n- [JavaScript String startsWith()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith)\n- [JavaScript String replace()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace)\n- [JavaScript Array join()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join)\n- [JSON.stringify()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)\n\nThe code appears to be consistent with general software design principles and does not seem to conflict with any architectural guidelines provided."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "  \n  function formatOutput(output: SerializedNotebookCellOutput, printOptions: PrintOptions): string {\n    const items = output.items\n      .map((item) => {\n        let text = '';\n        if (item.mime.startsWith('text/x-')) {\n          text += `Converted Programming Language: ${item.mime.replace('text/x-', '')}\\n`;\n        } else if (!item.mime.startsWith('text/markdown')) {\n          text += `MIME Type: ${item.mime}\\n`;\n        }\n        return text + `\\n${item.data}`;\n      })\n      .join('\\n');\n  \n    const metadata = printOptions.showOutputMetadata && output.metadata ? `Metadata: ${JSON.stringify(output.metadata, null, 2)}` : '';\n  \n    return `${items}\\n${metadata}`;\n  }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 83
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/convert_markdown.ts"
+  }
+}

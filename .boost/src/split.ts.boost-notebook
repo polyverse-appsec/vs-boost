@@ -1,0 +1,308 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:29:32 PM PDT\n\nThis script is written in TypeScript, a statically typed superset of JavaScript that adds optional types to the language. It defines a single function `splitCode` that takes a string of code and returns two arrays: one containing chunks of code, and the other containing the line numbers where each chunk starts.\n\nThe function `splitCode` works as follows:\n\n1. It initializes two empty arrays `chunks` and `lineNumbers`, and a few other variables.\n\n2. It splits the input code into lines using the `split` function with '\\n' as the separator.\n\n3. Then it iterates over each line of code. For each line, it appends the line to the current chunk and counts the number of left and right braces in the line.\n\n4. If there are left braces in the line, it increases the `nestingCount` by the number of left braces. If the `inNest` flag is false, it means a new chunk is starting, so it sets the `chunkStartLine` to the current line number and sets the `inNest` flag to true.\n\n5. If there are right braces in the line, it decreases the `nestingCount` by the number of right braces.\n\n6. If the `nestingCount` is zero, the current chunk is not empty, and the `inNest` flag is true, it means a chunk has ended. So it pushes the current chunk and its start line number to their respective arrays, and resets the current chunk and the `inNest` flag.\n\n7. After the loop, if there is still some code in the current chunk, it pushes the current chunk and its start line number to their respective arrays.\n\n8. Finally, it returns the `chunks` and `lineNumbers` arrays.\n\nThis function uses a simple algorithm for splitting code into chunks based on brace pairs. It can be used for analyzing or processing code in languages that use braces for code blocks, such as JavaScript, TypeScript, C, C++, Java, etc.\n\nFor more information about TypeScript, you can visit its official website: https://www.typescriptlang.org/. For more information about the `split` function and regular expressions in JavaScript, you can visit the MDN Web Docs: https://developer.mozilla.org/."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as path from 'path';\n\nfunction splitCode(code: string): [string[], number[]] {\n    const chunks: string[] = [];\n    const lineNumbers: number[] = [];\n    const lines = code.split('\\n');\n    let currentChunk = '';\n    let chunkStartLine = 0; // this will track the line number where each chunk starts\n    let nestingCount = 0;\n    let inNest = false;\n\n    for (let lineno = 0; lineno < lines.length; lineno++) {\n        const line = lines[lineno];\n        currentChunk += line + '\\n';\n\n        const leftBraces = (line.match(/{/g) || []).length;\n        const rightBraces = (line.match(/}/g) || []).length;\n\n        if (leftBraces > 0) {\n            nestingCount += leftBraces;\n\n            if (!inNest) {\n                chunkStartLine = lineno; // a new chunk is starting here\n                inNest = true;\n            }\n        }\n\n        if (rightBraces > 0) {\n            nestingCount -= rightBraces;\n        }\n\n        if (nestingCount === 0 && currentChunk.trim() !== '' && inNest) {\n            chunks.push(currentChunk);\n            lineNumbers.push(chunkStartLine);\n            currentChunk = '';\n            inNest = false;\n        }\n    }\n\n    // add the final chunk if it exists\n    if (currentChunk.trim() !== '') {\n        chunks.push(currentChunk);\n        lineNumbers.push(chunkStartLine);\n    }\n\n    return [chunks, lineNumbers];\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:30:05 PM PDT\n\nThis is a simple TypeScript function named `getFileExtension` that takes a filename as a string input and returns its file extension as a string.\n\nHere is the step-by-step explanation of the code:\n\n1. The function `getFileExtension` is declared with one parameter `filename` which is of type `string`.\n\n2. Inside the function, a constant variable `lastIndex` is declared. The `lastIndexOf` method is called on the `filename` variable with the argument `\".\"`. This method returns the last index at which the specified value (`\".\"` in this case) can be found in the string, or -1 if the value is not found. Essentially, it's looking for the position of the last period in the filename, which is typically the start of the file extension.\n\n3. The function then returns a conditional (ternary) operation. If `lastIndex` is not equal to -1 (meaning a period was found in the filename), it will return the portion of the filename after the last period, which is done using the `slice` method. The `slice` method extracts a section of a string and returns it as a new string. The argument to the `slice` method is `lastIndex + 1`, meaning it starts slicing from the character after the period. If `lastIndex` is -1 (meaning no period was found in the filename), it will return an empty string.\n\nThis function does not use any specific algorithm, but it uses string methods provided by JavaScript (and thus available in TypeScript). \n\nHere is a link to learn more about the methods used:\n- `lastIndexOf`: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/lastIndexOf\n- `slice`: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice\n\nAs for architectural guidelines, this function is a standalone piece of code and does not interact with any other components, so it's hard to evaluate it in that context. However, it is a pure function - it does not produce any side effects and for the same input, it will always produce the same output, which is generally a good practice in functional programming."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\n\n\nfunction getFileExtension(filename: string): string {\n    const lastIndex = filename.lastIndexOf(\".\");\n    return lastIndex !== -1 ? filename.slice(lastIndex + 1) : \"\";\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 49
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:30:31 PM PDT\n\nThis piece of code is a function named `getVSCodeLanguageId` written in TypeScript. It is used to map a given file's extension to its corresponding programming language identifier in Visual Studio Code (VSCode). VSCode uses these identifiers to provide language-specific features such as syntax highlighting and IntelliSense.\n\nHere is a step-by-step explanation of the code:\n\n1. The function `getVSCodeLanguageId` takes a single argument `filename`, which is a string representing the name of the file you want to get the language ID for.\n\n2. It calls a function `getFileExtension(filename)` to extract the file extension from the filename. The code for `getFileExtension` is not provided, but presumably, it returns the part of the filename after the last dot.\n\n3. If the file does not have an extension (i.e., `fileExtension` is an empty string), it parses the filename using the `path.parse(filename).name` expression. This expression uses Node.js's `path` module to parse the filename into its components and returns the name of the file without the extension.\n\n4. If the parsed filename is also empty, it defaults to the basename of the filename (i.e., the filename without the preceding directories) using `path.basename(filename)`.\n\n5. The function then defines a `languageMappings` object. This object is a dictionary that maps file extensions (as keys) to their corresponding VSCode language identifiers (as values).\n\n6. Finally, the function returns the VSCode language identifier corresponding to the file's extension by looking up the file extension in the `languageMappings` object. If the file extension is not in the `languageMappings` object, it defaults to \"plaintext\".\n\nThe algorithm used in this function is a simple dictionary lookup. It uses the file extension as the key to find the corresponding language identifier in the `languageMappings` dictionary.\n\nFor more information about the `path` module in Node.js, you can refer to the official Node.js documentation: https://nodejs.org/api/path.html. For more information about language identifiers in VSCode, you can refer to the official VSCode documentation: https://code.visualstudio.com/docs/languages/identifiers."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "\nfunction getVSCodeLanguageId(filename: string): string {\n    let fileExtension = getFileExtension(filename);\n    if (fileExtension === \"\") {\n        let parsedFilename = path.parse(filename).name;\n        fileExtension = parsedFilename || path.basename(filename);\n    }\n\n    const languageMappings: { [key: string]: string } = {\n        \"js\": \"javascript\",\n        \"ts\": \"typescript\",\n        \"coffee\": \"coffeescript\",\n        \"html\": \"html\",\n        \"css\": \"css\",\n        \"json\": \"json\",\n        \"xml\": \"xml\",\n        \"xsl\": \"xml\",\n        \"xslt\": \"xml\",\n        \"md\": \"markdown\",\n        \"py\": \"python\",\n        \"c\": \"c\",\n        \"cpp\": \"cpp\",\n        \"h\": \"c\",\n        \"hpp\": \"cpp\",\n        \"cs\": \"csharp\",\n        \"java\": \"java\",\n        \"go\": \"go\",\n        \"rb\": \"ruby\",\n        \"php\": \"php\",\n        \"swift\": \"swift\",\n        \"kt\": \"kotlin\",\n        \"m\": \"objective-c\",\n        \"ps1\": \"powershell\",\n        \"pl\": \"perl\",\n        \"pm\": \"perl\",\n        \"pod\": \"perl\",\n        \"groovy\": \"groovy\",\n        \"lua\": \"lua\",\n        \"rs\": \"rust\",\n        \"sh\": \"shellscript\",\n        \"bash\": \"shellscript\",\n        \"r\": \"r\",\n        \"yml\": \"yaml\",\n        \"yaml\": \"yaml\",\n        \"fs\": \"fsharp\",\n        \"fsx\": \"fsharp\",\n        \"vb\": \"vb\",\n        \"txt\": \"plaintext\",\n        \"sql\": \"sql\",\n        \"gradle\": \"plaintext\",\n        \"csproj\": \"plaintext\",\n        \"vbproj\": \"plaintext\",\n        \"fsproj\": \"plaintext\",\n        \"sln\": \"plaintext\",\n        \"toml\": \"plaintext\",\n        \"xcodeproj\": \"plaintext\",\n        \"rakefile\": \"plaintext\",\n        \"makefile\": \"plaintext\"\n    };\n\n    return languageMappings[fileExtension] || \"plaintext\";\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 54
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:31:00 PM PDT\n\nThis code defines a function `parseFunctions` in TypeScript. It takes two parameters: `filename` and `code`. The `filename` is used to determine the programming language of the code, and `code` is the actual code that needs to be parsed.\n\nThe function first calls `getVSCodeLanguageId` with `filename` as the parameter to get the language ID. This function is not defined in the provided code, but it's presumably a function that determines the programming language based on the file extension.\n\nNext, it defines a dictionary `parsers` where the keys are language IDs and the values are the corresponding parsing functions for each language. The parsing functions are expected to take a string (the code) as input and return a tuple of two elements: a list of parsed code segments and a list of line numbers.\n\nThen, it defines a `Set` `cStyleLanguages`, which contains the IDs of languages that have C-style syntax.\n\nThe function then determines which parser to use. If the language ID is in `cStyleLanguages`, it uses `splitCode` as the parser; otherwise, it looks up the parser in the `parsers` dictionary using the language ID.\n\nIf a parser is found, it is used to parse the `code`, and the function returns a tuple of three elements: the language ID, the parsed code, and the line numbers.\n\nIf no parser is found and the language ID is \"plaintext\", the function treats the code as plain text and does not parse it. It returns the language ID, the original code (as a single-element array), and a single-element array containing 0 as the line number.\n\nIf no parser is found and the language ID is not \"plaintext\", the function uses `splitCode` to parse the code and returns the language ID, the parsed code, and the line numbers.\n\nThe algorithms used in this code are mostly lookups in dictionaries and sets, which are typically O(1) operations.\n\nFor more information about TypeScript, you can check this link: [TypeScript Documentation](https://www.typescriptlang.org/docs/)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "\ntype CodeParser = (code: string) => string[];\nexport function parseFunctions(filename: string, code: string): [string, string[], number[]] {\n    const languageId = getVSCodeLanguageId(filename);\n    const parsers: { [key: string]: (code: string) => [string[], number[]] } = {\n        \"python\": parsePythonFunctions,\n        \"ruby\": parseRubyFunctions,\n        \"php\": parsePhpFunctions,\n        \"vb\": parseVbFunctions,\n        \"perl\": parsePerlFunctions,\n        // eslint-disable-next-line @typescript-eslint/naming-convention\n        \"objective-c\": parseObjCMethods,\n        \"go\": parseGoFunctions,\n    };\n\n    const cStyleLanguages = new Set([\n        \"c\",\n        \"cpp\",\n        \"javascript\",\n        \"typescript\",\n        \"swift\",\n        \"coffeescript\"\n    ]);\n\n    const parser = cStyleLanguages.has(languageId)\n        ? splitCode\n        : parsers[languageId];\n\n    // if we have a known parser, use it\n    if (parser) {\n        const [parsedCode, lineNumbers] = parser(code);\n        return [languageId, parsedCode, lineNumbers];\n        // if the language is unknown, treat it as plaintext, and don't parse it\n        //  send one big chunk and presume its small enough to be processed\n    } else if (languageId === \"plaintext\") {\n        return [languageId, [code], [0]];\n        // otherwise split the code based on default bracket parsing\n    } else {\n        const [splitCodeResult, lineNumbers] = splitCode(code);\n        return [languageId, splitCodeResult, lineNumbers];\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 117
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:31:32 PM PDT\n\nThis code is written in TypeScript, a statically typed superset of JavaScript that adds optional types to the language. The function `parsePerlFunctions` takes a string argument `code` and returns a tuple of two arrays, one of string and one of number.\n\nThe function `parsePerlFunctions` is designed to parse Perl functions from a given code string. It uses a helper function `parseBracketyLanguage` to do the actual parsing. The helper function is not provided in this code snippet, but we can infer some details about it based on its usage.\n\nThe `parseBracketyLanguage` function is called with two arguments: `code` and the string `'sub'`. The `code` argument is the Perl code to parse. The string `'sub'` is presumably a keyword that the `parseBracketyLanguage` function uses to identify the start of a function in the Perl language. \n\nThe `parseBracketyLanguage` function returns a tuple of two arrays. The first array, `functions`, contains the names of the parsed functions. The second array, `lineNumbers`, contains the line numbers where these functions are defined in the code. Both arrays are expected to have the same length, with each element at a given index in the `functions` array corresponding to the element at the same index in the `lineNumbers` array.\n\nFinally, `parsePerlFunctions` returns the `functions` and `lineNumbers` arrays in a tuple.\n\nThis code doesn't seem to use any particular algorithm, it's more of a utility function that delegates the work to another function. The actual parsing algorithm would be implemented in the `parseBracketyLanguage` function.\n\nSince the code doesn't provide any special architectural guidelines or constraints, the analysis is based on general good programming practices. The code appears to be well-structured and straightforward. It delegates the task of parsing to a function that is presumably designed to parse a variety of \"brackety\" languages, which is a good practice for code reuse and separation of concerns.\n\nFor more information about TypeScript, you can visit the official TypeScript documentation: https://www.typescriptlang.org/docs/. For more information about Perl, you can visit the official Perl documentation: https://perldoc.perl.org/."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "\nfunction parsePerlFunctions(code: string): [string[], number[]] {\n    const [functions, lineNumbers] = parseBracketyLanguage(code, 'sub');\n    return [functions, lineNumbers];\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 158
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:32:05 PM PDT\n\nThis code is a simple JavaScript (or TypeScript) function named `parsePhpFunctions`. The purpose of this function is to parse PHP code and extract all the functions within it, along with their respective line numbers. The function takes a string as input, which is expected to be PHP code, and returns a tuple containing an array of function names and an array of line numbers.\n\nThe function `parsePhpFunctions` uses another function `parseBracketyLanguage` to perform the actual parsing. The `parseBracketyLanguage` function is not shown in the provided code, but based on the usage here, we can infer that it takes two arguments: the code to be parsed, and a string representing the keyword to look for (in this case, 'function').\n\nThe `parseBracketyLanguage` function is expected to return a tuple containing two arrays: the first array contains the names of the functions found in the PHP code, and the second array contains the line numbers where these functions were found.\n\nThe `parsePhpFunctions` function then simply returns these two arrays.\n\nThis function uses the concept of parsing, which is a common technique in computer science used to analyze a string of symbols, either in natural language, computer languages or data structures. It typically involves a process of segmenting a text into meaningful elements called tokens. In this case, the tokens are PHP functions.\n\nThe algorithm used in the `parseBracketyLanguage` function is not visible in the provided code, but it likely involves scanning the provided code line by line, looking for occurrences of the provided keyword ('function' in this case), and extracting the function names and line numbers.\n\nFor more information about parsing, you can refer to this link: https://en.wikipedia.org/wiki/Parsing\n\nRegarding the architectural guidelines, as none were provided, we can only assume that this function is consistent with the overall project architecture and design principles, as long as it is used in a context where parsing PHP code is relevant and necessary."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "\n\nfunction parsePhpFunctions(code: string): [string[], number[]] {\n    const [functions, lineNumbers] = parseBracketyLanguage(code, 'function');\n    return [functions, lineNumbers];\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 164
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:32:48 PM PDT\n\nThis JavaScript function, `parseVbFunctions`, is used to parse Visual Basic code, specifically to extract the functions or subroutines and their line numbers.\n\nHere's a step-by-step explanation of what the function does:\n\n1. The function takes a string `code` as an argument. This string is expected to be Visual Basic code.\n\n2. The `code` string is split into an array of lines with the `split('\\n')` method. This creates an array where each element is a line of code.\n\n3. Two empty arrays, `functions` and `lineNumbers`, are declared. These will hold the extracted functions and their corresponding line numbers.\n\n4. A string `currentFunction` and a number `functionStartLine` are declared and initialized. These will hold the current function being parsed and its starting line number.\n\n5. A variable `depth` is declared and initialized to 0. This variable is used to track the nested level of functions or subroutines.\n\n6. A for loop is used to iterate over the lines of code.\n\n    a. If a line starts with the keyword 'Function' or 'Sub', this indicates the start of a function or subroutine. The `depth` is incremented. If `depth` is 1, it means we're at the top level, not inside another function or subroutine. The current function and its start line number are added to their respective arrays. The `currentFunction` variable is then updated with the current line, and `functionStartLine` is updated with the current line number.\n\n    b. If a line starts with 'End Function' or 'End Sub', this indicates the end of a function or subroutine. The `depth` is decremented. The current line is added to `currentFunction`. If `depth` is 0, it means we've finished parsing a top-level function or subroutine. The current function and its start line number are added to their respective arrays, and `currentFunction` is reset.\n\n    c. If a line does not start with any of the keywords, it's part of the current function or subroutine, so it's added to `currentFunction`.\n\n7. After the loop, if there's still a `currentFunction`, it means the last function or subroutine doesn't end within the provided code. This function or subroutine and its start line number are added to their respective arrays.\n\n8. The function returns a tuple consisting of the `functions` and `lineNumbers` arrays.\n\nThis function uses a simple text parsing algorithm to extract functions or subroutines from Visual Basic code. It doesn't fully parse the code or check for syntax errors, but it's a simple and effective way to extract functions or subroutines and their line numbers.\n\nFor more information on Visual Basic, you can visit: https://docs.microsoft.com/en-us/dotnet/visual-basic/programming-guide/"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "\nfunction parseVbFunctions(code: string): [string[], number[]] {\n    const lines = code.split('\\n');\n    const functions: string[] = [];\n    const lineNumbers: number[] = [];\n    let currentFunction = '';\n    let depth = 0;\n    let functionStartLine = 0;\n\n    for (let lineno = 0; lineno < lines.length; lineno++) {\n        const line = lines[lineno];\n        const trimmedLine = line.trim();\n\n        if (trimmedLine.startsWith('Function') || trimmedLine.startsWith('Sub')) {\n            depth++;\n            if (depth === 1) {\n                if (currentFunction) {\n                    functions.push(currentFunction);\n                    lineNumbers.push(functionStartLine);\n                }\n                currentFunction = line;\n                functionStartLine = lineno; // new function starts here\n            } else {\n                currentFunction += '\\n' + line;\n            }\n        } else if (trimmedLine.startsWith('End Function') || trimmedLine.startsWith('End Sub')) {\n            depth--;\n            currentFunction += '\\n' + line;\n            if (depth === 0) {\n                functions.push(currentFunction);\n                lineNumbers.push(functionStartLine);\n                currentFunction = '';\n            }\n        } else {\n            currentFunction += '\\n' + line;\n        }\n    }\n    if (currentFunction) {\n        functions.push(currentFunction);\n        lineNumbers.push(functionStartLine);\n    }\n    return [functions, lineNumbers];\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 169
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:33:19 PM PDT\n\nThis code is written in TypeScript, a statically typed superset of JavaScript. It defines a single function called `parseGoFunctions`. \n\nThe `parseGoFunctions` function takes in one argument, `code`, which is of type `string`. This `code` argument is expected to contain Go code as a string.\n\nThe function returns a tuple of two arrays: an array of strings (`string[]`) and an array of numbers (`number[]`). The array of strings represents the names of the Go functions found in the `code`, and the array of numbers represents their corresponding line numbers in the `code`.\n\nInside the function, it calls another function named `parseBracketyLanguage`, passing the `code` and the string 'func' as arguments. This function is expected to parse the `code` and return two arrays: one with the names of the 'func' elements (functions in Go language) found in the `code`, and another with their corresponding line numbers. \n\nThe result from `parseBracketyLanguage` is immediately destructured into two variables, `functions` and `lineNumbers`. These two variables are then returned as a tuple.\n\nThe algorithm used in this function depends on the `parseBracketyLanguage` function. Without the details of this function, it's hard to determine the specific algorithm. However, based on the function name and its usage, it's likely that `parseBracketyLanguage` uses some form of parsing algorithm to parse the code and extract the functions and their line numbers.\n\nThis function is a good example of the Single Responsibility Principle, as it only has one job: to parse Go functions from a string of code. This makes it easier to maintain and test.\n\nAs there are no specific architectural guidelines or constraints provided for this software project, it's hard to say whether this function aligns with them. However, this function seems to be well-structured and follows good coding practices.\n\nFor more on TypeScript, you can visit: https://www.typescriptlang.org/docs/\nFor more on Go language, you can visit: https://golang.org/doc/"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "7",
+      "value": "\nfunction parseGoFunctions(code: string): [string[], number[]] {\n    const [functions, lineNumbers] = parseBracketyLanguage(code, 'func');\n    return [functions, lineNumbers];\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 212
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:33:58 PM PDT\n\nThis JavaScript function `parseBracketyLanguage` is designed to parse a block of code in a brackety language (like JavaScript, C, etc.), and extract functions with a specific name from the code. It returns an array of two arrays - the first array contains the extracted functions as strings, and the second array contains the line numbers where these functions start.\n\nHere's how the function works:\n\n1. The function takes two parameters: `code` (a string containing the code to be parsed) and `functionName` (the name of the function to be extracted).\n\n2. The `code` string is split into an array of lines using the `split('\\n')` method.\n\n3. Several variables are initialized to track the state of the parsing:\n\n   - `functions` (an array to store the extracted functions)\n   - `lineNumbers` (an array to store the line numbers where the functions start)\n   - `currentFunction` (a string to store the current function being extracted)\n   - `depth` (an integer to track the depth of the nested braces)\n   - `inFunction` (a boolean to track whether the current line is inside the target function)\n   - `lineNumber` (an integer to track the current line number)\n\n4. The function then loops over each line of code. For each line:\n\n   - The line number is incremented.\n   - The line is trimmed of leading and trailing whitespace.\n   - If the line starts with the target function name and we're not currently in a function, the function starts collecting lines for `currentFunction` and stores the starting line number. If the line starts with the target function name and we're already in a function, the line is simply added to `currentFunction`.\n   - If the line doesn't start with the target function name but we're inside a function, the line is added to `currentFunction`.\n   - The function then counts the number of opening and closing braces in the line to track the depth of the nested braces.\n   - If the depth reaches 0 and we're inside a function, the function has ended. The `currentFunction` is added to the `functions` array and reset, and `inFunction` is set to `false`.\n\n5. After all lines have been processed, if there's any remaining function in `currentFunction`, it is added to the `functions` array.\n\n6. The function returns an array containing the `functions` and `lineNumbers` arrays.\n\nThe algorithm used in this function is a simple state machine with the states being tracked by the `inFunction` and `depth` variables. It's a common approach for parsing code or any structured text. \n\nFor more information on parsing in JavaScript, you can refer to this link: [Parsing in JavaScript: all the tools and libraries you can use](https://tomassetti.me/parsing-in-javascript/)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "8",
+      "value": "\nfunction parseBracketyLanguage(code: string, functionName: string): [string[], number[]] {\n    const lines = code.split('\\n');\n    const functions: string[] = [];\n    const lineNumbers: number[] = [];\n    let currentFunction = '';\n    let depth = 0;\n    let inFunction = false;\n    let lineNumber = 0;\n\n    for (const line of lines) {\n        lineNumber++;\n        const trimmedLine = line.trim();\n\n        if (trimmedLine.startsWith(functionName + ' ')) {\n            if (!inFunction) {\n                inFunction = true;\n                if (currentFunction && currentFunction.trim() !== '') {\n                    functions.push(currentFunction);\n                    currentFunction = '';\n                }\n                lineNumbers.push(lineNumber); // store the line number where the function starts\n                currentFunction += line;\n            } else {\n                currentFunction += '\\n' + line;\n            }\n        } else if (inFunction) {\n            currentFunction += '\\n' + line;\n        }\n\n        // Count opening and closing braces to track the depth\n        for (const char of trimmedLine) {\n            if (char === '{') {\n                depth++;\n            } else if (char === '}') {\n                depth--;\n            }\n        }\n\n        // If depth is 0 and we are in a function, push the currentFunction and reset it\n        if (depth === 0 && inFunction) {\n            if (currentFunction.trim() !== '') {\n                functions.push(currentFunction);\n                currentFunction = '';\n                inFunction = false;\n            }\n        }\n    }\n\n    // Push any remaining function\n    if (currentFunction.trim() !== '') {\n        functions.push(currentFunction);\n    }\n\n    return [functions, lineNumbers];\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 8,
+        "type": "originalCode",
+        "lineNumberBase": 217
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:34:50 PM PDT\n\nThis JavaScript function `parseObjCMethods` takes in a string `code` which is assumed to be Objective-C source code. It parses the code and returns a tuple. The first element of the tuple is an array of strings where each string is a method's implementation. The second element is an array of numbers where each number is the line number in the original code where the corresponding method starts.\n\nHere's how it works:\n\n1. The function splits the input `code` into lines using the newline character as the delimiter.\n\n2. It initializes several variables: `methods` and `lineNumbers` to store the output; `currentMethod` to store the method currently being parsed; `depth` to keep track of the depth of curly braces; `insideImplementation` to track whether we're inside an `@implementation` block; and `methodStartLine` to store the line number where the current method starts.\n\n3. It then loops over each line in the code. For each line, it checks several conditions:\n\n   - If the line starts with `@implementation`, it means a new method implementation is starting. It sets `insideImplementation` to `true`, and if there's a method currently being parsed, it adds it to the `methods` array and its start line to the `lineNumbers` array. It then starts a new `currentMethod` with the current line and updates `methodStartLine`.\n\n   - If the line starts with `@end`, it means the current method implementation is ending. It sets `insideImplementation` to `false`, adds the current line to `currentMethod`, and adds `currentMethod` and `methodStartLine` to their respective arrays. It then resets `currentMethod`.\n\n   - If it's inside an `@implementation` block and the line starts with `-` and `depth` is `0`, it means a new method is starting. If there's a method currently being parsed, it adds it and its start line to their respective arrays. It then starts a new `currentMethod` with the current line and updates `methodStartLine`.\n\n   - If it's inside an `@implementation` block and the line contains a `{`, it increments `depth` by 1. If the line contains a `}`, it decrements `depth` by 1. These operations track the depth of curly braces, which is used to determine when a method starts and ends.\n\n   - If none of the above conditions are met, it simply adds the current line to `currentMethod`.\n\n4. After looping over all lines, if there's a method currently being parsed, it adds it and its start line to their respective arrays.\n\n5. Finally, it returns the `methods` and `lineNumbers` arrays as a tuple.\n\nThis function does not appear to use any specific algorithms but is more of a procedural parsing of the input code. It uses a simple state machine to track whether it's inside an `@implementation` block and the depth of curly braces to determine when a method starts and ends.\n\nYou can learn more about JavaScript and its syntax from [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide). For more information about Objective-C, you can refer to [Apple's Objective-C Programming Language Guide](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "9",
+      "value": "\nfunction parseObjCMethods(code: string): [string[], number[]] {\n    const lines = code.split('\\n');\n    const methods: string[] = [];\n    const lineNumbers: number[] = [];\n    let currentMethod = '';\n    let depth = 0;\n    let insideImplementation = false;\n    let methodStartLine = 0;\n\n    for (let lineno = 0; lineno < lines.length; lineno++) {\n        const line = lines[lineno];\n        const trimmedLine = line.trim();\n\n        if (trimmedLine.startsWith('@implementation')) {\n            insideImplementation = true;\n            if (currentMethod) {\n                methods.push(currentMethod);\n                lineNumbers.push(methodStartLine);\n            }\n            currentMethod = line;\n            methodStartLine = lineno;\n        } else if (trimmedLine.startsWith('@end')) {\n            insideImplementation = false;\n            currentMethod += '\\n' + line;\n            methods.push(currentMethod);\n            lineNumbers.push(methodStartLine);\n            currentMethod = '';\n        } else if (insideImplementation) {\n            if (trimmedLine.startsWith('-') && depth === 0) {\n                if (currentMethod) {\n                    methods.push(currentMethod);\n                    lineNumbers.push(methodStartLine);\n                }\n                methodStartLine = lineno;\n            }\n            currentMethod += '\\n' + line;\n            if (line.includes('{')) {\n                depth++;\n            } else if (line.includes('}')) {\n                depth--;\n            }\n        } else {\n            currentMethod += '\\n' + line;\n        }\n    }\n    if (currentMethod) {\n        methods.push(currentMethod);\n        lineNumbers.push(methodStartLine);\n    }\n    return [methods, lineNumbers];\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 9,
+        "type": "originalCode",
+        "lineNumberBase": 273
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:35:29 PM PDT\n\nThis JavaScript function, `parseRubyFunctions`, is used to parse Ruby code and extract blocks of code (functions, classes, modules, and control structures) along with their starting line numbers. The function accepts a string of Ruby code as an input and returns a tuple of two arrays - one containing the code blocks and the other containing their corresponding starting line numbers.\n\nHere's a detailed step-by-step explanation of the code:\n\n1. The function starts by splitting the input code into an array of lines using the `split` method.\n\n2. It then declares several variables: `blocks` and `lineNumbers` are arrays that will hold the blocks of code and their starting line numbers, respectively. `currentBlock` is a string that will hold the current block of code being processed. `depth` is a counter that keeps track of the nested depth of the blocks. `blockStartLine` is the line number where the current block starts.\n\n3. It defines two regular expressions: `blockStartKeywords` and `blockEndKeyword`. These are used to determine the start and end of a block of code.\n\n4. The function then loops over each line of the code. If a line starts a new block (determined by the `blockStartKeywords` regex), it increases the `depth` counter. If this is the first level of depth (a new block), it saves the current block and its starting line number, then starts a new block with the current line. If the depth is greater than 1 (nested block), it simply adds the line to the current block.\n\n5. If a line ends a block (determined by the `blockEndKeyword` regex), it decreases the `depth` counter. If the depth is now 0 (end of a block), it adds the line to the current block, saves the block and its starting line number, then empties the `currentBlock`. If the depth is still greater than 0 (end of a nested block), it just adds the line to the current block.\n\n6. If a line neither starts nor ends a block, it simply adds the line to the current block.\n\n7. After the loop, if there is still a `currentBlock`, it saves the block and its starting line number.\n\n8. Finally, the function returns the `blocks` and `lineNumbers` arrays.\n\nThe algorithm used in this function is a form of depth-first search (DFS), a common algorithm used in parsing and tree traversal. It uses a stack-like structure (the `depth` counter and the `currentBlock` string) to keep track of nested blocks and their contents.\n\nFor more information on DFS, you can visit this link: [Depth-first search - Wikipedia](https://en.wikipedia.org/wiki/Depth-first_search)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "10",
+      "value": "\nfunction parseRubyFunctions(code: string): [string[], number[]] {\n    const lines = code.split('\\n');\n    const blocks: string[] = [];\n    const lineNumbers: number[] = [];\n    let currentBlock = '';\n    let depth = 0;\n    let blockStartLine = 0;\n\n    const blockStartKeywords = /^(def|class|module|if|elsif|unless|while|until|for|case|begin|do)\\b/;\n    const blockEndKeyword = /^end\\b/;\n\n    for (let lineno = 0; lineno < lines.length; lineno++) {\n        const line = lines[lineno];\n        const trimmedLine = line.trim();\n        if (blockStartKeywords.test(trimmedLine)) {\n            depth++;\n            if (depth === 1) {\n                if (currentBlock) {\n                    blocks.push(currentBlock);\n                    lineNumbers.push(blockStartLine);\n                }\n                currentBlock = line;\n                blockStartLine = lineno;\n            } else {\n                currentBlock += '\\n' + line;\n            }\n        } else if (blockEndKeyword.test(trimmedLine)) {\n            depth--;\n            if (depth === 0) {\n                currentBlock += '\\n' + line;\n                blocks.push(currentBlock);\n                lineNumbers.push(blockStartLine);\n                currentBlock = '';\n            } else {\n                currentBlock += '\\n' + line;\n            }\n        } else {\n            currentBlock += '\\n' + line;\n        }\n    }\n\n    if (currentBlock) {\n        blocks.push(currentBlock);\n        lineNumbers.push(blockStartLine);\n    }\n\n    return [blocks, lineNumbers];\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 10,
+        "type": "originalCode",
+        "lineNumberBase": 325
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:36:35 PM PDT\n\nThis is a TypeScript function that parses a string of Python code and returns an array of Python functions and their corresponding line numbers in the original code. \n\nHere's a detailed explanation of what the code does:\n\n1. The function `parsePythonFunctions` takes one parameter `code` which is a string of Python code.\n\n2. The `code` string is split into an array of lines using the `split` function, with '\\n' as the delimiter.\n\n3. Two empty arrays, `functions` and `lineNumbers`, are declared. `functions` will store the Python functions found in `code` and `lineNumbers` will store the line numbers where these functions start.\n\n4. The variables `currentFunction` and `functionStartLine` are declared and initialized. `currentFunction` will store the current function being parsed and `functionStartLine` will store the line number where the current function starts.\n\n5. The code then enters a `for` loop which iterates over each line in the `lines` array.\n\n6. Inside the loop, if a line starts with 'def ' (indicating the start of a Python function), the current function is pushed into `functions` and its start line number is pushed into `lineNumbers`. Then, `currentFunction` is updated to the current line and `functionStartLine` is updated to the current line number.\n\n7. If a line does not start with 'def ', it is considered as part of the current function and is appended to `currentFunction`.\n\n8. After the loop, if there is a `currentFunction` remaining, it is pushed into `functions` and its start line number is pushed into `lineNumbers`.\n\n9. Finally, the function returns a tuple containing the `functions` and `lineNumbers` arrays.\n\nThis code doesn't use any specific algorithms, it's just a simple parsing function. However, it is based on the assumption that Python functions are defined using the 'def ' keyword at the start of a line. \n\nFor more information on Python functions, you can refer to this link: [Python Functions](https://docs.python.org/3/tutorial/controlflow.html#defining-functions). For more information on TypeScript arrays, you can refer to this link: [TypeScript Arrays](https://www.typescriptlang.org/docs/handbook/2/arrays.html)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "11",
+      "value": "\nfunction parsePythonFunctions(code: string): [string[], number[]] {\n    const lines = code.split('\\n');\n    const functions: string[] = [];\n    const lineNumbers: number[] = [];\n    let currentFunction = '';\n    let functionStartLine = 0;\n\n    for (let lineno = 0; lineno < lines.length; lineno++) {\n        const line = lines[lineno];\n        if (line.trim().startsWith('def ')) {\n            if (currentFunction) {\n                functions.push(currentFunction);\n                lineNumbers.push(functionStartLine);\n            }\n            currentFunction = line;\n            functionStartLine = lineno;\n        } else {\n            currentFunction += '\\n' + line;\n        }\n    }\n\n    if (currentFunction) {\n        functions.push(currentFunction);\n        lineNumbers.push(functionStartLine);\n    }\n\n    return [functions, lineNumbers];\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 11,
+        "type": "originalCode",
+        "lineNumberBase": 374
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/split.ts"
+  }
+}

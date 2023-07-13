@@ -1,0 +1,183 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:36:12 PM PDT\n\nThis code snippet is written in JavaScript, specifically using ES6 (ECMAScript 6) syntax. It's importing a specific module named `KernelControllerBase` from another JavaScript file named `base_controller.js`. \n\nThe `import` statement is used to import functions, objects or values from other files or modules into the current file. This is part of the ES6 module system, which provides a way to share code across files. This is useful for structuring large codebases and for reusing code across multiple files or projects.\n\nIn this code, `{ KernelControllerBase }` is a named import. It means the `base_controller.js` file exports something named `KernelControllerBase`, and we want to import that specific thing. The curly braces are used for importing named exports, while the `from` keyword is used to specify the path to the file or module to import from.\n\nThe module `KernelControllerBase` could be a class, function, object, or any other JavaScript entity that the `base_controller.js` file has exported.\n\nAs for algorithms, this code snippet does not contain any algorithms as it's just an import statement. It's the first part of a larger codebase and does not perform any operations or computations.\n\nFor more information on ES6 `import` and `export` statements, you can refer to this [Mozilla Developer Network (MDN) web docs link](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import {\n    KernelControllerBase\n    } from './base_controller';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": -1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:36:37 PM PDT\n\nThis is a simple piece of code written in TypeScript, which is a statically typed superset of JavaScript that adds types to the language. It's often used for large-scale applications due to its powerful features like interfaces, namespaces, and generics.\n\nThis code is part of a larger project, presumably a Visual Studio Code (VSCode) extension, as it imports the 'vscode' module. VSCode extensions are programs that add new capabilities to VSCode editor, ranging from themes and language support to debuggers and productivity tools.\n\nLet's break down the code:\n\n1. `import * as vscode from 'vscode';` - This line imports the entire VSCode module and binds it to the variable `vscode`. The VSCode API provides an extensive set of commands and features that can be used to interact with the VSCode editor, such as creating new files, reading and writing to files, handling user input, and more. You can read more about the VSCode API here: https://code.visualstudio.com/api\n\n2. `import { BoostConfiguration } from './boostConfiguration';` - This line imports a specific export (in this case, `BoostConfiguration`) from another module located at './boostConfiguration'. The path './boostConfiguration' is a relative path, so the module is likely a local file in the same directory as the current file. The `BoostConfiguration` could be a class, function, or any other exportable entity in TypeScript. Without seeing the contents of that file, it's hard to say exactly what `BoostConfiguration` is, but given its name, it might be a class or interface that represents some configuration for the Boost feature in this VSCode extension.\n\nThere are no algorithms used in this code snippet. It simply sets up the necessary modules for the rest of the code (which isn't shown) to use."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import * as vscode from 'vscode';\nimport { BoostConfiguration } from './boostConfiguration';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 3
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:37:00 PM PDT\n\nThis line of code is written in TypeScript, a statically typed superset of JavaScript that adds optional types, classes, and modules to JavaScript. It is using ES6 module syntax to import specific items from another module.\n\nThe code is importing three items: `BoostNotebookCell`, `SerializedNotebookCellOutput`, and `BoostNotebook` from a module named `jupyter_notebook` which is located in the same directory as the current file (as indicated by the `./` in the import statement).\n\nHere's a brief explanation of each imported item, based on common conventions and assumptions:\n\n1. `BoostNotebookCell`: This might be a class or type that represents a cell in a BoostNotebook. A cell is a single unit of source code and its output in a Jupyter notebook.\n\n2. `SerializedNotebookCellOutput`: This might be a class or type that represents the serialized (i.e., converted into a format that can be stored or transmitted and reconstructed later) output of a BoostNotebook cell.\n\n3. `BoostNotebook`: This might be a class or type that represents a BoostNotebook itself.\n\nThe specific details of what each of these items does would be found in the `jupyter_notebook` module.\n\nUnfortunately, without more context or access to the `jupyter_notebook` module, it's hard to provide more specific details or point to specific algorithms used in this code. However, the concept of notebooks, cells, and serialized outputs is central to Jupyter notebooks, an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. You can read more about Jupyter notebooks here: https://jupyter.org/\n\nThis import statement doesn't seem to conflict with any architectural guidelines as there are no special architectural guidelines or constraints specified for this software project."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import { BoostNotebookCell, SerializedNotebookCellOutput, BoostNotebook } from './jupyter_notebook';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 4
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:37:27 PM PDT\n\nThe given code is a single line of JavaScript (or TypeScript) code that imports a module named 'boostLogging' from a file named 'boostLogging.js' or 'boostLogging.ts' in the same directory as the file where this import statement is written.\n\nJavaScript uses the import statement to import functions, objects, or values from other files or modules. This is part of the ES6 (ECMAScript 6) module system. \n\nHere's a breakdown of the code:\n\n- `import`: This is a keyword in JavaScript that is used to import functions, objects, or values exported from another module.\n\n- `{ boostLogging }`: This is the name of the function, object, or value that is being imported. The curly braces are used for named exports. That means, in the 'boostLogging.js' or 'boostLogging.ts' file, there should be something like `export { boostLogging }` or `export const boostLogging = ...` or `export function boostLogging() {...}`.\n\n- `from './boostLogging'`: This is the path to the module (file) that contains the export. The `./` means that the file is in the same directory as the current file. \n\nThe import statement is used to promote code reusability. Instead of writing the same code in multiple files, you can write the code once, export it, and then import it wherever you need it.\n\nThe code does not provide enough context to determine what the `boostLogging` module does. However, from the name, it can be inferred that it might have something to do with logging for a framework or library called \"boost\". \n\nRegarding the architectural guidelines, as no specific guidelines were provided, this code would be evaluated based on general good practices. It seems to follow good practices of modularity and code reusability by importing a module. \n\nFor more information about ES6 modules and import/export statements, you can refer to the following links:\n- [MDN Web Docs - import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [JavaScript ES6 Modules](https://www.javascripttutorial.net/es6/javascript-modules/)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "import { boostLogging } from './boostLogging';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 5
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:37:52 PM PDT\n\nThis line of code is written in JavaScript, specifically using ES6 module syntax. It's a single line of code and it's importing a specific function from another module.\n\nLet's break it down:\n\n- `import`: This is a keyword in JavaScript ES6 syntax. It allows you to import functions, objects or values from other JavaScript modules into the current module or script. This is part of the ES6 module system, which is a way to include and manage dependencies in JavaScript.\n\n- `{ generateCellOutputWithHeader }`: This is the name of the function that is being imported. The curly braces are used when you want to import a specific function or value from a module, as opposed to importing the whole module. In this case, the function `generateCellOutputWithHeader` is being imported.\n\n- `from`: This keyword is used to specify the module from where the function, object or value is being imported.\n\n- `'./extension'`: This is the path to the module that contains the function being imported. The `./` at the beginning of the string means that the module is located in the same directory as the current script or module. The `extension` part is the name of the module (without the .js extension).\n\nAs for the algorithm used, since this is a single line of code that is only importing a function from another module, there is no specific algorithm involved.\n\nHere's a link to the Mozilla Developer Network (MDN) documentation on `import`, where you can learn more about this feature: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import\n\nRegarding the architectural guidelines, since no specific guidelines or constraints were provided, I cannot analyze the code against them. However, this line of code is a common pattern in many JavaScript projects and is generally considered good practice as it promotes code modularity and reusability."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "import { generateCellOutputWithHeader } from './extension';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 6
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:38:16 PM PDT\n\nThis line of code is a part of a larger codebase, likely written in TypeScript, which is a statically typed superset of JavaScript that adds types to the language. \n\nThis line is importing a type, `ControllerOutputType`, from a module named `controllerOutputTypes`. This is done using JavaScript's ES6 import syntax. \n\nLet's break it down:\n\n- `import`: This is a reserved keyword in JavaScript that is used to import bindings which are exported by another module. \n\n- `{ ControllerOutputType }`: This is the specific binding that we're importing from the other module. In this case, it's a type, which is a feature specific to TypeScript. Types in TypeScript define what kind of data a variable can hold. The `ControllerOutputType` might be an interface, type alias, class, etc. defined in the `controllerOutputTypes` module. The curly braces `{}` are used for named exports.\n\n- `from`: This is another reserved keyword used in the import statement to specify the path to the module from which we want to import the binding.\n\n- `'./controllerOutputTypes'`: This is the path to the module that exports `ControllerOutputType`. The `./` at the beginning of the path indicates that `controllerOutputTypes` is in the same directory as the file that this import statement is in.\n\nThis code doesn't contain any algorithms, it's just a single import statement. As for architectural guidelines, without any additional constraints or guidelines provided, this code follows general best practices for modular organization of code in TypeScript/JavaScript projects. \n\nFor more information about TypeScript, you can visit the official TypeScript documentation here: https://www.typescriptlang.org/docs/\n\nFor more information about ES6 modules (import/export syntax), you can visit the MDN Web Docs here: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "import { ControllerOutputType } from './controllerOutputTypes';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 7
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:38:50 PM PDT\n\nThe provided code is written in TypeScript and is a part of a Visual Studio Code (VSCode) extension. It defines a class `BoostConvertKernel` that extends `KernelControllerBase`. This class is responsible for converting legacy code to new code in a different programming language.\n\nHere are some key parts of the code:\n\n1. `constructor`: The constructor calls the parent class's constructor with necessary parameters like a collection, kernel name, description, output type, etc.\n\n2. `dispose`: This method is used to clean up any resources used by the instance of this class when it is no longer needed.\n\n3. `serviceEndpoint` and `explainEndpoint`: These are getter methods that return the URLs of the services to be used based on the `BoostConfiguration.cloudServiceStage` value. These services are presumably hosted on different environments (e.g., local, dev, test, staging, prod).\n\n4. `onProcessServiceRequest`: This is an asynchronous method that processes a service request. It first checks if the cell is a BoostNotebookCell, then makes a request to the boost service to get an explanation of the code in English. The explanation is then added as an output to the cell. After that, it generates the new code using the boost service and adds it as an output to the cell.\n\n5. `generateEndpoint`: This getter method returns the service endpoint.\n\nThe code uses the axios library to make HTTP requests, and the VSCode API to interact with the notebook and its cells.\n\nThe code does not appear to use any specific algorithms, but it does use the concept of Promises and async/await for handling asynchronous operations. It also uses the concept of inheritance in object-oriented programming, with `BoostConvertKernel` extending `KernelControllerBase`.\n\nFor more information on these topics, you can refer to these resources:\n- [TypeScript Inheritance](https://www.typescripttutorial.net/typescript-tutorial/typescript-inheritance/)\n- [Async/Await in TypeScript](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-1-7.html#async-functions)\n- [VSCode Extension API](https://code.visualstudio.com/api)\n- [Axios](https://axios-http.com/docs/intro)\n\nThis code seems to adhere to general software architecture principles such as separation of concerns, modularity, and encapsulation. However, without additional context or architectural guidelines, it's hard to provide a more specific analysis."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "\nexport const convertKernelName = 'convert';\nconst convertOutputHeader = `Code Conversion`;\n\nconst markdownCodeMarker = '```';\n\nexport class BoostConvertKernel extends KernelControllerBase {\n\tconstructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection) {\n        super(\n            collection,\n            convertKernelName,\n            'Convert Legacy Code to New Code',\n            'Converts targeted source code into a new programming language, using the best practices of the target language',\n            ControllerOutputType.convert,\n            convertOutputHeader,\n            false,\n            true,\n            context,\n            otherThis,\n            onServiceErrorHandler);\n\t}\n\n\tdispose(): void {\n\t\tsuper.dispose();\n\t}\n\n    public get serviceEndpoint(): string {\n        switch (BoostConfiguration.cloudServiceStage)\n        {\n            case \"local\":\n                return 'http://127.0.0.1:8000/generate';\n            case 'dev':\n                return 'https://ukkqda6zl22nd752blcqlv3rum0ziwnq.lambda-url.us-west-2.on.aws/';\n            case \"test\":\n                return 'https://oiymo4efmc2u52vyf3mygcwhre0xjpsd.lambda-url.us-west-2.on.aws/';\n            case 'staging':\n            case 'prod':\n            default:\n                return 'https://egw2c7dn5vz3leffr3mfqodx3a0perwp.lambda-url.us-west-2.on.aws/';\n        }\n    }\n\n    get generateEndpoint(): string {\n        return this.serviceEndpoint;\n    }\n\n    // NOTE: This code is duplicated in explain_controller.cs\n    get explainEndpoint(): string {\n        switch (BoostConfiguration.cloudServiceStage)\n        {\n            case \"local\":\n                return 'http://127.0.0.1:8000/explain';\n            case 'dev':\n                return 'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';\n            case \"test\":\n                return 'https://r5s6cjvc43jsrqdq3axrhrceya0cumft.lambda-url.us-west-2.on.aws/';\n            case 'staging':\n            case 'prod':\n            default:\n                return 'https://vdcg2nzj2jtzmtzzcmfwbvg4ey0jxghj.lambda-url.us-west-2.on.aws/';\n        }\n    }\n\n    async onProcessServiceRequest(\n        execution: vscode.NotebookCellExecution,\n        notebook : vscode.NotebookDocument | BoostNotebook,\n        cell: vscode.NotebookCell | BoostNotebookCell,\n        payload : any,\n        serviceEndpoint: string = this.serviceEndpoint\n        ): Promise<boolean> {\n\n        const usingBoostNotebook = \"value\" in cell; // if the cell has a value property, then it's a BoostNotebookCell\n\n        // make Boost service request to get explanation of code in english (lingua franca cross-translate),\n        //      preparing for conversion\n        const response = await this.makeBoostServiceRequest(cell, this.explainEndpoint, payload);\n        if (response instanceof Error) {\n            let throwErr = response as Error;\n            throw throwErr;\n        } else if (response.data instanceof Error) {\n            let throwErr = response.data as Error;\n            throw throwErr;\n        }\n\n        const summarydata = response;\n        const markdownMimetype = 'text/markdown';\n        const outputText = generateCellOutputWithHeader(`Code Explanation`, summarydata.explanation);\n\n        // we will have one NotebookCellOutput per type of output.\n        // first scan the existing outputs of the cell and see if we already have an output of this type\n        // if so, replace it\n        let successfullyCompleted = false;\n        let startTime = Date.now();\n        const cellId = usingBoostNotebook?\n            (cell as BoostNotebookCell).id:\n            (cell as vscode.NotebookCell).document.uri.toString();\n        try {\n            if (usingBoostNotebook) {\n                const outputItems : SerializedNotebookCellOutput[] = [ {\n                    items: [ { mime: markdownMimetype, data : outputText } ],\n                    metadata : { outputType: ControllerOutputType.explain} } ];\n                \n                cell.updateOutputItem(ControllerOutputType.explain, outputItems[0]);\n            } else {\n                const outputItems: vscode.NotebookCellOutputItem[] = [ vscode.NotebookCellOutputItem.text(outputText, markdownMimetype) ];\n\n                let existingOutput = cell.outputs.find(output => output.metadata?.outputType === ControllerOutputType.explain);\n\n                if (existingOutput) {\n                    execution.replaceOutputItems(outputItems, existingOutput);\n                } else {\n                    // create a new NotebookCellOutput with the outputItems array\n                    const output = new vscode.NotebookCellOutput(outputItems, { outputType: ControllerOutputType.explain });\n                    execution.appendOutput(output);\n                }\n            }\n            successfullyCompleted = true;\n        } finally {\n\n            const duration = Date.now() - startTime;\n            const minutes = Math.floor(duration / 60000);\n            const seconds = ((duration % 60000) / 1000).toFixed(0);\n\n            if (successfullyCompleted) {\n                boostLogging.info(`SUCCESS running ${\"explain\"} update of Notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);\n            } else {\n                boostLogging.error(`Error while running ${\"explain\"} update of Notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);\n            }\n        }\n\n        // now we need to generate the code\n        // if not specified on the notebook metadata, then default to the setting in the Extension User Settings\n        let outputLanguage = usingBoostNotebook? BoostConfiguration.defaultOutputLanguage:\n            (vscode.window.activeNotebookEditor?.notebook.metadata.outputLanguage) ??\n            BoostConfiguration.defaultOutputLanguage;\n\n        // now take the summary and using axios send it to Boost web service with the summary\n        //      in a json object summary=summary\n        //    dynamically add extra payload properties\n        payload.explanation = summarydata.explanation;\n        payload.language = outputLanguage;\n\n        successfullyCompleted = false;\n        startTime = Date.now();\n        try {\n            const generatedCode = await this.makeBoostServiceRequest(cell, this.generateEndpoint, payload);\n            if (generatedCode instanceof Error) {\n                let throwErr = generatedCode as Error;\n                throw throwErr;\n            } else if (generatedCode === undefined) {\n                throw new Error(\"Unexpected empty result from Boost Service\");\n            } else if (generatedCode.data instanceof Error) {\n                let throwErr = generatedCode.data as Error;\n                throw throwErr;\n            } else if (generatedCode.code === undefined) {\n                throw new Error(\"Unexpected missing data from Boost Service\");\n            }\n\n            //quick hack. if the returned string has three backwards apostrophes, then it's in markdown format\n            let mimetypeCode = 'text/x-' + outputLanguage;\n            let header = '';\n            if(generatedCode.code.includes(markdownCodeMarker)){\n                mimetypeCode = markdownMimetype;\n                header = generateCellOutputWithHeader(this.outputHeader, generatedCode.code);\n            } else {\n                header = generatedCode.code;\n            }\n\n            if (usingBoostNotebook) {\n                const outputItems : SerializedNotebookCellOutput[] = [ {\n                    items: [ { mime: mimetypeCode, data : header } ],\n                    metadata : { outputType: this.outputType} } ];\n                \n                cell.updateOutputItem(this.outputType, outputItems[0]);\n            } else {\n                const outputItemsCode: vscode.NotebookCellOutputItem[] = [ vscode.NotebookCellOutputItem.text(header, mimetypeCode) ];\n\n                // we will have one NotebookCellOutput per type of output.\n                // first scan the existing outputs of the cell and see if we already have an output of this type\n                // if so, replace it\n                const existingOutput = cell.outputs.find(output => output.metadata?.outputType === this.outputType);\n                if (existingOutput) {\n                    execution.replaceOutputItems(outputItemsCode, existingOutput);\n                } else {\n                    // create a new NotebookCellOutput with the outputItems array\n                    const output = new vscode.NotebookCellOutput(outputItemsCode, { outputType: this.outputType });\n\n                    execution.appendOutput(output);\n                }\n            }\n            successfullyCompleted = true;\n        }\n        finally {\n            const duration = Date.now() - startTime;\n            const minutes = Math.floor(duration / 60000);\n            const seconds = ((duration % 60000) / 1000).toFixed(0);\n\n            if (successfullyCompleted) {\n                boostLogging.info(`SUCCESS running ${this.command} update of Notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);\n            } else {\n                boostLogging.error(`Error while running ${this.command} update of Notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);\n            }\n        }\n\n        return true;\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 14
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/convert_controller.ts"
+  }
+}

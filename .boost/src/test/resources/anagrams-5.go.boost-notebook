@@ -1,0 +1,133 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "go",
+      "id": "0",
+      "value": "func main() {\n\tif len(os.Args) != 2 {\n\t\tfmt.Printf(\"Usage: %s anagrams.txt\\n\", os.Args[0])\n\t\tos.Exit(1)\n\t}\n\n\tfilePath := os.Args[1]\n\twords, err := readWordsFromFile(filePath)\n\tif err != nil {\n\t\tfmt.Println(\"Error:\", err)\n\t\tos.Exit(1)\n\t}\n\n\tanagrams := findAnagrams(words)\n\tprintAnagrams(anagrams)\n}",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 10
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "go",
+      "id": "1",
+      "value": "func readWordsFromFile(filePath string) ([]string, error) {\n\tfile, err := os.Open(filePath)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer file.Close()\n\n\tvar words []string\n\tscanner := bufio.NewScanner(file)\n\tfor scanner.Scan() {\n\t\twords = append(words, scanner.Text())\n\t}\n\n\treturn words, scanner.Err()\n}",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 27
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "go",
+      "id": "2",
+      "value": "func findAnagrams(words []string) map[string][]string {\n\tanagrams := make(map[string][]string)\n\tfor _, word := range words {\n\t\tsortedWord := sortString(word)\n\t\tanagrams[sortedWord] = append(anagrams[sortedWord], word)\n\t}\n\treturn anagrams\n}",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 43
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "go",
+      "id": "3",
+      "value": "func printAnagrams(anagrams map[string][]string) {\n\tfor _, anagramList := range anagrams {\n\t\tif len(anagramList) > 1 {\n\t\t\tfmt.Println(strings.Join(anagramList, \", \"))\n\t\t}\n\t}\n}",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 52
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "go",
+      "id": "4",
+      "value": "func sortString(s string) string {\n\tr := []rune(s)\n\tsort.Slice(r, func(i, j int) bool {\n\t\treturn r[i] < r[j]\n\t})\n\treturn string(r)\n}",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 60
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/resources/anagrams-5.go"
+  }
+}

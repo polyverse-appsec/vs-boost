@@ -1,0 +1,133 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:03:14 PM PDT\n\nThis code is written in JavaScript, specifically using the ES6 module import syntax. It imports various UI components from the `@vscode/webview-ui-toolkit` package, which is a collection of web components for building Visual Studio Code webviews. \n\nThe code imports the following components:\n\n1. `provideVSCodeDesignSystem`: This is a function that provides the design system for the VS Code Webview UI toolkit. It is used to initialize the design system and provide it to your application.\n\n2. `vsCodeButton`: This is a component that creates a VS Code styled button.\n\n3. `vsCodeTextArea`: This component creates a VS Code styled text area.\n\n4. `vsCodeRadio`: This component creates a VS Code styled radio button.\n\n5. `vsCodeRadioGroup`: This component creates a group of VS Code styled radio buttons.\n\n6. `vsCodePanels`: This component creates a set of VS Code styled panels.\n\n7. `vsCodePanelTab`: This component creates a VS Code styled panel tab.\n\n8. `vsCodePanelView`: This component creates a VS Code styled panel view.\n\n9. `vsCodeProgressRing`: This component creates a VS Code styled progress ring.\n\n10. `Button`: This component creates a standard button.\n\nThese components are part of the VS Code Webview UI Toolkit, which is a set of web components that are styled to look like VS Code's built-in UI. \n\nThese components can be used to create consistent and high-quality UI experiences in your VS Code extensions. They are built using the FAST Framework, which is a Microsoft open source project for building web components.\n\nYou can learn more about the VS Code Webview UI Toolkit at its GitHub page: https://github.com/microsoft/vscode-webview-ui-toolkit\n\nAnd you can learn more about the FAST Framework at its website: https://www.fast.design/"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import {\n    provideVSCodeDesignSystem,\n    vsCodeButton,\n    vsCodeTextArea,\n    vsCodeRadio,\n    vsCodeRadioGroup,\n    vsCodePanels,\n    vsCodePanelTab,\n    vsCodePanelView,\n    vsCodeProgressRing,\n    Button\n} from \"@vscode/webview-ui-toolkit\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": -1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:03:55 PM PDT\n\nThe code you posted is written in TypeScript, a statically typed superset of JavaScript that adds types to the language. It's commonly used in web development, especially when dealing with large codebases.\n\nThis code is using the Visual Studio Code (VS Code) API to interact with the VS Code environment. The first line of the code is registering several components that belong to the VS Code design system. These components include buttons, text areas, radio buttons, radio groups, panels, panel tabs, panel views, and progress rings.\n\nThe next line acquires the VS Code API itself and assigns it to the constant `vscode`.\n\nThe `window.addEventListener(\"load\", main);` line is setting up an event listener on the window object. This listener waits for the `load` event, which is fired when the entire page has loaded, including all dependent resources such as stylesheets and images. Once this event is fired, the `main` function is called.\n\nThe `main` function is where the bulk of the work happens. \n\nFirst, it gets a reference to the HTML element with the id \"send\" and casts it as a Button. This is done using the `as` keyword, which is a TypeScript feature for type casting. Once the button is obtained, an event listener is added to it which will call the `handleSendClick` function when the button is clicked.\n\nNext, it gets all the elements with the class \"tab-close-button\" and casts them as Buttons. It then loops over these buttons and adds a click event listener to each one. The event listener will call the `handleCloseClick` function when a button is clicked.\n\nFinally, it gets the element with the id \"tab-add-button\", casts it as a Button, and adds a click event listener to it. This listener will call the `handleAddClick` function when the button is clicked.\n\nThe `?` operator used in the code is the optional chaining operator. It allows reading the value of a property located deep within a chain of connected objects without having to check that each reference in the chain is valid. \n\nThis code doesn't specify what happens in the `handleSendClick`, `handleCloseClick`, and `handleAddClick` functions. Presumably, these functions are defined elsewhere in the codebase and contain the logic that should be executed when the respective buttons are clicked.\n\nFor more information on the VS Code API, you can refer to the official documentation: [VS Code API](https://code.visualstudio.com/api/references/vscode-api)\n\nFor more information on TypeScript, you can refer to the official documentation: [TypeScript](https://www.typescriptlang.org/docs/)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\nprovideVSCodeDesignSystem().register(vsCodeButton(), vsCodeTextArea(), vsCodeRadio(), vsCodeRadioGroup(),\n    vsCodePanels(), vsCodePanelTab(), vsCodePanelView(), vsCodeProgressRing());\n\nconst vscode = acquireVsCodeApi();\n\n// Just like a regular webpage we need to wait for the webview\n// DOM to load before we can reference any of the HTML elements\n// or toolkit components\nwindow.addEventListener(\"load\", main);\n\n// Main function that gets executed once the webview DOM loads\nfunction main() {\n    // To get improved type annotations/IntelliSense the associated class for\n    // a given toolkit component can be imported and used to type cast a reference\n    // to the element (i.e. the `as Button` syntax)\n    const howdyButton = document.getElementById(\"send\") as Button;\n    howdyButton?.addEventListener(\"click\", handleSendClick);\n\n    //now add listeners for the add and close buttons. we don't know how many so we need to loop\n    const closeButtons = document.getElementsByClassName(\"tab-close-button\") as HTMLCollectionOf<Button>;\n    for (let i = 0; i < closeButtons.length; i++) {\n        closeButtons[i].addEventListener(\"click\", handleCloseClick);\n    }\n\n    //add a listener for the add button\n    const addButton = document.getElementById(\"tab-add-button\") as Button;\n    addButton?.addEventListener(\"click\", handleAddClick);\n\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 23
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:04:22 PM PDT\n\nThe code you provided is written in JavaScript and is a simple function named `handleAddClick`. This function seems to be used as an event handler, which is a function that handles a specific event such as a user clicking on a button.\n\nHere's a breakdown of what this function does:\n\n1. `console.log(\"add click\");`: This line of code logs the message \"add click\" to the console. This is often used for debugging purposes to track the flow of execution of the code.\n\n2. `vscode.postMessage({ command: \"add-chat\" });`: This line of code sends a message from the webview to the extension host. It uses the `postMessage` method of the `vscode` object. The message being sent is an object with a single property: `command` with a value of `\"add-chat\"`. This could be a command that the extension host understands and will perform some action based on this command.\n\nThe `vscode.postMessage` method is part of the API for Visual Studio Code extensions. Extensions in VS Code often use a webview (an embedded web browser) to display a user interface. Communication between the webview and the rest of the extension is done using the `postMessage` method for outgoing messages and the `onDidReceiveMessage` event for incoming messages.\n\nYou can read more about this in the [VS Code Extension API documentation](https://code.visualstudio.com/api/extension-guides/webview#passing-messages-from-a-webview-to-an-extension).\n\nAs far as architectural guidelines go, without more context, it's hard to say if this code conflicts with any. However, it does seem to follow general good practices for event-driven programming and VS Code extension development. It's simple, clear, and appears to be correctly using the VS Code API."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "\nfunction handleAddClick() {\n    console.log(\"add click\");\n    vscode.postMessage({\n        command: \"add-chat\"\n    });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 42
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:05:09 PM PDT\n\nThis JavaScript code is a function that handles the event of a button being clicked in a web-based user interface, specifically a button with the `vscode-button` class. The button is assumed to be part of a chat interface, and the click event signifies that the chat should be closed.\n\nHere's a line-by-line explanation:\n\n1. `function handleCloseClick(event: Event) {`: This line declares a function named `handleCloseClick` that takes an `Event` object as its argument. This `Event` object represents the click event that triggers this function.\n\n2. `const closeButton = event.target as HTMLElement;`: This line declares a constant named `closeButton` and assigns it the target of the event, which is the HTML element that was clicked. The `target` property of the `Event` object is used to get the element that triggered the event.\n\n3. `const vscodeButton = closeButton.closest(\"vscode-button\") as HTMLElement;`: This line declares a constant named `vscodeButton` and assigns it the closest ancestor of `closeButton` that is a `vscode-button` element. The `closest` method of an `HTMLElement` object is used to get the closest ancestor that matches a specified CSS selector.\n\n4. `let id = closeButton.id;`: This line declares a variable named `id` and assigns it the id of the `closeButton`.\n\n5. `if (!id) { id = vscodeButton.id; }`: These lines check if `id` is falsy (i.e., it's an empty string, null, undefined, NaN, 0, or false). If `id` is falsy, it assigns `id` the id of the `vscodeButton`.\n\n6. `vscode.postMessage({ command: \"close-chat\", chatindex: id.split(\"-\")[1] });`: This line sends a message to the Visual Studio Code extension host. The message is an object with a `command` property set to `\"close-chat\"` and a `chatindex` property set to the second part of the `id` (after splitting it by the \"-\" character). The `postMessage` method of the `vscode` object is used to send a message to the extension host.\n\nThe algorithm used here is quite simple: it's just getting the id of the clicked button or its parent button, then sending a `close-chat` command to the extension host with the chat index parsed from the id.\n\nThis code is related to web development and event handling in JavaScript. For more information, you can refer to:\n\n- Event handling in JavaScript: https://developer.mozilla.org/en-US/docs/Web/API/Event\n- The `closest` method: https://developer.mozilla.org/en-US/docs/Web/API/Element/closest\n- The `postMessage` method: https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "\n//for the close click, we need to know which one was clicked. we can get that from the id\nfunction handleCloseClick(event: Event) {\n    const closeButton = event.target as HTMLElement;\n        // in case we get the close click from the actual HTML button inside\n        //    the vscode-button, we need to get the parent\n    const vscodeButton = closeButton.closest(\"vscode-button\") as HTMLElement;\n    let id = closeButton.id;\n    if (!id) {\n        id = vscodeButton.id;\n    }\n    vscode.postMessage({\n        command: \"close-chat\",\n        chatindex: id.split(\"-\")[1]\n    });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 50
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 2:05:50 PM PDT\n\nThis JavaScript code defines a function named `handleSendClick` which is likely to be executed when a button (probably named \"send\") is clicked in a web page. This function is designed to get certain values from the web page, manipulate the page elements, and then send a message to the host using the `vscode.postMessage` method.\n\nHere is a detailed breakdown of what the code does:\n\n1. It defines a function `handleSendClick()`. This function doesn't take any parameters.\n\n2. Inside this function, it first retrieves the HTML element with the id `chat-group` and stores it in the variable `chatGroup`.\n\n3. It then gets the `activeid` attribute of `chatGroup`, splits it on the character `-`, and stores the second part (index 1) in the variable `chatindex`.\n\n4. It also retrieves the HTML elements with ids `send`, `progress`, and `prompt`, and stores them in variables `sendButton`, `progressRing`, and `promptBox` respectively.\n\n5. It gets the value of the `promptBox` (a text area element), and if it's empty, the function returns immediately.\n\n6. It then sets the `hidden` attribute of the `sendButton` and the `disabled` attribute of the `promptBox`, effectively hiding the button and disabling the text area.\n\n7. It removes the `hidden` attribute of the `progressRing`, making it visible. This could be a visual indicator that some process is ongoing.\n\n8. Finally, it sends a message to the host (VS Code) using the `vscode.postMessage` method. The message is an object with properties `chatindex`, `command`, `showUI`, and `prompt`, which contain the chat index, the command \"newprompt\", a boolean indicating to show the UI, and the prompt data respectively.\n\nThe code is written in TypeScript, a statically typed superset of JavaScript that adds types to the language. TypeScript is designed for development of large applications and transcompiles to JavaScript.\n\nRegarding the algorithm used, it's a straightforward procedural algorithm with no special data structures or algorithms involved. The function is event-driven, meaning it's designed to respond to user interactions (in this case, a button click).\n\nFor more information about TypeScript, you can visit the official website: [TypeScript - JavaScript that scales](https://www.typescriptlang.org/)\n\nFor more information about `vscode.postMessage`, you can visit the VS Code API documentation: [VS Code API - vscode.postMessage](https://code.visualstudio.com/api/extension-guides/webview#passing-messages-from-a-webview-to-an-extension)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "\n// Callback function that is executed when the howdy button is clicked\nfunction handleSendClick() {\n    // get the value of the radio button\n    const chatGroup = document.getElementById(\"chat-group\") as HTMLElement;\n    const chatid = chatGroup.getAttribute(\"activeid\");\n    const chatindex = chatid?.split(\"-\")[1];\n\n    const sendButton = document.getElementById(\"send\") as Button;\n    const progressRing = document.getElementById(\"progress\") as HTMLElement;\n    const promptBox = document.getElementById(\"prompt\") as HTMLTextAreaElement;\n\n    const promptData = promptBox?.value;\n    if (!promptData) {\n        return;\n    }\n\n    //disable the button and show the progress ring by adding/removing the hidden attribute\n    sendButton.setAttribute(\"hidden\", \"\");\n    promptBox.setAttribute(\"disabled\", \"\");\n\n    progressRing.removeAttribute(\"hidden\");\n\n    vscode.postMessage({\n        chatindex: chatindex,\n        command: \"newprompt\",\n        showUI: true,\n        prompt: promptData \n    });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 66
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/dashboard/chat/main.ts"
+  }
+}

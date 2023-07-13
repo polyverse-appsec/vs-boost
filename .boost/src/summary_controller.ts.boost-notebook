@@ -1,0 +1,208 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 6:31:26 PM PDT\n\nThis code is written in JavaScript, specifically using the ECMAScript 6 (ES6) module syntax. It imports certain named exports from a module located at './base_controller'. The module './base_controller' is assumed to be in the same directory as the current file. \n\nThe specific items being imported are `KernelControllerBase` and `errorMimeType`. These could be any kind of JavaScript entities - functions, objects, classes, constants, etc. - that have been exported from the './base_controller' module. \n\nIn this context, it seems like `KernelControllerBase` might be a base class for a controller in a software system that uses a Model-View-Controller (MVC) architecture, and `errorMimeType` might be a constant that represents the MIME type for error messages in this system. \n\nHowever, without more context or access to the './base_controller' module, it's impossible to say for sure what these entities are or how they're used. \n\nThe ECMAScript 6 (ES6) module syntax is a standard for structuring and organizing JavaScript code, especially in large codebases. You can learn more about it here: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules\n\nAs for the architectural guidelines, the code provided doesn't conflict with any guidelines, as none were provided. However, the use of a base controller suggests a certain level of abstraction which is a good practice in software architecture. This allows for easier extension and customization of the controller behavior in different parts of the application."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import {\n    KernelControllerBase, errorMimeType\n } from './base_controller';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": -1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 6:31:53 PM PDT\n\nThe provided code is a simple import statement in JavaScript, specifically using the ES6 (ECMAScript 6) module syntax. This code is part of a larger project that interacts with Visual Studio Code (VSCode), a popular code editor. VSCode is built on Electron, which allows developers to build extensions using web technologies like JavaScript, HTML, and CSS.\n\nHere's a breakdown of the code:\n\n```javascript\nimport { DiagnosticCollection, ExtensionContext } from 'vscode';\n```\n\nThis line is importing two specific classes or objects - `DiagnosticCollection` and `ExtensionContext` - from a module named 'vscode'. \n\n1. `DiagnosticCollection`: This is a class that represents a collection of diagnostics (problems, errors, warnings, etc.). It's used to display problems in the VSCode editor. For more information, you can check the [VSCode API](https://code.visualstudio.com/api/references/vscode-api#DiagnosticCollection).\n\n2. `ExtensionContext`: This is a class that provides context for the extension. It provides properties and methods that VSCode extensions can use to interact with the VSCode editor and workspace. For more information, you can check the [VSCode API](https://code.visualstudio.com/api/references/vscode-api#ExtensionContext).\n\nThe `import` statement is part of ES6 modules, which are a standardized way of organizing and sharing JavaScript code. They allow you to separate your code into multiple files and import/export functions, objects, or values from one module to another. For more information about ES6 modules, you can check the [Mozilla Developer Network (MDN) documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).\n\nAs for the architectural guidelines, since there are no additional special architectural guidelines or constraints provided, we can only assume that the project follows standard JavaScript and VSCode extension development practices. The provided code seems to adhere to these practices."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import { DiagnosticCollection, ExtensionContext } from 'vscode';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 2
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 6:32:19 PM PDT\n\nThis is a line of code written in TypeScript, a statically typed superset of JavaScript. It's used in Node.js, Angular, and many other JavaScript frameworks. This line of code is importing a module called `BoostConfiguration` from a file named `boostConfiguration` in the same directory. \n\nHere's a breakdown of the code:\n\n- `import`: This is an ES6 (ECMAScript 2015) feature that allows you to import functions, objects, or values from other files or modules. This is a part of the module system in JavaScript, which helps in organizing code by splitting it into multiple files each responsible for a specific functionality.\n\n- `{ BoostConfiguration }`: This is a named import syntax in ES6. It means that the `boostConfiguration` file is exporting something named `BoostConfiguration`. This could be a function, a class, an object, or even a value. The curly braces are used when you want to import specific exports from a module. \n\n- `from './boostConfiguration'`: This part specifies the file or module from which to import. The `./` means that the `boostConfiguration` file is in the same directory as the file where this import statement is being used. The `.ts` or `.js` extension is usually omitted in import statements.\n\nAs for the algorithms used, this line of code doesn't use any algorithms. It's a module import statement, which is a built-in feature of JavaScript and doesn't require any algorithm to function.\n\nFor more information on ES6 imports and exports, you can refer to this link: [MDN Web Docs - import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import { BoostConfiguration } from './boostConfiguration';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 3
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 6:32:52 PM PDT\n\nThis is a TypeScript code snippet that is used to import various modules and components from different files for use in the current file. TypeScript is a statically typed superset of JavaScript that adds optional types, classes, and modules to JavaScript.\n\nThe code is importing modules from two different sources:\n\n1. `vscode`: This is the core module of Visual Studio Code, a popular code editor. The `* as vscode` syntax means that all exported members of the `vscode` module are being imported and can be referred to as `vscode.<member>`. This is a common pattern when you want to keep the context of the imported members. The `vscode` module provides various functionalities for interacting with the VS Code editor, including API for handling files, editors, window management, and more. More information about this module can be found [here](https://code.visualstudio.com/api/references/vscode-api).\n\n2. `BoostNotebook, BoostNotebookCell, NotebookCellKind, NOTEBOOK_SUMMARY_EXTENSION`: These are specific members being imported from the `./jupyter_notebook` file. The `./` indicates that this file is in the same directory as the current file. The imported members could be classes, interfaces, constants, or any other exported members from that file. Without more context, it's difficult to provide specific details about these members, but their names suggest that they are related to handling and managing Jupyter notebooks.\n\nThe code does not show any specific algorithms being used, as it is just setting up the environment by importing necessary modules and components. The architectural guidelines provided do not give any additional constraints or requirements, so it's hard to say whether the code is consistent with or conflicts with them. However, the code does follow common TypeScript and Node.js conventions for importing modules.\n\nIf you want to learn more about TypeScript, here is a link to its official documentation: [TypeScript](https://www.typescriptlang.org/docs/)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "import * as vscode from 'vscode';\nimport { BoostNotebook, BoostNotebookCell,\n        NotebookCellKind, NOTEBOOK_SUMMARY_EXTENSION } from './jupyter_notebook';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 5
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 6:33:15 PM PDT\n\nThe code you've provided is a single line of JavaScript code that imports a module named `boostLogging` from a file located in the same directory as the current file. The file is named `boostLogging.js`.\n\nThe `import` statement is used to import functions, objects or values from an external module or file into the current file. In this case, the `boostLogging` module is being imported.\n\nHere's a breakdown of the syntax:\n\n- `import`: This is a keyword that begins the import statement.\n- `{ boostLogging }`: This is the name of the module, function, object, or value that you want to import. The curly braces `{}` are used when you're importing something specific from the module, which is known as a named import.\n- `from`: This keyword is used to specify where the import is coming from.\n- `'./boostLogging'`: This is the path to the module or file that you're importing from. The `./` indicates that the file is located in the same directory as the current file.\n\nAs for the algorithms used, this single line of code doesn't really contain any algorithm. It's just a statement to import a module. \n\nFor more information on JavaScript modules and import statements, you can refer to this [MDN Web Docs link](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules). \n\nAs for the architectural guidelines, since there are no special architectural guidelines or constraints provided for this software project, this import statement should be fine as long as the `boostLogging` module is used appropriately within the rest of the code."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "import { boostLogging } from './boostLogging';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 7
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 6:33:50 PM PDT\n\nThis code is written in TypeScript, which is a statically typed superset of JavaScript that adds types to the language. The code is importing several modules or functions from a file named 'extension'. \n\nHere is a detailed explanation of each function:\n\n1. `getBoostFile`: This function is not defined in the given code snippet, but based on its name, it likely retrieves a file of a particular type related to \"boost\". The exact functionality would depend on the implementation within the 'extension' file.\n\n2. `findCellByKernel`: Again, this function is not defined in the given code snippet. Based on its name, it likely finds a cell (possibly in a Jupyter notebook or similar data science tool) by its associated kernel. The exact functionality would depend on the implementation within the 'extension' file.\n\n3. `BoostFileType`: This appears to be an enumeration (enum) defining the types of \"boost\" files. Enums are a way of giving more friendly names to sets of numeric values.\n\n4. `fullPathFromSourceFile`: This function likely generates a full path from a given source file. The exact functionality would depend on the implementation within the 'extension' file.\n\n5. `cleanCellOutput`: This function likely cleans the output of a cell (possibly in a Jupyter notebook or similar tool). The exact functionality would depend on the implementation within the 'extension' file.\n\n6. `generateCellOutputWithHeader`: This function likely generates the output of a cell with a header. The exact functionality would depend on the implementation within the 'extension' file.\n\nThese functions are being imported from a module named 'extension'. In TypeScript, modules are a way to share code between files. By using modules, you can define some code in one file and then import that code in another file, thus enabling code reuse.\n\nThere is no specific algorithm used in this code snippet, as it is only importing functions and possibly an enum from another module. The algorithms would be contained within the functions themselves, which are not provided in this code snippet.\n\nGiven that there are no additional architectural guidelines or constraints provided for the software project, it's not possible to comment on the consistency or conflicts between the code and the guidelines. However, the use of modules and import statements is a common practice in TypeScript and is generally considered good architecture as it promotes code reuse and separation of concerns.\n\nFor more information on TypeScript, you can refer to the official documentation: https://www.typescriptlang.org/docs/"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "import { getBoostFile, findCellByKernel, BoostFileType, fullPathFromSourceFile, cleanCellOutput, generateCellOutputWithHeader } from './extension';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 8
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 6:34:12 PM PDT\n\nThe code you provided is a small snippet of a larger codebase and does not contain any specific algorithms or functions, but it does provide some insight into the structure of the overall program. Let's break it down:\n\n1. `import * as fs from 'fs';`\n   \n   This line is importing the `fs` (file system) module from Node.js. The `fs` module provides an API to interact with the file system in a manner closely modeled around standard POSIX functions. This module allows you to read/write files, create directories, etc. Here is the link to the official documentation: [Node.js fs module](https://nodejs.org/api/fs.html)\n\n2. `import * as path from 'path';`\n   \n   This line is importing the `path` module from Node.js. The `path` module provides utilities for working with file and directory paths. It's used for handling and transforming file paths. Here is the link to the official documentation: [Node.js path module](https://nodejs.org/api/path.html)\n\n3. `import { ControllerOutputType } from './controllerOutputTypes';`\n   \n   This line is importing a specific export (`ControllerOutputType`) from another module in the same directory called `controllerOutputTypes`. This could be a type, interface, class, function, or any other exportable entity in JavaScript/TypeScript. Without the actual `controllerOutputTypes` file, it's hard to provide more specific information about `ControllerOutputType`.\n\nThe architectural guidelines you provided do not provide additional constraints or requirements, so there's no conflict or consistency check to be done with those. \n\nWithout more context or a larger code snippet, it's hard to provide a more detailed explanation. But I hope the provided information is helpful."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "import * as fs from 'fs';\nimport * as path from 'path';\nimport { ControllerOutputType } from './controllerOutputTypes';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 11
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 6:34:57 PM PDT\n\nThis code is written in TypeScript and is part of a larger project that involves running analysis on source code or potentially a whole project. The code is designed to work with the Visual Studio Code (VSCode) API, specifically the Notebook API. \n\nThe purpose of this code is to provide a controller for a 'summarize' kernel, which is used to summarize the analysis across cells (individual chunks of code or data within a notebook). It also provides methods for executing all cells and summarizing cells for a specific kernel.\n\nHere are the main parts of the code:\n\n1. **Class Definition and Constructor**: The `SummarizeKernel` class extends a base class named `KernelControllerBase`. The constructor of `SummarizeKernel` calls the constructor of its base class with several parameters and also initializes a Map (`this._kernels`) that holds instances of `KernelControllerBase`.\n\n2. **serviceEndpoint Property**: The `serviceEndpoint` getter property returns a URL based on the value of `BoostConfiguration.cloudServiceStage`. This URL is likely used to send requests to a backend service.\n\n3. **executeAll Method**: This asynchronous method is used to execute all cells in a notebook. It takes several parameters including an array of source cells, a notebook document, an authentication session, and an optional boolean flag `forceAnalysisRefresh`. This method includes logic to handle different cases such as summarizing a source file or a project, and error handling.\n\n4. **_summarizeCellsForKernel Method**: This asynchronous method is used to summarize cells for a specific kernel. It takes several parameters including the output type, kernel label, a boolean flag `summarizeProject`, an array of source cells, a target notebook, a notebook document, an authentication session, and a boolean flag `usingBoostNotebook`. This method includes logic to handle different cases such as summarizing a source file or a project, and error handling.\n\nRegarding algorithms, this code doesn't seem to implement any specific algorithm. It's more about orchestrating different tasks such as executing cells, summarizing cells, error handling, and interacting with the VSCode API.\n\nFor more information about the VSCode API, you can visit:\n- [VSCode API](https://code.visualstudio.com/api/references/vscode-api)\n- [VSCode Notebook API](https://code.visualstudio.com/api/extension-guides/notebook)\n\nThis code is written in TypeScript and it is part of a larger project that utilizes Boost, a library for peer-reviewed C++ source libraries, and Visual Studio Code's (VSCode) API for working with notebooks.\n\nThe code includes a class (the name is not provided in the code snippet) which has several methods for summarizing, analyzing, and handling requests related to notebooks. The notebooks can either be of BoostNotebook type or VSCode's native Notebook type.\n\nHere's a brief explanation of each method:\n\n1. `_summarizeSourceFilesAsSingleInput(sourceFolder: string, outputType: string): Promise<string[]>`: This method takes a source folder and an output type as input, and returns a promise that resolves with an array of strings. It checks if there are any workspace folders and logs an error if none are found. Then it creates a .boost folder in the workspace folder, searches for every boost summary notebook under the target folder, and pushes the clean cell output into the inputs array.\n\n2. `_isEmptySummary(input: string): boolean`: This method checks if the input string starts with a specific error message and returns a boolean value.\n\n3. `getAnalysisFromNotebook(notebookUri: vscode.Uri, outputType: string): Promise<string>`: This method takes a notebook URI and an output type as input, and returns a promise that resolves with a string. It loads the notebook, finds a cell by kernel, and resolves the promise with the cell value.\n\n4. `_summarizeCellsAsSingleInput(sourceCells : (vscode.NotebookCell | BoostNotebookCell)[], usingBoostNotebook : boolean, outputType : string) : string[]`: This method takes an array of source cells, a boolean indicating if a Boost notebook is being used, and an output type as input, and returns an array of strings. It loops through the source cells, filters out the error cells, and pushes the clean cell output into the inputs array.\n\n5. `onBoostServiceRequest(cell : vscode.NotebookCell | BoostNotebookCell | undefined, serviceEndpoint : string, payload : any) : Promise<string>`: This method takes a cell, a service endpoint, and a payload as input, and returns a promise that resolves with a string. It adds payload properties dynamically and sends a request to the Boost service.\n\n6. `onKernelOutputItem(response: any, _ : vscode.NotebookCell | BoostNotebookCell, __ : any) : string`: This method takes a response and two ignored parameters as input, and returns a string. It checks if the response has the required properties and generates cell output with a header.\n\nThis code seems to be part of a larger project and without that context, it's hard to provide an in-depth explanation. However, it's clear that the code is designed to work with notebooks in VSCode, possibly for data analysis or similar tasks. It uses the Boost library and VSCode's API for notebooks."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "7",
+      "value": "\nexport const summarizeKernelName = 'summarize';\nexport const summmarizeOutputHeader = 'Summary';\n\nconst summaryInputDelimiter = '# New Input Follows';\n\nexport class SummarizeKernel extends KernelControllerBase {\n    _kernels : Map<string, KernelControllerBase>;\n\tconstructor(\n        context: ExtensionContext,\n        onServiceErrorHandler: any,\n        otherThis : any,\n        collection: DiagnosticCollection,\n        kernels : Map<string, KernelControllerBase>) {\n\n        super(\n            collection,\n            summarizeKernelName,\n            'Summarize Analysis',\n            'Summarizes the analysis across cells',\n            ControllerOutputType.summary,\n            summmarizeOutputHeader,\n            false,\n            false,\n            context,\n            otherThis,\n            onServiceErrorHandler,\n            \"inputs\");\n\n        this._kernels = kernels;\n    }\n\n\tdispose(): void {\n\t\tsuper.dispose();\n\t}\n\n    public get serviceEndpoint(): string {\n        switch (BoostConfiguration.cloudServiceStage)\n        {\n            case \"local\":\n                return 'http://127.0.0.1:8000/summarize';\n            case 'dev':\n                return 'https://sh6w6cyjee6wmtmlqutbxy6d2y0vaaas.lambda-url.us-west-2.on.aws/';\n            case \"test\":\n                return 'https://6jmbzmndoptau3zsfkf45fpbm40vnsxq.lambda-url.us-west-2.on.aws/';\n            case 'staging':\n            case 'prod':\n            default:\n                return 'https://tu5zdmjxvvzbzih6yytjtbm6fa0uvjba.lambda-url.us-west-2.on.aws/';\n        }   \n    }\n\n    async executeAll(\n        sourceCells: (vscode.NotebookCell | BoostNotebookCell)[],\n        notebook: vscode.NotebookDocument | BoostNotebook,\n        session: vscode.AuthenticationSession,\n        forceAnalysisRefresh: boolean = false\n    ) {\n        const usingBoostNotebook = notebook instanceof BoostNotebook;\n\n        // for now, we ignore forceAnalysisRefresh - and always re-analyze\n        forceAnalysisRefresh = true;\n\n        // are we summarizing a source file or a project?\n        let summarizeProject = (notebook.metadata['sourceFile'] as string) === './';\n\n        // input data is not held cells - its held in satellite notebook files\n        if (sourceCells.length === 0 && !summarizeProject) {\n            boostLogging.warn(`No cells to ${this.command} of Notebook ${usingBoostNotebook ? notebook.fsPath : notebook.uri.toString()}`, false);\n            return;\n        }\n    \n        boostLogging.info(`Starting ${this.command} of Notebook ${usingBoostNotebook ? notebook.fsPath : notebook.uri.toString()}`, false);\n\n        // summary is designed to review an entire file - since it will replace the file-level summary each time\n        // warn user - but still do it\n        if (sourceCells.length < notebook.cellCount && !summarizeProject) {\n            boostLogging.warn(`Not all cells (${sourceCells.length}/${notebook.cellCount}) are analyzed for ${this.command} of Notebook ${notebook.uri.toString()}`, !usingBoostNotebook);\n        }\n\n        let targetNotebookUri: vscode.Uri;\n        let targetNotebook: BoostNotebook = new BoostNotebook();\n\n        // if we're summarizing a source file, we need to summarize all the cells in the source\n        if (!summarizeProject) {\n            targetNotebookUri = getBoostFile(fullPathFromSourceFile(notebook.metadata['sourceFile'] as string), BoostFileType.summary);\n\n            if (fs.existsSync(targetNotebookUri.fsPath)) {\n                targetNotebook.load(targetNotebookUri.fsPath);\n            } else {\n                targetNotebook.save(targetNotebookUri.fsPath);\n            }\n        } else {\n            targetNotebook = notebook as BoostNotebook;\n            targetNotebookUri = vscode.Uri.parse(targetNotebook.fsPath);\n        }\n\n        let successfullyCompleted = true;\n        const executionContexts : any[] = [];\n        if (!summarizeProject) {\n            sourceCells.forEach(cell => {\n                executionContexts.push(super.openExecutionContext(usingBoostNotebook, cell));\n            });\n        }\n\n        try\n        {\n            for (const controller of this._kernels) {\n                if (controller[1].command === summarizeKernelName) {\n                    continue;\n                }\n                await this._summarizeCellsForKernel(controller[1].outputType, controller[1].kernelLabel, summarizeProject,\n                    sourceCells, targetNotebook, notebook, session, usingBoostNotebook);\n            }\n        } catch (rethrow) {\n            successfullyCompleted = false;\n            boostLogging.error(`Error during ${this.command} of Notebook ${targetNotebookUri.fsPath} at ${new Date().toLocaleTimeString()}`, false);\n            throw rethrow;\n        }\n        finally {\n            if (!summarizeProject) {\n                executionContexts.forEach(executionContext => {\n                    super.closeExecutionContext(executionContext, successfullyCompleted);\n                });\n            }\n        }\n    \n        if (usingBoostNotebook) {\n            boostLogging.info(`Finished ${this.command} of Notebook ${targetNotebookUri.fsPath} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);\n        }\n    }\n\n    noDataToSummarizeMessage = \"No Data to Summarize\";\n    chunkedInputPrefix = 'input_';\n\n    async _summarizeCellsForKernel(\n        outputType : string,\n        kernelLabel : string,\n        summarizeProject : boolean,\n        sourceCells : (vscode.NotebookCell | BoostNotebookCell)[],\n        targetNotebook: BoostNotebook,\n        notebook: vscode.NotebookDocument | BoostNotebook,\n        session: vscode.AuthenticationSession,\n        usingBoostNotebook : boolean) {\n\n        let combinedInputs : string[];\n        if (!summarizeProject) {\n            // if we are summarizing a source file, we need to summarize all the cells\n            combinedInputs = this._summarizeCellsAsSingleInput(sourceCells, usingBoostNotebook, outputType);\n        } else {\n            // if we are summarizing a project or folder, we need to summarize all the files in it\n            combinedInputs = await this._summarizeSourceFilesAsSingleInput(targetNotebook.metadata['sourceFile'] as string, outputType);\n        }\n        // if we got no input, then skip deep processing\n        let tempProcessingCell = undefined;\n        if (combinedInputs && combinedInputs.length > 0) {\n            // we create a placeholder cell for the input, so we can do processing on the input\n            // then we'll take the resulting data and put it into the metadata (as multiple separate fields)\n            // the value will be empty since we don't want to combine it as one large string (yet)\n            tempProcessingCell = new BoostNotebookCell(NotebookCellKind.Markup, \"***placeholder text - real input is in metadata***\", \"markdown\");\n            tempProcessingCell.initializeMetadata(\n                {\"id\": tempProcessingCell.id,\n                \"type\": \"originalCode\",\n                // eslint-disable-next-line @typescript-eslint/naming-convention\n                \"analysis_type\": outputType,\n                // eslint-disable-next-line @typescript-eslint/naming-convention\n                \"analysis_label\": kernelLabel});\n            if (tempProcessingCell.metadata) {\n                for (let i = 0; i < combinedInputs.length; i++) {\n                    tempProcessingCell.metadata[this.chunkedInputPrefix + i.toString()] = combinedInputs[i];\n                }\n            }\n        \n            // summaries are written to the side-by-notebook (e.g. e.g. for foo.py, the boost notebook is foo.py.boost-notebook, and summary is foo.py.summary.boost-notebook)\n            // the cell written is ONE cell for the entire source file in the summary file\n            // or in the case of a project, each cell contains the summary across all source files\n            // if we are summarizing all\n            const result = await this.doExecution(targetNotebook, tempProcessingCell, session);\n            if (!result) {\n                boostLogging.error(`Error Summarizing ${outputType} of Notebook ${usingBoostNotebook?\n                    (notebook as BoostNotebook).fsPath : notebook.uri.toString()}`, !usingBoostNotebook);\n            } else {\n                boostLogging.info(`Success Summarizing ${outputType} of Notebook ${usingBoostNotebook ? (notebook as BoostNotebook).fsPath : notebook.uri.toString()}`, false);\n            }\n        } else {\n            boostLogging.warn(`Unable to Summarize ${outputType} of Notebook ${usingBoostNotebook ? (notebook as BoostNotebook).fsPath : notebook.uri.toString()}: no source data found`, false);\n        }\n\n        let targetCell = findCellByKernel(targetNotebook, outputType) as BoostNotebookCell;\n        if (!targetCell) {\n            targetCell = new BoostNotebookCell(NotebookCellKind.Markup, \"\", \"markdown\");\n            targetCell.initializeMetadata({\"id\": targetCell.id, \"outputType\": outputType});\n            targetNotebook.addCell(targetCell);\n        }\n        // snap the processed analysis summary from the temp cell and store it as the new summary cell in the summary notebook\n        if (tempProcessingCell) {\n            targetCell.value = tempProcessingCell.outputs[0].items[0].data;\n            if (outputType === ControllerOutputType.blueprint) {\n                // store summary as the blueprint type - so quick blueprint doesn't overwrite it\n                targetCell.initializeMetadata({\n                    ...targetCell.metadata,\n                    \"blueprintType\": \"summary\"\n                });\n            }\n        } else {\n            // generate synthetic no data output cell\n            targetCell.value = this.onKernelOutputItem(\n                    {\"analysis\": this.noDataToSummarizeMessage,\n                     // eslint-disable-next-line @typescript-eslint/naming-convention\n                     \"analysis_type\": outputType,\n                     // eslint-disable-next-line @typescript-eslint/naming-convention\n                     \"analysis_label\": kernelLabel},\n                     targetCell,\n                    outputType);\n        }\n\n        targetNotebook.flushToFS();\n    }\n\n    async _summarizeSourceFilesAsSingleInput(sourceFolder: string, outputType: string): Promise<string[]> {\n        if (!vscode.workspace.workspaceFolders) {\n            boostLogging.error(\"No workspace folder found for summarizing source files\", false);\n            return [];\n        }\n\n        // if we don't have a workspace folder, just place the Boost file in a new Boostdir - next to the source file\n        const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder\n\n        // create the .boost folder if we need to - this is statically located in the workspace folder no matter which child folder is processed\n        const boostFolder = path.join(workspaceFolder.uri.fsPath, BoostConfiguration.defaultDir);\n        const normalizedBoostFolder = path.normalize(boostFolder);\n        const searchFolder = path.join(normalizedBoostFolder, sourceFolder);\n        const normalizedSearchFolder = path.normalize(searchFolder);\n        const summaryNotebookFileUri = getBoostFile(workspaceFolder.uri, BoostFileType.summary);\n        \n        // we're going to search for every boost summary notebook under our target folder (which is under Boost folder)\n        const searchPattern = new vscode.RelativePattern(normalizedSearchFolder, '**/*' + NOTEBOOK_SUMMARY_EXTENSION);\n        const files = await vscode.workspace.findFiles(searchPattern);\n\n        // grab all the cell contents by type/command/kernel for submission\n        const inputs: string[] = [];\n        await Promise.all(files.map(async (file) => {\n                // ignore the summary rollup file itself\n                if (summaryNotebookFileUri.fsPath === file.fsPath) {\n                    return;\n                }\n\n                // Perform async operation for each file\n                const inputFromNotebook = await this.getAnalysisFromNotebook(file, outputType);\n                if (inputFromNotebook && !inputFromNotebook.includes(this.noDataToSummarizeMessage)) {\n                    if (!this._isEmptySummary(inputFromNotebook)) {\n                        inputs.push(cleanCellOutput(inputFromNotebook));\n                    }\n                }\n            }));\n    \n        return inputs;\n    }\n\n    _isEmptySummary(input: string): boolean {\n        return input.startsWith(`Boost ${this.outputHeader} failed:`);\n    }\n\n    async getAnalysisFromNotebook(notebookUri: vscode.Uri, outputType: string): Promise<string> {\n        return new Promise(async (resolve, reject) => {\n            try {\n                const notebook = new BoostNotebook();\n                notebook.load(notebookUri.fsPath);\n                const cell = findCellByKernel(notebook, outputType) as BoostNotebookCell;\n                if (!cell) {\n                    resolve('');\n                    return;\n                }\n                resolve(cell.value);\n            } catch (error) {\n                reject(error);\n            }\n        });\n    }\n\n    _summarizeCellsAsSingleInput(\n        sourceCells : (vscode.NotebookCell | BoostNotebookCell)[],\n        usingBoostNotebook : boolean,\n        outputType : string) : string[] {\n\n        // grab all the cell contents by type/command/kernel for submission\n        const inputs: string[] = [];\n        for (const cellToSummarize of sourceCells) {\n            if (usingBoostNotebook) {\n                const cell = cellToSummarize as BoostNotebookCell;\n                cell.outputs.filter((output) => output.metadata?.outputType === outputType).forEach((output) => {\n                    output.items.forEach((item) => {\n                        if (item.data &&\n                                // ignore error cells\n                            item.mime !== errorMimeType &&\n                            !this._isEmptySummary(item.data)) {\n                            inputs.push(cleanCellOutput(item.data));\n                        }\n                    });\n                });\n            } else {\n                const cell = cellToSummarize as vscode.NotebookCell;\n                cell.outputs.filter((output) => output.metadata?.outputType === outputType).forEach((output) => {\n                    output.items.forEach((item) => {\n                        // ignore error blocks\n                        if (item.mime === errorMimeType) {\n                            return;\n                        }\n\n                        const decodedText = new TextDecoder().decode(item.data);\n                        if (decodedText && !this._isEmptySummary(decodedText)) {\n                            inputs.push(cleanCellOutput(decodedText));\n                        }\n                    });\n                });\n            }\n        }\n    \n        return inputs;\n    }\n\n    async onBoostServiceRequest(\n        cell : vscode.NotebookCell | BoostNotebookCell | undefined,\n        serviceEndpoint : string,\n        payload : any) : Promise<string>\n    {\n        //  dynamically add payload properties to send to Boost service\n        payload.analysis_type = cell?.metadata?.analysis_type;\n        payload.analysis_label = cell?.metadata?.analysis_label;\n        payload.model = cell?.metadata?.model;\n        \n        delete payload.inputs;\n        let countOfInputs = 1;\n        while (cell?.metadata) {\n            if (!cell.metadata[`${this.chunkedInputPrefix}${countOfInputs - 1}`]) {\n                break;\n            }\n            payload[`${this.chunkedInputPrefix}${countOfInputs - 1}`] = cell.metadata[`${this.chunkedInputPrefix}${countOfInputs - 1}`];\n            countOfInputs++;\n        }\n        payload.chunks = countOfInputs - 1;\n        payload.chunk_prefix = this.chunkedInputPrefix;\n\n        return super.onBoostServiceRequest(cell, serviceEndpoint, payload);\n    }\n\n    onKernelOutputItem(\n        response: any,\n        _ : vscode.NotebookCell | BoostNotebookCell,\n        __ : any) : string {\n\n        if (response.analysis === undefined) {\n            throw new Error(\"Unexpected missing analysis from Boost Service\");\n        } else if (response.analysis_label === undefined) {\n            throw new Error(\"Unexpected missing analysis label from Boost Service\");\n        } else if (response.analysis_type === undefined) {\n            throw new Error(\"Unexpected missing analysis type from Boost Service\");\n        }\n\n        return generateCellOutputWithHeader(`${response.analysis_label} Summary`, response.analysis);\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 18
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/summary_controller.ts"
+  }
+}

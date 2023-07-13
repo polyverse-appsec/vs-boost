@@ -1,0 +1,433 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:12:18 PM PDT\n\nThis code is written in JavaScript using the ES6 module syntax. It is importing a list of components from a library called `@vscode/webview-ui-toolkit`.\n\nThe `@vscode/webview-ui-toolkit` is a UI toolkit library provided by Visual Studio Code for building webview interfaces. Webviews are used in VS Code for various user interfaces such as the welcome page, the interactive playground, and the markdown preview. The toolkit provides a set of web components that are styled to match the VS Code theme and can be used to build consistent and native feeling interfaces.\n\nHere is a brief explanation of each imported component:\n\n1. `provideVSCodeDesignSystem`: This is a function that provides the design system for the VSCode webview. It is used to set up the design system provider for the webview. \n\n2. `vsCodeBadge`: This is a Badge web component that can be used to display a small amount of information or a status.\n\n3. `vsCodeButton`: This is a Button web component that can be used to trigger an action when clicked.\n\n4. `vsCodeDivider`: This is a Divider web component that can be used to separate different sections of the interface.\n\n5. `vsCodeDataGrid`: This is a Data Grid web component that can be used to display tabular data.\n\n6. `vsCodeDataGridCell` and `vsCodeDataGridRow`: These are Data Grid Cell and Data Grid Row web components respectively, used within a Data Grid to display individual cells and rows of data.\n\n7. `vsCodeCheckbox`: This is a Checkbox web component that can be used to select or deselect an option.\n\n8. `vsCodeProgressRing`: This is a Progress Ring web component that can be used to indicate that a task is in progress.\n\n9. `Button`: This is another Button web component, but it's not prefixed with `vsCode` like the others, so it's not clear from this snippet alone where it originates from or how it differs from `vsCodeButton`.\n\nFor more education and background, you can refer to the official GitHub repository of the `@vscode/webview-ui-toolkit` library: https://github.com/microsoft/vscode-webview-ui-toolkit\n\nIn terms of architectural guidelines, since there are no specific constraints provided, the code appears to be consistent with general good practices of modular design, where specific components are imported for use as required, rather than importing a whole library."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import {\n    provideVSCodeDesignSystem,\n    vsCodeBadge,\n    vsCodeButton,\n    vsCodeDivider,\n    vsCodeDataGrid,\n    vsCodeDataGridCell,\n    vsCodeDataGridRow,\n    vsCodeCheckbox,\n    vsCodeProgressRing,\n    Button,\n} from \"@vscode/webview-ui-toolkit\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": -1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:12:44 PM PDT\n\nThis code is written in JavaScript and uses the ES6 import syntax to import modules into the current file. In this case, it's importing the D3.js and Lodash libraries, and two functions `detailsEnter` and `detailsUpdate` from a local file named `details_list`.\n\nLet's break it down:\n\n- `import * as d3 from \"d3\";` : This line is importing D3.js, a JavaScript library for producing dynamic, interactive data visualizations in web browsers. It makes use of the widely implemented SVG, HTML5, and CSS standards. The `* as d3` syntax means that it imports all exported members from the d3 module and makes them available as properties of an object `d3`. You can learn more about D3.js from its official website: [D3.js](https://d3js.org/)\n\n- `import * as _ from 'lodash';` : This line is importing Lodash, a JavaScript utility library that provides helpful methods for manipulation and combination of arrays, objects, and other data types. The `* as _` syntax means that it imports all exported members from the lodash module and makes them available as properties of an object `_`. You can learn more about Lodash from its official website: [Lodash](https://lodash.com/)\n\n- `import { detailsEnter, detailsUpdate } from \"./details_list\";`: This line is importing two specific functions (`detailsEnter` and `detailsUpdate`) from a local file named `details_list.js`. Since these functions are enclosed in curly braces, it means they are named exports in the `details_list.js` module. \n\nAs for the architectural guidelines, since there are no special constraints or guidelines mentioned, we would assume that the code adheres to standard JavaScript ES6 conventions and the best practices of the libraries being used (D3.js and Lodash). \n\nThe code does not provide any algorithms, as it is only importing libraries and functions for use in other parts of the codebase. The algorithms would be present in the functions or methods that are being used from these libraries."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import * as d3 from \"d3\";\nimport * as _ from 'lodash';\nimport { detailsEnter, detailsUpdate } from \"./details_list\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 13
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:13:12 PM PDT\n\nThe provided code snippet is written in JavaScript, specifically using ES6 module syntax. It involves the import of two functions, `summaryEnter` and `summaryUpdate`, from another module named `summary_list`.\n\nHere is a detailed explanation:\n\n`import { summaryEnter, summaryUpdate } from \"./summary_list\";`\n\n- `import`: This is a reserved keyword in JavaScript used to import functions, objects, or values from other modules into the current module or script. This makes it possible to use the imported items in the current scope.\n\n- `{ summaryEnter, summaryUpdate }`: These are the specific items being imported from the other module. They are expected to be named exports from the `summary_list` module. Named exports are parts of a module that are explicitly exported using the `export` keyword and can be imported by other modules using their specific names.\n\n- `from \"./summary_list\"`: This specifies the module from which the items are being imported. The `./` at the beginning of the module path indicates that the module is in the same directory as the current script. The `.js` extension is optional when importing JavaScript modules.\n\nAs for the algorithms used, this code snippet is too short to contain any specific algorithm. It is essentially a part of the module system in JavaScript, which is a way of managing and organizing code in a large application. The module system allows developers to split their code into smaller, reusable pieces, each encapsulating and exporting specific functionality.\n\nFor more information about `import` and `export` in JavaScript, you may refer to the following resources:\n- [MDN Web Docs - import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [MDN Web Docs - export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export)\n\nThe code snippet you provided doesn't seem to conflict with any architectural guidelines since none were specified. However, it's always a good practice to ensure that the imported modules are used appropriately and that the overall project maintains a consistent structure and organization."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import { summaryEnter, summaryUpdate } from \"./summary_list\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 14
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:13:35 PM PDT\n\nThe provided code is written in JavaScript, more specifically in ES6 (ECMAScript 6) syntax. It's using the import statement to import specific exports from another module named \"compute_view_data.js\". \n\nHere is the breakdown of the code:\n\n1. `import {...} from \"./compute_view_data\";`:\n   This is an import statement in JavaScript. The import statement is used to import functions, objects, or values that have been exported from an external module, another script.\n\n2. `{summaryViewData, detailsViewData, statusViewData, StatusViewData}`:\n   These are called named imports. The names inside the curly braces must correspond to named exports in the compute_view_data module. In other words, the compute_view_data module must have these values, functions, or objects exported using the same names.\n\n3. `summaryViewData, detailsViewData, statusViewData, StatusViewData`:\n   These are the specific objects or functions that are being imported from the compute_view_data module. They might be functions, objects, or values - the code does not provide enough context to determine which.\n\n4. `\"./compute_view_data\"`:\n   This is the path to the module file relative to the current file. The \"./\" means the current directory, so this is looking for a file named compute_view_data.js in the same directory as the current file.\n\nAs for the algorithms used, this code snippet doesn't implement any specific algorithm. It's just importing certain named exports from another module. \n\nFor more information on ES6 modules and import/export syntax, you can refer to this link: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "import {\n    summaryViewData,\n    detailsViewData,\n    statusViewData,\n    StatusViewData\n} from \"./compute_view_data\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 15
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:13:58 PM PDT\n\nThis code snippet is a part of a TypeScript project. TypeScript is a statically typed superset of JavaScript that compiles to plain JavaScript. It adds static types to JavaScript, which can help catch bugs and make code easier to read and understand.\n\nThe code is importing two specific exports from a module located at \"../../boostprojectdata_interface\". The two imports are `JobStatus` and `IBoostProjectData`. \n\n1. `JobStatus`: This is likely an enumeration (enum) that represents the status of a job. Enums are a way of giving more friendly names to sets of numeric values. For example, the `JobStatus` enum might look something like this:\n\n```typescript\nenum JobStatus {\n  Pending,\n  Running,\n  Completed,\n  Failed\n}\n```\n\n2. `IBoostProjectData`: This is an interface. In TypeScript, an interface is a way of defining a contract for a certain structure of an object. It can be used to define the shape of an object, ensuring that the object has certain properties. The `IBoostProjectData` interface might define the structure of a project data object in the application.\n\nThe specific structure of `JobStatus` and `IBoostProjectData` is not shown in this code snippet, so the above are assumptions based on common TypeScript practices.\n\nAs for the algorithms used, there are none in this code snippet. This is purely an import statement, which is part of the module system in JavaScript and TypeScript. It allows for the importing of functions, objects or primitives that have been exported from an external module.\n\nFor more information and learning about TypeScript, you can refer to the official TypeScript documentation: https://www.typescriptlang.org/docs/ \n\nAs per your architectural guidelines, since there are no special constraints or guidelines mentioned, this code seems to be in alignment with general good practices of using TypeScript, such as using enums and interfaces to make the code more understandable and maintainable."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "\nimport { JobStatus, IBoostProjectData } from \"../../boostprojectdata_interface\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 22
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:14:26 PM PDT\n\nThis code is written in JavaScript and it includes two import statements. Import statements are used to include external libraries or modules into the current file.\n\n1. `import Typewritter from 'typewriter-effect/dist/core';`\n\n   This line of code is importing the Typewriter module from the 'typewriter-effect/dist/core' path. The Typewriter is a JavaScript library that allows you to create a typing animation effect on your web page. You can learn more about this library here: [Typewriter Effect](https://www.npmjs.com/package/typewriter-effect)\n\n2. `import { type } from \"os\";`\n\n   This line imports the `type` function from the Node.js built-in 'os' module. The `type` function is used to get the operating system name. For example, it could return 'Linux' on Linux, 'Darwin' on macOS and 'Windows_NT' on Windows. You can learn more about the 'os' module and its `type` function here: [Node.js OS Module](https://nodejs.org/api/os.html#os_os_type)\n\nAs for the architectural guidelines you provided, you mentioned that there are no additional special architectural guidelines or constraints. Therefore, without any specific guidelines, it's difficult to evaluate the code against them. However, these import statements seem to be correct and should work as expected if the corresponding packages ('typewriter-effect' and 'os') are installed in the project. \n\nThe algorithm used in this code is straightforward - it's just importing required modules to be used later in the code. The actual logic or functionality would be in the usage of these imported modules which is not present in the provided code snippet."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "import Typewritter from 'typewriter-effect/dist/core';\nimport { type } from \"os\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 24
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:15:04 PM PDT\n\nThe given code snippet is in TypeScript, a statically typed superset of JavaScript that adds types to the language. Here's an explanation of the code:\n\n1. `declare var boostprojectdata: IBoostProjectData;`: This line is declaring a global variable named `boostprojectdata`. The type of this variable is `IBoostProjectData`, which is likely an interface defined elsewhere in your code. This interface would define the shape of the `boostprojectdata` object. The `declare` keyword is used to tell TypeScript that this variable exists somewhere else in the global scope (it might be defined in another script file that is included in your HTML).\n\n2. `let typewriter = new Typewritter('#progress-text', { delay: 5, cursor: \"\" });`: This line is creating a new instance of a `Typewritter` class or function. The `new` keyword is used to instantiate a new object. The `Typewritter` class or function is being called with two arguments:\n\n   - `'#progress-text'`: This is a string that likely represents a CSS selector. This suggests that the `Typewritter` class or function interacts with a specific HTML element on the page, likely the one with the id of `progress-text`.\n   \n   - `{ delay: 5, cursor: \"\" }`: This is an object literal that is being passed as the second argument to the `Typewritter` function. It has two properties: `delay`, which is set to `5`, and `cursor`, which is set to an empty string. Without more context, it's hard to say exactly what these properties do, but it's reasonable to assume that `delay` might control the speed of the typewriter effect (with a delay of 5 units between each character), and `cursor` might control the appearance of the typewriter cursor.\n\nRegarding algorithms, this code snippet doesn't seem to implement any specific algorithm. It's more about object and variable instantiation.\n\nSince this code doesn't contain any specific architectural or design pattern, there's no conflict or consistency with any architectural guidelines. This is just a simple declaration and instantiation of variables.\n\nFor more information about TypeScript, you can check the official documentation: https://www.typescriptlang.org/docs/. For more about JavaScript classes, Mozilla Developer Network (MDN) has a good guide: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "\n//declare the boostprojectdata global variable\ndeclare var boostprojectdata: IBoostProjectData;\n\nlet typewriter = new Typewritter('#progress-text',{\n    delay: 5,\n    cursor: \"\"\n});\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 29
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:15:32 PM PDT\n\nThis code is written in JavaScript and seems to be part of a larger application that utilizes the Visual Studio Code (VSCode) API. Let's break it down:\n\n1. The function `provideVSCodeDesignSystem().register()` is called with several arguments. Each argument appears to be a function call that returns a component of the VSCode design system. These components could be UI elements such as buttons, badges, data grids, checkboxes, progress rings, and dividers. This function call seems to be registering these components to the design system provided by VSCode.\n\n2. `export const vscode = acquireVsCodeApi();` This line exports a constant named `vscode` which is assigned the result of the function `acquireVsCodeApi()`. This function presumably returns an instance of the VSCode API that can be used later in the code.\n\n3. The `options` object is defined with several properties:\n    - `useEasing` and `useGrouping` are boolean values that could be used to control some sort of animation or display options.\n    - `separator` and `decimal` are strings that could be used for formatting numbers.\n    - `formattingFn` is a function that takes a value as an argument and returns a formatted string. If the value is 1, it returns \"1 job running\"; otherwise, it returns the value followed by \"jobs running\". This function could be used to display the number of jobs currently running in a user-friendly way.\n\nOverall, this code seems to be part of a larger application that uses the VSCode API to create a user interface. The exact function of the code can vary greatly depending on the context in which it is used. The `options` object and the `formattingFn` function suggest that this code might be part of a job scheduler or a similar application.\n\nFor more information about the VSCode API, you can check the official documentation here: [VSCode API Documentation](https://code.visualstudio.com/api/references/vscode-api)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "7",
+      "value": "\nprovideVSCodeDesignSystem().register(\n    vsCodeButton(),\n    vsCodeBadge(),\n    vsCodeDataGrid(),\n    vsCodeDataGridCell(),\n    vsCodeDataGridRow(),\n    vsCodeCheckbox(),\n    vsCodeProgressRing(),\n    vsCodeDivider()\n);\n\nexport const vscode = acquireVsCodeApi();\n\nlet options = {\n    useEasing: true,\n    useGrouping: true,\n    separator: \",\",\n    decimal: \".\",\n    formattingFn: (value) => {\n        return value === 1 ? `${value} job running` : `${value} jobs running`;\n    },\n};\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 47
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:16:06 PM PDT\n\nThe code provided is JavaScript and it's used to handle events in a web browser environment.\n\nLet's go through it line by line:\n\n1-2: These are comments. They're used to provide explanations or annotations to the code. In this case, they're explaining the purpose of the code, which is to wait until the webpage (or webview) has fully loaded before referencing any HTML elements or toolkit components.\n\n3-4: `window.addEventListener(\"load\", main);` and `window.addEventListener(\"message\", handleIncomingSummaryMessage);` are event listeners. They're used to handle specific events that occur in the browser. \n\nThe `window.addEventListener()` method attaches an event handler to the window object. The window object represents a window containing a DOM document; the document property points to the DOM document loaded in that window. \n\n- `window.addEventListener(\"load\", main);` means that when the window has finished loading (the \"load\" event), it will run the `main` function.\n- `window.addEventListener(\"message\", handleIncomingSummaryMessage);` means that when a message event occurs (the \"message\" event), it will run the `handleIncomingSummaryMessage` function.\n\n5: `const slowRefreshUI = _.debounce(refreshUI, 1000, {leading: true});`\n\nThis line is using the `debounce` function from the Lodash library (`_`). The `debounce` function is used to limit the rate at which a function can fire. This can be particularly useful for events that can be triggered frequently, like resizing a window or scrolling.\n\nIn this case, the `debounce` function is being used to ensure that the `refreshUI` function can only be called once every 1000 milliseconds (or 1 second). The `{leading: true}` option means that the `refreshUI` function will be executed as soon as possible, and then no calls will be allowed until the 1 second delay has passed.\n\nFor more information on the `debounce` function, you can refer to the Lodash documentation here: https://lodash.com/docs/4.17.15#debounce\n\nNote: The functions `main`, `handleIncomingSummaryMessage` and `refreshUI` are not defined in the provided code. They are likely defined elsewhere in the codebase."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "8",
+      "value": "\n// Just like a regular webpage we need to wait for the webview\n// DOM to load before we can reference any of the HTML elements\n// or toolkit components\nwindow.addEventListener(\"load\", main);\nwindow.addEventListener(\"message\", handleIncomingSummaryMessage);\n\nconst slowRefreshUI = _.debounce(refreshUI, 1000, {leading: true});\n",
+      "kind": 2,
+      "metadata": {
+        "id": 8,
+        "type": "originalCode",
+        "lineNumberBase": 63
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:16:38 PM PDT\n\nThis code is written in JavaScript and is a part of a web-based application. The `main` function is likely the entry point of the application, which is executed once the Document Object Model (DOM) of the web page has fully loaded.\n\nLet's break down the code:\n\n1. `function main() { ... }`: This is the declaration of the main function. The main function is often the entry point of a program. In this case, it is likely called once the webview (a method to display web content within a native application) DOM has fully loaded.\n\n2. `refreshUI(boostprojectdata);`: This line calls another function named `refreshUI`, passing `boostprojectdata` as an argument. The purpose of `refreshUI` is not clear from this snippet alone, but by its name, it's likely that it updates the User Interface (UI) of the application based on the provided data (`boostprojectdata`). The `boostprojectdata` is likely a data source that contains information about a project.\n\n3. `setupListeners();`: This line calls a function named `setupListeners`. This function is likely responsible for setting up event listeners in the application. Event listeners in web development are used to handle user interactions, such as clicks, mouse movements, key presses, etc.\n\nAs for the architectural guidelines, since none are provided, we can only assume that the code adheres to common best practices in JavaScript and web development. This includes modular design (separate functions for refreshing the UI and setting up listeners), and separation of concerns (data handling and UI updates are separate from event handling).\n\nRegarding the algorithms used, this code snippet is too small to include any complex algorithms. It's mostly about function calls and likely event-driven programming, which is common in web development.\n\nFor more information on JavaScript functions, you can refer to this link: [JavaScript Functions - MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions)\n\nFor more information on DOM Event Listeners, you can refer to this link: [Introduction to events - MDN Web Docs](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "9",
+      "value": "\n// Main function that gets executed once the webview DOM loads\nfunction main() {\n    refreshUI(boostprojectdata);\n    //now setup listeners\n    setupListeners();\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 9,
+        "type": "originalCode",
+        "lineNumberBase": 66
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:17:20 PM PDT\n\nThis JavaScript function `setupListeners()` is used to set up event listeners on two HTML elements: a button with the id \"update-summary\" and a checkbox with the id \"check-deepcode\".\n\n1. `document.getElementById(\"update-summary\") as Button;` \n\nThis line is used to get a reference to the HTML element with the id \"update-summary\". The `as Button` part is a type assertion in TypeScript, which is a way to tell the TypeScript compiler to treat this element as a Button.\n\n2. `runAnalysisButton?.addEventListener(\"click\", handleAnalyzeAllClick);`\n\nThis line adds an event listener to the button. The `?.` is optional chaining in JavaScript, which is a way to simplify accessing deeply nested properties within complex objects when there is a chance that a reference may be undefined. \n\nThe event listener is set up to listen for a \"click\" event, and when such an event occurs, it calls the `handleAnalyzeAllClick` function. \n\n3. `const deepCodeCheckbox = document.getElementById(\"check-deepcode\");`\n\nThis line is used to get a reference to the HTML element with the id \"check-deepcode\".\n\n4. `deepCodeCheckbox?.addEventListener(\"click\", (event) => { setTimeout(refreshUI, 0); });`\n\nThis line adds an event listener to the checkbox. Like before, the optional chaining is used to ensure that an event listener is only added if the element exists.\n\nThis event listener is set up to listen for a \"click\" event, and when such an event occurs, it calls the `setTimeout` function with `refreshUI` as the function to execute and `0` as the delay in milliseconds. The `setTimeout` function is used to execute a function or specified piece of code once the timer expires.\n\nOverall, the function `setupListeners()` is used to set up interactions with the user interface. When a user clicks on the button or the checkbox, the corresponding functions are called to handle these events.\n\nYou can learn more about these topics from the following links:\n\n- [TypeScript Type Assertions](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions)\n- [JavaScript Optional Chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining)\n- [JavaScript Event Listeners](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)\n- [JavaScript setTimeout function](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "10",
+      "value": "\nfunction setupListeners() {\n    // To get improved type annotations/IntelliSense the associated class for\n    // a given toolkit component can be imported and used to type cast a reference\n    // to the element (i.e. the `as Button` syntax)\n    const runAnalysisButton = document.getElementById(\n        \"update-summary\"\n    ) as Button;\n    runAnalysisButton?.addEventListener(\"click\", handleAnalyzeAllClick);\n\n    const deepCodeCheckbox = document.getElementById(\"check-deepcode\");\n    deepCodeCheckbox?.addEventListener(\"click\", (event) => {\n        setTimeout(refreshUI, 0);\n    });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 10,
+        "type": "originalCode",
+        "lineNumberBase": 72
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:17:47 PM PDT\n\nThis code is written in JavaScript, specifically for the Visual Studio Code (VSCode) editor. It defines a callback function `handleAnalyzeAllClick()` that gets executed when a certain button (presumably labeled 'howdy') is clicked. This function is likely used in a VSCode extension or webview panel.\n\nLet's break down the code:\n\n1. `function handleAnalyzeAllClick() { ... }` - This is a function declaration in JavaScript. The function is named `handleAnalyzeAllClick`.\n\n2. `vscode.postMessage({ ... });` - This line of code sends a message from a webview back to an extension in VSCode. The `vscode` object is provided by the VSCode API to the webview for communication between the webview and the extension. The `postMessage` method is used to send a message to the extension.\n\n3. The `postMessage` method takes an object as an argument. This object contains the data that will be sent to the extension. \n\n4. `{ command: \"analyze_all\", analysisTypes: getAnalysisTypes(), }` - This is the object being sent to the extension. It has two properties:\n    - `command`: The value of this property is the string \"analyze_all\". This could be used by the extension to determine what action to take upon receiving the message.\n    - `analysisTypes`: The value of this property is the result of the `getAnalysisTypes()` function. This function is not defined in the provided code, but presumably, it returns some form of data related to the types of analysis to be performed.\n\nThe algorithm used in this code is quite simple: when the function `handleAnalyzeAllClick()` is invoked (presumably by a click event on a button), it sends a message to the VSCode extension with a command to perform an 'analyze_all' operation and provides the types of analysis to be performed.\n\nFor more information on VSCode extensions and webview communication, you can refer to the VSCode API documentation: [VSCode API - Webview](https://code.visualstudio.com/api/extension-guides/webview)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "11",
+      "value": "\n\n// Callback function that is executed when the howdy button is clicked\nfunction handleAnalyzeAllClick() {\n    //TODO: we need to show what is checked in the grid.\n    vscode.postMessage({\n        command: \"analyze_all\",\n        analysisTypes: getAnalysisTypes(),\n    });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 11,
+        "type": "originalCode",
+        "lineNumberBase": 89
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:18:14 PM PDT\n\nThis code defines a JavaScript function named `handleIncomingSummaryMessage` that handles incoming messages from a web extension. The function takes an argument, `event`, which is an instance of `MessageEvent`. `MessageEvent` is a built-in web API interface representing messages received by a target object.\n\nThe function begins by extracting the data from the event object using `event.data` and assigns it to the `message` variable. This data is expected to be a JSON object sent by the extension.\n\nThen, it gets references to some HTML elements on the page, namely an element with the ID `job-progress`, an element with the ID `update-summary`, and an element with the ID `progress-text`. These elements are likely used to display the status of some job or process to the user.\n\nNext, the function declares a variable `text` and initializes it with an empty string. This variable seems to be unused in the provided code, so it might be used in a part of the function that is not shown here.\n\nThe function then enters a `switch` statement, which is used to perform different actions based on the `command` property of the `message` object.\n\nIf the `command` is `\"refreshUI\"`, it assigns the `boostprojectdata` property of the `message` object to a global variable `boostprojectdata`, and then calls a function `slowRefreshUI` with `boostprojectdata` as an argument. The `slowRefreshUI` function is presumably used to update the user interface in some way.\n\nIf the `command` is `\"finishAllJobs\"`, it does the same thing as in the `\"refreshUI\"` case. The comment in the code suggests that this case could be merged with the `\"refreshUI\"` case, but it has been kept separate for now in case there is a need to handle it differently in the future.\n\nThis function doesn't seem to use any particular algorithm, but rather it's an event handler function that reacts to incoming messages.\n\nFor more on `MessageEvent` and how to use it, see the following link: [MessageEvent Web APIs](https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "12",
+      "value": "\nfunction handleIncomingSummaryMessage(event: MessageEvent) {\n    const message = event.data; // The JSON data our extension sent\n    const spinner = document.getElementById(\"job-progress\");\n    const runbutton = document.getElementById(\"update-summary\");\n    const progressText = document.getElementById(\n        \"progress-text\"\n    ) as HTMLElement;\n    let text = \"\";\n\n    switch (message.command) {\n        case \"refreshUI\":        \n            boostprojectdata = message.boostprojectdata;\n            slowRefreshUI(message.boostprojectdata);\n            break;\n\n        case \"finishAllJobs\":\n            //this could just be refreshUI, but keeping the command\n            //in here for now in case we ever need to do something different\n            //when all jobs are finished.\n            boostprojectdata = message.boostprojectdata;\n            slowRefreshUI(boostprojectdata);\n            break;\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 12,
+        "type": "originalCode",
+        "lineNumberBase": 97
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:18:51 PM PDT\n\nThis JavaScript function `getAnalysisTypes` is used to fetch the analysis types from a webpage. The analysis types are determined by the checked state of certain checkboxes on the webpage, and the specific type of analysis is derived from the `id` attribute of each checkbox. \n\nHere's a step-by-step breakdown of the function:\n\n- An empty array `analysisTypes` is initialized to store the analysis types that will be fetched.\n\n- The function then uses the `querySelectorAll` method on the `document` object to select all the checkboxes that have an attribute `analysis-check`. This returns a NodeList of all the matching elements.\n\n- The `forEach` method is used to iterate over each checkbox in the NodeList. For each checkbox, the function gets the `id` attribute and checks whether the checkbox has the class `checked` using the `classList.contains` method.\n\n- If the checkbox is checked (i.e., it has the class `checked`) and it has a non-null `id`, the function then uses the `match` method to extract the analysis type from the `id`. The `match` method uses a regular expression `/check-(.+)/` to find the part of the `id` that comes after `check-`. If a match is found, the matched string (i.e., the analysis type) is pushed to the `analysisTypes` array.\n\n- Finally, the function returns the `analysisTypes` array, which contains the analysis types of all checked checkboxes on the webpage.\n\nThis function is a good example of using DOM manipulation methods in JavaScript to interact with HTML elements on a webpage. It's a common pattern in JavaScript-based web development. \n\nFor more information about the methods and concepts used in this function, you can refer to the following resources:\n\n- `querySelectorAll`: [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll)\n- `forEach`: [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach)\n- `getAttribute`: [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttribute)\n- `classList`: [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList)\n- `match`: [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match)\n\nRegarding the architectural guidelines, as you mentioned, there are no special architectural guidelines or constraints for this software project. Therefore, this function seems to be in alignment with the overall project architecture as it's a standalone function that performs a specific task."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "13",
+      "value": "\nfunction getAnalysisTypes(): Array<string> {\n    const analysisTypes: string[] = [];\n    const checkboxes = document.querySelectorAll(\n        \"vscode-checkbox[analysis-check]\"\n    );\n\n    checkboxes.forEach((checkbox: Element) => {\n        const id: string | null = (checkbox as HTMLElement).getAttribute(\"id\");\n        const isChecked: boolean = (checkbox as HTMLElement).classList.contains(\n            \"checked\"\n        );\n        if (id && isChecked) {\n            const match = id.match(/check-(.+)/);\n            if (match && match[1]) {\n                analysisTypes.push(match[1]);\n            }\n        }\n    });\n\n    return analysisTypes;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 13,
+        "type": "originalCode",
+        "lineNumberBase": 122
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:19:21 PM PDT\n\nThe code provided is a JavaScript function named `refreshUI` that takes an argument `boostprojectdata` of type `IBoostProjectData`. This function is used to refresh or update the UI of an application based on the changes in the project data.\n\nThe function first calls `getAnalysisTypes()` to retrieve the types of analysis available. It then initializes an empty array `skipFilter`.\n\nThe function checks if \"deepcode\" is included in the analysis types. If it's not, \"deepcode\" is added to the `skipFilter` array. This indicates that elements related to \"deepcode\" should be skipped or hidden in the UI.\n\nThe function then prepares data for summary view, details view, and status view by calling `summaryViewData`, `detailsViewData`, and `statusViewData` functions respectively. The `detailsViewData` function is called with `skipFilter` as an argument, so it can filter out the data related to \"deepcode\" if needed.\n\nThe function then uses D3.js, a JavaScript library for creating data visualizations, to update the UI. D3.js binds the data to the DOM, and then uses that data to transform the document.\n\nFor the summary view and details view, it selects the corresponding grid, binds the data to the grid rows, and defines the behavior for entering, updating, and exiting nodes. For the details view, it also sorts the rows first by status and then by filename, and applies a transition effect.\n\nFinally, the function calls `refreshSpinner` and `refreshProgressText` functions to update the spinner and progress text based on the status view data.\n\nThe algorithm used in this code is mainly data-driven document transformation provided by D3.js. It's a general update pattern where data is joined to elements, and operations are performed on entering, updating, and exiting elements.\n\nFor more details on D3.js and its data join, you can refer to the following links:\n- D3.js Official Website: https://d3js.org/\n- General Update Pattern: https://observablehq.com/@d3/general-update-pattern\n- Data Joins in D3.js: https://bost.ocks.org/mike/join/"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "14",
+      "value": "\nfunction refreshUI(boostprojectdata: IBoostProjectData) {\n    const analysisTypes = getAnalysisTypes();\n    let skipFilter: string[] = [];\n\n    //if deepcode is not the analysis type, hide the deepcode-specific stuff\n    if (!analysisTypes.includes(\"deepcode\")) {\n        skipFilter.push(\"deepcode\");\n    }\n    let summaryView = summaryViewData(boostprojectdata);\n    let detailsView = detailsViewData(boostprojectdata, skipFilter);\n    let statusView = statusViewData(boostprojectdata);\n\n    d3.select(\"#summarygrid\")\n        .selectAll(\"vscode-data-grid-row\")\n        .data(summaryView, (d: any) => d.id)\n        .join(\n            (enter) => summaryEnter(enter),\n            (update) => summaryUpdate(update),\n            (exit) => exit.remove()\n        );\n\n    d3.select(\"#detailsgrid\")\n        .selectAll(\"vscode-data-grid-row\")\n        .data(detailsView, (d: any) => d.notebookRelFile ? d.notebookRelFile : d.sourceRelFile)\n        .join(\n            (enter) => detailsEnter(enter),\n            (update) => detailsUpdate(update),\n            (exit) => exit.remove()\n        )\n        .sort((a: any, b: any) => {\n            const statuses = {\n                \"processing\": 1,\n                \"completed\": 2,\n                \"incomplete\": 3,\n                \"queued\": 4,\n                \"not-started\": 5,\n            };\n            const aStatus = a.progressStatus;\n            const bStatus = b.progressStatus;\n            // Compare statuses first\n            if (statuses[aStatus] !== statuses[bStatus]) {\n                return statuses[aStatus] - statuses[bStatus];\n            }\n    \n            // If statuses are equal, compare filenames\n            let fileA = a.notebookRelFile ? a.notebookRelFile : a.sourceRelFile;\n            let fileB = b.notebookRelFile ? b.notebookRelFile : b.sourceRelFile;\n            return d3.ascending(fileA, fileB);\n        })\n        .transition()\n            .duration(100);\n\n    refreshSpinner(statusView);\n    refreshProgressText(statusView);\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 14,
+        "type": "originalCode",
+        "lineNumberBase": 144
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:19:56 PM PDT\n\nThis JavaScript function named `refreshSpinner` is used to control the visibility of two HTML elements: a spinner (which typically indicates that some operation is in progress) and a button (presumably used to update some summary).\n\nThe function takes one parameter `statusView` which is of type `StatusViewData`. This object seems to have a property `busy` which indicates whether some operation is ongoing or not. \n\nHere is a detailed breakdown of the code:\n\n1. `const spinner = document.getElementById(\"job-progress\");` \n\n   This line is used to get the HTML element with the id \"job-progress\". This is assumed to be the spinner that is shown when an operation is in progress.\n\n2. `const runbutton = document.getElementById(\"update-summary\");`\n\n   This line is used to get the HTML element with the id \"update-summary\". This is assumed to be the button that the user can click to update some summary.\n\n3. `if( statusView.busy ){...} else {...}`\n\n   This `if-else` statement checks the `busy` property of the `statusView` object. If `busy` is `true`, it means some operation is ongoing. If `busy` is `false`, it means no operation is ongoing.\n\n   - `spinner?.removeAttribute(\"hidden\"); runbutton?.setAttribute(\"hidden\", \"\");`\n\n     If `busy` is `true`, this code will remove the \"hidden\" attribute from the spinner, making it visible. It also sets the \"hidden\" attribute on the button, making it invisible.\n\n   - `spinner?.setAttribute(\"hidden\", \"\"); runbutton?.removeAttribute(\"hidden\");`\n\n     If `busy` is `false`, this code sets the \"hidden\" attribute on the spinner, making it invisible. It also removes the \"hidden\" attribute from the button, making it visible.\n\nThe `?.` operator used in this code is called the Optional Chaining operator. It allows you to read the value of a property located deep within a chain of connected objects without having to check that each reference in the chain is valid. If the reference is `null` or `undefined`, it will stop and return `undefined` rather than throwing an error.\n\nThere are no specific algorithms used in this function. It's just a simple DOM manipulation function in JavaScript. \n\nFor more information about DOM manipulation in JavaScript, you can visit [this link](https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById). For more information about Optional Chaining in JavaScript, you can visit [this link](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining). \n\nAs for the architectural guidelines, since there were no specific guidelines provided, we can assume that this function adheres to common best practices such as using `const` for variables that are not re-assigned, and using the Optional Chaining operator to avoid errors when accessing properties of potentially `undefined` or `null` objects."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "15",
+      "value": "\nfunction refreshSpinner(statusView: StatusViewData) {\n    const spinner = document.getElementById(\"job-progress\");\n    const runbutton = document.getElementById(\"update-summary\");\n    // set our spinner\n\n    if( statusView.busy ){\n        spinner?.removeAttribute(\"hidden\");\n        runbutton?.setAttribute(\"hidden\", \"\");\n    } else {\n        //for finish\n        spinner?.setAttribute(\"hidden\", \"\");\n        runbutton?.removeAttribute(\"hidden\");\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 15,
+        "type": "originalCode",
+        "lineNumberBase": 200
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 4:20:29 PM PDT\n\nThe provided code is written in TypeScript, a statically typed superset of JavaScript. It's a function named `refreshProgressText` that updates a progress text in a user interface based on the status data.\n\nThe function `refreshProgressText` takes one parameter, `statusData`, of type `StatusViewData`. `StatusViewData` is likely a custom type or interface which encapsulates the status data required for the function.\n\nHere's a step-by-step breakdown of the function:\n\n1. The function starts by getting a reference to an HTML element with the id \"progress-text\". This is achieved using the `document.getElementById` method. The `as HTMLElement` part is a type assertion in TypeScript, specifying that the returned object is an instance of `HTMLElement`.\n\n2. It then initializes two empty strings, `remaining` and `text`.\n\n3. The current text of the \"progress-text\" element is stored in `existingText`.\n\n4. The function checks if `statusData.busy` is `true`. If it is, it means some processing is ongoing.\n\n5. It then checks the value of `statusData.minutesRemaining`. If it's more than 60, it calculates the equivalent in hours and stores it in `remaining`. If it's not, it simply stores the value in minutes in `remaining`.\n\n6. The function then prepares the progress text based on the number of jobs running and jobs queued. It uses ternary operators to ensure correct grammar (for example, using \"file\" for a single file and \"files\" for multiple files).\n\n7. If there's no existing text in the \"progress-text\" element, it uses a `typewriter` object to type the new text. If there's existing text, it simply updates the text.\n\n8. If `statusData.busy` is not `true` and there's existing text in the \"progress-text\" element, it slowly deletes the text using the `typewriter` object.\n\n9. If `statusData.busy` is not `true` and there's no existing text in the \"progress-text\" element, the function does nothing.\n\nThe algorithm used in this code is straightforward. It's mainly conditional checks and string manipulations. The `typewriter` object seems to be implementing a typewriter effect, but without the full context of the code, it's hard to say for sure. It might be using a library like [TypewriterJS](https://safi.me.uk/typewriterjs/).\n\nThis function doesn't seem to conflict with any architectural guidelines, as none were provided. It's a simple, standalone function that updates a UI element based on some status data. It's likely part of a larger system where status updates are required."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "16",
+      "value": "\nfunction refreshProgressText(statusData: StatusViewData){\n    const progressText = document.getElementById(\n        \"progress-text\"\n    ) as HTMLElement;\n    let remaining = \"\";\n    let text = \"\";\n\n    //get the current text of the progress text\n    let existingText = progressText.innerText;\n\n    if( statusData.busy === true){\n        if( statusData.minutesRemaining > 60 ) {\n            remaining = `${Math.round(statusData.minutesRemaining / 60)} hours`;\n        } else {\n            remaining = `${statusData.minutesRemaining} minutes`;\n        }\n        let filesText = statusData.jobsRunning === 1 ? \"file\" : \"files\";\n        let queuesText = statusData.jobsQueued === 1 ? \"file\" : \"files\";\n        let processingText = statusData.jobsRunning === 0 ? \"preparing its analysis\" : `processing ${statusData.jobsRunning} ${filesText}`;\n        text = `Sara (the Boost AI) is ${processingText} right now, with ${statusData.jobsQueued} ${queuesText} queued. ETA ${remaining}. You can continue to use Visual Studio Code in the meantime.`;\n        //if there is no existing text, type it in\n        if( existingText === \"\" || existingText === undefined){\n            typewriter.typeString(text)\n            .start();\n        } else {\n            progressText.innerText = text;\n        }\n    } else if ( existingText !== \"\" || existingText !== undefined) {\n        //if we are not busy, and there is text, clear it out slowly to avoid ui jitty\n        typewriter.deleteAll(1)\n        .pauseFor(1000)\n        .start();\n    }\n    // otherwise, do nothing! \n    \n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 16,
+        "type": "originalCode",
+        "lineNumberBase": 215
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/dashboard/summary/main.ts"
+  }
+}

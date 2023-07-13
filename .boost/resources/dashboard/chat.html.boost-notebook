@@ -1,0 +1,208 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "0",
+      "value": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n\t<meta charset=\"UTF-8\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\t<title>Polyverse Boost AI Chat</title>\n\t<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css\">\n\t<link href=\"<%= codiconsUri %>\" rel=\"stylesheet\" />\n\t<script type=\"module\">\n\t\timport mermaid from \"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs\"; +\n\t\tmermaid.initialize({ startOnLoad: true });\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 9
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "1",
+      "value": "\t</script>\n\t<style>\n\t\t.user{\n\t\t\tpadding: 5px;\n\t\t\tborder-radius: 5px;\n\t\t\tborder-left: 10px solid #0078D4;  /* Visual Studio Code Blue */; \n\t\t}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 12
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "2",
+      "value": "\t\t.system {\n\t\t\tborder-color: aqua;\n\t\t}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 17
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "3",
+      "value": "\t</style>\n</head>\n<body>\n\t<p>Ask <%= aiName %> questions about <%= projectName %></p>\n\t<vscode-panels id=\"chat-group\" activeid=\"view-<%= activeid %>\">\n\t\t<% chats.forEach((chat, index) => { %>\n\t\t\t<vscode-panel-tab id=\"view-<%= index %>\">CHAT <%= index + 1 %>\n\t\t\t\t<% if (chats.length > 1 ){ %>\n\t\t\t\t\t<vscode-button class=\"tab-close-button\" appearance=\"icon\" id=\"tab-close-<%= index %>\">\n\t\t\t\t\t\t<span class=\"codicon codicon-close\"></span>\n\t\t\t\t\t</vscode-button>\n\t\t\t\t<% } %> \n\t\t\t</vscode-panel-tab>\n\t\t<% }); %>\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 25
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "4",
+      "value": "\t\t<% if( chats.length < 5 ) { %>\n\t\t\t<vscode-panel-tab id=\"view-add\"><vscode-button class=\"add-button\" appearance=\"icon\" id=\"tab-add-button\">\n\t\t\t\t<span class=\"codicon codicon-add\"></span>\n\t\t\t</vscode-button></vscode-panel-tab>\n\t\t<% } %>\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 34
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "5",
+      "value": "\t\t<% chats.forEach((chat, index) => { %>\n\t\t\t<vscode-panel-view id=\"view-<%= index%>\" <% if(index != activeid) { %> hidden <% } %> >\n\t\t\t\t<div class=\"chat-container\">\n\t\t\t\t\t<% chat.messages.forEach((message) => { %>\n\t\t\t\t\t\t<% if (message.role !== 'system' && message.content) { %>\n\t\t\t\t\t\t\t<div class=\"<%= message.role  %>\">\n\t\t\t\t\t\t\t\t<%= convert(message.content) %>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<% } %>\n\t\t\t\t\t<% }) %>\n\t\t\t\t</div>\n\t\t\t</vscode-panel-view>\n\t\t<% }); %>\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 39
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "6",
+      "value": "\t\t/* IMPORTANT: the number of labels has to match the number of tabs otherwise the UI will break */\n\t\t<% if( chats.length < 5 ) { %>\n\t\t\t<vscode-panel-view id=\"view-add\" hidden>\n\t\t\t\t<div class=\"chat-container\"></div>\n\t\t\t</vscode-panel-view>\n\t\t<% } %>\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 53
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "7",
+      "value": "\t</vscode-panels>\n\t<vscode-text-area autofocus id=\"prompt\" resize=\"both\" cols=\"200\"></vscode-text-area>\n\t<div align=\"right\">\n\t\t<vscode-progress-ring id=\"progress\" class=\"progress\" hidden ></vscode-progress-ring>\n\t\t<vscode-button id=\"send\">Ask <%= aiName  %></vscode-button>\n\t</div>\n    <script src=\"<%= jsSrc %>\" type=\"module\"> </script>\n\n</body>\n</html>\n\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 53
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./resources/dashboard/chat.html"
+  }
+}

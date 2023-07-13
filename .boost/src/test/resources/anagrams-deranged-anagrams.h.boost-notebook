@@ -1,0 +1,83 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "c",
+      "id": "0",
+      "value": "/*\nThis header file contains necessary imports, public type declarations and exported functions for a program that finds the longest pair of deranged words in a given dictionary.\n\nThe following are the details for each import, type and function:\n\n*/\n\n#include <stdio.h> // For standard input and output operations\n#include <stdlib.h> // For memory allocation and deallocation operations\n#include <string.h> // For string manipulation operations\n#include <unistd.h> // For UNIX system calls\n#include <sys/types.h> // For system data types\n#include <fcntl.h> // For file control operations\n#include <sys/stat.h> // For file system status operations\n\n/*\nThe letter frequency is used to lookup each character in the word, in order to reduce the word insertion time. The following variables are used:\n*/\nconst char *freq = \"zqxjkvbpygfwmucldrhsnioate\"; // A string of the letters sorted by frequency\nint char_to_idx[128]; // An integer array that stores the index for each character in the frequency string\n\n/*\nA trie-like structure is used to store and search the words in the dictionary. The following struct and union types are used:\n*/\nstruct word { // A struct to store each word\nconst char *w; // A pointer to the word\nstruct word *next; // A pointer to the next word in the list\n};\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 23
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "c",
+      "id": "1",
+      "value": "\nunion node { // A union type that can store either a down pointer array or a list pointer array\nunion node *down[10]; // A pointer array that stores 10 union node pointers\nstruct word *list[10]; // A pointer array that stores 10 struct word pointers\n};\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 28
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "c",
+      "id": "2",
+      "value": "\n/*\nThe following functions are exported and can be used in the main program:\n\nderanged\nParameters: Two strings s1 and s2\nReturn value: An integer\nPurpose: Determines if two strings are deranged by comparing each character in the strings\ncount_letters\nParameters: A string s and an unsigned char array c\nReturn value: An integer\nPurpose: Counts the number of letters in the string and stores the count of each letter in the c array\ninsert\nParameters: A pointer to a union node root, a string s, and an unsigned char array cnt\nReturn value: A pointer to a const char\nPurpose: Inserts a word into the trie-like structure and returns a pointer to a matching word if it exists\n*/\n\nint deranged(const char *s1, const char *s2); // Function declaration for deranged function\nint count_letters(const char *s, unsigned char *c); // Function declaration for count_letters function\nconst char * insert(union node *root, const char *s, unsigned char *cnt); // Function declaration for insert function\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 28
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/resources/anagrams-deranged-anagrams.h"
+  }
+}

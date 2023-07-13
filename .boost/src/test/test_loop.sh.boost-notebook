@@ -1,0 +1,58 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 1:18:08 PM PDT\n\nThis is a simple bash script. Bash (Bourne Again Shell) is a shell program that's a part of the GNU Project. It's a command processor that typically runs in a text window, where the user types commands that cause actions. \n\nThe script is using a command line argument to set a variable `iterations`. If no command line argument is provided, it defaults to 20.\n\nIn detail:\n\n- `#!/bin/bash` is known as a shebang or hashbang. It's the first line in scripts in Unix-based operating systems to define what interpreter to use to parse the script. In this case, it's telling the system to execute the script using bash.\n\n- `iterations=${1:-20}`: This is a parameter expansion in bash. It's setting the variable `iterations` to the first command line argument (`$1`) if it's provided, otherwise it defaults to 20 (`:-20`). \n\nThis script doesn't contain any specific algorithms but it does demonstrate the use of command line arguments and parameter expansion in bash scripts.\n\nFor more information on bash scripting, you can refer to the GNU Bash manual: https://www.gnu.org/software/bash/manual/bash.html."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "shellscript",
+      "id": "0",
+      "value": "#!/bin/bash\n\niterations=${1:-20}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 1:18:41 PM PDT\n\nThis is a Bash shell script used to run a series of tests for a Node.js project using the npm (Node Package Manager) test command. The script will run the tests as many times as specified by the 'iterations' variable. \n\nHere's a line by line explanation:\n\n1. `echo \"Running $iterations test iterations\"`: This line uses the `echo` command to print a message to the console. The `$iterations` variable is used to display the number of test iterations that will be run.\n\n2. `for ((i=1; i<=$iterations; i++))`: This line starts a for loop that will run from 1 to the number of test iterations specified by the `$iterations` variable.\n\n3. `do`: This keyword signifies the start of the commands to be executed in the for loop.\n\n4. `npm run test`: This line runs the `npm test` command. This command runs the test script defined in the `package.json` file of a Node.js project.\n\n5. `if [ $? -ne 0 ]; then`: This line checks the exit status of the last command run (`npm run test`). In Unix-like operating systems, an exit status of 0 indicates success, and anything else indicates an error. If the exit status is not equal to 0 (`-ne` means \"not equal\"), then the test has failed.\n\n6. `echo \"Test run failed on iteration $i\"`: If the test fails, this line uses the `echo` command to print a message to the console indicating which iteration of the test run failed.\n\n7. `exit 1`: This line exits the script with a status of 1, indicating an error.\n\n8. `fi`: This keyword ends the if statement.\n\n9. `done`: This keyword ends the for loop.\n\n10. `echo \"All test runs passed.\"`: If all test runs pass, this line uses the `echo` command to print a message to the console indicating success.\n\nThe algorithm used in this script is a simple for loop that executes a series of commands a specified number of times. The commands check if a test passes or fails, and if any test fails, the script exits with an error status.\n\nFor more information about bash scripting, you can refer to this guide: https://linuxconfig.org/bash-scripting-tutorial-for-beginners\n\nFor more information about npm and the `npm test` command, you can refer to the npm documentation: https://docs.npmjs.com/cli/v7/commands/npm-test"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "shellscript",
+      "id": "1",
+      "value": "echo \"Running $iterations test iterations\"\n\nfor ((i=1; i<=$iterations; i++))\ndo\nnpm run test\nif [ $? -ne 0 ]; then\necho \"Test run failed on iteration $i\"\nexit 1\nfi\ndone\n\necho \"All test runs passed.\"\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 1
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/test_loop.sh"
+  }
+}

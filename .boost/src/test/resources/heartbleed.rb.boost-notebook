@@ -1,0 +1,45 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "ruby",
+      "id": "0",
+      "value": "class Dtls1\n  attr_accessor :ssl, :tlsext_heartbeat, :tlsext_hb_pending,\n                :in_handshake, :tlsext_hb_seq, :msg_callback,\n                :msg_callback_arg, :version\n\n  SSL_TLSEXT_HB_ENABLED = 1 # Dummy value\n  SSL_TLSEXT_HB_DONT_SEND_REQUESTS = 2 # Dummy value\n  TLS1_HB_REQUEST = 3 # Dummy value\n  TLS1_RT_HEARTBEAT = 4 # Dummy value\n\n  def initialize(ssl)\n    @ssl = ssl\n  end\n\n  def dtls1_heartbeat\n    payload = 18\n    padding = 16\n\n    return -1 if !valid? || pending_heartbeat? || in_handshake_process?\n\n    raise \"Payload and padding exceed maximum size\" if payload + padding > 16381\n\n    buf = create_heartbeat_message(payload, padding)\n\n    result = dtls1_write_bytes(TLS1_RT_HEARTBEAT, buf)\n\n    if result >= 0\n      if @msg_callback\n        @msg_callback.call(1, @version, TLS1_RT_HEARTBEAT, buf, @ssl, @msg_callback_arg)\n      end\n\n      dtls1_start_timer()\n      @tlsext_hb_pending = 1\n    end\n\n    result\n  end\n\n  private\n\n  def valid?\n    !(@tlsext_heartbeat & SSL_TLSEXT_HB_ENABLED).zero? &&\n      @tlsext_heartbeat & SSL_TLSEXT_HB_DONT_SEND_REQUESTS).zero?\n  end\n\n  def pending_heartbeat?\n    @tlsext_hb_pending\n  end\n\n  def in_handshake_process?\n    (ssl_in_init? || @in_handshake)\n  end\n\n  def ssl_in_init?\n    # Add logic if necessary\n    false\n  end\n\n  def create_heartbeat_message(payload, padding)\n    buf = []\n\n    buf << TLS1_HB_REQUEST\n    buf.concat [payload].pack(\"S>\").unpack1(\"C*\")\n    buf.concat [@tlsext_hb_seq].pack(\"S>\").unpack1(\"C*\")\n\n    random_bytes = Array.new(16) { rand(0..255) }\n    buf.concat random_bytes\n\n    random_padding = Array.new(padding) { rand(0..255) }\n    buf.concat random_padding\n\n    buf\n  end\n\n  def dtls1_write_bytes(message_type, buf)\n    # Dummy implementation\n    0\n  end\n\n  def dtls1_start_timer\n    # Dummy implementation\n  end\nend",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": -1
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "ruby",
+      "id": "1",
+      "value": "\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": -1
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/resources/heartbleed.rb"
+  }
+}

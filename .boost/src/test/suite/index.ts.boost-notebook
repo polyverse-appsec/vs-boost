@@ -1,0 +1,83 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import path from 'path';\nimport glob from 'glob';\nimport fs from 'fs';\nimport Mocha, { test } from 'mocha';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 2
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import { shuffle } from 'lodash';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 3
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "\n// specify tests to run\n// const testFilter = '**/*.test.js';\nconst testFilter = '**/boostdata.test.js';\n\nexport function run(): Promise<void> {\n\tconst mocha = new Mocha({\n\t\tui: 'tdd',\n\t\tcolor: true\n\t});\n\n\tconst testsRoot = path.resolve(__dirname, '..');\n\n\t// Check if targetTestInput.json exists and read it\n\tconst targetTestInputPath = path.resolve(__dirname, '../resources', 'targetTestInput.json');\n\tlet targetTestFilename: string = '';\n\tif (fs.existsSync(targetTestInputPath)) {\n\t    const targetTestInput = JSON.parse(fs.readFileSync(targetTestInputPath, 'utf8'));\n\t    targetTestFilename = targetTestInput.filename;\n\t}\n\n\treturn new Promise((resolve, reject) => {\n\t\tglob(testFilter, { cwd: testsRoot }, (err, files) => {\n\t\t\tif (err) {\n\t\t\t\treturn reject(err);\n\t\t\t}\n\n\t\t\t// Shuffle the files so we don't have any ordering effects in tests\n\t\t\tconst shuffledFiles = shuffle(files);\n\n\t\t\t// Add files in randomized order to the test suite\n\t\t\tshuffledFiles.forEach((file: string) => {\n\t\t\t\tif (!targetTestFilename || file.includes(targetTestFilename)) {\n\t\t\t\t\tconsole.log('Adding Test file:', file);\n\t\t\t\t\tmocha.addFile(path.resolve(testsRoot, file));\n\t\t\t\t}\n\t\t\t});\n\n\t\t\ttry {\n\t\t\t\t// Run the mocha test\n\t\t\t\tmocha.run(failures => {\n\t\t\t\t\tif (failures > 0) {\n\t\t\t\t\t\treject(new Error(`${failures} tests failed.`));\n\t\t\t\t\t} else {\n\t\t\t\t\t\tresolve();\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t} catch (err) {\n\t\t\t\tconsole.error(err);\n\t\t\t\treject(err);\n\t\t\t}\n\t\t});\n\t});\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 9
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/suite/index.ts"
+  }
+}

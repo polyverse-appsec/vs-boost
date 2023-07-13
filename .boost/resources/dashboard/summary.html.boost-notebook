@@ -1,0 +1,283 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "0",
+      "value": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Polyverse Boost Analysis Summary</title>\n    <style>\n        .left-aligned {\n            display: flex;\n            justify-content: flex-start;\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 6
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "1",
+      "value": "\n        vscode-data-grid-cell[grid-column=\"1\"] {\n            min-width: 170px; /* Adjust the width as needed */\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 11
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "2",
+      "value": "\n        /*  these colors can look too washed out.\n        .boost-completed {\n            --badge-background: var(--vscode-statusBarItem-prominentBackground);\n            --badge-foreground: var(--vscode-statusBarItem-prominentForeground);\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 16
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "3",
+      "value": "        */\n        .boost-completed {\n            --badge-background: #28a745;\n            --badge-foreground: var(--vscode-statusBarItem-remoteForeground);\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 21
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "4",
+      "value": "        .boost-processing {\n            --badge-background: var(--vscode-statusBarItem-prominentBackground);\n            --badge-foreground: var(--vscode-statusBarItem-prominentForeground);\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 25
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "5",
+      "value": "\n        .boost-incomplete {\n            --badge-background: var(--vscode-statusBarItem-warningBackground);\n            --badge-foreground: var(--vscode-statusBarItem-warningForeground);\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 30
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "6",
+      "value": "\n        .boost-not-started {\n            --badge-background: var(--vscode-statusBarItem-errorBackground);\n            --badge-foreground: var(--vscode-statusBarItem-errorForeground);\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 35
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "7",
+      "value": "        @keyframes fading {\n            0%, 100% {\n                opacity: 0;\n            }\n            50% {\n            opacity: 1;\n            }\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 39
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "8",
+      "value": "\n        .processing {\n            animation: fading 4s linear infinite;\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 8,
+        "type": "originalCode",
+        "lineNumberBase": 48
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "9",
+      "value": "        .queued {\n            opacity: .5\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 9,
+        "type": "originalCode",
+        "lineNumberBase": 51
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "html",
+      "id": "10",
+      "value": "    </style>\n</head>\n<body>\n    <vscode-data-grid aria-label=\"Summary\" id=\"summarygrid\">\n    </vscode-data-grid>\n    <div align=\"center\">\n        <vscode-button id=\"update-summary\">Run Selected Analyses</vscode-button>\n        <vscode-progress-ring id=\"job-progress\" class=\"progress\" hidden></vscode-progress-ring>\n    </div>\n    <div id=\"progress-text\" align=\"left\">\n    </div>\n    <vscode-divider></vscode-divider>\n    <h4>Details</h4>\n    <vscode-data-grid aria-label=\"Details\" id=\"detailsgrid\">\n    </vscode-data-grid>\n    <script> \n        var boostdataencoded = \"<%= Buffer.from(JSON.stringify(boostprojectdata)).toString('base64') %>\";\n\t\tvar boostprojectdata = JSON.parse(atob(boostdataencoded));\n\t</script>\n    <script src=\"<%= jsSrc %>\" type=\"module\"></script>\n</body>\n</html>\n\n",
+      "kind": 2,
+      "metadata": {
+        "id": 10,
+        "type": "originalCode",
+        "lineNumberBase": 51
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./resources/dashboard/summary.html"
+  }
+}

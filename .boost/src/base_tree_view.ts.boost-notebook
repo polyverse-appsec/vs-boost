@@ -1,0 +1,108 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as vscode from 'vscode';\nimport { BoostExtension } from './BoostExtension';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "interface BoostNode {\n  name: string;\n  children?: BoostNode[];\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "\nclass BoostItem extends vscode.TreeItem {\n  constructor(\n    public readonly name: string,\n    public readonly children: BoostNode[],\n    public readonly collapsibleState: vscode.TreeItemCollapsibleState\n  ) {\n    super(name, collapsibleState);\n    this.tooltip = `${this.label}`;\n    this.description = this.label as string;\n  }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 6
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "\nexport class BoostTreeDataProvider implements vscode.TreeDataProvider<BoostItem> {\n  constructor(private boostExtension: BoostExtension, private section: string) {}\n\n  getTreeItem(element: BoostItem): vscode.TreeItem {\n    return element;\n  }\n\n  getChildren(element?: BoostItem): Thenable<BoostItem[]> {\n    if (element) {\n      return Promise.resolve(this.convertToTreeItems(element.children));\n    } else {\n      const data = this.boostExtension.getBoostProjectData()[this.section];\n      if (data) {\n        return Promise.resolve(this.convertToTreeItems(data));\n      } else {\n        return Promise.resolve([]);\n      }\n    }\n  }\n\n  private convertToTreeItems(nodes: BoostNode[]): BoostItem[] {\n    return nodes.map(\n      node =>\n        new BoostItem(\n          node.name,\n          node.children || [],\n          node.children && node.children.length > 0\n            ? vscode.TreeItemCollapsibleState.Collapsed\n            : vscode.TreeItemCollapsibleState.None\n        )\n    );\n  }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 18
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/base_tree_view.ts"
+  }
+}

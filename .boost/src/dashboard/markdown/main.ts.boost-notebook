@@ -1,0 +1,58 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 1:43:44 PM PDT\n\nThis code is written in JavaScript, more specifically ECMAScript 6 (ES6) module syntax. It imports specific functions from a module named `@vscode/webview-ui-toolkit`.\n\nThe `@vscode/webview-ui-toolkit` is a toolkit that provides a set of web components and utilities for building webview-based extensions for Visual Studio Code. This toolkit is designed to help developers create consistent and high-quality user interfaces for their extensions.\n\nHere is a breakdown of the code:\n\n- `import {...} from \"@vscode/webview-ui-toolkit\";` - This line is using the ES6 `import` statement to import specific exports from the `@vscode/webview-ui-toolkit` module. The items to import are specified in the curly braces `{...}`.\n\n- `provideVSCodeDesignSystem,` - This is a function that is being imported from the `@vscode/webview-ui-toolkit` module. This function provides a design system that can be used to style and layout your webview content. The design system includes a set of predefined styles and behavior that help you create a consistent user interface.\n\n- `vsCodeButton` - This is a custom HTML element that is being imported from the `@vscode/webview-ui-toolkit` module. This element represents a button in the Visual Studio Code style. You can use this element in your HTML to create buttons that look and behave like the ones in Visual Studio Code.\n\nThis code does not contain any specific algorithms, it is simply importing functions and elements from a module.\n\nFor more information about the `@vscode/webview-ui-toolkit` module, you can visit the GitHub repository: [VSCode Webview UI Toolkit](https://github.com/microsoft/vscode-webview-ui-toolkit)\n\nFor more information about the ES6 `import` statement, you can visit the Mozilla Developer Network (MDN) web docs: [import - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n\nAs for the architectural guidelines, since there are no specific guidelines or constraints given for this software project, the code seems to be consistent with general good practices - it is modular (imports specific functions from a module), which can help with code organization and maintenance."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import {\n    provideVSCodeDesignSystem,\n    vsCodeButton\n} from \"@vscode/webview-ui-toolkit\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": -1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 1:44:20 PM PDT\n\nThis code is a part of a Visual Studio Code (VS Code) extension that interacts with a webview. VS Code extensions are written in JavaScript or TypeScript and they extend the capabilities of the VS Code editor. \n\nThe code uses the VS Code API to interact with the editor and send messages to it. Here's a detailed breakdown of the code:\n\n1. `provideVSCodeDesignSystem().register(vsCodeButton());` \n\n   This line of code seems to be registering a button component to the VS Code Design System. The `vsCodeButton()` function is likely a factory function that creates a button component, and `provideVSCodeDesignSystem().register` is a method that registers this component to the design system. However, this is not a part of the standard VS Code API, it might be a part of a specific extension's API.\n\n2. `const vscode = acquireVsCodeApi();` \n\n   This line acquires the VS Code API and assigns it to the `vscode` constant. The `acquireVsCodeApi` function is provided by VS Code in the context of a webview and it returns an API surface to interact with the editor.\n\n3. `window.addEventListener(\"load\", main);` \n\n   This line adds an event listener to the window object. The event listener waits for the 'load' event, which is fired when the entire webview content has been loaded. When this event is fired, the `main` function is invoked.\n\n4. `function main() { ... }` \n\n   This is the definition of the `main` function. This function is executed when the 'load' event is fired. The function sends a message to the VS Code editor using the `vscode.postMessage` method. The message has a `command` field with the value `\"initialize-visibility\"`. The VS Code editor or the extension should have a message handler that processes this command.\n\nThe algorithm used here is pretty straightforward - it's event-driven programming. The code waits for an event (the 'load' event) and when that event is fired, it executes a function (the `main` function).\n\nHere are some resources for further reading:\n- [VS Code Extension API](https://code.visualstudio.com/api/references/vscode-api)\n- [VS Code Webview API](https://code.visualstudio.com/api/extension-guides/webview)\n- [Event-driven programming](https://en.wikipedia.org/wiki/Event-driven_programming)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\nprovideVSCodeDesignSystem().register(vsCodeButton());\n\nconst vscode = acquireVsCodeApi();\n\n// Just like a regular webpage we need to wait for the webview\n// DOM to load before we can reference any of the HTML elements\n// or toolkit components\nwindow.addEventListener(\"load\", main);\n\n// Main function that gets executed once the webview DOM loads\nfunction main() {\n    vscode.postMessage({\n        command: \"initialize-visibility\",\n    });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 14
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/dashboard/markdown/main.ts"
+  }
+}

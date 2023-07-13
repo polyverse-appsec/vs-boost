@@ -1,0 +1,33 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 1:41:11 PM PDT\n\nThis is a Bash shell script that reads a file, escapes certain special characters, and then outputs the contents of the file in a specific format. Here's a line-by-line breakdown:\n\n1. `#!/bin/bash`: This is a shebang line that tells the system this script should be executed using the Bash shell interpreter.\n\n2. The script then checks if the user has provided a filename as an argument when running the script. This is done using the conditional statement `if [ -z \"$1\" ]; then`. Here, `$1` refers to the first command-line argument, and `-z` tests if its length is zero. If the length is zero (i.e., if the user did not provide an argument), the script prints an error message and exits with a status code of 1 to indicate an error.\n\n3. If a filename was provided, the script reads the contents of the file using the `cat` command. It then pipes (`|`) this output to the `sed` command, which appends a newline character (`\\n`) at the end of each line. The `tr` command then removes all newline characters, effectively joining all the lines into a single line. The `sed` command is then used again to escape any double quote (`\"`) and hash (`#`) characters in the text.\n\n4. The processed contents of the file are then stored in the variable `contents`.\n\n5. The script then prints the contents of the file in a specific JSON-like format. It starts by printing an opening curly brace (`{`), then prints a string that starts with `   \"markdown\" : \"`, then prints the contents of the file (without any trailing newline characters), then prints a closing double quote (`\"`), and finally prints a closing curly brace (`}`).\n\nThe purpose of this script seems to be to convert a text file into a JSON-like format, with the contents of the file stored as a single line string in the `markdown` field. This could be useful if you need to include the contents of a file in a JSON payload for an API, for example.\n\nThis script doesn't use any particular algorithm, but it does use a number of standard Unix commands and features, such as `cat`, `sed`, `tr`, and command substitution (`$()`). If you're not familiar with these, you might find the following links useful:\n\n- Bash Scripting Tutorial: https://ryanstutorials.net/bash-scripting-tutorial/\n- Sed command in Linux: https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/\n- Tr command in Unix/Linux: https://www.geeksforgeeks.org/tr-command-in-unix-linux-with-examples/"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "shellscript",
+      "id": "0",
+      "value": "#!/bin/bash\n\n# Check if the user has provided a filename\nif [ -z \"$1\" ]; then\n  echo \"Please provide a filename as an input parameter.\"\n  exit 1\nfi\n\n# Read the contents of the file and escape special characters\ncontents=$(cat \"$1\" | sed 's/$/\\\\n/' | tr -d '\\n' | sed 's/\"/\\\\\"/g; s/\\\\#/\\\\\\\\#/g')\n\n# Output the escaped contents as a single line string to the console\necho '{'\necho -n '   \"markdown\" : \"' && echo -n \"$contents\" | tr -d '\\n' && echo '\"'\necho -n '}'\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 11
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./build_instructions.sh"
+  }
+}

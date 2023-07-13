@@ -1,0 +1,83 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "php",
+      "id": "0",
+      "value": "function getWords() {\n    $words = file(\n        'http://www.puzzlers.org/pub/wordlists/unixdict.txt',\n        FILE_IGNORE_NEW_LINES\n    );\n    return $words;\n}",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "php",
+      "id": "1",
+      "value": "function getAnagrams($words) {\n    $anagrams = array();\n    foreach ($words as $word) {\n        $chars = str_split($word);\n        sort($chars);\n        $chars = implode(\"\", $chars);\n        $length = strlen($chars);\n        $anagrams[$length][$chars][] = $word;\n    }\n    krsort($anagrams);\n    return $anagrams;\n}",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 9
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "php",
+      "id": "2",
+      "value": "function getFinalWords($anagrams) {\n    $final_words = array();\n    foreach ($anagrams as $anagram) {\n        foreach ($anagram as $words) {\n            if (count($words) >= 2) {\n                $counts = array();\n                foreach ($words as $word) {\n                    $counts[$word] = array($word);\n                    foreach ($words as $second_word) {\n                        for ($i = 0, $length = strlen($word); $i < $length; $i++) {\n                            if ($word[$i] === $second_word[$i]) continue 2;\n                        }\n                        $counts[$word][] = $second_word;\n                    }\n                }\n                $max = 0;\n                $max_key = '';\n                foreach ($counts as $name => $count) {\n                    if (count($count) > $max) {\n                        $max = count($count);\n                        $max_key = $name;\n                    }\n                }\n                if ($max > 1) {\n                    $final_words[] = $counts[$max_key];\n                }\n            }\n        }\n        if ($final_words) break;\n    }\n    return $final_words;\n}",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 22
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/resources/anagrams-deranged-anagrams.php"
+  }
+}

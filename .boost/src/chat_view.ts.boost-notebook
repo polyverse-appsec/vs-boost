@@ -1,0 +1,283 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:13:20 PM PDT\n\nThe code you provided is the initial part of a Node.js module that is likely part of a Visual Studio Code extension. This module uses ECMAScript 6 (ES6) import syntax to import various modules that it depends on. Let's go line by line:\n\n1. `import * as vscode from 'vscode';`: This line imports the `vscode` module, which is the API for interacting with Visual Studio Code itself. This allows the extension to interact with the editor, access workspace settings, create webviews, etc. More information can be found here: [VS Code API](https://code.visualstudio.com/api/references/vscode-api)\n\n2. `import * as fs from 'fs';`: This line imports the `fs` (file system) module from Node.js. This module provides an API for interacting with the file system in a manner closely modeled around standard POSIX functions. More information can be found here: [Node.js fs](https://nodejs.org/api/fs.html)\n\n3. `import * as path from 'path';`: This line imports the `path` module from Node.js. This module provides utilities for working with file and directory paths. It can be used for manipulating path strings. More information can be found here: [Node.js path](https://nodejs.org/api/path.html)\n\n4. `import * as _ from 'lodash';`: This line imports the `lodash` library. Lodash is a modern JavaScript utility library delivering modularity, performance & extras. It provides utility functions for tasks such as manipulating arrays, objects, and functions, as well as other tasks. More information can be found here: [Lodash](https://lodash.com/)\n\n5. `import * as os from 'os';`: This line imports the `os` module from Node.js. This module provides a number of operating system-related utility methods. More information can be found here: [Node.js os](https://nodejs.org/api/os.html)\n\n6. `import { BoostExtension } from './BoostExtension';`: This line imports the `BoostExtension` module from a local file named `BoostExtension`. The exact functionality of this module isn't clear from this code alone, but it's likely specific to this particular Visual Studio Code extension.\n\nThe `import * as name from 'module-name';` syntax is used to import an entire module's contents. This allows you to use the module's exported functions or variables in your program.\n\nAs for algorithms, this code doesn't implement any specific algorithm. It's just the initial setup for a larger piece of software. The actual functionality of the software will be determined by how these imported modules are used in the rest of the code."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as vscode from 'vscode';\nimport * as fs from 'fs';\nimport * as path from 'path';\nimport * as _ from 'lodash';\nimport * as os from 'os';\nimport { BoostExtension } from './BoostExtension';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 4
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:13:48 PM PDT\n\nThis line of code is written in TypeScript, a statically typed superset of JavaScript that adds types to the language.\n\nThe code is importing a module named `BoostConfiguration` from a file named `boostConfiguration` located in the same directory as the current file. \n\nHere's a breakdown:\n\n- `import`: This is a keyword in TypeScript (and ES6 JavaScript) that's used to import bindings which are exported by another module. In other words, it allows you to use code (like classes, functions, variables, etc.) that is defined in another file.\n\n- `{ BoostConfiguration }`: This is the name of the export you want to import from the other module. It must be the exact name of the export. If the other module exported more than one thing, you could import others by separating them with commas inside the curly braces, like so: `{ BoostConfiguration, AnotherExport }`.\n\n- `from`: This is another keyword used in the import statement. It specifies the path to the module from which you want to import.\n\n- `'./boostConfiguration'`: This is the path to the module you're importing from. The `.` at the start of the path means the module is in the same directory as the current file. The `/` is a path separator, and `boostConfiguration` is the name of the file (without the `.ts` or `.js` extension). \n\nThe code doesn't show what it does with `BoostConfiguration` after importing it, but typically you might use it to create new instances of the class, call static methods, or access static properties, depending on what `BoostConfiguration` actually is.\n\nAs for algorithms, this line of code doesn't really involve any. It's just a single import statement, which is a feature of the language itself.\n\nFor more information on TypeScript modules and import/export, you can check out the official TypeScript documentation: https://www.typescriptlang.org/docs/handbook/modules.html"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import { BoostConfiguration } from './boostConfiguration';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 5
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:14:15 PM PDT\n\nThis code is written in JavaScript, specifically using the ECMAScript 6 (ES6) syntax. It is importing a function named `getServiceEndpoint` from a module named `custom_controller`. This function is not defined in this code snippet, so I will explain based on typical usage and assumptions.\n\nThe `import` statement is used to import functions, objects, or values from other files or modules in JavaScript. This is a part of the ES6 module system. Modules are a way to share code between files. \n\nIn this case, the `getServiceEndpoint` function is being imported from the `custom_controller` file. This file is located in the same directory as the file where this import statement is being executed, as denoted by the `./` before the file name. \n\nThe `getServiceEndpoint` function is likely to be a function that returns the service endpoint for a certain service. What exactly this function does depends on its implementation in the `custom_controller` module.\n\nAs for the algorithms used, this single line of code doesn't actually implement any algorithms. It is simply importing a function for use. The algorithm or logic would be present inside the `getServiceEndpoint` function in the `custom_controller` file.\n\nFor more information about the `import` statement and modules in JavaScript, you can refer to the following resources:\n- [Mozilla Developer Network (MDN) documentation on import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [JavaScript Info tutorial on import/export](https://javascript.info/import-export)\n\nAs for the architectural guidelines, this code snippet doesn't provide enough context to determine if it's consistent or conflicts with any architectural guidelines. However, using imports and exports to organize code is a common practice in JavaScript and is generally considered good architecture."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import { getServiceEndpoint } from './custom_controller';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 6
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:14:37 PM PDT\n\nThe code you provided is an import statement in JavaScript, specifically using ECMAScript 6 (ES6) module syntax. This code is importing a library called `marked` from its module.\n\nThe `marked` library is a full-featured markdown parser and compiler, written in JavaScript. Markdown is a lightweight markup language for creating formatted text using a plain-text editor. `marked` is built for speed and can be used in a server or client (browser) environment.\n\nThe import statement is used to import functions, objects, or values from other modules into the current file. In this case, it's importing the whole `marked` module.\n\nThe algorithm used here is pretty straightforward. When the JavaScript interpreter encounters this import statement, it will look for a module named 'marked' in the node_modules directory (if you're using Node.js) or wherever your modules are stored. Then it will load that module into memory and make its exports available to the current file under the name `marked`.\n\nAs for architectural guidelines, this code is quite standard and should not conflict with most architectural guidelines. However, it's worth noting that the use of ES6 module syntax may not be compatible with very old versions of Node.js or browsers that do not support ES6.\n\nFor more information about ES6 import/export syntax, you can refer to the Mozilla Developer Network (MDN) documentation: \n[MDN import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n\nFor more information about the `marked` library, you can refer to its GitHub page:\n[marked GitHub](https://github.com/markedjs/marked)\n\nAnd for more information about markdown, you can refer to its official page:\n[Markdown](https://daringfireball.net/projects/markdown/)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "import { marked } from 'marked';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 7
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:14:57 PM PDT\n\nThe code you've provided is a small snippet from a larger JavaScript (or TypeScript) project. It's using ES6 module syntax to import specific functions from another module. \n\nHere's a detailed explanation:\n\n- `import { findCellByKernel, getOrCreateBlueprintUri } from './extension';` \n\nThis line is importing two functions, `findCellByKernel` and `getOrCreateBlueprintUri`, from a module located at './extension'. The './' signifies that the module is located in the same directory as the current file. \n\nUnfortunately, without the context of the rest of the code or the contents of the './extension' module, I can't provide more details about what these functions do or how they're used.\n\nAs for the architectural guidelines, since you've mentioned that there aren't any special guidelines or constraints, this code appears to be consistent with standard JavaScript/TypeScript best practices. It's modular, which makes the code more maintainable and easier to understand, as functionality is separated into different modules.\n\nFor more information on JavaScript modules, you can refer to this link: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules\n\nAs for algorithms used, this snippet doesn't contain any explicit algorithms. The functions that are being imported might use certain algorithms, but without seeing their implementation, it's impossible to say what those might be."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "import { findCellByKernel, getOrCreateBlueprintUri } from './extension';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 8
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:15:17 PM PDT\n\nThis is a simple piece of code that imports a module named `BoostServiceHelper` from a local file named `boostServiceHelper`.\n\nThe code is written in TypeScript, a statically typed superset of JavaScript that adds optional types, classes, and modules to the language. TypeScript is designed for the development of large applications and transcompiles to JavaScript.\n\nThe `import` keyword is used to import bindings that are exported by another module. In this case, `BoostServiceHelper` is being imported. \n\n`BoostServiceHelper` could be a class, a function, an object, or any other entity that the `boostServiceHelper` module exports. Without more details about what `boostServiceHelper` module does or what `BoostServiceHelper` is, I can't provide more specific details. \n\nHowever, by the naming convention, it seems like `BoostServiceHelper` could be a class or a set of functions that provide helper methods related to a \"boost service\" in your application. \n\nIf you want to learn more about `import` and `export` in TypeScript, you can check out the official TypeScript documentation here: https://www.typescriptlang.org/docs/handbook/modules.html\n\nAs for the architectural guidelines, since no special guidelines or constraints are provided, this code should generally follow best practices for modularity and separation of concerns. That is, different parts of the application logic should be separated into different modules and files, and each part should handle its own specific tasks. This `import` statement suggests that the code is following this principle, as it's importing functionality from another module rather than defining all functionality in one place."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "import { BoostServiceHelper } from './boostServiceHelper';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 9
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:15:45 PM PDT\n\nThe code you provided is a one-line JavaScript (or TypeScript) code snippet that imports a module named `boostLogging` from a local file named `boostLogging.js` or `boostLogging.ts`.\n\nHere's a detailed explanation:\n\n1. `import`: This is a keyword in JavaScript (ES6 and later) and TypeScript that is used to import functions, objects, or values from other files or modules. This allows for code to be organized into smaller, more manageable files, and for code to be reused across multiple files.\n\n2. `{ boostLogging }`: This is a named import. It means that the file or module we are importing from has exported something using the name `boostLogging`. It could be a function, an object, a class, a constant, etc. The use of curly braces `{}` indicates that we are using destructuring to directly extract the `boostLogging` export from the module.\n\n3. `from './boostLogging'`: This specifies the path to the file or module we are importing from. The `./` at the beginning of the path means that the file is in the same directory as the current file. The lack of a file extension (.js or .ts) is common practice and most modern JavaScript or TypeScript environments will automatically infer the correct file extension.\n\nAs for the algorithm used, there isn't one in this code snippet. Importing modules isn't an algorithm, but a feature of the language that allows for modular programming.\n\nFor more information about the `import` statement in JavaScript, you can refer to the Mozilla Developer Network (MDN) web docs: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import\n\nFor TypeScript, you can refer to the TypeScript Handbook: https://www.typescriptlang.org/docs/handbook/modules.html\n\nAs for your architectural guidelines, this code is too small to make any significant architectural assessment. However, it is a good practice to organize code into modules, as it seems to be done here. It makes the code more maintainable and easier to understand."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "import { boostLogging } from './boostLogging';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 10
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:16:12 PM PDT\n\nThe code you provided is a JavaScript (or TypeScript) import statement. It's using ES6 module syntax to import specific items from another module. The code doesn't contain any algorithms, it's simply a way to include external functionality into the current file.\n\nHere's a detailed explanation:\n\n1. `import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';`\n\n   This line is importing two specific exports, `BoostNotebook` and `BoostNotebookCell`, from another JavaScript or TypeScript module located at `./jupyter_notebook`. The `./` at the beginning of the module path indicates that `jupyter_notebook` is in the same directory as the current file.\n\n   In terms of what these imports might be, without additional context, it's hard to say. They could be functions, classes, objects, or any other exportable JavaScript entities. Given their names, it's likely that `BoostNotebook` and `BoostNotebookCell` are classes or constructor functions for creating notebook and notebook cell objects, possibly as part of a Jupyter notebook interface or API.\n\nRegarding the architectural guidelines, since no specific guidelines or constraints are provided, we can only evaluate this code based on common best practices. The code seems to follow standard practices for modular JavaScript or TypeScript development. By importing only the necessary items from the `jupyter_notebook` module, it helps to keep the namespace clean and avoid potential naming conflicts.\n\nFor more information on ES6 module syntax and import/export statements, you can refer to the [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "7",
+      "value": "import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 11
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:16:40 PM PDT\n\nThis line of code is written in TypeScript, a statically typed superset of JavaScript. It's importing a type from another module. \n\nLet's break it down:\n\n- `import`: This is a keyword in JavaScript (and by extension, TypeScript) that is used to import functions, objects or values from another module or file. This allows you to keep your code modular, organized and reusable.\n\n- `{ ControllerOutputType }`: This is the specific item that is being imported from the other module. In this case, it's a type named `ControllerOutputType`. In TypeScript, a type is a way of defining the shape and properties that an object, function, variable, etc. should have.\n\n- `from './controllerOutputTypes'`: This is the path to the module that contains the `ControllerOutputType` type. The `./` at the beginning of the path means that the module is in the same directory as the current file. The lack of a file extension means that it's either a TypeScript (.ts) or JavaScript (.js) file, as these are the default file extensions that are assumed if none is provided.\n\nThis line of code doesn't contain any complex algorithms, it's just a simple import statement. However, it does use the concept of modules, which is a core part of JavaScript and TypeScript. Modules allow you to split your code into separate files that can import and export functions, objects, values, types, etc. to each other. This helps keep your code organized and allows you to reuse code across different parts of your application.\n\nHere are some helpful links for further reading:\n\n- [TypeScript Documentation - Modules](https://www.typescriptlang.org/docs/handbook/modules.html)\n- [Mozilla Developer Network - JavaScript Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "8",
+      "value": "import { ControllerOutputType } from './controllerOutputTypes';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 8,
+        "type": "originalCode",
+        "lineNumberBase": 12
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:17:10 PM PDT\n\nThis JavaScript code is part of a module that exports a constant named `aiName` with the value \"Sara\". The main part of the code is a comment that warns against using a global variable in the context of the project. \n\nThe code then uses a function from the `marked` library, which is a full-featured markdown parser and compiler. This library is often used to convert markdown into HTML. The `marked.use` function is used to modify the default behavior of the `marked` library.\n\nThe `marked.use` function is passed an object with two properties: `langPrefix` and `highlight`. The `langPrefix` property is set to 'hljs language-', which is a prefix that will be added to the language name in the class attribute of the code block.\n\nThe `highlight` property is a function that takes two parameters: `code` and `lang`. If the `lang` parameter is equal to \"mermaid\", it returns a string that wraps the `code` parameter in a `<pre>` tag with the class \"mermaid\". \n\nIf the `lang` parameter is not equal to \"mermaid\", it checks if the language specified by the `lang` parameter is supported by the `hljs` (highlight.js) library. If it is, it uses that language to highlight the code; otherwise, it uses 'plaintext'. The `hljs.highlight` function is used to highlight the `code` parameter and the highlighted code is stored in the `result` variable.\n\nThe function then logs the original input code to the console and returns the highlighted code.\n\nHere are some links for further reading:\n\n- [Marked library documentation](https://marked.js.org/)\n- [Highlight.js library documentation](https://highlightjs.org/)\n\nRemember, the architectural guidelines for this project don't specify any special constraints. However, the comment in the code warns against setting up a second instance of the highlighter, which is a global variable. This is generally considered a bad practice because it can lead to unexpected behavior and difficult-to-track bugs. The original highlighter is set up in the `convert_html.ts` file."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "9",
+      "value": "\nexport const aiName = \"Sara\";\n\n\n/*\nDO NOT USE THIS.  it's a global variable and will setup a second instance of the highlighter\nthe original one is setup in convert_html.ts\n\nmarked.use(markedHighlight({\n    langPrefix: 'hljs language-',\n    highlight(code: string, lang: string) {\n      if( lang === \"mermaid\") {\n        return `<pre class=\"mermaid\">${code}</pre>`;\n      }\n      const language = hljs.getLanguage(lang) ? lang : 'plaintext';\n      const result = hljs.highlight(code, { language }).value;\n      console.log(\"original input is: \" + code);\n      //console.log(\"highlighted output is: \" + result);\n      return result;\n    }\n    }));\t\t\n",
+      "kind": 2,
+      "metadata": {
+        "id": 9,
+        "type": "originalCode",
+        "lineNumberBase": 21
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:17:49 PM PDT\n\nThis code is written in TypeScript and is part of a Visual Studio Code (VS Code) extension. The extension appears to be named \"BoostChat\", and it provides a chat interface within VS Code. The chat interface is implemented as a WebView, which is a VS Code API that allows extensions to create and manage web-based views within VS Code. \n\nThe `BoostChatViewProvider` class implements the `vscode.WebviewViewProvider` interface, which allows it to provide a web-based view that can be embedded in VS Code. \n\nThe class has several properties, including `_view` (the webview), `_chats` (the chat history), `_context` (context for the extension), and a few others.\n\nThe constructor initializes the properties and sets up a new instance of the `BoostServiceHelper` class, which appears to be a helper class for making API calls.\n\nThe `resolveWebviewView` method is an important part of the `vscode.WebviewViewProvider` interface. This method is called by VS Code when it wants to display the webview. The method initializes the webview, loads the chat history, and sets up an event handler for messages from the webview.\n\nThe `_getHtmlForWebview` method generates the HTML content for the webview. It uses the `lodash.template` function to generate HTML from a template and some data. The template appears to be loaded from a file named 'chat.html', and the data includes the chat history, a nonce, and some other values.\n\nThe `updatePrompt` method appears to be used to update the chat with a new message. It makes a call to a service endpoint with the new message and the existing chat history, then updates the chat view with the response.\n\nThe `_initializeChats`, `_addChat`, and `_closeChat` methods are used to manage the chat history. The `_initializeChats` method loads the chat history from a file, the `_addChat` method adds a new chat to the history, and the `_closeChat` method removes a chat from the history.\n\nThe `_getTempFilename`, `_saveJsonData`, and `_loadJsonData` methods are used to manage the file that stores the chat history. The `_getTempFilename` method generates a filename for the file, the `_saveJsonData` method saves the chat history to the file, and the `_loadJsonData` method loads the chat history from the file.\n\nOverall, this code uses the VS Code API, the Node.js `fs` module, and a few other libraries to implement a chat interface within VS Code.\n\nAs for the algorithms used, it primarily uses basic data manipulation and I/O operations, and doesn't seem to use any complex algorithms. The most complex operations are probably the template rendering in `_getHtmlForWebview` and the JSON serialization/deserialization in `_saveJsonData` and `_loadJsonData`.\n\nFor more information about the VS Code API, you can visit: https://code.visualstudio.com/api/references/vscode-api. For more information about the Node.js `fs` module, you can visit: https://nodejs.org/api/fs.html."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "10",
+      "value": "*/\nexport class BoostChatViewProvider implements vscode.WebviewViewProvider {\n\n    public static readonly viewType = 'polyverse-boost-chat-view';\n\n    private _view?: vscode.WebviewView;\n    private _chats?: any;\n    private _tempFilename?: string;\n    private _context: vscode.ExtensionContext;\n    private _activeid = 0;\n    private _boostExtension: BoostExtension;\n    private chatService: BoostServiceHelper;\n\n    constructor(\n        private readonly context: vscode.ExtensionContext,\n        private boostExtension: BoostExtension\n    ) {\n        this._context = context;\n        this._boostExtension = boostExtension;\n        this.chatService = new BoostServiceHelper(\"chatService\", \"chat\", boostExtension);\n    }\n\n    public async resolveWebviewView(\n        webviewView: vscode.WebviewView,\n        context: vscode.WebviewViewResolveContext,\n        _token: vscode.CancellationToken,\n    ) {\n        try {\n            this._resolveWebviewView(webviewView, context, _token);\n        } catch (e) {\n            boostLogging.error(`Could not refresh ${aiName} Chat View due to ${e}`, false);\n        }\n    }\n\n    async _resolveWebviewView(\n        webviewView: vscode.WebviewView,\n        context: vscode.WebviewViewResolveContext,\n        _token: vscode.CancellationToken,\n    ) {\n        this._view = webviewView;\n\n        this._chats = await this._initializeChats();\n\n        webviewView.webview.options = {\n            // Allow scripts in the webview\n            enableScripts: true,\n\n            localResourceRoots: [\n                this.context.extensionUri\n            ]\n        };\n\n        webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);\n\n        webviewView.webview.onDidReceiveMessage(data => {\n            switch (data.command) {\n                case 'newprompt':\n                    {\n                        this._activeid = data.chatindex;\n                        this.updatePrompt(data.prompt, data.chatindex, data.showUI);\n                        break;\n                    }\n                case 'add-chat':\n                    {\n                        this._addChat();\n                        break;\n                    }\n                case 'close-chat':\n                    {\n                        this._closeChat(data.chatindex);\n                        break;\n                    }\n            }\n        });\n    }\n\n    public refresh() {\n        try {\n            this._refresh();\n        } catch (e) {\n            boostLogging.error(`Could not refresh ${aiName} Chat View due to ${e}`, false);\n        }\n    }\n    _refresh() {\n        if (this._view) {\n            this._view.webview.html = this._getHtmlForWebview(this._view.webview);\n            this._view.show?.(true);\n        }\n    }\n\n    private _getHtmlForWebview(webview: vscode.Webview) {\n        const codiconsUri = webview.asWebviewUri(vscode.Uri.joinPath(this._context.extensionUri, 'node_modules', '@vscode/codicons', 'dist', 'codicon.css'));\n        const htmlPathOnDisk = vscode.Uri.joinPath(this.context.extensionUri, 'resources', 'dashboard', 'chat.html');\n        const jsPathOnDisk = vscode.Uri.joinPath(this.context.extensionUri, 'out', 'dashboard', 'chat', 'main.js');\n        const jsSrc = webview.asWebviewUri(jsPathOnDisk);\n        const nonce = 'nonce-123456'; // TODO: add a real nonce here\n        const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');\n        const chats = this._chats;\n\n        const workspaceFolder = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0] : \"\"; // Get the first workspace folder\n        const projectName = workspaceFolder ? path.basename(workspaceFolder.uri.fsPath) : \"your workspace\";\n\n        const template = _.template(rawHtmlContent);\n        const convert = marked.parse;\n        const activeid = this._activeid;\n        const htmlContent = template({ jsSrc, nonce, chats, convert, codiconsUri, activeid, projectName, aiName });\n\n        return htmlContent;\n    }\n\n    public async updatePrompt(prompt: string, index: number, showUI: boolean = true) {\n        //make a call to the service endpoint with the prompt plus existing context\n        //update the chat view with the response\n\n        // we don't save the initial prompts - so we can refresh them each time we send... we only save chat history (persisted)\n        try {\n            const chatMessages = this._chats[index].messages;\n            const messages = [await this._getInitialSystemMessage()];\n            messages.push(...chatMessages);\n\n            let finalPayload;\n            const payload = {\n                \"code\": \"\",\n                \"prompt\": prompt,\n                \"messages\": JSON.stringify([\n                    ...messages,\n                    {\n                        \"role\": \"user\",\n                        \"content\": prompt\n                    }\n                ]),\n            };\n            if (BoostConfiguration.analysisModel) {\n                finalPayload = {\n                    ...payload,\n                    \"model\": BoostConfiguration.analysisModel\n                };\n            } else {\n                finalPayload = payload;\n            }\n\n            const response = await this.chatService.doKernelExecution(\n                undefined, undefined,undefined, finalPayload, getServiceEndpoint());\n\n            this._addResponse(prompt, response.analysis);\n        } catch (error) {\n            boostLogging.error(`Chat requested could not complete due to ${error}`, showUI);\n            this._addResponse(prompt, \"\");\n        } finally {\n            this._saveJsonData(this._chats);\n            this.refresh();\n        }\n    }\n\n    private _addResponse(prompt: string, response: string) {\n        this._chats[this._activeid].messages.push({\n            \"role\": \"user\",\n            \"content\": prompt\n        });\n\n        if (!response) {\n            return;\n        }\n        this._chats[this._activeid].messages.push({\n            \"role\": \"assistant\",\n            \"content\": response\n        });\n    }\n\n    readonly _chatTitle = `${aiName} AI Chat`;\n\n    private async _initializeChats(): Promise<any> {\n        this._chats = this._loadJsonData();\n\n        if (this._chats === undefined) {\n            this._chats = [{\n                title: this._chatTitle,\n                messages: []\n            }];\n        } else {\n            // we need to delete the original system prompts, since these should never be persisted\n            //   they duplicate the state in the blueprint file and provide no benefit persisted separately\n            this._chats.forEach((chat: any) => {\n                for (let i = chat.messages.length - 1; i >= 0; i--) {\n                    if (chat.messages[i].role === \"system\") {\n                        chat.messages.splice(i, 1);\n                    }\n                }\n            });\n        }\n        return this._chats;\n    }\n\n    private async _addChat() {\n        this._chats.push({\n            title: this._chatTitle,\n            messages: []\n        });\n        this._saveJsonData(this._chats);\n        this._activeid = this._chats.length - 1;\n        this.refresh();\n    }\n\n    private _closeChat(chatindex: number) {\n        this._chats.splice(chatindex, 1);\n        this._saveJsonData(this._chats);\n        this.refresh();\n    }\n\n    private async _getInitialSystemMessage(): Promise<any> {\n\n        const boostprojectdata = this._boostExtension.getBoostProjectData();\n        const blueprintUri = boostprojectdata.summary.summaryUrl ? await getOrCreateBlueprintUri(this.context, boostprojectdata.summary.summaryUrl) : undefined;\n        let blueprintdata = \"\";\n        if (blueprintUri && fs.existsSync(blueprintUri.fsPath)) {\n            //now load the blueprint from the file system and get the first prompt\n            const projectSummaryNotebook = new BoostNotebook();\n            projectSummaryNotebook.load(blueprintUri.fsPath);\n            const blueprintCell = findCellByKernel(projectSummaryNotebook, ControllerOutputType.blueprint) as BoostNotebookCell;\n            if (!blueprintCell) {\n                boostLogging.warn(`No blueprint found in ${blueprintUri.fsPath}`, false);\n            } else {\n                blueprintdata = blueprintCell.value;\n            }\n        }\n        const systemPrompt = `You are an AI programming assistant, named ${aiName} working on a project described after ####.` +\n                            ` You prioritize accurate responses and all responses are in markdown format. ####\\n`;\n        return {\n            \"role\": \"system\",\n            \"content\": systemPrompt + blueprintdata\n        };\n    }\n\n    private _getTempFilename(): string {\n        if (this._tempFilename) {\n            return this._tempFilename;\n        }\n        const editor = vscode.window.activeTextEditor;\n        let filenamePrefix = 'temp_';\n\n        if (editor) {\n            const workspaceFolder = vscode.workspace.getWorkspaceFolder(editor.document.uri);\n            if (workspaceFolder) {\n                filenamePrefix += workspaceFolder.name;\n            } else {\n                filenamePrefix += 'boost_ai_chat';\n            }\n        } else {\n            filenamePrefix += 'boost_ai_chat';\n        }\n\n        const tempFilePath = path.join(os.tmpdir(), `${filenamePrefix}.json`);\n        const normalizedTempPath = path.normalize(tempFilePath);\n        this._tempFilename = normalizedTempPath;\n        return normalizedTempPath;\n    }\n\n    private _saveJsonData(data: any): void {\n        const tempFilename = this._getTempFilename();\n\n        fs.writeFile(tempFilename, JSON.stringify(data, null, 2), (err) => {\n            if (err) {\n                vscode.window.showErrorMessage(`Failed to save data: ${err.message}`);\n            }\n        });\n    }\n\n    private _loadJsonData(): any | undefined {\n        const tempFilename = this._getTempFilename();\n\n        //check if file exists\n        if (!fs.existsSync(tempFilename)) {\n            return undefined;\n        }\n\n        try {\n            const data = fs.readFileSync(tempFilename, 'utf-8');\n            return JSON.parse(data);\n        } catch (err) {\n            boostLogging.error(`Boost failed to load Chat history: ${(err as Error).message}`, true);\n            return undefined;\n        }\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 10,
+        "type": "originalCode",
+        "lineNumberBase": 35
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/chat_view.ts"
+  }
+}

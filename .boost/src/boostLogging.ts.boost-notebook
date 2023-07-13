@@ -1,0 +1,108 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import {\n    OutputChannel,\n    Disposable,\n    window\n} from \"vscode\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": -1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import { BoostConfiguration } from \"./boostConfiguration\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 4
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "\nexport class BoostLogger extends Disposable {\n    private _outputChannel: OutputChannel;\n\n    constructor() {\n        super(() => this.dispose());\n\n        // we use a friendly name for the channel as this will be displayed to the user in the output pane\n        this._outputChannel = window.createOutputChannel(\"Polyverse Boost\");\n    \n        this.log('Boost Logging starting...');\n    }\n\n    debug(message: string) {\n        if (!this.shouldLog(\"debug\")) {\n            return;\n        }\n\n        this.log(\"DEBUG: \" + message);\n    }\n\n    log(message: string) {\n        this._outputChannel.appendLine(message);\n    }\n\n    info(message: string, showUI : boolean = true) {\n        if (!this.shouldLog(\"info\")) {\n            return;\n        }\n\n        this.log(\"INFO: \" + message);\n        if (showUI) {\n            window.showInformationMessage(message);\n        }\n    }\n\n    warn(message: string, showUI : boolean = false) {\n        if (!this.shouldLog(\"warn\")) {\n            return;\n        }\n\n        this.log(\"WARNING: \" + message);\n        if (showUI) {\n            window.showWarningMessage(message);\n        }\n    }\n    \n    error(message: string, showUI : boolean = false) {\n        if (!this.shouldLog(\"error\")) {\n            return;\n        }\n\n        this.log(\"ERROR: \" + message);\n        if (showUI) {\n            window.showErrorMessage(message);\n        }\n    }\n\n    dispose() : void {\n        this.log('Boost Logging shutting down...');\n        this._outputChannel.dispose();       \n    }\n\n    shouldLog(messageTarget: string) : boolean {\n        const logLevel = BoostConfiguration.logLevel.toLowerCase();\n\n        switch (messageTarget) {\n            case \"debug\":\n                return logLevel === \"debug\";\n            case \"info\":\n                return logLevel === \"debug\" || logLevel === \"info\";\n            case \"warn\":\n                return logLevel === \"debug\" || logLevel === \"info\" || logLevel === \"warn\";\n            case \"error\":\n                return logLevel === \"debug\" || logLevel === \"info\" || logLevel === \"warn\" || logLevel === \"debug\";\n            default:\n                return true;\n        }\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 6
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "\nexport const boostLogging = new BoostLogger();\n\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 6
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/boostLogging.ts"
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:18:16 PM PDT\n\nThe code you provided is not a code per se but a comprehensive documentation for the development process of a Visual Studio Code extension named \"Boost\" developed by Polyverse. The extension is built using TypeScript, JavaScript, and Visual Studio Code extensions. The documentation covers aspects like quick start commands, project structure, build process, versioning, testing, debugging, packaging, and publishing the extension.\n\nThe Quick Start section lists various npm commands used for different tasks such as cleaning the build, compiling the source code, running lint checks, copying test data, preparing the code for testing, building the product with source mapping, and running automated integration tests.\n\nThe Project Structure section describes the purpose of various files and directories in the project. For instance, `package.json` defines the libraries, build/test commands, plugin description, versioning, icon, and key Visual Studio Code extensions. `src/extension.ts` is the main file where Boost commands are implemented. \n\nThe Build section discusses how to automate builds using Continuous Integration and how to improve startup time and reduce file size by bundling the extension. \n\nIn the Versioning section, it is mentioned that the versioning of the Boost plugin is stored in `package.json`.\n\nThe Test section describes the dependencies used for integration testing and how to run these tests. It also provides details on how to debug the Boost Service API locally and how to inject faults into the Boost Service callouts for testing error handling code.\n\nThe Debugging live tests section provides steps to debug the extension during live tests.\n\nThe Packaging for Local or Internal Sharing section explains how to create a single package file of the Boost code for sharing or testing without using the Marketplace publishing.\n\nThe Publishing to Marketplace section provides steps to publish the Boost extension on the VS Code extension marketplace.\n\nThe documentation also includes links to further resources for understanding Continuous Integration, bundling extensions, UX guidelines for extensions, and publishing extensions.\n\nIn summary, this documentation provides a complete guide to develop, test, debug, package, and publish the Boost extension for Visual Studio Code. It helps both new and existing developers understand the structure and development process of the project."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "markdown",
+      "id": "0",
+      "value": "# HOWTO: Polyverse Boost Development\n\nBoost plugin for Visual Studio Code is built using TypeScript, JavaScript and Visual Studio Code extensions\n\n## Quick Start\n### Commands\n`npm run` command is used for most build and test\n * `clean` Deletes all output build and test data and source and binaries\n\n * `build-instructions` Builds the src/instructions.json file using raw markdown\n\n * `compile` Compiles the product source\n * `watch` Enables Visual Studio to build in background continuously\n\n * `lint` Runs lint across product source\n\n * `copy:test-data` Copies all test source and data to the output test run folder\n * `pretest` Preps the product code to be built and linted and tested\n\n* `esbuild-base` Builds the product with collapsed files (smaller size)\n* `esbuild` Builds the product with source mapping for debugging\n* `esbuild-watch` Enables Visual Studio to build in background\n\n* `esbuild-pretest` Preps the product code to be built and linted and tested with smaller size\n\n* `prepublish:build` Runs minify to shrink the product code to the\nsmallest - before publishing to marketplace\n\n* `prepublish:pretest` Preps the product code to be built in micro/min size and tested\n\n* `test` Runs all automated integration tests once\n\n* `package` Builds a VSIX package for local or internal sharing and testing\n\n### So you want to be productive quickly\n\nTo do easy and quick build and test\n1. `npm run pretest`\n2. `npm run test` or `./test_loop.sh` to run tests many times in loop randomly\n\nTo do compacted build and test (e.g. optimized file size)\n1. `npm run esbuild-pretest`\n2. `npm run test` or `./test_loop.sh` to run tests many times in loop randomly\n\nTo do packaging and test and publishing\n1. `npm run prepublish:pretest`\n2. `npm run test` or `./test_loop.sh` to run tests many times in loop randomly\n\nTo publish internally and testing\n1. `npm run package`\n2. Manual install and test of VSIX package\n\n## Source/Project structure\n\n* `package.json` - defines the referenced libraries, build/test commands, plugin description,\nversioning, icon and key Visual Studio Code extensions (Commands)\n* `src/extension.ts` - this is the main file where Boost commands are implemented\n  * The file exports two functions, `activate`, which is called the very first time your extension is activated (in this case by executing the command). Inside the `activate` function we call `registerCommand` for all commands. We also export 'deactivate' for\n  cleanup tasks on shutdown (though none occur today)\n* `src/*_controller.ts` TypeScript code that implements the controllers that perform\n   each command, and make calls to the Boost Service API then update the Notebook cells.\n  `instructions.json` is the user instructions shown on install/activation.\n  `split.ts` is TypeScript code used to parse / split source files into functions before\n   processing in the cloud-based service API\n* `.vscode/launch.json` commands that VSC shows to you for debugging live or running tests\n* `.vscode/tasks.json` commands that tell VSC to build in foreground and background when source changes\n* `tsconfig.json` config for the TypeScript compiler when building the product code\nNote that TypeScript is compiled into JavaScript for deployment into VSC\n* `README.md` markdown that is shown in the Marketplace to explain the Boost plugin\n\n* `src/test/*` all the test code - see below\n\n\n## Development\n\n## Build\nBuild of the Boost plugin is performed by running npm compile - a script defined in package.json\nThe goal is to automate our builds by setting up [Continuous Integration](https://code.visualstudio.com/api/working-with-extensions/continuous-integration).\n\nWe improve startup time and reduce file size by [bundling our extension](https://code.visualstudio.com/api/working-with-extensions/bundling-extension)\nSpecifically we use esbuild - which can partially obfuscate our code by removing whitespace\nand creating coded variable and function names to reduce size.\nFor now - this is only used when publishing to marketplace.\nIt also means we'll likely want to add the telemetry/error reporting logic to the product\nto improve supportability.\n\n## Versioning\nVersioning of the Boost plugin is stored in package.json\nWe generally increment the build (0.0.x) on changes to the product.\nEventually we'll likely use automated build versioning in CI/CD\nFor now - the minor rev is only done when publishing.\n\n## UX Guidelines for Extensions\n* [Follow UX guidelines](https://code.visualstudio.com/api/ux-guidelines/overview) to create extensions that seamlessly integrate with VS Code's native interface and patterns.\n\n## Test\n\n### Dependencies\nBoost integration testing uses (generated from ChatGPT):\n\n1. `@types/glob`: Provides type definitions for the `glob` package, which is used for pattern matching file paths.\n2. `@types/mocha`: Provides type definitions for the `mocha` testing framework.\n3. `@types/node`: Provides type definitions for the Node.js runtime environment.\n4. `@types/vscode`: Provides type definitions for the VS Code extension API.\n5. `@typescript-eslint/eslint-plugin`: Provides ESLint rules and plugins for TypeScript code.\n6. `@typescript-eslint/parser`: Provides a parser for TypeScript code in ESLint.\n7. `@vscode/test-electron`: Provides utilities for testing VS Code extensions using Electron.\n8. `eslint`: Provides a linter for JavaScript and TypeScript code.\n9. `glob`: Provides functionality for pattern matching file paths.\n10. `mocha`: Provides a testing framework for JavaScript and TypeScript code.\n11. `typescript`: Provides a TypeScript compiler and language service.\n12. `vscode-extension-tester`: Provides utilities for testing VS Code extensions.\n\n\n### Running integration Tests\nRun tests by executing:\n1. npm run pretest\n2. npm run test\n\nOr to run integration Tests with Package/Min\n1. npm run esbuild-pretest\n2. npm run test\n\nNote: In both cases, *pretest will clean/erase the output folder and rebuild everything\n\nNote: Full integration tests will also download the latest stable Visual Studio Code - for consistency of test environment.\n\nIntegration Tests check if each command exists, and performs a simple command verification (i.e. verify command can be run successfully)\n\n### Debugging Boost Service API (locally)\nIf you want to debug the Boost Service API locally, go into the User settings (JSON) in the Visual Studio Code UI/settings\nand add the following line:\n```\n    \"polyverse-boost-notebook.cloudServiceStage\": \"local\"\n```\nOr you can set the value to \"dev\" or \"prod\" or anything else for non-local.\nThis takes effect immediately at runtime for all future calls - affecting ALL calls.\n\nPossible target service stages are:\n* local - runs the Boost Service API locally on your machine\n* dev - runs the Boost Service API in the dev environment - for individual dev features\n* test - runs the Boost Service API in the test environment - for wider testing across devs/features\n* staging - runs the Boost Service API in the staging environment - for full pre-deployment validation testing\n* prod - runs the Boost Service API in the prod environment - production service, default for customers\n\nLocal service will use localhost port/IP address for the Boost Service API.\nThis is useful if you are making changes to the Boost Service API and want to test the Client side local.\nUse the Boost lambda server.py shim for local service debugging\n\n### Fault Injection for Boost Service API\nAdd this setting to the User Settings (JSON) in the Visual Studio Code UI/settings to inject faults into the Boost Service callouts\n```\n    \"polyverse-boost-notebook.serviceFaultInjection\": \"100\"\n```\nThis will set a % of service faults to randomly inject. For example, 100 will result in 100% service faults, 50 will result in 50% service faults, etc.\n0 results in no faults injected, and normal behavior.\nService faults are useful for testing error handling code when making call outs to Boost Service API from the Extension code\n\n### Debugging live tests\n* Open the debug viewlet (`Ctrl+Shift+D` or `Cmd+Shift+D` on Mac) and from the launch configuration dropdown pick `Extension Tests`.\n* Press `F5` to run the tests in a new window with your extension loaded.\n* Run your command from the command palette by pressing (Ctrl+Shift+P or Cmd+Shift+P on Mac)\n* Commands are listed under Boost\n* Set breakpoints in your code to debug your extension.\n* Find output from your extension in the debug console.\n\n* See the output of the test result in the debug console.\n* Make changes to `src/test/suite/extension.test.ts` or create new test files inside the `test/suite` folder.\n  * The provided test runner will only consider files matching the name pattern `**.test.ts`.\n  * You can create folders inside the `test` folder to structure your tests any way you want.\n\n* To run a specific test from the command line, do the following command `npm run test -- src/test/suite/boostdata.test.ts`\n\n### Packaging for Local or Internal Sharing\nTo create a single package file of the Boost code to share or test - without using the Marketplace publishing - use the vsce package command.\nvsce is the Packaging and Publishing command - e.g. Visual Studio Code Extension (VSCE)\nTo install it: `npm install -g @vscode/vsce`\n\n### Publishing to Marketplace\n* We [publish Boost extension](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) on the VS Code extension marketplace manually - synchronized with\ncritical fixes, major new features or a joint marketing/customer milestone.\nUse following extra steps to publish:\n1. npm run prepublish:pretest\n2. npm run prepublish:test\n3. npm run prepublish:login\n4. npm run publish\n\nNOTE: If you have NOT published before, you'll need a personal access key to marketplace - see above VSC publishing link for details.\n\nExample of Output from Publishing:\n\n2. Login Example\nnpm run prepublish:login\n```https://marketplace.visualstudio.com/manage/publishers/\nPersonal Access Token for publisher 'polyversecorporation': ****************************************************\n\nThe Personal Access Token verification succeeded for the publisher 'polyversecorporation'.\n```\n\n3. Publish Example\nnpm run publish\n```\n⚡ Done in 94ms\n INFO  Publishing 'polyversecorporation.polyverse-boost-notebook v0.9.5'...\n INFO  Extension URL (might take a few minutes): https://marketplace.visualstudio.com/items?itemName=polyversecorporation.polyverse-boost-notebook\n INFO  Hub URL: https://marketplace.visualstudio.com/manage/publishers/polyversecorporation/extensions/polyverse-boost-notebook/hub\n DONE  Published polyversecorporation.polyverse-boost-notebook v0.9.5.\n```\n\n\n###TEMPORARY###\ndisabled the following panels for now until we have a better way to handle them\n```\n                {\n                    \"type\": \"webview\",\n                    \"id\": \"polyverse-boost-blueprint-view\",\n                    \"name\": \"Blueprint Summary\",\n                    \"icon\": \"resources/boost_icon_plain.svg\"\n                },\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 212
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:18:39 PM PDT\n\nThis piece of code appears to be a portion of a JSON object, which is a lightweight data interchange format. JSON stands for JavaScript Object Notation, and it is easy for humans to read and write, and easy for machines to parse and generate.\n\nThis particular JSON object seems to be defining a webview component for some software application. Let's break down the individual properties:\n\n- \"type\": \"webview\" - This property specifies the type of the component, which in this case is a webview. A webview is a view that displays web pages. In other words, it's a mini-browser integrated within an app.\n\n- \"id\": \"polyverse-boost-doc-view\" - This property is likely a unique identifier for this specific webview component.\n\n- \"name\": \"Documentation\" - This is probably the name of the webview component, which might be displayed somewhere in the user interface.\n\n- \"icon\": \"resources/boost_icon_plain.svg\" - This property appears to be specifying the location of an icon file that represents this webview component. The icon file is in SVG (Scalable Vector Graphics) format, which is an XML-based vector image format for two-dimensional graphics.\n\nAs for the architectural guidelines, since there are no additional special architectural guidelines or constraints provided, we can't analyze the code against them. However, this JSON object seems to be following standard practices for defining a webview component.\n\nFor more information on JSON, you can refer to the official JSON website: https://www.json.org/json-en.html. For more details on webview, you can refer to the documentation provided by different platforms like Android (https://developer.android.com/reference/android/webkit/WebView) or iOS (https://developer.apple.com/documentation/webkit/wkwebview)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "markdown",
+      "id": "1",
+      "value": "                {\n                    \"type\": \"webview\",\n                    \"id\": \"polyverse-boost-doc-view\",\n                    \"name\": \"Documentation\",\n                    \"icon\": \"resources/boost_icon_plain.svg\"\n                },\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 218
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:19:16 PM PDT\n\nThe code snippet you provided is a JSON (JavaScript Object Notation) object. JSON is a lightweight data-interchange format that is easy for humans to read and write and easy for machines to parse and generate. It is a text format that is completely language independent but uses conventions that are familiar to programmers of the C-family of languages, including C, C++, C#, Java, JavaScript, Perl, Python, and many others.\n\nHere's a breakdown of the code:\n\n```\n{\n    \"type\": \"webview\",\n    \"id\": \"polyverse-boost-security-view\",\n    \"name\": \"Security Scan\",\n    \"icon\": \"resources/boost_icon_plain.svg\"\n}\n```\n\nThis JSON object contains four key-value pairs:\n\n1. `\"type\": \"webview\"`: This indicates the type of the object, which is a webview. A webview is a component used to display web pages in your application.\n\n2. `\"id\": \"polyverse-boost-security-view\"`: This is a unique identifier for the object. The ID is typically used to reference the object in code.\n\n3. `\"name\": \"Security Scan\"`: This is the name of the object. It could be used as a label in a user interface.\n\n4. `\"icon\": \"resources/boost_icon_plain.svg\"`: This is the path to the icon for this object. The icon is an SVG (Scalable Vector Graphics) file, which is an XML-based vector image format for two-dimensional graphics with support for interactivity and animation.\n\nThis JSON object doesn't contain any algorithms. It's simply a data structure representing some kind of UI (User Interface) component, possibly in a web application or a desktop application with web-based components.\n\nFor more information about JSON, you can visit the official website: https://www.json.org/json-en.html\n\nFor more information about webviews, you can visit this link: https://developer.chrome.com/docs/extensions/mv2/webview_tag/\n\nFor more information about SVG, you can visit this link: https://developer.mozilla.org/en-US/docs/Web/SVG\n\nAs for the architectural guidelines, since no specific guidelines or constraints were provided, it's hard to comment on the consistency or conflicts between the code and the guidelines. However, this JSON object seems to be following good practices for JSON data structures, with clear and descriptive key names and appropriate value types."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "markdown",
+      "id": "2",
+      "value": "                {\n                    \"type\": \"webview\",\n                    \"id\": \"polyverse-boost-security-view\",\n                    \"name\": \"Security Scan\",\n                    \"icon\": \"resources/boost_icon_plain.svg\"\n                },\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 224
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:19:41 PM PDT\n\nThe given code is a JSON (JavaScript Object Notation) object, which is a popular data interchange format. It is a lightweight data-interchange format that is easy for humans to read and write and easy for machines to parse and generate.\n\nThis JSON object is typically used in the configuration of a software system, possibly a web application or mobile application. It appears to be defining a webview component. A webview is a web browser bundled inside of a mobile application producing what is called a hybrid app. Using a webview allows mobile apps to be built using Web technologies (HTML, JavaScript, CSS, etc.) but still package it as a native app and put it on the app store.\n\nHere's a breakdown of the JSON object properties:\n\n- `\"type\": \"webview\"`: This specifies the type of the component, which is a webview.\n- `\"id\": \"polyverse-boost-compliance-view\"`: This is a unique identifier for the component. It seems to be a compliance view for a product or feature called 'polyverse-boost'.\n- `\"name\": \"Compliance Scan\"`: This is the display name of the component. It's likely what users would see in a user interface.\n- `\"icon\": \"resources/boost_icon_plain.svg\"`: This is the path to the icon image file that would be used for this component in the user interface. The file format is SVG (Scalable Vector Graphics), which is an XML-based vector image format for two-dimensional graphics.\n\nThis code doesn't seem to involve any specific algorithm. It's just a data structure representing some configuration or settings.\n\nFor more information about JSON, you can check out this link: https://www.w3schools.com/js/js_json_intro.asp\n\nFor more information about Webviews, you can check out this link: https://developer.chrome.com/docs/multidevice/webview/overview/\n\nGiven the architectural guidelines provided, there doesn't seem to be any conflict. This JSON object is a common and standard way to define and configure components in many software systems."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "markdown",
+      "id": "3",
+      "value": "                {\n                    \"type\": \"webview\",\n                    \"id\": \"polyverse-boost-compliance-view\",\n                    \"name\": \"Compliance Scan\",\n                    \"icon\": \"resources/boost_icon_plain.svg\"\n                }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 230
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Wednesday, July 12, 2023 at 5:19:44 PM PDT\n\nI'm sorry, but you didn't provide any code for me to explain. Could you please provide the code you want to be explained?"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "markdown",
+      "id": "4",
+      "value": "```\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 230
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./internal_readme.md"
+  }
+}
