@@ -571,15 +571,18 @@ export class KernelControllerBase extends BoostServiceHelper {
         return true;
     }
 
-    public deserializeErrorAsProblems(cell: vscode.NotebookCell, error: Error) {
-        // if no target Cell, skip
-        if (!cell.document) {
+    public deserializeErrorAsProblems(cell: vscode.NotebookCell | BoostNotebookCell, error: Error) {
+        const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
+
+        // if no target Cell content, skip
+        if (usingBoostNotebook?!cell.value:!cell.document) {
             return;
         }
+
         // if no error, skip
         else if (!error) {
             boostLogging.debug(
-                `No error to deserialize for cell ${cell.document.uri.toString()}`
+                `No error to deserialize for cell ${usingBoostNotebook?cell.id:cell.document.uri.toString()}`
             );
             return;
         }
@@ -813,10 +816,12 @@ export class KernelControllerBase extends BoostServiceHelper {
     }
 
     onKernelProcessResponseDetails(
-        response: any,
-        cell: vscode.NotebookCell | BoostNotebookCell,
-        notebook: vscode.NotebookDocument | BoostNotebook,
-        mimetype: any
+        _: any,
+        __: vscode.NotebookCell | BoostNotebookCell,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        ___: vscode.NotebookDocument | BoostNotebook,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        ____: any
     ): any {
         return [];
     }
@@ -824,7 +829,7 @@ export class KernelControllerBase extends BoostServiceHelper {
     // relatedUri should be the Uri of the original source file
     addDiagnosticProblem(
         // document should be the Cell's document that has the problem(s)
-        cell: vscode.NotebookCell,
+        cell: vscode.NotebookCell | BoostNotebookCell,
         // error should be the Error object that was thrown
         error: Error,
         // severity of the problem
@@ -837,22 +842,24 @@ export class KernelControllerBase extends BoostServiceHelper {
         relatedRange?: vscode.Range,
         relatedMessage?: string
     ): void {
-        // if no target Cell, clear all problems
-        if (!cell.document) {
+        const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
+
+        // if no target Cell content, clear all problems
+        if (usingBoostNotebook?!cell.value:!cell.document) {
             this._problemsCollection.clear();
             return;
         }
         // if no error, clear problems for this Cell
         else if (!error) {
-            this._problemsCollection.delete(cell.document.uri);
+            this._problemsCollection.delete(usingBoostNotebook?vscode.Uri.parse(cell.id as string):cell.document.uri);
             return;
         }
 
         if (!relatedUri && BoostConfiguration.useSourceFileForProblems) {
-            if (!cell.notebook.metadata.sourceFile) {
+            if (usingBoostNotebook?!cell?.metadata?.sourceFile:!cell.notebook.metadata.sourceFile) {
                 relatedUri = vscode.Uri.parse("file:///unknown", true);
             } else {
-                relatedUri = fullPathFromSourceFile(
+                relatedUri = fullPathFromSourceFile(usingBoostNotebook?cell?.metadata?.sourceFile:
                     cell.notebook.metadata.sourceFile
                 );
             }
@@ -863,7 +870,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         if (!cellRange) {
             cellRange = new vscode.Range(0, 0, 0, 0);
         }
-        this._problemsCollection.set(cell.document.uri, [
+        this._problemsCollection.set(usingBoostNotebook?vscode.Uri.parse(cell.id as string):cell.document.uri, [
             {
                 code: error.name, // '<CodeBlockContextGoesHere>',
                 message: error.message, // '<BoostServiceAnalsysis>',
