@@ -59,6 +59,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
         const extension = new BoostExtension(context);
 
+        // initialize once on startup...
         await extension.refreshBoostProjectsData();
 
     } catch (error) {

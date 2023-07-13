@@ -165,34 +165,29 @@ export class BoostExtension {
 
     private _setupBoostProjectDataLifecycle(context: vscode.ExtensionContext) {
         let disposable = vscode.workspace.onDidChangeWorkspaceFolders(
-            this.workspaceFoldersChanged
+            () => {
+                if (this) {
+                    this.configurationChanged();
+                }
+            }
         );
         context.subscriptions.push(disposable);
 
         disposable = vscode.workspace.onDidChangeConfiguration(
-            this.configurationChanged.bind(this)
+            () => {
+                if (this) {
+                    this.configurationChanged();
+                }
+            }
         );
         context.subscriptions.push(disposable);
+    }
 
-        // initialize once on startup... especially since single-folder projects will never fire the events
+    configurationChanged() {
         this.refreshBoostProjectsData();
     }
 
     _boostProjectData = new Map<vscode.Uri, BoostProjectData>();
-    // FUTURE: We aren't syncing with files being added or removed from the project, or changes in those files
-    private workspaceFoldersChanged(
-        changeEvent: vscode.WorkspaceFoldersChangeEvent
-    ) {
-        if (this) {
-            this.refreshBoostProjectsData();
-        }
-    }
-
-    private configurationChanged(changeEvent: vscode.ConfigurationChangeEvent) {
-        if (this) {
-            this.refreshBoostProjectsData();
-        }
-    }
 
     async refreshBoostProjectsData(): Promise<void> {
         return new Promise<void>(async (resolve, reject) => {
@@ -474,8 +469,8 @@ export class BoostExtension {
                         this.kernels.forEach(
                             (
                                 value: KernelControllerBase,
-                                key: string,
-                                kernels: Map<string, KernelControllerBase>
+                                _: string,
+                                __: Map<string, KernelControllerBase>
                             ) => {
                                 if (
                                     value !== output.metadata?.outputType ??
