@@ -15,6 +15,7 @@
 	},
 	"exclude": [
 		".vscode-test",
-		"src/dashboard/"
+		"src/dashboard/",
+        ".boost"
 	]
 }
