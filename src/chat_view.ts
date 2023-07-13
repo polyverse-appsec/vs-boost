@@ -155,8 +155,6 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 
             let finalPayload;
             const payload = {
-                "code": "",
-                "prompt": prompt,
                 "messages": JSON.stringify([
                     ...messages,
                     {
