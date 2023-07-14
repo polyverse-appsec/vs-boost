@@ -1,6 +1,8 @@
 import { NOTEBOOK_TYPE } from "./jupyter_notebook";
 import { workspace, extensions, ConfigurationTarget } from "vscode";
 
+export const extensionId = 'polyversecorporation.polyverse-boost-notebook';
+
 export class BoostConfiguration {
   
     public static get defaultOutputLanguage(): string {
@@ -161,7 +163,6 @@ export class BoostConfiguration {
         if (this._cachedVersion) {
             return this._cachedVersion;
         }
-        const extensionId = 'polyversecorporation.polyverse-boost-notebook';
 
         const extension = extensions.getExtension(extensionId);
         if (extension) {

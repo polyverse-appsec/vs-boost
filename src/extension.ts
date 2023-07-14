@@ -345,12 +345,14 @@ export async function parseFunctionsFromFile(
 }
 
 export function _syncProblemsInCell(
-    cell: vscode.NotebookCell,
+    cell: vscode.NotebookCell | boostnb.BoostNotebookCell,
     problems: vscode.DiagnosticCollection,
     cellsBeingRemoved : boolean = false) {
-    const cellUri = cell.document.uri;
 
-    
+    const usingBoostNotebook = 'value' in cell;
+
+    const cellUri = usingBoostNotebook?vscode.Uri.parse(cell.id as string):cell.document.uri;
+
     // if no problems for this cell, skip it
     const thisCellProblems = problems.get(cellUri);
     if (!thisCellProblems || thisCellProblems.length === 0) {

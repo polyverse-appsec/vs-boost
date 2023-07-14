@@ -9,7 +9,7 @@ Polyverse Boost Automatic Application Modernization
 - N/A
 
 ### Enhancements
-- N/A
+- Analysis Errors are now loaded immediately on Project/Folder Load, without manually opening the Notebook with the errors
 
 ### Bug Fixes
 - Restore Summarization of all analysis across project in Boost UX tab

@@ -76,7 +76,7 @@ export class BoostContentSerializer implements vscode.NotebookSerializer {
                 // Check if any output item has an error mimeType
                 const hasErrorOutput = cell.outputs?.some(output =>
                     output.items.some(outputItem =>
-                        outputItem.mime === 'application/vnd.code.notebook.error')
+                        outputItem.mime === errorMimeType)
                 );
 
                 // Skip serialization if the cell has error outputs
@@ -116,7 +116,7 @@ export class BoostContentSerializer implements vscode.NotebookSerializer {
                 // Check if any output item has an error mimeType
                 const hasErrorOutput = cell.outputs?.some(output =>
                     output.items.some(outputItem =>
-                        outputItem.mime === 'application/vnd.code.notebook.error')
+                        outputItem.mime === errorMimeType)
                 );
 
                 // Skip serialization if the cell has error outputs

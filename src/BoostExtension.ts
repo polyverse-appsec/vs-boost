@@ -73,7 +73,7 @@ import { BoostUserAnalysisType } from "./userAnalysisType";
 import { BoostContentSerializer } from "./serializer";
 import { BoostConfiguration } from "./boostConfiguration";
 import { boostLogging } from "./boostLogging";
-import { KernelControllerBase, errorMimeType } from "./base_controller";
+import { KernelControllerBase, errorMimeType, boostUriSchema } from "./base_controller";
 import {
     updateBoostStatusColors,
     registerCustomerPortalCommand,
@@ -94,6 +94,34 @@ import {
     quickBlueprintKernelName,
 } from "./quick_blueprint_controller";
 
+export class BoostNotebookContentProvider implements vscode.TextDocumentContentProvider {
+    // emitter and its event
+    private _onDidChange = new vscode.EventEmitter<vscode.Uri>();
+    public readonly onDidChange = this._onDidChange.event;
+
+    public async provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken) : Promise<string> {
+        if (uri.scheme !== boostUriSchema) {
+            return "";
+        }
+        // strip off everything but path so we can load notebook file
+        uri = vscode.Uri.parse(uri.path);
+        const boostDoc = await vscode.workspace.openNotebookDocument(uri);
+        await vscode.window.showNotebookDocument(boostDoc);
+
+        return "";
+    }
+
+    private getData(uri: vscode.Uri): string {
+        // get data based on uri
+        // this is just a placeholder, replace with your own implementation
+        return "Hello, World!";
+    }
+
+    public update(uri: vscode.Uri) {
+        this._onDidChange.fire(uri);
+    }
+}
+
 export class BoostExtension {
     // for state, we keep it in a few places
     // 1. here, in the extension object.  this should really just be transient state like UI objects
@@ -112,17 +140,19 @@ export class BoostExtension {
 
     public blueprintPanel: BoostMarkdownViewProvider | undefined;
 
+    problems: vscode.DiagnosticCollection;
+
     constructor(context: vscode.ExtensionContext) {
         // ensure logging is shutdown
         context.subscriptions.push(boostLogging);
 
         this._setupBoostProjectDataLifecycle(context);
 
-        let problems = this._setupDiagnosticProblems(context);
+        this.problems = this._setupDiagnosticProblems(context);
 
-        this.setupNotebookEnvironment(context, problems);
+        this.setupNotebookEnvironment(context, this.problems);
 
-        this.registerCreateNotebookCommand(context, problems);
+        this.registerCreateNotebookCommand(context, this.problems);
 
         this.registerRefreshProjectDataCommands(context);
 
@@ -132,6 +162,7 @@ export class BoostExtension {
 
         // register the select language command
         this.setupKernelCommandPicker(context);
+
         this.setupKernelStatus(context);
 
         // register the select language command
@@ -139,6 +170,8 @@ export class BoostExtension {
 
         // register the select framework command
         this.setupTestFrameworkPicker(context);
+
+        this.registerUriHandler(context);
 
         this.registerOpenCodeFile(context);
 
@@ -161,6 +194,11 @@ export class BoostExtension {
         if (BoostConfiguration.logLevel === "debug") {
             boostLogging.info("Polyverse Boost is now active");
         }
+    }
+    registerUriHandler(context: vscode.ExtensionContext) {
+        let provider = new BoostNotebookContentProvider();
+        const disposable = vscode.workspace.registerTextDocumentContentProvider(boostUriSchema, provider);
+        context.subscriptions.push(disposable);
     }
 
     private _setupBoostProjectDataLifecycle(context: vscode.ExtensionContext) {
@@ -289,6 +327,9 @@ export class BoostExtension {
                 }
             }
 
+            // refresh it on load to make sure we are up to date with any offline changes
+            await this.refreshProjectData(boostProjectData, workspaceFolder.uri);
+        
             // Set project name in boost project data if not already set
             if (!boostProjectData.summary.projectName) {
                 boostProjectData.summary.projectName = path.basename(
@@ -333,11 +374,14 @@ export class BoostExtension {
                     `No summary file found at ${boostProjectData.summary.summaryUrl}`
                 );
             }
-            await this.getBoostFilesForFolder(
+            const boostNotebooks = await this.getBoostFilesForFolder(
                 workspaceFolder,
                 boostProjectData,
                 true
             );
+            boostNotebooks.forEach((notebook) => {
+                this.loadAllAnalysisErrorsFromNotebook(notebook, this.problems as vscode.DiagnosticCollection);
+            });
         } catch (error) {
             boostLogging.debug(
                 `Error refreshing Boost Project data for ${workspaceFolder.fsPath}: ${error}`
@@ -391,7 +435,7 @@ export class BoostExtension {
         workspaceFolder: vscode.Uri,
         boostProjectData: BoostProjectData,
         deepScan: boolean = false
-    ): Promise<void> {
+    ): Promise<boostnb.BoostNotebook[]> {
         let searchPattern = new vscode.RelativePattern(
             workspaceFolder.fsPath,
             "**/*.*"
@@ -410,6 +454,7 @@ export class BoostExtension {
         let total = 0;
         let exists = 0;
 
+        const boostNotebooks : boostnb.BoostNotebook[] = [];
         for (const file of files) {
             total++;
             const boostFileUri = getBoostFile(file);
@@ -424,6 +469,7 @@ export class BoostExtension {
             }
             const boostNotebook = new boostnb.BoostNotebook();
             boostNotebook.load(boostFileUri.fsPath);
+            boostNotebooks.push(boostNotebook);
 
             //get the summary of the notebook file
             const filesummary = boostNotebookToFileSummaryItem(boostNotebook);
@@ -437,23 +483,75 @@ export class BoostExtension {
         }
         boostProjectData.summary.filesToAnalyze = total;
         boostProjectData.summary.filesAnalyzed = exists;
+        return boostNotebooks;
     }
 
-    _setupDiagnosticProblems(
-        context: vscode.ExtensionContext
-    ): vscode.DiagnosticCollection {
-        // create the Problems collection
-        const problems = vscode.languages.createDiagnosticCollection(
-            boostnb.NOTEBOOK_TYPE + ".problems"
-        );
-
-        // whenever we open a boost notebook, we need to re-sync the problems (in case errors were persisted with it)
-        vscode.workspace.onDidOpenNotebookDocument((event) => {
-            if (event.notebookType !== boostnb.NOTEBOOK_TYPE) {
-                return;
+    isFileInWorkspace(uri: vscode.Uri): boolean {
+        const workspaceFolders = vscode.workspace.workspaceFolders;
+    
+        if (!workspaceFolders) {
+            return false;
+        }
+    
+        const uriPath = uri.fsPath;
+        for (const folder of workspaceFolders) {
+            const folderPath = folder.uri.fsPath;
+            if (uriPath.startsWith(folderPath)) {
+                return true;
             }
+        }
+    
+        return false;
+    }
 
-            event.getCells().forEach((cell) => {
+    loadAllAnalysisErrorsFromNotebook(
+        notebook: vscode.NotebookDocument | boostnb.BoostNotebook,
+        problems:  vscode.DiagnosticCollection) {
+
+        const usingBoostNotebook = notebook instanceof boostnb.BoostNotebook;
+
+        if (usingBoostNotebook) {
+            notebook.cells.forEach((cell) => {
+                cell.outputs.forEach((output) => {
+                    output.items.forEach((item) => {
+//                        let thisItem = item as boostnb.SerializedNotebookCellOutput;
+
+                        if (item.mime !== errorMimeType) {
+                            return;
+                        }
+
+                        // we use the kernel controller that was attached to this output to deserialize the error
+                        // If we can't find the kernel controller metadata, then just use the explain controller
+                        this.kernels.forEach(
+                            (
+                                value: KernelControllerBase,
+                                _: string,
+                                __: Map<string, KernelControllerBase>
+                            ) => {
+                                if (
+                                    value.outputType !== output.metadata?.outputType ??
+                                    ControllerOutputType.explain
+                                ) {
+                                    return;
+                                }
+
+                                let deserializedError = newErrorFromItemData(
+                                    new TextEncoder().encode(item.data)
+                                );
+
+                                value.deserializeErrorAsProblems(
+                                    notebook,
+                                    cell,
+                                    deserializedError
+                                );
+                            }
+                        );
+                    });
+                });
+                _syncProblemsInCell(cell, problems);
+            });
+        } else {
+            notebook.getCells().forEach((cell) => {
                 cell.outputs.forEach((output) => {
                     output.items.forEach((item) => {
                         let thisItem = item as vscode.NotebookCellOutputItem;
@@ -481,6 +579,7 @@ export class BoostExtension {
                                 );
 
                                 value.deserializeErrorAsProblems(
+                                    notebook,
                                     cell,
                                     deserializedError
                                 );
@@ -490,6 +589,32 @@ export class BoostExtension {
                 });
                 _syncProblemsInCell(cell, problems);
             });
+        }
+    }
+
+    _setupDiagnosticProblems(
+        context: vscode.ExtensionContext
+    ): vscode.DiagnosticCollection {
+        // create the Problems collection
+        const problems = vscode.languages.createDiagnosticCollection(
+            boostnb.NOTEBOOK_TYPE + ".problems"
+        );
+
+        // whenever we open a boost notebook, we need to re-sync the problems (in case errors were persisted with it)
+        vscode.workspace.onDidOpenNotebookDocument((newlyOpenedNotebook) => {
+            
+            if (newlyOpenedNotebook.notebookType !== boostnb.NOTEBOOK_TYPE) {
+                return;
+            }
+
+            if (this.isFileInWorkspace(newlyOpenedNotebook.uri)) {
+                // we only use this path to load diagnostics for notebooks/cells outside of the current loaded projects/workspace
+                return;
+            }
+
+            // load diagnostic problems from a notebook
+            this.loadAllAnalysisErrorsFromNotebook(newlyOpenedNotebook, problems);
+
         });
 
         // when the notebook is closed, we need to clear its problems as well

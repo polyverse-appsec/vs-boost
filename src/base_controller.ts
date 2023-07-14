@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { BoostConfiguration } from "./boostConfiguration";
+import { BoostConfiguration, extensionId } from "./boostConfiguration";
 import { BoostServiceHelper } from "./boostServiceHelper";
 import { boostLogging } from "./boostLogging";
 import { fetchGithubSession, getCurrentOrganization } from "./authorization";
@@ -15,6 +15,8 @@ import {
 } from "./extension";
 
 export const errorMimeType = "application/vnd.code.notebook.error";
+
+export const boostUriSchema = "boost-notebook"; // vscode.env.uriScheme;
 
 export class KernelControllerBase extends BoostServiceHelper {
     _problemsCollection: vscode.DiagnosticCollection;
@@ -418,6 +420,7 @@ export class KernelControllerBase extends BoostServiceHelper {
             );
             if (!usingBoostNotebook) {
                 this.addDiagnosticProblem(
+                    notebook,
                     cell as vscode.NotebookCell,
                     err as Error
                 );
@@ -571,7 +574,9 @@ export class KernelControllerBase extends BoostServiceHelper {
         return true;
     }
 
-    public deserializeErrorAsProblems(cell: vscode.NotebookCell | BoostNotebookCell, error: Error) {
+    public deserializeErrorAsProblems(
+        notebook : vscode.NotebookDocument | BoostNotebook,
+        cell: vscode.NotebookCell | BoostNotebookCell, error: Error) {
         const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
 
         // if no target Cell content, skip
@@ -588,7 +593,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         }
 
         // otherwise, add/update problems for this Cell
-        this.addDiagnosticProblem(cell, error);
+        this.addDiagnosticProblem(notebook, cell, error);
     }
 
     openExecutionContext(
@@ -744,7 +749,7 @@ export class KernelControllerBase extends BoostServiceHelper {
                 false
             );
             if (!usingBoostNotebook) {
-                this.addDiagnosticProblem(cell, serviceError as Error);
+                this.addDiagnosticProblem(notebook, cell, serviceError as Error);
             }
         }
 
@@ -828,6 +833,7 @@ export class KernelControllerBase extends BoostServiceHelper {
 
     // relatedUri should be the Uri of the original source file
     addDiagnosticProblem(
+        notebook: vscode.NotebookDocument | BoostNotebook,
         // document should be the Cell's document that has the problem(s)
         cell: vscode.NotebookCell | BoostNotebookCell,
         // error should be the Error object that was thrown
@@ -851,7 +857,16 @@ export class KernelControllerBase extends BoostServiceHelper {
         }
         // if no error, clear problems for this Cell
         else if (!error) {
-            this._problemsCollection.delete(usingBoostNotebook?vscode.Uri.parse(cell.id as string):cell.document.uri);
+            let cellUri = !usingBoostNotebook?cell.document.uri:vscode.Uri.parse(`${(notebook as BoostNotebook).fsPath}`);
+
+            if (usingBoostNotebook) {
+                cellUri = cellUri.with({
+                    scheme: boostUriSchema,
+                    path: `${(notebook as BoostNotebook).fsPath}`,
+                    fragment: `cell:${(notebook as BoostNotebook).cells.indexOf(cell)}`
+                });
+            }
+            this._problemsCollection.delete(cellUri);
             return;
         }
 
@@ -872,7 +887,17 @@ export class KernelControllerBase extends BoostServiceHelper {
         }
         // example VSCode cell uri:
         //      vscode-notebook-cell:/path/project-name/.boost/src/filename.boost-notebook#W1sZmlsZQ%3D%3D
-        this._problemsCollection.set(usingBoostNotebook?vscode.Uri.parse(cell.id as string):cell.document.uri, [
+        // But we use boost-notebook:/path/project-name/.boost/src/filename.boost-notebook#W1sZmlsZQ%3D%3D
+        //      so our custom content provider will work
+        let cellUri = !usingBoostNotebook?cell.document.uri:vscode.Uri.parse(`${(notebook as BoostNotebook).fsPath}`);
+        if (usingBoostNotebook) {
+            cellUri = cellUri.with({
+                scheme: boostUriSchema,
+                path: `${(notebook as BoostNotebook).fsPath}`,
+                fragment: `cell:${(notebook as BoostNotebook).cells.indexOf(cell)}`
+            });
+        }
+        this._problemsCollection.set(cellUri, [
             {
                 code: error.name, // '<CodeBlockContextGoesHere>',
                 message: error.message, // '<BoostServiceAnalsysis>',
