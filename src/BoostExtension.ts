@@ -381,6 +381,7 @@ export class BoostExtension {
             );
             boostNotebooks.forEach((notebook) => {
                 this.loadAllAnalysisErrorsFromNotebook(notebook, this.problems as vscode.DiagnosticCollection);
+                this.loadAllSourceLevelErrorsFromNotebook(notebook);
             });
         } catch (error) {
             boostLogging.debug(
@@ -504,6 +505,26 @@ export class BoostExtension {
         return false;
     }
 
+    loadAllSourceLevelErrorsFromNotebook(
+        notebook: vscode.NotebookDocument | boostnb.BoostNotebook,
+    ) {
+        const usingBoostNotebook = notebook instanceof boostnb.BoostNotebook;
+
+        // we use the kernel controller that was attached to this output to deserialize the error
+        // If we can't find the kernel controller metadata, then just use the explain controller
+        this.kernels.forEach(
+            (
+                value: KernelControllerBase,
+                _: string,
+                __: Map<string, KernelControllerBase>
+            ) => {
+                const cells = usingBoostNotebook?notebook.cells:notebook.getCells();
+                cells.forEach((cell) => {
+                    value.onKernelProcessResponseDetails(cell.metadata?.details, cell, notebook);
+                });
+        });
+    }
+
     loadAllAnalysisErrorsFromNotebook(
         notebook: vscode.NotebookDocument | boostnb.BoostNotebook,
         problems:  vscode.DiagnosticCollection) {
@@ -614,6 +635,8 @@ export class BoostExtension {
 
             // load diagnostic problems from a notebook
             this.loadAllAnalysisErrorsFromNotebook(newlyOpenedNotebook, problems);
+
+            this.loadAllSourceLevelErrorsFromNotebook(newlyOpenedNotebook);
 
         });
 
