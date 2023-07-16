@@ -411,8 +411,7 @@ export class KernelControllerBase extends BoostServiceHelper {
                       )
                     : vscode.NotebookCellOutputItem.error(
                           this.localizeError(err as Error)
-                      ),
-                err
+                      )
             );
             boostLogging.error(
                 `Error executing cell ${cellId}: ${(err as Error).message}`,
@@ -749,8 +748,7 @@ export class KernelControllerBase extends BoostServiceHelper {
             execution,
             cell,
             details,
-            outputItem,
-            serviceError
+            outputItem
         );
         if (!successfullyCompleted) {
             const cellId = usingBoostNotebook
@@ -774,8 +772,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         details: [],
         outputItem:
             | vscode.NotebookCellOutputItem
-            | SerializedNotebookCellOutput,
-        err: unknown
+            | SerializedNotebookCellOutput
     ) {
         const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
 
