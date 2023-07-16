@@ -76,7 +76,10 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         return generateCellOutputWithHeader(`Source-Level ${this.outputHeader}`, markdown);
     }
 
-    onKernelProcessResponseDetails(details: any, cell : vscode.NotebookCell | boostnb.BoostNotebookCell, notebook: vscode.NotebookDocument | boostnb.BoostNotebook, mimetype : any) : any {
+    onKernelProcessResponseDetails(
+        details: any,
+        cell : vscode.NotebookCell | boostnb.BoostNotebookCell,
+        notebook: vscode.NotebookDocument | boostnb.BoostNotebook) : any {
            //if the details exists, then we will use that as the output as an object
         if (!details) {
             return {};
@@ -92,18 +95,16 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         }
         const lineNumberBase = lineNumberBaseFromCell(cell);
         let diagnostics: vscode.Diagnostic[] = [];
-        details.forEach((bug: any, index: number) => {
-            details.forEach((bug: any, index: number) => {
-                let calculatedLineNumber = lineNumberBase + bug.lineNumber - 1;
-            
-                if (calculatedLineNumber < 0) {
-                    calculatedLineNumber = 1;
-                }
-            
-                let range = new vscode.Range(calculatedLineNumber, 0, calculatedLineNumber, 0);
-                let diagnostic = new vscode.Diagnostic(range, `Severity: ${bug.severity}\n${bug.description}`, vscode.DiagnosticSeverity.Warning);
-                diagnostics.push(diagnostic);
-            });
+        details.forEach((bug: any, _: number) => {
+            let calculatedLineNumber = lineNumberBase + bug.lineNumber - 1;
+        
+            if (calculatedLineNumber < 0) {
+                calculatedLineNumber = 1;
+            }
+        
+            let range = new vscode.Range(calculatedLineNumber, 0, calculatedLineNumber, 0);
+            let diagnostic = new vscode.Diagnostic(range, `Severity: ${bug.severity}\n${bug.description}`, vscode.DiagnosticSeverity.Warning);
+            diagnostics.push(diagnostic);
         });
         this._functionIssueCollection.set(vscode.Uri.parse(sourceFile), diagnostics);
 

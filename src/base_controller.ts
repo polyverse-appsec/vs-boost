@@ -740,7 +740,6 @@ export class KernelControllerBase extends BoostServiceHelper {
             response.details,
             cell,
             notebook,
-            mimetype
         );
 
         // extend the outputItem.metadata field with the results of a call to onKernelOutputItemDetails
@@ -834,8 +833,6 @@ export class KernelControllerBase extends BoostServiceHelper {
         __: vscode.NotebookCell | BoostNotebookCell,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         ___: vscode.NotebookDocument | BoostNotebook,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        ____: any
     ): any {
         return [];
     }
