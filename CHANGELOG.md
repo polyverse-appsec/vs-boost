@@ -10,6 +10,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Enhancements
 - Analysis Errors are now loaded immediately on Project/Folder Load, without manually opening the Notebook with the errors
+- Source-level Errors are loaded in Diagnostic Collections "Problems" for each area - e.g. "Security", "Data Compliance", "Performance"
 
 ### Bug Fixes
 - Restore Summarization of all analysis across project in Boost UX tab
