@@ -76,12 +76,12 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         return generateCellOutputWithHeader(`Source-Level ${this.outputHeader}`, markdown);
     }
 
-    onKernelProcessResponseDetails(response: any, cell : vscode.NotebookCell | boostnb.BoostNotebookCell, notebook: vscode.NotebookDocument | boostnb.BoostNotebook, mimetype : any) : any {
-           //if the response.details field exists, then we will use that as the output as an object
-        if (!response.details) {
+    onKernelProcessResponseDetails(details: any, cell : vscode.NotebookCell | boostnb.BoostNotebookCell, notebook: vscode.NotebookDocument | boostnb.BoostNotebook, mimetype : any) : any {
+           //if the details exists, then we will use that as the output as an object
+        if (!details) {
             return {};
         }
-        //now add the bugs to the security issue collection
+        //now add the bugs to the issue collection
 
         let sourceFile;
         if (!notebook.metadata.sourceFile) {
@@ -92,8 +92,8 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         }
         const lineNumberBase = lineNumberBaseFromCell(cell);
         let diagnostics: vscode.Diagnostic[] = [];
-        response.details.forEach((bug: any, index: number) => {
-            response.details.forEach((bug: any, index: number) => {
+        details.forEach((bug: any, index: number) => {
+            details.forEach((bug: any, index: number) => {
                 let calculatedLineNumber = lineNumberBase + bug.lineNumber - 1;
             
                 if (calculatedLineNumber < 0) {
@@ -107,7 +107,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         });
         this._functionIssueCollection.set(vscode.Uri.parse(sourceFile), diagnostics);
 
-        return response.details;
+        return details;
 
     }
 }

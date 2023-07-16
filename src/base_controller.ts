@@ -737,7 +737,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         }
 
         let details = this.onKernelProcessResponseDetails(
-            response,
+            response.details,
             cell,
             notebook,
             mimetype
