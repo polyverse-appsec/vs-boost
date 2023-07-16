@@ -178,6 +178,7 @@ function refreshUI(boostprojectdata: IBoostProjectData) {
                 "completed": 2,
                 "incomplete": 3,
                 "queued": 4,
+                // eslint-disable-next-line @typescript-eslint/naming-convention
                 "not-started": 5,
             };
             const aStatus = a.progressStatus;
