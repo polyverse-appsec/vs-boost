@@ -5,6 +5,7 @@ import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import * as vscode from 'vscode';
 import * as boostnb from './jupyter_notebook';
 import { fullPathFromSourceFile, generateCellOutputWithHeader } from './extension';
+import { boostLogging } from './boostLogging';
 
 export class FunctionKernelControllerBase extends KernelControllerBase {
 
@@ -80,12 +81,15 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         details: any,
         cell : vscode.NotebookCell | boostnb.BoostNotebookCell,
         notebook: vscode.NotebookDocument | boostnb.BoostNotebook) : any {
-           //if the details exists, then we will use that as the output as an object
+
+        //if the details exists, then we will use that as the output as an object
         if (!details) {
             return {};
         }
         //now add the bugs to the issue collection
 
+        const usingBoostNotebook = 'value' in cell;
+    
         let sourceFile;
         if (!notebook.metadata.sourceFile) {
             //if there is no source file, this was a new notebook created in memory. 
@@ -94,23 +98,43 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
             sourceFile = fullPathFromSourceFile(notebook.metadata.sourceFile);
         }
         const lineNumberBase = lineNumberBaseFromCell(cell);
+        const linesOfText = (usingBoostNotebook?cell.value:cell.document.getText()).split('\n').length;
+
         let diagnostics: vscode.Diagnostic[] = [];
         details.forEach((bug: any, _: number) => {
             let calculatedLineNumber = lineNumberBase + bug.lineNumber - 1;
         
             if (calculatedLineNumber < 0) {
+                boostLogging.log(`${this.id} - Diagnostic Problem reported in negative line number ` +
+                                 `(lineNumberBase=${lineNumberBase}, bug line=${bug.lineNumber}). Setting to 1.`);
                 calculatedLineNumber = 1;
+            } else if (calculatedLineNumber > lineNumberBase + linesOfText) {
+                boostLogging.log(`${this.id} - Diagnostic Problem reported in line number greater than the number of lines in the cell ` +
+                                 `(lineNumberBase=${lineNumberBase}, bug line=${bug.lineNumber}).`);
             }
         
             let range = new vscode.Range(calculatedLineNumber, 0, calculatedLineNumber, 0);
             let diagnostic = new vscode.Diagnostic(range, `Severity: ${bug.severity}\n${bug.description}`, vscode.DiagnosticSeverity.Warning);
             diagnostics.push(diagnostic);
         });
-        this._functionIssueCollection.set(vscode.Uri.parse(sourceFile), diagnostics);
+        
+        // Retrieve existing diagnostics
+        const existingDiagnostics = this._functionIssueCollection.get(vscode.Uri.parse(sourceFile)) || [];
+
+        // Filter existing diagnostics that are not in the line range of the current cell
+        const filteredDiagnostics = existingDiagnostics.filter(diagnostic => {
+            const lineNumber = diagnostic.range.start.line;
+            return lineNumber < lineNumberBase || lineNumber >= lineNumberBase + linesOfText;
+        });
+
+        // Merge filtered existing with new diagnostics
+        const mergedDiagnostics = [...filteredDiagnostics, ...diagnostics];
+        
+        this._functionIssueCollection.set(vscode.Uri.parse(sourceFile), mergedDiagnostics);
 
         return details;
-
     }
+
 }
 
 function lineNumberBaseFromCell(cell: vscode.NotebookCell | boostnb.BoostNotebookCell): number {

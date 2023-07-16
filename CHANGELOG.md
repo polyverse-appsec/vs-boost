@@ -15,6 +15,7 @@ Polyverse Boost Automatic Application Modernization
 ### Bug Fixes
 - Restore Summarization of all analysis across project in Boost UX tab
 - Restore support for loading Errors in cell or Notebook analysis on Notebook load
+- Fixed issue where only latest cell being analyzed has Diagnostic Problems shown in Problems tab
 
 ## Version 1.1.0: July 12th, 2023
 
