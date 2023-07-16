@@ -520,7 +520,9 @@ export class BoostExtension {
             ) => {
                 const cells = usingBoostNotebook?notebook.cells:notebook.getCells();
                 cells.forEach((cell) => {
-                    value.onKernelProcessResponseDetails(cell.metadata?.details, cell, notebook);
+                    cell.outputs.forEach((output) => {
+                        value.onKernelProcessResponseDetails(output.metadata?.details, cell, notebook);
+                    });
                 });
         });
     }
