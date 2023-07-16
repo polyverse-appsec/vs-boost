@@ -503,10 +503,8 @@ export class KernelControllerBase extends BoostServiceHelper {
 
         let foundCell = undefined;
         let i = 0;
-        for (
-            ;
-            i <
-            (usingBoostNotebook ? notebook.cells.length : notebook.cellCount);
+        for (;
+            i < (usingBoostNotebook ? notebook.cells.length : notebook.cellCount);
             i++
         ) {
             if (
@@ -536,14 +534,29 @@ export class KernelControllerBase extends BoostServiceHelper {
             return false;
         }
 
+        this.updateCellMetadata(notebook, cell, i, {
+            id: cell.metadata?.id ?? i,
+            type: cell.metadata?.type ?? "originalCode",
+        });
+
+        return true;
+    }
+
+    async updateCellMetadata(
+        notebook: vscode.NotebookDocument | BoostNotebook,
+        cell: vscode.NotebookCell | BoostNotebookCell,
+        cellIndex : number,
+        updatedMetadata: any) {
+
+        const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
+
         // if we're using native boost notebook, update metadata and skip more complex VSC Notebook update process
         if (usingBoostNotebook) {
             (cell as BoostNotebookCell).initializeMetadata({
                 ...cell.metadata,
-                id: cell.metadata?.id ?? i,
-                type: cell.metadata?.type ?? "originalCode",
+                ...updatedMetadata,
             });
-            return true;
+            return;
         }
 
         const doc = (cell as vscode.NotebookCell).document;
@@ -554,8 +567,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         );
         newCellData.metadata = {
             ...newCellData.metadata,
-            id: newCellData.metadata?.id ?? i,
-            type: newCellData.metadata?.type ?? "originalCode",
+            ...updatedMetadata,
         };
 
         const edit = new vscode.WorkspaceEdit();
@@ -563,15 +575,15 @@ export class KernelControllerBase extends BoostServiceHelper {
         // Use .set to add one or more edits to the notebook
         edit.set(notebook.uri, [
             // Create an edit that replaces this cell with the same cell + set metadata
-            vscode.NotebookEdit.updateCellMetadata(i, newCellData.metadata),
+            vscode.NotebookEdit.updateCellMetadata(cellIndex, newCellData.metadata as { [key: string] : any}),
         ]);
         // Additional notebook edits...
 
         await vscode.workspace.applyEdit(edit);
 
         // Update the cell reference to the new cell from the replacement so the caller can use it
-        cell = notebook.cellAt(i);
-        return true;
+        cell = notebook.cellAt(cellIndex);
+        return;
     }
 
     public deserializeErrorAsProblems(
