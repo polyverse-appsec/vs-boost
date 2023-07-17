@@ -259,7 +259,7 @@ export async function createOrOpenNotebookFromSourceFile(
     } else {
         // Save the notebook to disk
         const notebookData = await (new BoostContentSerializer()).serializeNotebookFromDoc(newNotebook as vscode.NotebookDocument);
-        await vscode.workspace.fs.writeFile(notebookPath, notebookData);
+        fs.writeFileSync(notebookPath.fsPath, notebookData);
     }
     return newNotebook;
 }
@@ -428,7 +428,7 @@ export async function getAllProjectFiles(useRelativePaths : boolean = false) : P
         baseWorkspace.fsPath,
         "**/**"
     );
-    let ignorePattern = await buildVSCodeIgnorePattern(true);
+    let ignorePattern = buildVSCodeIgnorePattern(true);
     boostLogging.debug(
         "Skipping Boost Notebook files of pattern: " + ignorePattern ??
             "none"
@@ -466,13 +466,13 @@ function getBoostIgnoreFile() : vscode.Uri | undefined {
     return boostignoreFile;
 }
 
-export async function updateBoostIgnoreForTarget(uri: vscode.Uri) {
+export function updateBoostIgnoreForTarget(uri: vscode.Uri) {
     const boostignoreFile = getBoostIgnoreFile();
     if (!boostignoreFile) {
         return;
     }
 
-    let patterns = await _extractIgnorePatternsFromFile(boostignoreFile.fsPath);
+    let patterns = _extractIgnorePatternsFromFile(boostignoreFile.fsPath);
 
     // Convert uri to relative path
     let targetRelativePath = vscode.workspace.asRelativePath(uri, false);
@@ -485,19 +485,19 @@ export async function updateBoostIgnoreForTarget(uri: vscode.Uri) {
 
     // otherwise need to exclude the target in the ignore file
     // Check if the target is a directory or a file
-    const stats = await fs.promises.stat(uri.fsPath);
+    const stats = fs.statSync(uri.fsPath);
     if (stats.isDirectory()) {
         patterns.push(targetRelativePath + '/**'); // Add glob to match all files/folders under the directory
     } else if (stats.isFile()) {
         patterns.push(targetRelativePath); // If it's a file, just add the file path
     }
 
-    await fs.promises.writeFile(boostignoreFile.fsPath, patterns.join('\n'));
+    fs.writeFileSync(boostignoreFile.fsPath, patterns.join('\n'));
 
     boostLogging.info(`${targetRelativePath} has been added to ${boostignoreFile.fsPath}`, false);
 }
 
-export async function buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true): Promise<string | undefined> {
+export function buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true): string | undefined {
     let workspaceFolder : vscode.Uri | undefined = vscode.workspace.workspaceFolders?.[0]?.uri;
     // if no workspace root folder, bail
     if (!workspaceFolder) {
@@ -506,13 +506,13 @@ export async function buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true
 
     // read the .vscodeignore file
     let vscignoreFile = vscode.Uri.joinPath(workspaceFolder, ".vscodeignore");
-    let patterns = await _extractIgnorePatternsFromFile(vscignoreFile.fsPath);
+    let patterns = _extractIgnorePatternsFromFile(vscignoreFile.fsPath);
 
     const boostIgnoreFile = getBoostIgnoreFile();
     if (!boostIgnoreFile) {
         return undefined;
     }
-    patterns = patterns.concat(await _extractIgnorePatternsFromFile(boostIgnoreFile.fsPath));
+    patterns = patterns.concat(_extractIgnorePatternsFromFile(boostIgnoreFile.fsPath));
 
     // never include the .boost folder - since that's where we store our notebooks
     if (ignoreBoostFolder && !patterns.find((pattern) => pattern === '**/.boost/**')) {
@@ -622,14 +622,14 @@ export async function buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true
     return excludePatterns;
 }
 
-async function _extractIgnorePatternsFromFile(ignoreFile : string) : Promise<string[]> {
+function _extractIgnorePatternsFromFile(ignoreFile : string) : string[] {
     // if no ignore file, bail
     if (!fs.existsSync(ignoreFile)) {
         return [];
     }
 
-    const data = await fs.promises.readFile(ignoreFile);
-    const patterns = data.toString().split(/\r?\n/).filter((line) => {
+    const ignoreFileContent = fs.readFileSync(ignoreFile, 'utf-8');
+    const patterns = ignoreFileContent.split(/\r?\n/).filter((line) => {
       return line.trim() !== '' && !line.startsWith('#');
     });
     return patterns;
@@ -653,7 +653,7 @@ async function createEmptyNotebook(filename : vscode.Uri, useUINotebook : boolea
     const dummmyToken = new vscode.CancellationTokenSource().token;
 
     const notebookBlob = await (new BoostContentSerializer()).serializeNotebook(notebookData, dummmyToken);
-    await vscode.workspace.fs.writeFile(filename, notebookBlob);
+    fs.writeFileSync(filename.fsPath, notebookBlob);
 
     const newNotebook = await vscode.workspace.openNotebookDocument(filename);
 

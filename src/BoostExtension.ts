@@ -477,7 +477,7 @@ export class BoostExtension {
             workspaceFolder.fsPath,
             "**/*.*"
         );
-        let ignorePattern = await buildVSCodeIgnorePattern();
+        let ignorePattern = buildVSCodeIgnorePattern();
         boostLogging.debug(
             "Skipping source files of pattern: " + (ignorePattern ?? "none")
         );
@@ -1181,7 +1181,7 @@ export class BoostExtension {
             targetFolder.fsPath,
             "**/*.*"
         );
-        let ignorePattern = await buildVSCodeIgnorePattern();
+        let ignorePattern = buildVSCodeIgnorePattern();
         boostLogging.debug(
             "Skipping source files of pattern: " + ignorePattern ?? "none"
         );
@@ -2308,7 +2308,7 @@ export class BoostExtension {
             targetFolder.fsPath,
             "**/*.*"
         );
-        let ignorePattern = await buildVSCodeIgnorePattern();
+        let ignorePattern = buildVSCodeIgnorePattern();
         boostLogging.debug(
             "Skipping source files of pattern: " + (ignorePattern ?? "none")
         );
@@ -2780,7 +2780,7 @@ export class BoostExtension {
             targetFolder.fsPath,
             "**/*" + boostnb.NOTEBOOK_EXTENSION
         );
-        let ignorePattern = await buildVSCodeIgnorePattern(false);
+        let ignorePattern = buildVSCodeIgnorePattern(false);
         boostLogging.debug(
             "Skipping Boost Notebook files of pattern: " + ignorePattern ??
                 "none"
