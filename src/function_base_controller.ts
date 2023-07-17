@@ -9,7 +9,7 @@ import { boostLogging } from './boostLogging';
 
 export class FunctionKernelControllerBase extends KernelControllerBase {
 
-    private _functionIssueCollection: DiagnosticCollection;
+    public sourceLevelIssueCollection: DiagnosticCollection;
 
 	constructor(
         collection: DiagnosticCollection,
@@ -38,7 +38,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
             onServiceErrorHandler);
 
         this.outputHeader = outputHeader;
-        this._functionIssueCollection = vscode.languages.createDiagnosticCollection(boostnb.NOTEBOOK_TYPE + collectionType);
+        this.sourceLevelIssueCollection = vscode.languages.createDiagnosticCollection(boostnb.NOTEBOOK_TYPE + collectionType);
 	}
 
 	dispose(): void {
@@ -119,7 +119,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         });
         
         // Retrieve existing diagnostics
-        const existingDiagnostics = this._functionIssueCollection.get(vscode.Uri.parse(sourceFile)) || [];
+        const existingDiagnostics = this.sourceLevelIssueCollection.get(vscode.Uri.parse(sourceFile)) || [];
 
         // Filter existing diagnostics that are not in the line range of the current cell
         const filteredDiagnostics = existingDiagnostics.filter(diagnostic => {
@@ -130,7 +130,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         // Merge filtered existing with new diagnostics
         const mergedDiagnostics = [...filteredDiagnostics, ...diagnostics];
         
-        this._functionIssueCollection.set(vscode.Uri.parse(sourceFile), mergedDiagnostics);
+        this.sourceLevelIssueCollection.set(vscode.Uri.parse(sourceFile), mergedDiagnostics);
 
         return details;
     }

@@ -93,6 +93,7 @@ import {
     BoostQuickBlueprintKernel,
     quickBlueprintKernelName,
 } from "./quick_blueprint_controller";
+import { FunctionKernelControllerBase } from "./function_base_controller";
 
 export class BoostNotebookContentProvider implements vscode.TextDocumentContentProvider {
     // emitter and its event
@@ -109,12 +110,6 @@ export class BoostNotebookContentProvider implements vscode.TextDocumentContentP
         await vscode.window.showNotebookDocument(boostDoc);
 
         return "";
-    }
-
-    private getData(uri: vscode.Uri): string {
-        // get data based on uri
-        // this is just a placeholder, replace with your own implementation
-        return "Hello, World!";
     }
 
     public update(uri: vscode.Uri) {
@@ -151,6 +146,8 @@ export class BoostExtension {
         this.problems = this._setupDiagnosticProblems(context);
 
         this.setupNotebookEnvironment(context, this.problems);
+
+        this._setupNotebookChangedLifecycle(context);
 
         this.registerCreateNotebookCommand(context, this.problems);
 
@@ -223,6 +220,42 @@ export class BoostExtension {
 
     configurationChanged() {
         this.refreshBoostProjectsData();
+    }
+
+    private _setupNotebookChangedLifecycle(context: vscode.ExtensionContext) {
+        let disposable = vscode.workspace.onDidChangeNotebookDocument(
+            (event: vscode.NotebookDocumentChangeEvent) => {
+
+                if (!this) {
+                    return;
+                }
+
+                // if there are no cells left in the notebook, then clear all Problems
+                if (event.notebook.getCells().length === 0) {
+                    this.kernels.forEach((kernel : KernelControllerBase) => {
+                        if (!(kernel instanceof FunctionKernelControllerBase)) {
+                            return;
+                        }
+
+                        kernel.sourceLevelIssueCollection.delete(event.notebook.uri);
+                    });
+
+                // if no content changes we care about, exit
+                } else if (!event.contentChanges) {
+                    return;
+                }
+
+                // we're only going to reset diagnostic problems when cells are deleted/removed
+                const removedCells = event.contentChanges.filter((value: vscode.NotebookDocumentContentChange,
+                    index: number, array: readonly vscode.NotebookDocumentContentChange[]) => {
+                        return value.removedCells && value.removedCells.length > 0;
+                    });
+                if (removedCells) {
+                    this.loadAllSourceLevelErrorsFromNotebook(event.notebook, true);
+                }
+            }
+        );
+        context.subscriptions.push(disposable);
     }
 
     _boostProjectData = new Map<vscode.Uri, BoostProjectData>();
@@ -507,18 +540,24 @@ export class BoostExtension {
 
     loadAllSourceLevelErrorsFromNotebook(
         notebook: vscode.NotebookDocument | boostnb.BoostNotebook,
+        deleteExisting: boolean = false,
     ) {
         const usingBoostNotebook = notebook instanceof boostnb.BoostNotebook;
 
-        // we use the kernel controller that was attached to this output to deserialize the error
-        // If we can't find the kernel controller metadata, then just use the explain controller
+        // we walk all kernels to 
         this.kernels.forEach(
             (
                 value: KernelControllerBase,
                 _: string,
                 __: Map<string, KernelControllerBase>
             ) => {
+                if (!(value instanceof FunctionKernelControllerBase)) {
+                    return;
+                }
                 const cells = usingBoostNotebook?notebook.cells:notebook.getCells();
+                if (deleteExisting) {
+                    value.sourceLevelIssueCollection.delete(usingBoostNotebook?vscode.Uri.parse(notebook.fsPath):notebook.uri);
+                }
                 cells.forEach((cell) => {
                     cell.outputs.forEach((output) => {
                         value.onKernelProcessResponseDetails(output.metadata?.details, cell, notebook);
