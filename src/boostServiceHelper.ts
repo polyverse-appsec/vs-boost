@@ -193,14 +193,13 @@ export class BoostServiceHelper {
 
 
     async onProcessServiceRequest(
-        execution: vscode.NotebookCellExecution | undefined,
-        notebook: vscode.NotebookDocument | BoostNotebook | undefined,
+        _: vscode.NotebookCellExecution | undefined,
+        __: vscode.NotebookDocument | BoostNotebook | undefined,
         cell: vscode.NotebookCell | BoostNotebookCell | undefined,
         payload: any,
         serviceEndpoint: string = this.serviceEndpoint
     ): Promise<any> {
         let successfullyCompleted = true;
-        const usingBoostNotebook = cell?"value" in cell:true; // look for the value property to see if its a BoostNotebookCell
 
         // using axios, make a web POST call to Boost Service with the code as in a json object code=code
         let response;
@@ -320,7 +319,7 @@ export class BoostServiceHelper {
     }
 
     async onBoostServiceRequest(
-        cell: vscode.NotebookCell | BoostNotebookCell | undefined,
+        _: vscode.NotebookCell | BoostNotebookCell | undefined,
         serviceEndpoint: string,
         payload: any
     ): Promise<string> {
