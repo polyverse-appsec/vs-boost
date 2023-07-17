@@ -3,7 +3,6 @@ import * as fs from "fs";
 import * as path from "path";
 
 import * as boostnb from "./jupyter_notebook";
-import { getOrCreateGuideline } from "./extension";
 
 import {
     BoostPerformanceFunctionKernel,
@@ -55,6 +54,8 @@ import { BoostChatViewProvider } from "./chat_view";
 import { boostNotebookToFileSummaryItem } from "./BoostProjectData";
 
 import {
+    getOrCreateGuideline,
+    updateBoostIgnoreForTarget,
     getBoostFile,
     BoostFileType,
     parseFunctionsFromFile,
@@ -173,6 +174,8 @@ export class BoostExtension {
         this.registerOpenCodeFile(context);
 
         this.registerProjectLevelCommands(context);
+
+        this.registerRightClickExcludeFromAnalysisCommand(context);
 
         this.registerFileRightClickAnalyzeCommand(context);
 
@@ -1274,6 +1277,34 @@ export class BoostExtension {
                 ).catch((error) => {
                     boostLogging.error((error as Error).message, likelyViaUI);
                 });
+            }
+        );
+        context.subscriptions.push(disposable);
+    }
+
+    registerRightClickExcludeFromAnalysisCommand(context: vscode.ExtensionContext) {
+        let disposable = vscode.commands.registerCommand(
+            boostnb.NOTEBOOK_TYPE + "." + BoostCommands.excludeTargetFromBoostAnalysis,
+            (uri: vscode.Uri) => {
+                if (!uri) {
+                    boostLogging.warn("No exclusion target was provided.", false);
+                    return;
+                }
+
+                updateBoostIgnoreForTarget(uri);
+            }
+        );
+        context.subscriptions.push(disposable);
+
+        disposable = vscode.commands.registerCommand(
+            boostnb.NOTEBOOK_TYPE + "." + BoostCommands.excludeTargetFolderFromBoostAnalysis,
+            (uri: vscode.Uri) => {
+                if (!uri) {
+                    boostLogging.warn("No exclusion target was provided.", false);
+                    return;
+                }
+
+                updateBoostIgnoreForTarget(uri);
             }
         );
         context.subscriptions.push(disposable);

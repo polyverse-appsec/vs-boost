@@ -259,6 +259,16 @@
                 "command": "polyverse-boost-notebook.showGuidelines.compliance",
                 "title": "Boost: Show Compliance Guidelines",
                 "icon": "$(gear)"
+            },
+            {
+                "command": "polyverse-boost-notebook.excludeTargetFromBoostAnalysis",
+                "title": "Boost: Exclude File from Analysis",
+                "icon": "$(file)"
+            },
+            {
+                "command": "polyverse-boost-notebook.excludeTargetFolderFromBoostAnalysis",
+                "title": "Boost: Exclude Folder from Analysis",
+                "icon": "$(folder)"
             }
         ],
         "notebooks": [
@@ -363,6 +373,16 @@
                     "command": "polyverse-boost-notebook.showCurrentFolderAnalysisSummaryOutput",
                     "when": "(resourceScheme == 'file' && resourceLangId == 'unknown' && resourceExtname == '')",
                     "group": "polyverseBoost"
+                },
+                {
+                    "command": "polyverse-boost-notebook.excludeTargetFromBoostAnalysis",
+                    "when": "resourceExtname == .toml || resourceExtname == .csproj || resourceExtname == .xcodeproj || resourceExtname == .sln || resourceExtname == .vbproj || resourceExtname == .fsproj || resourceExtname == .gradle || resourceExtname == .xslt || resourceExtname == .coffee || resourceExtname == .pm || resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb",
+                    "group": "polyverseBoost"
+                },
+                {
+                    "command": "polyverse-boost-notebook.excludeTargetFolderFromBoostAnalysis",
+                    "when": "(resourceScheme == 'file' && resourceLangId == 'unknown' && resourceExtname == '')",
+                    "group": "polyverseBoost"
                 }
             ]
         }
@@ -391,6 +411,7 @@
         "@types/glob": "^8.1.0",
         "@types/lodash": "4.14.192",
         "@types/marked": "^4.3.0",
+        "@types/micromatch": "^4.0.2",
         "@types/mocha": "^10.0.1",
         "@types/node": "16.x",
         "@types/sinon": "10.0.13",
@@ -422,6 +443,7 @@
         "highlight.js": "^11.8.0",
         "marked": "^5.0.2",
         "marked-highlight": "^1.0.2",
+        "micromatch": "^4.0.5",
         "nodejs": "^0.0.0",
         "p-queue": "v6.6.2",
         "puppeteer": "^20.2.1",

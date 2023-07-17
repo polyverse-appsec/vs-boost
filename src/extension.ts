@@ -2,6 +2,9 @@ import * as vscode from 'vscode';
 
 import * as fs from 'fs';
 import * as path from 'path';
+
+import * as micromatch from 'micromatch';
+
 import * as boostnb from './jupyter_notebook';
 
 import { BoostContentSerializer } from './serializer';
@@ -35,6 +38,7 @@ export enum BoostCommands {
 
     processCurrentFolder = "processCurrentFolder",
     processCurrentFile = "processCurrentFile",
+
     processProject = "processProject",
 
     buildCurrentFileOutput = "buildCurrentFileOutput",
@@ -44,6 +48,8 @@ export enum BoostCommands {
     showCurrentFileAnalysisOutput = "showCurrentFileAnalysisOutput",
     showCurrentFileAnalysisSummaryOutput = "showCurrentFileAnalysisSummaryOutput",
     showCurrentFolderAnalysisSummaryOutput = "showCurrentFolderAnalysisSummaryOutput",
+    excludeTargetFromBoostAnalysis = "excludeTargetFromBoostAnalysis",
+    excludeTargetFolderFromBoostAnalysis = "excludeTargetFolderFromBoostAnalysis",
 
     analyzeSourceCode = "analyzeSourceCode",
 
@@ -447,6 +453,50 @@ export async function getAllProjectFiles(useRelativePaths : boolean = false) : P
     return paths;
 }
 
+function getBoostIgnoreFile() : vscode.Uri | undefined {
+    const workspaceFolder : vscode.Uri | undefined = vscode.workspace.workspaceFolders?.[0]?.uri;
+
+    // if no workspace root folder, bail
+    if (!workspaceFolder) {
+        return undefined;
+    }
+
+    // path to the the .boostignore file
+    const boostignoreFile = vscode.Uri.joinPath(workspaceFolder, ".boostignore");
+    return boostignoreFile;
+}
+
+export async function updateBoostIgnoreForTarget(uri: vscode.Uri) {
+    const boostignoreFile = getBoostIgnoreFile();
+    if (!boostignoreFile) {
+        return;
+    }
+
+    let patterns = await _extractIgnorePatternsFromFile(boostignoreFile.fsPath);
+
+    // Convert uri to relative path
+    let targetRelativePath = vscode.workspace.asRelativePath(uri, false);
+
+    // search if the new target is already excluded in the existing patterns
+    if (patterns.some(pattern => micromatch.isMatch(targetRelativePath, pattern))) {
+        boostLogging.warn(`${targetRelativePath} is already excluded in ${boostignoreFile.fsPath}`, false);
+        return;
+    }
+
+    // otherwise need to exclude the target in the ignore file
+    // Check if the target is a directory or a file
+    const stats = await fs.promises.stat(uri.fsPath);
+    if (stats.isDirectory()) {
+        patterns.push(targetRelativePath + '/**'); // Add glob to match all files/folders under the directory
+    } else if (stats.isFile()) {
+        patterns.push(targetRelativePath); // If it's a file, just add the file path
+    }
+
+    await fs.promises.writeFile(boostignoreFile.fsPath, patterns.join('\n'));
+
+    boostLogging.info(`${targetRelativePath} has been added to ${boostignoreFile.fsPath}`, false);
+}
+
 export async function buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true): Promise<string | undefined> {
     let workspaceFolder : vscode.Uri | undefined = vscode.workspace.workspaceFolders?.[0]?.uri;
     // if no workspace root folder, bail
@@ -458,9 +508,11 @@ export async function buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true
     let vscignoreFile = vscode.Uri.joinPath(workspaceFolder, ".vscodeignore");
     let patterns = await _extractIgnorePatternsFromFile(vscignoreFile.fsPath);
 
-    // add the contents of the .boostignore file
-    let boostignoreFile = vscode.Uri.joinPath(workspaceFolder, ".boostignore");
-    patterns = patterns.concat(await _extractIgnorePatternsFromFile(boostignoreFile.fsPath));
+    const boostIgnoreFile = getBoostIgnoreFile();
+    if (!boostIgnoreFile) {
+        return undefined;
+    }
+    patterns = patterns.concat(await _extractIgnorePatternsFromFile(boostIgnoreFile.fsPath));
 
     // never include the .boost folder - since that's where we store our notebooks
     if (ignoreBoostFolder && !patterns.find((pattern) => pattern === '**/.boost/**')) {
