@@ -132,7 +132,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         
         this.sourceLevelIssueCollection.set(vscode.Uri.parse(sourceFile), mergedDiagnostics);
 
-        return details;
+        return super.onKernelProcessResponseDetails(details, cell, notebook);
     }
 
 }

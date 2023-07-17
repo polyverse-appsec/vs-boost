@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { BoostConfiguration, extensionId } from "./boostConfiguration";
+import { BoostConfiguration } from "./boostConfiguration";
 import { BoostServiceHelper } from "./boostServiceHelper";
 import { boostLogging } from "./boostLogging";
 import { fetchGithubSession, getCurrentOrganization } from "./authorization";
@@ -830,12 +830,12 @@ export class KernelControllerBase extends BoostServiceHelper {
     }
 
     onKernelProcessResponseDetails(
-        _: any,
-        __: vscode.NotebookCell | BoostNotebookCell,
+        details: any,
+        _: vscode.NotebookCell | BoostNotebookCell,
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        ___: vscode.NotebookDocument | BoostNotebook,
+        __: vscode.NotebookDocument | BoostNotebook,
     ): any {
-        return [];
+        return (details === undefined)?[]:details;
     }
 
     // relatedUri should be the Uri of the original source file
