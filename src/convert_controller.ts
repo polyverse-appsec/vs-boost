@@ -1,5 +1,6 @@
 import {
-    KernelControllerBase
+    KernelControllerBase,
+    markdownMimeType
     } from './base_controller';
 import * as vscode from 'vscode';
 import { BoostConfiguration } from './boostConfiguration';
@@ -92,7 +93,6 @@ export class BoostConvertKernel extends KernelControllerBase {
         }
 
         const summarydata = response;
-        const markdownMimetype = 'text/markdown';
         const outputText = generateCellOutputWithHeader(`Code Explanation`, summarydata.explanation);
 
         // we will have one NotebookCellOutput per type of output.
@@ -106,12 +106,12 @@ export class BoostConvertKernel extends KernelControllerBase {
         try {
             if (usingBoostNotebook) {
                 const outputItems : SerializedNotebookCellOutput[] = [ {
-                    items: [ { mime: markdownMimetype, data : outputText } ],
+                    items: [ { mime: markdownMimeType, data : outputText } ],
                     metadata : { outputType: ControllerOutputType.explain} } ];
                 
                 cell.updateOutputItem(ControllerOutputType.explain, outputItems[0]);
             } else {
-                const outputItems: vscode.NotebookCellOutputItem[] = [ vscode.NotebookCellOutputItem.text(outputText, markdownMimetype) ];
+                const outputItems: vscode.NotebookCellOutputItem[] = [ vscode.NotebookCellOutputItem.text(outputText, markdownMimeType) ];
 
                 let existingOutput = cell.outputs.find(output => output.metadata?.outputType === ControllerOutputType.explain);
 
@@ -169,7 +169,7 @@ export class BoostConvertKernel extends KernelControllerBase {
             let mimetypeCode = 'text/x-' + outputLanguage;
             let header = '';
             if(generatedCode.code.includes(markdownCodeMarker)){
-                mimetypeCode = markdownMimetype;
+                mimetypeCode = markdownMimeType;
                 header = generateCellOutputWithHeader(this.outputHeader, generatedCode.code);
             } else {
                 header = generatedCode.code;

@@ -15,6 +15,7 @@ import {
 } from "./extension";
 
 export const errorMimeType = "application/vnd.code.notebook.error";
+export const markdownMimeType = "text/markdown";
 
 export const boostUriSchema = "boost-notebook"; // vscode.env.uriScheme;
 
@@ -713,7 +714,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         }
 
         // we wrap mimeTypes in an object so that we can pass it by reference and change it
-        let mimetype = { str: "text/markdown" };
+        let mimetype = { str: markdownMimeType };
 
         let outputItem;
         if (usingBoostNotebook) {
