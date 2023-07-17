@@ -466,7 +466,7 @@ function getBoostIgnoreFile() : vscode.Uri | undefined {
     return boostignoreFile;
 }
 
-export function updateBoostIgnoreForTarget(uri: vscode.Uri) {
+export function updateBoostIgnoreForTarget(targetFilepath: string, absolutePath: boolean = true) {
     const boostignoreFile = getBoostIgnoreFile();
     if (!boostignoreFile) {
         return;
@@ -474,8 +474,15 @@ export function updateBoostIgnoreForTarget(uri: vscode.Uri) {
 
     let patterns = _extractIgnorePatternsFromFile(boostignoreFile.fsPath);
 
-    // Convert uri to relative path
-    let targetRelativePath = vscode.workspace.asRelativePath(uri, false);
+    // Convert path to relative path
+    let targetRelativePath : string;
+    if (absolutePath) {
+        targetRelativePath = vscode.workspace.asRelativePath(vscode.Uri.parse(targetFilepath), false);
+    } else {
+        targetRelativePath = targetFilepath;
+        const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri;
+        targetFilepath = vscode.Uri.joinPath(workspaceRoot as vscode.Uri, targetFilepath).fsPath;
+    }
 
     // search if the new target is already excluded in the existing patterns
     if (patterns.some(pattern => micromatch.isMatch(targetRelativePath, pattern))) {
@@ -485,7 +492,7 @@ export function updateBoostIgnoreForTarget(uri: vscode.Uri) {
 
     // otherwise need to exclude the target in the ignore file
     // Check if the target is a directory or a file
-    const stats = fs.statSync(uri.fsPath);
+    const stats = fs.statSync(targetFilepath);
     if (stats.isDirectory()) {
         patterns.push(targetRelativePath + '/**'); // Add glob to match all files/folders under the directory
     } else if (stats.isFile()) {

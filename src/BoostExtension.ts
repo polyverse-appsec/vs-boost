@@ -1291,7 +1291,7 @@ export class BoostExtension {
                     return;
                 }
 
-                updateBoostIgnoreForTarget(uri);
+                updateBoostIgnoreForTarget(uri.fsPath);
             }
         );
         context.subscriptions.push(disposable);
@@ -1304,7 +1304,7 @@ export class BoostExtension {
                     return;
                 }
 
-                updateBoostIgnoreForTarget(uri);
+                updateBoostIgnoreForTarget(uri.fsPath);
             }
         );
         context.subscriptions.push(disposable);
@@ -2536,25 +2536,44 @@ export class BoostExtension {
 
                 let notebook = new boostnb.BoostNotebook();
                 notebook.load(projectBoostFile.fsPath);
-                targetedKernel
-                    .executeAllWithAuthorization(notebook.cells, notebook, true)
-                    .then(() => {
-                        // ensure we save the notebook if we successfully processed it
-                        notebook.flushToFS();
-                        // TODO, this should be more general once we have more than one project level command
-                        this.blueprintPanel?.refresh();
+                targetedKernel.executeAllWithAuthorization(notebook.cells, notebook, true)
+                .then(() => {
+                    // ensure we save the notebook if we successfully processed it
+                    notebook.flushToFS();
+                    // TODO, this should be more general once we have more than one project level command
+                    this.blueprintPanel?.refresh();
 
-                        boostLogging.info(
-                            `Saved Updated Notebook for ${kernelCommand} in file:[${projectBoostFile.fsPath}]`,
-                            likelyViaUI
-                        );
-                    })
-                    .catch((error) => {
-                        boostLogging.warn(
-                            `Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${projectBoostFile.fsPath}] due to error:${error}`,
-                            likelyViaUI
-                        );
+                    boostLogging.info(
+                        `Saved Updated Notebook for ${kernelCommand} in file:[${projectBoostFile.fsPath}]`,
+                        likelyViaUI
+                    );
+
+                    // if the quick-blueprint provided recommended file exclusion list
+                    //      then let's add those to the ignore file for future analysis
+                    const blueprintCell = findCellByKernel(notebook, targetedKernel.outputType);
+                    // we only use recommendation from quick-blueprint
+                    if (blueprintCell?.metadata?.blueprintType !== "quick") {
+                        return;
+                    }
+                    blueprintCell?.outputs.forEach((output) => {
+                        if (output.metadata.outputType !== targetedKernel.outputType ||
+                            !output?.metadata?.details?.recommendedListOfFilesToExcludeFromAnalysis) {
+                            return;
+                        }
+
+                        output.metadata.details.recommendedListOfFilesToExcludeFromAnalysis.forEach(
+                            (filename: string) => {
+                                updateBoostIgnoreForTarget(filename, false);
+                            });
                     });
+                })
+                .catch((error) => {
+                    boostLogging.warn(
+                        `Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${projectBoostFile.fsPath}] due to error:${error}`,
+                        likelyViaUI
+                    );
+                });
+
             }
         );
         context.subscriptions.push(disposable);

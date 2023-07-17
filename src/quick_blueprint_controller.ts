@@ -2,11 +2,16 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 import {
-    KernelControllerBase
+    KernelControllerBase,
+    markdownMimeType
  } from './base_controller';
 import { BoostConfiguration } from './boostConfiguration';
 import * as vscode from 'vscode';
-import { BoostNotebookCell, BoostNotebook, NotebookCellKind } from './jupyter_notebook';
+import {
+    BoostNotebookCell,
+    BoostNotebook,
+    NotebookCellKind,
+    SerializedNotebookCellOutput } from './jupyter_notebook';
 import { boostLogging } from './boostLogging';
 import { findCellByKernel, generateCellOutputWithHeader, getAllProjectFiles, getProjectName } from './extension';
 import { getCurrentOrganization } from "./authorization";
@@ -134,8 +139,8 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
                                   "because it already has a detailed Summary blueprint`, false);
                 return;
             } else if (existingBlueprintCell.metadata.blueprintType === "quick") {
-                boostLogging.info(`Rebuilding ${this.command} of Project-level Notebook " +
-                                  "from last quick blueprint`, false);
+                boostLogging.info(`Rebuilding ${this.command} of Project-level Notebook ` +
+                                  `from last quick blueprint`, false);
             }
         }
 
@@ -183,11 +188,17 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
         const fullProjectFilePath = path.join(
             vscode.workspace.workspaceFolders![0].uri.fsPath,
             draftResponse.details.recommendedProjectDeploymentFile);
+        const extraDetails = {
+            "recommendedProjectDeploymentFile": draftResponse.details.recommendedProjectDeploymentFile,
+            "recommendedListOfFilesToExcludeFromAnalysis": draftResponse.details.recommendedListOfFilesToExcludeFromAnalysis
+        };
         const normalizedFullProjectFilePath = path.normalize(fullProjectFilePath);
         const projectFileContents = !fs.existsSync(fullProjectFilePath)?"":fs.readFileSync(normalizedFullProjectFilePath, 'utf8');
 
+        const filteredFiles = files.filter(item => !draftResponse.details.recommendedListOfFilesToExcludeFromAnalysis?.includes(item));
+
         const payloadQuick = {
-            'filelist': files,
+            'filelist': filteredFiles,
             'projectName': projectName,
             'projectFile': projectFileContents,
             'draftBlueprint': draftResponse.details.draftBlueprint,
@@ -195,7 +206,7 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
             ...authPayload
         };
 
-        // execute the draft blueprint service
+        // execute the quick blueprint service
         const quickResponse = await this.doKernelExecution(notebook, tempProcessingCell, undefined,
             payloadQuick, this.quickServiceEndpoint);
         // assert response.payload['statusCode'] == 200
@@ -207,10 +218,26 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
             throw throwErr;
         }
 
+        let originalDetails : any = tempProcessingCell.outputs[0].metadata?.details;
+        if (originalDetails) {
+            originalDetails = {
+                ...originalDetails,
+                ...extraDetails
+            };
+        } else {
+            originalDetails = {};
+        }
+
         let targetCell = findCellByKernel(notebook, ControllerOutputType.blueprint) as BoostNotebookCell;
+
         if (!targetCell) {
             targetCell = new BoostNotebookCell(NotebookCellKind.Markup, "", "markdown");
-            targetCell.initializeMetadata({"id": targetCell.id, "outputType": ControllerOutputType.blueprint, "blueprintType": "quick"});
+            targetCell.initializeMetadata(
+                {
+                    "id": targetCell.id,
+                    "outputType": ControllerOutputType.blueprint,
+                    "blueprintType": "quick"
+                });
             notebook.addCell(targetCell);
         } else {
             // store quick as the blueprint type
@@ -221,6 +248,14 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
         }
         // snap the processed quick blueprint from the temp cell and store it in real notebook
         targetCell.value = tempProcessingCell.outputs[0].items[0].data;
+        // we're also going to store the details in the usual output section
+        //    for the synthesized cell
+        const analysisOutput : SerializedNotebookCellOutput = {
+            items: [ { mime: markdownMimeType, data : "" } ],
+            metadata : { outputType: this.outputType,
+                details: originalDetails } };
+
+        targetCell.updateOutputItem(this.outputType, analysisOutput);
 
         notebook.flushToFS();
     }
