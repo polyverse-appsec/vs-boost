@@ -424,21 +424,13 @@ export async function getAllProjectFiles(useRelativePaths : boolean = false) : P
         throw new Error("No workspace folders found");
     }
 
-    let searchPattern = new vscode.RelativePattern(
+    const searchPattern = new vscode.RelativePattern(
         baseWorkspace.fsPath,
         "**/**"
     );
-    let ignorePattern = buildVSCodeIgnorePattern(true);
-    boostLogging.debug(
-        "Skipping Boost Notebook files of pattern: " + ignorePattern ??
-            "none"
-    );
-    let files = await vscode.workspace.findFiles(
-        searchPattern,
-        ignorePattern
-            ? new vscode.RelativePattern(baseWorkspace, ignorePattern)
-            : ""
-    );
+    const ignorePatterns = buildVSCodeIgnorePattern(baseWorkspace, true);
+    const files = await vscode.workspace.findFiles(
+        searchPattern, ignorePatterns );
 
     const paths : string[] = [];
     files.forEach((file) => {
@@ -508,11 +500,14 @@ export function updateBoostIgnoreForTarget(targetFilepath: string, absolutePath:
     boostLogging.info(`${targetRelativePath} has been added to ${boostignoreFile.fsPath}`, false);
 }
 
-export function buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true): string | undefined {
+export function buildVSCodeIgnorePattern(
+    targetFolder: vscode.Uri,
+    ignoreBoostFolder: boolean = true): vscode.RelativePattern | null {
+
     let workspaceFolder : vscode.Uri | undefined = vscode.workspace.workspaceFolders?.[0]?.uri;
     // if no workspace root folder, bail
     if (!workspaceFolder) {
-        return undefined;
+        return null;
     }
 
     // read the .vscodeignore file
@@ -521,7 +516,7 @@ export function buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true): str
 
     const boostIgnoreFile = getBoostIgnoreFile();
     if (!boostIgnoreFile) {
-        return undefined;
+        return null;
     }
     patterns = patterns.concat(_extractIgnorePatternsFromFile(boostIgnoreFile.fsPath));
 
@@ -629,8 +624,12 @@ export function buildVSCodeIgnorePattern(ignoreBoostFolder: boolean = true): str
     patterns = patterns.concat(binaryFilePatterns, textFilePatterns, potentiallyUsefulTextFiles);    
   
     // const exclude = '{**/node_modules/**,**/bower_components/**}';
-    const excludePatterns = "{" + patterns.join(',') + "}";
-    return excludePatterns;
+    const ignorePatterns = "{" + patterns.join(',') + "}";
+    boostLogging.debug(
+        "Skipping source files of pattern: " + (ignorePatterns ?? "none")
+    );
+
+    return new vscode.RelativePattern(targetFolder, ignorePatterns);
 }
 
 function _extractIgnorePatternsFromFile(ignoreFile : string) : string[] {

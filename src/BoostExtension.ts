@@ -473,20 +473,13 @@ export class BoostExtension {
         boostProjectData: BoostProjectData,
         deepScan: boolean = false
     ): Promise<boostnb.BoostNotebook[]> {
-        let searchPattern = new vscode.RelativePattern(
+        const searchPattern = new vscode.RelativePattern(
             workspaceFolder.fsPath,
             "**/*.*"
         );
-        let ignorePattern = buildVSCodeIgnorePattern();
-        boostLogging.debug(
-            "Skipping source files of pattern: " + (ignorePattern ?? "none")
-        );
+        const ignorePatterns = buildVSCodeIgnorePattern(workspaceFolder);
         const files = await vscode.workspace.findFiles(
-            searchPattern,
-            ignorePattern
-                ? new vscode.RelativePattern(workspaceFolder, ignorePattern)
-                : ""
-        );
+            searchPattern, ignorePatterns);
 
         let total = 0;
         let exists = 0;
@@ -1177,20 +1170,13 @@ export class BoostExtension {
             baseWorkspace = uri;
         }
         // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
-        let searchPattern = new vscode.RelativePattern(
+        const searchPattern = new vscode.RelativePattern(
             targetFolder.fsPath,
             "**/*.*"
         );
-        let ignorePattern = buildVSCodeIgnorePattern();
-        boostLogging.debug(
-            "Skipping source files of pattern: " + ignorePattern ?? "none"
-        );
-        let files = await vscode.workspace.findFiles(
-            searchPattern,
-            ignorePattern
-                ? new vscode.RelativePattern(targetFolder, ignorePattern)
-                : ""
-        );
+        const ignorePatterns = buildVSCodeIgnorePattern(targetFolder);
+        const files = await vscode.workspace.findFiles(
+            searchPattern, ignorePatterns );
 
         boostLogging.debug(
             "Analyzing " + files.length + " files in folder: " + targetFolder
@@ -2304,20 +2290,13 @@ export class BoostExtension {
             baseWorkspace = uri;
         }
         // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
-        let searchPattern = new vscode.RelativePattern(
+        const searchPattern = new vscode.RelativePattern(
             targetFolder.fsPath,
             "**/*.*"
         );
-        let ignorePattern = buildVSCodeIgnorePattern();
-        boostLogging.debug(
-            "Skipping source files of pattern: " + (ignorePattern ?? "none")
-        );
-        let files = await vscode.workspace.findFiles(
-            searchPattern,
-            ignorePattern
-                ? new vscode.RelativePattern(targetFolder, ignorePattern)
-                : ""
-        );
+        const ignorePatterns = buildVSCodeIgnorePattern(targetFolder);
+        const files = await vscode.workspace.findFiles(
+            searchPattern, ignorePatterns );
 
         boostLogging.debug(
             "Analyzing " + files.length + " files in folder: " + targetFolder
@@ -2795,21 +2774,13 @@ export class BoostExtension {
             baseWorkspace = folderUri;
         }
         // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
-        let searchPattern = new vscode.RelativePattern(
+        const searchPattern = new vscode.RelativePattern(
             targetFolder.fsPath,
             "**/*" + boostnb.NOTEBOOK_EXTENSION
         );
-        let ignorePattern = buildVSCodeIgnorePattern(false);
-        boostLogging.debug(
-            "Skipping Boost Notebook files of pattern: " + ignorePattern ??
-                "none"
-        );
-        let files = await vscode.workspace.findFiles(
-            searchPattern,
-            ignorePattern
-                ? new vscode.RelativePattern(targetFolder, ignorePattern)
-                : ""
-        );
+        const ignorePatterns = buildVSCodeIgnorePattern(targetFolder, false);
+        const files = await vscode.workspace.findFiles(
+            searchPattern, ignorePatterns );
 
         boostLogging.debug(
             "Converting " + files.length + " files in folder: " + targetFolder
