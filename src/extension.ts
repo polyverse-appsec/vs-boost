@@ -484,8 +484,12 @@ export function updateBoostIgnoreForTarget(targetFilepath: string, absolutePath:
         targetFilepath = vscode.Uri.joinPath(workspaceRoot as vscode.Uri, targetFilepath).fsPath;
     }
 
+    if (!fs.existsSync(targetFilepath)) {
+        boostLogging.warn(`Unable to determine info of file: ${targetFilepath}`, false);
+        return;
+    }
     // search if the new target is already excluded in the existing patterns
-    if (patterns.some(pattern => micromatch.isMatch(targetRelativePath, pattern))) {
+    else if (patterns.some(pattern => micromatch.isMatch(targetRelativePath, pattern))) {
         boostLogging.warn(`${targetRelativePath} is already excluded in ${boostignoreFile.fsPath}`, false);
         return;
     }
