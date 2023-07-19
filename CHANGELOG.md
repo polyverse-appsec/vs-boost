@@ -13,6 +13,7 @@ Polyverse Boost Automatic Application Modernization
 - Initial Blueprinting of your software project will automatically generate an analysis exclusion list (aka .boostignore) file based on the files in your project and your project type
 - Analysis Errors are now loaded immediately on Project/Folder Load, without manually opening the Notebook with the errors
 - Source-level Errors are loaded in Diagnostic Collections "Problems" for each area - e.g. "Security", "Data Compliance", "Performance"
+- Added support for 'Vue' Framework source files - including tokenization and File Explorer Context Menus
 
 ### Bug Fixes
 - Restore Summarization of all analysis across project in Boost UX tab

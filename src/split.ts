@@ -65,6 +65,7 @@ function getVSCodeLanguageId(filename: string): string {
         "ts": "typescript",
         "coffee": "coffeescript",
         "html": "html",
+        "vue": "html",
         "css": "css",
         "json": "json",
         "xml": "xml",
