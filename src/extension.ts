@@ -648,13 +648,19 @@ async function createEmptyNotebook(filename : vscode.Uri, useUINotebook : boolea
     // if no UI, then create BoostNotebook directly and return it
     if (!useUINotebook) {
         const boostNb = new boostnb.BoostNotebook();
-        boostNb.metadata = { defaultDir : BoostConfiguration.defaultDir};
+        boostNb.metadata = {
+            defaultDir : BoostConfiguration.defaultDir,
+            sourceFile : './'
+        };
         return boostNb;
     }
 
     // otherwise, create a VSC notebook document and return it
     const notebookData: vscode.NotebookData = {
-        metadata: { defaultDir : BoostConfiguration.defaultDir},
+        metadata: {
+            defaultDir : BoostConfiguration.defaultDir,
+            sourceFile : './'
+        },
         cells: []
     };
     const dummmyToken = new vscode.CancellationTokenSource().token;
@@ -724,6 +730,13 @@ export async function getOrCreateBlueprintUri(context: vscode.ExtensionContext, 
     const absoluteFilePath = path.resolve(workspacePath, filePath);
     const uri = vscode.Uri.file(absoluteFilePath);
     if (fs.existsSync(absoluteFilePath)) {
+        const existingNotebook = new boostnb.BoostNotebook();
+        existingNotebook.load(absoluteFilePath);
+        // repair the sourceFile metadata if missing
+        if (existingNotebook.metadata['sourceFile'] === undefined) {
+            existingNotebook.updateMetadata('sourceFile', './');
+            existingNotebook.flushToFS();
+        }
         return uri;
     }
 
@@ -741,6 +754,7 @@ export async function getOrCreateBlueprintUri(context: vscode.ExtensionContext, 
     //  project summary is in a notebook form, we need to convert it into a new notebook with a Blueprint summary cell
 
     const newBlueprintSummaryNotebook : boostnb.BoostNotebook = await createEmptyNotebook(uri, false) as boostnb.BoostNotebook;
+    newBlueprintSummaryNotebook.updateMetadata('sourceFile', './');
 
     const newBlueprintCell = new boostnb.BoostNotebookCell(boostnb.NotebookCellKind.Markup, "", "markdown");
     newBlueprintCell.initializeMetadata({"id": newBlueprintCell.id, "outputType": ControllerOutputType.blueprint});
