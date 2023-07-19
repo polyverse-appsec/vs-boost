@@ -183,7 +183,8 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
             draftResponse.details.recommendedSampleSourceFile);
         const normalizedFullSourcePath = path.normalize(fullSourcePath);
 
-        const sampleCode = !fs.existsSync(fullSourcePath)?"":fs.readFileSync(normalizedFullSourcePath, 'utf8');
+        const sampleCode = !(draftResponse.details.recommendedSampleSourceFile && fs.existsSync(fullSourcePath))?
+            "":fs.readFileSync(normalizedFullSourcePath, 'utf8');
 
         const fullProjectFilePath = path.join(
             vscode.workspace.workspaceFolders![0].uri.fsPath,
@@ -193,7 +194,7 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
             "recommendedListOfFilesToExcludeFromAnalysis": draftResponse.details.recommendedListOfFilesToExcludeFromAnalysis
         };
         const normalizedFullProjectFilePath = path.normalize(fullProjectFilePath);
-        const projectFileContents = !fs.existsSync(fullProjectFilePath)?"":fs.readFileSync(normalizedFullProjectFilePath, 'utf8');
+        const projectFileContents = !(draftResponse.details.recommendedProjectDeploymentFile && fs.existsSync(fullProjectFilePath))?"":fs.readFileSync(normalizedFullProjectFilePath, 'utf8');
 
         const filteredFiles = files.filter(item => !draftResponse.details.recommendedListOfFilesToExcludeFromAnalysis?.includes(item));
 

@@ -21,6 +21,7 @@ Polyverse Boost Automatic Application Modernization
 - Fixed issue where only latest cell being analyzed has Diagnostic Problems shown in Problems tab
 - Fixed issue where Diagnostic Problems in deleted cells were not removed
 - Fixed issue with Quick Blueprint failing via UI when Boost Summary file is created via UI
+- Blueprinting resilience to empty projects
 
 ## Version 1.1.0: July 12th, 2023
 
