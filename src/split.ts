@@ -290,22 +290,18 @@ function parseBracketyLanguage(
     let currentFunction = "";
     let depth = 0;
     let inFunction = false;
-    let lineNumber = 0;
+    let startLineNumber = 0;
 
-    for (const line of lines) {
-        lineNumber++;
+    for (let lineNumber = 0; lineNumber < lines.length; lineNumber++) {
+        const line = lines[lineNumber];
         const trimmedLine = line.trim();
 
         if (trimmedLine.startsWith(functionName + " ")) {
-            if (!inFunction) {
+            if (!inFunction && depth === 0) {
                 inFunction = true;
-                if (currentFunction && currentFunction.trim() !== "") {
-                    functions.push(currentFunction);
-                    currentFunction = "";
-                }
-                lineNumbers.push(lineNumber); // store the line number where the function starts
+                startLineNumber = lineNumber + 1; // store the line number where the function starts
                 currentFunction += line;
-            } else {
+            } else if (inFunction) {
                 currentFunction += "\n" + line;
             }
         } else if (inFunction) {
@@ -321,25 +317,21 @@ function parseBracketyLanguage(
             }
         }
 
-        // If depth is 0 and we are in a function, push the currentFunction and reset it
+        // If depth is 0 and we are in a function, push the currentFunction and its start line number and reset it
         if (depth === 0 && inFunction) {
             if (currentFunction.trim() !== "") {
                 functions.push(currentFunction);
+                lineNumbers.push(startLineNumber);
                 currentFunction = "";
                 inFunction = false;
             }
         }
     }
 
-    // Push any remaining function
-    if (currentFunction.trim() !== "") {
+    // Push any remaining function and its start line number
+    if (inFunction && currentFunction.trim() !== "") {
         functions.push(currentFunction);
-    }
-
-    // If the last line ends a function but it hasn't been pushed yet
-    if (depth === 0 && inFunction && currentFunction.trim() !== "") {
-        functions.push(currentFunction);
-        inFunction = false;
+        lineNumbers.push(startLineNumber);
     }
 
     return [functions, lineNumbers];
