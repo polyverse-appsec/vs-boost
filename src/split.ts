@@ -336,6 +336,12 @@ function parseBracketyLanguage(
         functions.push(currentFunction);
     }
 
+    // If the last line ends a function but it hasn't been pushed yet
+    if (depth === 0 && inFunction && currentFunction.trim() !== "") {
+        functions.push(currentFunction);
+        inFunction = false;
+    }
+
     return [functions, lineNumbers];
 }
 
