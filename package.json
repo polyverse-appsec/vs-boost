@@ -408,6 +408,7 @@
         "publish": "vsce publish --allow-missing-repository --baseContentUrl \"https://polyverse.com\" --baseImagesUrl \"https://polyverse.com/images\""
     },
     "devDependencies": {
+        "@types/chai": "^4.3.5",
         "@types/glob": "^8.1.0",
         "@types/lodash": "4.14.192",
         "@types/marked": "^4.3.0",
