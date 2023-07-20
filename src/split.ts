@@ -5,101 +5,6 @@ type CodeParser = (code: string) => [string[], number[]];
 
 const enc = getEncoding("cl100k_base");
 const maxTokenAggregationLength = 2500;
-function splitCode(
-    disaggregatedCodeSplitter: CodeParser,
-    code: string
-): [string[], number[]] {
-    const splitResults: [string[], number[]] = disaggregatedCodeSplitter(code);
-
-    const [originalStrings, lineNumbers] = splitResults;
-
-    const newSplitResults: [string[], number[]] = [[], []];
-    let currentString = "";
-    let currentLineNumber = 0; // Initialize with 0
-
-    for (let i = 0; i < originalStrings.length; i++) {
-        const originalString = originalStrings[i];
-        const originalLineNumber = lineNumbers[i];
-        const aggregatedString = currentString
-            ? currentString + "\n" + originalString
-            : originalString;
-
-        const tokenCount = enc.encode(aggregatedString).length;
-        if (tokenCount <= maxTokenAggregationLength) {
-            if (currentString === "") {
-                currentLineNumber = originalLineNumber; // Update current line number for the first string
-            }
-            currentString = aggregatedString;
-        } else {
-            newSplitResults[0].push(currentString);
-            newSplitResults[1].push(currentLineNumber);
-
-            currentString = originalString;
-            currentLineNumber = originalLineNumber;
-
-            const currentStringTokenCount = enc.encode(currentString).length;
-            if (currentStringTokenCount > maxTokenAggregationLength) {
-                newSplitResults[0].push(currentString);
-                newSplitResults[1].push(originalLineNumber);
-                currentString = "";
-                currentLineNumber = originalLineNumber;
-            }
-        }
-    }
-
-    if (currentString) {
-        newSplitResults[0].push(currentString);
-        newSplitResults[1].push(currentLineNumber);
-    }
-
-    return newSplitResults;
-}
-
-function splitCodeWithoutAggregation(code: string): [string[], number[]] {
-    const chunks: string[] = [];
-    const lineNumbers: number[] = [];
-    const lines = code.split("\n");
-    let currentChunk = "";
-    let chunkStartLine = 0; // this will track the line number where each chunk starts
-    let nestingCount = 0;
-    let inNest = false;
-
-    for (let lineno = 0; lineno < lines.length; lineno++) {
-        const line = lines[lineno];
-        currentChunk += line + "\n";
-
-        const leftBraces = (line.match(/{/g) || []).length;
-        const rightBraces = (line.match(/}/g) || []).length;
-
-        if (leftBraces > 0) {
-            nestingCount += leftBraces;
-
-            if (!inNest) {
-                chunkStartLine = lineno; // a new chunk is starting here
-                inNest = true;
-            }
-        }
-
-        if (rightBraces > 0) {
-            nestingCount -= rightBraces;
-        }
-
-        if (nestingCount === 0 && currentChunk.trim() !== "" && inNest) {
-            chunks.push(currentChunk);
-            lineNumbers.push(chunkStartLine);
-            currentChunk = "";
-            inNest = false;
-        }
-    }
-
-    // add the final chunk if it exists
-    if (currentChunk.trim() !== "") {
-        chunks.push(currentChunk);
-        lineNumbers.push(chunkStartLine);
-    }
-
-    return [chunks, lineNumbers];
-}
 
 function getFileExtension(filename: string): string {
     const lastIndex = filename.lastIndexOf(".");
@@ -216,68 +121,100 @@ export function parseFunctions(
     }
 }
 
-function parsePerlFunctions(code: string): [string[], number[]] {
-    const [functions, lineNumbers] = parseBracketyLanguage(code, "sub");
-    return [functions, lineNumbers];
+function splitCode(
+    disaggregatedCodeSplitter: CodeParser,
+    code: string
+): [string[], number[]] {
+    const splitResults: [string[], number[]] = disaggregatedCodeSplitter(code);
+
+    const [originalStrings, lineNumbers] = splitResults;
+
+    const newSplitResults: [string[], number[]] = [[], []];
+    let currentString = "";
+    let currentLineNumber = 0; // Initialize with 0
+
+    for (let i = 0; i < originalStrings.length; i++) {
+        const originalString = originalStrings[i];
+        const originalLineNumber = lineNumbers[i];
+        const aggregatedString = currentString
+            ? currentString + "\n" + originalString
+            : originalString;
+
+        const tokenCount = enc.encode(aggregatedString).length;
+        if (tokenCount <= maxTokenAggregationLength) {
+            if (currentString === "") {
+                currentLineNumber = originalLineNumber; // Update current line number for the first string
+            }
+            currentString = aggregatedString;
+        } else {
+            newSplitResults[0].push(currentString);
+            newSplitResults[1].push(currentLineNumber);
+
+            currentString = originalString;
+            currentLineNumber = originalLineNumber;
+
+            const currentStringTokenCount = enc.encode(currentString).length;
+            if (currentStringTokenCount > maxTokenAggregationLength) {
+                newSplitResults[0].push(currentString);
+                newSplitResults[1].push(originalLineNumber);
+                currentString = "";
+                currentLineNumber = originalLineNumber;
+            }
+        }
+    }
+
+    if (currentString) {
+        newSplitResults[0].push(currentString);
+        newSplitResults[1].push(currentLineNumber);
+    }
+
+    return newSplitResults;
 }
 
-function parsePhpFunctions(code: string): [string[], number[]] {
-    const [functions, lineNumbers] = parseBracketyLanguage(code, "function");
-    return [functions, lineNumbers];
-}
-
-function parseVbFunctions(code: string): [string[], number[]] {
-    const lines = code.split("\n");
-    const functions: string[] = [];
+function splitCodeWithoutAggregation(code: string): [string[], number[]] {
+    const chunks: string[] = [];
     const lineNumbers: number[] = [];
-    let currentFunction = "";
-    let depth = 0;
-    let functionStartLine = 0;
+    const lines = code.split("\n");
+    let currentChunk = "";
+    let chunkStartLine = 0; // this will track the line number where each chunk starts
+    let nestingCount = 0;
+    let inNest = false;
 
     for (let lineno = 0; lineno < lines.length; lineno++) {
         const line = lines[lineno];
-        const trimmedLine = line.trim();
+        currentChunk += line + "\n";
 
-        if (
-            trimmedLine.startsWith("Function") ||
-            trimmedLine.startsWith("Sub")
-        ) {
-            depth++;
-            if (depth === 1) {
-                if (currentFunction) {
-                    functions.push(currentFunction);
-                    lineNumbers.push(functionStartLine);
-                }
-                currentFunction = line;
-                functionStartLine = lineno; // new function starts here
-            } else {
-                currentFunction += "\n" + line;
+        const leftBraces = (line.match(/{/g) || []).length;
+        const rightBraces = (line.match(/}/g) || []).length;
+
+        if (leftBraces > 0) {
+            nestingCount += leftBraces;
+
+            if (!inNest) {
+                chunkStartLine = lineno; // a new chunk is starting here
+                inNest = true;
             }
-        } else if (
-            trimmedLine.startsWith("End Function") ||
-            trimmedLine.startsWith("End Sub")
-        ) {
-            depth--;
-            currentFunction += "\n" + line;
-            if (depth === 0) {
-                functions.push(currentFunction);
-                lineNumbers.push(functionStartLine);
-                currentFunction = "";
-            }
-        } else {
-            currentFunction += "\n" + line;
+        }
+
+        if (rightBraces > 0) {
+            nestingCount -= rightBraces;
+        }
+
+        if (nestingCount === 0 && currentChunk.trim() !== "" && inNest) {
+            chunks.push(currentChunk);
+            lineNumbers.push(chunkStartLine);
+            currentChunk = "";
+            inNest = false;
         }
     }
-    if (currentFunction) {
-        functions.push(currentFunction);
-        lineNumbers.push(functionStartLine);
-    }
-    return [functions, lineNumbers];
-}
 
-function parseGoFunctions(code: string): [string[], number[]] {
-    const [functions, lineNumbers] = parseBracketyLanguage(code, "func");
-    return [functions, lineNumbers];
+    // add the final chunk if it exists
+    if (currentChunk.trim() !== "") {
+        chunks.push(currentChunk);
+        lineNumbers.push(chunkStartLine);
+    }
+
+    return [chunks, lineNumbers];
 }
 
 function parseBracketyLanguage(
@@ -334,6 +271,69 @@ function parseBracketyLanguage(
         lineNumbers.push(startLineNumber);
     }
 
+    return [functions, lineNumbers];
+}
+
+function parsePerlFunctions(code: string): [string[], number[]] {
+    const [functions, lineNumbers] = parseBracketyLanguage(code, "sub");
+    return [functions, lineNumbers];
+}
+
+function parsePhpFunctions(code: string): [string[], number[]] {
+    const [functions, lineNumbers] = parseBracketyLanguage(code, "function");
+    return [functions, lineNumbers];
+}
+function parseGoFunctions(code: string): [string[], number[]] {
+    const [functions, lineNumbers] = parseBracketyLanguage(code, "func");
+    return [functions, lineNumbers];
+}
+
+function parseVbFunctions(code: string): [string[], number[]] {
+    const lines = code.split("\n");
+    const functions: string[] = [];
+    const lineNumbers: number[] = [];
+    let currentFunction = "";
+    let depth = 0;
+    let functionStartLine = 0;
+
+    for (let lineno = 0; lineno < lines.length; lineno++) {
+        const line = lines[lineno];
+        const trimmedLine = line.trim();
+
+        if (
+            trimmedLine.startsWith("Function") ||
+            trimmedLine.startsWith("Sub")
+        ) {
+            depth++;
+            if (depth === 1) {
+                if (currentFunction) {
+                    functions.push(currentFunction);
+                    lineNumbers.push(functionStartLine);
+                }
+                currentFunction = line;
+                functionStartLine = lineno; // new function starts here
+            } else {
+                currentFunction += "\n" + line;
+            }
+        } else if (
+            trimmedLine.startsWith("End Function") ||
+            trimmedLine.startsWith("End Sub")
+        ) {
+            depth--;
+            currentFunction += "\n" + line;
+            if (depth === 0) {
+                functions.push(currentFunction);
+                lineNumbers.push(functionStartLine);
+                currentFunction = "";
+            }
+        } else {
+            currentFunction += "\n" + line;
+        }
+    }
+    if (currentFunction) {
+        functions.push(currentFunction);
+        lineNumbers.push(functionStartLine);
+    }
     return [functions, lineNumbers];
 }
 
