@@ -510,15 +510,23 @@ export function buildVSCodeIgnorePattern(
         return null;
     }
 
+    const patterns : string[] = [];
+
     // read the .vscodeignore file
     let vscignoreFile = vscode.Uri.joinPath(workspaceFolder, ".vscodeignore");
-    let patterns = _extractIgnorePatternsFromFile(vscignoreFile.fsPath);
+    const vscodeIgnorePatterns = _extractIgnorePatternsFromFile(vscignoreFile.fsPath);
+    patterns.push(...vscodeIgnorePatterns);
+
+    // read the .gitignore file
+    let gitignoreFile = vscode.Uri.joinPath(workspaceFolder, ".gitignore");
+    const gitIgnorePatterns = _extractIgnorePatternsFromFile(gitignoreFile.fsPath);
+    patterns.push(...gitIgnorePatterns);
 
     const boostIgnoreFile = getBoostIgnoreFile();
     if (!boostIgnoreFile) {
         return null;
     }
-    patterns = patterns.concat(_extractIgnorePatternsFromFile(boostIgnoreFile.fsPath));
+    patterns.concat(_extractIgnorePatternsFromFile(boostIgnoreFile.fsPath));
 
     // never include the .boost folder - since that's where we store our notebooks
     if (ignoreBoostFolder && !patterns.find((pattern) => pattern === '**/.boost/**')) {
@@ -621,7 +629,7 @@ export function buildVSCodeIgnorePattern(
         '**/*.dist',    // Often used for distribution config files
     ];          
 
-    patterns = patterns.concat(binaryFilePatterns, textFilePatterns, potentiallyUsefulTextFiles);    
+    patterns.push(...binaryFilePatterns, ...textFilePatterns, ...potentiallyUsefulTextFiles);    
   
     // const exclude = '{**/node_modules/**,**/bower_components/**}';
     const ignorePatterns = "{" + patterns.join(',') + "}";
