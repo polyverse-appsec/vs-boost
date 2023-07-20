@@ -100,7 +100,7 @@ export function parseFunctions(
     ]);
 
     const parser = cStyleLanguages.has(languageId)
-        ? splitCodeWithoutAggregation
+        ? splitCode
         : parsers[languageId];
 
     // if we have a known parser, use it
@@ -114,7 +114,7 @@ export function parseFunctions(
         // otherwise split the code based on default bracket parsing
     } else {
         const [splitCodeResult, lineNumbers] = splitCodeWithAggregation(
-            splitCodeWithoutAggregation,
+            splitCode,
             code
         );
         return [languageId, splitCodeResult, lineNumbers];
@@ -171,7 +171,7 @@ function splitCodeWithAggregation(
     return newSplitResults;
 }
 
-function splitCodeWithoutAggregation(code: string): [string[], number[]] {
+function splitCode(code: string): [string[], number[]] {
     const chunks: string[] = [];
     const lineNumbers: number[] = [];
     const lines = code.split("\n");
