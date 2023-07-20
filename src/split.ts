@@ -1,6 +1,61 @@
 import * as path from 'path';
+import { getEncoding } from 'js-tiktoken';
 
-function splitCode(code: string): [string[], number[]] {
+type CodeParser = (code: string) => [string[], number[]];
+
+const enc = getEncoding("cl100k_base");
+const maxTokenAggregationLength = 2500;
+function splitCode(
+    disaggregatedCodeSplitter: CodeParser,
+    code: string
+): [string[], number[]] {
+    const splitResults: [string[], number[]] = disaggregatedCodeSplitter(code);
+
+    const [originalStrings, lineNumbers] = splitResults;
+
+    const newSplitResults: [string[], number[]] = [[], []];
+    let currentString = "";
+    let currentLineNumber = 0; // Initialize with 0
+
+    for (let i = 0; i < originalStrings.length; i++) {
+        const originalString = originalStrings[i];
+        const originalLineNumber = lineNumbers[i];
+        const aggregatedString = currentString
+            ? currentString + "\n" + originalString
+            : originalString;
+
+        const tokenCount = enc.encode(aggregatedString).length;
+        if (tokenCount <= maxTokenAggregationLength) {
+            if (currentString === "") {
+                currentLineNumber = originalLineNumber; // Update current line number for the first string
+            }
+            currentString = aggregatedString;
+        } else {
+            newSplitResults[0].push(currentString);
+            newSplitResults[1].push(currentLineNumber);
+
+            currentString = originalString;
+            currentLineNumber = originalLineNumber;
+
+            const currentStringTokenCount = enc.encode(currentString).length;
+            if (currentStringTokenCount > maxTokenAggregationLength) {
+                newSplitResults[0].push(currentString);
+                newSplitResults[1].push(originalLineNumber);
+                currentString = "";
+                currentLineNumber = originalLineNumber;
+            }
+        }
+    }
+
+    if (currentString) {
+        newSplitResults[0].push(currentString);
+        newSplitResults[1].push(currentLineNumber);
+    }
+
+    return newSplitResults;
+}
+
+function splitCodeWithoutAggregation(code: string): [string[], number[]] {
     const chunks: string[] = [];
     const lineNumbers: number[] = [];
     const lines = code.split('\n');
@@ -116,7 +171,6 @@ function getVSCodeLanguageId(filename: string): string {
     return languageMappings[fileExtension] || "plaintext";
 }
 
-type CodeParser = (code: string) => string[];
 export function parseFunctions(filename: string, code: string): [string, string[], number[]] {
     const languageId = getVSCodeLanguageId(filename);
     const parsers: { [key: string]: (code: string) => [string[], number[]] } = {
@@ -140,12 +194,12 @@ export function parseFunctions(filename: string, code: string): [string, string[
     ]);
 
     const parser = cStyleLanguages.has(languageId)
-        ? splitCode
+        ? splitCodeWithoutAggregation
         : parsers[languageId];
 
     // if we have a known parser, use it
     if (parser) {
-        const [parsedCode, lineNumbers] = parser(code);
+        const [parsedCode, lineNumbers] = splitCode(parser, code);
         return [languageId, parsedCode, lineNumbers];
         // if the language is unknown, treat it as plaintext, and don't parse it
         //  send one big chunk and presume its small enough to be processed
@@ -153,7 +207,7 @@ export function parseFunctions(filename: string, code: string): [string, string[
         return [languageId, [code], [0]];
         // otherwise split the code based on default bracket parsing
     } else {
-        const [splitCodeResult, lineNumbers] = splitCode(code);
+        const [splitCodeResult, lineNumbers] = splitCode(splitCodeWithoutAggregation, code);
         return [languageId, splitCodeResult, lineNumbers];
     }
 }
