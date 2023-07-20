@@ -14,6 +14,7 @@ Polyverse Boost Automatic Application Modernization
 - Analysis Errors are now loaded immediately on Project/Folder Load, without manually opening the Notebook with the errors
 - Source-level Errors are loaded in Diagnostic Collections "Problems" for each area - e.g. "Security", "Data Compliance", "Performance"
 - Added support for 'Vue' Framework source files - including tokenization and File Explorer Context Menus
+- Added support .gitignore - Analysis engine will ignore project files and folders that are likely transient
 
 ### Bug Fixes
 - Restore Summarization of all analysis across project in Boost UX tab

@@ -559,6 +559,12 @@ export class BoostExtension {
                         value.onKernelProcessResponseDetails(output.metadata?.details, cell, notebook);
                     });
                 });
+
+                // build summary object/data
+//                buildIssueSummary(notebook, value.outputType);
+//                value.sourceLevelIssueCollection.forEach( (uri: vscode.Uri, diagnostics: readonly vscode.Diagnostic[], collection: vscode.DiagnosticCollection) => {
+//                    
+//                });
         });
     }
 
