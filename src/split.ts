@@ -105,7 +105,7 @@ export function parseFunctions(
 
     // if we have a known parser, use it
     if (parser) {
-        const [parsedCode, lineNumbers] = splitCode(parser, code);
+        const [parsedCode, lineNumbers] = splitCodeWithAggregation(parser, code);
         return [languageId, parsedCode, lineNumbers];
         // if the language is unknown, treat it as plaintext, and don't parse it
         //  send one big chunk and presume its small enough to be processed
@@ -113,7 +113,7 @@ export function parseFunctions(
         return [languageId, [code], [0]];
         // otherwise split the code based on default bracket parsing
     } else {
-        const [splitCodeResult, lineNumbers] = splitCode(
+        const [splitCodeResult, lineNumbers] = splitCodeWithAggregation(
             splitCodeWithoutAggregation,
             code
         );
@@ -121,11 +121,11 @@ export function parseFunctions(
     }
 }
 
-function splitCode(
-    disaggregatedCodeSplitter: CodeParser,
+function splitCodeWithAggregation(
+    splitCode: CodeParser,
     code: string
 ): [string[], number[]] {
-    const splitResults: [string[], number[]] = disaggregatedCodeSplitter(code);
+    const splitResults: [string[], number[]] = splitCode(code);
 
     const [originalStrings, lineNumbers] = splitResults;
 
