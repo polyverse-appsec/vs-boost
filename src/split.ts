@@ -1,5 +1,5 @@
-import * as path from 'path';
-import { getEncoding } from 'js-tiktoken';
+import * as path from "path";
+import { getEncoding } from "js-tiktoken";
 
 type CodeParser = (code: string) => [string[], number[]];
 
@@ -58,15 +58,15 @@ function splitCode(
 function splitCodeWithoutAggregation(code: string): [string[], number[]] {
     const chunks: string[] = [];
     const lineNumbers: number[] = [];
-    const lines = code.split('\n');
-    let currentChunk = '';
+    const lines = code.split("\n");
+    let currentChunk = "";
     let chunkStartLine = 0; // this will track the line number where each chunk starts
     let nestingCount = 0;
     let inNest = false;
 
     for (let lineno = 0; lineno < lines.length; lineno++) {
         const line = lines[lineno];
-        currentChunk += line + '\n';
+        currentChunk += line + "\n";
 
         const leftBraces = (line.match(/{/g) || []).length;
         const rightBraces = (line.match(/}/g) || []).length;
@@ -84,24 +84,22 @@ function splitCodeWithoutAggregation(code: string): [string[], number[]] {
             nestingCount -= rightBraces;
         }
 
-        if (nestingCount === 0 && currentChunk.trim() !== '' && inNest) {
+        if (nestingCount === 0 && currentChunk.trim() !== "" && inNest) {
             chunks.push(currentChunk);
             lineNumbers.push(chunkStartLine);
-            currentChunk = '';
+            currentChunk = "";
             inNest = false;
         }
     }
 
     // add the final chunk if it exists
-    if (currentChunk.trim() !== '') {
+    if (currentChunk.trim() !== "") {
         chunks.push(currentChunk);
         lineNumbers.push(chunkStartLine);
     }
 
     return [chunks, lineNumbers];
 }
-
-
 
 function getFileExtension(filename: string): string {
     const lastIndex = filename.lastIndexOf(".");
@@ -116,72 +114,75 @@ function getVSCodeLanguageId(filename: string): string {
     }
 
     const languageMappings: { [key: string]: string } = {
-        "js": "javascript",
-        "ts": "typescript",
-        "coffee": "coffeescript",
-        "html": "html",
-        "vue": "html",
-        "css": "css",
-        "json": "json",
-        "xml": "xml",
-        "xsl": "xml",
-        "xslt": "xml",
-        "md": "markdown",
-        "py": "python",
-        "c": "c",
-        "cpp": "cpp",
-        "h": "c",
-        "hpp": "cpp",
-        "cs": "csharp",
-        "java": "java",
-        "go": "go",
-        "rb": "ruby",
-        "php": "php",
-        "swift": "swift",
-        "kt": "kotlin",
-        "m": "objective-c",
-        "ps1": "powershell",
-        "pl": "perl",
-        "pm": "perl",
-        "pod": "perl",
-        "groovy": "groovy",
-        "lua": "lua",
-        "rs": "rust",
-        "sh": "shellscript",
-        "bash": "shellscript",
-        "r": "r",
-        "yml": "yaml",
-        "yaml": "yaml",
-        "fs": "fsharp",
-        "fsx": "fsharp",
-        "vb": "vb",
-        "txt": "plaintext",
-        "sql": "sql",
-        "gradle": "plaintext",
-        "csproj": "plaintext",
-        "vbproj": "plaintext",
-        "fsproj": "plaintext",
-        "sln": "plaintext",
-        "toml": "plaintext",
-        "xcodeproj": "plaintext",
-        "rakefile": "plaintext",
-        "makefile": "plaintext"
+        js: "javascript",
+        ts: "typescript",
+        coffee: "coffeescript",
+        html: "html",
+        vue: "html",
+        css: "css",
+        json: "json",
+        xml: "xml",
+        xsl: "xml",
+        xslt: "xml",
+        md: "markdown",
+        py: "python",
+        c: "c",
+        cpp: "cpp",
+        h: "c",
+        hpp: "cpp",
+        cs: "csharp",
+        java: "java",
+        go: "go",
+        rb: "ruby",
+        php: "php",
+        swift: "swift",
+        kt: "kotlin",
+        m: "objective-c",
+        ps1: "powershell",
+        pl: "perl",
+        pm: "perl",
+        pod: "perl",
+        groovy: "groovy",
+        lua: "lua",
+        rs: "rust",
+        sh: "shellscript",
+        bash: "shellscript",
+        r: "r",
+        yml: "yaml",
+        yaml: "yaml",
+        fs: "fsharp",
+        fsx: "fsharp",
+        vb: "vb",
+        txt: "plaintext",
+        sql: "sql",
+        gradle: "plaintext",
+        csproj: "plaintext",
+        vbproj: "plaintext",
+        fsproj: "plaintext",
+        sln: "plaintext",
+        toml: "plaintext",
+        xcodeproj: "plaintext",
+        rakefile: "plaintext",
+        makefile: "plaintext",
     };
 
     return languageMappings[fileExtension] || "plaintext";
 }
 
-export function parseFunctions(filename: string, code: string): [string, string[], number[]] {
+export function parseFunctions(
+    filename: string,
+    code: string
+): [string, string[], number[]] {
     const languageId = getVSCodeLanguageId(filename);
     const parsers: { [key: string]: (code: string) => [string[], number[]] } = {
-        "python": parsePythonFunctions,
-        "ruby": parseRubyFunctions,
-        "php": parsePhpFunctions,
-        "vb": parseVbFunctions,
-        "perl": parsePerlFunctions,
+        python: parsePythonFunctions,
+        ruby: parseRubyFunctions,
+        php: parsePhpFunctions,
+        vb: parseVbFunctions,
+        perl: parsePerlFunctions,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "objective-c": parseObjCMethods,
-        "go": parseGoFunctions,
+        go: parseGoFunctions,
     };
 
     const cStyleLanguages = new Set([
@@ -190,7 +191,7 @@ export function parseFunctions(filename: string, code: string): [string, string[
         "javascript",
         "typescript",
         "swift",
-        "coffeescript"
+        "coffeescript",
     ]);
 
     const parser = cStyleLanguages.has(languageId)
@@ -207,27 +208,29 @@ export function parseFunctions(filename: string, code: string): [string, string[
         return [languageId, [code], [0]];
         // otherwise split the code based on default bracket parsing
     } else {
-        const [splitCodeResult, lineNumbers] = splitCode(splitCodeWithoutAggregation, code);
+        const [splitCodeResult, lineNumbers] = splitCode(
+            splitCodeWithoutAggregation,
+            code
+        );
         return [languageId, splitCodeResult, lineNumbers];
     }
 }
 
 function parsePerlFunctions(code: string): [string[], number[]] {
-    const [functions, lineNumbers] = parseBracketyLanguage(code, 'sub');
+    const [functions, lineNumbers] = parseBracketyLanguage(code, "sub");
     return [functions, lineNumbers];
 }
 
-
 function parsePhpFunctions(code: string): [string[], number[]] {
-    const [functions, lineNumbers] = parseBracketyLanguage(code, 'function');
+    const [functions, lineNumbers] = parseBracketyLanguage(code, "function");
     return [functions, lineNumbers];
 }
 
 function parseVbFunctions(code: string): [string[], number[]] {
-    const lines = code.split('\n');
+    const lines = code.split("\n");
     const functions: string[] = [];
     const lineNumbers: number[] = [];
-    let currentFunction = '';
+    let currentFunction = "";
     let depth = 0;
     let functionStartLine = 0;
 
@@ -235,7 +238,10 @@ function parseVbFunctions(code: string): [string[], number[]] {
         const line = lines[lineno];
         const trimmedLine = line.trim();
 
-        if (trimmedLine.startsWith('Function') || trimmedLine.startsWith('Sub')) {
+        if (
+            trimmedLine.startsWith("Function") ||
+            trimmedLine.startsWith("Sub")
+        ) {
             depth++;
             if (depth === 1) {
                 if (currentFunction) {
@@ -245,18 +251,21 @@ function parseVbFunctions(code: string): [string[], number[]] {
                 currentFunction = line;
                 functionStartLine = lineno; // new function starts here
             } else {
-                currentFunction += '\n' + line;
+                currentFunction += "\n" + line;
             }
-        } else if (trimmedLine.startsWith('End Function') || trimmedLine.startsWith('End Sub')) {
+        } else if (
+            trimmedLine.startsWith("End Function") ||
+            trimmedLine.startsWith("End Sub")
+        ) {
             depth--;
-            currentFunction += '\n' + line;
+            currentFunction += "\n" + line;
             if (depth === 0) {
                 functions.push(currentFunction);
                 lineNumbers.push(functionStartLine);
-                currentFunction = '';
+                currentFunction = "";
             }
         } else {
-            currentFunction += '\n' + line;
+            currentFunction += "\n" + line;
         }
     }
     if (currentFunction) {
@@ -267,15 +276,18 @@ function parseVbFunctions(code: string): [string[], number[]] {
 }
 
 function parseGoFunctions(code: string): [string[], number[]] {
-    const [functions, lineNumbers] = parseBracketyLanguage(code, 'func');
+    const [functions, lineNumbers] = parseBracketyLanguage(code, "func");
     return [functions, lineNumbers];
 }
 
-function parseBracketyLanguage(code: string, functionName: string): [string[], number[]] {
-    const lines = code.split('\n');
+function parseBracketyLanguage(
+    code: string,
+    functionName: string
+): [string[], number[]] {
+    const lines = code.split("\n");
     const functions: string[] = [];
     const lineNumbers: number[] = [];
-    let currentFunction = '';
+    let currentFunction = "";
     let depth = 0;
     let inFunction = false;
     let lineNumber = 0;
@@ -284,43 +296,43 @@ function parseBracketyLanguage(code: string, functionName: string): [string[], n
         lineNumber++;
         const trimmedLine = line.trim();
 
-        if (trimmedLine.startsWith(functionName + ' ')) {
+        if (trimmedLine.startsWith(functionName + " ")) {
             if (!inFunction) {
                 inFunction = true;
-                if (currentFunction && currentFunction.trim() !== '') {
+                if (currentFunction && currentFunction.trim() !== "") {
                     functions.push(currentFunction);
-                    currentFunction = '';
+                    currentFunction = "";
                 }
                 lineNumbers.push(lineNumber); // store the line number where the function starts
                 currentFunction += line;
             } else {
-                currentFunction += '\n' + line;
+                currentFunction += "\n" + line;
             }
         } else if (inFunction) {
-            currentFunction += '\n' + line;
+            currentFunction += "\n" + line;
         }
 
         // Count opening and closing braces to track the depth
         for (const char of trimmedLine) {
-            if (char === '{') {
+            if (char === "{") {
                 depth++;
-            } else if (char === '}') {
+            } else if (char === "}") {
                 depth--;
             }
         }
 
         // If depth is 0 and we are in a function, push the currentFunction and reset it
         if (depth === 0 && inFunction) {
-            if (currentFunction.trim() !== '') {
+            if (currentFunction.trim() !== "") {
                 functions.push(currentFunction);
-                currentFunction = '';
+                currentFunction = "";
                 inFunction = false;
             }
         }
     }
 
     // Push any remaining function
-    if (currentFunction.trim() !== '') {
+    if (currentFunction.trim() !== "") {
         functions.push(currentFunction);
     }
 
@@ -328,10 +340,10 @@ function parseBracketyLanguage(code: string, functionName: string): [string[], n
 }
 
 function parseObjCMethods(code: string): [string[], number[]] {
-    const lines = code.split('\n');
+    const lines = code.split("\n");
     const methods: string[] = [];
     const lineNumbers: number[] = [];
-    let currentMethod = '';
+    let currentMethod = "";
     let depth = 0;
     let insideImplementation = false;
     let methodStartLine = 0;
@@ -340,7 +352,7 @@ function parseObjCMethods(code: string): [string[], number[]] {
         const line = lines[lineno];
         const trimmedLine = line.trim();
 
-        if (trimmedLine.startsWith('@implementation')) {
+        if (trimmedLine.startsWith("@implementation")) {
             insideImplementation = true;
             if (currentMethod) {
                 methods.push(currentMethod);
@@ -348,28 +360,28 @@ function parseObjCMethods(code: string): [string[], number[]] {
             }
             currentMethod = line;
             methodStartLine = lineno;
-        } else if (trimmedLine.startsWith('@end')) {
+        } else if (trimmedLine.startsWith("@end")) {
             insideImplementation = false;
-            currentMethod += '\n' + line;
+            currentMethod += "\n" + line;
             methods.push(currentMethod);
             lineNumbers.push(methodStartLine);
-            currentMethod = '';
+            currentMethod = "";
         } else if (insideImplementation) {
-            if (trimmedLine.startsWith('-') && depth === 0) {
+            if (trimmedLine.startsWith("-") && depth === 0) {
                 if (currentMethod) {
                     methods.push(currentMethod);
                     lineNumbers.push(methodStartLine);
                 }
                 methodStartLine = lineno;
             }
-            currentMethod += '\n' + line;
-            if (line.includes('{')) {
+            currentMethod += "\n" + line;
+            if (line.includes("{")) {
                 depth++;
-            } else if (line.includes('}')) {
+            } else if (line.includes("}")) {
                 depth--;
             }
         } else {
-            currentMethod += '\n' + line;
+            currentMethod += "\n" + line;
         }
     }
     if (currentMethod) {
@@ -380,14 +392,15 @@ function parseObjCMethods(code: string): [string[], number[]] {
 }
 
 function parseRubyFunctions(code: string): [string[], number[]] {
-    const lines = code.split('\n');
+    const lines = code.split("\n");
     const blocks: string[] = [];
     const lineNumbers: number[] = [];
-    let currentBlock = '';
+    let currentBlock = "";
     let depth = 0;
     let blockStartLine = 0;
 
-    const blockStartKeywords = /^(def|class|module|if|elsif|unless|while|until|for|case|begin|do)\b/;
+    const blockStartKeywords =
+        /^(def|class|module|if|elsif|unless|while|until|for|case|begin|do)\b/;
     const blockEndKeyword = /^end\b/;
 
     for (let lineno = 0; lineno < lines.length; lineno++) {
@@ -403,20 +416,20 @@ function parseRubyFunctions(code: string): [string[], number[]] {
                 currentBlock = line;
                 blockStartLine = lineno;
             } else {
-                currentBlock += '\n' + line;
+                currentBlock += "\n" + line;
             }
         } else if (blockEndKeyword.test(trimmedLine)) {
             depth--;
             if (depth === 0) {
-                currentBlock += '\n' + line;
+                currentBlock += "\n" + line;
                 blocks.push(currentBlock);
                 lineNumbers.push(blockStartLine);
-                currentBlock = '';
+                currentBlock = "";
             } else {
-                currentBlock += '\n' + line;
+                currentBlock += "\n" + line;
             }
         } else {
-            currentBlock += '\n' + line;
+            currentBlock += "\n" + line;
         }
     }
 
@@ -429,15 +442,15 @@ function parseRubyFunctions(code: string): [string[], number[]] {
 }
 
 function parsePythonFunctions(code: string): [string[], number[]] {
-    const lines = code.split('\n');
+    const lines = code.split("\n");
     const functions: string[] = [];
     const lineNumbers: number[] = [];
-    let currentFunction = '';
+    let currentFunction = "";
     let functionStartLine = 0;
 
     for (let lineno = 0; lineno < lines.length; lineno++) {
         const line = lines[lineno];
-        if (line.trim().startsWith('def ')) {
+        if (line.trim().startsWith("def ")) {
             if (currentFunction) {
                 functions.push(currentFunction);
                 lineNumbers.push(functionStartLine);
@@ -445,7 +458,7 @@ function parsePythonFunctions(code: string): [string[], number[]] {
             currentFunction = line;
             functionStartLine = lineno;
         } else {
-            currentFunction += '\n' + line;
+            currentFunction += "\n" + line;
         }
     }
 
