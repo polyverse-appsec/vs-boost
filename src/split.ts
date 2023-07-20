@@ -198,6 +198,9 @@ function splitCode(code: string): [string[], number[]] {
 
         if (rightBraces > 0) {
             nestingCount -= rightBraces;
+            if (nestingCount < 0) {
+                nestingCount = 0; // reset to 0 when it becomes negative
+            }
         }
 
         if (nestingCount === 0 && currentChunk.trim() !== "" && inNest) {
