@@ -556,6 +556,10 @@ export class BoostExtension {
                 }
                 cells.forEach((cell) => {
                     cell.outputs.forEach((output) => {
+                        if (output.metadata?.outputType !== value.outputType) {
+                            return;
+                        }
+                        
                         value.onKernelProcessResponseDetails(output.metadata?.details, cell, notebook);
                     });
                 });
