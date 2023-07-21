@@ -68,6 +68,7 @@ import {
     findCellByKernel,
     cleanCellOutput,
     boostActivityBarId,
+    fullPathFromSourceFile
 } from "./extension";
 import { BoostUserAnalysisType } from "./userAnalysisType";
 
@@ -203,19 +204,21 @@ export class BoostExtension {
 
     private _setupBoostProjectDataLifecycle(context: vscode.ExtensionContext) {
         let disposable = vscode.workspace.onDidChangeWorkspaceFolders(
-            () => {
-                if (this) {
-                    this.configurationChanged();
+            (e: vscode.WorkspaceFoldersChangeEvent) => {
+                if (!this) { // in case we fire during extension startup constructor
+                    return;
                 }
+                this.configurationChanged();
             }
         );
         context.subscriptions.push(disposable);
 
         disposable = vscode.workspace.onDidChangeConfiguration(
-            () => {
-                if (this) {
-                    this.configurationChanged();
+            (e: vscode.ConfigurationChangeEvent) => {
+                if (!this) { // in case we fire during extension startup constructor
+                    return;
                 }
+                this.configurationChanged();
             }
         );
         context.subscriptions.push(disposable);
@@ -229,7 +232,7 @@ export class BoostExtension {
         let disposable = vscode.workspace.onDidChangeNotebookDocument(
             (event: vscode.NotebookDocumentChangeEvent) => {
 
-                if (!this) {
+                if (!this) { // in case we fire during extension startup constructor
                     return;
                 }
 
@@ -552,7 +555,22 @@ export class BoostExtension {
                 }
                 const cells = usingBoostNotebook?notebook.cells:notebook.getCells();
                 if (deleteExisting) {
-                    value.sourceLevelIssueCollection.delete(usingBoostNotebook?vscode.Uri.parse(notebook.fsPath):notebook.uri);
+                    value.sourceLevelIssueCollection.delete(vscode.Uri.parse(notebook.metadata.sourceFile as string));
+                } else {
+                    // we're going to assume if we're just refreshing - not a full load/reset
+                    // then the in-memory diagnostics are already up to date via the functions themselves
+
+                    // if no source file, then diagnostics won't be useful, as we don't have source data
+                    if (!notebook.metadata.sourceFile) {
+                        return;
+                    }
+                    const sourceFile = vscode.Uri.parse(fullPathFromSourceFile(notebook.metadata.sourceFile).fsPath);
+
+                    // so if we have any data in the existing collection, there's no need to run again
+                    const issues = value.sourceLevelIssueCollection.get(sourceFile);
+                    if (issues && issues.length > 0) {
+                        return;
+                    }
                 }
                 cells.forEach((cell) => {
                     cell.outputs.forEach((output) => {
