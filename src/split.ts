@@ -309,10 +309,10 @@ function parseVbFunctions(code: string): [string[], number[]] {
             if (depth === 1) {
                 if (currentFunction) {
                     functions.push(currentFunction);
-                    lineNumbers.push(functionStartLine);
+                    lineNumbers.push(functionStartLine + 1);
+                    functionStartLine = lineno + 1;
                 }
                 currentFunction = line;
-                functionStartLine = lineno; // new function starts here
             } else {
                 currentFunction += "\n" + line;
             }
@@ -324,7 +324,8 @@ function parseVbFunctions(code: string): [string[], number[]] {
             currentFunction += "\n" + line;
             if (depth === 0) {
                 functions.push(currentFunction);
-                lineNumbers.push(functionStartLine);
+                lineNumbers.push(functionStartLine + 1);
+                functionStartLine = lineno + 1;
                 currentFunction = "";
             }
         } else {
@@ -333,7 +334,7 @@ function parseVbFunctions(code: string): [string[], number[]] {
     }
     if (currentFunction) {
         functions.push(currentFunction);
-        lineNumbers.push(functionStartLine);
+        lineNumbers.push(functionStartLine + 1);
     }
     return [functions, lineNumbers];
 }
@@ -355,23 +356,24 @@ function parseObjCMethods(code: string): [string[], number[]] {
             insideImplementation = true;
             if (currentMethod) {
                 methods.push(currentMethod);
-                lineNumbers.push(methodStartLine);
+                lineNumbers.push(methodStartLine + 1);
+                methodStartLine = lineno + 1;
             }
             currentMethod = line;
-            methodStartLine = lineno;
         } else if (trimmedLine.startsWith("@end")) {
             insideImplementation = false;
             currentMethod += "\n" + line;
             methods.push(currentMethod);
-            lineNumbers.push(methodStartLine);
+            lineNumbers.push(methodStartLine + 1);
+            methodStartLine = lineno + 1;
             currentMethod = "";
         } else if (insideImplementation) {
             if (trimmedLine.startsWith("-") && depth === 0) {
                 if (currentMethod) {
                     methods.push(currentMethod);
-                    lineNumbers.push(methodStartLine);
+                    lineNumbers.push(methodStartLine + 1);
+                    methodStartLine = lineno + 1;
                 }
-                methodStartLine = lineno;
             }
             currentMethod += "\n" + line;
             if (line.includes("{")) {
@@ -385,7 +387,7 @@ function parseObjCMethods(code: string): [string[], number[]] {
     }
     if (currentMethod) {
         methods.push(currentMethod);
-        lineNumbers.push(methodStartLine);
+        lineNumbers.push(methodStartLine + 1);
     }
     return [methods, lineNumbers];
 }
@@ -410,10 +412,10 @@ function parseRubyFunctions(code: string): [string[], number[]] {
             if (depth === 1) {
                 if (currentBlock) {
                     blocks.push(currentBlock);
-                    lineNumbers.push(blockStartLine);
+                    lineNumbers.push(blockStartLine + 1);
+                    blockStartLine = lineno + 1;
                 }
                 currentBlock = line;
-                blockStartLine = lineno;
             } else {
                 currentBlock += "\n" + line;
             }
@@ -422,7 +424,8 @@ function parseRubyFunctions(code: string): [string[], number[]] {
             if (depth === 0) {
                 currentBlock += "\n" + line;
                 blocks.push(currentBlock);
-                lineNumbers.push(blockStartLine);
+                lineNumbers.push(blockStartLine + 1);
+                blockStartLine = lineno + 1;
                 currentBlock = "";
             } else {
                 currentBlock += "\n" + line;
@@ -434,7 +437,7 @@ function parseRubyFunctions(code: string): [string[], number[]] {
 
     if (currentBlock) {
         blocks.push(currentBlock);
-        lineNumbers.push(blockStartLine);
+        lineNumbers.push(blockStartLine + 1);
     }
 
     return [blocks, lineNumbers];
@@ -452,10 +455,10 @@ function parsePythonFunctions(code: string): [string[], number[]] {
         if (line.trim().startsWith("def ")) {
             if (currentFunction) {
                 functions.push(currentFunction);
-                lineNumbers.push(functionStartLine);
+                lineNumbers.push(functionStartLine + 1);
+                functionStartLine = lineno + 1;
             }
             currentFunction = line;
-            functionStartLine = lineno;
         } else {
             currentFunction += "\n" + line;
         }
@@ -463,7 +466,7 @@ function parsePythonFunctions(code: string): [string[], number[]] {
 
     if (currentFunction) {
         functions.push(currentFunction);
-        lineNumbers.push(functionStartLine);
+        lineNumbers.push(functionStartLine + 1);
     }
 
     return [functions, lineNumbers];
