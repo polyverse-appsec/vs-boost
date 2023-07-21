@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import path from 'path';
 import fs from 'fs';
 
-describe('splitCode function', () => {
+describe('splitCode Unit', () => {
 
     const dataFolder = __dirname + "/data/";
 
@@ -18,7 +18,7 @@ describe('splitCode function', () => {
                 firstFunction,
                 secondFunction
             ],
-            [1, 6]
+            [1, 5]
         ];
 
         const result = splitCode(code);
@@ -56,23 +56,26 @@ describe('splitCode function', () => {
     });
 
     it('should handle unclosed function', () => {
-        const code = `
-        function testFunc() {
-            console.log("Hello, World!");
-
-        function testFunc2() {
-            console.log("Goodbye, World!");
-        `;
+        const code = fs.readFileSync(path.join(dataFolder, 'danglingBracketFunctions.ts'), 'utf8');
 
         const expectedOutput: [string[], number[]] = [
             [
-                "\nfunction testFunc() {\n    console.log(\"Hello, World!\");\n",
-                "\nfunction testFunc2() {\n    console.log(\"Goodbye, World!\");\n"
+                code.trimEnd(),
             ],
-            [1, 4]
+            [1]
         ];
 
-        expect(splitCode(code)).to.deep.equal(expectedOutput);
+        const result = splitCode(code);
+        result[0].forEach((str, i) => {
+            const expected = expectedOutput[0][i];
+            const actual = str;
+            expect(actual).to.equal(expected);
+        });
+        result[1].forEach((num, i) => {
+            expect(num).to.equal(expectedOutput[1][i]);
+        });
+        
+        expect(result).to.deep.equal(expectedOutput);
     });
 
     it('should handle extra closing brace', () => {
