@@ -3,7 +3,7 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 1.1.1: July 19th, 2023
+## Version 1.1.1: July 21st, 2023
 
 ### New Features
 - N/A
@@ -24,6 +24,7 @@ Polyverse Boost Automatic Application Modernization
 - Fixed issue with Quick Blueprint failing via UI when Boost Summary file is created via UI
 - Blueprinting resilience to empty projects
 - Fix source line offset in Diagnostic Problems
+- Improved source line matching for code parsing into Cells
 
 ## Version 1.1.0: July 12th, 2023
 

@@ -193,7 +193,6 @@ export function splitCode(code: string): [string[], number[]] {
             nestingCount += leftBraces;
 
             if (!inNest) {
-                chunkStartLine = lineno; // a new chunk is starting here
                 inNest = true;
             }
         }
@@ -207,7 +206,8 @@ export function splitCode(code: string): [string[], number[]] {
 
         if (nestingCount === 0 && currentChunk.trim() !== "" && inNest) {
             chunks.push(currentChunk);
-            lineNumbers.push(chunkStartLine);
+            lineNumbers.push(chunkStartLine + 1);
+            chunkStartLine = lineno + 1;
             currentChunk = "";
             inNest = false;
         }
@@ -216,7 +216,7 @@ export function splitCode(code: string): [string[], number[]] {
     // add the final chunk if it exists
     if (currentChunk.trim() !== "") {
         chunks.push(currentChunk);
-        lineNumbers.push(chunkStartLine);
+        lineNumbers.push(chunkStartLine + 1);
     }
 
     return [chunks, lineNumbers];
@@ -241,13 +241,10 @@ function parseBracketyLanguage(
         if (trimmedLine.startsWith(functionName + " ")) {
             if (!inFunction && depth === 0) {
                 inFunction = true;
-                startLineNumber = lineNumber + 1; // store the line number where the function starts
-                currentFunction += line;
-            } else if (inFunction) {
-                currentFunction += "\n" + line;
             }
+            currentFunction += line + "\n";
         } else if (inFunction) {
-            currentFunction += "\n" + line;
+            currentFunction += line + "\n";
         }
 
         // Count opening and closing braces to track the depth
@@ -256,24 +253,23 @@ function parseBracketyLanguage(
                 depth++;
             } else if (char === "}") {
                 depth--;
-            }
-        }
-
-        // If depth is 0 and we are in a function, push the currentFunction and its start line number and reset it
-        if (depth === 0 && inFunction) {
-            if (currentFunction.trim() !== "") {
-                functions.push(currentFunction);
-                lineNumbers.push(startLineNumber);
-                currentFunction = "";
-                inFunction = false;
+                if (depth === 0 && inFunction) {
+                    if (currentFunction !== "") {
+                        functions.push(currentFunction);
+                        lineNumbers.push(startLineNumber + 1);
+                        startLineNumber = lineNumber + 1;
+                        currentFunction = "";
+                        inFunction = false;
+                    }
+                }
             }
         }
     }
 
     // Push any remaining function and its start line number
-    if (inFunction && currentFunction.trim() !== "") {
+    if (inFunction && currentFunction !== "") {
         functions.push(currentFunction);
-        lineNumbers.push(startLineNumber);
+        lineNumbers.push(startLineNumber + 1);
     }
 
     return [functions, lineNumbers];
