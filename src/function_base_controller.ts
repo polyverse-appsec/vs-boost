@@ -105,11 +105,11 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
             let calculatedLineNumber = lineNumberBase + bug.lineNumber - 1;
         
             if (calculatedLineNumber < 0) {
-                boostLogging.log(`${this.id} - Diagnostic Problem reported in negative line number ` +
+                boostLogging.debug(`${this.id} - Diagnostic Problem reported in negative line number ` +
                                  `(lineNumberBase=${lineNumberBase}, bug line=${bug.lineNumber}). Setting to 1.`);
                 calculatedLineNumber = 1;
             } else if (calculatedLineNumber > lineNumberBase + linesOfText) {
-                boostLogging.log(`${this.id} - Diagnostic Problem reported in line number greater than the number of lines in the cell ` +
+                boostLogging.debug(`${this.id} - Diagnostic Problem reported in line number greater than the number of lines in the cell ` +
                                  `(lineNumberBase=${lineNumberBase}, bug line=${bug.lineNumber}).`);
             }
         
