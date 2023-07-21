@@ -102,18 +102,16 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
 
         let diagnostics: vscode.Diagnostic[] = [];
         details.forEach((bug: any, _: number) => {
-            let calculatedLineNumber = lineNumberBase + bug.lineNumber - 1;
-        
-            if (calculatedLineNumber < 0) {
+            if (bug.lineNumber < 1) {
                 boostLogging.debug(`${this.id} - Diagnostic Problem reported in negative line number ` +
                                  `(lineNumberBase=${lineNumberBase}, bug line=${bug.lineNumber}). Setting to 1.`);
-                calculatedLineNumber = 1;
-            } else if (calculatedLineNumber > lineNumberBase + linesOfText) {
+                bug.lineNumber = 1;
+            } else if (bug.lineNumber > lineNumberBase + linesOfText) {
                 boostLogging.debug(`${this.id} - Diagnostic Problem reported in line number greater than the number of lines in the cell ` +
                                  `(lineNumberBase=${lineNumberBase}, bug line=${bug.lineNumber}).`);
             }
         
-            let range = new vscode.Range(calculatedLineNumber, 0, calculatedLineNumber, 0);
+            let range = new vscode.Range(bug.lineNumber, 0, bug.lineNumber, 0);
             let diagnostic = new vscode.Diagnostic(range, `Severity: ${bug.severity}\n${bug.description}`, vscode.DiagnosticSeverity.Warning);
             diagnostics.push(diagnostic);
         });
