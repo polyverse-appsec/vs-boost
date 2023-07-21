@@ -244,7 +244,7 @@ export class BoostExtension {
                     });
 
                 // if no content changes we care about, exit
-                } else if (!event.contentChanges) {
+                } else if (!event.contentChanges || event.contentChanges.length === 0) {
                     return;
                 }
 
@@ -253,7 +253,7 @@ export class BoostExtension {
                     index: number, array: readonly vscode.NotebookDocumentContentChange[]) => {
                         return value.removedCells && value.removedCells.length > 0;
                     });
-                if (removedCells) {
+                if (removedCells && removedCells.length > 0) {
                     this.loadAllSourceLevelErrorsFromNotebook(event.notebook, true);
                 }
             }
