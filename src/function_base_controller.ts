@@ -90,15 +90,19 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
 
         const usingBoostNotebook = 'value' in cell;
     
-        let sourceFile;
+        let sourceFile : string;
         if (!notebook.metadata.sourceFile) {
             //if there is no source file, this was a new notebook created in memory. 
             sourceFile = notebook.uri.fsPath;
         } else {
-            sourceFile = fullPathFromSourceFile(notebook.metadata.sourceFile);
+            sourceFile = fullPathFromSourceFile(notebook.metadata.sourceFile).fsPath;
         }
         const lineNumberBase = lineNumberBaseFromCell(cell);
         const linesOfText = (usingBoostNotebook?cell.value:cell.document.getText()).split('\n').length;
+
+        // Retrieve existing diagnostics
+        const sourceUri = vscode.Uri.parse(sourceFile);
+        const existingDiagnostics = this.sourceLevelIssueCollection.get(sourceUri);
 
         let diagnostics: vscode.Diagnostic[] = [];
         details.forEach((bug: any, _: number) => {
@@ -113,22 +117,26 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         
             let range = new vscode.Range(bug.lineNumber, 0, bug.lineNumber, 0);
             let diagnostic = new vscode.Diagnostic(range, `Severity: ${bug.severity}\n${bug.description}`, vscode.DiagnosticSeverity.Warning);
-            diagnostics.push(diagnostic);
+            
+            // Only add the diagnostic if it doesn't exist in the existingDiagnostics
+            if (!existingDiagnostics || !existingDiagnostics.find(existingDiagnostic => 
+                existingDiagnostic.message === diagnostic.message && existingDiagnostic.range.isEqual(diagnostic.range))) {
+                diagnostics.push(diagnostic);
+            } else {
+                boostLogging.debug(`${this.id} - Diagnostic Problem already exists in the collection. Skipping.`);
+            }
         });
-        
-        // Retrieve existing diagnostics
-        const existingDiagnostics = this.sourceLevelIssueCollection.get(vscode.Uri.parse(sourceFile)) || [];
 
         // Filter existing diagnostics that are not in the line range of the current cell
-        const filteredDiagnostics = existingDiagnostics.filter(diagnostic => {
+        const filteredDiagnostics = existingDiagnostics?existingDiagnostics.filter(diagnostic => {
             const lineNumber = diagnostic.range.start.line;
             return lineNumber < lineNumberBase || lineNumber >= lineNumberBase + linesOfText;
-        });
+        }):[];
 
         // Merge filtered existing with new diagnostics
         const mergedDiagnostics = [...filteredDiagnostics, ...diagnostics];
         
-        this.sourceLevelIssueCollection.set(vscode.Uri.parse(sourceFile), mergedDiagnostics);
+        this.sourceLevelIssueCollection.set(sourceUri, mergedDiagnostics);
 
         return super.onKernelProcessResponseDetails(details, cell, notebook);
     }
