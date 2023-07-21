@@ -76,7 +76,8 @@ function getVSCodeLanguageId(filename: string): string {
 
 export function parseFunctions(
     filename: string,
-    code: string
+    code: string,
+    aggregationEnabled: boolean = false
 ): [string, string[], number[]] {
     const languageId = getVSCodeLanguageId(filename);
     const parsers: { [key: string]: (code: string) => [string[], number[]] } = {
@@ -105,7 +106,9 @@ export function parseFunctions(
 
     // if we have a known parser, use it
     if (parser) {
-        const [parsedCode, lineNumbers] = splitCodeWithAggregation(parser, code);
+        const [parsedCode, lineNumbers] = aggregationEnabled?
+        splitCodeWithAggregation(parser, code):
+        splitCode(code);
         return [languageId, parsedCode, lineNumbers];
         // if the language is unknown, treat it as plaintext, and don't parse it
         //  send one big chunk and presume its small enough to be processed
@@ -113,10 +116,9 @@ export function parseFunctions(
         return [languageId, [code], [0]];
         // otherwise split the code based on default bracket parsing
     } else {
-        const [splitCodeResult, lineNumbers] = splitCodeWithAggregation(
-            splitCode,
-            code
-        );
+        const [splitCodeResult, lineNumbers] = aggregationEnabled?
+            splitCodeWithAggregation(splitCode, code):
+            splitCode(code);
         return [languageId, splitCodeResult, lineNumbers];
     }
 }
