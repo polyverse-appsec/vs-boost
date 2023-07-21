@@ -13,5 +13,5 @@
     "mochaExplorer.files": "src/test/unit/**/*.test.ts",
     "mochaExplorer.require": "ts-node/register",
     "mochaExplorer.ui": "tdd",
-    "mochaExplorer.logpanel": true
+    "mochaExplorer.logpanel": true,
 }

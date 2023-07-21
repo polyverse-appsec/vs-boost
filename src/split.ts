@@ -121,7 +121,7 @@ export function parseFunctions(
     }
 }
 
-function splitCodeWithAggregation(
+export function splitCodeWithAggregation(
     splitCode: CodeParser,
     code: string
 ): [string[], number[]] {
@@ -171,7 +171,7 @@ function splitCodeWithAggregation(
     return newSplitResults;
 }
 
-function splitCode(code: string): [string[], number[]] {
+export function splitCode(code: string): [string[], number[]] {
     const chunks: string[] = [];
     const lineNumbers: number[] = [];
     const lines = code.split("\n");
