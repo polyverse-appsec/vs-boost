@@ -1,9 +1,8 @@
-suite('Compliance Code Command', function() {
-
+suite("Compliance Code Command", function () {
     this.timeout(20000); // set test timeout to be 20 seconds
-  
-    test('Compliance Code Command Test', async function() {
-  
-      console.warn('Simulating Compliance Code Command Test');
+
+    test("Compliance Code Command Test", async function (done) {
+        console.warn("Simulating Compliance Code Command Test");
+        done();
     });
-  });
+});

@@ -1,9 +1,8 @@
-suite('Explain Code Command', function() {
-
+suite("Explain Code Command", function () {
     this.timeout(20000); // set test timeout to be 20 seconds
-  
-    test('Explain Code Command Test', async function() {
-  
-      console.warn('Simulating Explain Code Command Test');
+
+    test("Explain Code Command Test", async function (done) {
+        console.warn("Simulating Explain Code Command Test");
+        done();
     });
-  });
+});

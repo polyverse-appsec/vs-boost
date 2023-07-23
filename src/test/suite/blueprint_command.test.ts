@@ -1,9 +1,8 @@
-suite('Blueprint Code Command', function() {
-
+suite("Blueprint Code Command", function () {
     this.timeout(20000); // set test timeout to be 20 seconds
-  
-    test('Blueprint Code Command Test', async function() {
-  
-      console.warn('Simulating Blueprint Code Command Test');
+
+    test("Blueprint Code Command Test", async function (done) {
+        console.warn("Simulating Blueprint Code Command Test");
+        done();
     });
-  });
+});
