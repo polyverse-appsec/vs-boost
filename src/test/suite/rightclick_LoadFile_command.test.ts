@@ -13,8 +13,8 @@ suite("Right Click Load File Command", function () {
     const boostUri = getBoostFile(fileUri);
     console.log(`${this.title} Boost Uri: ${boostUri.fsPath}`);
 
-    test("Right Click Load File Command Test", async function (done) {
-        await rightClickLoadFileCommandTest(this, fileUri, boostUri);
+    test("Right Click Load File Command Test", function (done) {
+        rightClickLoadFileCommandTest(this, fileUri, boostUri);
         done();
     });
 });

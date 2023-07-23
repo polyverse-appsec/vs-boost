@@ -12,7 +12,7 @@ suite("Load Code File Command", function () {
 
     vscode.window.showInformationMessage("Start Load Code File Command tests.");
 
-    test("Load Code File Command Test", async function (done) {
+    test("Load Code File Command Test", async function () {
         this.timeout(60000);
 
         // we need to avoid hanging on the save dialog when exiting visual studio
@@ -107,7 +107,5 @@ suite("Load Code File Command", function () {
         cells.forEach((cell) => {
             debug(cell.document.getText());
         });
-
-        done();
     });
 });

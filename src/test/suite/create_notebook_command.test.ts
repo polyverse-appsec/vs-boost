@@ -7,7 +7,7 @@ suite("Notebook Command", function () {
 
     vscode.window.showInformationMessage("Start Create Notebook tests.");
 
-    test("Create Notebook Command Test", async function (done) {
+    test("Create Notebook Command Test", async function () {
         this.timeout(5000);
 
         // we need to avoid hanging on the save dialog when exiting visual studio
@@ -29,6 +29,5 @@ suite("Notebook Command", function () {
         const notebooks = vscode.workspace.notebookDocuments;
 
         assert.notEqual(notebooks.length, 0, "Notebook not created!");
-        done();
     });
 });
