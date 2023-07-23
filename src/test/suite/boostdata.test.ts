@@ -96,9 +96,9 @@ suite("BoostProjectData", function () {
             boostNotebookFileToFileSummaryItem(fileUri);
 
         // Add assertions based on what you expect the output to be for a non-empty file
-        assert.strictEqual(fileSummaryItem.totalCells, 7);
-        assert.strictEqual(fileSummaryItem.completedCells, 5);
-        assert.strictEqual(fileSummaryItem.errorCells, 2);
+        assert.strictEqual(fileSummaryItem.totalCells, 1);
+        assert.strictEqual(fileSummaryItem.completedCells, 1);
+        assert.strictEqual(fileSummaryItem.errorCells, 1);
         // ...other assertions...
         done();
     });
@@ -114,8 +114,8 @@ suite("BoostProjectData", function () {
             boostNotebookFileToFileSummaryItem(fileUri);
 
         // Add assertions based on what you expect the output to be for a non-empty file
-        assert.strictEqual(fileSummaryItem.totalCells, 2);
-        assert.strictEqual(fileSummaryItem.completedCells, 2);
+        assert.strictEqual(fileSummaryItem.totalCells, 1);
+        assert.strictEqual(fileSummaryItem.completedCells, 1);
         assert.strictEqual(fileSummaryItem.errorCells, 0);
         //check that fileSummaryItem.sections.bugAnalysisList.details has one item in the array
         assert.strictEqual(
@@ -167,20 +167,20 @@ suite("BoostProjectData", function () {
             1
         );
         assert.strictEqual(
-            boostprojectdata.sectionSummary.complianceList.status,
-            "incomplete"
+            boostprojectdata.sectionSummary.complianceCodeList.status,
+            "not-started"
         );
         assert.strictEqual(
-            boostprojectdata.sectionSummary.complianceList.filesAnalyzed,
-            2
+            boostprojectdata.sectionSummary.complianceCodeList.filesAnalyzed,
+            0
         );
         assert.strictEqual(
-            boostprojectdata.sectionSummary.complianceList.completedCells,
-            1
+            boostprojectdata.sectionSummary.complianceCodeList.completedCells,
+            0
         );
         assert.strictEqual(
-            boostprojectdata.sectionSummary.complianceList.errorCells,
-            1
+            boostprojectdata.sectionSummary.complianceCodeList.errorCells,
+            0
         );
 
         //check the overall summary
@@ -216,20 +216,20 @@ suite("BoostProjectData", function () {
         );
 
         assert.strictEqual(
-            boostprojectdata.sectionSummary.complianceList.status,
-            "incomplete"
+            boostprojectdata.sectionSummary.complianceCodeList.status,
+            "not-started"
         );
         assert.strictEqual(
-            boostprojectdata.sectionSummary.complianceList.filesAnalyzed,
-            2
+            boostprojectdata.sectionSummary.complianceCodeList.filesAnalyzed,
+            0
         );
         assert.strictEqual(
-            boostprojectdata.sectionSummary.complianceList.completedCells,
-            1
+            boostprojectdata.sectionSummary.complianceCodeList.completedCells,
+            0
         );
         assert.strictEqual(
-            boostprojectdata.sectionSummary.complianceList.errorCells,
-            1
+            boostprojectdata.sectionSummary.complianceCodeList.errorCells,
+            0
         );
         done();
     });

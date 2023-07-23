@@ -30,53 +30,58 @@
 			],
 			"preLaunchTask": "preLaunchForTests"
 		},
-        {
-            "name": "Integration Suite",
-            "type": "node",
-            "request": "launch",
-            "runtimeExecutable": "node",
-            "runtimeArgs": ["./out/test/runTest.js", ""],
-			"outFiles": [
-				"${workspaceFolder}/out/test/**/*.js"
-			],
-            "cwd": "${workspaceFolder}",
-            "console": "integratedTerminal",
-            "stopOnEntry": true,
-            "autoAttachChildProcesses": true
-        },
-        {
-            "name": "BoostData Test Suite",
-            "type": "node",
-            "request": "launch",
-            "runtimeExecutable": "node",
-            "runtimeArgs": ["./out/test/runTest.js", "src/test/suite/boostdata.test.js"],
-			"outFiles": [
-				"${workspaceFolder}/out/test/**/*.js"
-			],
-            "cwd": "${workspaceFolder}",
-            "console": "integratedTerminal",
-            "stopOnEntry": true,
-            "autoAttachChildProcesses": true
-        },
-        {
-            "name": "(1 Iteration) Integration Suite",
-            "type": "node",
-            "request": "launch",
-            "runtimeExecutable": "${workspaceFolder}/src/test/test_loop.sh",
-            "runtimeArgs": ["1"],
-            "cwd": "${workspaceFolder}",
-            "console": "integratedTerminal",
-            "stopOnEntry": true
-        },
-        {
-            "name": "(Looped) Integration Suite",
-            "type": "node",
-            "request": "launch",
-            "runtimeExecutable": "${workspaceFolder}/src/test/test_loop.sh",
-            "runtimeArgs": [],
-            "cwd": "${workspaceFolder}",
-            "console": "integratedTerminal",
-            "stopOnEntry": true
-        }  
+        // {
+        //     "name": "Integration Suite",
+        //     "type": "node",
+        //     "request": "launch",
+        //     "runtimeExecutable": "node",
+        //     "runtimeArgs": ["./out/test/runTest.js", ""],
+		// 	"outFiles": [
+		// 		"${workspaceFolder}/out/test/**/*.js"
+		// 	],
+        //     "cwd": "${workspaceFolder}",
+        //     "console": "integratedTerminal",
+        //     "stopOnEntry": true,
+        //     "autoAttachChildProcesses": true
+        // },
+        // {
+        //     "name": "BoostData Test Suite",
+        //     "type": "node",
+        //     "request": "launch",
+		//  	"args": [
+		//  		"--extensionDevelopmentPath=${workspaceFolder}",
+		//  		"--extensionTestsPath=${workspaceFolder}/out/test/suite/index"
+		//  	],            
+        //     "runtimeExecutable": "node",
+        //     "runtimeArgs": ["./out/test/runTest.js", ""],
+		// 	"outFiles": [
+		// 		"${workspaceFolder}/out/test/**/*.js"
+		// 	],
+        //     "cwd": "${workspaceFolder}",
+        //     "console": "integratedTerminal",
+        //     "stopOnEntry": true,
+        //     "autoAttachChildProcesses": true,
+        //     "preLaunchTask": "preLaunchForTests"
+        // },
+        // {
+        //     "name": "(1 Iteration) Integration Suite",
+        //     "type": "node",
+        //     "request": "launch",
+        //     "runtimeExecutable": "${workspaceFolder}/src/test/test_loop.sh",
+        //     "runtimeArgs": ["1"],
+        //     "cwd": "${workspaceFolder}",
+        //     "console": "integratedTerminal",
+        //     "stopOnEntry": true
+        // },
+        // {
+        //     "name": "(Looped) Integration Suite",
+        //     "type": "node",
+        //     "request": "launch",
+        //     "runtimeExecutable": "${workspaceFolder}/src/test/test_loop.sh",
+        //     "runtimeArgs": [],
+        //     "cwd": "${workspaceFolder}",
+        //     "console": "integratedTerminal",
+        //     "stopOnEntry": true
+        // }  
 	]
 }

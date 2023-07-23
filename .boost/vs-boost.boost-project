@@ -1,12 +1,14 @@
 {
   "oldComplianceFunctionType": "complianceList",
-  "dataFormatVersion": "1.1.0",
+  "dataFormatVersion": "1.1.1",
   "summary": {
     "projectName": "vs-boost",
     "summaryUrl": "/Users/alexgo/code/vs-boost/.boost/vs-boost.summary.boost-notebook",
-    "filesToAnalyze": 273,
+    "filesToAnalyze": 133,
     "filesAnalyzed": 124,
-    "issues": []
+    "issues": [
+      "Error refreshing Boost Project data for /Users/alexgo/code/vs-boost: SyntaxError: Unexpected token 'E', \"Error: Boo\"... is not valid JSON"
+    ]
   },
   "sectionSummary": {
     "archblueprintCode": {
