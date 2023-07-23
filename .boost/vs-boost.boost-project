@@ -4,8 +4,8 @@
   "summary": {
     "projectName": "vs-boost",
     "summaryUrl": "/Users/alexgo/code/vs-boost/.boost/vs-boost.summary.boost-notebook",
-    "filesToAnalyze": 257,
-    "filesAnalyzed": 257,
+    "filesToAnalyze": 273,
+    "filesAnalyzed": 124,
     "issues": []
   },
   "sectionSummary": {
@@ -20,12 +20,12 @@
     },
     "explainCode": {
       "analysisType": "explainCode",
-      "status": "not-started",
-      "completedCells": 0,
-      "errorCells": 0,
+      "status": "incomplete",
+      "completedCells": 378,
+      "errorCells": 194,
       "issueCells": 0,
-      "totalCells": 0,
-      "filesAnalyzed": 0
+      "totalCells": 574,
+      "filesAnalyzed": 116
     },
     "flowDiagram": {
       "analysisType": "flowDiagram",
@@ -88,9 +88,19 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/compliance_controller.ts.boost-notebook",
       "totalCells": 7,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 7,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 7,
+          "issueCells": 0,
+          "totalCells": 7,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/BoostExtension.ts": {
       "sourceRelFile": "./src/BoostExtension.ts",
@@ -105,136 +115,286 @@
       "sourceRelFile": "./src/boostConfiguration.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/boostConfiguration.ts.boost-notebook",
       "totalCells": 4,
-      "completedCells": 0,
+      "completedCells": 4,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 4,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 4,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "internal_readme.md": {
       "sourceRelFile": "./internal_readme.md",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/internal_readme.md.boost-notebook",
       "totalCells": 5,
-      "completedCells": 0,
+      "completedCells": 5,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 5,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 5,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/split.ts": {
       "sourceRelFile": "./src/split.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/split.ts.boost-notebook",
       "totalCells": 12,
-      "completedCells": 0,
+      "completedCells": 12,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 12,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 12,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/base_tree_view.ts": {
       "sourceRelFile": "./src/base_tree_view.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/base_tree_view.ts.boost-notebook",
       "totalCells": 4,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 4,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 4,
+          "issueCells": 0,
+          "totalCells": 4,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/extension.ts": {
       "sourceRelFile": "./src/extension.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/extension.ts.boost-notebook",
       "totalCells": 33,
-      "completedCells": 0,
+      "completedCells": 33,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 33,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 33,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/blueprint_controller.ts": {
       "sourceRelFile": "./src/blueprint_controller.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/blueprint_controller.ts.boost-notebook",
       "totalCells": 6,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 6,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 6,
+          "issueCells": 0,
+          "totalCells": 6,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/function_base_controller.ts": {
       "sourceRelFile": "./src/function_base_controller.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/function_base_controller.ts.boost-notebook",
       "totalCells": 5,
-      "completedCells": 0,
+      "completedCells": 5,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 5,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 5,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/serializer.ts": {
       "sourceRelFile": "./src/serializer.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/serializer.ts.boost-notebook",
       "totalCells": 7,
-      "completedCells": 0,
+      "completedCells": 7,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 7,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 7,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/boostServiceHelper.ts": {
       "sourceRelFile": "./src/boostServiceHelper.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/boostServiceHelper.ts.boost-notebook",
       "totalCells": 10,
-      "completedCells": 0,
+      "completedCells": 10,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 10,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 10,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/convert_markdown.ts": {
       "sourceRelFile": "./src/convert_markdown.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/convert_markdown.ts.boost-notebook",
       "totalCells": 6,
-      "completedCells": 0,
+      "completedCells": 6,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 6,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 6,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/convert_html.ts": {
       "sourceRelFile": "./src/convert_html.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/convert_html.ts.boost-notebook",
       "totalCells": 8,
-      "completedCells": 0,
+      "completedCells": 8,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 8,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 8,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/analyze_controller.ts": {
       "sourceRelFile": "./src/analyze_controller.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/analyze_controller.ts.boost-notebook",
       "totalCells": 7,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 7,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 7,
+          "issueCells": 0,
+          "totalCells": 7,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/start_view.ts": {
       "sourceRelFile": "./src/start_view.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/start_view.ts.boost-notebook",
       "totalCells": 6,
-      "completedCells": 0,
+      "completedCells": 6,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 6,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 6,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/analyze_function_controller.ts": {
       "sourceRelFile": "./src/analyze_function_controller.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/analyze_function_controller.ts.boost-notebook",
       "totalCells": 6,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 6,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 6,
+          "issueCells": 0,
+          "totalCells": 6,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/BoostProjectData.ts": {
       "sourceRelFile": "./src/BoostProjectData.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/BoostProjectData.ts.boost-notebook",
       "totalCells": 9,
-      "completedCells": 0,
+      "completedCells": 9,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 9,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 9,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/base_controller.ts": {
       "sourceRelFile": "./src/base_controller.ts",
@@ -249,19 +409,39 @@
       "sourceRelFile": "./.prettierrc",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/.prettierrc.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "package.json": {
       "sourceRelFile": "./package.json",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/package.json.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "package-lock.json": {
       "sourceRelFile": "./package-lock.json",
@@ -276,163 +456,343 @@
       "sourceRelFile": "./README.md",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/README.md.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "esbuild.js": {
       "sourceRelFile": "./esbuild.js",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/esbuild.js.boost-notebook",
       "totalCells": 10,
-      "completedCells": 0,
+      "completedCells": 10,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 10,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 10,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "raw_instructions.md": {
       "sourceRelFile": "./raw_instructions.md",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/raw_instructions.md.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/instructions.json": {
       "sourceRelFile": "./src/instructions.json",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/instructions.json.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/authorization.ts": {
       "sourceRelFile": "./src/authorization.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/authorization.ts.boost-notebook",
       "totalCells": 7,
-      "completedCells": 0,
+      "completedCells": 7,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 7,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 7,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/boostLogging.ts": {
       "sourceRelFile": "./src/boostLogging.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/boostLogging.ts.boost-notebook",
       "totalCells": 4,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 4,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 4,
+          "issueCells": 0,
+          "totalCells": 4,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "CHANGELOG.md": {
       "sourceRelFile": "./CHANGELOG.md",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/CHANGELOG.md.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "build_instructions.sh": {
       "sourceRelFile": "./build_instructions.sh",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/build_instructions.sh.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/markdown_view.ts": {
       "sourceRelFile": "./src/markdown_view.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/markdown_view.ts.boost-notebook",
       "totalCells": 9,
-      "completedCells": 0,
+      "completedCells": 9,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 9,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 9,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/convert_controller.ts": {
       "sourceRelFile": "./src/convert_controller.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/convert_controller.ts.boost-notebook",
       "totalCells": 7,
-      "completedCells": 0,
+      "completedCells": 7,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 7,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 7,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/flowdiagram_controller.ts": {
       "sourceRelFile": "./src/flowdiagram_controller.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/flowdiagram_controller.ts.boost-notebook",
       "totalCells": 5,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 5,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 5,
+          "issueCells": 0,
+          "totalCells": 5,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/jupyter_notebook.ts": {
       "sourceRelFile": "./src/jupyter_notebook.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/jupyter_notebook.ts.boost-notebook",
       "totalCells": 9,
-      "completedCells": 0,
+      "completedCells": 9,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 9,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 9,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/chat_view.ts": {
       "sourceRelFile": "./src/chat_view.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/chat_view.ts.boost-notebook",
       "totalCells": 11,
-      "completedCells": 0,
+      "completedCells": 11,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 11,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 11,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/user_organizations.ts": {
       "sourceRelFile": "./src/user_organizations.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/user_organizations.ts.boost-notebook",
       "totalCells": 7,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 7,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 7,
+          "issueCells": 0,
+          "totalCells": 7,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/custom_controller.ts": {
       "sourceRelFile": "./src/custom_controller.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/custom_controller.ts.boost-notebook",
       "totalCells": 8,
-      "completedCells": 0,
+      "completedCells": 8,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 8,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 8,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/dashboard/chat/main.ts": {
       "sourceRelFile": "./src/dashboard/chat/main.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/dashboard/chat/main.ts.boost-notebook",
       "totalCells": 5,
-      "completedCells": 0,
+      "completedCells": 5,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 5,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 5,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/dashboard/markdown/main.ts": {
       "sourceRelFile": "./src/dashboard/markdown/main.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/dashboard/markdown/main.ts.boost-notebook",
       "totalCells": 2,
-      "completedCells": 0,
+      "completedCells": 2,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 2,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/dashboard/start/main.ts": {
       "sourceRelFile": "./src/dashboard/start/main.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/dashboard/start/main.ts.boost-notebook",
       "totalCells": 6,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 6,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 6,
+          "issueCells": 0,
+          "totalCells": 6,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/serializer.js.map": {
       "sourceRelFile": "./out/serializer.js.map",
@@ -448,18 +808,38 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/runTest.ts.boost-notebook",
       "totalCells": 3,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 3,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 3,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/suite/testCommandUtilities.ts": {
       "sourceRelFile": "./src/test/suite/testCommandUtilities.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/testCommandUtilities.ts.boost-notebook",
       "totalCells": 3,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 3,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 3,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/boostConfiguration.js.map": {
       "sourceRelFile": "./out/boostConfiguration.js.map",
@@ -474,28 +854,58 @@
       "sourceRelFile": "./src/test/suite/boostdata.test.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/boostdata.test.ts.boost-notebook",
       "totalCells": 3,
-      "completedCells": 0,
+      "completedCells": 3,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 3,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/suite/analyze_command.test.ts": {
       "sourceRelFile": "./src/test/suite/analyze_command.test.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/analyze_command.test.ts.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "resources/blueprint_template.md": {
       "sourceRelFile": "./resources/blueprint_template.md",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/resources/blueprint_template.md.boost-notebook",
       "totalCells": 1,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 1,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 1,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/codeguidelines_controller.js.map": {
       "sourceRelFile": "./out/codeguidelines_controller.js.map",
@@ -511,18 +921,38 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/dashboard/summary/details_list.ts.boost-notebook",
       "totalCells": 5,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 5,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 5,
+          "issueCells": 0,
+          "totalCells": 5,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/dashboard/summary/main.ts": {
       "sourceRelFile": "./src/dashboard/summary/main.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/dashboard/summary/main.ts.boost-notebook",
       "totalCells": 17,
-      "completedCells": 0,
+      "completedCells": 17,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 17,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 17,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/summary_controller.js.map": {
       "sourceRelFile": "./out/summary_controller.js.map",
@@ -538,18 +968,38 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/commands_exist.test.ts.boost-notebook",
       "totalCells": 2,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 2,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 2,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/suite/mocha.opts": {
       "sourceRelFile": "./src/test/suite/mocha.opts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/mocha.opts.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/userAnalysisType.js": {
       "sourceRelFile": "./out/userAnalysisType.js",
@@ -565,189 +1015,399 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/performance_controller.ts.boost-notebook",
       "totalCells": 7,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 7,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 7,
+          "issueCells": 0,
+          "totalCells": 7,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/test_loop.sh": {
       "sourceRelFile": "./src/test/test_loop.sh",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/test_loop.sh.boost-notebook",
       "totalCells": 2,
-      "completedCells": 0,
+      "completedCells": 2,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 2,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/git.d.ts": {
       "sourceRelFile": "./src/git.d.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/git.d.ts.boost-notebook",
       "totalCells": 36,
-      "completedCells": 0,
+      "completedCells": 36,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 36,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 36,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/marked-highlights.d.ts": {
       "sourceRelFile": "./src/marked-highlights.d.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/marked-highlights.d.ts.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/summary_controller.ts": {
       "sourceRelFile": "./src/summary_controller.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/summary_controller.ts.boost-notebook",
       "totalCells": 8,
-      "completedCells": 0,
+      "completedCells": 8,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 8,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 8,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/convert_pdf.ts": {
       "sourceRelFile": "./src/convert_pdf.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/convert_pdf.ts.boost-notebook",
       "totalCells": 4,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 4,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 4,
+          "issueCells": 0,
+          "totalCells": 4,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/boostprojectdata_interface.ts": {
       "sourceRelFile": "./src/boostprojectdata_interface.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/boostprojectdata_interface.ts.boost-notebook",
       "totalCells": 8,
-      "completedCells": 0,
+      "completedCells": 8,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 8,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 8,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/testgen_controller.ts": {
       "sourceRelFile": "./src/testgen_controller.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/testgen_controller.ts.boost-notebook",
       "totalCells": 6,
-      "completedCells": 0,
+      "completedCells": 6,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 6,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 6,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/performance_function_controller.ts": {
       "sourceRelFile": "./src/performance_function_controller.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/performance_function_controller.ts.boost-notebook",
       "totalCells": 6,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 6,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 6,
+          "issueCells": 0,
+          "totalCells": 6,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/error.ts": {
       "sourceRelFile": "./src/error.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/error.ts.boost-notebook",
       "totalCells": 1,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 1,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 1,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/explain_controller.ts": {
       "sourceRelFile": "./src/explain_controller.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/explain_controller.ts.boost-notebook",
       "totalCells": 7,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 7,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 7,
+          "issueCells": 0,
+          "totalCells": 7,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/portal.ts": {
       "sourceRelFile": "./src/portal.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/portal.ts.boost-notebook",
       "totalCells": 17,
-      "completedCells": 0,
+      "completedCells": 17,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 17,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 17,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/summary_view.ts": {
       "sourceRelFile": "./src/summary_view.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/summary_view.ts.boost-notebook",
       "totalCells": 19,
-      "completedCells": 0,
+      "completedCells": 19,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 19,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 19,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/quick_blueprint_controller.ts": {
       "sourceRelFile": "./src/quick_blueprint_controller.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/quick_blueprint_controller.ts.boost-notebook",
       "totalCells": 8,
-      "completedCells": 0,
+      "completedCells": 8,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 8,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 8,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/controllerOutputTypes.ts": {
       "sourceRelFile": "./src/controllerOutputTypes.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/controllerOutputTypes.ts.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/userAnalysisType.ts": {
       "sourceRelFile": "./src/userAnalysisType.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/userAnalysisType.ts.boost-notebook",
       "totalCells": 2,
-      "completedCells": 0,
+      "completedCells": 2,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 2,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/codeguidelines_controller.ts": {
       "sourceRelFile": "./src/codeguidelines_controller.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/codeguidelines_controller.ts.boost-notebook",
       "totalCells": 7,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 7,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 7,
+          "issueCells": 0,
+          "totalCells": 7,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/compliance_function_controller.ts": {
       "sourceRelFile": "./src/compliance_function_controller.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/compliance_function_controller.ts.boost-notebook",
       "totalCells": 6,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 6,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 6,
+          "issueCells": 0,
+          "totalCells": 6,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/incompatibleVersionException.ts": {
       "sourceRelFile": "./src/incompatibleVersionException.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/incompatibleVersionException.ts.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/suite/rightClick_ProcessFolder_command.test.ts": {
       "sourceRelFile": "./src/test/suite/rightClick_ProcessFolder_command.test.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/rightClick_ProcessFolder_command.test.ts.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/suite/compliance_command.test.ts": {
       "sourceRelFile": "./src/test/suite/compliance_command.test.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/compliance_command.test.ts.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/flowdiagram_controller.js": {
       "sourceRelFile": "./out/flowdiagram_controller.js",
@@ -762,19 +1422,39 @@
       "sourceRelFile": "./src/dashboard/summary/progress_meter.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/dashboard/summary/progress_meter.ts.boost-notebook",
       "totalCells": 4,
-      "completedCells": 0,
+      "completedCells": 4,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 4,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 4,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/suite/utils.ts": {
       "sourceRelFile": "./src/test/suite/utils.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/utils.ts.boost-notebook",
       "totalCells": 3,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 3,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 3,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/convert_markdown.js.map": {
       "sourceRelFile": "./out/convert_markdown.js.map",
@@ -789,46 +1469,96 @@
       "sourceRelFile": "./src/test/suite/extension.test.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/extension.test.ts.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/suite/code_conversion_command.test.ts": {
       "sourceRelFile": "./src/test/suite/code_conversion_command.test.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/code_conversion_command.test.ts.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/dashboard/summary/summary_list.ts": {
       "sourceRelFile": "./src/dashboard/summary/summary_list.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/dashboard/summary/summary_list.ts.boost-notebook",
       "totalCells": 3,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 3,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 3,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/dashboard/summary/compute_view_data.ts": {
       "sourceRelFile": "./src/dashboard/summary/compute_view_data.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/dashboard/summary/compute_view_data.ts.boost-notebook",
       "totalCells": 14,
-      "completedCells": 0,
+      "completedCells": 14,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 14,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 14,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/suite/testgen_command.test.ts": {
       "sourceRelFile": "./src/test/suite/testgen_command.test.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/testgen_command.test.ts.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/compliance_controller.js.map": {
       "sourceRelFile": "./out/compliance_controller.js.map",
@@ -843,10 +1573,20 @@
       "sourceRelFile": "./src/test/suite/rightClick_LoadFolder_command.test.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/rightClick_LoadFolder_command.test.ts.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/controllerOutputTypes.js.map": {
       "sourceRelFile": "./out/controllerOutputTypes.js.map",
@@ -862,9 +1602,19 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/rightclick_LoadFile_command.test.ts.boost-notebook",
       "totalCells": 4,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 4,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 4,
+          "issueCells": 0,
+          "totalCells": 4,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/userAnalysisType.js.map": {
       "sourceRelFile": "./out/userAnalysisType.js.map",
@@ -879,55 +1629,115 @@
       "sourceRelFile": "./src/test/suite/blueprint_command.test.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/blueprint_command.test.ts.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/suite/guidelines_command.test.ts": {
       "sourceRelFile": "./src/test/suite/guidelines_command.test.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/guidelines_command.test.ts.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "resources/dashboard/summary.html": {
       "sourceRelFile": "./resources/dashboard/summary.html",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/resources/dashboard/summary.html.boost-notebook",
       "totalCells": 11,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 11,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 11,
+          "issueCells": 0,
+          "totalCells": 11,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/resources/fo.xsl": {
       "sourceRelFile": "./src/test/resources/fo.xsl",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/fo.xsl.boost-notebook",
       "totalCells": 2,
-      "completedCells": 0,
+      "completedCells": 2,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 2,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/suite/create_notebook_command.test.ts": {
       "sourceRelFile": "./src/test/suite/create_notebook_command.test.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/create_notebook_command.test.ts.boost-notebook",
       "totalCells": 2,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 2,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 2,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "resources/dashboard/markdown.html": {
       "sourceRelFile": "./resources/dashboard/markdown.html",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/resources/dashboard/markdown.html.boost-notebook",
       "totalCells": 2,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 2,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 2,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/chat_view.js": {
       "sourceRelFile": "./out/chat_view.js",
@@ -942,19 +1752,39 @@
       "sourceRelFile": "./src/test/suite/loadCodeFile.test.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/loadCodeFile.test.ts.boost-notebook",
       "totalCells": 4,
-      "completedCells": 0,
+      "completedCells": 4,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 4,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 4,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/suite/index.ts": {
       "sourceRelFile": "./src/test/suite/index.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/index.ts.boost-notebook",
       "totalCells": 3,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 3,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 3,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/boostprojectdata_interface.js.map": {
       "sourceRelFile": "./out/boostprojectdata_interface.js.map",
@@ -969,19 +1799,39 @@
       "sourceRelFile": "./src/test/suite/explain_command.test.ts",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/explain_command.test.ts.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "resources/dashboard/start.html": {
       "sourceRelFile": "./resources/dashboard/start.html",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/resources/dashboard/start.html.boost-notebook",
       "totalCells": 1,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 1,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 1,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/base_tree_view.js.map": {
       "sourceRelFile": "./out/base_tree_view.js.map",
@@ -997,18 +1847,38 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/suite/rightClick_ProcessFile_command.test.ts.boost-notebook",
       "totalCells": 8,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 8,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 8,
+          "issueCells": 0,
+          "totalCells": 8,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "resources/dashboard/chat.html": {
       "sourceRelFile": "./resources/dashboard/chat.html",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/resources/dashboard/chat.html.boost-notebook",
       "totalCells": 8,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 8,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 8,
+          "issueCells": 0,
+          "totalCells": 8,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/incompatibleVersionException.js": {
       "sourceRelFile": "./out/incompatibleVersionException.js",
@@ -1023,10 +1893,20 @@
       "sourceRelFile": "./src/test/resources/cmakelist.txt",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/cmakelist.txt.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/jupyter_notebook.js": {
       "sourceRelFile": "./out/jupyter_notebook.js",
@@ -1041,10 +1921,20 @@
       "sourceRelFile": "./src/test/resources/cargo.toml",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/cargo.toml.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/test/suite/utils.js": {
       "sourceRelFile": "./out/test/suite/utils.js",
@@ -1086,10 +1976,20 @@
       "sourceRelFile": "./src/test/resources/setup.py",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/setup.py.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/analyze_function_controller.js": {
       "sourceRelFile": "./out/analyze_function_controller.js",
@@ -1114,9 +2014,19 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/project.xcodeproj.boost-notebook",
       "totalCells": 1,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 1,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 1,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/test/suite/rightClick_LoadFolder_command.test.js.map": {
       "sourceRelFile": "./out/test/suite/rightClick_LoadFolder_command.test.js.map",
@@ -1366,9 +2276,19 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/anagrams-deranged-anagrams.h.boost-notebook",
       "totalCells": 3,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 3,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 3,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/test/suite/extension.test.js.map": {
       "sourceRelFile": "./out/test/suite/extension.test.js.map",
@@ -1383,10 +2303,20 @@
       "sourceRelFile": "./src/test/resources/pom.xml",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/pom.xml.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/extension.js.map": {
       "sourceRelFile": "./out/extension.js.map",
@@ -1419,10 +2349,20 @@
       "sourceRelFile": "./src/test/resources/pubspec.yaml",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/pubspec.yaml.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/start_view.js": {
       "sourceRelFile": "./out/start_view.js",
@@ -1509,10 +2449,20 @@
       "sourceRelFile": "./src/test/resources/package.json",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/package.json.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/test/suite/guidelines_command.test.js": {
       "sourceRelFile": "./out/test/suite/guidelines_command.test.js",
@@ -1645,9 +2595,19 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/heartbleed.rb.boost-notebook",
       "totalCells": 2,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 1,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 1,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/portal.js.map": {
       "sourceRelFile": "./out/portal.js.map",
@@ -1681,27 +2641,57 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/anagrams-deranged-anagrams.cpp.boost-notebook",
       "totalCells": 2,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 2,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 2,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/resources/heartbleed.txt": {
       "sourceRelFile": "./src/test/resources/heartbleed.txt",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/heartbleed.txt.boost-notebook",
       "totalCells": 1,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 1,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 1,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/resources/anagrams.py": {
       "sourceRelFile": "./src/test/resources/anagrams.py",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/anagrams.py.boost-notebook",
       "totalCells": 5,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 5,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 5,
+          "issueCells": 0,
+          "totalCells": 5,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/test/runTest.js": {
       "sourceRelFile": "./out/test/runTest.js",
@@ -1717,9 +2707,19 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/anagrams.pl.boost-notebook",
       "totalCells": 3,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 3,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 3,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/performance_controller.js": {
       "sourceRelFile": "./out/performance_controller.js",
@@ -1779,10 +2779,20 @@
       "sourceRelFile": "./src/test/resources/project.sln",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/project.sln.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/compliance_function_controller.js": {
       "sourceRelFile": "./out/compliance_function_controller.js",
@@ -1797,10 +2807,20 @@
       "sourceRelFile": "./src/test/resources/hello.c",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/hello.c.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/error.js.map": {
       "sourceRelFile": "./out/error.js.map",
@@ -1996,9 +3016,19 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/anagrams.vb.boost-notebook",
       "totalCells": 3,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 3,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 3,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/convert_html.js": {
       "sourceRelFile": "./out/convert_html.js",
@@ -2050,9 +3080,19 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/hello.o.boost-notebook",
       "totalCells": 1,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 1,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 1,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/dashboard/chat/main.js.map": {
       "sourceRelFile": "./out/dashboard/chat/main.js.map",
@@ -2068,18 +3108,38 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/hello.s.boost-notebook",
       "totalCells": 1,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 1,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 1,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/resources/build.gradle": {
       "sourceRelFile": "./src/test/resources/build.gradle",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/build.gradle.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/BoostExtension.js": {
       "sourceRelFile": "./out/BoostExtension.js",
@@ -2112,10 +3172,20 @@
       "sourceRelFile": "./src/test/resources/identity-matrix.typescript",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/identity-matrix.typescript.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/boostLogging.js.map": {
       "sourceRelFile": "./out/boostLogging.js.map",
@@ -2131,9 +3201,19 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/anagrams-deranged-anagrams.php.boost-notebook",
       "totalCells": 3,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 3,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 3,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/chat_view.js.map": {
       "sourceRelFile": "./out/chat_view.js.map",
@@ -2221,9 +3301,19 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/anagrams-5.go.boost-notebook",
       "totalCells": 5,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 5,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 5,
+          "issueCells": 0,
+          "totalCells": 5,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/split.js": {
       "sourceRelFile": "./out/split.js",
@@ -2266,18 +3356,38 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/anagrams-deranged-anagrams-1.js.boost-notebook",
       "totalCells": 5,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 5,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 5,
+          "issueCells": 0,
+          "totalCells": 5,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/resources/foo.csproj": {
       "sourceRelFile": "./src/test/resources/foo.csproj",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/foo.csproj.boost-notebook",
       "totalCells": 1,
-      "completedCells": 0,
+      "completedCells": 1,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/analyze_controller.js.map": {
       "sourceRelFile": "./out/analyze_controller.js.map",
@@ -2337,10 +3447,20 @@
       "sourceRelFile": "./src/test/resources/atom-task.coffee",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/atom-task.coffee.boost-notebook",
       "totalCells": 20,
-      "completedCells": 0,
+      "completedCells": 20,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 20,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 20,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "out/extension.js": {
       "sourceRelFile": "./out/extension.js",
@@ -2365,36 +3485,76 @@
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/anagrams-deranged-anagrams.c.boost-notebook",
       "totalCells": 6,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 6,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 6,
+          "issueCells": 0,
+          "totalCells": 6,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/resources/anagrams-deranged-anagrams.rb": {
       "sourceRelFile": "./src/test/resources/anagrams-deranged-anagrams.rb",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/anagrams-deranged-anagrams.rb.boost-notebook",
       "totalCells": 4,
-      "completedCells": 0,
+      "completedCells": 3,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "incomplete",
+          "completedCells": 3,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 4,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/resources/anagrams.swift": {
       "sourceRelFile": "./src/test/resources/anagrams.swift",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/anagrams.swift.boost-notebook",
       "totalCells": 3,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 3,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 3,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/test/resources/anagrams-deranged-anagrams.hpp": {
       "sourceRelFile": "./src/test/resources/anagrams-deranged-anagrams.hpp",
       "notebookRelFile": "/Users/alexgo/code/vs-boost/.boost/src/test/resources/anagrams-deranged-anagrams.hpp.boost-notebook",
       "totalCells": 2,
       "completedCells": 0,
-      "errorCells": 0,
+      "errorCells": 2,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 2,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        }
+      }
     }
   }
 }

@@ -423,7 +423,7 @@
         "@vscode/test-electron": "^2.3.0",
         "chai": "^4.3.7",
         "esbuild": "^0.16.17",
-        "eslint": "^8.36.0",
+        "eslint": "^8.45.0",
         "glob": "^8.1.0",
         "lodash": "^4.17.21",
         "mocha": "^10.2.0",
