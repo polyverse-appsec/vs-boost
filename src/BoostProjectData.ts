@@ -268,9 +268,14 @@ export class BoostProjectData implements IBoostProjectData {
 export function boostNotebookToFileSummaryItem(
     boostNotebook: boostnb.BoostNotebook
 ): FileSummaryItem {
+    let workspaceFolder = vscode.workspace.workspaceFolders?.[0].uri;
+
+    const notebookRelFile = path.isAbsolute(boostNotebook.fsPath) && workspaceFolder?
+        path.relative(workspaceFolder.fsPath, boostNotebook.fsPath):boostNotebook.fsPath;
+
     let summaryItem: FileSummaryItem = {
         sourceRelFile: boostNotebook.metadata.sourceFile as string,
-        notebookRelFile: boostNotebook.fsPath as string,
+        notebookRelFile: notebookRelFile,
         totalCells: boostNotebook.cells.length,
         completedCells: 0,
         errorCells: 0,
