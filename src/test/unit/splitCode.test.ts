@@ -65,15 +65,12 @@ describe('splitCode Unit', () => {
 
         const expectedOutput: [string[], number[]] = [
             [
-                code.trimEnd(),
+                code,
             ],
             [1]
         ];
 
         const result = splitCode(code);
-    
-        // Assuming some condition here. If it returns true, then the test will be skipped.
-        this.skip();
 
         result[0].forEach((str, i) => {
             const expected = expectedOutput[0][i];
@@ -89,27 +86,24 @@ describe('splitCode Unit', () => {
 
     it('should handle extra closing brace', function(this: Context) {
         const code = `
-        function testFunc() {
-            console.log("Hello, World!");
-        }}
-        
-        function testFunc2() {
-            console.log("Goodbye, World!");
-        }
-        `;
+function testFunc() {
+    console.log("Hello, World!");
+}}
+
+function testFunc2() {
+    console.log("Goodbye, World!");
+}
+`;
 
         const expectedOutput: [string[], number[]] = [
             [
-                "\nfunction testFunc() {\n    console.log(\"Hello, World!\");\n}\n",
-                "\nfunction testFunc2() {\n    console.log(\"Goodbye, World!\");\n}\n"
+                `\nfunction testFunc() {\n    console.log(\"Hello, World!\");\n}}\n`,
+                `\nfunction testFunc2() {\n    console.log(\"Goodbye, World!\");\n}\n`
             ],
             [1, 5]
         ];
 
         const result = splitCode(code);
-
-        // Assuming some condition here. If it returns true, then the test will be skipped.
-        this.skip();
 
         expect(result).to.deep.equal(expectedOutput);
     

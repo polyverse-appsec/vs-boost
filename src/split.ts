@@ -215,7 +215,7 @@ export function splitCode(code: string): [string[], number[]] {
 
     // add the final chunk if it exists
     if (currentChunk.trim() !== "") {
-        chunks.push(currentChunk);
+        chunks.push(currentChunk.slice(0, -1)); // remove the last newline
         lineNumbers.push(chunkStartLine + 1);
     }
 
@@ -268,7 +268,7 @@ function parseBracketyLanguage(
 
     // Push any remaining function and its start line number
     if (inFunction && currentFunction !== "") {
-        functions.push(currentFunction);
+        functions.push(currentFunction.slice(0, -1)); // remove the last newline
         lineNumbers.push(startLineNumber + 1);
     }
 
@@ -333,7 +333,7 @@ function parseVbFunctions(code: string): [string[], number[]] {
         }
     }
     if (currentFunction) {
-        functions.push(currentFunction);
+        functions.push(currentFunction.slice(0, -1)); // remove the last newline
         lineNumbers.push(functionStartLine + 1);
     }
     return [functions, lineNumbers];
@@ -386,7 +386,7 @@ function parseObjCMethods(code: string): [string[], number[]] {
         }
     }
     if (currentMethod) {
-        methods.push(currentMethod);
+        methods.push(currentMethod.slice(0, -1)); // remove the last newline
         lineNumbers.push(methodStartLine + 1);
     }
     return [methods, lineNumbers];
@@ -436,7 +436,7 @@ function parseRubyFunctions(code: string): [string[], number[]] {
     }
 
     if (currentBlock) {
-        blocks.push(currentBlock);
+        blocks.push(currentBlock.slice(0, -1)); // remove the last newline
         lineNumbers.push(blockStartLine + 1);
     }
 
@@ -465,7 +465,7 @@ function parsePythonFunctions(code: string): [string[], number[]] {
     }
 
     if (currentFunction) {
-        functions.push(currentFunction);
+        functions.push(currentFunction.slice(0, -1));
         lineNumbers.push(functionStartLine + 1);
     }
 
