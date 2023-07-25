@@ -1,4 +1,3 @@
-// splitCode.test.ts
 import { parseFunctions } from '../../split';
 import { expect } from 'chai';
 import path from 'path';

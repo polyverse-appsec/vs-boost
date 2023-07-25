@@ -106,9 +106,9 @@ export function parseFunctions(
 
     // if we have a known parser, use it
     if (parser) {
-        const [parsedCode, lineNumbers] = aggregationEnabled?
-        splitCodeWithAggregation(parser, code):
-        splitCode(code);
+        const [parsedCode, lineNumbers] = aggregationEnabled
+            ? splitCodeWithAggregation(parser, code)
+            : splitCode(code);
         return [languageId, parsedCode, lineNumbers];
         // if the language is unknown, treat it as plaintext, and don't parse it
         //  send one big chunk and presume its small enough to be processed
@@ -116,9 +116,9 @@ export function parseFunctions(
         return [languageId, [code], [0]];
         // otherwise split the code based on default bracket parsing
     } else {
-        const [splitCodeResult, lineNumbers] = aggregationEnabled?
-            splitCodeWithAggregation(splitCode, code):
-            splitCode(code);
+        const [splitCodeResult, lineNumbers] = aggregationEnabled
+            ? splitCodeWithAggregation(splitCode, code)
+            : splitCode(code);
         return [languageId, splitCodeResult, lineNumbers];
     }
 }
@@ -173,7 +173,13 @@ export function splitCodeWithAggregation(
     return newSplitResults;
 }
 
+const useNewParser = false;
+
 export function splitCode(code: string): [string[], number[]] {
+    if (useNewParser) {
+        return parseCode("javascript", code);
+    }
+
     const chunks: string[] = [];
     const lineNumbers: number[] = [];
     const lines = code.split("\n");
@@ -226,6 +232,7 @@ function parseBracketyLanguage(
     code: string,
     functionName: string
 ): [string[], number[]] {
+
     const lines = code.split("\n");
     const functions: string[] = [];
     const lineNumbers: number[] = [];
@@ -290,6 +297,10 @@ function parseGoFunctions(code: string): [string[], number[]] {
 }
 
 function parseVbFunctions(code: string): [string[], number[]] {
+    if (useNewParser) {
+        return parseCode("vb", code);
+    }
+    
     const lines = code.split("\n");
     const functions: string[] = [];
     const lineNumbers: number[] = [];
@@ -340,6 +351,10 @@ function parseVbFunctions(code: string): [string[], number[]] {
 }
 
 function parseObjCMethods(code: string): [string[], number[]] {
+    if (useNewParser) {
+        return parseCode("objective-c", code);
+    }
+
     const lines = code.split("\n");
     const methods: string[] = [];
     const lineNumbers: number[] = [];
@@ -393,6 +408,10 @@ function parseObjCMethods(code: string): [string[], number[]] {
 }
 
 function parseRubyFunctions(code: string): [string[], number[]] {
+    if (useNewParser) {
+        return parseCode("ruby", code);
+    }
+
     const lines = code.split("\n");
     const blocks: string[] = [];
     const lineNumbers: number[] = [];
@@ -443,7 +462,13 @@ function parseRubyFunctions(code: string): [string[], number[]] {
     return [blocks, lineNumbers];
 }
 
-function parsePythonFunctions(code: string): [string[], number[]] {
+const useNewParserForPython = true;
+
+export function parsePythonFunctions(code: string): [string[], number[]] {
+    if (useNewParser || useNewParserForPython) {
+        return parseCode("python", code);
+    }
+
     const lines = code.split("\n");
     const functions: string[] = [];
     const lineNumbers: number[] = [];
@@ -470,4 +495,147 @@ function parsePythonFunctions(code: string): [string[], number[]] {
     }
 
     return [functions, lineNumbers];
+}
+
+
+interface LanguageConfig {
+    startKeywords: string[];
+    endKeywords: string[];
+    braceBased: boolean;
+    indentationBased?: boolean;
+}
+
+const languageConfigs: Record<string, LanguageConfig> = {
+    javascript: { startKeywords: [], endKeywords: [], braceBased: true },
+    vb: {
+        startKeywords: ["Function", "Sub"],
+        endKeywords: ["End Function", "End Sub"],
+        braceBased: false,
+    },
+    objc: {
+        startKeywords: ["@implementation", "-"],
+        endKeywords: ["@end"],
+        braceBased: true,
+    },
+    ruby: {
+        startKeywords: [
+            "def",
+            "class",
+            "module",
+            "if",
+            "elsif",
+            "unless",
+            "while",
+            "until",
+            "for",
+            "case",
+            "begin",
+            "do",
+        ],
+        endKeywords: ["end"],
+        braceBased: false,
+    },
+    python: {
+        startKeywords: ["def"],
+        endKeywords: [],
+        braceBased: false,
+        indentationBased: true,
+    },
+};
+
+export function parseCode(
+    language: string,
+    code: string,
+    functionName?: string
+): [string[], number[]] {
+    const chunks: string[] = [];
+    const lineNumbers: number[] = [];
+    const lines = code.split("\n");
+    let currentChunk = "";
+    let chunkStartLine = 0;
+    let nestingCount = 0;
+    let inNest = false;
+    const config = languageConfigs[language];
+    let currentIndentation = 0;
+
+    for (let lineno = 0; lineno < lines.length; lineno++) {
+        const line = lines[lineno];
+        const trimmedLine = line.trim();
+        currentChunk += line + "\n";
+
+        if (config.indentationBased) {
+            const indentation = line.search(/\S/);
+            if (config.startKeywords.some((keyword) =>
+                    trimmedLine.startsWith(keyword)) && !inNest) {
+                inNest = true;
+                nestingCount++;
+                currentIndentation = indentation;
+            } else if (
+                indentation <= currentIndentation &&
+                inNest &&
+                !config.startKeywords.some((keyword) =>
+                trimmedLine.startsWith(keyword))
+            )
+            {
+                nestingCount--;
+            }
+        } else {
+            if (config.braceBased) {
+                const leftBraces = (line.match(/{/g) || []).length;
+                const rightBraces = (line.match(/}/g) || []).length;
+
+                if (leftBraces > 0) {
+                    nestingCount += leftBraces;
+                    if (!inNest && (!functionName || line.includes(functionName + ' '))) {
+                        inNest = true;
+                    }
+                }
+                if (rightBraces > 0) {
+                    nestingCount -= rightBraces;
+                }
+            } else {
+                if (
+                    config.startKeywords.some((keyword) =>
+                        trimmedLine.startsWith(keyword)
+                    )
+                ) {
+                    nestingCount++;
+                }
+                if (
+                    config.endKeywords.some((keyword) =>
+                        trimmedLine.startsWith(keyword)
+                    )
+                ) {
+                    nestingCount--;
+                }
+            }
+        }
+
+        if (nestingCount < 0) {
+            nestingCount = 0;
+        }
+        if (nestingCount === 0 && currentChunk.trim() !== "" && inNest) {
+            if (config.indentationBased) {
+                chunks.push(currentChunk.slice(0, -1));
+            } else {
+                chunks.push(currentChunk);
+            }
+            lineNumbers.push(chunkStartLine + 1);
+            chunkStartLine = lineno + 1;
+            if (config.indentationBased) {
+                currentChunk = "\n";
+            } else {
+                currentChunk = "";
+            }
+            inNest = false;
+        }
+    }
+
+    // add the final chunk if it exists
+    if (currentChunk.trim() !== "") {
+        chunks.push(currentChunk.trim());
+        lineNumbers.push(chunkStartLine + 1);
+    }
+
+    return [chunks, lineNumbers];
 }

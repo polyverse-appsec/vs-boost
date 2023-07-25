@@ -1,11 +1,10 @@
-// splitCode.test.ts
 import { splitCode, splitCodeWithAggregation } from '../../split';
 import { expect } from 'chai';
 import path from 'path';
 import fs from 'fs';
 import { Context } from 'mocha';
 
-describe('splitCode Unit', () => {
+describe('TypeScript Parse Unit', () => {
 
     const dataFolder = __dirname + "/data/";
 
