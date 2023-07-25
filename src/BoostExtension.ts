@@ -400,6 +400,13 @@ export class BoostExtension {
                 );
                 boostProjectData.summary.summaryUrl =
                     "./" + relativeSummaryPath;
+            } else {
+                if (path.isAbsolute(boostProjectData.summary.summaryUrl)) {
+                    boostProjectData.summary.summaryUrl = path.relative(
+                        workspaceFolder.fsPath,
+                        boostProjectData.summary.summaryUrl
+                    );
+                }
             }
             if (
                 !fs.existsSync(
@@ -442,10 +449,11 @@ export class BoostExtension {
         Object.assign(boostProjectData, emptyProjectData);
         boostProjectData.dataFormatVersion = BoostConfiguration.version;
 
-        boostProjectData.summary.summaryUrl = getBoostFile(
-            workspaceFolder,
-            BoostFileType.summary
-        ).fsPath;
+        boostProjectData.summary.summaryUrl = path.relative(workspaceFolder.fsPath,
+                getBoostFile(
+                workspaceFolder,
+                BoostFileType.summary
+            ).fsPath);
         await this.getBoostFilesForFolder(
             workspaceFolder,
             boostProjectData,
