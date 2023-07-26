@@ -105,6 +105,10 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
         const jsPathOnDisk = vscode.Uri.joinPath(this.context.extensionUri, 'out', 'dashboard', 'start', 'main.js');
         const jsSrc = webview.asWebviewUri(jsPathOnDisk);
         const nonce = 'nonce-123456'; // TODO: add a real nonce here
+
+        if (!vscode.workspace.workspaceFolders || !boostprojectdata) {
+            return '<html><body><h1>Boost Project Summary</h1><p>Open a Project folder to see the Boost Project Summary.</p></body></html>';
+        }
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
 
         const blueprintFile = boostprojectdata.summary.summaryUrl;

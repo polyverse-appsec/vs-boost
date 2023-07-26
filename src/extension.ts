@@ -65,9 +65,6 @@ export async function activate(context: vscode.ExtensionContext) {
 
         const extension = new BoostExtension(context);
 
-        // initialize once on startup...
-        await extension.refreshBoostProjectsData();
-
     } catch (error) {
         boostLogging.error(`Unable to activate Boost Notebook Extension due to error:${error}. Please retry launching, check your Boost configuration, or contact Polyverse Boost Support`, true);
     }

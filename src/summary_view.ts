@@ -277,6 +277,10 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         const nonce = "nonce-123456"; // TODO: add a real nonce here
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, "utf8");
 
+        if (!vscode.workspace.workspaceFolders) {
+            return '<html><body><h1>Boost Project Summary</h1><p>Open a Project folder to see the Boost Project Summary.</p></body></html>';
+        }
+
         const template = _.template(rawHtmlContent);
         const htmlContent = template({ jsSrc, nonce, boostprojectdata });
 

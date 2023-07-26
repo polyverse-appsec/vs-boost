@@ -135,7 +135,13 @@ export class BoostExtension {
     public readonly sampleGuidelineRegEx =
         /^# Enter Your \w+ Guidelines Here\n\nYou can describe your goals, constraints, or hints for analysis$/;
 
-    public blueprintPanel: BoostMarkdownViewProvider | undefined;
+    public blueprint: BoostMarkdownViewProvider | undefined;
+    public docs: BoostMarkdownViewProvider | undefined;
+    public compliance: BoostMarkdownViewProvider | undefined;
+    public security: BoostMarkdownViewProvider | undefined;
+    public start: BoostStartViewProvider | undefined;
+    public chat: BoostChatViewProvider | undefined;
+    public summary: BoostSummaryViewProvider | undefined;
 
     problems: vscode.DiagnosticCollection;
 
@@ -190,12 +196,23 @@ export class BoostExtension {
 
         this.setupDashboard(context);
 
+        // initialize once on startup...
+        this.refreshBoostProjectsData().then(() => {
+            this.blueprint?.refresh();
+            this.docs?.refresh();
+            this.compliance?.refresh();
+            this.security?.refresh();
+            this.summary?.refresh();
+            this.chat?.refresh();
+            this.start?.refresh();
+        });
+
         boostLogging.log("Activated Boost Notebook Extension");
 
         if (BoostConfiguration.logLevel === "debug") {
             boostLogging.info("Polyverse Boost is now active");
         }
-    }
+}
     registerUriHandler(context: vscode.ExtensionContext) {
         let provider = new BoostNotebookContentProvider();
         const disposable = vscode.workspace.registerTextDocumentContentProvider(boostUriSchema, provider);
@@ -977,56 +994,46 @@ export class BoostExtension {
     }
 
     setupDashboard(context: vscode.ExtensionContext) {
-        const summary = new BoostSummaryViewProvider(context, this);
-        const chat = new BoostChatViewProvider(context, this);
-        const docview = new BoostStartViewProvider(context, this);
-
-        this.summaryViewProvider = summary;
+        this.summary = new BoostSummaryViewProvider(context, this);
+        this.chat = new BoostChatViewProvider(context, this);
+        this.start = new BoostStartViewProvider(context, this);
 
         context.subscriptions.push(
-            vscode.window.registerWebviewViewProvider(summaryViewType, summary)
+            vscode.window.registerWebviewViewProvider(summaryViewType, this.summary)
         );
 
         context.subscriptions.push(
             vscode.window.registerWebviewViewProvider(
                 BoostChatViewProvider.viewType,
-                chat
+                this.chat
             )
         );
 
         context.subscriptions.push(
             vscode.window.registerWebviewViewProvider(
                 BoostStartViewProvider.viewType,
-                docview
+                this.start
             )
         );
 
-        /*
-        This is the old tree view code for if/when we go back to that view style
+        this.docs = new BoostMarkdownViewProvider(
+            context,
+            this,
+            "docxw");
 
-        // Create data providers for each tree
-        const docDataProvider = new BoostTreeDataProvider(this, "docAnalysis");
-        const securityDataProvider = new BoostTreeDataProvider(this, "securityAnalysis");
-        const complianceDataProvider = new BoostTreeDataProvider(this, "complianceAnalysis");
-
-        // Register each TreeDataProvider with vscode
-        vscode.window.registerTreeDataProvider('polyverse-boost-doc-view', docDataProvider);
-        vscode.window.registerTreeDataProvider('polyverse-boost-security-view', securityDataProvider);
-        vscode.window.registerTreeDataProvider('polyverse-boost-compliance-view', complianceDataProvider);  
-        */
-
-        const docs = new BoostMarkdownViewProvider(context, this, "doc");
-        const security = new BoostMarkdownViewProvider(
+        this.security = new BoostMarkdownViewProvider(
             context,
             this,
             BoostUserAnalysisType.security
         );
-        const compliance = new BoostMarkdownViewProvider(
+
+        this.compliance = new BoostMarkdownViewProvider(
             context,
             this,
             BoostUserAnalysisType.compliance
         );
-        this.blueprintPanel = new BoostMarkdownViewProvider(
+
+        this.blueprint = new BoostMarkdownViewProvider(
             context,
             this,
             BoostUserAnalysisType.blueprint
@@ -1035,25 +1042,25 @@ export class BoostExtension {
         context.subscriptions.push(
             vscode.window.registerWebviewViewProvider(
                 "polyverse-boost-doc-view",
-                docs
+                this.docs
             )
         );
         context.subscriptions.push(
             vscode.window.registerWebviewViewProvider(
                 "polyverse-boost-security-view",
-                security
+                this.security
             )
         );
         context.subscriptions.push(
             vscode.window.registerWebviewViewProvider(
                 "polyverse-boost-compliance-view",
-                compliance
+                this.compliance
             )
         );
         context.subscriptions.push(
             vscode.window.registerWebviewViewProvider(
                 "polyverse-boost-blueprint-view",
-                this.blueprintPanel
+                this.blueprint
             )
         );
     }
@@ -1199,12 +1206,6 @@ export class BoostExtension {
             );
         }
 
-        let baseWorkspace;
-        if (vscode.workspace.workspaceFolders) {
-            baseWorkspace = vscode.workspace.workspaceFolders![0].uri;
-        } else {
-            baseWorkspace = uri;
-        }
         // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
         const searchPattern = new vscode.RelativePattern(
             targetFolder.fsPath,
@@ -2556,7 +2557,7 @@ export class BoostExtension {
                     // ensure we save the notebook if we successfully processed it
                     notebook.flushToFS();
                     // TODO, this should be more general once we have more than one project level command
-                    this.blueprintPanel?.refresh();
+                    this.blueprint?.refresh();
 
                     boostLogging.info(
                         `Saved Updated Notebook for ${kernelCommand} in file:[${projectBoostFile.fsPath}]`,

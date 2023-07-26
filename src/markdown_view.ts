@@ -113,7 +113,7 @@ export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
 
         const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
         if (!workspaceFolder) {
-            boostContent = `No workspace folder found - please open a workspace folder`;
+            return '<html><body><h1>Boost Project Summary</h1><p>Open a Project folder to see the Boost Project Summary.</p></body></html>';
         } else {
             const summaryDataUri = getBoostFile(workspaceFolder.uri, BoostFileType.summary);
             const boostNotebook = new BoostNotebook();

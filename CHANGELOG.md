@@ -9,7 +9,7 @@ Polyverse Boost Automatic Application Modernization
 - N/A
 
 ### Enhancements
-- N/A
+- Improved UX Activity Tab startup and responsiveness when no folder is open
 
 ### Bug Fixes
 - Fix Project data cache Summary Uri to be relative for crossing systems and users

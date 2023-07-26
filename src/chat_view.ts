@@ -133,6 +133,11 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         const chats = this._chats;
 
         const workspaceFolder = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0] : ""; // Get the first workspace folder
+
+        if (!vscode.workspace.workspaceFolders) {
+            return '<html><body><h1>Boost Project Summary</h1><p>Open a Project folder to see the Boost Project Summary.</p></body></html>';
+        }
+
         const projectName = workspaceFolder ? path.basename(workspaceFolder.uri.fsPath) : "your workspace";
 
         const template = _.template(rawHtmlContent);
