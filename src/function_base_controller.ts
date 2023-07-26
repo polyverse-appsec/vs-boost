@@ -115,8 +115,32 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
                                  `(lineNumberBase=${lineNumberBase}, bug line=${bug.lineNumber}).`);
             }
         
+            // for now we're hardcoding the following range:
+            // Error: 7-10
+            // Warning: 4-6
+            // Info: 2-3
+            // Hint: 0-1
+            const thisSeverity = bug.severity > 6?
+                vscode.DiagnosticSeverity.Error:
+                bug.severity > 3?
+                    vscode.DiagnosticSeverity.Warning:
+                    bug.severity > 1?
+                    vscode.DiagnosticSeverity.Information:
+                    vscode.DiagnosticSeverity.Hint;
+
             let range = new vscode.Range(bug.lineNumber, 0, bug.lineNumber, 0);
-            let diagnostic = new vscode.Diagnostic(range, `Severity: ${bug.severity}\n${bug.description}`, vscode.DiagnosticSeverity.Warning);
+            let diagnostic = new vscode.Diagnostic(
+                range,
+                `${bug.description}`,
+                thisSeverity);
+
+            // add the bug type to the diagnostic so we know how to categorize
+            diagnostic.source = bug.bugType;
+
+            // if available, add the recommended solution to the issue
+            if (bug.solution) {
+                diagnostic.relatedInformation = bug.solution;
+            }
             
             // Only add the diagnostic if it doesn't exist in the existingDiagnostics
             if (!existingDiagnostics || !existingDiagnostics.find(existingDiagnostic => 
