@@ -10,6 +10,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Enhancements
 - Improved UX Activity Tab startup and responsiveness when no folder is open
+- Improved Diagnostic Problems reporting - using correct severity and issue type / category
 
 ### Bug Fixes
 - Fix Project data cache Summary Uri to be relative for crossing systems and users
