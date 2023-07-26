@@ -6,13 +6,22 @@ import {
 import { BoostConfiguration } from "./boostConfiguration";
 
 export class BoostLogger extends Disposable {
-    private _outputChannel: OutputChannel;
+    private _outputChannel: OutputChannel | undefined;
 
     constructor() {
         super(() => this.dispose());
 
         // we use a friendly name for the channel as this will be displayed to the user in the output pane
-        this._outputChannel = window.createOutputChannel("Polyverse Boost");
+        for (let i = 0; i < 3; i++) {
+            try {
+                this._outputChannel = window.createOutputChannel("Polyverse Boost");
+            } catch (e) {
+                // ignore
+            }
+            if (this._outputChannel) {
+                break;
+            }
+        }
     
         this.log('Boost Logging starting...');
     }
@@ -26,7 +35,7 @@ export class BoostLogger extends Disposable {
     }
 
     log(message: string) {
-        this._outputChannel.appendLine(message);
+        this._outputChannel?.appendLine(message);
     }
 
     info(message: string, showUI : boolean = true) {
@@ -64,7 +73,7 @@ export class BoostLogger extends Disposable {
 
     dispose() : void {
         this.log('Boost Logging shutting down...');
-        this._outputChannel.dispose();       
+        this._outputChannel?.dispose();       
     }
 
     shouldLog(messageTarget: string) : boolean {
