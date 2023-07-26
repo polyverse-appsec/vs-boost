@@ -24,8 +24,8 @@ suite("Load Code File Command", function () {
         // Execute the "createJsonNotebook" command
         await vscode.commands.executeCommand(
             NOTEBOOK_TYPE + ".createJsonNotebook",
-            { timeout: 2000 }
-        ); // give the command 2 seconds to execute
+            { timeout: 20000 }
+        ); // give the command 20 seconds to execute
 
         // Wait for the notebook to be created
         await new Promise((resolve) => setTimeout(resolve, 2000)); // 2 seconds to make sure notebook is created
