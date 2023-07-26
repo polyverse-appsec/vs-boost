@@ -12,6 +12,7 @@ import { BoostServiceHelper } from './boostServiceHelper';
 import { boostLogging } from './boostLogging';
 import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';
 import { ControllerOutputType } from './controllerOutputTypes';
+import { noProjectOpenMessage } from './boostprojectdata_interface';
 
 export const aiName = "Sara";
 
@@ -135,7 +136,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         const workspaceFolder = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0] : ""; // Get the first workspace folder
 
         if (!vscode.workspace.workspaceFolders) {
-            return '<html><body><h1>Boost Project Summary</h1><p>Open a Project folder to see the Boost Project Summary.</p></body></html>';
+            return `<html><body><h1>Boost Sara Chat</h1><p>${noProjectOpenMessage}</p></body></html>`;
         }
 
         const projectName = workspaceFolder ? path.basename(workspaceFolder.uri.fsPath) : "your workspace";

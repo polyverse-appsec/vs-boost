@@ -17,7 +17,7 @@ import { boostLogging } from "./boostLogging";
 import { BoostConfiguration } from "./boostConfiguration";
 import { complianceFunctionKernelName } from "./compliance_function_controller";
 import { BoostProjectData } from "./BoostProjectData";
-import { FileSummaryItem } from "./boostprojectdata_interface";
+import { FileSummaryItem, noProjectOpenMessage } from "./boostprojectdata_interface";
 import { quickBlueprintKernelName } from "./quick_blueprint_controller";
 import { performanceKernelName } from "./performance_controller";
 import { BoostUserAnalysisType } from "./userAnalysisType";
@@ -278,7 +278,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, "utf8");
 
         if (!vscode.workspace.workspaceFolders) {
-            return '<html><body><h1>Boost Project Summary</h1><p>Open a Project folder to see the Boost Project Summary.</p></body></html>';
+            return `<html><body><h1>Boost Project Status</h1><p>${noProjectOpenMessage}</p></body></html>`;
         }
 
         const template = _.template(rawHtmlContent);

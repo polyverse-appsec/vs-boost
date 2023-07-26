@@ -3,6 +3,8 @@
 
 import { ControllerOutputType } from "./controllerOutputTypes";
 
+export const noProjectOpenMessage = "Please open a project to chat with Sara, the Boost AI, and analyze of your code.";
+
 export interface Summary {
     projectName: string;
     summaryUrl: string;
