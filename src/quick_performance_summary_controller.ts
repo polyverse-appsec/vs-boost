@@ -1,13 +1,14 @@
 import {
     BoostQuickSummaryKernelControllerBase,
+    quickSummaryKernelNamePrefix
 } from './quick_summary_controller';
 
 import { ControllerOutputType } from './controllerOutputTypes';
 
 import * as vscode from 'vscode';
-import { performanceKernelName } from './performance_controller';
+import { performanceFunctionKernelName } from './performance_function_controller';
 
-export const quickPerformanceSummaryKernelName = `quick${ControllerOutputType.performance}`;
+export const quickPerformanceSummaryKernelName = `${quickSummaryKernelNamePrefix}${performanceFunctionKernelName}`;
 
 export class BoostQuickPerformanceSummaryKernel extends BoostQuickSummaryKernelControllerBase {
 	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection)
@@ -17,7 +18,7 @@ export class BoostQuickPerformanceSummaryKernel extends BoostQuickSummaryKernelC
             onServiceErrorHandler,
             otherThis,
             collection,
-            performanceKernelName,
+            performanceFunctionKernelName,
             ControllerOutputType.performance,
             ControllerOutputType.performanceFunction,
             "Performance");

@@ -24,6 +24,8 @@ import { findCellByKernel, generateCellOutputWithHeader } from './extension';
 import { getCurrentOrganization } from "./authorization";
 import { ControllerOutputType } from './controllerOutputTypes';
 
+export const quickSummaryKernelNamePrefix = `quick_summary_`;
+
 export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase {
 	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection,
             kernelName: string,
@@ -33,7 +35,7 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
         ) {
         super(
             collection,
-            `quick_${kernelName}`,
+            `${quickSummaryKernelNamePrefix}${kernelName}`,
             `Quick ${outputHeader} Report`,
             `Quickly builds a ${outputHeader} Summary Report from data about project and ${outputType} analysis.`,
             outputType,
@@ -44,6 +46,10 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
             otherThis,
             onServiceErrorHandler);
         this._coreOutputType = coreOutputType;
+
+        // tap the parent controller to get it initialized for any potential config or init errors
+        // NOTE: This assumes the parent has already been initialized
+        this.parentController;
 	}
 
     private _coreOutputType: ControllerOutputType;
@@ -132,7 +138,7 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
             if (!(kernelController instanceof FunctionKernelControllerBase)) {
                 continue;
             }
-            if (kernelController.outputType !== this.outputType) {
+            if (kernelController.outputType !== this._coreOutputType) {
                 continue;
             }
             this._parentController = kernelController;

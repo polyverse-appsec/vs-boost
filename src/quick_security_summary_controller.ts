@@ -1,13 +1,14 @@
 import {
     BoostQuickSummaryKernelControllerBase,
+    quickSummaryKernelNamePrefix
 } from './quick_summary_controller';
 
 import { ControllerOutputType } from './controllerOutputTypes';
 
 import * as vscode from 'vscode';
-import { analyzeKernelName } from './analyze_controller';
+import { analyzeFunctionKernelName } from './analyze_function_controller';
 
-export const quickSecuritySummaryKernelName = `quick${ControllerOutputType.analyze}`;
+export const quickSecuritySummaryKernelName = `${quickSummaryKernelNamePrefix}${analyzeFunctionKernelName}`;
 
 export class BoostQuickSecuritySummaryKernel extends BoostQuickSummaryKernelControllerBase {
 	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection)
@@ -17,7 +18,7 @@ export class BoostQuickSecuritySummaryKernel extends BoostQuickSummaryKernelCont
             onServiceErrorHandler,
             otherThis,
             collection,
-            analyzeKernelName,
+            analyzeFunctionKernelName,
             ControllerOutputType.analyze,
             ControllerOutputType.analyzeFunction,
             "Security");

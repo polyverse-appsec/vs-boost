@@ -1,14 +1,14 @@
 import {
     BoostQuickSummaryKernelControllerBase,
+    quickSummaryKernelNamePrefix
 } from './quick_summary_controller';
-
-import { complianceKernelName } from './compliance_controller';
 
 import { ControllerOutputType } from './controllerOutputTypes';
 
 import * as vscode from 'vscode';
+import { complianceFunctionKernelName } from './compliance_function_controller';
 
-export const quickComplianceSummaryKernelName = `quick${ControllerOutputType.compliance}`;
+export const quickComplianceSummaryKernelName = `${quickSummaryKernelNamePrefix}${complianceFunctionKernelName}`;
 
 export class BoostQuickComplianceSummaryKernel extends BoostQuickSummaryKernelControllerBase {
 	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection)
@@ -18,7 +18,7 @@ export class BoostQuickComplianceSummaryKernel extends BoostQuickSummaryKernelCo
             onServiceErrorHandler,
             otherThis,
             collection,
-            complianceKernelName,
+            complianceFunctionKernelName,
             ControllerOutputType.compliance,
             ControllerOutputType.complianceFunction,
             "Compliance");
