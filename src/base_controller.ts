@@ -669,7 +669,13 @@ export class KernelControllerBase extends BoostServiceHelper {
             items: [
                 {
                     mime: errorMimeType, // for compatibility with VS Code
-                    data: error.toString(),
+                    data: JSON.stringify(
+                        {
+                            name: error.name,
+                            message: error.message,
+                            // stack: error.stack, // skip the stack since we don't need code level details
+                        }
+                    ),
                 },
             ],
             metadata: {
