@@ -139,7 +139,15 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
 
             // if available, add the recommended solution to the issue
             if (bug.solution) {
-                diagnostic.relatedInformation = bug.solution;
+                    // we use notebook for offline notebooks, and the cell for online notebooks
+                const solutionLocation =
+                    usingBoostNotebook?vscode.Uri.parse((notebook as boostnb.BoostNotebook).fsPath):cell.document.uri;
+                    // we don't have a specific location for the solution beyond the cell or notebook, so use start of the location
+                const solutionSpecificLocation = new vscode.Range(new vscode.Position(0, 0), new vscode.Position(0, 0));
+                let relatedInformation = new vscode.DiagnosticRelatedInformation(
+                    new vscode.Location(solutionLocation, solutionSpecificLocation), 
+                    bug.solution);
+                diagnostic.relatedInformation = [relatedInformation];
             }
             
             // Only add the diagnostic if it doesn't exist in the existingDiagnostics
