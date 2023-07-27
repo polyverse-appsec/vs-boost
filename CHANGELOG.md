@@ -14,6 +14,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Bug Fixes
 - Fix Project data cache Summary Uri to be relative for crossing systems and users
+- Fix issue that prevented .boostignore file being used
 
 ## Version 1.1.1: July 21st, 2023
 
