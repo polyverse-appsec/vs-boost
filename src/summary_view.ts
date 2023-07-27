@@ -56,8 +56,6 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
     ) {
         this._view = webviewView;
 
-        const boostprojectdata = this._boostExtension.getBoostProjectData();
-
         webviewView.webview.options = {
             // Allow scripts in the webview
             enableScripts: true,
@@ -67,14 +65,14 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
         webviewView.webview.html = this._getHtmlForWebview(
             webviewView.webview,
-            boostprojectdata
+            this._boostExtension.getBoostProjectData()
         );
 
         webviewView.webview.onDidReceiveMessage(async (data) => {
             switch (data.command) {
                 case 'open_file':
                     {
-                        await this._openFile(data.file, boostprojectdata);
+                        await this._openFile(data.file, this._boostExtension.getBoostProjectData());
                     }
                     break;
                 case "analyze_all":
@@ -211,7 +209,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                     "." +
                                     BoostCommands.refreshProjectData
                             );
-                            this.finishAllJobs(boostprojectdata);
+                            this.finishAllJobs(this._boostExtension.getBoostProjectData());
                             this.refresh();
                         }
                     }
@@ -280,7 +278,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         const nonce = "nonce-123456"; // TODO: add a real nonce here
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, "utf8");
 
-        if (!vscode.workspace.workspaceFolders) {
+        if (!boostprojectdata || !vscode.workspace.workspaceFolders) {
             return `<html><body><h1>Boost Project Status</h1><p>${noProjectOpenMessage}</p></body></html>`;
         }
 
