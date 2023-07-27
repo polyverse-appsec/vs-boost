@@ -15,7 +15,12 @@ export function mapError(err: any) : Error {
                         "Unable to use your GitHub authorized account to access the Boost Cloud Service. " +
                         "Please check your GitHub account and Billing settings, and try again. Also note that your Polyverse " +
                         "license must use the same email address as your GitHub account.");
-                    }
+                }
+            case 404: // not found - server API is missing
+            case 405: // method not allowed - server API is missing
+                return new Error(
+                    "Boost code analysis service is currently unavailable. " +
+                    "Please try your request again. If the problem persists please contact Boost Support.");
             case 501: // account usage limit exceeded - need credit card or access upgraded
                 return new Error(
                     "Current account usage/billing limit reached. " +
