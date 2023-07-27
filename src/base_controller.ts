@@ -738,7 +738,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         }
 
         let details = this.onKernelProcessResponseDetails(
-            response.details,
+            response?.details,
             cell,
             notebook,
         );
@@ -758,9 +758,9 @@ export class KernelControllerBase extends BoostServiceHelper {
                 `Error in cell ${cellId}: ${serviceError.message}`,
                 false
             );
-            if (!usingBoostNotebook) {
-                this.addDiagnosticProblem(notebook, cell, serviceError as Error);
-            }
+            this.addDiagnosticProblem(notebook, cell, serviceError as Error);
+
+            response = serviceError;
         }
 
         return response;
