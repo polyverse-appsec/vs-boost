@@ -39,8 +39,6 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
     ) {
         this._view = webviewView;
 
-        const boostprojectdata = this._boostExtension.getBoostProjectData();
-
         webviewView.webview.options = {
             // Allow scripts in the webview
             enableScripts: true,
@@ -50,12 +48,14 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
             ]
         };
 
-        webviewView.webview.html = this._getHtmlForWebview(webviewView.webview, boostprojectdata);
+        webviewView.webview.html = this._getHtmlForWebview(webviewView.webview, this._boostExtension.getBoostProjectData());
 
         webviewView.webview.onDidReceiveMessage(async data => {
             switch (data.command) {
                 case 'open_file':
                     {
+                        const boostprojectdata = this._boostExtension.getBoostProjectData();
+                        
                         await this._openFile(data.file, boostprojectdata);
                     }
                     break;
@@ -107,7 +107,7 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
         const jsSrc = webview.asWebviewUri(jsPathOnDisk);
         const nonce = 'nonce-123456'; // TODO: add a real nonce here
 
-        if (!vscode.workspace.workspaceFolders || !boostprojectdata) {
+        if (!boostprojectdata || !vscode.workspace.workspaceFolders || !boostprojectdata) {
             return `<html><body><h1>Boost Project Start</h1><p>${noProjectOpenMessage}</p></body></html>`;
         }
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
