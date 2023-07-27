@@ -5,14 +5,14 @@ import {
     markdownMimeType
 } from './base_controller';
 
+import { BoostConfiguration } from './boostConfiguration';
+
 import { buildVSCodeIgnorePattern } from './extension';
 
 import {
     FunctionKernelControllerBase,
 } from './function_base_controller';
 
-
-import { BoostConfiguration } from './boostConfiguration';
 import * as vscode from 'vscode';
 import {
     BoostNotebookCell,
@@ -24,24 +24,26 @@ import { findCellByKernel, generateCellOutputWithHeader } from './extension';
 import { getCurrentOrganization } from "./authorization";
 import { ControllerOutputType } from './controllerOutputTypes';
 
-export const quickComplianceSummaryKernelName = 'quickcompliance';
-const quickComplianceSummaryOutputHeader = `Architectural Quick Summary Compliance`;
-
-export class BoostQuickComplianceSummaryKernel extends KernelControllerBase {
-	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection) {
+export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase {
+	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection,
+            kernelName: string,
+            outputType: ControllerOutputType,
+            coreOutputType: ControllerOutputType,
+            outputHeader: string,
+        ) {
         super(
             collection,
-            quickComplianceSummaryKernelName,
-            'Quick Compliance Report',
-            'Quickly builds a Data Compliance Summary Report from data about project and compliance analysis.',
-            ControllerOutputType.complianceFunction,
-            quickComplianceSummaryOutputHeader,
+            `quick_${kernelName}`,
+            `Quick ${outputHeader} Report`,
+            `Quickly builds a ${outputHeader} Summary Report from data about project and ${outputType} analysis.`,
+            outputType,
+            `Architectural Quick Summary ${outputHeader} Report`,
             false,
             false,
             context,
             otherThis,
             onServiceErrorHandler);
-        this._coreOutputType = ControllerOutputType.compliance;
+        this._coreOutputType = coreOutputType;
 	}
 
     private _coreOutputType: ControllerOutputType;
@@ -54,7 +56,7 @@ export class BoostQuickComplianceSummaryKernel extends KernelControllerBase {
         switch (BoostConfiguration.cloudServiceStage)
         {
             case "local":
-                return 'http://127.0.0.1:8000/quick-compliance-summary';
+                return 'http://127.0.0.1:8000/quick-summary';
             case 'dev':
                 return '';
             case "test":
@@ -84,7 +86,7 @@ export class BoostQuickComplianceSummaryKernel extends KernelControllerBase {
         // are we analyzing a source file or a project?
         let projectWideAnalysis = (notebook.metadata['sourceFile'] as string) === './';
         if (!projectWideAnalysis) {
-            throw new Error("Quick Compliance can only be run at the Project level");
+            throw new Error("Quick Summary can only be run at the Project level");
         }
 
         // now get the current organization
@@ -103,7 +105,7 @@ export class BoostQuickComplianceSummaryKernel extends KernelControllerBase {
         let successfullyCompleted = true;
         try
         {
-            await this._runQuickCompliance(notebook, authPayload);
+            await this._runQuickSummary(notebook, authPayload);
 
         } catch (rethrow) {
             successfullyCompleted = false;
@@ -143,7 +145,7 @@ export class BoostQuickComplianceSummaryKernel extends KernelControllerBase {
         return this._parentController;
 }
 
-    private async _runQuickCompliance(
+    private async _runQuickSummary(
             notebook: BoostNotebook,
             authPayload: any) {
 
@@ -152,14 +154,14 @@ export class BoostQuickComplianceSummaryKernel extends KernelControllerBase {
         }
 
         // we don't want to overwrite deep summary, which are far more detailed and useful in general
-        let existingComplianceCell = findCellByKernel(notebook, ControllerOutputType.compliance) as BoostNotebookCell;
-        if (existingComplianceCell && existingComplianceCell.value &&
-            existingComplianceCell.metadata?.summaryType) {
-            if (existingComplianceCell.metadata.summaryType === "summary") {
+        let existingSummaryCell = findCellByKernel(notebook, this.outputType) as BoostNotebookCell;
+        if (existingSummaryCell && existingSummaryCell.value &&
+            existingSummaryCell.metadata?.summaryType) {
+            if (existingSummaryCell.metadata.summaryType === "summary") {
                 boostLogging.info(`Skipping ${this.command} of Project-level Notebook " +
                                   "because it already has a detailed Summary`, false);
                 return;
-            } else if (existingComplianceCell.metadata.summaryType === "quick") {
+            } else if (existingSummaryCell.metadata.summaryType === "quick") {
                 boostLogging.info(`Rebuilding ${this.command} of Project-level Notebook ` +
                                   `from last quick summary`, false);
             }

@@ -4,6 +4,7 @@ export enum BoostUserAnalysisType {
     security = "security",
     documentation = "documentation",
     compliance = "compliance",
+    performance = "performance",
     deepCode = 'deepcode',
 }
 

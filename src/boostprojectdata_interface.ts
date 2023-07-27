@@ -3,7 +3,9 @@
 
 import { ControllerOutputType } from "./controllerOutputTypes";
 
-export const noProjectOpenMessage = "Please open a project to chat with Sara, the Boost AI, and analyze of your code.";
+export const noProjectOpenMessage = "Please open a project to chat with Sara, the Boost AI, about your project or analyze your project code.";
+export const extensionNotFullyActivated = "Boost has not fully initialized. Some features may not be fully available yet. Please wait before using Boost Chat AI and analyzing your project.";
+export const extensionFailedToActivate = "Boost encountered an error during startup. Please restart Visual Studio Code and try again. If the problem persists, please contact Polyverse Boost Support";
 
 export interface Summary {
     projectName: string;

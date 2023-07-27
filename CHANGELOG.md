@@ -3,10 +3,10 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 1.1.2: July 26th, 2023
+## Version 1.2.0: July 27th, 2023
 
 ### New Features
-- Added new Compliance Report run after compliance scans of code to produce high-level report of compliance issues and impact
+- Added new Summary Reports run after compliance, security and performance scans of code to produce high-level report of most severe issues and impact
 
 ### Enhancements
 - Improved UX Activity Tab responsiveness and status reporting during initial startup

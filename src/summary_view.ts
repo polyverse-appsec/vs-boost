@@ -21,7 +21,8 @@ import { FileSummaryItem, noProjectOpenMessage, extensionNotFullyActivated, exte
 import { quickBlueprintKernelName } from "./quick_blueprint_controller";
 import { performanceKernelName } from "./performance_controller";
 import { BoostUserAnalysisType } from "./userAnalysisType";
-import { quickComplianceSummaryKernelName } from "./quick_compliance_controller";
+import { quickComplianceSummaryKernelName } from "./quick_compliance_summary_controller";
+import { quickSecuritySummaryKernelName } from "./quick_security_summary_controller";
 
 
 export const summaryViewType = "polyverse-boost-summary-view";
@@ -107,7 +108,9 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                 BoostUserAnalysisType.security,
                                 [
                                     getKernelName(analyzeFunctionKernelName),
+                                    getKernelName(quickSecuritySummaryKernelName),
 //                                    getKernelName(performanceFunctionKernelName),
+//                                    getKernelName(quickPerformanceSummaryKernelName),
                                 ],
 
                             ],
@@ -155,8 +158,11 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                         }
 
                                         // quick operations uses the project-level command
-                                        if ([getKernelName(quickBlueprintKernelName), getKernelName(quickComplianceSummaryKernelName)].
-                                            includes(analysisKernelName)) {
+                                        if ([
+                                            getKernelName(quickBlueprintKernelName),
+                                            getKernelName(quickComplianceSummaryKernelName),
+                                            getKernelName(quickSecuritySummaryKernelName)
+                                            ].includes(analysisKernelName)) {
                                             await vscode.commands.executeCommand(
                                                 NOTEBOOK_TYPE +
                                                     "." +

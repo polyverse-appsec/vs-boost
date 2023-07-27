@@ -96,7 +96,9 @@ import {
     quickBlueprintKernelName,
 } from "./quick_blueprint_controller";
 import { FunctionKernelControllerBase } from "./function_base_controller";
-import { BoostQuickComplianceSummaryKernel, quickComplianceSummaryKernelName } from "./quick_compliance_controller";
+import { BoostQuickComplianceSummaryKernel, quickComplianceSummaryKernelName } from "./quick_compliance_summary_controller";
+import { BoostQuickSecuritySummaryKernel, quickSecuritySummaryKernelName } from "./quick_security_summary_controller";
+import { BoostQuickPerformanceSummaryKernel, quickPerformanceSummaryKernelName } from "./quick_performance_summary_controller";
 
 export class BoostNotebookContentProvider implements vscode.TextDocumentContentProvider {
     // emitter and its event
@@ -140,6 +142,7 @@ export class BoostExtension {
     public docs: BoostMarkdownViewProvider | undefined;
     public compliance: BoostMarkdownViewProvider | undefined;
     public security: BoostMarkdownViewProvider | undefined;
+    public performance: BoostMarkdownViewProvider | undefined;
     public start: BoostStartViewProvider | undefined;
     public chat: BoostChatViewProvider | undefined;
     public summary: BoostSummaryViewProvider | undefined;
@@ -989,7 +992,11 @@ export class BoostExtension {
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
             // register the dev only kernels
-            const devKernelTypes: any[] = [BoostQuickComplianceSummaryKernel];
+            const devKernelTypes: any[] = [
+                BoostQuickComplianceSummaryKernel,
+                BoostQuickSecuritySummaryKernel,
+                BoostQuickPerformanceSummaryKernel,
+            ];
             kernelTypes = kernelTypes.concat(devKernelTypes);
         }
         // constructor and save all kernels
@@ -1041,6 +1048,14 @@ export class BoostExtension {
             BoostUserAnalysisType.security
         );
 
+        /*
+        this.performance = new BoostMarkdownViewProvider(
+            context,
+            this,
+            BoostUserAnalysisType.performance
+        );
+        */
+
         this.compliance = new BoostMarkdownViewProvider(
             context,
             this,
@@ -1065,6 +1080,14 @@ export class BoostExtension {
                 this.security
             )
         );
+/*
+        context.subscriptions.push(
+            vscode.window.registerWebviewViewProvider(
+                "polyverse-boost-performance-view",
+                this.performance
+            )
+        );
+*/
         context.subscriptions.push(
             vscode.window.registerWebviewViewProvider(
                 "polyverse-boost-compliance-view",
@@ -2564,7 +2587,12 @@ export class BoostExtension {
                     return;
                 }
 
-                if (![quickBlueprintKernelName, quickComplianceSummaryKernelName].includes(targetedKernel.command)) {
+                if (![
+                    quickBlueprintKernelName,
+                    quickComplianceSummaryKernelName,
+                    quickSecuritySummaryKernelName,
+                    quickPerformanceSummaryKernelName
+                    ].includes(targetedKernel.command)) {
                     boostLogging.error(
                         "Currently, only Quick Analysis is supported at Project-level",
                         likelyViaUI
@@ -2584,6 +2612,15 @@ export class BoostExtension {
                             break;
                         case quickComplianceSummaryKernelName:
                             this.compliance?.refresh();
+                            break;
+                        case quickSecuritySummaryKernelName:
+                            this.security?.refresh();
+                            break;
+                        case quickPerformanceSummaryKernelName:
+                            this.performance?.refresh();
+                            break;
+                        default:
+                            throw new Error(`Unknown Project Level command ${targetedKernel.command}`);
                             break;
                     }
 
