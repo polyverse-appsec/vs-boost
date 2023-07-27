@@ -17,7 +17,7 @@ import { boostLogging } from "./boostLogging";
 import { BoostConfiguration } from "./boostConfiguration";
 import { complianceFunctionKernelName } from "./compliance_function_controller";
 import { BoostProjectData } from "./BoostProjectData";
-import { FileSummaryItem, noProjectOpenMessage } from "./boostprojectdata_interface";
+import { FileSummaryItem, noProjectOpenMessage, extensionNotFullyActivated, extensionFailedToActivate } from "./boostprojectdata_interface";
 import { quickBlueprintKernelName } from "./quick_blueprint_controller";
 import { performanceKernelName } from "./performance_controller";
 import { BoostUserAnalysisType } from "./userAnalysisType";
@@ -278,8 +278,17 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         const nonce = "nonce-123456"; // TODO: add a real nonce here
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, "utf8");
 
-        if (!boostprojectdata || !vscode.workspace.workspaceFolders) {
-            return `<html><body><h1>Boost Project Status</h1><p>${noProjectOpenMessage}</p></body></html>`;
+        let message;
+        if (!this._boostExtension.finishedActivation) {
+            message = extensionNotFullyActivated;
+        } else if (!this._boostExtension.successfullyActivated) {
+            message = extensionFailedToActivate;
+        } else if (!boostprojectdata || !vscode.workspace.workspaceFolders) {
+            message = noProjectOpenMessage;
+        }
+        
+        if (message) {
+            return `<html><body><h3>Project Status</h3><p>${message}</p></body></html>`;
         }
 
         const template = _.template(rawHtmlContent);

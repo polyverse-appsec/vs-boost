@@ -9,8 +9,10 @@ Polyverse Boost Automatic Application Modernization
 - Added new Compliance Report run after compliance scans of code to produce high-level report of compliance issues and impact
 
 ### Enhancements
-- Improved UX Activity Tab startup and responsiveness when no folder is open
+- Improved UX Activity Tab responsiveness and status reporting during initial startup
+- Improved UX Activity Tab responsiveness and status when no folder is open
 - Improved Diagnostic Problems reporting - using correct severity and issue type / category
+- Improved Diagnostic Problems to provide solution to problem where possible
 
 ### Bug Fixes
 - Fix Project data cache Summary Uri to be relative for crossing systems and users

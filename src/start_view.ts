@@ -6,7 +6,7 @@ import { getOrCreateBlueprintUri, getOrCreateGuideline, getBoostFile, BoostFileT
 import { boostLogging } from './boostLogging';
 import { summaryViewType } from './summary_view';
 import { aiName } from './chat_view';
-import { noProjectOpenMessage } from './boostprojectdata_interface';
+import { noProjectOpenMessage, extensionNotFullyActivated, extensionFailedToActivate } from './boostprojectdata_interface';
 
 
 export class BoostStartViewProvider implements vscode.WebviewViewProvider {
@@ -107,9 +107,20 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
         const jsSrc = webview.asWebviewUri(jsPathOnDisk);
         const nonce = 'nonce-123456'; // TODO: add a real nonce here
 
-        if (!boostprojectdata || !vscode.workspace.workspaceFolders || !boostprojectdata) {
-            return `<html><body><h1>Boost Project Start</h1><p>${noProjectOpenMessage}</p></body></html>`;
+
+        let message;
+        if (!this._boostExtension.finishedActivation) {
+            message = extensionNotFullyActivated;
+        } else if (!this._boostExtension.successfullyActivated) {
+            message = extensionFailedToActivate;
+        } else if (!boostprojectdata || !vscode.workspace.workspaceFolders) {
+            message = noProjectOpenMessage;
         }
+        
+        if (message) {
+            return `<html><body><h3>Project Start</h3><p>${message}</p></body></html>`;
+        }
+
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
 
         const blueprintFile = boostprojectdata.summary.summaryUrl;
