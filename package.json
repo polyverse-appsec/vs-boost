@@ -62,6 +62,12 @@
                     "id": "polyverse-boost-blueprint-view",
                     "name": "Blueprint Summary",
                     "icon": "resources/boost_icon_plain.svg"
+                },
+                {
+                    "type": "webview",
+                    "id": "polyverse-boost-compliance-view",
+                    "name": "Compliance Scan",
+                    "icon": "resources/boost_icon_plain.svg"
                 }
             ]
         },

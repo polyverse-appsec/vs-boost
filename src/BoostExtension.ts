@@ -96,6 +96,7 @@ import {
     quickBlueprintKernelName,
 } from "./quick_blueprint_controller";
 import { FunctionKernelControllerBase } from "./function_base_controller";
+import { BoostQuickComplianceSummaryKernel, quickComplianceSummaryKernelName } from "./quick_compliance_controller";
 
 export class BoostNotebookContentProvider implements vscode.TextDocumentContentProvider {
     // emitter and its event
@@ -960,11 +961,12 @@ export class BoostExtension {
             BoostComplianceFunctionKernel,
             BoostPerformanceFunctionKernel,
             BoostPerformanceKernel,
+            BoostQuickBlueprintKernel
         ];
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
             // register the dev only kernels
-            const devKernelTypes: any[] = [BoostQuickBlueprintKernel];
+            const devKernelTypes: any[] = [BoostQuickComplianceSummaryKernel];
             kernelTypes = kernelTypes.concat(devKernelTypes);
         }
         // constructor and save all kernels
@@ -2531,9 +2533,9 @@ export class BoostExtension {
                     return;
                 }
 
-                if (targetedKernel.command !== quickBlueprintKernelName) {
+                if (![quickBlueprintKernelName, quickComplianceSummaryKernelName].includes(targetedKernel.command)) {
                     boostLogging.error(
-                        "Currently, only Quick Blueprint is supported at Project-level",
+                        "Currently, only Quick Analysis is supported at Project-level",
                         likelyViaUI
                     );
                     return;
@@ -2545,13 +2547,23 @@ export class BoostExtension {
                 .then(() => {
                     // ensure we save the notebook if we successfully processed it
                     notebook.flushToFS();
-                    // TODO, this should be more general once we have more than one project level command
-                    this.blueprint?.refresh();
+                    switch (targetedKernel.command) {
+                        case quickBlueprintKernelName:
+                            this.blueprint?.refresh();
+                            break;
+                        case quickComplianceSummaryKernelName:
+                            this.compliance?.refresh();
+                            break;
+                    }
 
                     boostLogging.info(
                         `Saved Updated Notebook for ${kernelCommand} in file:[${projectBoostFile.fsPath}]`,
                         likelyViaUI
                     );
+
+                    if (targetedKernel.command !== quickBlueprintKernelName) {
+                        return;
+                    }
 
                     // if the quick-blueprint provided recommended file exclusion list
                     //      then let's add those to the ignore file for future analysis

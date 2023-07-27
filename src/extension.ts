@@ -630,9 +630,7 @@ export function buildVSCodeIgnorePattern(
   
     // const exclude = '{**/node_modules/**,**/bower_components/**}';
     const ignorePatterns = "{" + patterns.join(',') + "}";
-    boostLogging.debug(
-        "Skipping source files of pattern: " + (ignorePatterns ?? "none")
-    );
+//    boostLogging.debug( "Skipping source files of pattern: " + (ignorePatterns ?? "none") );
 
     return new vscode.RelativePattern(targetFolder, ignorePatterns);
 }

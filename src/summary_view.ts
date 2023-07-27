@@ -21,6 +21,7 @@ import { FileSummaryItem, noProjectOpenMessage } from "./boostprojectdata_interf
 import { quickBlueprintKernelName } from "./quick_blueprint_controller";
 import { performanceKernelName } from "./performance_controller";
 import { BoostUserAnalysisType } from "./userAnalysisType";
+import { quickComplianceSummaryKernelName } from "./quick_compliance_controller";
 
 
 export const summaryViewType = "polyverse-boost-summary-view";
@@ -116,6 +117,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                 BoostUserAnalysisType.compliance,
                                 [
                                     getKernelName(complianceFunctionKernelName),
+                                    getKernelName(quickComplianceSummaryKernelName),
                                 ],
                             ],
                             [
@@ -154,8 +156,9 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                             continue;
                                         }
 
-                                        // quick blueprint uses the project-level command
-                                        if (analysisKernelName === getKernelName(quickBlueprintKernelName)) {
+                                        // quick operations uses the project-level command
+                                        if ([getKernelName(quickBlueprintKernelName), getKernelName(quickComplianceSummaryKernelName)].
+                                            includes(analysisKernelName)) {
                                             await vscode.commands.executeCommand(
                                                 NOTEBOOK_TYPE +
                                                     "." +

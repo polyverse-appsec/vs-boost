@@ -213,12 +213,6 @@ disabled the following panels for now until we have a better way to handle them
 ```
                 {
                     "type": "webview",
-                    "id": "polyverse-boost-blueprint-view",
-                    "name": "Blueprint Summary",
-                    "icon": "resources/boost_icon_plain.svg"
-                },
-                {
-                    "type": "webview",
                     "id": "polyverse-boost-doc-view",
                     "name": "Documentation",
                     "icon": "resources/boost_icon_plain.svg"
@@ -229,10 +223,4 @@ disabled the following panels for now until we have a better way to handle them
                     "name": "Security Scan",
                     "icon": "resources/boost_icon_plain.svg"
                 },
-                {
-                    "type": "webview",
-                    "id": "polyverse-boost-compliance-view",
-                    "name": "Compliance Scan",
-                    "icon": "resources/boost_icon_plain.svg"
-                }
 ```

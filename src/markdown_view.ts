@@ -159,7 +159,24 @@ export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
                     this.usefulContent = true;
                 }
             } else {
-                boostContent = `***To Generate Summary***\n\nPlease check the "Documentation" analysis from the Analysis Summary panel above and press "Run Selected Analyses" button`;
+                let contentType;
+                switch (this._type) {
+                    case "doc":
+                        contentType = "Documentation";
+                        break;
+                    case BoostUserAnalysisType.security:
+                        contentType = "Security";
+                        break;
+                    case BoostUserAnalysisType.compliance:
+                        contentType = "Compliance";
+                        break;
+                    case BoostUserAnalysisType.blueprint:
+                        contentType = "Blueprint";
+                        break;
+                    default:
+                        break;
+                }
+                boostContent = `***To Generate Summary***\n\nPlease check the "${contentType}" analysis from the Analysis Summary panel above and press "Run Selected Analyses" button`;
                 this.usefulContent = false;
             }
         }
