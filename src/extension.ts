@@ -394,19 +394,23 @@ export function _syncProblemsInCell(
     problems.set(cellUri, diagnostics);
 }
 
-export function newErrorFromItemData(data: Uint8Array) : Error {
+export function newErrorFromItemData(data: Uint8Array): Error {
     const errorJson = new TextDecoder().decode(data);
 
-    const errorObject = JSON.parse(errorJson, (key, value) => {
-      if (key === '') {
-        const error = new Error();
-        Object.assign(error, value);
-        return error;
-      }
-      return value;
-    });
-    
-    return errorObject;
+    try {
+        const errorObject = JSON.parse(errorJson, (key, value) => {
+            if (key === '') {
+                const error = new Error();
+                Object.assign(error, value);
+                return error;
+            }
+            return value;
+        });
+
+        return errorObject;
+    } catch (SyntaxError) {
+        return new Error(`${errorJson}`);
+    }
 }
 
 export function getProjectName() : string {
