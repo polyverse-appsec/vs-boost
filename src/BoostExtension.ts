@@ -993,9 +993,6 @@ export class BoostExtension {
         if (BoostConfiguration.enableDevOnlyKernels) {
             // register the dev only kernels
             const devKernelTypes: any[] = [
-                BoostQuickComplianceSummaryKernel,
-                BoostQuickSecuritySummaryKernel,
-                BoostQuickPerformanceSummaryKernel,
             ];
             kernelTypes = kernelTypes.concat(devKernelTypes);
         }
