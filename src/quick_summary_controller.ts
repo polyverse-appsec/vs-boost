@@ -231,14 +231,14 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
             }
         }
 
-        let targetCell = findCellByKernel(notebook, this._coreOutputType) as BoostNotebookCell;
+        let targetCell = findCellByKernel(notebook, this.outputType) as BoostNotebookCell;
 
         if (!targetCell) {
             targetCell = new BoostNotebookCell(NotebookCellKind.Markup, "", "markdown");
             targetCell.initializeMetadata(
                 {
                     "id": targetCell.id,
-                    "outputType": this._coreOutputType,
+                    "outputType": this.outputType,
                     "summaryType": "quick"
                 });
             notebook.addCell(targetCell);
@@ -258,10 +258,10 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
             //    for the synthesized cell
             const analysisOutput : SerializedNotebookCellOutput = {
                 items: [ { mime: markdownMimeType, data : "" } ],
-                metadata : { outputType: this._coreOutputType,
+                metadata : { outputType: this.outputType,
                     details: tempProcessingCell.outputs[0].metadata?.details } };
 
-            targetCell.updateOutputItem(this._coreOutputType, analysisOutput);
+            targetCell.updateOutputItem(this.outputType, analysisOutput);
         } else {
             targetCell.value = offlineSummary as string;
 
