@@ -9,10 +9,7 @@ import {
     SerializedNotebookCellOutput,
     NOTEBOOK_TYPE,
 } from "./jupyter_notebook";
-import {
-    fullPathFromSourceFile,
-    getKernelName,
-} from "./extension";
+import { fullPathFromSourceFile, getKernelName } from "./extension";
 
 export const errorMimeType = "application/vnd.code.notebook.error";
 export const markdownMimeType = "text/markdown";
@@ -47,16 +44,15 @@ export class KernelControllerBase extends BoostServiceHelper {
         onServiceErrorHandler: any,
         dynamicInputKey: string = "code"
     ) {
-        super(kernelId, outputType, otherThis, dynamicInputKey,
-            (err : any) =>{
-                    if (onServiceErrorHandler !== undefined) {
-                        onServiceErrorHandler(
-                            this.context,
-                            err as Error,
-                            this.hostExtension
-                        );
-                    }
-                });
+        super(kernelId, outputType, otherThis, dynamicInputKey, (err: any) => {
+            if (onServiceErrorHandler !== undefined) {
+                onServiceErrorHandler(
+                    this.context,
+                    err as Error,
+                    this.hostExtension
+                );
+            }
+        });
 
         this._problemsCollection = problemsCollection;
         this.id = getKernelName(kernelId);
@@ -106,7 +102,7 @@ export class KernelControllerBase extends BoostServiceHelper {
     }
 
     async doAuthorizationExecution(): Promise<vscode.AuthenticationSession> {
-        return fetchGithubSession();
+        return fetchGithubSession(true);
     }
 
     async executeAllWithAuthorization(
@@ -339,7 +335,8 @@ export class KernelControllerBase extends BoostServiceHelper {
                         cell instanceof BoostNotebookCell
                             ? cell.id
                             : cell.document.uri.toString()
-                    }`, false
+                    }`,
+                    false
                 );
                 return false;
             }
@@ -503,8 +500,10 @@ export class KernelControllerBase extends BoostServiceHelper {
 
         let foundCell = undefined;
         let i = 0;
-        for (;
-            i < (usingBoostNotebook ? notebook.cells.length : notebook.cellCount);
+        for (
+            ;
+            i <
+            (usingBoostNotebook ? notebook.cells.length : notebook.cellCount);
             i++
         ) {
             if (
@@ -545,9 +544,9 @@ export class KernelControllerBase extends BoostServiceHelper {
     async updateCellMetadata(
         notebook: vscode.NotebookDocument | BoostNotebook,
         cell: vscode.NotebookCell | BoostNotebookCell,
-        cellIndex : number,
-        updatedMetadata: any) {
-
+        cellIndex: number,
+        updatedMetadata: any
+    ) {
         const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
 
         // if we're using native boost notebook, update metadata and skip more complex VSC Notebook update process
@@ -575,7 +574,10 @@ export class KernelControllerBase extends BoostServiceHelper {
         // Use .set to add one or more edits to the notebook
         edit.set(notebook.uri, [
             // Create an edit that replaces this cell with the same cell + set metadata
-            vscode.NotebookEdit.updateCellMetadata(cellIndex, newCellData.metadata as { [key: string] : any}),
+            vscode.NotebookEdit.updateCellMetadata(
+                cellIndex,
+                newCellData.metadata as { [key: string]: any }
+            ),
         ]);
         // Additional notebook edits...
 
@@ -587,19 +589,23 @@ export class KernelControllerBase extends BoostServiceHelper {
     }
 
     public deserializeErrorAsProblems(
-        notebook : vscode.NotebookDocument | BoostNotebook,
-        cell: vscode.NotebookCell | BoostNotebookCell, error: Error) {
+        notebook: vscode.NotebookDocument | BoostNotebook,
+        cell: vscode.NotebookCell | BoostNotebookCell,
+        error: Error
+    ) {
         const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
 
         // if no target Cell content, skip
-        if (usingBoostNotebook?!cell.value:!cell.document) {
+        if (usingBoostNotebook ? !cell.value : !cell.document) {
             return;
         }
 
         // if no error, skip
         else if (!error) {
             boostLogging.debug(
-                `No error to deserialize for cell ${usingBoostNotebook?cell.id:cell.document.uri.toString()}`
+                `No error to deserialize for cell ${
+                    usingBoostNotebook ? cell.id : cell.document.uri.toString()
+                }`
             );
             return;
         }
@@ -740,16 +746,11 @@ export class KernelControllerBase extends BoostServiceHelper {
         let details = this.onKernelProcessResponseDetails(
             response?.details,
             cell,
-            notebook,
+            notebook
         );
 
         // extend the outputItem.metadata field with the results of a call to onKernelOutputItemDetails
-        this.updateCellOutput(
-            execution,
-            cell,
-            details,
-            outputItem
-        );
+        this.updateCellOutput(execution, cell, details, outputItem);
         if (!successfullyCompleted) {
             const cellId = usingBoostNotebook
                 ? cell.id
@@ -770,9 +771,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         execution: vscode.NotebookCellExecution | undefined,
         cell: vscode.NotebookCell | BoostNotebookCell,
         details: [],
-        outputItem:
-            | vscode.NotebookCellOutputItem
-            | SerializedNotebookCellOutput
+        outputItem: vscode.NotebookCellOutputItem | SerializedNotebookCellOutput
     ) {
         const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
 
@@ -833,9 +832,9 @@ export class KernelControllerBase extends BoostServiceHelper {
         details: any,
         _: vscode.NotebookCell | BoostNotebookCell,
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        __: vscode.NotebookDocument | BoostNotebook,
+        __: vscode.NotebookDocument | BoostNotebook
     ): any {
-        return (details === undefined)?[]:details;
+        return details === undefined ? [] : details;
     }
 
     // relatedUri should be the Uri of the original source file
@@ -858,19 +857,23 @@ export class KernelControllerBase extends BoostServiceHelper {
         const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
 
         // if no target Cell content, clear all problems
-        if (usingBoostNotebook?!cell.value:!cell.document) {
+        if (usingBoostNotebook ? !cell.value : !cell.document) {
             this._problemsCollection.clear();
             return;
         }
         // if no error, clear problems for this Cell
         else if (!error) {
-            let cellUri = !usingBoostNotebook?cell.document.uri:vscode.Uri.parse(`${(notebook as BoostNotebook).fsPath}`);
+            let cellUri = !usingBoostNotebook
+                ? cell.document.uri
+                : vscode.Uri.parse(`${(notebook as BoostNotebook).fsPath}`);
 
             if (usingBoostNotebook) {
                 cellUri = cellUri.with({
                     scheme: boostUriSchema,
                     path: `${(notebook as BoostNotebook).fsPath}`,
-                    fragment: `cell:${(notebook as BoostNotebook).cells.indexOf(cell)}`
+                    fragment: `cell:${(notebook as BoostNotebook).cells.indexOf(
+                        cell
+                    )}`,
                 });
             }
             this._problemsCollection.delete(cellUri);
@@ -878,11 +881,17 @@ export class KernelControllerBase extends BoostServiceHelper {
         }
 
         if (!relatedUri && BoostConfiguration.useSourceFileForProblems) {
-            if (usingBoostNotebook?!cell?.metadata?.sourceFile:!cell.notebook.metadata.sourceFile) {
+            if (
+                usingBoostNotebook
+                    ? !cell?.metadata?.sourceFile
+                    : !cell.notebook.metadata.sourceFile
+            ) {
                 relatedUri = vscode.Uri.parse("file:///unknown", true);
             } else {
-                relatedUri = fullPathFromSourceFile(usingBoostNotebook?cell?.metadata?.sourceFile:
-                    cell.notebook.metadata.sourceFile
+                relatedUri = fullPathFromSourceFile(
+                    usingBoostNotebook
+                        ? cell?.metadata?.sourceFile
+                        : cell.notebook.metadata.sourceFile
                 );
             }
         }
@@ -896,12 +905,16 @@ export class KernelControllerBase extends BoostServiceHelper {
         //      vscode-notebook-cell:/path/project-name/.boost/src/filename.boost-notebook#W1sZmlsZQ%3D%3D
         // But we use boost-notebook:/path/project-name/.boost/src/filename.boost-notebook#W1sZmlsZQ%3D%3D
         //      so our custom content provider will work
-        let cellUri = !usingBoostNotebook?cell.document.uri:vscode.Uri.parse(`${(notebook as BoostNotebook).fsPath}`);
+        let cellUri = !usingBoostNotebook
+            ? cell.document.uri
+            : vscode.Uri.parse(`${(notebook as BoostNotebook).fsPath}`);
         if (usingBoostNotebook) {
             cellUri = cellUri.with({
                 scheme: boostUriSchema,
                 path: `${(notebook as BoostNotebook).fsPath}`,
-                fragment: `cell:${(notebook as BoostNotebook).cells.indexOf(cell)}`
+                fragment: `cell:${(notebook as BoostNotebook).cells.indexOf(
+                    cell
+                )}`,
             });
         }
         this._problemsCollection.set(cellUri, [

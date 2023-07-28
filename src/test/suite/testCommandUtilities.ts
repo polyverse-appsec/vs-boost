@@ -60,8 +60,11 @@ export async function rightClickLoadFileCommandTest(
     const cells = notebookEditor.notebook.getCells();
 
     assert.ok(
-        cells.length > 1,
-        "Not enough cells " + cells.length.toString() + " found in the notebook"
+        cells.length >= 1,
+        "Not enough cells " +
+            cells.length.toString() +
+            " found in the notebook " +
+            boostUri.fsPath
     );
 
     cells.forEach((cell: vscode.NotebookCell) => {

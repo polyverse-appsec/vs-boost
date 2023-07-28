@@ -5,10 +5,13 @@ import axiosRetry from "axios-retry";
 import PQueue from "p-queue";
 import { mapError } from "./error";
 
-import { BoostNotebook, BoostNotebookCell,
-    NOTEBOOK_GUIDELINES_PRE_EXTENSION } from "./jupyter_notebook";
+import {
+    BoostNotebook,
+    BoostNotebookCell,
+    NOTEBOOK_GUIDELINES_PRE_EXTENSION,
+} from "./jupyter_notebook";
 import { getBoostFile, BoostFileType } from "./extension";
-import { BoostUserAnalysisType } from './userAnalysisType';
+import { BoostUserAnalysisType } from "./userAnalysisType";
 import { BoostConfiguration } from "./boostConfiguration";
 import { boostLogging } from "./boostLogging";
 import { fetchGithubSession, getCurrentOrganization } from "./authorization";
@@ -33,10 +36,10 @@ export class BoostServiceHelper {
 
     constructor(
         command: string,
-        outputType : string,
+        outputType: string,
         hostExtension: any,
         dynamicInputKey: string = "",
-        onServiceError: any = undefined,
+        onServiceError: any = undefined
     ) {
         this.dynamicInputKey = dynamicInputKey;
         this.command = command;
@@ -58,17 +61,19 @@ export class BoostServiceHelper {
         cell: vscode.NotebookCell | BoostNotebookCell | undefined,
         execution: vscode.NotebookCellExecution | undefined,
         extraPayload: any,
-        serviceEndpoint: string = this.serviceEndpoint,
+        serviceEndpoint: string = this.serviceEndpoint
     ): Promise<any> {
-        const usingBoostNotebook = cell?"value" in cell:true; // look for the value property to see if its a BoostNotebookCell
+        const usingBoostNotebook = cell ? "value" in cell : true; // look for the value property to see if its a BoostNotebookCell
 
         // get the code from the cell
         const input = usingBoostNotebook
-            ? cell?(cell as BoostNotebookCell).value:undefined
+            ? cell
+                ? (cell as BoostNotebookCell).value
+                : undefined
             : (cell as vscode.NotebookCell).document.getText();
 
         let payload = {
-            ...extraPayload
+            ...extraPayload,
         };
         if (input) {
             payload = {
@@ -79,7 +84,7 @@ export class BoostServiceHelper {
         if (notebook) {
             payload = {
                 ...payload,
-                contextMetadata: JSON.stringify(notebook.metadata)
+                contextMetadata: JSON.stringify(notebook.metadata),
             };
         }
         if (cell) {
@@ -90,7 +95,7 @@ export class BoostServiceHelper {
         }
         // insert auth token if needed
         if (!payload.session) {
-            const session = await fetchGithubSession();
+            const session = await fetchGithubSession(true);
             payload = {
                 ...payload,
                 session: session.accessToken,
@@ -103,7 +108,7 @@ export class BoostServiceHelper {
                 organization: await getCurrentOrganization(),
             };
         }
-    
+
         // inject guidelines into the payload to guide analysis with user input
         const guidelines = this.getGuidelines();
         // Add guidelines to the payload only if it's not undefined or an empty array
@@ -190,7 +195,6 @@ export class BoostServiceHelper {
             serviceEndpoint
         );
     }
-
 
     async onProcessServiceRequest(
         _: vscode.NotebookCellExecution | undefined,
@@ -287,10 +291,11 @@ export class BoostServiceHelper {
                 Math.floor(Math.random() * 100) <
                     BoostConfiguration.serviceFaultInjection
             ) {
-                const cellId = cell?
-                    (cell instanceof BoostNotebookCell
+                const cellId = cell
+                    ? cell instanceof BoostNotebookCell
                         ? cell.id
-                        : cell.document.uri.toString()):"undefined";
+                        : cell.document.uri.toString()
+                    : "undefined";
                 boostLogging.debug(
                     `Injecting fault into service request for cell ${cellId} to ${serviceEndpoint}`
                 );
@@ -340,5 +345,4 @@ export class BoostServiceHelper {
                 })
         );
     }
-
 }
