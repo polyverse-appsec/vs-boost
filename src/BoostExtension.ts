@@ -151,8 +151,6 @@ export class BoostExtension {
         KernelControllerBase
     >();
 
-    public summaryViewProvider: BoostSummaryViewProvider | undefined;
-
     public readonly sampleGuidelineRegEx =
         /^# Enter Your \w+ Guidelines Here\n\nYou can describe your goals, constraints, or hints for analysis$/;
 
