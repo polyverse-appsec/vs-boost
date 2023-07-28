@@ -1055,6 +1055,9 @@ export class BoostExtension {
             BoostPerformanceFunctionKernel,
             BoostPerformanceKernel,
             BoostQuickBlueprintKernel,
+            BoostQuickComplianceSummaryKernel,
+            BoostQuickSecuritySummaryKernel,
+            BoostQuickPerformanceSummaryKernel,
         ];
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
