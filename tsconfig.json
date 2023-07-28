@@ -17,6 +17,7 @@
 		".vscode-test",
 		"src/dashboard/",
         ".boost",
-		"src/test/unit/data"
+		"src/test/unit/data",
+		"out"
 	]
 }
