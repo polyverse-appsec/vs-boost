@@ -64,13 +64,13 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
             case "local":
                 return 'http://127.0.0.1:8000/quick-summary';
             case 'dev':
-                return '';
+                return 'https://vyuhthnoinejl6hle7cq7frzta0uzjzp.lambda-url.us-west-2.on.aws/';
             case "test":
-                return '';
+                return 'https://vaue3wqhqsj3bfzq55djwtmxry0vlnyu.lambda-url.us-west-2.on.aws/';
             case 'staging':
             case 'prod':
             default:
-                return '';
+                return 'https://ur4c2bfxchy626dzumtengt4ta0bpser.lambda-url.us-west-2.on.aws/';
         }
     }
 
