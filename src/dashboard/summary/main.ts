@@ -11,26 +11,26 @@ import {
     Button,
 } from "@vscode/webview-ui-toolkit";
 import * as d3 from "d3";
-import * as _ from 'lodash';
+import * as _ from "lodash";
 import { detailsEnter, detailsUpdate } from "./details_list";
 import { summaryEnter, summaryUpdate } from "./summary_list";
 import {
     summaryViewData,
     detailsViewData,
     statusViewData,
-    StatusViewData
+    StatusViewData,
 } from "./compute_view_data";
 
 import { JobStatus, IBoostProjectData } from "../../boostprojectdata_interface";
-import Typewritter from 'typewriter-effect/dist/core';
+import Typewritter from "typewriter-effect/dist/core";
 import { type } from "os";
 
 //declare the boostprojectdata global variable
 declare var boostprojectdata: IBoostProjectData;
 
-let typewriter = new Typewritter('#progress-text',{
+let typewriter = new Typewritter("#progress-text", {
     delay: 5,
-    cursor: ""
+    cursor: "",
 });
 
 provideVSCodeDesignSystem().register(
@@ -62,7 +62,7 @@ let options = {
 window.addEventListener("load", main);
 window.addEventListener("message", handleIncomingSummaryMessage);
 
-const slowRefreshUI = _.debounce(refreshUI, 1000, {leading: true});
+const slowRefreshUI = _.debounce(refreshUI, 1000, { leading: true });
 
 // Main function that gets executed once the webview DOM loads
 function main() {
@@ -86,7 +86,6 @@ function setupListeners() {
     });
 }
 
-
 // Callback function that is executed when the howdy button is clicked
 function handleAnalyzeAllClick() {
     //TODO: we need to show what is checked in the grid.
@@ -106,7 +105,7 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
     let text = "";
 
     switch (message.command) {
-        case "refreshUI":        
+        case "refreshUI":
             boostprojectdata = message.boostprojectdata;
             slowRefreshUI(message.boostprojectdata);
             break;
@@ -166,7 +165,9 @@ function refreshUI(boostprojectdata: IBoostProjectData) {
 
     d3.select("#detailsgrid")
         .selectAll("vscode-data-grid-row")
-        .data(detailsView, (d: any) => d.notebookRelFile ? d.notebookRelFile : d.sourceRelFile)
+        .data(detailsView, (d: any) =>
+            d.notebookRelFile ? d.notebookRelFile : d.sourceRelFile
+        )
         .join(
             (enter) => detailsEnter(enter),
             (update) => detailsUpdate(update),
@@ -174,10 +175,10 @@ function refreshUI(boostprojectdata: IBoostProjectData) {
         )
         .sort((a: any, b: any) => {
             const statuses = {
-                "processing": 1,
-                "completed": 2,
-                "incomplete": 3,
-                "queued": 4,
+                processing: 1,
+                completed: 2,
+                incomplete: 3,
+                queued: 4,
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 "not-started": 5,
             };
@@ -187,14 +188,14 @@ function refreshUI(boostprojectdata: IBoostProjectData) {
             if (statuses[aStatus] !== statuses[bStatus]) {
                 return statuses[aStatus] - statuses[bStatus];
             }
-    
+
             // If statuses are equal, compare filenames
             let fileA = a.notebookRelFile ? a.notebookRelFile : a.sourceRelFile;
             let fileB = b.notebookRelFile ? b.notebookRelFile : b.sourceRelFile;
             return d3.ascending(fileA, fileB);
         })
         .transition()
-            .duration(100);
+        .duration(100);
 
     refreshSpinner(statusView);
     refreshProgressText(statusView);
@@ -205,7 +206,7 @@ function refreshSpinner(statusView: StatusViewData) {
     const runbutton = document.getElementById("update-summary");
     // set our spinner
 
-    if( statusView.busy ){
+    if (statusView.busy) {
         spinner?.removeAttribute("hidden");
         runbutton?.setAttribute("hidden", "");
     } else {
@@ -215,7 +216,7 @@ function refreshSpinner(statusView: StatusViewData) {
     }
 }
 
-function refreshProgressText(statusData: StatusViewData){
+function refreshProgressText(statusData: StatusViewData) {
     const progressText = document.getElementById(
         "progress-text"
     ) as HTMLElement;
@@ -225,29 +226,28 @@ function refreshProgressText(statusData: StatusViewData){
     //get the current text of the progress text
     let existingText = progressText.innerText;
 
-    if( statusData.busy === true){
-        if( statusData.minutesRemaining > 60 ) {
+    if (statusData.busy === true) {
+        if (statusData.minutesRemaining > 60) {
             remaining = `${Math.round(statusData.minutesRemaining / 60)} hours`;
         } else {
             remaining = `${statusData.minutesRemaining} minutes`;
         }
         let filesText = statusData.jobsRunning === 1 ? "file" : "files";
         let queuesText = statusData.jobsQueued === 1 ? "file" : "files";
-        let processingText = statusData.jobsRunning === 0 ? "preparing its analysis" : `processing ${statusData.jobsRunning} ${filesText}`;
+        let processingText =
+            statusData.jobsRunning === 0
+                ? "preparing its analysis"
+                : `processing ${statusData.jobsRunning} ${filesText}`;
         text = `Sara (the Boost AI) is ${processingText} right now, with ${statusData.jobsQueued} ${queuesText} queued. ETA ${remaining}. You can continue to use Visual Studio Code in the meantime.`;
         //if there is no existing text, type it in
-        if( existingText === "" || existingText === undefined){
-            typewriter.typeString(text)
-            .start();
+        if (existingText === "" || existingText === undefined) {
+            typewriter.typeString(text).start();
         } else {
             progressText.innerText = text;
         }
-    } else if ( existingText !== "" || existingText !== undefined) {
+    } else if (existingText !== "" || existingText !== undefined) {
         //if we are not busy, and there is text, clear it out slowly to avoid ui jitty
-        typewriter.deleteAll(1)
-        .pauseFor(1000)
-        .start();
+        typewriter.deleteAll(1).pauseFor(1000).start();
     }
-    // otherwise, do nothing! 
-    
+    // otherwise, do nothing!
 }
