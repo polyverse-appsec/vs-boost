@@ -96,7 +96,9 @@ import {
     quickBlueprintKernelName,
 } from "./quick_blueprint_controller";
 import { FunctionKernelControllerBase } from "./function_base_controller";
-import { BoostQuickComplianceSummaryKernel, quickComplianceSummaryKernelName } from "./quick_compliance_controller";
+import { BoostQuickComplianceSummaryKernel, quickComplianceSummaryKernelName } from "./quick_compliance_summary_controller";
+import { BoostQuickSecuritySummaryKernel, quickSecuritySummaryKernelName } from "./quick_security_summary_controller";
+import { BoostQuickPerformanceSummaryKernel, quickPerformanceSummaryKernelName } from "./quick_performance_summary_controller";
 
 export class BoostNotebookContentProvider implements vscode.TextDocumentContentProvider {
     // emitter and its event
@@ -140,11 +142,15 @@ export class BoostExtension {
     public docs: BoostMarkdownViewProvider | undefined;
     public compliance: BoostMarkdownViewProvider | undefined;
     public security: BoostMarkdownViewProvider | undefined;
+    public performance: BoostMarkdownViewProvider | undefined;
     public start: BoostStartViewProvider | undefined;
     public chat: BoostChatViewProvider | undefined;
     public summary: BoostSummaryViewProvider | undefined;
 
     problems: vscode.DiagnosticCollection;
+
+    successfullyActivated = false;
+    finishedActivation = false;
 
     constructor(context: vscode.ExtensionContext) {
         // ensure logging is shutdown
@@ -154,66 +160,86 @@ export class BoostExtension {
 
         this.problems = this._setupDiagnosticProblems(context);
 
-        this.setupNotebookEnvironment(context, this.problems);
-
-        this._setupNotebookChangedLifecycle(context);
-
-        this.registerCreateNotebookCommand(context, this.problems);
-
-        this.registerRefreshProjectDataCommands(context);
-
-        registerCustomerPortalCommand(context);
-
-        setupBoostStatus(context, this);
-
-        // register the select language command
-        this.setupKernelCommandPicker(context);
-
-        this.setupKernelStatus(context);
-
-        // register the select language command
-        this.setupOutputLanguagePicker(context);
-
-        // register the select framework command
-        this.setupTestFrameworkPicker(context);
-
-        this.registerUriHandler(context);
-
-        this.registerOpenCodeFile(context);
-
-        this.registerProjectLevelCommands(context);
-
-        this.registerRightClickExcludeFromAnalysisCommand(context);
-
-        this.registerFileRightClickAnalyzeCommand(context);
-
-        this.registerFolderRightClickAnalyzeCommand(context);
-
-        this.registerFolderRightClickOutputCommands(context);
-
-        this.registerSourceCodeRightClickCommands(context);
-
-        this.registerShowGuidelinesCommand(context);
-
+        // make sure the UI starts up - so user isn't seeing broken UI
         this.setupDashboard(context);
 
-        // initialize once on startup...
-        this.refreshBoostProjectsData().then(() => {
-            this.blueprint?.refresh();
-            this.docs?.refresh();
-            this.compliance?.refresh();
-            this.security?.refresh();
-            this.summary?.refresh();
-            this.chat?.refresh();
-            this.start?.refresh();
-        });
+        try {
+            this.setupNotebookEnvironment(context, this.problems);
 
-        boostLogging.log("Activated Boost Notebook Extension");
+            this._setupNotebookChangedLifecycle(context);
 
-        if (BoostConfiguration.logLevel === "debug") {
-            boostLogging.info("Polyverse Boost is now active");
+            this.registerCreateNotebookCommand(context, this.problems);
+
+            this.registerRefreshProjectDataCommands(context);
+
+            registerCustomerPortalCommand(context);
+
+            setupBoostStatus(context, this);
+
+            // register the select language command
+            this.setupKernelCommandPicker(context);
+
+            this.setupKernelStatus(context);
+
+            // register the select language command
+            this.setupOutputLanguagePicker(context);
+
+            // register the select framework command
+            this.setupTestFrameworkPicker(context);
+
+            this.registerUriHandler(context);
+
+            this.registerOpenCodeFile(context);
+
+            this.registerProjectLevelCommands(context);
+
+            this.registerRightClickExcludeFromAnalysisCommand(context);
+
+            this.registerFileRightClickAnalyzeCommand(context);
+
+            this.registerFolderRightClickAnalyzeCommand(context);
+
+            this.registerFolderRightClickOutputCommands(context);
+
+            this.registerSourceCodeRightClickCommands(context);
+
+            this.registerShowGuidelinesCommand(context);
+
+            this.successfullyActivated = true;
+        } catch (e) {
+            this.successfullyActivated = false;
+            const error = e as Error;
+            boostLogging.error(`Extension Activation failed due to critical error ${error.toString()}`, false);
+        } finally {
+
+            if (this.successfullyActivated) {
+                boostLogging.log("Activated Boost Notebook Extension");
+            } else {
+                // the caller will provide a popup error UI anyway
+                boostLogging.error("Boost Notebook Extension Activation failed - some features are unavailable", false);
+            }
+
+            // initialize once on startup...
+            this.refreshBoostProjectsData().then(() => {
+
+                this.finishedActivation = true;
+
+                if (BoostConfiguration.logLevel === "debug") {
+                    boostLogging.info("Polyverse Boost is now active");
+                }
+    
+                this.blueprint?.refresh();
+                this.docs?.refresh();
+                this.compliance?.refresh();
+                this.security?.refresh();
+                this.performance?.refresh();
+                this.summary?.refresh();
+                this.chat?.refresh();
+                this.start?.refresh();
+            });
         }
-}
+    }
+
     registerUriHandler(context: vscode.ExtensionContext) {
         let provider = new BoostNotebookContentProvider();
         const disposable = vscode.workspace.registerTextDocumentContentProvider(boostUriSchema, provider);
@@ -966,7 +992,8 @@ export class BoostExtension {
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
             // register the dev only kernels
-            const devKernelTypes: any[] = [BoostQuickComplianceSummaryKernel];
+            const devKernelTypes: any[] = [
+            ];
             kernelTypes = kernelTypes.concat(devKernelTypes);
         }
         // constructor and save all kernels
@@ -1018,6 +1045,14 @@ export class BoostExtension {
             BoostUserAnalysisType.security
         );
 
+        /*
+        this.performance = new BoostMarkdownViewProvider(
+            context,
+            this,
+            BoostUserAnalysisType.performance
+        );
+        */
+
         this.compliance = new BoostMarkdownViewProvider(
             context,
             this,
@@ -1042,6 +1077,14 @@ export class BoostExtension {
                 this.security
             )
         );
+/*
+        context.subscriptions.push(
+            vscode.window.registerWebviewViewProvider(
+                "polyverse-boost-performance-view",
+                this.performance
+            )
+        );
+*/
         context.subscriptions.push(
             vscode.window.registerWebviewViewProvider(
                 "polyverse-boost-compliance-view",
@@ -1306,6 +1349,10 @@ export class BoostExtension {
                 }
 
                 updateBoostIgnoreForTarget(uri.fsPath);
+                this.refreshBoostProjectsData().then(() => {
+                    this.start?.refresh();
+                    this.summary?.refresh();
+                });
             }
         );
         context.subscriptions.push(disposable);
@@ -1319,6 +1366,10 @@ export class BoostExtension {
                 }
 
                 updateBoostIgnoreForTarget(uri.fsPath);
+                this.refreshBoostProjectsData().then(() => {
+                    this.start?.refresh();
+                    this.summary?.refresh();
+                });
             }
         );
         context.subscriptions.push(disposable);
@@ -2533,7 +2584,12 @@ export class BoostExtension {
                     return;
                 }
 
-                if (![quickBlueprintKernelName, quickComplianceSummaryKernelName].includes(targetedKernel.command)) {
+                if (![
+                    quickBlueprintKernelName,
+                    quickComplianceSummaryKernelName,
+                    quickSecuritySummaryKernelName,
+                    quickPerformanceSummaryKernelName
+                    ].includes(targetedKernel.command)) {
                     boostLogging.error(
                         "Currently, only Quick Analysis is supported at Project-level",
                         likelyViaUI
@@ -2553,6 +2609,15 @@ export class BoostExtension {
                             break;
                         case quickComplianceSummaryKernelName:
                             this.compliance?.refresh();
+                            break;
+                        case quickSecuritySummaryKernelName:
+                            this.security?.refresh();
+                            break;
+                        case quickPerformanceSummaryKernelName:
+                            this.performance?.refresh();
+                            break;
+                        default:
+                            throw new Error(`Unknown Project Level command ${targetedKernel.command}`);
                             break;
                     }
 

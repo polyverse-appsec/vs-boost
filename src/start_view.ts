@@ -6,7 +6,7 @@ import { getOrCreateBlueprintUri, getOrCreateGuideline, getBoostFile, BoostFileT
 import { boostLogging } from './boostLogging';
 import { summaryViewType } from './summary_view';
 import { aiName } from './chat_view';
-import { noProjectOpenMessage } from './boostprojectdata_interface';
+import { noProjectOpenMessage, extensionNotFullyActivated, extensionFailedToActivate } from './boostprojectdata_interface';
 
 
 export class BoostStartViewProvider implements vscode.WebviewViewProvider {
@@ -39,8 +39,6 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
     ) {
         this._view = webviewView;
 
-        const boostprojectdata = this._boostExtension.getBoostProjectData();
-
         webviewView.webview.options = {
             // Allow scripts in the webview
             enableScripts: true,
@@ -50,12 +48,14 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
             ]
         };
 
-        webviewView.webview.html = this._getHtmlForWebview(webviewView.webview, boostprojectdata);
+        webviewView.webview.html = this._getHtmlForWebview(webviewView.webview, this._boostExtension.getBoostProjectData());
 
         webviewView.webview.onDidReceiveMessage(async data => {
             switch (data.command) {
                 case 'open_file':
                     {
+                        const boostprojectdata = this._boostExtension.getBoostProjectData();
+                        
                         await this._openFile(data.file, boostprojectdata);
                     }
                     break;
@@ -107,9 +107,20 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
         const jsSrc = webview.asWebviewUri(jsPathOnDisk);
         const nonce = 'nonce-123456'; // TODO: add a real nonce here
 
-        if (!vscode.workspace.workspaceFolders || !boostprojectdata) {
-            return `<html><body><h1>Boost Project Start</h1><p>${noProjectOpenMessage}</p></body></html>`;
+
+        let message;
+        if (!this._boostExtension.finishedActivation) {
+            message = extensionNotFullyActivated;
+        } else if (!this._boostExtension.successfullyActivated) {
+            message = extensionFailedToActivate;
+        } else if (!boostprojectdata || !vscode.workspace.workspaceFolders) {
+            message = noProjectOpenMessage;
         }
+        
+        if (message) {
+            return `<html><body><h3>Project Start</h3><p>${message}</p></body></html>`;
+        }
+
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
 
         const blueprintFile = boostprojectdata.summary.summaryUrl;

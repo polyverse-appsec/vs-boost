@@ -17,11 +17,12 @@ import { boostLogging } from "./boostLogging";
 import { BoostConfiguration } from "./boostConfiguration";
 import { complianceFunctionKernelName } from "./compliance_function_controller";
 import { BoostProjectData } from "./BoostProjectData";
-import { FileSummaryItem, noProjectOpenMessage } from "./boostprojectdata_interface";
+import { FileSummaryItem, noProjectOpenMessage, extensionNotFullyActivated, extensionFailedToActivate } from "./boostprojectdata_interface";
 import { quickBlueprintKernelName } from "./quick_blueprint_controller";
 import { performanceKernelName } from "./performance_controller";
 import { BoostUserAnalysisType } from "./userAnalysisType";
-import { quickComplianceSummaryKernelName } from "./quick_compliance_controller";
+import { quickComplianceSummaryKernelName } from "./quick_compliance_summary_controller";
+import { quickSecuritySummaryKernelName } from "./quick_security_summary_controller";
 
 
 export const summaryViewType = "polyverse-boost-summary-view";
@@ -56,8 +57,6 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
     ) {
         this._view = webviewView;
 
-        const boostprojectdata = this._boostExtension.getBoostProjectData();
-
         webviewView.webview.options = {
             // Allow scripts in the webview
             enableScripts: true,
@@ -67,14 +66,14 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
         webviewView.webview.html = this._getHtmlForWebview(
             webviewView.webview,
-            boostprojectdata
+            this._boostExtension.getBoostProjectData()
         );
 
         webviewView.webview.onDidReceiveMessage(async (data) => {
             switch (data.command) {
                 case 'open_file':
                     {
-                        await this._openFile(data.file, boostprojectdata);
+                        await this._openFile(data.file, this._boostExtension.getBoostProjectData());
                     }
                     break;
                 case "analyze_all":
@@ -109,7 +108,9 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                 BoostUserAnalysisType.security,
                                 [
                                     getKernelName(analyzeFunctionKernelName),
+                                    getKernelName(quickSecuritySummaryKernelName),
 //                                    getKernelName(performanceFunctionKernelName),
+//                                    getKernelName(quickPerformanceSummaryKernelName),
                                 ],
 
                             ],
@@ -157,8 +158,11 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                         }
 
                                         // quick operations uses the project-level command
-                                        if ([getKernelName(quickBlueprintKernelName), getKernelName(quickComplianceSummaryKernelName)].
-                                            includes(analysisKernelName)) {
+                                        if ([
+                                            getKernelName(quickBlueprintKernelName),
+                                            getKernelName(quickComplianceSummaryKernelName),
+                                            getKernelName(quickSecuritySummaryKernelName)
+                                            ].includes(analysisKernelName)) {
                                             await vscode.commands.executeCommand(
                                                 NOTEBOOK_TYPE +
                                                     "." +
@@ -211,7 +215,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                     "." +
                                     BoostCommands.refreshProjectData
                             );
-                            this.finishAllJobs(boostprojectdata);
+                            this.finishAllJobs(this._boostExtension.getBoostProjectData());
                             this.refresh();
                         }
                     }
@@ -280,8 +284,17 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         const nonce = "nonce-123456"; // TODO: add a real nonce here
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, "utf8");
 
-        if (!vscode.workspace.workspaceFolders) {
-            return `<html><body><h1>Boost Project Status</h1><p>${noProjectOpenMessage}</p></body></html>`;
+        let message;
+        if (!this._boostExtension.finishedActivation) {
+            message = extensionNotFullyActivated;
+        } else if (!this._boostExtension.successfullyActivated) {
+            message = extensionFailedToActivate;
+        } else if (!boostprojectdata || !vscode.workspace.workspaceFolders) {
+            message = noProjectOpenMessage;
+        }
+        
+        if (message) {
+            return `<html><body><h3>Project Status</h3><p>${message}</p></body></html>`;
         }
 
         const template = _.template(rawHtmlContent);

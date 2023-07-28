@@ -3,17 +3,20 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 1.1.2: July 26th, 2023
+## Version 1.2.0: July 27th, 2023
 
 ### New Features
-- Added new Compliance Report run after compliance scans of code to produce high-level report of compliance issues and impact
+- Added new Summary Reports run after compliance, security and performance scans of code to produce high-level report of most severe issues and impact
 
 ### Enhancements
-- Improved UX Activity Tab startup and responsiveness when no folder is open
+- Improved UX Activity Tab responsiveness and status reporting during initial startup
+- Improved UX Activity Tab responsiveness and status when no folder is open
 - Improved Diagnostic Problems reporting - using correct severity and issue type / category
+- Improved Diagnostic Problems to provide solution to problem where possible
 
 ### Bug Fixes
 - Fix Project data cache Summary Uri to be relative for crossing systems and users
+- Fix issue that prevented .boostignore file being used
 
 ## Version 1.1.1: July 21st, 2023
 

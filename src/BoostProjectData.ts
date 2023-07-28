@@ -21,6 +21,8 @@ import {
 import { ControllerOutputType } from "./controllerOutputTypes";
 import { BoostConfiguration } from "./boostConfiguration";
 
+const oldComplianceFunctionType = 'complianceList';
+
 export class BoostProjectData implements IBoostProjectData {
     dataFormatVersion: string;
     summary: Summary;
@@ -66,13 +68,12 @@ export class BoostProjectData implements IBoostProjectData {
         }
     }
 
-    readonly oldComplianceFunctionType = 'complianceList';
     performCompatFixups(jsonString: string) : string {
         const parsedJson = JSON.parse(jsonString, (key, value) => {
             if (key === 'dataFormatVersion') {
                 this.checkDataFormatVersion(value);
             }
-            else if (key === 'analysisType' && value === this.oldComplianceFunctionType) {
+            else if (key === 'analysisType' && value === oldComplianceFunctionType) {
                 return ControllerOutputType.complianceFunction;
             } else {
                 return value;
@@ -82,9 +83,9 @@ export class BoostProjectData implements IBoostProjectData {
         // Check and update the keys under sections in files
         if (parsedJson.files) {
             Object.values(parsedJson.files).forEach((file: any) => {
-                if (file.sections && file.sections[this.oldComplianceFunctionType]) {
-                    file.sections[ControllerOutputType.complianceFunction] = file.sections[this.oldComplianceFunctionType];
-                    delete file.sections[this.oldComplianceFunctionType];
+                if (file.sections && file.sections[oldComplianceFunctionType]) {
+                    file.sections[ControllerOutputType.complianceFunction] = file.sections[oldComplianceFunctionType];
+                    delete file.sections[oldComplianceFunctionType];
                 }
             });
         }

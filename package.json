@@ -8,7 +8,7 @@
     "bugs": {
         "email": "support@polyverse.com"
     },
-    "version": "1.1.2",
+    "version": "1.2.0",
     "engines": {
         "vscode": "^1.77.0"
     },
@@ -67,6 +67,12 @@
                     "type": "webview",
                     "id": "polyverse-boost-compliance-view",
                     "name": "Compliance Scan",
+                    "icon": "resources/boost_icon_plain.svg"
+                },
+                {
+                    "type": "webview",
+                    "id": "polyverse-boost-security-view",
+                    "name": "Security Scan",
                     "icon": "resources/boost_icon_plain.svg"
                 }
             ]

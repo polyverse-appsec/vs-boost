@@ -649,7 +649,11 @@ export function buildVSCodeIgnorePattern(
     if (!boostIgnoreFile) {
         return null;
     }
-    patterns.concat(_extractIgnorePatternsFromFile(boostIgnoreFile.fsPath));
+    patterns.push(
+        ...patterns.concat(
+            _extractIgnorePatternsFromFile(boostIgnoreFile.fsPath)
+        )
+    );
 
     // never include the .boost folder - since that's where we store our notebooks
     if (

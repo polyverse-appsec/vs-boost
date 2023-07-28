@@ -4,7 +4,7 @@
   "summary": {
     "projectName": "vs-boost",
     "summaryUrl": "/Users/alexgo/code/vs-boost/.boost/vs-boost.summary.boost-notebook",
-    "filesToAnalyze": 137,
+    "filesToAnalyze": 141,
     "filesAnalyzed": 124,
     "issues": [
       "Error refreshing Boost Project data for /Users/alexgo/code/vs-boost: SyntaxError: Unexpected token 'E', \"Error: Boo\"... is not valid JSON"
