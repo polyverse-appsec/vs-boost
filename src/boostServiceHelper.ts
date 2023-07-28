@@ -95,7 +95,7 @@ export class BoostServiceHelper {
         }
         // insert auth token if needed
         if (!payload.session) {
-            const session = await fetchGithubSession(true);
+            const session = await fetchGithubSession();
             payload = {
                 ...payload,
                 session: session.accessToken,

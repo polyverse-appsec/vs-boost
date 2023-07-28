@@ -102,7 +102,7 @@ export class KernelControllerBase extends BoostServiceHelper {
     }
 
     async doAuthorizationExecution(): Promise<vscode.AuthenticationSession> {
-        return fetchGithubSession(true);
+        return fetchGithubSession();
     }
 
     async executeAllWithAuthorization(
@@ -675,13 +675,11 @@ export class KernelControllerBase extends BoostServiceHelper {
             items: [
                 {
                     mime: errorMimeType, // for compatibility with VS Code
-                    data: JSON.stringify(
-                        {
-                            name: error.name,
-                            message: error.message,
-                            // stack: error.stack, // skip the stack since we don't need code level details
-                        }
-                    ),
+                    data: JSON.stringify({
+                        name: error.name,
+                        message: error.message,
+                        // stack: error.stack, // skip the stack since we don't need code level details
+                    }),
                 },
             ],
             metadata: {
