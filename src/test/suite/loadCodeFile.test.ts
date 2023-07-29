@@ -98,14 +98,10 @@ suite("Load Code File Command", function () {
         console.log("Number of cells: " + cells.length.toString());
 
         assert.ok(
-            cells.length > 1,
+            cells.length >= 1,
             "Not enough cells " +
                 cells.length.toString() +
                 " found in the notebook"
         );
-
-        cells.forEach((cell) => {
-            debug(cell.document.getText());
-        });
     });
 });

@@ -70,7 +70,7 @@ suite("Right Click Process File Command", function () {
         processedNotebook.cells.forEach((cell: any) => {
             assert.ok(
                 cell.outputs.length > 0,
-                `No outputs found for cell ${cell.source}`
+                `No outputs found for cell ${cell.value}`
             );
             assert.ok(
                 cell.outputs[0].metadata.outputType === "explainCode",

@@ -1,11 +1,13 @@
 {
-  "dataFormatVersion": "1.2.2",
+  "dataFormatVersion": "1.2.3",
   "summary": {
     "projectName": "vs-boost",
     "summaryUrl": ".boost/vs-boost.summary.boost-notebook",
     "filesToAnalyze": 141,
     "filesAnalyzed": 124,
-    "issues": []
+    "issues": [
+      "Error refreshing Boost Project data for /Users/alexgo/code/vs-boost: SyntaxError: Unexpected token 'E', \"Error: Boo\"... is not valid JSON"
+    ]
   },
   "sectionSummary": {
     "archblueprintCode": {
