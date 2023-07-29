@@ -113,6 +113,12 @@ Boost integration testing uses (generated from ChatGPT):
 
 
 ### Running integration Tests
+
+NOTE: before running tests, you'll need to be authenticated with github on the command line with
+```
+gh auth login -s user:email
+```
+
 Run tests by executing:
 1. npm run pretest
 2. npm run test

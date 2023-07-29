@@ -1,16 +1,35 @@
 import path from "path";
 import glob from "glob";
 import fs from "fs";
-import Mocha, { test } from "mocha";
+import Mocha from "mocha";
 import { shuffle } from "lodash";
+import nock, { back as nockBack } from "nock";
 
-// specify tests to run
-//const testFilter = "**/*.test.js";
-//const testFilter = '**/boostdata.test.js';
-// just run tests in this directory, unit tests are run direclty by mocha
 const testFilter = "suite/*.test.js";
 
+function prepareScope(scope: any): nock.Scope {
+    scope.filteringRequestBody = (body: string): string => {
+        if (typeof body !== 'string') {
+            return body;
+        }
+
+        let parsedBody;
+        try {
+            parsedBody = JSON.parse(body);
+            delete parsedBody.session;  // Remove session token
+            return JSON.stringify(parsedBody);
+        } catch (e) {
+            return body;  // If body is not JSON or another error occurs, return original body
+        }
+    };
+    return scope;
+}
+
 export function run(): Promise<void> {
+
+
+    nockBack.fixtures = path.join(__dirname, "..", "resources/fixtures");
+    nockBack.setMode("record");
     const mocha = new Mocha({
         ui: "tdd",
         color: true,
@@ -18,7 +37,6 @@ export function run(): Promise<void> {
 
     const testsRoot = path.resolve(__dirname, "..");
 
-    // Check if targetTestInput.json exists and read it
     const targetTestInputPath = path.resolve(
         __dirname,
         "../resources",
@@ -38,10 +56,8 @@ export function run(): Promise<void> {
                 return reject(err);
             }
 
-            // Shuffle the files so we don't have any ordering effects in tests
             const shuffledFiles = shuffle(files);
 
-            // Add files in randomized order to the test suite
             shuffledFiles.forEach((file: string) => {
                 if (!targetTestFilename || file.includes(targetTestFilename)) {
                     console.log("Adding Test file:", file);
@@ -50,13 +66,16 @@ export function run(): Promise<void> {
             });
 
             try {
-                // Run the mocha test
-                mocha.run((failures) => {
-                    if (failures > 0) {
-                        reject(new Error(`${failures} tests failed.`));
-                    } else {
-                        resolve();
-                    }
+                nockBack("recorded_tests.json", { before: prepareScope }, function(nockDone) {
+                    // This callback wraps the mocha test run
+                    mocha.run((failures) => {
+                        nockDone();  // Finish the recording
+                        if (failures > 0) {
+                            reject(new Error(`${failures} tests failed.`));
+                        } else {
+                            resolve();
+                        }
+                    });
                 });
             } catch (err) {
                 console.error(err);
