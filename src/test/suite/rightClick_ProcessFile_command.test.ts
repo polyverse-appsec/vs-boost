@@ -19,14 +19,13 @@ suite("Right Click Process File Command", function () {
     const boostUri = getBoostFile(fileUri);
     console.log(`${this.title} Boost Uri: ${boostUri.fsPath}`);
 
-    test("Right Click Load File Command Test (Pre-Step for Processing)", function (done) {
-        rightClickLoadFileCommandTest(this, fileUri, boostUri);
+    test("Right Click Load File Command Test (Pre-Step for Processing)", async function () {
+        await rightClickLoadFileCommandTest(this, fileUri, boostUri);
 
         assert.ok(
             fs.existsSync(boostUri.fsPath),
             `Notebook file ${boostUri.fsPath} not found`
         );
-        done();
     });
 
     test("Right Click Process File Command Test", async function () {

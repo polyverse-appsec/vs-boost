@@ -1393,7 +1393,7 @@ export class BoostExtension {
                 if (likelyViaUI) {
                     kernelCommand = BoostConfiguration.currentKernelCommand;
                 }
-                return this.processCurrentFolder(
+                return await this.processCurrentFolder(
                     uri,
                     kernelCommand as string,
                     context,
@@ -1509,7 +1509,7 @@ export class BoostExtension {
                     false,
                     BoostConfiguration.defaultOutputFormat
                 )
-                    .then((outputFile: string) => {
+                    .then(async (outputFile: string) => {
                         boostLogging.info(
                             `${outputFile} created for file:${uri.fsPath}.`,
                             false
@@ -1518,7 +1518,7 @@ export class BoostExtension {
                         // show the file now
                         switch (BoostConfiguration.defaultOutputFormat) {
                             case "markdown":
-                                vscode.commands
+                                await vscode.commands
                                     .executeCommand(
                                         "markdown.showPreview",
                                         vscode.Uri.parse(outputFile)
@@ -2029,7 +2029,7 @@ export class BoostExtension {
                 }; // fast-processing model
                 notebook.cells[0].initializeMetadata(cellMetadata);
 
-                vscode.commands.executeCommand(
+                await vscode.commands.executeCommand(
                     `workbench.view.extension.${boostActivityBarId}`
                 );
 
