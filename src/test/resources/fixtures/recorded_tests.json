@@ -1,0 +1,185 @@
+[
+    {
+        "scope": "https://ptb5spl6kvsuioc5zkrgyncrve0jyrew.lambda-url.us-west-2.on.aws:443",
+        "method": "POST",
+        "path": "/",
+        "body": {
+            "session": "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"
+        },
+        "status": 200,
+        "response": {
+            "organizations": [
+                "monsoonco",
+                "Concurix",
+                "polyverse",
+                "polyverse-security",
+                "SimplySecureMe",
+                "polyverse-appsec"
+            ],
+            "email": "alex@polyverse.io",
+            "personal": "alexgo"
+        },
+        "rawHeaders": [
+            "Date",
+            "Sat, 29 Jul 2023 17:42:07 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "169",
+            "Connection",
+            "close",
+            "x-amzn-RequestId",
+            "9e764bb8-b8eb-49a2-b5df-f4110b5d71cb",
+            "x-api-version",
+            "0.9.0",
+            "X-Amzn-Trace-Id",
+            "root=1-64c54f6b-072fb34635298f443f5d9602;sampled=1;lineage=adfd2d2f:0"
+        ],
+        "responseIsBinary": false
+    },
+    {
+        "scope": "https://ptb5spl6kvsuioc5zkrgyncrve0jyrew.lambda-url.us-west-2.on.aws:443",
+        "method": "POST",
+        "path": "/",
+        "body": {
+            "session": "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"
+        },
+        "status": 200,
+        "response": {
+            "organizations": [
+                "monsoonco",
+                "Concurix",
+                "polyverse",
+                "polyverse-security",
+                "SimplySecureMe",
+                "polyverse-appsec"
+            ],
+            "email": "alex@polyverse.io",
+            "personal": "alexgo"
+        },
+        "rawHeaders": [
+            "Date",
+            "Sat, 29 Jul 2023 17:42:08 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "169",
+            "Connection",
+            "close",
+            "x-amzn-RequestId",
+            "4a9123c1-c23a-4993-9b0e-206820932799",
+            "x-api-version",
+            "0.9.0",
+            "X-Amzn-Trace-Id",
+            "root=1-64c54f70-05bb69324cebb71b78c3f114;sampled=1;lineage=adfd2d2f:0"
+        ],
+        "responseIsBinary": false
+    },
+    {
+        "scope": "https://ptb5spl6kvsuioc5zkrgyncrve0jyrew.lambda-url.us-west-2.on.aws:443",
+        "method": "POST",
+        "path": "/",
+        "body": {
+            "session": "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"
+        },
+        "status": 200,
+        "response": {
+            "organizations": [
+                "monsoonco",
+                "Concurix",
+                "polyverse",
+                "polyverse-security",
+                "SimplySecureMe",
+                "polyverse-appsec"
+            ],
+            "email": "alex@polyverse.io",
+            "personal": "alexgo"
+        },
+        "rawHeaders": [
+            "Date",
+            "Sat, 29 Jul 2023 17:42:10 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "169",
+            "Connection",
+            "close",
+            "x-amzn-RequestId",
+            "8318cdfa-7aec-484d-bae0-8a7fd8ee1b02",
+            "x-api-version",
+            "0.9.0",
+            "X-Amzn-Trace-Id",
+            "root=1-64c54f72-2cc9df1f5e79a6da06dfa9d3;sampled=1;lineage=adfd2d2f:0"
+        ],
+        "responseIsBinary": false
+    },
+    {
+        "scope": "https://ptb5spl6kvsuioc5zkrgyncrve0jyrew.lambda-url.us-west-2.on.aws:443",
+        "method": "POST",
+        "path": "/",
+        "body": {
+            "session": "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"
+        },
+        "status": 200,
+        "response": {
+            "organizations": [
+                "monsoonco",
+                "Concurix",
+                "polyverse",
+                "polyverse-security",
+                "SimplySecureMe",
+                "polyverse-appsec"
+            ],
+            "email": "alex@polyverse.io",
+            "personal": "alexgo"
+        },
+        "rawHeaders": [
+            "Date",
+            "Sat, 29 Jul 2023 17:42:10 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "169",
+            "Connection",
+            "close",
+            "x-amzn-RequestId",
+            "57272e82-c796-4696-89af-28852aabe5b9",
+            "x-api-version",
+            "0.9.0",
+            "X-Amzn-Trace-Id",
+            "root=1-64c54f72-09faed765895a95f0ad16d7b;sampled=1;lineage=adfd2d2f:0"
+        ],
+        "responseIsBinary": false
+    },
+    {
+        "scope": "https://roxbi254sch3yijt7tqbz4s7jq0jxddr.lambda-url.us-west-2.on.aws:443",
+        "method": "POST",
+        "path": "/",
+        "body": {
+            "session": "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",
+            "organization": "monsoonco"
+        },
+        "status": 200,
+        "response": {
+            "portal_url": "https://billing.stripe.com/p/session/live_YWNjdF8wbllIVWMxVXM2OGE1a3RCR3lScCxfT0x6N2p0MElMVkRSTmEycTJJbmNmMUlNano1M2Y1ag0100UhVifBn8",
+            "status": "paid"
+        },
+        "rawHeaders": [
+            "Date",
+            "Sat, 29 Jul 2023 17:42:14 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "168",
+            "Connection",
+            "close",
+            "x-amzn-RequestId",
+            "358a6601-a4f0-4df6-9a82-1e923b0cd5e6",
+            "x-api-version",
+            "0.9.0",
+            "X-Amzn-Trace-Id",
+            "root=1-64c54f70-19862b0a570c116f393ac727;sampled=1;lineage=59c6400b:0"
+        ],
+        "responseIsBinary": false
+    }
+]

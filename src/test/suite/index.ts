@@ -28,7 +28,7 @@ function prepareScope(scope: any): nock.Scope {
 export function run(): Promise<void> {
 
 
-    nockBack.fixtures = path.join(__dirname, "..", "resources/fixtures");
+    nockBack.fixtures = path.join(__dirname, "..", "src", "test", "resources", "fixtures");
     nockBack.setMode("record");
     const mocha = new Mocha({
         ui: "tdd",
