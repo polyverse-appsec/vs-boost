@@ -2302,7 +2302,7 @@ export class BoostExtension {
                 } else {
                     notebook.load(notebookUri.fsPath);
                 }
-                targetedKernel
+                await targetedKernel
                     .executeAllWithAuthorization(
                         notebook.cells,
                         notebook,

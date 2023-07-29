@@ -8,16 +8,26 @@ import { BoostConfiguration } from "../../boostConfiguration";
 import * as fs from "fs";
 import { BoostNotebook } from "../../jupyter_notebook";
 import { rightClickLoadFileCommandTest } from "./testCommandUtilities";
+import { before } from 'mocha';
 
 suite("Right Click Process File Command", function () {
     this.timeout(5 * minutes); // set test timeout to be 200 seconds (over 3 minutes to include Boost service request time)
 
-    const randomFile = getRandomTestSourceFile();
-    console.log(`${this.title} random source: ${randomFile}`);
-    const fileUri = vscode.Uri.parse(randomFile);
+    let randomFile;
+    let fileUri: vscode.Uri, boostUri: vscode.Uri;
+    const parent = this.parent;
 
-    const boostUri = getBoostFile(fileUri);
-    console.log(`${this.title} Boost Uri: ${boostUri.fsPath}`);
+    before(async function () {
+        randomFile = getRandomTestSourceFile();
+        console.log(`${parent?.title} random source: ${randomFile}`);
+        fileUri = vscode.Uri.parse(randomFile);
+
+        // now open up the file to get vscode initialized properly
+        await vscode.commands.executeCommand("vscode.open", fileUri);
+
+        boostUri = getBoostFile(fileUri);
+        console.log(`${parent?.title} Boost Uri: ${boostUri.fsPath}`);
+    });
 
     test("Right Click Load File Command Test (Pre-Step for Processing)", async function () {
         await rightClickLoadFileCommandTest(this, fileUri, boostUri);

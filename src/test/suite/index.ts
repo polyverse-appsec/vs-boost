@@ -3,12 +3,16 @@ import glob from "glob";
 import fs from "fs";
 import Mocha from "mocha";
 import { shuffle } from "lodash";
+import debug from "debug";
 import nock, { back as nockBack } from "nock";
+
+debug.enable("nock.*");
 
 const testFilter = "suite/*.test.js";
 
 function prepareScope(scope: any): nock.Scope {
     scope.filteringRequestBody = (body: string): string => {
+        
         if (typeof body !== 'string') {
             return body;
         }
