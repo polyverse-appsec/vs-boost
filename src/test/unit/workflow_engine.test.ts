@@ -44,7 +44,7 @@ describe('WorkflowEngine', () => {
         //now put each number into a promise generator
         let promiseGenerators: (() => () => Promise<number>)[] = [];
         for (let i = 0; i < 5; i++) {
-            promiseGenerators.push(() => {return async () => {return randomNumbers[i];}});
+            promiseGenerators.push(() => {return async () => {return randomNumbers[i];};});
         }
         //now create a summary promise generator. use a closure to keep track of the sum, with a variable here on 
         //the outside of the closure to check the sum later
