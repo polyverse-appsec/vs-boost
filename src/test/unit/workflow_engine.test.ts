@@ -12,13 +12,14 @@ describe('WorkflowEngine', () => {
             () => async () => { log.push('main3'); return; },
             () => async () => { log.push('main4'); return; }
         ];
+        const afterEach = [() => async () => { console.log(log); return; }];
         const afterEachGroup = [() => async () => { log.push('afterEachGroup'); return; }];
         const afterGen = [() => async () => { log.push('after'); return; }];
         
          
         const pattern = [1, 2];
 
-        const engine = new WorkflowEngine(beforeGen, main, afterEachGroup, afterGen, pattern);
+        const engine = new WorkflowEngine(beforeGen, main, afterEach, afterEachGroup, afterGen, pattern);
         await engine.run();
 
         expect(log).to.deep.equal(['before', 'main1', 'afterEachGroup', 'main2', 'main3', 'afterEachGroup', 'main4', 'afterEachGroup', 'after']);

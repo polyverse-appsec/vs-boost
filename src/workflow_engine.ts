@@ -24,26 +24,30 @@ Abort: If the abort API is called, the workflow will stop executing further prom
 
 export type PromiseGenerator = () => () => Promise<any>;
 export type BeforePromiseGenerator = PromiseGenerator;
+export type AfterEachPromiseGenerator = PromiseGenerator;
 export type AfterEachGroupPromiseGenerator = PromiseGenerator;
 export type AfterPromiseGenerator = PromiseGenerator;
 
 export class WorkflowEngine {
     private before: BeforePromiseGenerator[];
     private main: PromiseGenerator[];
+    private afterEach: AfterEachPromiseGenerator[];
     private afterEachGroup: AfterEachGroupPromiseGenerator[];
     private after: AfterPromiseGenerator[];
     private pattern: number[];
     private aborted: boolean = false;
 
     constructor(
-        before: PromiseGenerator[] | undefined = undefined,
+        before: BeforePromiseGenerator[] | undefined = undefined,
         main: PromiseGenerator[],
-        afterEachGroup: PromiseGenerator[] | undefined = undefined,
-        after: PromiseGenerator[] | undefined = undefined,
+        afterEach: AfterEachPromiseGenerator[] | undefined = undefined,
+        afterEachGroup: AfterEachGroupPromiseGenerator[] | undefined = undefined,
+        after: AfterPromiseGenerator[] | undefined = undefined,
         pattern: number[] | undefined = undefined
     ) {
         this.before = before? before : [];
         this.main = [...main];
+        this.afterEach = afterEach? afterEach : [];
         this.afterEachGroup = afterEachGroup? afterEachGroup : [];
         this.after = after? after : [];
         this.pattern = pattern ? pattern : [1, 2, 4, 8, 16];
@@ -65,6 +69,7 @@ export class WorkflowEngine {
                 const promise = promiseGenerator();
                 try {
                     await promise();
+                    await this.executePromises(this.afterEach);
                 } catch (error) {
                     this.main.push(promiseGenerator); // Retry later
                 }
