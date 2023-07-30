@@ -22,11 +22,22 @@ Finally, the after promises will be run.
 Abort: If the abort API is called, the workflow will stop executing further promises.
 */
 
+import { group } from "console";
+
 export type PromiseGenerator = () => () => Promise<any>;
+export type PromiseGeneratorWithInputs = () => (inputs: any[]) => Promise<any>;
 export type BeforePromiseGenerator = PromiseGenerator;
-export type AfterEachPromiseGenerator = PromiseGenerator;
-export type AfterEachGroupPromiseGenerator = PromiseGenerator;
-export type AfterPromiseGenerator = PromiseGenerator;
+export type AfterEachPromiseGenerator = PromiseGeneratorWithInputs;
+export type AfterEachGroupPromiseGenerator = PromiseGeneratorWithInputs;
+export type AfterPromiseGenerator = PromiseGeneratorWithInputs;
+
+export interface WorkflowEngineOptions {
+    before?: BeforePromiseGenerator[];
+    afterEach?: AfterEachPromiseGenerator[];
+    afterEachGroup?: AfterEachGroupPromiseGenerator[];
+    after?: AfterPromiseGenerator[];
+    pattern?: number[];
+}
 
 export class WorkflowEngine {
     private before: BeforePromiseGenerator[];
@@ -38,52 +49,53 @@ export class WorkflowEngine {
     private aborted: boolean = false;
 
     constructor(
-        before: BeforePromiseGenerator[] | undefined = undefined,
         main: PromiseGenerator[],
-        afterEach: AfterEachPromiseGenerator[] | undefined = undefined,
-        afterEachGroup: AfterEachGroupPromiseGenerator[] | undefined = undefined,
-        after: AfterPromiseGenerator[] | undefined = undefined,
-        pattern: number[] | undefined = undefined
+        options: WorkflowEngineOptions = {}
     ) {
-        this.before = before? before : [];
+        this.before = options.before || [];
         this.main = [...main];
-        this.afterEach = afterEach? afterEach : [];
-        this.afterEachGroup = afterEachGroup? afterEachGroup : [];
-        this.after = after? after : [];
-        this.pattern = pattern ? pattern : [1, 2, 4, 8, 16];
+        this.afterEach = options.afterEach || [];
+        this.afterEachGroup = options.afterEachGroup || [];
+        this.after = options.after || [];
+        this.pattern = options.pattern || [1, 2, 4, 8, 16];
     }
 
     public async run() {
         this.aborted = false;
         await this.executePromises(this.before);
+        let allResults: any[] = [];
 
         let groupIndex = 0;
         while (this.main.length > 0 && !this.aborted) {
             const groupSize = this.pattern[groupIndex] || this.pattern[this.pattern.length - 1]; // Use the last group size if we've exceeded the pattern
         
+            let groupResults: any[] = [];
             for (let i = 0; i < groupSize && this.main.length > 0; i++) {
+                
                 if (this.aborted) {
                     return;
                 }
                 const promiseGenerator = this.main.shift()!;
                 const promise = promiseGenerator();
                 try {
-                    await promise();
-                    await this.executePromises(this.afterEach);
+                    let result = await promise();
+                    groupResults.push(result);
+                    await this.executePromisesWithInputs(this.afterEach, [result]);
                 } catch (error) {
                     this.main.push(promiseGenerator); // Retry later
                 }
             }
         
-            await this.executePromises(this.afterEachGroup);
+            await this.executePromisesWithInputs(this.afterEachGroup, groupResults);
         
             // Move to the next group size if available
             if (groupIndex < this.pattern.length - 1) {
                 groupIndex++;
             }
+            allResults.push(groupResults);
         }
 
-        await this.executePromises(this.after);
+        await this.executePromisesWithInputs(this.after, allResults);
     }
 
     public abort() {
@@ -97,6 +109,16 @@ export class WorkflowEngine {
             }
             const generator = generatorFactory();
             await generator();
+        }
+    }
+
+    private async executePromisesWithInputs(promiseGenerators: PromiseGeneratorWithInputs[], inputs: any[]) {
+        for (let generatorFactory of promiseGenerators) {
+            if (this.aborted){
+                return;
+            }
+            const generator = generatorFactory();
+            await generator(inputs);
         }
     }
     
