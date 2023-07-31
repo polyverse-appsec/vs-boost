@@ -22,7 +22,12 @@ Finally, the after promises will be run.
 Abort: If the abort API is called, the workflow will stop executing further promises.
 */
 
-import { group } from "console";
+// Custom error class for handling typed errors
+export class WorkflowError extends Error {
+    constructor(public type: "retry" | "skip" | "abort", message?: string) {
+        super(message);
+    }
+}
 
 export type PromiseGenerator = () => () => Promise<any>;
 export type PromiseGeneratorWithInputs = () => (inputs: any[]) => Promise<any>;
@@ -48,10 +53,7 @@ export class WorkflowEngine {
     private pattern: number[];
     private aborted: boolean = false;
 
-    constructor(
-        main: PromiseGenerator[],
-        options: WorkflowEngineOptions = {}
-    ) {
+    constructor(main: PromiseGenerator[], options: WorkflowEngineOptions = {}) {
         this.before = options.before || [];
         this.main = [...main];
         this.afterEach = options.afterEach || [];
@@ -67,11 +69,12 @@ export class WorkflowEngine {
 
         let groupIndex = 0;
         while (this.main.length > 0 && !this.aborted) {
-            const groupSize = this.pattern[groupIndex] || this.pattern[this.pattern.length - 1]; // Use the last group size if we've exceeded the pattern
-        
+            const groupSize =
+                this.pattern[groupIndex] ||
+                this.pattern[this.pattern.length - 1]; // Use the last group size if we've exceeded the pattern
+
             let groupResults: any[] = [];
             for (let i = 0; i < groupSize && this.main.length > 0; i++) {
-                
                 if (this.aborted) {
                     return;
                 }
@@ -80,14 +83,34 @@ export class WorkflowEngine {
                 try {
                     let result = await promise();
                     groupResults.push(result);
-                    await this.executePromisesWithInputs(this.afterEach, [result]);
+                    await this.executePromisesWithInputs(this.afterEach, [
+                        result,
+                    ]);
                 } catch (error) {
-                    this.main.push(promiseGenerator); // Retry later
+                    if (error instanceof WorkflowError) {
+                        switch (error.type) {
+                            case "retry":
+                                this.main.push(promiseGenerator); // Retry later
+                                break;
+                            case "skip":
+                                // Just skip and continue
+                                break;
+                            case "abort":
+                                this.abort();
+                                return; // Exit the function immediately
+                        }
+                    } else {
+                        // for a generic error, just try again
+                        this.main.push(promiseGenerator); // Retry later
+                    }
                 }
             }
-        
-            await this.executePromisesWithInputs(this.afterEachGroup, groupResults);
-        
+
+            await this.executePromisesWithInputs(
+                this.afterEachGroup,
+                groupResults
+            );
+
             // Move to the next group size if available
             if (groupIndex < this.pattern.length - 1) {
                 groupIndex++;
@@ -104,7 +127,7 @@ export class WorkflowEngine {
 
     private async executePromises(promiseGenerators: PromiseGenerator[]) {
         for (let generatorFactory of promiseGenerators) {
-            if (this.aborted){
+            if (this.aborted) {
                 return;
             }
             const generator = generatorFactory();
@@ -112,15 +135,16 @@ export class WorkflowEngine {
         }
     }
 
-    private async executePromisesWithInputs(promiseGenerators: PromiseGeneratorWithInputs[], inputs: any[]) {
+    private async executePromisesWithInputs(
+        promiseGenerators: PromiseGeneratorWithInputs[],
+        inputs: any[]
+    ) {
         for (let generatorFactory of promiseGenerators) {
-            if (this.aborted){
+            if (this.aborted) {
                 return;
             }
             const generator = generatorFactory();
             await generator(inputs);
         }
     }
-    
 }
-

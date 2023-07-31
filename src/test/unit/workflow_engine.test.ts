@@ -1,22 +1,53 @@
-import { expect } from 'chai';
-import { WorkflowEngine } from '../../workflow_engine';
+import { expect } from "chai";
+import { WorkflowEngine, WorkflowError } from "../../workflow_engine";
 
-describe('WorkflowEngine', () => {
-    it('should run promises in the correct order', async () => {
+describe("WorkflowEngine", () => {
+    it("should run promises in the correct order", async () => {
         let log: string[] = [];
 
-        const beforeGen = [() => async () => { log.push('before'); return; }] ;
-        const main = [
-            () => async () => { log.push('main1'); return; },
-            () => async () => { log.push('main2'); return; },
-            () => async () => { log.push('main3'); return; },
-            () => async () => { log.push('main4'); return; }
+        const beforeGen = [
+            () => async () => {
+                log.push("before");
+                return;
+            },
         ];
-        const afterEach = [() => async () => { console.log(log); return; }];
-        const afterEachGroup = [() => async () => { log.push('afterEachGroup'); return; }];
-        const afterGen = [() => async () => { log.push('after'); return; }];
-        
-         
+        const main = [
+            () => async () => {
+                log.push("main1");
+                return;
+            },
+            () => async () => {
+                log.push("main2");
+                return;
+            },
+            () => async () => {
+                log.push("main3");
+                return;
+            },
+            () => async () => {
+                log.push("main4");
+                return;
+            },
+        ];
+        const afterEach = [
+            () => async () => {
+                console.log(log);
+                return;
+            },
+        ];
+        const afterEachGroup = [
+            () => async () => {
+                log.push("afterEachGroup");
+                return;
+            },
+        ];
+        const afterGen = [
+            () => async () => {
+                log.push("after");
+                return;
+            },
+        ];
+
         const pattern = [1, 2];
 
         const engine = new WorkflowEngine(main, {
@@ -24,15 +55,25 @@ describe('WorkflowEngine', () => {
             afterEach: afterEach,
             afterEachGroup: afterEachGroup,
             after: afterGen,
-            pattern: pattern
+            pattern: pattern,
         });
         await engine.run();
 
-        expect(log).to.deep.equal(['before', 'main1', 'afterEachGroup', 'main2', 'main3', 'afterEachGroup', 'main4', 'afterEachGroup', 'after']);
+        expect(log).to.deep.equal([
+            "before",
+            "main1",
+            "afterEachGroup",
+            "main2",
+            "main3",
+            "afterEachGroup",
+            "main4",
+            "afterEachGroup",
+            "after",
+        ]);
     });
 
     // More tests can be written to verify other functionalities...
-    it('should handle closure state properly', async () => {
+    it("should handle closure state properly", async () => {
         //create an array of 5 random numbers
         let randomNumbers: number[] = [];
         for (let i = 0; i < 5; i++) {
@@ -44,12 +85,16 @@ describe('WorkflowEngine', () => {
         //now put each number into a promise generator
         let promiseGenerators: (() => () => Promise<number>)[] = [];
         for (let i = 0; i < 5; i++) {
-            promiseGenerators.push(() => {return async () => {return randomNumbers[i];};});
+            promiseGenerators.push(() => {
+                return async () => {
+                    return randomNumbers[i];
+                };
+            });
         }
-        //now create a summary promise generator. use a closure to keep track of the sum, with a variable here on 
+        //now create a summary promise generator. use a closure to keep track of the sum, with a variable here on
         //the outside of the closure to check the sum later
         let sumCheck = 0;
-        let summaryPromiseGenerator = () =>{
+        let summaryPromiseGenerator = () => {
             return async (inputs: any[]) => {
                 //the inputs are the results of the previous promises
                 sumCheck += inputs.reduce((a: number, b: number) => a + b, 0);
@@ -58,12 +103,69 @@ describe('WorkflowEngine', () => {
         };
         //now create the engine
         const engine = new WorkflowEngine(promiseGenerators, {
-            afterEachGroup: [summaryPromiseGenerator]
+            afterEachGroup: [summaryPromiseGenerator],
         });
         //run the engine
         await engine.run();
         //check the sum
         expect(sumCheck).to.equal(sum);
     });
-});
 
+    it('should retry on "retry" type error', async () => {
+        let log: string[] = [];
+        let retryCount = 0;
+
+        const main = [
+            () => async () => {
+                if (retryCount < 2) {
+                    retryCount++;
+                    throw new WorkflowError("retry", "Retry error");
+                } else {
+                    log.push("main");
+                }
+            },
+        ];
+
+        const engine = new WorkflowEngine(main);
+        await engine.run();
+
+        expect(log).to.deep.equal(["main"]);
+        expect(retryCount).to.equal(2);
+    });
+
+    it('should skip on "skip" type error', async () => {
+        let log: string[] = [];
+
+        const main = [
+            () => async () => {
+                throw new WorkflowError("skip", "Skip error");
+            },
+            () => async () => {
+                log.push("main");
+            },
+        ];
+
+        const engine = new WorkflowEngine(main);
+        await engine.run();
+
+        expect(log).to.deep.equal(["main"]);
+    });
+
+    it('should abort on "abort" type error', async () => {
+        let log: string[] = [];
+
+        const main = [
+            () => async () => {
+                throw new WorkflowError("abort", "Abort error");
+            },
+            () => async () => {
+                log.push("main");
+            },
+        ];
+
+        const engine = new WorkflowEngine(main);
+        await engine.run();
+
+        expect(log).to.deep.equal([]);
+    });
+});
