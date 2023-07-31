@@ -2586,7 +2586,7 @@ export class BoostExtension {
                         };
                     });
 
-                //let's conver the processedNotebookWaits to an array of promise generators for use
+                //let's convert the processedNotebookWaits to an array of promise generators for use
                 //in Workflow engine.  just loop through the array and return a function that returns
                 //the promise
 
