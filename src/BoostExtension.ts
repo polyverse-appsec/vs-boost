@@ -113,6 +113,8 @@ import {
     quickPerformanceSummaryKernelName,
 } from "./quick_performance_summary_controller";
 
+import { WorkflowEngine, PromiseGenerator } from "./workflow_engine";
+
 export class BoostNotebookContentProvider
     implements vscode.TextDocumentContentProvider
 {
@@ -2512,7 +2514,118 @@ export class BoostExtension {
             const wordsPerFile = throttleRateTokensPerMinute / totalFiles;
             const seconds = 1000;
 
-            let processedNotebookWaits: Promise<boostnb.BoostNotebook>[] =
+            if (BoostConfiguration.processFilesInGroups) {
+                let processedNotebookWaitsGenerators: PromiseGenerator[] =
+                    files.map((file) => {
+                        return () => {
+                            return async () => {
+                                return new Promise<boostnb.BoostNotebook>(
+                                    (resolve, reject) => {
+                                        const fileSize = fs.statSync(
+                                            file.fsPath
+                                        ).size;
+                                        const estimatedWords =
+                                            this.calculateEstimatedWords(fileSize);
+                                        const processingTime =
+                                            this.calculateProcessingTime(
+                                                estimatedWords,
+                                                wordsPerFile
+                                            );
+
+                                        boostLogging.log(
+                                            `Delaying file ${
+                                                file.fsPath
+                                            } with ${estimatedWords} ~items to wait ${
+                                                processingTime / seconds
+                                            } secs`
+                                        );
+                                        // get the distance from the workspace folder for the source file
+                                        // for project-level status files, we ignore the relative path
+                                        let relativePath = path.relative(
+                                            targetFolder.fsPath,
+                                            file.fsPath
+                                        );
+                                        this.summary?.addQueue(
+                                            targetedKernel.outputType,
+                                            [relativePath],
+                                            boostprojectdata
+                                        );
+                                        setTimeout(async () => {
+                                            // if its been more than 5 seconds, log it - that's about 13 pages of source in 5 seconds (wild estimate)
+                                            if (processingTime > 5 * seconds) {
+                                                boostLogging.log(
+                                                    `Starting processing file ${
+                                                        file.fsPath
+                                                    } with ${estimatedWords} ~items after waiting ${
+                                                        processingTime * seconds
+                                                    } secs`
+                                                );
+                                            }
+
+                                            this.summary?.addJobs(
+                                                targetedKernel.outputType,
+                                                [relativePath],
+                                                boostprojectdata
+                                            );
+
+                                            this.processCurrentFile(
+                                                file,
+                                                targetedKernel.id,
+                                                context,
+                                                forceAnalysisRefresh
+                                            )
+                                                .then((notebook) => {
+                                                    let summary =
+                                                        boostNotebookToFileSummaryItem(
+                                                            notebook
+                                                        );
+                                                    const boostprojectdata =
+                                                        this.getBoostProjectData();
+                                                    this.summary?.finishJob(
+                                                        targetedKernel.outputType,
+                                                        relativePath,
+                                                        summary,
+                                                        boostprojectdata,
+                                                        null
+                                                    );
+                                                    resolve(notebook);
+                                                })
+                                                .catch((error) => {
+                                                    // get the distance from the workspace folder for the source file
+                                                    // for project-level status files, we ignore the relative path
+                                                    let relativePath =
+                                                        path.relative(
+                                                            targetFolder.fsPath,
+                                                            file.fsPath
+                                                        );
+                                                    const boostprojectdata =
+                                                        this.getBoostProjectData();
+                                                    this.summary?.finishJob(
+                                                        targetedKernel.outputType,
+                                                        relativePath,
+                                                        null,
+                                                        boostprojectdata,
+                                                        error
+                                                    );
+                                                    reject(error);
+                                                });
+                                        }, processingTime);
+                                    }
+                                );
+                            };
+                        };
+                    });
+
+                //let's conver the processedNotebookWaits to an array of promise generators for use
+                //in Workflow engine.  just loop through the array and return a function that returns
+                //the promise
+
+                let engine = new WorkflowEngine(
+                    processedNotebookWaitsGenerators as PromiseGenerator[]
+                );
+                await engine.run();
+            } else {
+                let processedNotebookWaits: Promise<boostnb.BoostNotebook>[] =
                 files.map(async (file) => {
                     return new Promise<boostnb.BoostNotebook>(
                         (resolve, reject) => {
@@ -2604,7 +2717,7 @@ export class BoostExtension {
                         }
                     );
                 });
-
+                
                 function reflect(promise: Promise<any>){
                     return promise.then(
                         v => ({v, status: 'fulfilled'}),
@@ -2642,8 +2755,8 @@ export class BoostExtension {
                             );
                         }
                     });
+            }
                 
-
             // if we are doing a summary operation, then we process the named folder only (for the project/folder-level summary)
             // this happens after we do rollup summaries for all other source files - to make our project-level use the latest rollup
             if (targetedKernel.command === summarizeKernelName) {

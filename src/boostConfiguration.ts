@@ -158,6 +158,11 @@ export class BoostConfiguration {
             Defaults.runAllTargetAnalysisTypeValue;
     }
 
+    public static get processFilesInGroups(): boolean {
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.processFilesInGroupsName) as boolean)??
+            Defaults.processFilesInGroupsValue;
+    }
+
     static _cachedVersion: string = "";
     public static get version(): string {
         if (this._cachedVersion) {
@@ -229,6 +234,9 @@ class Defaults {
 
     public static readonly defaultOutputFormatName : string = "defaultOutputFormat";
     public static readonly defaultOutputFormatValue : string = "markdown";
+
+    public static readonly processFilesInGroupsName : string = "processFilesInGroups";
+    public static readonly processFilesInGroupsValue : boolean = false;
 
     // enables targeting a specific kernel for analysis when using run all in UX
     // for example, if you want to run only security analysis with source id and no summary, use:
