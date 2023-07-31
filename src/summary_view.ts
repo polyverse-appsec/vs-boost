@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
+import * as path from "path";
 import * as _ from "lodash";
 import { BoostExtension } from "./BoostExtension";
 
@@ -350,21 +351,24 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         this._view?.webview.postMessage(payload);
     }
 
-    private async _openFile(filename: string, boostprojectdata : any) {
+    private async _openFile(relativePath: string, boostprojectdata : any) {
+        if (!vscode.workspace.workspaceFolders?.[0]) {
+            boostLogging.error("Please open a Project folder or workspace first", true);
+            return;
+        }
+        const docAbsolutePath = path.join(vscode.workspace.workspaceFolders?.[0].uri.fsPath as string, relativePath);
+        const docUri = vscode.Uri.file(docAbsolutePath);
         try {
             //if the filename ends with boost-notebook, then open the notebook
-            if (filename.endsWith(".boost-notebook")) {
-
-                const notebookUri = vscode.Uri.file(filename);
-                const document = await vscode.workspace.openNotebookDocument(notebookUri);
+            if (docUri.fsPath.endsWith(".boost-notebook")) {
+                const document = await vscode.workspace.openNotebookDocument(docUri);
                 await vscode.window.showNotebookDocument(document);
             } else {
-                //just open the file
-                const uriDoc = vscode.Uri.file(filename);
-                await vscode.window.showTextDocument(uriDoc);
+                // otherwise, open as text
+                await vscode.window.showTextDocument(docUri);
             }
         } catch (e) {
-            boostLogging.error(`Could not open file ${filename} due to ${e}`, true);
+            boostLogging.error(`Could not open file ${docAbsolutePath} due to ${e}`, true);
         }
     }
 }
