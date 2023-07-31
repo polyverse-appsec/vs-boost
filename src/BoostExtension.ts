@@ -2521,24 +2521,6 @@ export class BoostExtension {
                             return async () => {
                                 return new Promise<boostnb.BoostNotebook>(
                                     (resolve, reject) => {
-                                        const fileSize = fs.statSync(
-                                            file.fsPath
-                                        ).size;
-                                        const estimatedWords =
-                                            this.calculateEstimatedWords(fileSize);
-                                        const processingTime =
-                                            this.calculateProcessingTime(
-                                                estimatedWords,
-                                                wordsPerFile
-                                            );
-
-                                        boostLogging.log(
-                                            `Delaying file ${
-                                                file.fsPath
-                                            } with ${estimatedWords} ~items to wait ${
-                                                processingTime / seconds
-                                            } secs`
-                                        );
                                         // get the distance from the workspace folder for the source file
                                         // for project-level status files, we ignore the relative path
                                         let relativePath = path.relative(
@@ -2550,66 +2532,54 @@ export class BoostExtension {
                                             [relativePath],
                                             boostprojectdata
                                         );
-                                        setTimeout(async () => {
-                                            // if its been more than 5 seconds, log it - that's about 13 pages of source in 5 seconds (wild estimate)
-                                            if (processingTime > 5 * seconds) {
-                                                boostLogging.log(
-                                                    `Starting processing file ${
-                                                        file.fsPath
-                                                    } with ${estimatedWords} ~items after waiting ${
-                                                        processingTime * seconds
-                                                    } secs`
+
+                                        this.summary?.addJobs(
+                                            targetedKernel.outputType,
+                                            [relativePath],
+                                            boostprojectdata
+                                        );
+
+                                        this.processCurrentFile(
+                                            file,
+                                            targetedKernel.id,
+                                            context,
+                                            forceAnalysisRefresh
+                                        )
+                                            .then((notebook) => {
+                                                let summary =
+                                                    boostNotebookToFileSummaryItem(
+                                                        notebook
+                                                    );
+                                                const boostprojectdata =
+                                                    this.getBoostProjectData();
+                                                this.summary?.finishJob(
+                                                    targetedKernel.outputType,
+                                                    relativePath,
+                                                    summary,
+                                                    boostprojectdata,
+                                                    null
                                                 );
-                                            }
-
-                                            this.summary?.addJobs(
-                                                targetedKernel.outputType,
-                                                [relativePath],
-                                                boostprojectdata
-                                            );
-
-                                            this.processCurrentFile(
-                                                file,
-                                                targetedKernel.id,
-                                                context,
-                                                forceAnalysisRefresh
-                                            )
-                                                .then((notebook) => {
-                                                    let summary =
-                                                        boostNotebookToFileSummaryItem(
-                                                            notebook
-                                                        );
-                                                    const boostprojectdata =
-                                                        this.getBoostProjectData();
-                                                    this.summary?.finishJob(
-                                                        targetedKernel.outputType,
-                                                        relativePath,
-                                                        summary,
-                                                        boostprojectdata,
-                                                        null
+                                                resolve(notebook);
+                                            })
+                                            .catch((error) => {
+                                                // get the distance from the workspace folder for the source file
+                                                // for project-level status files, we ignore the relative path
+                                                let relativePath =
+                                                    path.relative(
+                                                        targetFolder.fsPath,
+                                                        file.fsPath
                                                     );
-                                                    resolve(notebook);
-                                                })
-                                                .catch((error) => {
-                                                    // get the distance from the workspace folder for the source file
-                                                    // for project-level status files, we ignore the relative path
-                                                    let relativePath =
-                                                        path.relative(
-                                                            targetFolder.fsPath,
-                                                            file.fsPath
-                                                        );
-                                                    const boostprojectdata =
-                                                        this.getBoostProjectData();
-                                                    this.summary?.finishJob(
-                                                        targetedKernel.outputType,
-                                                        relativePath,
-                                                        null,
-                                                        boostprojectdata,
-                                                        error
-                                                    );
-                                                    reject(error);
-                                                });
-                                        }, processingTime);
+                                                const boostprojectdata =
+                                                    this.getBoostProjectData();
+                                                this.summary?.finishJob(
+                                                    targetedKernel.outputType,
+                                                    relativePath,
+                                                    null,
+                                                    boostprojectdata,
+                                                    error
+                                                );
+                                                reject(error);
+                                            });
                                     }
                                 );
                             };
