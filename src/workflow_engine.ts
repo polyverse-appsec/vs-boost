@@ -43,6 +43,7 @@ export interface WorkflowEngineOptions {
     after?: AfterPromiseGenerator[];
     pattern?: number[];
     logger?: any;
+    maxRetries?: number;
 }
 
 export class WorkflowEngine {
@@ -54,6 +55,8 @@ export class WorkflowEngine {
     private pattern: number[];
     private aborted: boolean = false;
     private logger: any;
+    private maxRetries: number;
+    private retryCounts: Map<PromiseGenerator, number> = new Map(); // To keep track of retries for each promise generator
 
     constructor(main: PromiseGenerator[], options: WorkflowEngineOptions = {}) {
         this.before = options.before || [];
@@ -64,6 +67,7 @@ export class WorkflowEngine {
         this.pattern = options.pattern || [1, 2, 4, 8, 16];
         //default to a no-op function for logger if none is provided
         this.logger = options.logger || undefined;
+        this.maxRetries = options.maxRetries || 5;
     }
 
     public async run() {
@@ -85,7 +89,7 @@ export class WorkflowEngine {
             let groupResults: any[] = [];
             for (let i = 0; i < groupSize && this.main.length > 0; i++) {
                 if (this.aborted) {
-                    return;
+                    return allResults;
                 }
                 const promiseGenerator = this.main.shift()!;
                 const promise = promiseGenerator();
@@ -99,13 +103,19 @@ export class WorkflowEngine {
                     if (error instanceof WorkflowError) {
                         switch (error.type) {
                             case "retry":
-                                this.logger?.info(
-                                    "Retrying promise " +
-                                        promise.name +
-                                        " due to error: " +
-                                        error.message
-                                );
-                                this.main.push(promiseGenerator); // Retry later
+                                const currentRetries =
+                                    this.retryCounts.get(promiseGenerator) || 0;
+                                if (currentRetries < this.maxRetries) {
+                                    this.retryCounts.set(
+                                        promiseGenerator,
+                                        currentRetries + 1
+                                    );
+                                    this.main.push(promiseGenerator);
+                                } else {
+                                    this.logger?.info(
+                                        `Max retries reached for promise ${promise.name}. Skipping.`
+                                    );
+                                }
                                 break;
                             case "skip":
                                 this.logger?.info(
@@ -124,7 +134,7 @@ export class WorkflowEngine {
                                         promise.name
                                 );
                                 this.abort();
-                                return; // Exit the function immediately
+                                return allResults; // Exit the function immediately
                         }
                     } else {
                         // for a generic error, just try again
@@ -148,7 +158,7 @@ export class WorkflowEngine {
             await this.executePromisesWithInputs(this.after, allResults);
         } catch (error) {
             this.logger?.error(`Error running after promises: ${error}`);
-            return;
+            return allResults;
         }
     }
 

@@ -168,4 +168,41 @@ describe("WorkflowEngine", () => {
 
         expect(log).to.deep.equal([]);
     });
+
+    it("should allow a 'then' after run command", async () => {
+        const engine = new WorkflowEngine([]);
+        const result = engine.run();
+
+        // Check if run() returns a Promise
+        expect(result).to.be.an.instanceOf(Promise);
+
+        let thenWorked = false;
+        await result.then(() => {
+            thenWorked = true;
+        });
+
+        expect(thenWorked).to.be.true;
+    });
+
+    it("should respect maxRetries option", async () => {
+        let log: string[] = [];
+        let executionCount = 0;
+
+        const main = [
+            () => async () => {
+                if (executionCount < 4) {
+                    executionCount++;
+                    throw new WorkflowError("retry", "Retry error");
+                } else {
+                    log.push("main");
+                }
+            },
+        ];
+
+        const engine = new WorkflowEngine(main, { maxRetries: 2 }); // Setting maxRetries to 2
+        await engine.run();
+
+        expect(log).to.deep.equal([]); // Since maxRetries is 2, the promise should not be successful and "main" won't be logged
+        expect(executionCount).to.equal(3); // Should only retry 2 times, so total executions is 3
+    });
 });
