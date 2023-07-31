@@ -31,39 +31,39 @@ export class WorkflowError extends Error {
 
 export type PromiseGenerator = () => () => Promise<any>;
 export type PromiseGeneratorWithInputs = () => (inputs: any[]) => Promise<any>;
-export type BeforePromiseGenerator = PromiseGenerator;
-export type AfterEachPromiseGenerator = PromiseGeneratorWithInputs;
-export type AfterEachGroupPromiseGenerator = PromiseGeneratorWithInputs;
-export type AfterPromiseGenerator = PromiseGeneratorWithInputs;
+export type BeforeRunPromiseGenerator = PromiseGenerator;
+export type AfterEachTaskPromiseGenerator = PromiseGeneratorWithInputs;
+export type AfterEachTaskGroupPromiseGenerator = PromiseGeneratorWithInputs;
+export type AfterRunPromiseGenerator = PromiseGeneratorWithInputs;
 
 export interface WorkflowEngineOptions {
-    before?: BeforePromiseGenerator[];
-    afterEach?: AfterEachPromiseGenerator[];
-    afterEachGroup?: AfterEachGroupPromiseGenerator[];
-    after?: AfterPromiseGenerator[];
+    beforeRun?: BeforeRunPromiseGenerator[];
+    afterEachTask?: AfterEachTaskPromiseGenerator[];
+    afterEachTaskGroup?: AfterEachTaskGroupPromiseGenerator[];
+    afterRun?: AfterRunPromiseGenerator[];
     pattern?: number[];
     logger?: any;
     maxRetries?: number;
 }
 
 export class WorkflowEngine {
-    private before: BeforePromiseGenerator[];
-    private main: PromiseGenerator[];
-    private afterEach: AfterEachPromiseGenerator[];
-    private afterEachGroup: AfterEachGroupPromiseGenerator[];
-    private after: AfterPromiseGenerator[];
+    private beforeRun: BeforeRunPromiseGenerator[];
+    private tasks: PromiseGenerator[];
+    private afterEachTask: AfterEachTaskPromiseGenerator[];
+    private afterEachTaskGroup: AfterEachTaskGroupPromiseGenerator[];
+    private afterRun: AfterRunPromiseGenerator[];
     private pattern: number[];
     private aborted: boolean = false;
     private logger: any;
     private maxRetries: number;
     private retryCounts: Map<PromiseGenerator, number> = new Map(); // To keep track of retries for each promise generator
 
-    constructor(main: PromiseGenerator[], options: WorkflowEngineOptions = {}) {
-        this.before = options.before || [];
-        this.main = [...main];
-        this.afterEach = options.afterEach || [];
-        this.afterEachGroup = options.afterEachGroup || [];
-        this.after = options.after || [];
+    constructor(tasks: PromiseGenerator[], options: WorkflowEngineOptions = {}) {
+        this.beforeRun = options.beforeRun || [];
+        this.tasks = [...tasks];
+        this.afterEachTask = options.afterEachTask || [];
+        this.afterEachTaskGroup = options.afterEachTaskGroup || [];
+        this.afterRun = options.afterRun || [];
         this.pattern = options.pattern || [1, 2, 4, 8, 16];
         //default to a no-op function for logger if none is provided
         this.logger = options.logger || undefined;
@@ -73,7 +73,7 @@ export class WorkflowEngine {
     public async run() {
         this.aborted = false;
         try {
-            await this.executePromises(this.before);
+            await this.executePromises(this.beforeRun);
         } catch (error) {
             this.logger?.error(`Error running before promises: ${error}`);
             return;
@@ -81,22 +81,22 @@ export class WorkflowEngine {
         let allResults: any[] = [];
 
         let groupIndex = 0;
-        while (this.main.length > 0 && !this.aborted) {
+        while (this.tasks.length > 0 && !this.aborted) {
             const groupSize =
                 this.pattern[groupIndex] ||
                 this.pattern[this.pattern.length - 1]; // Use the last group size if we've exceeded the pattern
 
             let groupResults: any[] = [];
-            for (let i = 0; i < groupSize && this.main.length > 0; i++) {
+            for (let i = 0; i < groupSize && this.tasks.length > 0; i++) {
                 if (this.aborted) {
                     return allResults;
                 }
-                const promiseGenerator = this.main.shift()!;
+                const promiseGenerator = this.tasks.shift()!;
                 const promise = promiseGenerator();
                 try {
                     let result = await promise();
                     groupResults.push(result);
-                    await this.executePromisesWithInputs(this.afterEach, [
+                    await this.executePromisesWithInputs(this.afterEachTask, [
                         result,
                     ]);
                 } catch (error) {
@@ -110,7 +110,7 @@ export class WorkflowEngine {
                                         promiseGenerator,
                                         currentRetries + 1
                                     );
-                                    this.main.push(promiseGenerator);
+                                    this.tasks.push(promiseGenerator);
                                 } else {
                                     this.logger?.info(
                                         `Max retries reached for promise ${promise.name}. Skipping.`
@@ -138,13 +138,13 @@ export class WorkflowEngine {
                         }
                     } else {
                         // for a generic error, just try again
-                        this.main.push(promiseGenerator); // Retry later
+                        this.tasks.push(promiseGenerator); // Retry later
                     }
                 }
             }
 
             await this.executePromisesWithInputs(
-                this.afterEachGroup,
+                this.afterEachTaskGroup,
                 groupResults
             );
 
@@ -155,7 +155,7 @@ export class WorkflowEngine {
             allResults.push(groupResults);
         }
         try {
-            await this.executePromisesWithInputs(this.after, allResults);
+            await this.executePromisesWithInputs(this.afterRun, allResults);
         } catch (error) {
             this.logger?.error(`Error running after promises: ${error}`);
             return allResults;

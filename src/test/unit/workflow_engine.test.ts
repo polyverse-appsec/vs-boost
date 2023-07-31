@@ -11,7 +11,7 @@ describe("WorkflowEngine", () => {
                 return;
             },
         ];
-        const main = [
+        const tasks = [
             () => async () => {
                 log.push("main1");
                 return;
@@ -50,11 +50,11 @@ describe("WorkflowEngine", () => {
 
         const pattern = [1, 2];
 
-        const engine = new WorkflowEngine(main, {
-            before: beforeGen,
-            afterEach: afterEach,
-            afterEachGroup: afterEachGroup,
-            after: afterGen,
+        const engine = new WorkflowEngine(tasks, {
+            beforeRun: beforeGen,
+            afterEachTask: afterEach,
+            afterEachTaskGroup: afterEachGroup,
+            afterRun: afterGen,
             pattern: pattern,
         });
         await engine.run();
@@ -103,7 +103,7 @@ describe("WorkflowEngine", () => {
         };
         //now create the engine
         const engine = new WorkflowEngine(promiseGenerators, {
-            afterEachGroup: [summaryPromiseGenerator],
+            afterEachTaskGroup: [summaryPromiseGenerator],
         });
         //run the engine
         await engine.run();
@@ -115,7 +115,7 @@ describe("WorkflowEngine", () => {
         let log: string[] = [];
         let retryCount = 0;
 
-        const main = [
+        const tasks = [
             () => async () => {
                 if (retryCount < 2) {
                     retryCount++;
@@ -126,7 +126,7 @@ describe("WorkflowEngine", () => {
             },
         ];
 
-        const engine = new WorkflowEngine(main);
+        const engine = new WorkflowEngine(tasks);
         await engine.run();
 
         expect(log).to.deep.equal(["main"]);
@@ -136,7 +136,7 @@ describe("WorkflowEngine", () => {
     it('should skip on "skip" type error', async () => {
         let log: string[] = [];
 
-        const main = [
+        const tasks = [
             () => async () => {
                 throw new WorkflowError("skip", "Skip error");
             },
@@ -145,7 +145,7 @@ describe("WorkflowEngine", () => {
             },
         ];
 
-        const engine = new WorkflowEngine(main);
+        const engine = new WorkflowEngine(tasks);
         await engine.run();
 
         expect(log).to.deep.equal(["main"]);
@@ -154,7 +154,7 @@ describe("WorkflowEngine", () => {
     it('should abort on "abort" type error', async () => {
         let log: string[] = [];
 
-        const main = [
+        const tasks = [
             () => async () => {
                 throw new WorkflowError("abort", "Abort error");
             },
@@ -163,7 +163,7 @@ describe("WorkflowEngine", () => {
             },
         ];
 
-        const engine = new WorkflowEngine(main);
+        const engine = new WorkflowEngine(tasks);
         await engine.run();
 
         expect(log).to.deep.equal([]);
@@ -188,7 +188,7 @@ describe("WorkflowEngine", () => {
         let log: string[] = [];
         let executionCount = 0;
 
-        const main = [
+        const tasks = [
             () => async () => {
                 if (executionCount < 4) {
                     executionCount++;
@@ -199,7 +199,7 @@ describe("WorkflowEngine", () => {
             },
         ];
 
-        const engine = new WorkflowEngine(main, { maxRetries: 2 }); // Setting maxRetries to 2
+        const engine = new WorkflowEngine(tasks, { maxRetries: 2 }); // Setting maxRetries to 2
         await engine.run();
 
         expect(log).to.deep.equal([]); // Since maxRetries is 2, the promise should not be successful and "main" won't be logged
