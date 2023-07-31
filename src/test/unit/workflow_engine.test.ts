@@ -5,9 +5,9 @@ describe("WorkflowEngine", () => {
     it("should run promises in the correct order", async () => {
         let log: string[] = [];
 
-        const beforeGen = [
+        const beforeRun = [
             () => async () => {
-                log.push("before");
+                log.push("beforeRun");
                 return;
             },
         ];
@@ -29,21 +29,21 @@ describe("WorkflowEngine", () => {
                 return;
             },
         ];
-        const afterEach = [
+        const afterEachTask = [
             () => async () => {
                 console.log(log);
                 return;
             },
         ];
-        const afterEachGroup = [
+        const afterEachTaskGroup = [
             () => async () => {
-                log.push("afterEachGroup");
+                log.push("afterEachTaskGroup");
                 return;
             },
         ];
-        const afterGen = [
+        const afterRun = [
             () => async () => {
-                log.push("after");
+                log.push("afterRun");
                 return;
             },
         ];
@@ -51,24 +51,24 @@ describe("WorkflowEngine", () => {
         const pattern = [1, 2];
 
         const engine = new WorkflowEngine(tasks, {
-            beforeRun: beforeGen,
-            afterEachTask: afterEach,
-            afterEachTaskGroup: afterEachGroup,
-            afterRun: afterGen,
+            beforeRun: beforeRun,
+            afterEachTask: afterEachTask,
+            afterEachTaskGroup: afterEachTaskGroup,
+            afterRun: afterRun,
             pattern: pattern,
         });
         await engine.run();
 
         expect(log).to.deep.equal([
-            "before",
+            "beforeRun",
             "main1",
-            "afterEachGroup",
+            "afterEachTaskGroup",
             "main2",
             "main3",
-            "afterEachGroup",
+            "afterEachTaskGroup",
             "main4",
-            "afterEachGroup",
-            "after",
+            "afterEachTaskGroup",
+            "afterRun",
         ]);
     });
 
