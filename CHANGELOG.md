@@ -9,7 +9,7 @@ Polyverse Boost Automatic Application Modernization
 - N/A
 
 ### Enhancements
-- N/A
+- Enable right-click Menus for Compiled Python files (*.pod)
 
 ### Bug Fixes
 - Fix links in Summary View
