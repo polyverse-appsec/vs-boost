@@ -1,8 +1,5 @@
-import {
-    OutputChannel,
-    Disposable,
-    window
-} from "vscode";
+import { OutputChannel, Disposable, window } from "vscode";
+
 import { BoostConfiguration } from "./boostConfiguration";
 
 export class BoostLogger extends Disposable {
@@ -14,7 +11,8 @@ export class BoostLogger extends Disposable {
         // we use a friendly name for the channel as this will be displayed to the user in the output pane
         for (let i = 0; i < 3; i++) {
             try {
-                this._outputChannel = window.createOutputChannel("Polyverse Boost");
+                this._outputChannel =
+                    window.createOutputChannel("Polyverse Boost");
             } catch (e) {
                 // ignore
             }
@@ -22,8 +20,8 @@ export class BoostLogger extends Disposable {
                 break;
             }
         }
-    
-        this.log('Boost Logging starting...');
+
+        this.log("Boost Logging starting...");
     }
 
     debug(message: string) {
@@ -38,7 +36,7 @@ export class BoostLogger extends Disposable {
         this._outputChannel?.appendLine(message);
     }
 
-    info(message: string, showUI : boolean = true) {
+    info(message: string, showUI: boolean = true) {
         if (!this.shouldLog("info")) {
             return;
         }
@@ -49,7 +47,7 @@ export class BoostLogger extends Disposable {
         }
     }
 
-    warn(message: string, showUI : boolean = false) {
+    warn(message: string, showUI: boolean = false) {
         if (!this.shouldLog("warn")) {
             return;
         }
@@ -59,8 +57,8 @@ export class BoostLogger extends Disposable {
             window.showWarningMessage(message);
         }
     }
-    
-    error(message: string, showUI : boolean = false) {
+
+    error(message: string, showUI: boolean = false) {
         if (!this.shouldLog("error")) {
             return;
         }
@@ -71,12 +69,12 @@ export class BoostLogger extends Disposable {
         }
     }
 
-    dispose() : void {
-        this.log('Boost Logging shutting down...');
-        this._outputChannel?.dispose();       
+    dispose(): void {
+        this.log("Boost Logging shutting down...");
+        this._outputChannel?.dispose();
     }
 
-    shouldLog(messageTarget: string) : boolean {
+    shouldLog(messageTarget: string): boolean {
         const logLevel = BoostConfiguration.logLevel.toLowerCase();
 
         switch (messageTarget) {
@@ -85,9 +83,18 @@ export class BoostLogger extends Disposable {
             case "info":
                 return logLevel === "debug" || logLevel === "info";
             case "warn":
-                return logLevel === "debug" || logLevel === "info" || logLevel === "warn";
+                return (
+                    logLevel === "debug" ||
+                    logLevel === "info" ||
+                    logLevel === "warn"
+                );
             case "error":
-                return logLevel === "debug" || logLevel === "info" || logLevel === "warn" || logLevel === "debug";
+                return (
+                    logLevel === "debug" ||
+                    logLevel === "info" ||
+                    logLevel === "warn" ||
+                    logLevel === "debug"
+                );
             default:
                 return true;
         }

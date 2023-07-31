@@ -42,6 +42,7 @@ export interface WorkflowEngineOptions {
     afterEachGroup?: AfterEachGroupPromiseGenerator[];
     after?: AfterPromiseGenerator[];
     pattern?: number[];
+    logger?: any;
 }
 
 export class WorkflowEngine {
@@ -52,6 +53,7 @@ export class WorkflowEngine {
     private after: AfterPromiseGenerator[];
     private pattern: number[];
     private aborted: boolean = false;
+    private logger: any;
 
     constructor(main: PromiseGenerator[], options: WorkflowEngineOptions = {}) {
         this.before = options.before || [];
@@ -60,11 +62,18 @@ export class WorkflowEngine {
         this.afterEachGroup = options.afterEachGroup || [];
         this.after = options.after || [];
         this.pattern = options.pattern || [1, 2, 4, 8, 16];
+        //default to a no-op function for logger if none is provided
+        this.logger = options.logger || undefined;
     }
 
     public async run() {
         this.aborted = false;
-        await this.executePromises(this.before);
+        try {
+            await this.executePromises(this.before);
+        } catch (error) {
+            this.logger?.error(`Error running before promises: ${error}`);
+            return;
+        }
         let allResults: any[] = [];
 
         let groupIndex = 0;
@@ -90,12 +99,30 @@ export class WorkflowEngine {
                     if (error instanceof WorkflowError) {
                         switch (error.type) {
                             case "retry":
+                                this.logger?.info(
+                                    "Retrying promise " +
+                                        promise.name +
+                                        " due to error: " +
+                                        error.message
+                                );
                                 this.main.push(promiseGenerator); // Retry later
                                 break;
                             case "skip":
+                                this.logger?.info(
+                                    "Skipping promise " +
+                                        promise.name +
+                                        " due to error: " +
+                                        error.message
+                                );
                                 // Just skip and continue
                                 break;
                             case "abort":
+                                this.logger?.error(
+                                    "Aborting workflow due to error: " +
+                                        error.message +
+                                        "in promise " +
+                                        promise.name
+                                );
                                 this.abort();
                                 return; // Exit the function immediately
                         }
@@ -117,8 +144,12 @@ export class WorkflowEngine {
             }
             allResults.push(groupResults);
         }
-
-        await this.executePromisesWithInputs(this.after, allResults);
+        try {
+            await this.executePromisesWithInputs(this.after, allResults);
+        } catch (error) {
+            this.logger?.error(`Error running after promises: ${error}`);
+            return;
+        }
     }
 
     public abort() {
