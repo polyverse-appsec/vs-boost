@@ -281,15 +281,22 @@ export async function createOrOpenNotebookFromSourceFile(
     const notebookPath = getBoostFile(sourceFile);
     const fileExists = fs.existsSync(notebookPath.fsPath);
     if (fileExists) {
-        if (useBoostNotebookWithNoUI) {
-            newNotebook = new boostnb.BoostNotebook();
-            newNotebook.load(notebookPath.fsPath);
+        // if the file exists, but has no outputs or analysis in it, then we're going to re-parse it
+        //  by default (e.g. in case the source has changed)
+        newNotebook = new boostnb.BoostNotebook();
+        newNotebook.load(notebookPath.fsPath);
+        if (!newNotebook.isEmpty()) {
+            if (!useBoostNotebookWithNoUI) {
+                newNotebook = await vscode.workspace.openNotebookDocument(
+                    notebookPath
+                );
+            }
+            return newNotebook;
         } else {
-            newNotebook = await vscode.workspace.openNotebookDocument(
-                notebookPath
+            boostLogging.debug(
+                `Boost File exists but appears empty of analysis, so rebuilding: ${notebookPath.fsPath}`
             );
         }
-        return newNotebook;
     }
 
     boostLogging.debug(

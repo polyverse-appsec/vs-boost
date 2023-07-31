@@ -192,6 +192,23 @@ export class BoostNotebook /* implements nbformat.INotebookContent */ {
         fs.writeFileSync(filename, notebookJson, { encoding: 'utf8' });
     }
 
+    // if there are 0 cells in the notebook, or it has outputs attached to any cells, it is not empty
+    // We don't look at contents of any cell today
+    isEmpty(): boolean {
+        let empty = true;
+        if (this.cells.length === 0) {
+            return true;
+        } else {
+            for (let i = 0; i < this.cells.length; i++) {
+                if (this.cells[i].outputs.length > 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
     addCell(cell: BoostNotebookCell): void {
         this.cells.push(cell);
         cell.outputs.forEach(output => {
