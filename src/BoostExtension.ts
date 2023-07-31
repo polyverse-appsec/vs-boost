@@ -1322,7 +1322,7 @@ export class BoostExtension {
             "Analyzing " + files.length + " files in folder: " + targetFolder
         );
         try {
-            let newNotebookWaits: any[] = [];
+            let newNotebookWaits: Promise<vscode.NotebookDocument | boostnb.BoostNotebook>[] = [];
 
             files.filter(async (file) => {
                 newNotebookWaits.push(
@@ -1337,8 +1337,26 @@ export class BoostExtension {
                 createOrOpenSummaryNotebookFromSourceFile(targetFolder)
             );
 
-            await Promise.all(newNotebookWaits)
-                .then((createdNotebooks) => {
+            function reflect(promise: Promise<any>){
+                return promise.then(
+                    v => ({v, status: 'fulfilled'}),
+                    e => ({e, status: 'rejected'})
+                );
+            }
+            
+            // Apply reflect to each promise
+            let reflectedPromises = newNotebookWaits.map(reflect);
+            
+            await Promise.all(reflectedPromises)
+                .then((results) => {
+                    const createdNotebooks = results
+                        .filter(result => result.status === 'fulfilled')
+                        .map(result => (result as { v: any; status: string }).v);
+                        
+                    const errors = results
+                        .filter(result => result.status === 'rejected')
+                        .map(result => (result as { e: any; status: string }).e);
+            
                     // we are generally creating one new notebook during this process, but in case, we de-dupe it
                     const newNotebooks = createdNotebooks.filter(
                         (value, index, self) => {
@@ -1353,18 +1371,20 @@ export class BoostExtension {
                         );
                     }
                     boostLogging.info(
-                        `${newNotebookWaits.length.toString()} Boost Notebooks reloaded for folder ${
+                        `${newNotebooks.length.toString()} Boost Notebooks reloaded for folder ${
                             targetFolder.fsPath
                         }`,
                         false
                     );
-                })
-                .catch((error) => {
-                    // Handle the error here
-                    boostLogging.error(
-                        `Error Boosting folder ${targetFolder.fsPath} due to Error: ${error}`
-                    );
+            
+                    // Handle the errors here
+                    for (const error of errors) {
+                        boostLogging.error(
+                            `Error Boosting folder ${targetFolder.fsPath} due to Error: ${error}`
+                        );
+                    }
                 });
+            
         } catch (error) {
             boostLogging.error(
                 `Error Boosting folder ${targetFolder} due to Error: ${error}`
@@ -2585,29 +2605,44 @@ export class BoostExtension {
                     );
                 });
 
-            await Promise.all(processedNotebookWaits)
-                .then((processedNotebooks) => {
-                    processedNotebooks.forEach((notebook) => {
-                        // we let the user know the notebook was processed
-                        boostLogging.info(
-                            `Boost Notebook processed with command ${targetedKernel.command}: ${notebook.fsPath}`,
-                            false
-                        );
+                function reflect(promise: Promise<any>){
+                    return promise.then(
+                        v => ({v, status: 'fulfilled'}),
+                        e => ({e, status: 'rejected'})
+                    );
+                }
+                
+                let reflectedPromises = processedNotebookWaits.map(reflect);
+                
+                await Promise.all(reflectedPromises)
+                    .then((results) => {
+                        let successfullyProcessed = true;
+                
+                        results.forEach((result) => {
+                            if (result.status === 'fulfilled') {
+                                boostLogging.info(
+                                    `Boost Notebook processed with command ${targetedKernel.command}: ${(result as { v: any; status: string }).v.fsPath}`,
+                                    false
+                                );
+                            } else if (result.status === 'rejected') {
+                                successfullyProcessed = false;
+                                boostLogging.error(
+                                    `Error Boosting folder ${targetFolder.fsPath} due to Error: ${(result as { e: any; status: string }).e}`,
+                                    false
+                                );
+                            }
+                        });
+                
+                        if (successfullyProcessed) {
+                            boostLogging.info(
+                                `${reflectedPromises.length.toString()} Boost Notebooks processed for folder ${
+                                    targetFolder.fsPath
+                                }`,
+                                false
+                            );
+                        }
                     });
-                    boostLogging.info(
-                        `${processedNotebookWaits.length.toString()} Boost Notebooks processed for folder ${
-                            targetFolder.fsPath
-                        }`,
-                        false
-                    );
-                })
-                .catch((error) => {
-                    // Handle the error here
-                    boostLogging.error(
-                        `Error Boosting folder ${targetFolder.fsPath} due to Error: ${error}`,
-                        false
-                    );
-                });
+                
 
             // if we are doing a summary operation, then we process the named folder only (for the project/folder-level summary)
             // this happens after we do rollup summaries for all other source files - to make our project-level use the latest rollup

@@ -248,21 +248,35 @@ export class KernelControllerBase extends BoostServiceHelper {
                 }) as Promise<boolean>
             );
         }
-        await Promise.all(promises)
+
+        function reflect(promise: Promise<boolean>){
+            return promise.then(
+                v => ({v, status: 'fulfilled'}),
+                e => ({e, status: 'rejected'})
+            );
+        }
+
+        let reflectedPromises = promises.map(reflect);
+
+        await Promise.all(reflectedPromises)
             .then((results) => {
+                let successfullyCompleted = true;
+
                 results.forEach((result) => {
-                    successfullyCompleted &&= result ?? true;
+                    if (result.status === 'rejected') {
+                        successfullyCompleted = false;
+                        boostLogging.error(
+                            `Error ${this.command} of Notebook ${
+                                usingBoostNotebook
+                                    ? notebook.fsPath
+                                    : notebook.uri.toString()
+                            }: ${(result as { e: any; status: string }).e.toString()}}`,
+                            !usingBoostNotebook
+                        );
+                    }
                 });
-                if (!successfullyCompleted) {
-                    boostLogging.error(
-                        `Error ${this.command} of Notebook ${
-                            usingBoostNotebook
-                                ? notebook.fsPath
-                                : notebook.uri.toString()
-                        }`,
-                        !usingBoostNotebook
-                    );
-                } else {
+
+                if (successfullyCompleted) {
                     boostLogging.info(
                         `Success ${this.command} of Notebook ${
                             usingBoostNotebook
@@ -272,19 +286,8 @@ export class KernelControllerBase extends BoostServiceHelper {
                         false
                     );
                 }
-                return successfullyCompleted;
-            })
-            .catch((error) => {
-                successfullyCompleted = false;
-                boostLogging.error(
-                    `Error ${this.command} of Notebook ${
-                        usingBoostNotebook
-                            ? notebook.fsPath
-                            : notebook.uri.toString()
-                    }: ${error.toString()}}`,
-                    !usingBoostNotebook
-                );
             });
+
     }
 
     async doExecution(
