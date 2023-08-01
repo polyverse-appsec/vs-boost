@@ -121,7 +121,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
             // Info: 2-3
             // Hint: 0-1
             const thisSeverity = bug.severity > 6?
-                vscode.DiagnosticSeverity.Error:
+                vscode.DiagnosticSeverity.Warning: // should be error - but Error blocks builds for customer
                 bug.severity > 3?
                     vscode.DiagnosticSeverity.Warning:
                     bug.severity > 1?

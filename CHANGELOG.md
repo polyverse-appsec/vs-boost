@@ -11,6 +11,7 @@ Polyverse Boost Automatic Application Modernization
 ### Enhancements
 - Enable right-click Menus for Compiled Python files (*.pod)
 - Rebuild/reparse all source files during analysis if not analysis output will be lost
+- Errors are treated as Warnings by default in Diagnostic Problems to avoid blocking build
 
 ### Bug Fixes
 - Fix links in Summary View
