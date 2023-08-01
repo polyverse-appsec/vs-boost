@@ -2445,7 +2445,28 @@ export class BoostExtension {
         let targetFolder: vscode.Uri;
         // if we don't have a folder selected, then the user didn't right click
         // so we need to use the workspace folder
-        if (options?.uri === undefined) {
+        if (!options?.filelist) {
+            if (options?.uri === undefined) {
+                if (vscode.workspace.workspaceFolders === undefined) {
+                    boostLogging.warn(
+                        "Unable to find Workspace Folder. Please open a Project or Folder first",
+                        true
+                    );
+                    return;
+                }
+
+                // use the first folder in the workspace
+                targetFolder = vscode.workspace.workspaceFolders[0].uri;
+                boostLogging.debug(
+                    `Analyzing Project Wide source file in Workspace: ${targetFolder.fsPath}`
+                );
+            } else {
+                targetFolder = options.uri;
+                boostLogging.debug(
+                    `Analyzing source files in folder: ${options.uri.fsPath}`
+                );
+            }
+        } else {
             if (vscode.workspace.workspaceFolders === undefined) {
                 boostLogging.warn(
                     "Unable to find Workspace Folder. Please open a Project or Folder first",
@@ -2453,17 +2474,14 @@ export class BoostExtension {
                 );
                 return;
             }
-
-            // use the first folder in the workspace
             targetFolder = vscode.workspace.workspaceFolders[0].uri;
-            boostLogging.debug(
-                `Analyzing Project Wide source file in Workspace: ${targetFolder.fsPath}`
-            );
-        } else {
-            targetFolder = options.uri;
-            boostLogging.debug(
-                `Analyzing source files in folder: ${options.uri.fsPath}`
-            );
+            if (!targetFolder) {
+                boostLogging.warn(
+                    "Unable to find Workspace Folder. Please open a Project or Folder first",
+                    true
+                );
+                return;
+            }
         }
 
         let baseWorkspace;
@@ -2472,16 +2490,20 @@ export class BoostExtension {
         } else {
             baseWorkspace = options.uri;
         }
-        // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
-        const searchPattern = new vscode.RelativePattern(
-            targetFolder.fsPath,
-            "**/*.*"
-        );
-        const ignorePatterns = buildVSCodeIgnorePattern(targetFolder);
-        const files = await vscode.workspace.findFiles(
-            searchPattern,
-            ignorePatterns
-        );
+        // if user provided a filelist, use that, otherwise grab everything from the target folder
+        let files = options?.filelist;
+        if (!files) {
+            // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
+            const searchPattern = new vscode.RelativePattern(
+                targetFolder.fsPath,
+                "**/*.*"
+            );
+            const ignorePatterns = buildVSCodeIgnorePattern(targetFolder);
+            files = await vscode.workspace.findFiles(
+                searchPattern,
+                ignorePatterns
+            );
+        }
 
         boostLogging.debug(
             "Analyzing " + files.length + " files in folder: " + targetFolder

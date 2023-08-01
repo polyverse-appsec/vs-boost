@@ -62,7 +62,7 @@ export interface ProcessCurrentFolderOptions {
     uri?: vscode.Uri;
     kernelCommand?: string;
     forceAnalysisRefresh?: boolean;
-    filelist?: string[];
+    filelist?: vscode.Uri[];
 }
 
 
