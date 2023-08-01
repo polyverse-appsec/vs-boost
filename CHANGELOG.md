@@ -6,7 +6,7 @@ Polyverse Boost Automatic Application Modernization
 ## Version 1.2.4: August 2nd, 2023
 
 ### New Features
-- N/A
+- Added support for analyzing Razor files (CSHTML extension, HTML with embedded C# or Visual Basic.NET)
 
 ### Enhancements
 - Enable right-click Menus for Compiled Python files (*.pod)

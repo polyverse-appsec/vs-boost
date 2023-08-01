@@ -24,6 +24,7 @@ function getVSCodeLanguageId(filename: string): string {
         coffee: "coffeescript",
         html: "html",
         vue: "html",
+        cshtml: "html",
         css: "css",
         json: "json",
         xml: "xml",
