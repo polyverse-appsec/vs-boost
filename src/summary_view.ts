@@ -4,7 +4,7 @@ import * as path from "path";
 import * as _ from "lodash";
 import { BoostExtension } from "./BoostExtension";
 
-import { BoostCommands, getKernelName } from "./extension";
+import { BoostCommands, getKernelName, ProcessCurrentFolderOptions } from "./extension";
 import { NOTEBOOK_TYPE } from "./jupyter_notebook";
 
 import { summarizeKernelName } from "./summary_controller";
@@ -206,7 +206,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                 (BoostConfiguration.runAllTargetAnalysisType as string).includes(summarizeKernelName))) {
 
                                 // summary across all files
-                                await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, getKernelName(summarizeKernelName));
+                                await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, { kernelCommand: getKernelName(summarizeKernelName) } as ProcessCurrentFolderOptions);
                             }
 
                         } finally {

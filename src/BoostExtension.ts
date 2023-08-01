@@ -69,6 +69,7 @@ import {
     cleanCellOutput,
     boostActivityBarId,
     fullPathFromSourceFile,
+    ProcessCurrentFolderOptions,
 } from "./extension";
 import { BoostUserAnalysisType } from "./userAnalysisType";
 
@@ -1393,7 +1394,7 @@ export class BoostExtension {
             );
         }
     }
-
+    
     registerFolderRightClickAnalyzeCommand(context: vscode.ExtensionContext) {
         let disposable = vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
@@ -1416,10 +1417,12 @@ export class BoostExtension {
                     kernelCommand = BoostConfiguration.currentKernelCommand;
                 }
                 return await this.processCurrentFolder(
-                    uri,
-                    kernelCommand as string,
-                    context,
-                    forceAnalysisRefresh
+                    {
+                        uri: uri,
+                        kernelCommand: kernelCommand,
+                        forceAnalysisRefresh: forceAnalysisRefresh
+                    },
+                    context
                 ).catch((error) => {
                     boostLogging.error((error as Error).message, likelyViaUI);
                 });
@@ -2436,15 +2439,13 @@ export class BoostExtension {
     }
 
     async processCurrentFolder(
-        uri: vscode.Uri,
-        kernelCommand: string,
+        options: ProcessCurrentFolderOptions,
         context: vscode.ExtensionContext,
-        forceAnalysisRefresh: boolean = false
     ) {
         let targetFolder: vscode.Uri;
         // if we don't have a folder selected, then the user didn't right click
         // so we need to use the workspace folder
-        if (uri === undefined) {
+        if (options?.uri === undefined) {
             if (vscode.workspace.workspaceFolders === undefined) {
                 boostLogging.warn(
                     "Unable to find Workspace Folder. Please open a Project or Folder first",
@@ -2459,9 +2460,9 @@ export class BoostExtension {
                 `Analyzing Project Wide source file in Workspace: ${targetFolder.fsPath}`
             );
         } else {
-            targetFolder = uri;
+            targetFolder = options.uri;
             boostLogging.debug(
-                `Analyzing source files in folder: ${uri.fsPath}`
+                `Analyzing source files in folder: ${options.uri.fsPath}`
             );
         }
 
@@ -2469,7 +2470,7 @@ export class BoostExtension {
         if (vscode.workspace.workspaceFolders) {
             baseWorkspace = vscode.workspace.workspaceFolders![0].uri;
         } else {
-            baseWorkspace = uri;
+            baseWorkspace = options.uri;
         }
         // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
         const searchPattern = new vscode.RelativePattern(
@@ -2486,7 +2487,7 @@ export class BoostExtension {
             "Analyzing " + files.length + " files in folder: " + targetFolder
         );
 
-        const targetedKernel = this.getCurrentKernel(kernelCommand);
+        const targetedKernel = this.getCurrentKernel(options?.kernelCommand);
         if (targetedKernel === undefined) {
             return;
         }
@@ -2543,7 +2544,7 @@ export class BoostExtension {
                                             file,
                                             targetedKernel.id,
                                             context,
-                                            forceAnalysisRefresh
+                                            options?.forceAnalysisRefresh?options.forceAnalysisRefresh:false
                                         )
                                             .then((notebook) => {
                                                 let summary =
@@ -2647,7 +2648,7 @@ export class BoostExtension {
                                     file,
                                     targetedKernel.id,
                                     context,
-                                    forceAnalysisRefresh
+                                    options?.forceAnalysisRefresh?options.forceAnalysisRefresh:false
                                 )
                                     .then((notebook) => {
                                         let summary =
@@ -2737,7 +2738,7 @@ export class BoostExtension {
                     targetFolder,
                     targetedKernel.id,
                     context,
-                    forceAnalysisRefresh
+                    options?.forceAnalysisRefresh?options.forceAnalysisRefresh:false
                 );
                 boostLogging.info(
                     `Boost Project-level Summary completed with Project: ${targetFolder.fsPath}`,
@@ -2746,7 +2747,7 @@ export class BoostExtension {
             }
         } catch (error) {
             boostLogging.error(
-                `Unable to Process ${kernelCommand} on Folder:[${uri.fsPath.toString()} due to error:${error}`,
+                `Unable to Process ${options?.kernelCommand} on Folder:[${options?.uri?.fsPath.toString()} due to error:${error}`,
                 false
             );
         }

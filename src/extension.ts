@@ -58,6 +58,14 @@ export enum BoostCommands {
     showGuidelines = "showGuidelines",
 }
 
+export interface ProcessCurrentFolderOptions {
+    uri?: vscode.Uri;
+    kernelCommand?: string;
+    forceAnalysisRefresh?: boolean;
+    filelist?: string[];
+}
+
+
 export async function activate(context: vscode.ExtensionContext) {
     try {
         // we use a friendly name for the channel as this will be displayed to the user in the output pane
