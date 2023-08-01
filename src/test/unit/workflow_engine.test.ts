@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { WorkflowEngine, WorkflowError } from "../../workflow_engine";
+import { PromiseGenerator, WorkflowEngine, WorkflowError } from "../../workflow_engine";
 
 describe("WorkflowEngine", () => {
     it("should run promises in the correct order", async () => {
@@ -70,6 +70,87 @@ describe("WorkflowEngine", () => {
             "afterEachTaskGroup",
             "afterRun",
         ]);
+    });
+
+    it("Simulate N files processed in the correct order", async () => {
+        let log: string[] = [];
+
+        const beforeRun = [
+            () => async () => {
+                log.push("beforeRun");
+                return;
+            },
+        ];
+        const files = ["file1", "file2", "file3", "file4", "file5", "file6", "file7", "file8", "file9", "file10"];
+        const tasks : PromiseGenerator[] =
+            files.map((file) => {
+                return () => {
+                    return async () => {
+                        return new Promise<string>(
+                            (resolve, reject) => {
+                                try
+                                {
+                                    log.push(`Processed: ${file}`);
+                                    resolve(file);
+                                } catch (error) {
+                                    reject(error);
+                                }
+                            });
+                        };
+                    };
+            });
+        const afterEachTask = [
+            () => async () => {
+                console.log(log);
+                return;
+            },
+        ];
+        const afterEachTaskGroup = [
+            () => async () => {
+                log.push("afterEachTaskGroup");
+                return;
+            },
+        ];
+        const afterRun = [
+            () => async () => {
+                log.push("afterRun");
+                return;
+            },
+        ];
+
+        const pattern = [1, 2];
+
+        const engine = new WorkflowEngine(tasks as PromiseGenerator[], {
+            beforeRun: beforeRun,
+            afterEachTask: afterEachTask,
+            afterEachTaskGroup: afterEachTaskGroup,
+            afterRun: afterRun,
+            pattern: pattern,
+        });
+        await engine.run();
+
+        expect(log).to.deep.equal(
+            [
+                "beforeRun",
+                "Processed: file1",
+                "afterEachTaskGroup",
+                "Processed: file2",
+                "Processed: file3",
+                "afterEachTaskGroup",
+                "Processed: file4",
+                "Processed: file5",
+                "afterEachTaskGroup",
+                "Processed: file6",
+                "Processed: file7",
+                "afterEachTaskGroup",
+                "Processed: file8",
+                "Processed: file9",
+                "afterEachTaskGroup",
+                "Processed: file10",
+                "afterEachTaskGroup",
+                "afterRun",
+            ]
+        );
     });
 
     // More tests can be written to verify other functionalities...
