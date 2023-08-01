@@ -79,168 +79,13 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     break;
                 case "analyze_all":
                     {
-                        let runSummary = false;
+                        await this.analyzeAll(data.analysisTypes);
 
-                        // creates and loads all notebook files
-                        await vscode.commands.executeCommand(
-                            NOTEBOOK_TYPE +
-                                "." +
-                                BoostCommands.loadCurrentFolder,
-                            undefined
-                        );
-
-                        // refresh project data
-                        await vscode.commands.executeCommand(
-                            NOTEBOOK_TYPE +
-                                "." +
-                                BoostCommands.refreshProjectData
-                        );
-
-                        const analysisMap = new Map([
-                            [
-                                BoostUserAnalysisType.documentation,
-                                [
-                                    getKernelName(quickBlueprintKernelName),
-                                    getKernelName(explainKernelName),
-                                    getKernelName(flowDiagramKernelName),
-                                ],
-                            ],
-                            [
-                                BoostUserAnalysisType.security,
-                                [
-                                    getKernelName(analyzeFunctionKernelName),
-                                    getKernelName(quickSecuritySummaryKernelName),
-//                                    getKernelName(performanceFunctionKernelName),
-//                                    getKernelName(quickPerformanceSummaryKernelName),
-                                ],
-
-                            ],
-                            [
-                                BoostUserAnalysisType.compliance,
-                                [
-                                    getKernelName(complianceFunctionKernelName),
-                                    getKernelName(quickComplianceSummaryKernelName),
-                                ],
-                            ],
-                            [
-                                BoostUserAnalysisType.deepCode,
-                                [
-                                    getKernelName(blueprintKernelName),
-                                    getKernelName(analyzeKernelName),
-                                    getKernelName(complianceKernelName),
-                                    getKernelName(performanceKernelName),
-                                    getKernelName(summarizeKernelName),
-                                ],
-                            ],
-                        ]);
-
-                        try {
-                            for (const [key, value] of analysisMap) {
-                                if (!data.analysisTypes.includes(key)) {
-                                    continue;
-                                }
-                                if (
-                                    BoostConfiguration.runAllTargetAnalysisType &&
-                                    !(
-                                        BoostConfiguration.runAllTargetAnalysisType as string
-                                    ).includes(key)
-                                ) {
-                                    continue;
-                                }
-                                try {
-                                    for (const analysisKernelName of value) {
-                                        if (
-                                            BoostConfiguration.runAllTargetAnalysisType &&
-                                            !(
-                                                BoostConfiguration.runAllTargetAnalysisType as string
-                                            ).includes(analysisKernelName)
-                                        ) {
-                                            continue;
-                                        }
-
-                                        // quick operations uses the project-level command
-                                        if ([
-                                            getKernelName(quickBlueprintKernelName),
-                                            getKernelName(quickComplianceSummaryKernelName),
-                                            getKernelName(quickSecuritySummaryKernelName)
-                                            ].includes(analysisKernelName)) {
-                                            await vscode.commands.executeCommand(
-                                                NOTEBOOK_TYPE +
-                                                    "." +
-                                                    BoostCommands.processProject,
-                                                analysisKernelName
-                                            );
-                                        // while all other commands run scans across all source files
-                                        } else {
-                                            await vscode.commands.executeCommand(
-                                                NOTEBOOK_TYPE +
-                                                    "." +
-                                                    BoostCommands.processCurrentFolder,
-                                                undefined,
-                                                analysisKernelName
-                                            );
-                                        }
-                                    }
-
-                                    if (BoostConfiguration.alwaysRunSummary) {
-                                        runSummary = true;
-                                    }
-                                } catch (error) {
-                                    boostLogging.error(
-                                        `Error while running ${key} analysis:: ${error}`,
-                                        true
-                                    );
-                                }
-                                // refresh project data
-                                await vscode.commands.executeCommand(
-                                    NOTEBOOK_TYPE +
-                                        "." +
-                                        BoostCommands.refreshProjectData
-                                );
-                            }
-
-                            if ((runSummary &&
-                                // don't run summary if dev overrode it, or requested it specifically
-                                !BoostConfiguration.runAllTargetAnalysisType) ||
-                                (BoostConfiguration.runAllTargetAnalysisType &&
-                                (BoostConfiguration.runAllTargetAnalysisType as string).includes(summarizeKernelName))) {
-
-                                // summary across all files
-                                await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, { kernelCommand: getKernelName(summarizeKernelName) } as ProcessCurrentFolderOptions);
-                            }
-
-                        } finally {
-                            // refresh project data
-                            await vscode.commands.executeCommand(
-                                NOTEBOOK_TYPE +
-                                    "." +
-                                    BoostCommands.refreshProjectData
-                            );
-                            this.finishAllJobs(this._boostExtension.getBoostProjectData());
-                            this.refresh();
-                        }
                     }
 
                     break;
                 case "refresh_deep_summary": {
-                    // creates and loads all notebook files
-                    await vscode.commands.executeCommand(
-                        NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
-                        undefined
-                    );
-
-                    // refresh project data
-                    await vscode.commands.executeCommand(
-                        NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
-                    );
-
-                    // summary across all files
-                    await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(summarizeKernelName));
-
-                    // refresh project data
-                    await vscode.commands.executeCommand(
-                        NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
-                    );
+                    await this.refreshDeepSummary();
                 }
             }
         });
@@ -370,5 +215,169 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         } catch (e) {
             boostLogging.error(`Could not open file ${docAbsolutePath} due to ${e}`, true);
         }
+    }
+
+    private async analyzeAll(analysisTypes: string[]) {
+        let runSummary = false;
+
+        // creates and loads all notebook files
+        await vscode.commands.executeCommand(
+            NOTEBOOK_TYPE +
+                "." +
+                BoostCommands.loadCurrentFolder,
+            undefined
+        );
+
+        // refresh project data
+        await vscode.commands.executeCommand(
+            NOTEBOOK_TYPE +
+                "." +
+                BoostCommands.refreshProjectData
+        );
+
+        const analysisMap = new Map([
+            [
+                BoostUserAnalysisType.documentation,
+                [
+                    getKernelName(quickBlueprintKernelName),
+                    getKernelName(explainKernelName),
+                    getKernelName(flowDiagramKernelName),
+                ],
+            ],
+            [
+                BoostUserAnalysisType.security,
+                [
+                    getKernelName(analyzeFunctionKernelName),
+                    getKernelName(quickSecuritySummaryKernelName),
+//                                    getKernelName(performanceFunctionKernelName),
+//                                    getKernelName(quickPerformanceSummaryKernelName),
+                ],
+
+            ],
+            [
+                BoostUserAnalysisType.compliance,
+                [
+                    getKernelName(complianceFunctionKernelName),
+                    getKernelName(quickComplianceSummaryKernelName),
+                ],
+            ],
+            [
+                BoostUserAnalysisType.deepCode,
+                [
+                    getKernelName(blueprintKernelName),
+                    getKernelName(analyzeKernelName),
+                    getKernelName(complianceKernelName),
+                    getKernelName(performanceKernelName),
+                    getKernelName(summarizeKernelName),
+                ],
+            ],
+        ]);
+
+        try {
+            for (const [key, value] of analysisMap) {
+                if (!analysisTypes.includes(key)) {
+                    continue;
+                }
+                if (
+                    BoostConfiguration.runAllTargetAnalysisType &&
+                    !(
+                        BoostConfiguration.runAllTargetAnalysisType as string
+                    ).includes(key)
+                ) {
+                    continue;
+                }
+                try {
+                    for (const analysisKernelName of value) {
+                        if (
+                            BoostConfiguration.runAllTargetAnalysisType &&
+                            !(
+                                BoostConfiguration.runAllTargetAnalysisType as string
+                            ).includes(analysisKernelName)
+                        ) {
+                            continue;
+                        }
+
+                        // quick operations uses the project-level command
+                        if ([
+                            getKernelName(quickBlueprintKernelName),
+                            getKernelName(quickComplianceSummaryKernelName),
+                            getKernelName(quickSecuritySummaryKernelName)
+                            ].includes(analysisKernelName)) {
+                            await vscode.commands.executeCommand(
+                                NOTEBOOK_TYPE +
+                                    "." +
+                                    BoostCommands.processProject,
+                                analysisKernelName
+                            );
+                        // while all other commands run scans across all source files
+                        } else {
+                            await vscode.commands.executeCommand(
+                                NOTEBOOK_TYPE +
+                                    "." +
+                                    BoostCommands.processCurrentFolder,
+                                undefined,
+                                analysisKernelName
+                            );
+                        }
+                    }
+
+                    if (BoostConfiguration.alwaysRunSummary) {
+                        runSummary = true;
+                    }
+                } catch (error) {
+                    boostLogging.error(
+                        `Error while running ${key} analysis:: ${error}`,
+                        true
+                    );
+                }
+                // refresh project data
+                await vscode.commands.executeCommand(
+                    NOTEBOOK_TYPE +
+                        "." +
+                        BoostCommands.refreshProjectData
+                );
+            }
+
+            if ((runSummary &&
+                // don't run summary if dev overrode it, or requested it specifically
+                !BoostConfiguration.runAllTargetAnalysisType) ||
+                (BoostConfiguration.runAllTargetAnalysisType &&
+                (BoostConfiguration.runAllTargetAnalysisType as string).includes(summarizeKernelName))) {
+
+                // summary across all files
+                await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, { kernelCommand: getKernelName(summarizeKernelName) } as ProcessCurrentFolderOptions);
+            }
+
+        } finally {
+            // refresh project data
+            await vscode.commands.executeCommand(
+                NOTEBOOK_TYPE +
+                    "." +
+                    BoostCommands.refreshProjectData
+            );
+            this.finishAllJobs(this._boostExtension.getBoostProjectData());
+            this.refresh();
+        }
+    }
+
+    private async refreshDeepSummary() {
+        // creates and loads all notebook files
+        await vscode.commands.executeCommand(
+            NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
+            undefined
+        );
+
+        // refresh project data
+        await vscode.commands.executeCommand(
+            NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
+        );
+
+        // summary across all files
+        await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.' + BoostCommands.processCurrentFolder, undefined, getKernelName(summarizeKernelName));
+
+        // refresh project data
+        await vscode.commands.executeCommand(
+            NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
+        );
     }
 }
