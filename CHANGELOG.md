@@ -7,6 +7,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### New Features
 - Added support for analyzing Razor files (CSHTML extension, HTML with embedded C# or Visual Basic.NET)
+- Added support for analyzing Salesforce Apex files (Visual Studio Code APEX extension not required for analysis)
 
 ### Enhancements
 - Enable right-click Menus for Compiled Python files (*.pod)

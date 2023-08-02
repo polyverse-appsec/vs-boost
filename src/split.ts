@@ -24,7 +24,10 @@ function getVSCodeLanguageId(filename: string): string {
         coffee: "coffeescript",
         html: "html",
         vue: "html",
+
+            // Razor support
         cshtml: "html",
+
         css: "css",
         json: "json",
         xml: "xml",
@@ -70,6 +73,20 @@ function getVSCodeLanguageId(filename: string): string {
         xcodeproj: "plaintext",
         rakefile: "plaintext",
         makefile: "plaintext",
+
+        // Salesforce Apex support, we're going to treat as Java for now
+        //  but they're really Apex language files (requiring an Apex extension plugin
+        //  for Visual Studio Code)
+        cls: "java",
+        trigger: "java",
+        object: "java",
+        apex: "java",
+        // Salesforce Visualforce support
+        component: "html",
+        page: "html",
+        // Salesforce Lightning support
+        soql: "sql",
+
     };
 
     return languageMappings[fileExtension] || "plaintext";
