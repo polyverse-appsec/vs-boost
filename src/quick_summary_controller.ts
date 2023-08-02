@@ -369,9 +369,19 @@ Highlights:
             const { range, message, source, relatedInformation } = diagnostic;
             const filename = path.relative(targetFolder.fsPath, uri.fsPath);
             const category = source || 'Uncategorized';
-            
+
+            // since we have lowered the original severity of the issues to avoid
+            //  blocking the build, we're going to raise the severity when
+            //  building the report
+
+            const raisedSeverity = diagnostic.severity === vscode.DiagnosticSeverity.Warning?
+                vscode.DiagnosticSeverity.Error:
+                diagnostic.severity === vscode.DiagnosticSeverity.Information?
+                    vscode.DiagnosticSeverity.Warning:
+                    vscode.DiagnosticSeverity.Information;
+
             let severityLabel: string;
-            switch (diagnostic.severity) {
+            switch (raisedSeverity) {
                 case vscode.DiagnosticSeverity.Error:
                     severityLabel = "Error";
                     break;
@@ -381,9 +391,9 @@ Highlights:
                 case vscode.DiagnosticSeverity.Information:
                     severityLabel = "Information";
                     break;
-                case vscode.DiagnosticSeverity.Hint:
-                    severityLabel = "Hint";
-                    break;
+//                case vscode.DiagnosticSeverity.Hint:
+//                    severityLabel = "Hint";
+//                    break;
                 default:
                     severityLabel = "Unknown";
             }
@@ -424,10 +434,17 @@ Highlights:
         allDiagnostics.forEach(({uri, diagnostic}) => {
             const { severity, source } = diagnostic;
             const filename = path.relative(targetFolder.fsPath, uri.fsPath);
-    
+
+
+            const raisedSeverity = diagnostic.severity === vscode.DiagnosticSeverity.Warning?
+                vscode.DiagnosticSeverity.Error:
+                diagnostic.severity === vscode.DiagnosticSeverity.Information?
+                    vscode.DiagnosticSeverity.Warning:
+                    vscode.DiagnosticSeverity.Information;
+
             // Convert severity from enum to string
             let severityString;
-            switch (severity) {
+            switch (raisedSeverity) {
                 case vscode.DiagnosticSeverity.Error:
                     severityString = 'Error';
                     break;
@@ -437,9 +454,9 @@ Highlights:
                 case vscode.DiagnosticSeverity.Information:
                     severityString = 'Information';
                     break;
-                case vscode.DiagnosticSeverity.Hint:
-                    severityString = 'Hint';
-                    break;
+//                case vscode.DiagnosticSeverity.Hint:
+//                    severityString = 'Hint';
+//                    break;
                 default:
                     severityString = 'Unknown';
             }

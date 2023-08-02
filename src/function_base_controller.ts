@@ -116,23 +116,38 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
             }
         
             // for now we're hardcoding the following range:
-            // Error: 7-10
-            // Warning: 4-6
-            // Info: 2-3
-            // Hint: 0-1
-            const thisSeverity = bug.severity > 6?
-                vscode.DiagnosticSeverity.Warning: // should be error - but Error blocks builds for customer
-                bug.severity > 3?
+            // Error: 9-10
+            // Warning: 6-8
+            // Info: 0-5
+            // Hint: Unused by default
+            const thisSeverity = bug.severity > 8?
+                vscode.DiagnosticSeverity.Error: // should be error - but Error blocks builds for customer
+                bug.severity > 5?
                     vscode.DiagnosticSeverity.Warning:
-                    bug.severity > 1?
+                    vscode.DiagnosticSeverity.Information;
+    
+            const loweredSeverity = thisSeverity === vscode.DiagnosticSeverity.Error?
+                vscode.DiagnosticSeverity.Warning:
+                thisSeverity === vscode.DiagnosticSeverity.Warning?
                     vscode.DiagnosticSeverity.Information:
                     vscode.DiagnosticSeverity.Hint;
 
+            let severityToString = {
+                [vscode.DiagnosticSeverity.Error]: 'Error',
+                [vscode.DiagnosticSeverity.Warning]: 'Warning',
+                [vscode.DiagnosticSeverity.Information]: 'Information',
+                [vscode.DiagnosticSeverity.Hint]: 'Hint'
+            };
+
+            // we're going tp print the actual severity of the issue in the description
+            //      even though its one-off from the severity of the diagnostic
             let range = new vscode.Range(bug.lineNumber, 0, bug.lineNumber, 0);
             let diagnostic = new vscode.Diagnostic(
                 range,
-                `${bug.description}`,
-                thisSeverity);
+                `${severityToString[thisSeverity]}: ${bug.description}`,
+
+                // to prevent builds from being blocked, we're going to lower all severities by one level
+                loweredSeverity);
 
             // add the bug type to the diagnostic so we know how to categorize
             diagnostic.source = bug.bugType;
