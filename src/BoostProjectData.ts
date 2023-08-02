@@ -17,11 +17,12 @@ import {
     emptyProjectData,
     BoostProcessingStatus,
     JobStatus,
+    AccountStatus,
 } from "./boostprojectdata_interface";
 import { ControllerOutputType } from "./controllerOutputTypes";
 import { BoostConfiguration } from "./boostConfiguration";
 
-const oldComplianceFunctionType = 'complianceList';
+const oldComplianceFunctionType = "complianceList";
 
 export class BoostProjectData implements IBoostProjectData {
     dataFormatVersion: string;
@@ -32,6 +33,7 @@ export class BoostProjectData implements IBoostProjectData {
         [filename: string]: FileSummaryItem;
     };
     jobStatus: JobStatus;
+    account: AccountStatus;
 
     constructor() {
         this.dataFormatVersion = BoostConfiguration.version;
@@ -46,6 +48,7 @@ export class BoostProjectData implements IBoostProjectData {
         this.fsPath = "";
         this.files = {};
         this.jobStatus = { ...emptyProjectData.jobStatus };
+        this.account = { ...emptyProjectData.account };
     }
 
     create(jsonString: string): void {
@@ -56,24 +59,32 @@ export class BoostProjectData implements IBoostProjectData {
     checkDataFormatVersion(dataVersion: string) {
         if (!dataVersion) {
             throw new IncompatibleVersionException(
-                `Data Format version is undefined. Expected compatibility with ${BoostConfiguration.version}`);
+                `Data Format version is undefined. Expected compatibility with ${BoostConfiguration.version}`
+            );
         }
 
-        const [majorData = 0, minorData = 0] = dataVersion.split('.').map(Number);
-        const [majorClient, minorClient] = BoostConfiguration.version.split('.').map(Number);
+        const [majorData = 0, minorData = 0] = dataVersion
+            .split(".")
+            .map(Number);
+        const [majorClient, minorClient] = BoostConfiguration.version
+            .split(".")
+            .map(Number);
 
         if (majorData !== majorClient || minorData !== minorClient) {
             throw new IncompatibleVersionException(
-                `Data Format version is ${dataVersion}. Expected compatibility with ${BoostConfiguration.version}`);
+                `Data Format version is ${dataVersion}. Expected compatibility with ${BoostConfiguration.version}`
+            );
         }
     }
 
-    performCompatFixups(jsonString: string) : string {
+    performCompatFixups(jsonString: string): string {
         const parsedJson = JSON.parse(jsonString, (key, value) => {
-            if (key === 'dataFormatVersion') {
+            if (key === "dataFormatVersion") {
                 this.checkDataFormatVersion(value);
-            }
-            else if (key === 'analysisType' && value === oldComplianceFunctionType) {
+            } else if (
+                key === "analysisType" &&
+                value === oldComplianceFunctionType
+            ) {
                 return ControllerOutputType.complianceFunction;
             } else {
                 return value;
@@ -84,7 +95,8 @@ export class BoostProjectData implements IBoostProjectData {
         if (parsedJson.files) {
             Object.values(parsedJson.files).forEach((file: any) => {
                 if (file.sections && file.sections[oldComplianceFunctionType]) {
-                    file.sections[ControllerOutputType.complianceFunction] = file.sections[oldComplianceFunctionType];
+                    file.sections[ControllerOutputType.complianceFunction] =
+                        file.sections[oldComplianceFunctionType];
                     delete file.sections[oldComplianceFunctionType];
                 }
             });
@@ -122,7 +134,11 @@ export class BoostProjectData implements IBoostProjectData {
 
         // no need to persist the path into the file
         const { fsPath, jobStatus, ...dataWithoutFsPathAndJobStatus } = this;
-        const projectDataJson = JSON.stringify(dataWithoutFsPathAndJobStatus, null, 2);
+        const projectDataJson = JSON.stringify(
+            dataWithoutFsPathAndJobStatus,
+            null,
+            2
+        );
 
         fs.writeFileSync(filename, projectDataJson, { encoding: "utf8" });
     }
@@ -130,6 +146,20 @@ export class BoostProjectData implements IBoostProjectData {
     flushToFS(): void {
         this.save(this.fsPath);
     }
+
+    public updateAccountStatusFromService(accountStatus: any) {
+        //set the account fields from the accountStatus object. it's the same fields, only
+        //snake case coming from the python server, so translate.
+        this.account.status = accountStatus.status;
+        this.account.validated = accountStatus.validated;
+        this.account.trialRemaining = accountStatus.trial_remaining;
+        this.account.usageThisMonth = accountStatus.usage_this_month;
+        this.account.balanceDue = accountStatus.balance_due;
+        this.account.couponType = accountStatus.coupon_type;
+        this.account.org = accountStatus.org;
+        this.account.owner = accountStatus.owner;
+    }
+
     private addFileSummaryToSectionSummaries(
         fileSummary: FileSummaryItem,
         previous: FileSummaryItem
@@ -138,7 +168,10 @@ export class BoostProjectData implements IBoostProjectData {
         let sections = [];
         // if previous and fileSummary are the same object, then skip everything and put an error in the log
         if (previous === fileSummary) {
-            boostLogging.error("previous and fileSummary are the same object", false);
+            boostLogging.error(
+                "previous and fileSummary are the same object",
+                false
+            );
             return;
         }
 
@@ -187,7 +220,7 @@ export class BoostProjectData implements IBoostProjectData {
                 boostLogging.debug(
                     `Updating BoostProjectData File Summaries: New File Summary ${section} sectionSummary not found`
                 );
-        }
+            }
         });
     }
 
@@ -215,7 +248,7 @@ export class BoostProjectData implements IBoostProjectData {
                 };
             }
             this.jobStatus[file].status = "processing";
-            if(!this.jobStatus[file].jobs.includes(job)){
+            if (!this.jobStatus[file].jobs.includes(job)) {
                 this.jobStatus[file].jobs.push(job);
             }
         });
@@ -228,18 +261,20 @@ export class BoostProjectData implements IBoostProjectData {
         error: Error | null
     ) {
         //update the file list
-        if( summary ){
+        if (summary) {
             this.updateWithFileSummary(summary, relFile);
         }
         //first remove the job from the list
-        this.jobStatus[relFile].jobs = this.jobStatus[relFile].jobs.filter(j => j !== job);
+        this.jobStatus[relFile].jobs = this.jobStatus[relFile].jobs.filter(
+            (j) => j !== job
+        );
         //if there are no more jobs, then remove the job from the jobStatus object.
         if (this.jobStatus[relFile].jobs?.length === 0) {
-            delete(this.jobStatus[relFile]);
+            delete this.jobStatus[relFile];
         }
     }
 
-    finishAllJobs(){
+    finishAllJobs() {
         this.jobStatus = { ...emptyProjectData.jobStatus };
     }
 
@@ -252,7 +287,7 @@ export class BoostProjectData implements IBoostProjectData {
                     jobs: [],
                 };
             }
-            if(!this.jobStatus[file].jobs.includes(job)){
+            if (!this.jobStatus[file].jobs.includes(job)) {
                 this.jobStatus[file].jobs.push(job);
             }
             this.jobStatus[file].status = "queued";
@@ -271,8 +306,10 @@ export function boostNotebookToFileSummaryItem(
 ): FileSummaryItem {
     let workspaceFolder = vscode.workspace.workspaceFolders?.[0].uri;
 
-    const notebookRelFile = path.isAbsolute(boostNotebook.fsPath) && workspaceFolder?
-        path.relative(workspaceFolder.fsPath, boostNotebook.fsPath):boostNotebook.fsPath;
+    const notebookRelFile =
+        path.isAbsolute(boostNotebook.fsPath) && workspaceFolder
+            ? path.relative(workspaceFolder.fsPath, boostNotebook.fsPath)
+            : boostNotebook.fsPath;
 
     let summaryItem: FileSummaryItem = {
         sourceRelFile: boostNotebook.metadata.sourceFile as string,
@@ -333,18 +370,25 @@ export function boostNotebookToFileSummaryItem(
 
     //now go through and get the max value of all the section counts
     // An array of the property names you want to check for maximum values
-    const propertiesToCheck = ['completedCells', 'errorCells', 'issueCells'] as const;
+    const propertiesToCheck = [
+        "completedCells",
+        "errorCells",
+        "issueCells",
+    ] as const;
 
     for (const sectionKey in summaryItem.sections) {
         const section = summaryItem.sections[sectionKey];
-        
+
         propertiesToCheck.forEach((property) => {
             // Check if property exists in both summaryItem and section
             if (
                 Object.prototype.hasOwnProperty.call(summaryItem, property) &&
                 Object.prototype.hasOwnProperty.call(section, property)
             ) {
-                summaryItem[property] = Math.max(summaryItem[property], section[property] || 0);
+                summaryItem[property] = Math.max(
+                    summaryItem[property],
+                    section[property] || 0
+                );
             }
         });
     }

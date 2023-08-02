@@ -3,9 +3,23 @@
 
 import { ControllerOutputType } from "./controllerOutputTypes";
 
-export const noProjectOpenMessage = "Please open a project to chat with Sara, the Boost AI, about your project or analyze your project code.";
-export const extensionNotFullyActivated = "Boost has not fully initialized. Some features may not be fully available yet. Please wait before using Boost Chat AI and analyzing your project.";
-export const extensionFailedToActivate = "Boost encountered an error during startup. Please restart Visual Studio Code and try again. If the problem persists, please contact Polyverse Boost Support";
+export const noProjectOpenMessage =
+    "Please open a project to chat with Sara, the Boost AI, about your project or analyze your project code.";
+export const extensionNotFullyActivated =
+    "Boost has not fully initialized. Some features may not be fully available yet. Please wait before using Boost Chat AI and analyzing your project.";
+export const extensionFailedToActivate =
+    "Boost encountered an error during startup. Please restart Visual Studio Code and try again. If the problem persists, please contact Polyverse Boost Support";
+
+export interface AccountStatus {
+    validated: boolean;
+    status: string;
+    trialRemaining: number;
+    usageThisMonth: number;
+    balanceDue: number;
+    couponType: string;
+    org: string;
+    owner: string;
+}
 
 export interface Summary {
     projectName: string;
@@ -60,6 +74,7 @@ export interface IBoostProjectData {
         [key: string]: FileSummaryItem;
     };
     jobStatus: JobStatus;
+    account: AccountStatus;
 }
 
 export const emptyProjectData: IBoostProjectData = {
@@ -146,4 +161,14 @@ export const emptyProjectData: IBoostProjectData = {
     },
     files: {},
     jobStatus: {},
+    account: {
+        validated: false,
+        status: "trial",
+        trialRemaining: 0,
+        usageThisMonth: 0,
+        balanceDue: 0,
+        couponType: "Intializing...",
+        org: "Polyverse",
+        owner: "support@polyverse.com",
+    },
 };
