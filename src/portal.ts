@@ -133,6 +133,11 @@ export async function updateBoostStatusColors(context: vscode.ExtensionContext, 
             closure.statusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
             closure.statusBar.tooltip = 'Your account payment is expired. Please visit the Account Dashboard to update payment info.';
             break;
+        case 'canceled':
+            closure.statusBar.color = new vscode.ThemeColor('statusBarItem.errorForeground');
+            closure.statusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
+            closure.statusBar.tooltip = 'Your account subscription has been canceled. Please visit the Account Dashboard to restart your subscription.';
+            break;
         case 'paid':
             closure.statusBar.color = new vscode.ThemeColor('statusBarItem.prominentForeground');
             closure.statusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.prominentBackground');
