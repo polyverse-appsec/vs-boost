@@ -151,7 +151,7 @@ export class BoostProjectData implements IBoostProjectData {
         //set the account fields from the accountStatus object. it's the same fields, only
         //snake case coming from the python server, so translate.
         this.account.status = accountStatus.status;
-        this.account.validated = accountStatus.validated;
+        this.account.enabled = accountStatus.enabled;
         this.account.trialRemaining = accountStatus.trial_remaining;
         this.account.usageThisMonth = accountStatus.usage_this_month;
         this.account.balanceDue = accountStatus.balance_due;
