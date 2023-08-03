@@ -156,6 +156,8 @@ export class BoostProjectData implements IBoostProjectData {
         this.account.usageThisMonth = accountStatus.usage_this_month;
         this.account.balanceDue = accountStatus.balance_due;
         this.account.couponType = accountStatus.coupon_type;
+        this.account.created = accountStatus.created;
+        this.account.creditCardLinked = accountStatus.credit_card_linked;
         this.account.org = accountStatus.org;
         this.account.owner = accountStatus.owner;
     }

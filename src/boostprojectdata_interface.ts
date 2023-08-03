@@ -17,6 +17,8 @@ export interface AccountStatus {
     usageThisMonth: number;
     balanceDue: number;
     couponType: string;
+    created: string;
+    creditCardLinked: boolean;
     org: string;
     owner: string;
 }
