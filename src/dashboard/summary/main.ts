@@ -123,6 +123,11 @@ function setupListeners() {
         "show_dashboard_button"
     ) as Button;
     showDashboardButton?.addEventListener("click", showDashboardTab);
+
+    const showDashboardLinks = document.querySelectorAll(".show_dashboard");
+    showDashboardLinks.forEach((link) => {
+        link.addEventListener("click", showDashboardTab);
+    });
 }
 
 function showDashboardTab() {

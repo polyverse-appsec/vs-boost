@@ -475,13 +475,13 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             let cellmd = cell?.value;
 
             if (!cellmd) {
-                cellmd = `${value} summary not yet run - please run "Run Selected Analyses" to generate content`;
+                cellmd = `${value} summary not yet run - please use the [Dashboard Control](# "polyverse_boost_dashboard") to generate content.`;
             }
             //if the cell markdown starts with Error
             if (cellmd.startsWith("Error:")) {
                 cellmd =
                     `***Error Building ${value} Summary***\n\n` +
-                    `Please review below error, then run "Run Selected Analyses" to regenerate Summary data\n\n` +
+                    `Please review below error, then please use the [Dashboard Control](# "polyverse_boost_dashboard") to regenerate the analysis.\n\n` +
                     cellmd;
             }
             markdown[key] = cellmd;
