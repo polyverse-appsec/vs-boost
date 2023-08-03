@@ -27,6 +27,7 @@ import {
 import { JobStatus, IBoostProjectData } from "../../boostprojectdata_interface";
 import Typewritter from "typewriter-effect/dist/core";
 import { type } from "os";
+import { BoostUserAnalysisType } from "../../userAnalysisType";
 
 //declare the boostprojectdata global variable
 declare var boostprojectdata: IBoostProjectData;
@@ -86,11 +87,20 @@ function setupListeners() {
     ) as Button;
     runAnalysisButton?.addEventListener("click", handleAnalyzeAllClick);
 
-    const deepCodeCheckbox = document.getElementById("check-deepcode");
-    deepCodeCheckbox?.addEventListener("click", (event) => {
-        setTimeout(refreshUI, 0);
-    });
+    // Get all the elements with type "vscode-checkbox"
+    const checkboxes = document.querySelectorAll("vscode-checkbox");
 
+    // Loop through each checkbox and add the click event listener
+    checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", (event) => {
+            // You don't need to prevent the default action.
+            // This will ensure that the default behavior of the checkbox (checking/unchecking) still occurs.
+            // Refresh the UI after the default behavior has executed
+            requestAnimationFrame(() => {
+                refreshUI(boostprojectdata);
+            });
+        });
+    });
     // Listen for the DOMContentLoaded event to check initially
     checkDashboardWideEnough();
     // Listen for the resize event to check on webview resize
@@ -159,6 +169,16 @@ function getAnalysisTypes(): Array<string> {
         "vscode-checkbox[analysis-check]"
     );
 
+    //if there are no checkboxes, we are in the initial default state
+    //so just return the default analysis types
+    if (!checkboxes || checkboxes.length === 0) {
+        return [
+            BoostUserAnalysisType.documentation,
+            BoostUserAnalysisType.security,
+            BoostUserAnalysisType.compliance,
+        ];
+    }
+
     checkboxes.forEach((checkbox: Element) => {
         const id: string | null = (checkbox as HTMLElement).getAttribute("id");
         const isChecked: boolean = (checkbox as HTMLElement).classList.contains(
@@ -175,7 +195,7 @@ function getAnalysisTypes(): Array<string> {
     return analysisTypes;
 }
 
-function refreshUI(boostprojectdata: IBoostProjectData) {
+export function refreshUI(boostprojectdata: IBoostProjectData) {
     const analysisTypes = getAnalysisTypes();
     let skipFilter: string[] = [];
 
@@ -185,7 +205,7 @@ function refreshUI(boostprojectdata: IBoostProjectData) {
     }
     let summaryView = summaryViewData(boostprojectdata);
     let detailsView = detailsViewData(boostprojectdata, skipFilter);
-    let statusView = statusViewData(boostprojectdata);
+    let statusView = statusViewData(boostprojectdata, analysisTypes);
 
     d3.select("#summarygrid")
         .selectAll("vscode-data-grid-row")
@@ -289,7 +309,7 @@ function refreshProgressText(statusData: StatusViewData) {
 
 function refreshPrediction(statusData: StatusViewData) {
     if (statusData.accountRefreshed) {
-        let prediction = `Sara expects the analysis to cost between $${statusData.spendLowerBound} and $${statusData.spendUpperBound}. Your account is ${statusData.accountStatus} and have spent $${statusData.currentSpend} so far this month.`;
+        let prediction = `Sara expects the analysis to cost between $${statusData.spendLowerBound} and $${statusData.spendUpperBound}. Your account is ${statusData.accountStatus} and you have spent $${statusData.currentSpend} so far this month.`;
         if (statusData.couponRemaining > 0) {
             prediction += ` You have $${statusData.couponRemaining} of a free trial remaining ($${statusData.discountedUsage} used already).`;
         }

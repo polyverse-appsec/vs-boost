@@ -123,7 +123,7 @@ export function summaryViewData(
                 jobStatus
             ),
             defaultChecked: true,
-        },
+        } /*
         {
             display: displayGroupFriendlyName.deepcode,
             id: "deepcode",
@@ -138,7 +138,7 @@ export function summaryViewData(
                 jobStatus
             ),
             defaultChecked: false,
-        },
+        },*/,
     ];
     return summaryView;
 }
@@ -324,11 +324,13 @@ function mergeSummary(
 }
 
 export function statusViewData(
-    boostprojectdata: IBoostProjectData
+    boostprojectdata: IBoostProjectData,
+    analysisTypes: string[]
 ): StatusViewData {
     let busy = false;
     let jobsRunning = 0;
     let jobsQueued = 0;
+    const numAnalyses = analysisTypes.length;
 
     //if we have a job status, then we are busy
     if (boostprojectdata.jobStatus) {
@@ -355,8 +357,8 @@ export function statusViewData(
         jobsQueued: jobsQueued,
         minutesRemaining: jobsQueued + jobsRunning, //assume 1 minute per job
         filesTotal: filesTotal,
-        spendLowerBound: filesTotal * 3,
-        spendUpperBound: filesTotal * 5,
+        spendLowerBound: filesTotal * 1 * numAnalyses,
+        spendUpperBound: filesTotal * 1.5 * numAnalyses,
         accountStatus: boostprojectdata.account.status,
         couponRemaining: boostprojectdata.account.trialRemaining,
         currentSpend:
