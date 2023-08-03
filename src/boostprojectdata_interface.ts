@@ -172,5 +172,7 @@ export const emptyProjectData: IBoostProjectData = {
         couponType: "Intializing...",
         org: "Polyverse",
         owner: "support@polyverse.com",
+        created: "",
+        creditCardLinked: false,
     },
 };
