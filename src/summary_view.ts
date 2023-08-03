@@ -38,6 +38,8 @@ import { marked } from "marked";
 import { BoostFileType, findCellByKernel, getBoostFile } from "./extension";
 import { BoostNotebook, BoostNotebookCell } from "./jupyter_notebook";
 import { ControllerOutputType } from "./controllerOutputTypes";
+import { getOrCreateBlueprintUri, getOrCreateGuideline } from "./extension";
+import * as boostnb from "./jupyter_notebook";
 
 export const summaryViewType = "polyverse-boost-summary-view";
 
@@ -250,10 +252,33 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             );
             return;
         }
-        const docAbsolutePath = path.join(
-            vscode.workspace.workspaceFolders?.[0].uri.fsPath as string,
-            relativePath
-        );
+        // handle the special cases of blueprint and guidelines. in the case of
+        // guidelines, we look for the extension, as we don't store that in boostdata
+        // boostnb.NOTEBOOK_GUIDELINES_EXTENSION
+        let targetNotebookUri: vscode.Uri;
+        let docAbsolutePath: string;
+        if (relativePath === boostprojectdata.summary.summaryUrl) {
+            targetNotebookUri = await getOrCreateBlueprintUri(
+                this.context,
+                relativePath
+            );
+            docAbsolutePath = targetNotebookUri.fsPath;
+        } else if (
+            relativePath.endsWith(boostnb.NOTEBOOK_GUIDELINES_EXTENSION)
+        ) {
+            targetNotebookUri = getBoostFile(
+                undefined,
+                BoostFileType.guidelines
+            );
+            getOrCreateGuideline(targetNotebookUri, BoostFileType.guidelines);
+            docAbsolutePath = targetNotebookUri.fsPath;
+        } else {
+            docAbsolutePath = path.join(
+                vscode.workspace.workspaceFolders?.[0].uri.fsPath as string,
+                relativePath
+            );
+        }
+
         const docUri = vscode.Uri.file(docAbsolutePath);
         try {
             //if the filename ends with boost-notebook, then open the notebook

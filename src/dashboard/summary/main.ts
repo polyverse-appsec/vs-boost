@@ -24,6 +24,7 @@ import {
     statusViewData,
     StatusViewData,
 } from "./compute_view_data";
+import { openFile } from "./util";
 
 import { JobStatus, IBoostProjectData } from "../../boostprojectdata_interface";
 import Typewritter from "typewriter-effect/dist/core";
@@ -107,6 +108,16 @@ function setupListeners() {
     checkDashboardWideEnough();
     // Listen for the resize event to check on webview resize
     window.addEventListener("resize", checkDashboardWideEnough);
+
+    const blueprintLink = document.getElementById(
+        "blueprint-link"
+    ) as HTMLAnchorElement;
+    blueprintLink?.addEventListener("click", openFile);
+
+    const guidelinesLink = document.getElementById(
+        "guidelines-link"
+    ) as HTMLAnchorElement;
+    guidelinesLink?.addEventListener("click", openFile);
 }
 
 // Define a function to check if the vscode-panels element is rendered
