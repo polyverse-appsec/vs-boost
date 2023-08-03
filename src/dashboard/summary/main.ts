@@ -11,6 +11,7 @@ import {
     vsCodePanels,
     vsCodePanelTab,
     vsCodePanelView,
+    vsCodeLink,
     Button,
 } from "@vscode/webview-ui-toolkit";
 import * as d3 from "d3";
@@ -48,7 +49,8 @@ provideVSCodeDesignSystem().register(
     vsCodeDivider(),
     vsCodePanels(),
     vsCodePanelTab(),
-    vsCodePanelView()
+    vsCodePanelView(),
+    vsCodeLink()
 );
 
 export const vscode = acquireVsCodeApi();
@@ -309,10 +311,18 @@ function refreshProgressText(statusData: StatusViewData) {
 
 function refreshPrediction(statusData: StatusViewData) {
     if (statusData.accountRefreshed) {
-        let prediction = `Sara expects the analysis to cost between $${statusData.spendLowerBound} and $${statusData.spendUpperBound}. Your account is ${statusData.accountStatus} and you have spent $${statusData.currentSpend} so far this month.`;
+        let predictionStart = `Sara expects the analysis to cost between`;
+        let predictionFinish = ` $${statusData.spendLowerBound} and $${statusData.spendUpperBound}. Your account is ${statusData.accountStatus} and you have spent $${statusData.currentSpend} so far this month.`;
         if (statusData.couponRemaining > 0) {
-            prediction += ` You have $${statusData.couponRemaining} of a free trial remaining ($${statusData.discountedUsage} used already).`;
+            predictionFinish += ` You have $${statusData.couponRemaining} of a free trial remaining ($${statusData.discountedUsage} used already).`;
         }
-        typewriter.typeString(prediction).start();
+        typewriter
+            .typeString(predictionStart)
+            .pauseFor(100)
+            .typeString("...")
+            .pauseFor(500)
+            .deleteChars(3)
+            .typeString(predictionFinish)
+            .start();
     }
 }
