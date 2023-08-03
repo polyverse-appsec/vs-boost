@@ -118,6 +118,18 @@ function setupListeners() {
         "guidelines-link"
     ) as HTMLAnchorElement;
     guidelinesLink?.addEventListener("click", openFile);
+
+    const showDashboardButton = document.getElementById(
+        "show_dashboard_button"
+    ) as Button;
+    showDashboardButton?.addEventListener("click", showDashboardTab);
+}
+
+function showDashboardTab() {
+    //we just need to set the 'activeid' of the panel equal to "tab-dashboard"
+    const vscodePanels = document.querySelector("#main_panel") as HTMLElement;
+    //set the attribute activeid
+    vscodePanels.setAttribute("activeid", "tab-dashboard");
 }
 
 // Define a function to check if the vscode-panels element is rendered

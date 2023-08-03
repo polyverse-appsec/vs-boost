@@ -66,12 +66,12 @@
 </head>
 <body>
     <div id="resize_alert" style="display:none" class="warning">For the best experience, please resize this sidebar to show all tabs.</div>
-    <vscode-panels>
-        <vscode-panel-tab id="tab-1">Dashboard</vscode-panel-tab>
-        <vscode-panel-tab id="tab-2">Summary</vscode-panel-tab>
-        <vscode-panel-tab id="tab-3">Security</vscode-panel-tab>
-        <vscode-panel-tab id="tab-4">Compliance</vscode-panel-tab>
-        <vscode-panel-tab id="tab-5">Instructions</vscode-panel-tab>
+    <vscode-panels id="main_panel">
+        <vscode-panel-tab id="tab-dashboard">Dashboard</vscode-panel-tab>
+        <vscode-panel-tab id="tab-summary">Summary</vscode-panel-tab>
+        <vscode-panel-tab id="tab-security">Security</vscode-panel-tab>
+        <vscode-panel-tab id="tab-compliance">Compliance</vscode-panel-tab>
+        <vscode-panel-tab id="tab-instructions">Instructions</vscode-panel-tab>
         <vscode-panel-view id="view-1">
             <section style="display: flex; flex-direction: column; width: 100%;">
                 <vscode-data-grid aria-label="Summary" id="summarygrid">
@@ -112,7 +112,7 @@
                 <p>You can customize your <%= boostprojectdata.summary.projectName %> project goals, and set guidelines for analysis by editing the <vscode-link id="guidelines-link" href="<%= guidelinesFile %>"> Boost Project Guidelines </vscode-link>. Guidelines can be written in free form natural language, and will be used to specialize all analysis across your </p>
                 <p>You can also ask <%= aiName %>, the Boost AI, for advice and recommendations about your project in the <%= aiName %> Chat window below.</p>
                 <div align="center">
-                    <vscode-button align="center" id="analyze_all">Show Boost Analysis Controls</vscode-button>
+                    <vscode-button align="center" id="show_dashboard_button">Show Boost Analysis Controls</vscode-button>
                 </div>
             </section>
         </vscode-panel-view>
