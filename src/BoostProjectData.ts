@@ -282,7 +282,7 @@ export class BoostProjectData implements IBoostProjectData {
         this.jobStatus = { ...emptyProjectData.jobStatus };
     }
 
-    addQueue(job: string, relFiles: [string]) {
+    addQueue(jobs: string[], relFiles: string[]) {
         relFiles.forEach((file: string) => {
             //create the jobs set if necessary then add message.job to it
             if (!this.jobStatus[file]) {
@@ -291,9 +291,9 @@ export class BoostProjectData implements IBoostProjectData {
                     jobs: [],
                 };
             }
-            if (!this.jobStatus[file].jobs.includes(job)) {
-                this.jobStatus[file].jobs.push(job);
-            }
+            this.jobStatus[file].jobs = Array.from(
+                new Set([...this.jobStatus[file].jobs, ...jobs])
+            );
             this.jobStatus[file].status = "queued";
         });
     }

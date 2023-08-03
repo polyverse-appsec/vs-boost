@@ -2555,6 +2555,21 @@ export class BoostExtension {
             const wordsPerFile = throttleRateTokensPerMinute / totalFiles;
             const seconds = 1000;
 
+            // TODO: temporary change before going to workflow engines to get the list of relative files
+            const relFiles = files.map((file) => {
+                let relativePath = path.relative(
+                    targetFolder.fsPath,
+                    file.fsPath
+                );
+                return relativePath;
+            });
+
+            this.summary?.addQueue(
+                [targetedKernel.outputType],
+                relFiles,
+                boostprojectdata
+            );
+
             if (BoostConfiguration.processFilesInGroups) {
                 let processedNotebookWaitsGenerators: PromiseGenerator[] =
                     files.map((file) => {
@@ -2567,11 +2582,6 @@ export class BoostExtension {
                                         let relativePath = path.relative(
                                             targetFolder.fsPath,
                                             file.fsPath
-                                        );
-                                        this.summary?.addQueue(
-                                            targetedKernel.outputType,
-                                            [relativePath],
-                                            boostprojectdata
                                         );
 
                                         this.summary?.addJobs(
@@ -2664,11 +2674,7 @@ export class BoostExtension {
                                     targetFolder.fsPath,
                                     file.fsPath
                                 );
-                                this.summary?.addQueue(
-                                    targetedKernel.outputType,
-                                    [relativePath],
-                                    boostprojectdata
-                                );
+
                                 setTimeout(async () => {
                                     // if its been more than 5 seconds, log it - that's about 13 pages of source in 5 seconds (wild estimate)
                                     if (processingTime > 5 * seconds) {

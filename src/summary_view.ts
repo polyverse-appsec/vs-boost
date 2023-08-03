@@ -231,11 +231,11 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
     }
 
     public addQueue(
-        job: string,
-        files: [string],
+        jobs: string[],
+        files: string[],
         boostprojectdata: BoostProjectData
     ) {
-        boostprojectdata.addQueue(job, files);
+        boostprojectdata.addQueue(jobs, files);
         const payload = {
             command: "refreshUI",
             boostprojectdata: boostprojectdata,
