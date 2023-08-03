@@ -185,7 +185,7 @@ class Defaults {
     public static readonly defaultOutputLanguageValue = "python";
 
     public static readonly testFrameworkName = "testFramework";
-    public static readonly testFrameworkValue = "pytest";
+    public static readonly testFrameworkValue = "";
 
     // default directory to write Boost files
     public static readonly defaultDirName = "defaultDir";
