@@ -14,6 +14,7 @@ Polyverse Boost Automatic Application Modernization
 - Rebuild/reparse all source files during analysis if not analysis output will be lost
 - Errors are treated as Warnings by default in Diagnostic Problems to avoid blocking build
 - Report Canceled account status for users who have canceled their subscriptions
+- Pick the best Test Framework for any test case generation instead of using Pytest by default
 
 ### Bug Fixes
 - Fix links in Summary View

@@ -1202,11 +1202,19 @@ export class BoostExtension {
                         boostnb.NOTEBOOK_TYPE
                     );
 
-                    data.metadata = {
-                        outputLanguage: settings.outputLanguage,
-                        testFramework: settings.testFramework,
-                        defaultDir: settings.defaultDir,
-                    };
+                    // only use test Framework if specified
+                    if (settings.testFramework) {
+                        data.metadata = {
+                            outputLanguage: settings.outputLanguage,
+                            testFramework: settings.testFramework,
+                            defaultDir: settings.defaultDir,
+                        };
+                    } else {
+                        data.metadata = {
+                            outputLanguage: settings.outputLanguage,
+                            defaultDir: settings.defaultDir,
+                        };
+                    }
 
                     const doc = await vscode.workspace.openNotebookDocument(
                         boostnb.NOTEBOOK_TYPE,

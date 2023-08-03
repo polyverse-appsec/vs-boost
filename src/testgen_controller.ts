@@ -62,13 +62,16 @@ export class BoostTestgenKernel extends KernelControllerBase {
 		let outputLanguage = usingBoostNotebook?cell.languageId:cell.document.languageId ??
             BoostConfiguration.defaultOutputLanguage;
 
-		//if outputLanguage is undefined, set it to default setting
-        let defaultFramework = BoostConfiguration.testFramework;
-		let framework = vscode.window.activeNotebookEditor?.notebook.metadata.testFramework ?? defaultFramework;
+        // only set the framework if it's already set
+		let framework = vscode.window.activeNotebookEditor?.notebook.metadata.testFramework;
 
         //  dynamically add payload properties to send to Boost service
         payload.language = outputLanguage;
-        payload.framework = framework;
+
+        // otherwise don't send it so we can use the best one for the language
+        if (framework) {
+            payload.framework = framework;
+        }
 
         return super.onBoostServiceRequest(cell, serviceEndpoint, payload);
     }
@@ -94,7 +97,11 @@ export class BoostTestgenKernel extends KernelControllerBase {
             return generateCellOutputWithHeader(this.outputHeader, response.testcode);
         }
         else {
-            mimetype.str = 'text/x-' + outputLanguage;
+            if (outputLanguage === 'cpp' || outputLanguage === 'c') {
+                mimetype.str = 'text/plain';
+            } else {
+                mimetype.str = 'text/x-' + outputLanguage;
+            }
             return response.testcode;
         }        
     }
