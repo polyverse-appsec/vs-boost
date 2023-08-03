@@ -1,49 +1,68 @@
 import { IBoostProjectData, JobStatus } from "../../boostprojectdata_interface";
 
 import { ControllerOutputType } from "../../controllerOutputTypes";
-import { BoostUserAnalysisType, displayGroupFriendlyName } from "../../userAnalysisType";
+import {
+    BoostUserAnalysisType,
+    displayGroupFriendlyName,
+} from "../../userAnalysisType";
 
 export interface AnalysisSectionSummary {
     analyzed: number;
     total: number;
     status: string;
-    jobStatusStatus: string;    
-};
+    jobStatusStatus: string;
+}
 
 export interface SummaryViewData {
     display: string;
     id: string;
     summary: AnalysisSectionSummary;
     defaultChecked: boolean;
-};
+}
 
 export interface ProgressBarData {
     display: string;
     completedCells: number;
     issueCells: number;
     totalCells: number;
-};
+}
 
 export interface DetailsViewData {
     sourceRelFile: string;
     notebookRelFile: string;
-    progressBar: ProgressBarData[],
-    jobStatus: JobStatus
-    progressStatus: "completed" | "incomplete" | "not-started" | "processing" | "queued";
-};
+    progressBar: ProgressBarData[];
+    jobStatus: JobStatus;
+    progressStatus:
+        | "completed"
+        | "incomplete"
+        | "not-started"
+        | "processing"
+        | "queued";
+}
 
 export interface StatusViewData {
+    accountRefreshed: boolean;
     busy: boolean;
     jobsRunning: number;
     jobsQueued: number;
-    minutesRemaining: number
-};
+    minutesRemaining: number;
+    filesTotal: number;
+    spendLowerBound: number;
+    spendUpperBound: number;
+    accountStatus: string;
+    couponRemaining: number;
+    currentSpend: number;
+    discountedUsage: number;
+}
 
 //compute the display summary of boostprojectdata
 //these are the sections supported currently. Be sure to update this list
 //if new analysis are done.
 export const outputTypeToDisplayGroup = {
-    documentation: [ControllerOutputType.explain, ControllerOutputType.flowDiagram],
+    documentation: [
+        ControllerOutputType.explain,
+        ControllerOutputType.flowDiagram,
+    ],
     security: [ControllerOutputType.analyzeFunction],
     compliance: [ControllerOutputType.complianceFunction],
     deepcode: [
@@ -65,7 +84,9 @@ export function mapOutputTypeToSummary(outputType: string) {
     return "";
 }
 
-export function summaryViewData(boostprojectdata: IBoostProjectData): SummaryViewData[] {
+export function summaryViewData(
+    boostprojectdata: IBoostProjectData
+): SummaryViewData[] {
     //TODO: in the future, make the default check settings configuratble and/or remembered
     //in the state somewhere.
     const jobStatus = boostprojectdata.jobStatus;
@@ -75,7 +96,10 @@ export function summaryViewData(boostprojectdata: IBoostProjectData): SummaryVie
             id: BoostUserAnalysisType.documentation,
             summary: mergeSummary(
                 boostprojectdata,
-                [ControllerOutputType.explain, ControllerOutputType.flowDiagram],
+                [
+                    ControllerOutputType.explain,
+                    ControllerOutputType.flowDiagram,
+                ],
                 jobStatus
             ),
             defaultChecked: true,
@@ -83,13 +107,21 @@ export function summaryViewData(boostprojectdata: IBoostProjectData): SummaryVie
         {
             display: displayGroupFriendlyName.security,
             id: BoostUserAnalysisType.security,
-            summary: mergeSummary(boostprojectdata, [ControllerOutputType.analyzeFunction], jobStatus),
+            summary: mergeSummary(
+                boostprojectdata,
+                [ControllerOutputType.analyzeFunction],
+                jobStatus
+            ),
             defaultChecked: true,
         },
         {
             display: displayGroupFriendlyName.compliance,
             id: BoostUserAnalysisType.compliance,
-            summary: mergeSummary(boostprojectdata, [ControllerOutputType.complianceFunction], jobStatus),
+            summary: mergeSummary(
+                boostprojectdata,
+                [ControllerOutputType.complianceFunction],
+                jobStatus
+            ),
             defaultChecked: true,
         },
         {
@@ -111,8 +143,6 @@ export function summaryViewData(boostprojectdata: IBoostProjectData): SummaryVie
     return summaryView;
 }
 
-
-
 export function detailsViewData(
     boostprojectdata: any,
     skipFilter: string[] = []
@@ -121,7 +151,6 @@ export function detailsViewData(
     let jobstatus = boostprojectdata.jobStatus;
 
     Object.keys(boostprojectdata.files).forEach((file: string) => {
-
         let fileData = boostprojectdata.files[file];
 
         let data: DetailsViewData = {
@@ -129,7 +158,7 @@ export function detailsViewData(
             notebookRelFile: boostprojectdata.files[file].notebookRelFile,
             progressBar: [],
             jobStatus: jobstatus[file],
-            progressStatus: "not-started"
+            progressStatus: "not-started",
         };
 
         //for each of the four display types, go through the mapping and get the completed
@@ -163,11 +192,17 @@ export function detailsViewData(
             });
             data.progressBar.push(progressbardata);
 
-            if( progressbardata.completedCells > 0 && 
-                progressbardata.completedCells === progressbardata.totalCells 
-                && (data.progressStatus !== "processing" && data.progressStatus !== "incomplete")){
+            if (
+                progressbardata.completedCells > 0 &&
+                progressbardata.completedCells === progressbardata.totalCells &&
+                data.progressStatus !== "processing" &&
+                data.progressStatus !== "incomplete"
+            ) {
                 data.progressStatus = "completed";
-            } else if (progressbardata.completedCells > 0 || progressbardata.issueCells > 0) {
+            } else if (
+                progressbardata.completedCells > 0 ||
+                progressbardata.issueCells > 0
+            ) {
                 data.progressStatus = "incomplete";
             }
         });
@@ -183,13 +218,20 @@ export function detailsViewData(
         if (boostprojectdata.files[file]) {
             //find it in the detailsView array and update the progressStatus
             let index = detailsView.findIndex((element) => {
-                return element.sourceRelFile === boostprojectdata.files[file].sourceRelFile && 
-                element.notebookRelFile === boostprojectdata.files[file].notebookRelFile;
+                return (
+                    element.sourceRelFile ===
+                        boostprojectdata.files[file].sourceRelFile &&
+                    element.notebookRelFile ===
+                        boostprojectdata.files[file].notebookRelFile
+                );
             });
             //if we're completed, we want that to take procedence over the processing state
             //except for the case of 'processing'.
-            if (index !== -1 && (detailsView[index].progressStatus !== "completed"
-             && jobstatus[file].status !== "processing")) {
+            if (
+                index !== -1 &&
+                detailsView[index].progressStatus !== "completed" &&
+                jobstatus[file].status !== "processing"
+            ) {
                 detailsView[index].progressStatus = jobstatus[file].status;
             }
             return;
@@ -199,9 +241,9 @@ export function detailsViewData(
             notebookRelFile: "",
             progressBar: [],
             jobStatus: jobstatus[file],
-            progressStatus: "not-started"
+            progressStatus: "not-started",
         };
-               //for each of the four display types, go through the mapping and get the completed
+        //for each of the four display types, go through the mapping and get the completed
         //cells, total cells, and number of cells with issues
         Object.keys(outputTypeToDisplayGroup).forEach((key) => {
             //if the key is in the skip filter, skip it
@@ -241,18 +283,21 @@ function mergeSummary(
             );
             //we have to see a steady string of completed to be completed.  if we see anything else, we are incomplete.
             if (
-                boostprojectdata.sectionSummary[analysisType].status === "completed" &&
+                boostprojectdata.sectionSummary[analysisType].status ===
+                    "completed" &&
                 completed !== "incomplete"
             ) {
                 completed = "completed";
-            } else if (boostprojectdata.sectionSummary[analysisType].filesAnalyzed > 0 ){
+            } else if (
+                boostprojectdata.sectionSummary[analysisType].filesAnalyzed > 0
+            ) {
                 completed = "incomplete";
             }
         }
     });
     summary.status = completed;
     //it is possible that all of the analysis types are completed, but there are still remaining files to analyze
-    if( summary.status === "completed" && summary.analyzed < summary.total) {
+    if (summary.status === "completed" && summary.analyzed < summary.total) {
         summary.status = "incomplete";
     }
     //now go through the job status and see if any of the jobs are processing or queued
@@ -261,7 +306,7 @@ function mergeSummary(
     Object.keys(jobStatus).forEach((key) => {
         //first check to see if our AnalysisType is in the job status
         //this is an intersection of the AnalysisArray and the jobStatus.jobs set
-        for ( const job of jobStatus[key].jobs ) {
+        for (const job of jobStatus[key].jobs) {
             if (analysisTypes.includes(job)) {
                 //we have a job that is processing or queued, processing takes priority over queued
                 if (jobStatus[key].status === "processing") {
@@ -273,13 +318,14 @@ function mergeSummary(
                     summary.jobStatusStatus = jobStatus[key].status;
                 }
             }
-        };
+        }
     });
     return summary;
 }
 
-export function statusViewData(boostprojectdata: IBoostProjectData): StatusViewData
-{
+export function statusViewData(
+    boostprojectdata: IBoostProjectData
+): StatusViewData {
     let busy = false;
     let jobsRunning = 0;
     let jobsQueued = 0;
@@ -293,15 +339,29 @@ export function statusViewData(boostprojectdata: IBoostProjectData): StatusViewD
             }
             if (boostprojectdata.jobStatus[key].status === "queued") {
                 jobsQueued++;
-            } else if (boostprojectdata.jobStatus[key].status === "processing") {
+            } else if (
+                boostprojectdata.jobStatus[key].status === "processing"
+            ) {
                 jobsRunning++;
             }
         });
     }
+    const filesTotal = Object.keys(boostprojectdata.files).length;
+
     return {
+        accountRefreshed: boostprojectdata.account.refreshed,
         busy: busy,
         jobsRunning: jobsRunning,
         jobsQueued: jobsQueued,
-        minutesRemaining: jobsQueued + jobsRunning//assume 1 minute per job
+        minutesRemaining: jobsQueued + jobsRunning, //assume 1 minute per job
+        filesTotal: filesTotal,
+        spendLowerBound: filesTotal * 3,
+        spendUpperBound: filesTotal * 5,
+        accountStatus: boostprojectdata.account.status,
+        couponRemaining: boostprojectdata.account.trialRemaining,
+        currentSpend:
+            boostprojectdata.account.usageThisMonth -
+            boostprojectdata.account.discountedUsage,
+        discountedUsage: boostprojectdata.account.discountedUsage,
     };
 }

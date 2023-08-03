@@ -90,7 +90,34 @@ function setupListeners() {
     deepCodeCheckbox?.addEventListener("click", (event) => {
         setTimeout(refreshUI, 0);
     });
+
+    // Listen for the DOMContentLoaded event to check initially
+    checkDashboardWideEnough();
+    // Listen for the resize event to check on webview resize
+    window.addEventListener("resize", checkDashboardWideEnough);
 }
+
+// Define a function to check if the vscode-panels element is rendered
+const checkDashboardWideEnough = (): void => {
+    const vscodePanels: HTMLElement | null =
+        document.querySelector("vscode-panels");
+
+    if (vscodePanels) {
+        const resizeAlert: HTMLElement | null =
+            document.querySelector("#resize_alert");
+        if (vscodePanels.scrollWidth > vscodePanels.clientWidth) {
+            //get the resize_alert element and hide it
+            if (resizeAlert) {
+                resizeAlert.style.display = "block";
+            }
+        } else {
+            //get the resize_alert element and show it
+            if (resizeAlert) {
+                resizeAlert.style.display = "none";
+            }
+        }
+    }
+};
 
 // Callback function that is executed when the howdy button is clicked
 function handleAnalyzeAllClick() {
@@ -254,6 +281,18 @@ function refreshProgressText(statusData: StatusViewData) {
     } else if (existingText !== "" || existingText !== undefined) {
         //if we are not busy, and there is text, clear it out slowly to avoid ui jitty
         typewriter.deleteAll(1).pauseFor(1000).start();
+        refreshPrediction(statusData);
+    } else {
+        refreshPrediction(statusData);
     }
-    // otherwise, do nothing!
+}
+
+function refreshPrediction(statusData: StatusViewData) {
+    if (statusData.accountRefreshed) {
+        let prediction = `Sara expects the analysis to cost between $${statusData.spendLowerBound} and $${statusData.spendUpperBound}. Your account is ${statusData.accountStatus} and have spent $${statusData.currentSpend} so far this month.`;
+        if (statusData.couponRemaining > 0) {
+            prediction += ` You have $${statusData.couponRemaining} of a free trial remaining ($${statusData.discountedUsage} used already).`;
+        }
+        typewriter.typeString(prediction).start();
+    }
 }

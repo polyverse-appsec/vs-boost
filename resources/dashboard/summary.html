@@ -53,9 +53,13 @@
         .queued {
             opacity: .5
         }
+        vscode-panels {
+            overflow-x: auto;
+        }
     </style>
 </head>
 <body>
+    <div id="resize_alert" style="display:none">For the best experience, please resize this sidebar to show all tabs.</div>
     <vscode-panels>
         <vscode-panel-tab id="tab-1">Dashboard</vscode-panel-tab>
         <vscode-panel-tab id="tab-2">Summary</vscode-panel-tab>

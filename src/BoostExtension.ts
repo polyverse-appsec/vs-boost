@@ -165,6 +165,7 @@ export class BoostExtension {
     public start: BoostStartViewProvider | undefined;
     public chat: BoostChatViewProvider | undefined;
     public summary: BoostSummaryViewProvider | undefined;
+    private _accountInfo: any | undefined;
 
     problems: vscode.DiagnosticCollection;
 
@@ -353,6 +354,15 @@ export class BoostExtension {
 
     _boostProjectData = new Map<vscode.Uri, BoostProjectData>();
 
+    public updateAccountInfo(accountInfo: any) {
+        this._accountInfo = accountInfo;
+        const boostdata = this.getBoostProjectData();
+        if (boostdata) {
+            boostdata.updateAccountStatusFromService(accountInfo);
+            //and if we have boostdata, go ahead and refresh the dashboard
+            this.summary?.refresh();
+        }
+    }
     async refreshBoostProjectsData(): Promise<void> {
         return new Promise<void>(async (resolve, reject) => {
             try {
@@ -1325,7 +1335,9 @@ export class BoostExtension {
             "Analyzing " + files.length + " files in folder: " + targetFolder
         );
         try {
-            let newNotebookWaits: Promise<vscode.NotebookDocument | boostnb.BoostNotebook>[] = [];
+            let newNotebookWaits: Promise<
+                vscode.NotebookDocument | boostnb.BoostNotebook
+            >[] = [];
 
             files.filter(async (file) => {
                 newNotebookWaits.push(
@@ -1340,61 +1352,59 @@ export class BoostExtension {
                 createOrOpenSummaryNotebookFromSourceFile(targetFolder)
             );
 
-            function reflect(promise: Promise<any>){
+            function reflect(promise: Promise<any>) {
                 return promise.then(
-                    v => ({v, status: 'fulfilled'}),
-                    e => ({e, status: 'rejected'})
+                    (v) => ({ v, status: "fulfilled" }),
+                    (e) => ({ e, status: "rejected" })
                 );
             }
-            
+
             // Apply reflect to each promise
             let reflectedPromises = newNotebookWaits.map(reflect);
-            
-            await Promise.all(reflectedPromises)
-                .then((results) => {
-                    const createdNotebooks = results
-                        .filter(result => result.status === 'fulfilled')
-                        .map(result => (result as { v: any; status: string }).v);
-                        
-                    const errors = results
-                        .filter(result => result.status === 'rejected')
-                        .map(result => (result as { e: any; status: string }).e);
-            
-                    // we are generally creating one new notebook during this process, but in case, we de-dupe it
-                    const newNotebooks = createdNotebooks.filter(
-                        (value, index, self) => {
-                            return self.indexOf(value) === index;
-                        }
-                    );
-                    for (const notebook of newNotebooks) {
-                        // we let user know the new scratch notebook was created
-                        boostLogging.info(
-                            "Boost Notebook reloaded: " + notebook.fsPath,
-                            false
-                        );
+
+            await Promise.all(reflectedPromises).then((results) => {
+                const createdNotebooks = results
+                    .filter((result) => result.status === "fulfilled")
+                    .map((result) => (result as { v: any; status: string }).v);
+
+                const errors = results
+                    .filter((result) => result.status === "rejected")
+                    .map((result) => (result as { e: any; status: string }).e);
+
+                // we are generally creating one new notebook during this process, but in case, we de-dupe it
+                const newNotebooks = createdNotebooks.filter(
+                    (value, index, self) => {
+                        return self.indexOf(value) === index;
                     }
+                );
+                for (const notebook of newNotebooks) {
+                    // we let user know the new scratch notebook was created
                     boostLogging.info(
-                        `${newNotebooks.length.toString()} Boost Notebooks reloaded for folder ${
-                            targetFolder.fsPath
-                        }`,
+                        "Boost Notebook reloaded: " + notebook.fsPath,
                         false
                     );
-            
-                    // Handle the errors here
-                    for (const error of errors) {
-                        boostLogging.error(
-                            `Error Boosting folder ${targetFolder.fsPath} due to Error: ${error}`
-                        );
-                    }
-                });
-            
+                }
+                boostLogging.info(
+                    `${newNotebooks.length.toString()} Boost Notebooks reloaded for folder ${
+                        targetFolder.fsPath
+                    }`,
+                    false
+                );
+
+                // Handle the errors here
+                for (const error of errors) {
+                    boostLogging.error(
+                        `Error Boosting folder ${targetFolder.fsPath} due to Error: ${error}`
+                    );
+                }
+            });
         } catch (error) {
             boostLogging.error(
                 `Error Boosting folder ${targetFolder} due to Error: ${error}`
             );
         }
     }
-    
+
     registerFolderRightClickAnalyzeCommand(context: vscode.ExtensionContext) {
         let disposable = vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
@@ -1420,7 +1430,7 @@ export class BoostExtension {
                     {
                         uri: uri,
                         kernelCommand: kernelCommand,
-                        forceAnalysisRefresh: forceAnalysisRefresh
+                        forceAnalysisRefresh: forceAnalysisRefresh,
                     },
                     context
                 ).catch((error) => {
@@ -2440,7 +2450,7 @@ export class BoostExtension {
 
     async processCurrentFolder(
         options: ProcessCurrentFolderOptions,
-        context: vscode.ExtensionContext,
+        context: vscode.ExtensionContext
     ) {
         let targetFolder: vscode.Uri;
         // if we don't have a folder selected, then the user didn't right click
@@ -2566,7 +2576,9 @@ export class BoostExtension {
                                             file,
                                             targetedKernel.id,
                                             context,
-                                            options?.forceAnalysisRefresh?options.forceAnalysisRefresh:false
+                                            options?.forceAnalysisRefresh
+                                                ? options.forceAnalysisRefresh
+                                                : false
                                         )
                                             .then((notebook) => {
                                                 let summary =
@@ -2619,137 +2631,148 @@ export class BoostExtension {
                 await engine.run();
             } else {
                 let processedNotebookWaits: Promise<boostnb.BoostNotebook>[] =
-                files.map(async (file) => {
-                    return new Promise<boostnb.BoostNotebook>(
-                        (resolve, reject) => {
-                            const fileSize = fs.statSync(file.fsPath).size;
-                            const estimatedWords =
-                                this.calculateEstimatedWords(fileSize);
-                            const processingTime = this.calculateProcessingTime(
-                                estimatedWords,
-                                wordsPerFile
-                            );
-
-                            boostLogging.log(
-                                `Delaying file ${
-                                    file.fsPath
-                                } with ${estimatedWords} ~items to wait ${
-                                    processingTime / seconds
-                                } secs`
-                            );
-                            // get the distance from the workspace folder for the source file
-                            // for project-level status files, we ignore the relative path
-                            let relativePath = path.relative(
-                                targetFolder.fsPath,
-                                file.fsPath
-                            );
-                            this.summary?.addQueue(
-                                targetedKernel.outputType,
-                                [relativePath],
-                                boostprojectdata
-                            );
-                            setTimeout(async () => {
-                                // if its been more than 5 seconds, log it - that's about 13 pages of source in 5 seconds (wild estimate)
-                                if (processingTime > 5 * seconds) {
-                                    boostLogging.log(
-                                        `Starting processing file ${
-                                            file.fsPath
-                                        } with ${estimatedWords} ~items after waiting ${
-                                            processingTime * seconds
-                                        } secs`
+                    files.map(async (file) => {
+                        return new Promise<boostnb.BoostNotebook>(
+                            (resolve, reject) => {
+                                const fileSize = fs.statSync(file.fsPath).size;
+                                const estimatedWords =
+                                    this.calculateEstimatedWords(fileSize);
+                                const processingTime =
+                                    this.calculateProcessingTime(
+                                        estimatedWords,
+                                        wordsPerFile
                                     );
-                                }
 
-                                this.summary?.addJobs(
+                                boostLogging.log(
+                                    `Delaying file ${
+                                        file.fsPath
+                                    } with ${estimatedWords} ~items to wait ${
+                                        processingTime / seconds
+                                    } secs`
+                                );
+                                // get the distance from the workspace folder for the source file
+                                // for project-level status files, we ignore the relative path
+                                let relativePath = path.relative(
+                                    targetFolder.fsPath,
+                                    file.fsPath
+                                );
+                                this.summary?.addQueue(
                                     targetedKernel.outputType,
                                     [relativePath],
                                     boostprojectdata
                                 );
+                                setTimeout(async () => {
+                                    // if its been more than 5 seconds, log it - that's about 13 pages of source in 5 seconds (wild estimate)
+                                    if (processingTime > 5 * seconds) {
+                                        boostLogging.log(
+                                            `Starting processing file ${
+                                                file.fsPath
+                                            } with ${estimatedWords} ~items after waiting ${
+                                                processingTime * seconds
+                                            } secs`
+                                        );
+                                    }
 
-                                this.processCurrentFile(
-                                    file,
-                                    targetedKernel.id,
-                                    context,
-                                    options?.forceAnalysisRefresh?options.forceAnalysisRefresh:false
-                                )
-                                    .then((notebook) => {
-                                        let summary =
-                                            boostNotebookToFileSummaryItem(
-                                                notebook
+                                    this.summary?.addJobs(
+                                        targetedKernel.outputType,
+                                        [relativePath],
+                                        boostprojectdata
+                                    );
+
+                                    this.processCurrentFile(
+                                        file,
+                                        targetedKernel.id,
+                                        context,
+                                        options?.forceAnalysisRefresh
+                                            ? options.forceAnalysisRefresh
+                                            : false
+                                    )
+                                        .then((notebook) => {
+                                            let summary =
+                                                boostNotebookToFileSummaryItem(
+                                                    notebook
+                                                );
+                                            const boostprojectdata =
+                                                this.getBoostProjectData();
+                                            this.summary?.finishJob(
+                                                targetedKernel.outputType,
+                                                relativePath,
+                                                summary,
+                                                boostprojectdata,
+                                                null
                                             );
-                                        const boostprojectdata =
-                                            this.getBoostProjectData();
-                                        this.summary?.finishJob(
-                                            targetedKernel.outputType,
-                                            relativePath,
-                                            summary,
-                                            boostprojectdata,
-                                            null
-                                        );
-                                        resolve(notebook);
-                                    })
-                                    .catch((error) => {
-                                        // get the distance from the workspace folder for the source file
-                                        // for project-level status files, we ignore the relative path
-                                        let relativePath = path.relative(
-                                            targetFolder.fsPath,
-                                            file.fsPath
-                                        );
-                                        const boostprojectdata =
-                                            this.getBoostProjectData();
-                                        this.summary?.finishJob(
-                                            targetedKernel.outputType,
-                                            relativePath,
-                                            null,
-                                            boostprojectdata,
-                                            error
-                                        );
-                                        reject(error);
-                                    });
-                            }, processingTime);
-                        }
-                    );
-                });
-                
-                function reflect(promise: Promise<any>){
+                                            resolve(notebook);
+                                        })
+                                        .catch((error) => {
+                                            // get the distance from the workspace folder for the source file
+                                            // for project-level status files, we ignore the relative path
+                                            let relativePath = path.relative(
+                                                targetFolder.fsPath,
+                                                file.fsPath
+                                            );
+                                            const boostprojectdata =
+                                                this.getBoostProjectData();
+                                            this.summary?.finishJob(
+                                                targetedKernel.outputType,
+                                                relativePath,
+                                                null,
+                                                boostprojectdata,
+                                                error
+                                            );
+                                            reject(error);
+                                        });
+                                }, processingTime);
+                            }
+                        );
+                    });
+
+                function reflect(promise: Promise<any>) {
                     return promise.then(
-                        v => ({v, status: 'fulfilled'}),
-                        e => ({e, status: 'rejected'})
+                        (v) => ({ v, status: "fulfilled" }),
+                        (e) => ({ e, status: "rejected" })
                     );
                 }
-                
+
                 let reflectedPromises = processedNotebookWaits.map(reflect);
-                
-                await Promise.all(reflectedPromises)
-                    .then((results) => {
-                        let successfullyProcessed = true;
-                
-                        results.forEach((result) => {
-                            if (result.status === 'fulfilled') {
-                                boostLogging.info(
-                                    `Boost Notebook processed with command ${targetedKernel.command}: ${(result as { v: any; status: string }).v.fsPath}`,
-                                    false
-                                );
-                            } else if (result.status === 'rejected') {
-                                successfullyProcessed = false;
-                                boostLogging.error(
-                                    `Error Boosting folder ${targetFolder.fsPath} due to Error: ${(result as { e: any; status: string }).e}`,
-                                    false
-                                );
-                            }
-                        });
-                
-                        if (successfullyProcessed) {
+
+                await Promise.all(reflectedPromises).then((results) => {
+                    let successfullyProcessed = true;
+
+                    results.forEach((result) => {
+                        if (result.status === "fulfilled") {
                             boostLogging.info(
-                                `${reflectedPromises.length.toString()} Boost Notebooks processed for folder ${
+                                `Boost Notebook processed with command ${
+                                    targetedKernel.command
+                                }: ${
+                                    (result as { v: any; status: string }).v
+                                        .fsPath
+                                }`,
+                                false
+                            );
+                        } else if (result.status === "rejected") {
+                            successfullyProcessed = false;
+                            boostLogging.error(
+                                `Error Boosting folder ${
                                     targetFolder.fsPath
+                                } due to Error: ${
+                                    (result as { e: any; status: string }).e
                                 }`,
                                 false
                             );
                         }
                     });
+
+                    if (successfullyProcessed) {
+                        boostLogging.info(
+                            `${reflectedPromises.length.toString()} Boost Notebooks processed for folder ${
+                                targetFolder.fsPath
+                            }`,
+                            false
+                        );
+                    }
+                });
             }
-                
+
             // if we are doing a summary operation, then we process the named folder only (for the project/folder-level summary)
             // this happens after we do rollup summaries for all other source files - to make our project-level use the latest rollup
             if (targetedKernel.command === summarizeKernelName) {
@@ -2760,7 +2783,9 @@ export class BoostExtension {
                     targetFolder,
                     targetedKernel.id,
                     context,
-                    options?.forceAnalysisRefresh?options.forceAnalysisRefresh:false
+                    options?.forceAnalysisRefresh
+                        ? options.forceAnalysisRefresh
+                        : false
                 );
                 boostLogging.info(
                     `Boost Project-level Summary completed with Project: ${targetFolder.fsPath}`,
@@ -2769,7 +2794,9 @@ export class BoostExtension {
             }
         } catch (error) {
             boostLogging.error(
-                `Unable to Process ${options?.kernelCommand} on Folder:[${options?.uri?.fsPath.toString()} due to error:${error}`,
+                `Unable to Process ${
+                    options?.kernelCommand
+                } on Folder:[${options?.uri?.fsPath.toString()} due to error:${error}`,
                 false
             );
         }

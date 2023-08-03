@@ -11,10 +11,12 @@ export const extensionFailedToActivate =
     "Boost encountered an error during startup. Please restart Visual Studio Code and try again. If the problem persists, please contact Polyverse Boost Support";
 
 export interface AccountStatus {
+    refreshed: boolean;
     enabled: boolean;
     status: string;
     trialRemaining: number;
     usageThisMonth: number;
+    discountedUsage: number;
     balanceDue: number;
     couponType: string;
     created: string;
@@ -164,10 +166,12 @@ export const emptyProjectData: IBoostProjectData = {
     files: {},
     jobStatus: {},
     account: {
+        refreshed: false,
         enabled: false,
         status: "trial",
         trialRemaining: 0,
         usageThisMonth: 0,
+        discountedUsage: 0,
         balanceDue: 0,
         couponType: "Intializing...",
         org: "Polyverse",
