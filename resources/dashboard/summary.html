@@ -56,10 +56,16 @@
         vscode-panels {
             overflow-x: auto;
         }
+        /* Warning style with yellow border */
+        .warning {
+            border: 2px solid #FFC107; /* Bootstrap yellow */
+            padding: 2px; /* optional padding */
+            border-radius: 2px
+        }
     </style>
 </head>
 <body>
-    <div id="resize_alert" style="display:none">For the best experience, please resize this sidebar to show all tabs.</div>
+    <div id="resize_alert" style="display:none" class="warning">For the best experience, please resize this sidebar to show all tabs.</div>
     <vscode-panels>
         <vscode-panel-tab id="tab-1">Dashboard</vscode-panel-tab>
         <vscode-panel-tab id="tab-2">Summary</vscode-panel-tab>
