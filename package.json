@@ -41,38 +41,14 @@
             "polyverse-boost-explorer": [
                 {
                     "type": "webview",
-                    "id": "polyverse-boost-start-view",
-                    "name": "Start",
-                    "icon": "resources/boost_icon_plain.svg"
-                },
-                {
-                    "type": "webview",
                     "id": "polyverse-boost-summary-view",
-                    "name": "Analysis Summary",
+                    "name": "Boost DashBoard",
                     "icon": "resources/boost_icon_plain.svg"
                 },
                 {
                     "type": "webview",
                     "id": "polyverse-boost-chat-view",
                     "name": "Sara AI Chat",
-                    "icon": "resources/boost_icon_plain.svg"
-                },
-                {
-                    "type": "webview",
-                    "id": "polyverse-boost-blueprint-view",
-                    "name": "Blueprint Summary",
-                    "icon": "resources/boost_icon_plain.svg"
-                },
-                {
-                    "type": "webview",
-                    "id": "polyverse-boost-compliance-view",
-                    "name": "Compliance Scan",
-                    "icon": "resources/boost_icon_plain.svg"
-                },
-                {
-                    "type": "webview",
-                    "id": "polyverse-boost-security-view",
-                    "name": "Security Scan",
                     "icon": "resources/boost_icon_plain.svg"
                 }
             ]

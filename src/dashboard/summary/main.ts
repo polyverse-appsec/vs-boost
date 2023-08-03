@@ -8,6 +8,9 @@ import {
     vsCodeDataGridRow,
     vsCodeCheckbox,
     vsCodeProgressRing,
+    vsCodePanels,
+    vsCodePanelTab,
+    vsCodePanelView,
     Button,
 } from "@vscode/webview-ui-toolkit";
 import * as d3 from "d3";
@@ -41,7 +44,10 @@ provideVSCodeDesignSystem().register(
     vsCodeDataGridRow(),
     vsCodeCheckbox(),
     vsCodeProgressRing(),
-    vsCodeDivider()
+    vsCodeDivider(),
+    vsCodePanels(),
+    vsCodePanelTab(),
+    vsCodePanelView()
 );
 
 export const vscode = acquireVsCodeApi();

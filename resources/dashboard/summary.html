@@ -56,18 +56,58 @@
     </style>
 </head>
 <body>
-    <vscode-data-grid aria-label="Summary" id="summarygrid">
-    </vscode-data-grid>
-    <div align="center">
-        <vscode-button id="update-summary">Run Selected Analyses</vscode-button>
-        <vscode-progress-ring id="job-progress" class="progress" hidden></vscode-progress-ring>
-    </div>
-    <div id="progress-text" align="left">
-    </div>
-    <vscode-divider></vscode-divider>
-    <h4>Details</h4>
-    <vscode-data-grid aria-label="Details" id="detailsgrid">
-    </vscode-data-grid>
+    <vscode-panels>
+        <vscode-panel-tab id="tab-1">Dashboard</vscode-panel-tab>
+        <vscode-panel-tab id="tab-2">Summary</vscode-panel-tab>
+        <vscode-panel-tab id="tab-3">Security</vscode-panel-tab>
+        <vscode-panel-tab id="tab-4">Compliance</vscode-panel-tab>
+        <vscode-panel-tab id="tab-5">Instructions</vscode-panel-tab>
+        <vscode-panel-view id="view-1">
+            <section style="display: flex; flex-direction: column; width: 100%;">
+                <vscode-data-grid aria-label="Summary" id="summarygrid">
+                </vscode-data-grid>
+                <div align="center">
+                    <vscode-button id="update-summary">Run Selected Analyses</vscode-button>
+                    <vscode-progress-ring id="job-progress" class="progress" hidden></vscode-progress-ring>
+                </div>
+                <div id="progress-text" align="left">
+                </div>
+                <vscode-divider></vscode-divider>
+                <h4>Details</h4>
+                <vscode-data-grid aria-label="Details" id="detailsgrid">
+                </vscode-data-grid>
+            </section>
+        </vscode-panel-view>
+        <vscode-panel-view id="view-2">
+            <section style="display: flex; flex-direction: column; width: 100%;">
+                <%= convert(summaryMarkdown.archblueprintCode) %>
+            </section>
+        </vscode-panel-view>
+        <vscode-panel-view id="view-3">
+            <section style="display: flex; flex-direction: column; width: 100%;">
+                <%= convert(summaryMarkdown.bugAnalysis) %>
+            </section>
+        </vscode-panel-view>
+        <vscode-panel-view id="view-4">
+            <section style="display: flex; flex-direction: column; width: 100%;">
+                <%= convert(summaryMarkdown.complianceCode) %>
+            </section>
+        </vscode-panel-view>
+        <vscode-panel-view id="view-5">
+            <section style="display: flex; flex-direction: column; width: 100%;">
+                <p>Welcome to Polyverse Boost!</p>
+                <p>Boost will automatically document the <%= boostprojectdata.summary.filesToAnalyze %> files in <%= boostprojectdata.summary.projectName %> and analyze them for security and compliance issues.</p>
+                <p>The <vscode-link id="blueprint-link" href="<%= blueprintFile %>"> Boost Architectural Summary </vscode-link> is an automatically generated file with high-level analysis of all aspects of your project code.</p>
+                <p></p>
+                <p>You can customize your <%= boostprojectdata.summary.projectName %> project goals, and set guidelines for analysis by editing the <vscode-link id="guidelines-link" href="<%= guidelinesFile %>"> Boost Project Guidelines </vscode-link>. Guidelines can be written in free form natural language, and will be used to specialize all analysis across your </p>
+                <p>You can also ask <%= aiName %>, the Boost AI, for advice and recommendations about your project in the <%= aiName %> Chat window below.</p>
+                <div align="center">
+                    <vscode-button align="center" id="analyze_all">Show Boost Analysis Controls</vscode-button>
+                </div>
+            </section>
+        </vscode-panel-view>
+      </vscode-panels>
+
     <script> 
         var boostdataencoded = "<%= Buffer.from(JSON.stringify(boostprojectdata)).toString('base64') %>";
 		var boostprojectdata = JSON.parse(atob(boostdataencoded));
