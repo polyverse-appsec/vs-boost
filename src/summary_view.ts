@@ -327,8 +327,8 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                 [
                     getKernelName(analyzeFunctionKernelName),
                     getKernelName(quickSecuritySummaryKernelName),
-                    //                                    getKernelName(performanceFunctionKernelName),
-                    //                                    getKernelName(quickPerformanceSummaryKernelName),
+                    // getKernelName(performanceFunctionKernelName),
+                    // getKernelName(quickPerformanceSummaryKernelName),
                 ],
             ],
             [
@@ -372,6 +372,17 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                             ).includes(analysisKernelName)
                         ) {
                             continue;
+                        }
+                        // we're skipping deep summaries for now to reduce
+                        //    processing time and unnecessary duplication
+                        if (analysisKernelName in [
+                            getKernelName(blueprintKernelName),
+                            getKernelName(summarizeKernelName),
+                            ]) {
+                            if (!BoostConfiguration.alwaysRunSummary) {
+                                boostLogging.debug(`Skipping ${analysisKernelName} analysis except by alwaysRunSummary config request`);
+                                continue;
+                            }
                         }
 
                         // quick operations uses the project-level command
@@ -501,12 +512,17 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
         );
 
-        // summary across all files
-        await vscode.commands.executeCommand(
-            NOTEBOOK_TYPE + "." + BoostCommands.processCurrentFolder,
-            undefined,
-            getKernelName(summarizeKernelName)
-        );
+        // don't run summary unless overriden by config setting
+        if (!BoostConfiguration.alwaysRunSummary) {
+            boostLogging.debug(`Skipping ${getKernelName(summarizeKernelName)} analysis except by alwaysRunSummary config request`);
+        } else {
+            // summary across all files
+            await vscode.commands.executeCommand(
+                NOTEBOOK_TYPE + "." + BoostCommands.processCurrentFolder,
+                undefined,
+                getKernelName(summarizeKernelName)
+            );
+        }
 
         // refresh project data
         await vscode.commands.executeCommand(
