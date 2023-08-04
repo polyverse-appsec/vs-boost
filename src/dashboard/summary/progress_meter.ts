@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import { openFileFromName } from "./util";
 
 const width = 100;
 const height = 3;
@@ -29,6 +30,11 @@ export function progressMeterEnter(parent: d3.selection): d3.selection {
 
     const overarchingGroup = svg
         .append("g")
+        .on("click", (event, d) =>
+            openFileFromName(
+                d.notebookRelFile ? d.notebookRelFile : d.sourceRelFile
+            )
+        )
         .attr("clip-path", "url(#rounded-corner-clip)");
 
     const groups = overarchingGroup
