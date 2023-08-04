@@ -25,6 +25,7 @@ export interface ProgressBarData {
     completedCells: number;
     issueCells: number;
     totalCells: number;
+    issueCount: number;
 }
 
 export interface DetailsViewData {
@@ -173,6 +174,7 @@ export function detailsViewData(
                 completedCells: 0,
                 issueCells: 0,
                 totalCells: 0,
+                issueCount: 0,
                 display: displayGroupFriendlyName[key],
             } as ProgressBarData;
 
@@ -189,6 +191,11 @@ export function detailsViewData(
                     fileData.sections[section]?.totalCells ?? 0,
                     progressbardata.totalCells
                 );
+                //if the section has a details field, add the length of that to the issue count
+                if (fileData.sections[section]?.details) {
+                    progressbardata.issueCount +=
+                        fileData.sections[section]?.details?.length;
+                }
             });
             data.progressBar.push(progressbardata);
 

@@ -68,6 +68,15 @@ function barUpdate(bar: d3.selection) {
             .domain([0, totalCells])
             .range([0, width]);
 
+        let issueText: string;
+        if (pBarData.issueCount > 1) {
+            issueText = `${pBarData.issueCount} issues`;
+        } else if (pBarData.issueCount === 1) {
+            issueText = `${pBarData.issueCount} issue`;
+        } else {
+            issueText = `No issues`;
+        }
+
         const groupData = [
             {
                 width: widthScale(withoutIssues),
@@ -79,9 +88,7 @@ function barUpdate(bar: d3.selection) {
             {
                 width: widthScale(pBarData.issueCells),
                 color: "#dc3545",
-                label: `${pBarData.display} - ${
-                    (pBarData.issueCells / totalCells) * 100
-                }% Issues`,
+                label: `${pBarData.display} - ${issueText} found`,
             },
             {
                 width: widthScale(incomplete),
