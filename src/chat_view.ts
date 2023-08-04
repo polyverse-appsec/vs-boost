@@ -1,21 +1,25 @@
-import * as vscode from 'vscode';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as _ from 'lodash';
-import * as os from 'os';
-import { BoostExtension } from './BoostExtension';
-import { BoostConfiguration } from './boostConfiguration';
-import { getServiceEndpoint } from './custom_controller';
-import { marked } from 'marked';
-import { findCellByKernel, getOrCreateBlueprintUri } from './extension';
-import { BoostServiceHelper } from './boostServiceHelper';
-import { boostLogging } from './boostLogging';
-import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';
-import { ControllerOutputType } from './controllerOutputTypes';
-import { noProjectOpenMessage, extensionNotFullyActivated, extensionFailedToActivate } from './boostprojectdata_interface';
+import * as vscode from "vscode";
+import * as fs from "fs";
+import * as path from "path";
+import * as _ from "lodash";
+import * as os from "os";
+import { BoostExtension } from "./BoostExtension";
+import { BoostConfiguration } from "./boostConfiguration";
+import { getServiceEndpoint } from "./custom_controller";
+import { marked } from "marked";
+import { findCellByKernel, getOrCreateBlueprintUri } from "./extension";
+import { BoostServiceHelper } from "./boostServiceHelper";
+import { boostLogging } from "./boostLogging";
+import { BoostNotebook, BoostNotebookCell } from "./jupyter_notebook";
+import { ControllerOutputType } from "./controllerOutputTypes";
+import {
+    noProjectOpenMessage,
+    extensionNotFullyActivated,
+    extensionFailedToActivate,
+} from "./boostprojectdata_interface";
+import sanitizeHtml from "sanitize-html";
 
 export const aiName = "Sara";
-
 
 /*
 DO NOT USE THIS.  it's a global variable and will setup a second instance of the highlighter
@@ -36,8 +40,7 @@ marked.use(markedHighlight({
     }));		
 */
 export class BoostChatViewProvider implements vscode.WebviewViewProvider {
-
-    public static readonly viewType = 'polyverse-boost-chat-view';
+    public static readonly viewType = "polyverse-boost-chat-view";
 
     private _view?: vscode.WebviewView;
     private _chats?: any;
@@ -53,25 +56,32 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
     ) {
         this._context = context;
         this._boostExtension = boostExtension;
-        this.chatService = new BoostServiceHelper("chatService", "chat", boostExtension);
+        this.chatService = new BoostServiceHelper(
+            "chatService",
+            "chat",
+            boostExtension
+        );
     }
 
     public async resolveWebviewView(
         webviewView: vscode.WebviewView,
         context: vscode.WebviewViewResolveContext,
-        _token: vscode.CancellationToken,
+        _token: vscode.CancellationToken
     ) {
         try {
             this._resolveWebviewView(webviewView, context, _token);
         } catch (e) {
-            boostLogging.error(`Could not refresh ${aiName} Chat View due to ${e}`, false);
+            boostLogging.error(
+                `Could not refresh ${aiName} Chat View due to ${e}`,
+                false
+            );
         }
     }
 
     async _resolveWebviewView(
         webviewView: vscode.WebviewView,
         context: vscode.WebviewViewResolveContext,
-        _token: vscode.CancellationToken,
+        _token: vscode.CancellationToken
     ) {
         this._view = webviewView;
 
@@ -81,31 +91,26 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
             // Allow scripts in the webview
             enableScripts: true,
 
-            localResourceRoots: [
-                this.context.extensionUri
-            ]
+            localResourceRoots: [this.context.extensionUri],
         };
 
         webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 
-        webviewView.webview.onDidReceiveMessage(data => {
+        webviewView.webview.onDidReceiveMessage((data) => {
             switch (data.command) {
-                case 'newprompt':
-                    {
-                        this._activeid = data.chatindex;
-                        this.updatePrompt(data.prompt, data.chatindex, data.showUI);
-                        break;
-                    }
-                case 'add-chat':
-                    {
-                        this._addChat();
-                        break;
-                    }
-                case 'close-chat':
-                    {
-                        this._closeChat(data.chatindex);
-                        break;
-                    }
+                case "newprompt": {
+                    this._activeid = data.chatindex;
+                    this.updatePrompt(data.prompt, data.chatindex, data.showUI);
+                    break;
+                }
+                case "add-chat": {
+                    this._addChat();
+                    break;
+                }
+                case "close-chat": {
+                    this._closeChat(data.chatindex);
+                    break;
+                }
             }
         });
     }
@@ -114,26 +119,52 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         try {
             this._refresh();
         } catch (e) {
-            boostLogging.error(`Could not refresh ${aiName} Chat View due to ${e}`, false);
+            boostLogging.error(
+                `Could not refresh ${aiName} Chat View due to ${e}`,
+                false
+            );
         }
     }
     _refresh() {
         if (this._view) {
-            this._view.webview.html = this._getHtmlForWebview(this._view.webview);
+            this._view.webview.html = this._getHtmlForWebview(
+                this._view.webview
+            );
             this._view.show?.(true);
         }
     }
 
     private _getHtmlForWebview(webview: vscode.Webview) {
-        const codiconsUri = webview.asWebviewUri(vscode.Uri.joinPath(this._context.extensionUri, 'node_modules', '@vscode/codicons', 'dist', 'codicon.css'));
-        const htmlPathOnDisk = vscode.Uri.joinPath(this.context.extensionUri, 'resources', 'dashboard', 'chat.html');
-        const jsPathOnDisk = vscode.Uri.joinPath(this.context.extensionUri, 'out', 'dashboard', 'chat', 'main.js');
+        const codiconsUri = webview.asWebviewUri(
+            vscode.Uri.joinPath(
+                this._context.extensionUri,
+                "node_modules",
+                "@vscode/codicons",
+                "dist",
+                "codicon.css"
+            )
+        );
+        const htmlPathOnDisk = vscode.Uri.joinPath(
+            this.context.extensionUri,
+            "resources",
+            "dashboard",
+            "chat.html"
+        );
+        const jsPathOnDisk = vscode.Uri.joinPath(
+            this.context.extensionUri,
+            "out",
+            "dashboard",
+            "chat",
+            "main.js"
+        );
         const jsSrc = webview.asWebviewUri(jsPathOnDisk);
-        const nonce = 'nonce-123456'; // TODO: add a real nonce here
-        const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
+        const nonce = "nonce-123456"; // TODO: add a real nonce here
+        const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, "utf8");
         const chats = this._chats;
 
-        const workspaceFolder = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0] : ""; // Get the first workspace folder
+        const workspaceFolder = vscode.workspace.workspaceFolders
+            ? vscode.workspace.workspaceFolders[0]
+            : ""; // Get the first workspace folder
 
         let message;
 
@@ -144,22 +175,42 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         } else if (!vscode.workspace.workspaceFolders) {
             message = noProjectOpenMessage;
         }
-        
+
         if (message) {
             return `<html><body><h3>Boost ${aiName} Chat</h3><p>${message}</p></body></html>`;
-        }         
-        
-        const projectName = workspaceFolder ? path.basename(workspaceFolder.uri.fsPath) : "your workspace";
+        }
+
+        const projectName = workspaceFolder
+            ? path.basename(workspaceFolder.uri.fsPath)
+            : "your workspace";
 
         const template = _.template(rawHtmlContent);
-        const convert = marked.parse;
+        const convert = (text: string) => {
+            const escapedText = _.escape(text);
+            const rawHtml = marked.parse(escapedText);
+            const cleanHTML = sanitizeHtml(rawHtml);
+            return cleanHTML;
+        };
         const activeid = this._activeid;
-        const htmlContent = template({ jsSrc, nonce, chats, convert, codiconsUri, activeid, projectName, aiName });
+        const htmlContent = template({
+            jsSrc,
+            nonce,
+            chats,
+            convert,
+            codiconsUri,
+            activeid,
+            projectName,
+            aiName,
+        });
 
         return htmlContent;
     }
 
-    public async updatePrompt(prompt: string, index: number, showUI: boolean = true) {
+    public async updatePrompt(
+        prompt: string,
+        index: number,
+        showUI: boolean = true
+    ) {
         //make a call to the service endpoint with the prompt plus existing context
         //update the chat view with the response
 
@@ -171,29 +222,37 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 
             let finalPayload;
             const payload = {
-                "messages": JSON.stringify([
+                messages: JSON.stringify([
                     ...messages,
                     {
-                        "role": "user",
-                        "content": prompt
-                    }
+                        role: "user",
+                        content: prompt,
+                    },
                 ]),
             };
             if (BoostConfiguration.analysisModel) {
                 finalPayload = {
                     ...payload,
-                    "model": BoostConfiguration.analysisModel
+                    model: BoostConfiguration.analysisModel,
                 };
             } else {
                 finalPayload = payload;
             }
 
             const response = await this.chatService.doKernelExecution(
-                undefined, undefined,undefined, finalPayload, getServiceEndpoint());
+                undefined,
+                undefined,
+                undefined,
+                finalPayload,
+                getServiceEndpoint()
+            );
 
             this._addResponse(prompt, response.analysis);
         } catch (error) {
-            boostLogging.error(`Chat requested could not complete due to ${error}`, showUI);
+            boostLogging.error(
+                `Chat requested could not complete due to ${error}`,
+                showUI
+            );
             this._addResponse(prompt, "");
         } finally {
             this._saveJsonData(this._chats);
@@ -203,16 +262,16 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 
     private _addResponse(prompt: string, response: string) {
         this._chats[this._activeid].messages.push({
-            "role": "user",
-            "content": prompt
+            role: "user",
+            content: prompt,
         });
 
         if (!response) {
             return;
         }
         this._chats[this._activeid].messages.push({
-            "role": "assistant",
-            "content": response
+            role: "assistant",
+            content: response,
         });
     }
 
@@ -222,10 +281,12 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         this._chats = this._loadJsonData();
 
         if (this._chats === undefined) {
-            this._chats = [{
-                title: this._chatTitle,
-                messages: []
-            }];
+            this._chats = [
+                {
+                    title: this._chatTitle,
+                    messages: [],
+                },
+            ];
         } else {
             // we need to delete the original system prompts, since these should never be persisted
             //   they duplicate the state in the blueprint file and provide no benefit persisted separately
@@ -243,7 +304,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
     private async _addChat() {
         this._chats.push({
             title: this._chatTitle,
-            messages: []
+            messages: [],
         });
         this._saveJsonData(this._chats);
         this._activeid = this._chats.length - 1;
@@ -257,26 +318,37 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
     }
 
     private async _getInitialSystemMessage(): Promise<any> {
-
         const boostprojectdata = this._boostExtension.getBoostProjectData();
-        const blueprintUri = boostprojectdata.summary.summaryUrl ? await getOrCreateBlueprintUri(this.context, boostprojectdata.summary.summaryUrl) : undefined;
+        const blueprintUri = boostprojectdata.summary.summaryUrl
+            ? await getOrCreateBlueprintUri(
+                  this.context,
+                  boostprojectdata.summary.summaryUrl
+              )
+            : undefined;
         let blueprintdata = "";
         if (blueprintUri && fs.existsSync(blueprintUri.fsPath)) {
             //now load the blueprint from the file system and get the first prompt
             const projectSummaryNotebook = new BoostNotebook();
             projectSummaryNotebook.load(blueprintUri.fsPath);
-            const blueprintCell = findCellByKernel(projectSummaryNotebook, ControllerOutputType.blueprint) as BoostNotebookCell;
+            const blueprintCell = findCellByKernel(
+                projectSummaryNotebook,
+                ControllerOutputType.blueprint
+            ) as BoostNotebookCell;
             if (!blueprintCell) {
-                boostLogging.warn(`No blueprint found in ${blueprintUri.fsPath}`, false);
+                boostLogging.warn(
+                    `No blueprint found in ${blueprintUri.fsPath}`,
+                    false
+                );
             } else {
                 blueprintdata = blueprintCell.value;
             }
         }
-        const systemPrompt = `You are an AI programming assistant, named ${aiName} working on a project described after ####.` +
-                            ` You prioritize accurate responses and all responses are in markdown format. ####\n`;
+        const systemPrompt =
+            `You are an AI programming assistant, named ${aiName} working on a project described after ####.` +
+            ` You prioritize accurate responses and all responses are in markdown format. ####\n`;
         return {
-            "role": "system",
-            "content": systemPrompt + blueprintdata
+            role: "system",
+            content: systemPrompt + blueprintdata,
         };
     }
 
@@ -285,17 +357,19 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
             return this._tempFilename;
         }
         const editor = vscode.window.activeTextEditor;
-        let filenamePrefix = 'temp_';
+        let filenamePrefix = "temp_";
 
         if (editor) {
-            const workspaceFolder = vscode.workspace.getWorkspaceFolder(editor.document.uri);
+            const workspaceFolder = vscode.workspace.getWorkspaceFolder(
+                editor.document.uri
+            );
             if (workspaceFolder) {
                 filenamePrefix += workspaceFolder.name;
             } else {
-                filenamePrefix += 'boost_ai_chat';
+                filenamePrefix += "boost_ai_chat";
             }
         } else {
-            filenamePrefix += 'boost_ai_chat';
+            filenamePrefix += "boost_ai_chat";
         }
 
         const tempFilePath = path.join(os.tmpdir(), `${filenamePrefix}.json`);
@@ -309,7 +383,9 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 
         fs.writeFile(tempFilename, JSON.stringify(data, null, 2), (err) => {
             if (err) {
-                vscode.window.showErrorMessage(`Failed to save data: ${err.message}`);
+                vscode.window.showErrorMessage(
+                    `Failed to save data: ${err.message}`
+                );
             }
         });
     }
@@ -323,10 +399,13 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         }
 
         try {
-            const data = fs.readFileSync(tempFilename, 'utf-8');
+            const data = fs.readFileSync(tempFilename, "utf-8");
             return JSON.parse(data);
         } catch (err) {
-            boostLogging.error(`Boost failed to load Chat history: ${(err as Error).message}`, true);
+            boostLogging.error(
+                `Boost failed to load Chat history: ${(err as Error).message}`,
+                true
+            );
             return undefined;
         }
     }

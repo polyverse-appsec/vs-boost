@@ -404,6 +404,7 @@
         "@types/micromatch": "^4.0.2",
         "@types/mocha": "^10.0.1",
         "@types/node": "16.x",
+        "@types/sanitize-html": "^2.9.0",
         "@types/sinon": "10.0.13",
         "@types/vscode": "^1.77.0",
         "@types/vscode-webview": "^1.57.1",
@@ -440,6 +441,7 @@
         "nodejs": "^0.0.0",
         "p-queue": "v6.6.2",
         "puppeteer": "^20.2.1",
+        "sanitize-html": "^2.11.0",
         "typewriter-effect": "^2.20.1",
         "uuid": "^9.0.0"
     }
