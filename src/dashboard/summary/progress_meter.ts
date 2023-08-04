@@ -18,7 +18,20 @@ export function progressMeterEnter(parent: d3.selection): d3.selection {
         )
         .attr("preserveAspectRatio", "xMinYMin meet");
 
-    const groups = svg
+    svg.append("defs")
+        .append("clipPath")
+        .attr("id", "rounded-corner-clip")
+        .append("rect")
+        .attr("width", width)
+        .attr("height", (d) => d.progressBar.length * height) // Adjust the height to cover the entire group of bars
+        .attr("rx", 2) // x radius for rounded corners
+        .attr("ry", 2); // y radius for rounded corners
+
+    const overarchingGroup = svg
+        .append("g")
+        .attr("clip-path", "url(#rounded-corner-clip)");
+
+    const groups = overarchingGroup
         .selectAll("g")
         .data((d) => d.progressBar)
         .join("g")
