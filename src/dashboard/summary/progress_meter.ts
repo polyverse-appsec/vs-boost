@@ -30,6 +30,7 @@ export function progressMeterEnter(parent: d3.selection): d3.selection {
 
     const overarchingGroup = svg
         .append("g")
+        .attr("class", "progress-meter")
         .on("click", (event, d) =>
             openFileFromName(
                 d.notebookRelFile ? d.notebookRelFile : d.sourceRelFile
@@ -38,9 +39,10 @@ export function progressMeterEnter(parent: d3.selection): d3.selection {
         .attr("clip-path", "url(#rounded-corner-clip)");
 
     const groups = overarchingGroup
-        .selectAll("g")
+        .selectAll(".progress-bar-line")
         .data((d) => d.progressBar)
         .join("g")
+        .attr("class", "progress-bar-line")
         .attr("transform", (d, i) => `translate(0, ${i * height})`)
         .call(addZoom)
         .call(barUpdate);
@@ -50,8 +52,8 @@ export function progressMeterEnter(parent: d3.selection): d3.selection {
 
 export function progressMeterUpdate(parent: d3.selection): d3.selection {
     const groups = parent
-        .select("g")
-        .selectAll("g")
+        .select(".progress-meter")
+        .selectAll(".progress-bar-line")
         .data((d) => d.progressBar);
     groups.call(barUpdate);
     return groups;
