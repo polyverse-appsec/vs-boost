@@ -49,7 +49,10 @@ export function progressMeterEnter(parent: d3.selection): d3.selection {
 }
 
 export function progressMeterUpdate(parent: d3.selection): d3.selection {
-    const groups = parent.selectAll("g").data((d) => d.progressBar);
+    const groups = parent
+        .select("g")
+        .selectAll("g")
+        .data((d) => d.progressBar);
     groups.call(barUpdate);
     return groups;
 }
