@@ -65,7 +65,6 @@ export interface ProcessCurrentFolderOptions {
     filelist?: vscode.Uri[];
 }
 
-
 export async function activate(context: vscode.ExtensionContext) {
     try {
         // we use a friendly name for the channel as this will be displayed to the user in the output pane
@@ -552,7 +551,7 @@ export async function getAllProjectFiles(
     return paths;
 }
 
-function getBoostIgnoreFile(): vscode.Uri | undefined {
+export function getBoostIgnoreFile(): vscode.Uri | undefined {
     const workspaceFolder: vscode.Uri | undefined =
         vscode.workspace.workspaceFolders?.[0]?.uri;
 

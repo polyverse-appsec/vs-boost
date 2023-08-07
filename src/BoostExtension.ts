@@ -70,6 +70,7 @@ import {
     boostActivityBarId,
     fullPathFromSourceFile,
     ProcessCurrentFolderOptions,
+    getBoostIgnoreFile,
 } from "./extension";
 import { BoostUserAnalysisType } from "./userAnalysisType";
 
@@ -2914,22 +2915,34 @@ export class BoostExtension {
                         ) {
                             return;
                         }
-                        blueprintCell?.outputs.forEach((output) => {
-                            if (
-                                output.metadata.outputType !==
-                                    targetedKernel.outputType ||
-                                !output?.metadata?.details
-                                    ?.recommendedListOfFilesToExcludeFromAnalysis
-                            ) {
-                                return;
-                            }
 
-                            output.metadata.details.recommendedListOfFilesToExcludeFromAnalysis.forEach(
-                                (filename: string) => {
-                                    updateBoostIgnoreForTarget(filename, false);
+                        //if we don't have a boostignore file, then do the update and create one
+                        //if we have one, then already generated it and skip this step.
+                        const boostIgnoreFile = getBoostIgnoreFile();
+                        if (
+                            boostIgnoreFile === undefined ||
+                            !fs.existsSync(boostIgnoreFile.fsPath)
+                        ) {
+                            blueprintCell?.outputs.forEach((output) => {
+                                if (
+                                    output.metadata.outputType !==
+                                        targetedKernel.outputType ||
+                                    !output?.metadata?.details
+                                        ?.recommendedListOfFilesToExcludeFromAnalysis
+                                ) {
+                                    return;
                                 }
-                            );
-                        });
+
+                                output.metadata.details.recommendedListOfFilesToExcludeFromAnalysis.forEach(
+                                    (filename: string) => {
+                                        updateBoostIgnoreForTarget(
+                                            filename,
+                                            false
+                                        );
+                                    }
+                                );
+                            });
+                        }
                     })
                     .catch((error) => {
                         boostLogging.warn(

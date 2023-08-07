@@ -355,7 +355,7 @@ export function statusViewData(
             }
         });
     }
-    const filesTotal = Object.keys(boostprojectdata.files).length;
+    const filesTotal = boostprojectdata.summary.filesToAnalyze;
 
     return {
         accountRefreshed: boostprojectdata.account.refreshed,
