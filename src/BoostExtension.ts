@@ -2867,7 +2867,7 @@ export class BoostExtension {
 
                 let notebook = new boostnb.BoostNotebook();
                 notebook.load(projectBoostFile.fsPath);
-                targetedKernel
+                await targetedKernel
                     .executeAllWithAuthorization(notebook.cells, notebook, true)
                     .then(() => {
                         // ensure we save the notebook if we successfully processed it
