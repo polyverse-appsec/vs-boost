@@ -3,6 +3,21 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 1.2.5: August 8th, 2023
+
+### New Features
+- None
+
+### Enhancements
+- Ensure automated generation of .BoostIgnore file is only done if user has not created one manually
+- Ensure prediction of analysis costs are reset when opening a new project folder
+
+### Bug Fixes
+- Fixes to ensure Activity Bar progress meter updates consistently
+- Fix for Quick Project Blueprint generation to fully complete before starting project Documentation generation
+- Ensure Executive Summary Reports are completed before saving Summary notebook to disk
+- Ensure analysis of selected code in active text editor is complete before showing results in Problems tab
+
 ## Version 1.2.4: August 4th, 2023
 
 ### New Features
