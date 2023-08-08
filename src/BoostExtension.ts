@@ -2077,7 +2077,7 @@ export class BoostExtension {
                     `workbench.view.extension.${boostActivityBarId}`
                 );
 
-                targetedKernel
+                await targetedKernel
                     .executeAllWithAuthorization(notebook.cells, notebook)
                     .then(() => {
                         resolve(
