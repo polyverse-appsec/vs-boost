@@ -246,6 +246,7 @@ export class BoostExtension {
             }
 
             // initialize once on startup...
+            // don't wait for it to finish, since we want UI to come up asap
             this.refreshBoostProjectsData().then(() => {
                 this.finishedActivation = true;
 
@@ -276,30 +277,31 @@ export class BoostExtension {
 
     private _setupBoostProjectDataLifecycle(context: vscode.ExtensionContext) {
         let disposable = vscode.workspace.onDidChangeWorkspaceFolders(
-            (e: vscode.WorkspaceFoldersChangeEvent) => {
+            async (e: vscode.WorkspaceFoldersChangeEvent) => {
                 if (!this) {
                     // in case we fire during extension startup constructor
                     return;
                 }
-                this.configurationChanged();
+                await this.configurationChanged();
             }
         );
         context.subscriptions.push(disposable);
 
         disposable = vscode.workspace.onDidChangeConfiguration(
-            (e: vscode.ConfigurationChangeEvent) => {
+            async (e: vscode.ConfigurationChangeEvent) => {
                 if (!this) {
                     // in case we fire during extension startup constructor
                     return;
                 }
-                this.configurationChanged();
+                await this.configurationChanged();
             }
         );
         context.subscriptions.push(disposable);
     }
 
-    configurationChanged() {
-        this.refreshBoostProjectsData();
+    async configurationChanged() {
+        // wait, so we don't have overlapping config refreshes
+        await this.refreshBoostProjectsData();
     }
 
     private _setupNotebookChangedLifecycle(context: vscode.ExtensionContext) {
@@ -1418,7 +1420,7 @@ export class BoostExtension {
         let disposable = vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
             async (uri: vscode.Uri) => {
-                return this.loadCurrentFolder(uri, context);
+                await this.loadCurrentFolder(uri, context);
             }
         );
         context.subscriptions.push(disposable);
@@ -1435,7 +1437,7 @@ export class BoostExtension {
                 if (likelyViaUI) {
                     kernelCommand = BoostConfiguration.currentKernelCommand;
                 }
-                return await this.processCurrentFolder(
+                await this.processCurrentFolder(
                     {
                         uri: uri,
                         kernelCommand: kernelCommand,
@@ -1457,7 +1459,7 @@ export class BoostExtension {
             boostnb.NOTEBOOK_TYPE +
                 "." +
                 BoostCommands.excludeTargetFromBoostAnalysis,
-            (uri: vscode.Uri) => {
+            async (uri: vscode.Uri) => {
                 if (!uri) {
                     boostLogging.warn(
                         "No exclusion target was provided.",
@@ -1467,7 +1469,7 @@ export class BoostExtension {
                 }
 
                 updateBoostIgnoreForTarget(uri.fsPath);
-                this.refreshBoostProjectsData().then(() => {
+                await this.refreshBoostProjectsData().then(() => {
                     this.start?.refresh();
                     this.summary?.refresh();
                 });
@@ -1479,7 +1481,7 @@ export class BoostExtension {
             boostnb.NOTEBOOK_TYPE +
                 "." +
                 BoostCommands.excludeTargetFolderFromBoostAnalysis,
-            (uri: vscode.Uri) => {
+            async (uri: vscode.Uri) => {
                 if (!uri) {
                     boostLogging.warn(
                         "No exclusion target was provided.",
@@ -1489,7 +1491,7 @@ export class BoostExtension {
                 }
 
                 updateBoostIgnoreForTarget(uri.fsPath);
-                this.refreshBoostProjectsData().then(() => {
+                await this.refreshBoostProjectsData().then(() => {
                     this.start?.refresh();
                     this.summary?.refresh();
                 });
@@ -1586,7 +1588,7 @@ export class BoostExtension {
                                 break;
                             case "pdf":
                             case "html":
-                                vscode.env
+                                await vscode.env
                                     .openExternal(vscode.Uri.parse(outputFile))
                                     .then(
                                         (success) => {
@@ -1631,7 +1633,7 @@ export class BoostExtension {
                 "." +
                 BoostCommands.buildCurrentFolderOutput,
             async (uri: vscode.Uri) => {
-                return this.buildCurrentFolderOutput(
+                await this.buildCurrentFolderOutput(
                     uri,
                     BoostConfiguration.defaultOutputFormat
                 ).catch((error: any) => {
@@ -1697,7 +1699,7 @@ export class BoostExtension {
                     true,
                     BoostConfiguration.defaultOutputFormat
                 )
-                    .then((outputFile: string) => {
+                    .then(async (outputFile: string) => {
                         boostLogging.info(
                             `${outputFile} created for file:${uri.fsPath}.`,
                             uri === undefined
@@ -1706,7 +1708,7 @@ export class BoostExtension {
                         // show the file now
                         switch (BoostConfiguration.defaultOutputFormat) {
                             case "markdown":
-                                vscode.commands
+                                await vscode.commands
                                     .executeCommand(
                                         "markdown.showPreview",
                                         vscode.Uri.parse(outputFile)
@@ -1730,7 +1732,7 @@ export class BoostExtension {
                                 break;
                             case "pdf":
                             case "html":
-                                vscode.env
+                                await vscode.env
                                     .openExternal(vscode.Uri.parse(outputFile))
                                     .then(
                                         (success) => {
@@ -1815,7 +1817,7 @@ export class BoostExtension {
                     true,
                     BoostConfiguration.defaultOutputFormat
                 )
-                    .then((outputFile: string) => {
+                    .then(async (outputFile: string) => {
                         if (!uri) {
                             boostLogging.info(`${outputFile} created`, false);
                         } else {
@@ -1828,7 +1830,7 @@ export class BoostExtension {
                         // show the file now
                         switch (BoostConfiguration.defaultOutputFormat) {
                             case "markdown":
-                                vscode.commands
+                                await vscode.commands
                                     .executeCommand(
                                         "markdown.showPreview",
                                         vscode.Uri.parse(outputFile)
@@ -1852,7 +1854,7 @@ export class BoostExtension {
                                 break;
                             case "pdf":
                             case "html":
-                                vscode.env
+                                await vscode.env
                                     .openExternal(vscode.Uri.parse(outputFile))
                                     .then(
                                         (success) => {
@@ -2004,7 +2006,7 @@ export class BoostExtension {
                     await vscode.workspace.openNotebookDocument(
                         projectGuidelineFile
                     );
-                vscode.window.showNotebookDocument(guidelinesNotebook);
+                await vscode.window.showNotebookDocument(guidelinesNotebook);
             }
         );
         context.subscriptions.push(disposable);
@@ -2077,7 +2079,7 @@ export class BoostExtension {
                     `workbench.view.extension.${boostActivityBarId}`
                 );
 
-                return targetedKernel
+                await targetedKernel
                     .executeAllWithAuthorization(notebook.cells, notebook)
                     .then(() => {
                         resolve(
@@ -2230,7 +2232,7 @@ export class BoostExtension {
                 boostLogging.log(
                     `Loaded Boost file:[${sourceFileUri.fsPath.toString()}`
                 );
-                vscode.window.showNotebookDocument(currentNotebook);
+                await vscode.window.showNotebookDocument(currentNotebook);
             } catch (error) {
                 boostLogging.error(
                     `Unable to load Boost file:[${sourceFileUri.fsPath.toString()} due to error:${error}`,
@@ -2992,7 +2994,7 @@ export class BoostExtension {
                 if (likelyViaUI) {
                     kernelCommand = BoostConfiguration.currentKernelCommand;
                 }
-                return this.processCurrentFile(
+                await this.processCurrentFile(
                     uri,
                     kernelCommand as string,
                     context,
