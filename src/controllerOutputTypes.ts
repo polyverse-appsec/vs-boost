@@ -14,5 +14,5 @@ export enum ControllerOutputType {
     explain = 'explainCode',
     codeGuidelines = 'guidelinesCode',
     convert = 'generatedCode',
-
+    customQuickScanFunction = 'customQuickScanCode' + functionOutputTypeExtension,
 }

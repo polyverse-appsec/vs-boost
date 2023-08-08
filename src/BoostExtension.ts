@@ -114,6 +114,9 @@ import {
     BoostQuickPerformanceSummaryKernel,
     quickPerformanceSummaryKernelName,
 } from "./quick_performance_summary_controller";
+import {
+    BoostCustomQuickScanFunctionKernel,
+} from "./customquickscan_function_controller";
 
 import { WorkflowEngine, PromiseGenerator } from "./workflow_engine";
 
@@ -1076,7 +1079,9 @@ export class BoostExtension {
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
             // register the dev only kernels
-            const devKernelTypes: any[] = [];
+            const devKernelTypes: any[] = [
+                BoostCustomQuickScanFunctionKernel
+            ];
             kernelTypes = kernelTypes.concat(devKernelTypes);
         }
         // constructor and save all kernels
