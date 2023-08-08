@@ -2077,7 +2077,7 @@ export class BoostExtension {
                     `workbench.view.extension.${boostActivityBarId}`
                 );
 
-                await targetedKernel
+                return targetedKernel
                     .executeAllWithAuthorization(notebook.cells, notebook)
                     .then(() => {
                         resolve(
@@ -2867,7 +2867,7 @@ export class BoostExtension {
 
                 let notebook = new boostnb.BoostNotebook();
                 notebook.load(projectBoostFile.fsPath);
-                await targetedKernel
+                return targetedKernel
                     .executeAllWithAuthorization(notebook.cells, notebook, true)
                     .then(() => {
                         // ensure we save the notebook if we successfully processed it
