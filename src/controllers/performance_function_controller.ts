@@ -1,5 +1,5 @@
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
-import { BoostConfiguration } from './boostConfiguration';
+import { BoostConfiguration } from '../boostConfiguration';
 import { FunctionKernelControllerBase } from './function_base_controller';
 import { performanceKernelName } from './performance_controller';
 import { ControllerOutputType } from './controllerOutputTypes';

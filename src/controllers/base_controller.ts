@@ -1,15 +1,15 @@
 import * as vscode from "vscode";
-import { BoostConfiguration } from "./boostConfiguration";
+import { BoostConfiguration } from "../boostConfiguration";
 import { BoostServiceHelper } from "./boostServiceHelper";
-import { boostLogging } from "./boostLogging";
-import { fetchGithubSession, getCurrentOrganization } from "./authorization";
+import { boostLogging } from "../boostLogging";
+import { fetchGithubSession, getCurrentOrganization } from "../authorization";
 import {
     BoostNotebookCell,
     BoostNotebook,
     SerializedNotebookCellOutput,
     NOTEBOOK_TYPE,
-} from "./jupyter_notebook";
-import { fullPathFromSourceFile, getKernelName } from "./extension";
+} from "../jupyter_notebook";
+import { fullPathFromSourceFile, getKernelName } from "../extension";
 
 export const errorMimeType = "application/vnd.code.notebook.error";
 export const markdownMimeType = "text/markdown";

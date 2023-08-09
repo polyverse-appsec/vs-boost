@@ -5,9 +5,9 @@ import {
     markdownMimeType
 } from './base_controller';
 
-import { BoostConfiguration } from './boostConfiguration';
+import { BoostConfiguration } from '../boostConfiguration';
 
-import { getAllProjectFiles } from './extension';
+import { getAllProjectFiles } from '../extension';
 
 import {
     FunctionKernelControllerBase,
@@ -18,10 +18,10 @@ import {
     BoostNotebookCell,
     BoostNotebook,
     NotebookCellKind,
-    SerializedNotebookCellOutput } from './jupyter_notebook';
-import { boostLogging } from './boostLogging';
-import { findCellByKernel, generateCellOutputWithHeader } from './extension';
-import { getCurrentOrganization } from "./authorization";
+    SerializedNotebookCellOutput } from '../jupyter_notebook';
+import { boostLogging } from '../boostLogging';
+import { findCellByKernel, generateCellOutputWithHeader } from '../extension';
+import { getCurrentOrganization } from "../authorization";
 import { ControllerOutputType } from './controllerOutputTypes';
 
 export const quickSummaryKernelNamePrefix = `quick_summary_`;

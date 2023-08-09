@@ -1,10 +1,10 @@
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
-import { BoostConfiguration } from './boostConfiguration';
+import { BoostConfiguration } from '../boostConfiguration';
 import { FunctionKernelControllerBase } from './function_base_controller';
 import { ControllerOutputType } from './controllerOutputTypes';
-import { BoostNotebookCell, BoostNotebook } from './jupyter_notebook';
+import { BoostNotebookCell, BoostNotebook } from '../jupyter_notebook';
 import * as vscode from 'vscode';
-import { boostLogging } from './boostLogging';
+import { boostLogging } from '../boostLogging';
 
 const customQuickScanFunctionKernelName = "customQuickScan";
 

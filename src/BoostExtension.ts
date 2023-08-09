@@ -7,46 +7,46 @@ import * as boostnb from "./jupyter_notebook";
 import {
     BoostPerformanceFunctionKernel,
     performanceFunctionKernelName,
-} from "./performance_function_controller";
+} from "./controllers/performance_function_controller";
 import {
     BoostPerformanceKernel,
     performanceKernelName,
-} from "./performance_controller";
+} from "./controllers/performance_controller";
 
-import { BoostAnalyzeKernel, analyzeKernelName } from "./analyze_controller";
+import { BoostAnalyzeKernel, analyzeKernelName } from "./controllers/analyze_controller";
 import {
     BoostAnalyzeFunctionKernel,
     analyzeFunctionKernelName,
-} from "./analyze_function_controller";
-import { BoostTestgenKernel, testgenKernelName } from "./testgen_controller";
-import { BoostConvertKernel, convertKernelName } from "./convert_controller";
+} from "./controllers/analyze_function_controller";
+import { BoostTestgenKernel, testgenKernelName } from "./controllers/testgen_controller";
+import { BoostConvertKernel, convertKernelName } from "./controllers/convert_controller";
 import {
     BoostComplianceKernel,
     complianceKernelName,
-} from "./compliance_controller";
+} from "./controllers/compliance_controller";
 import {
     BoostComplianceFunctionKernel,
     complianceFunctionKernelName,
-} from "./compliance_function_controller";
-import { BoostExplainKernel, explainKernelName } from "./explain_controller";
+} from "./controllers/compliance_function_controller";
+import { BoostExplainKernel, explainKernelName } from "./controllers/explain_controller";
 import {
     BoostCodeGuidelinesKernel,
     codeGuidelinesKernelName,
-} from "./codeguidelines_controller";
+} from "./controllers/codeguidelines_controller";
 import {
     BoostArchitectureBlueprintKernel,
     blueprintKernelName,
-} from "./blueprint_controller";
+} from "./controllers/blueprint_controller";
 import {
     BoostCustomProcessKernel,
     customProcessCellMarker,
-} from "./custom_controller";
+} from "./controllers/custom_controller";
 import {
     BoostFlowDiagramKernel,
     flowDiagramKernelName,
-} from "./flowdiagram_controller";
-import { SummarizeKernel, summarizeKernelName } from "./summary_controller";
-import { ControllerOutputType } from "./controllerOutputTypes";
+} from "./controllers/flowdiagram_controller";
+import { SummarizeKernel, summarizeKernelName } from "./controllers/summary_controller";
+import { ControllerOutputType } from "./controllers/controllerOutputTypes";
 
 import { BoostSummaryViewProvider, summaryViewType } from "./summary_view";
 import { BoostStartViewProvider } from "./start_view";
@@ -81,7 +81,7 @@ import {
     KernelControllerBase,
     errorMimeType,
     boostUriSchema,
-} from "./base_controller";
+} from "./controllers/base_controller";
 import {
     updateBoostStatusColors,
     registerCustomerPortalCommand,
@@ -100,23 +100,23 @@ import instructions from "./instructions.json";
 import {
     BoostQuickBlueprintKernel,
     quickBlueprintKernelName,
-} from "./quick_blueprint_controller";
-import { FunctionKernelControllerBase } from "./function_base_controller";
+} from "./controllers/quick_blueprint_controller";
+import { FunctionKernelControllerBase } from "./controllers/function_base_controller";
 import {
     BoostQuickComplianceSummaryKernel,
     quickComplianceSummaryKernelName,
-} from "./quick_compliance_summary_controller";
+} from "./controllers/quick_compliance_summary_controller";
 import {
     BoostQuickSecuritySummaryKernel,
     quickSecuritySummaryKernelName,
-} from "./quick_security_summary_controller";
+} from "./controllers/quick_security_summary_controller";
 import {
     BoostQuickPerformanceSummaryKernel,
     quickPerformanceSummaryKernelName,
-} from "./quick_performance_summary_controller";
+} from "./controllers/quick_performance_summary_controller";
 import {
     BoostCustomQuickScanFunctionKernel,
-} from "./customquickscan_function_controller";
+} from "./controllers/customquickscan_function_controller";
 
 import { WorkflowEngine, PromiseGenerator } from "./workflow_engine";
 

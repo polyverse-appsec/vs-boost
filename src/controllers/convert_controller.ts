@@ -3,10 +3,10 @@ import {
     markdownMimeType
     } from './base_controller';
 import * as vscode from 'vscode';
-import { BoostConfiguration } from './boostConfiguration';
-import { BoostNotebookCell, SerializedNotebookCellOutput, BoostNotebook } from './jupyter_notebook';
-import { boostLogging } from './boostLogging';
-import { generateCellOutputWithHeader } from './extension';
+import { BoostConfiguration } from '../boostConfiguration';
+import { BoostNotebookCell, SerializedNotebookCellOutput, BoostNotebook } from '../jupyter_notebook';
+import { boostLogging } from '../boostLogging';
+import { generateCellOutputWithHeader } from '../extension';
 import { ControllerOutputType } from './controllerOutputTypes';
 
 export const convertKernelName = 'convert';

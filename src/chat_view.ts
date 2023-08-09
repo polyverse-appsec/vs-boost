@@ -5,13 +5,13 @@ import * as _ from "lodash";
 import * as os from "os";
 import { BoostExtension } from "./BoostExtension";
 import { BoostConfiguration } from "./boostConfiguration";
-import { getServiceEndpoint } from "./custom_controller";
+import { getServiceEndpoint } from "./controllers/custom_controller";
 import { marked } from "marked";
 import { findCellByKernel, getOrCreateBlueprintUri } from "./extension";
-import { BoostServiceHelper } from "./boostServiceHelper";
+import { BoostServiceHelper } from "./controllers/boostServiceHelper";
 import { boostLogging } from "./boostLogging";
 import { BoostNotebook, BoostNotebookCell } from "./jupyter_notebook";
-import { ControllerOutputType } from "./controllerOutputTypes";
+import { ControllerOutputType } from "./controllers/controllerOutputTypes";
 import {
     noProjectOpenMessage,
     extensionNotFullyActivated,

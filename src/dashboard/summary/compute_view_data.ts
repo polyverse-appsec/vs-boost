@@ -1,6 +1,6 @@
 import { IBoostProjectData, JobStatus } from "../../boostprojectdata_interface";
 
-import { ControllerOutputType } from "../../controllerOutputTypes";
+import { ControllerOutputType } from "../../controllers/controllerOutputTypes";
 import {
     BoostUserAnalysisType,
     displayGroupFriendlyName,

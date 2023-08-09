@@ -7,7 +7,7 @@ import { BoostFileType, findCellByKernel, getBoostFile } from './extension';
 import { BoostUserAnalysisType } from './userAnalysisType';
 import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';
 import { boostLogging } from './boostLogging';
-import { ControllerOutputType } from './controllerOutputTypes';
+import { ControllerOutputType } from './controllers/controllerOutputTypes';
 import { noProjectOpenMessage, extensionNotFullyActivated, extensionFailedToActivate } from './boostprojectdata_interface';
 
 /*

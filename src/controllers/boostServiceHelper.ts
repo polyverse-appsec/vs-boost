@@ -3,18 +3,18 @@ import * as fs from "fs";
 import axios from "axios";
 import axiosRetry from "axios-retry";
 import PQueue from "p-queue";
-import { mapError } from "./error";
+import { mapError } from "../error";
 
 import {
     BoostNotebook,
     BoostNotebookCell,
     NOTEBOOK_GUIDELINES_PRE_EXTENSION,
-} from "./jupyter_notebook";
-import { getBoostFile, BoostFileType } from "./extension";
-import { BoostUserAnalysisType } from "./userAnalysisType";
-import { BoostConfiguration } from "./boostConfiguration";
-import { boostLogging } from "./boostLogging";
-import { fetchGithubSession, getCurrentOrganization } from "./authorization";
+} from "../jupyter_notebook";
+import { getBoostFile, BoostFileType } from "../extension";
+import { BoostUserAnalysisType } from "../userAnalysisType";
+import { BoostConfiguration } from "../boostConfiguration";
+import { boostLogging } from "../boostLogging";
+import { fetchGithubSession, getCurrentOrganization } from "../authorization";
 
 // we can get timeouts and other errors from both openai and lambda. This is a generic handler for those
 // conditions to attempt a retry.

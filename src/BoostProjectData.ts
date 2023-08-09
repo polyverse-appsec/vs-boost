@@ -3,7 +3,7 @@ import * as path from "path";
 import * as boostnb from "./jupyter_notebook";
 import * as vscode from "vscode";
 
-import { errorMimeType } from "./base_controller";
+import { errorMimeType } from "./controllers/base_controller";
 import { boostLogging } from "./boostLogging";
 import { IncompatibleVersionException } from "./incompatibleVersionException";
 
@@ -19,7 +19,7 @@ import {
     JobStatus,
     AccountStatus,
 } from "./boostprojectdata_interface";
-import { ControllerOutputType } from "./controllerOutputTypes";
+import { ControllerOutputType } from "./controllers/controllerOutputTypes";
 import { BoostConfiguration } from "./boostConfiguration";
 
 const oldComplianceFunctionType = "complianceList";

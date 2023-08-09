@@ -2,9 +2,9 @@ import {
     KernelControllerBase
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext, NotebookCell } from 'vscode';
-import { BoostConfiguration } from './boostConfiguration';
-import { BoostNotebookCell } from './jupyter_notebook';
-import { generateCellOutputWithHeader } from './extension';
+import { BoostConfiguration } from '../boostConfiguration';
+import { BoostNotebookCell } from '../jupyter_notebook';
+import { generateCellOutputWithHeader } from '../extension';
 import { ControllerOutputType } from './controllerOutputTypes';
 
 export const explainKernelName = 'explain';

@@ -12,16 +12,16 @@ import {
 } from "./extension";
 import { NOTEBOOK_TYPE } from "./jupyter_notebook";
 
-import { summarizeKernelName } from "./summary_controller";
-import { analyzeKernelName } from "./analyze_controller";
-import { analyzeFunctionKernelName } from "./analyze_function_controller";
-import { complianceKernelName } from "./compliance_controller";
-import { blueprintKernelName } from "./blueprint_controller";
-import { flowDiagramKernelName } from "./flowdiagram_controller";
-import { explainKernelName } from "./explain_controller";
+import { summarizeKernelName } from "./controllers/summary_controller";
+import { analyzeKernelName } from "./controllers/analyze_controller";
+import { analyzeFunctionKernelName } from "./controllers/analyze_function_controller";
+import { complianceKernelName } from "./controllers/compliance_controller";
+import { blueprintKernelName } from "./controllers/blueprint_controller";
+import { flowDiagramKernelName } from "./controllers/flowdiagram_controller";
+import { explainKernelName } from "./controllers/explain_controller";
 import { boostLogging } from "./boostLogging";
 import { BoostConfiguration } from "./boostConfiguration";
-import { complianceFunctionKernelName } from "./compliance_function_controller";
+import { complianceFunctionKernelName } from "./controllers/compliance_function_controller";
 import { BoostProjectData } from "./BoostProjectData";
 import {
     FileSummaryItem,
@@ -29,15 +29,15 @@ import {
     extensionNotFullyActivated,
     extensionFailedToActivate,
 } from "./boostprojectdata_interface";
-import { quickBlueprintKernelName } from "./quick_blueprint_controller";
-import { performanceKernelName } from "./performance_controller";
+import { quickBlueprintKernelName } from "./controllers/quick_blueprint_controller";
+import { performanceKernelName } from "./controllers/performance_controller";
 import { BoostUserAnalysisType } from "./userAnalysisType";
-import { quickComplianceSummaryKernelName } from "./quick_compliance_summary_controller";
-import { quickSecuritySummaryKernelName } from "./quick_security_summary_controller";
+import { quickComplianceSummaryKernelName } from "./controllers/quick_compliance_summary_controller";
+import { quickSecuritySummaryKernelName } from "./controllers/quick_security_summary_controller";
 import { marked } from "marked";
 import { BoostFileType, findCellByKernel, getBoostFile } from "./extension";
 import { BoostNotebook, BoostNotebookCell } from "./jupyter_notebook";
-import { ControllerOutputType } from "./controllerOutputTypes";
+import { ControllerOutputType } from "./controllers/controllerOutputTypes";
 import { getOrCreateBlueprintUri, getOrCreateGuideline } from "./extension";
 import * as boostnb from "./jupyter_notebook";
 

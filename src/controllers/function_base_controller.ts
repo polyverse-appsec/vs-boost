@@ -3,9 +3,9 @@ import {
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import * as vscode from 'vscode';
-import * as boostnb from './jupyter_notebook';
-import { fullPathFromSourceFile, generateCellOutputWithHeader } from './extension';
-import { boostLogging } from './boostLogging';
+import * as boostnb from '../jupyter_notebook';
+import { fullPathFromSourceFile, generateCellOutputWithHeader } from '../extension';
+import { boostLogging } from '../boostLogging';
 
 export class FunctionKernelControllerBase extends KernelControllerBase {
 

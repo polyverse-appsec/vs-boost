@@ -6,7 +6,7 @@ import { BoostExtension } from "./BoostExtension";
 import {
     fetchUserOrganizationsServiceRequest,
     UserOrgs,
-} from "./user_organizations";
+} from "./controllers/user_organizations";
 import { NOTEBOOK_TYPE } from "./jupyter_notebook";
 import { boostLogging } from "./boostLogging";
 import { mapError } from "./error";

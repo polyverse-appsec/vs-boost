@@ -3,7 +3,7 @@ import axios from "axios";
 import { Remote } from "./git.d";
 import { BoostConfiguration } from "./boostConfiguration";
 import { boostLogging } from "./boostLogging";
-import { fetchUserOrganizationsServiceRequest } from "./user_organizations";
+import { fetchUserOrganizationsServiceRequest } from "./controllers/user_organizations";
 import { getExtensionMode } from "./extension_state";
 
 import { exec } from "child_process";

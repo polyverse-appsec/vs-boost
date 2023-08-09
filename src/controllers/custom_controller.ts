@@ -3,10 +3,10 @@ import {
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import * as vscode from 'vscode';
-import { BoostConfiguration } from './boostConfiguration';
-import { boostLogging } from './boostLogging';
-import { BoostNotebookCell, BoostNotebook } from './jupyter_notebook';
-import { generateCellOutputWithHeader } from './extension';
+import { BoostConfiguration } from '../boostConfiguration';
+import { boostLogging } from '../boostLogging';
+import { BoostNotebookCell, BoostNotebook } from '../jupyter_notebook';
+import { generateCellOutputWithHeader } from '../extension';
 
 export const customProcessCellMarker = 'customProcessCode';
 export const customProcessKernelName = 'custom';

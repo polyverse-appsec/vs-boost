@@ -13,9 +13,9 @@ import { BoostConfiguration } from "./boostConfiguration";
 import { boostLogging } from "./boostLogging";
 import { TextDecoder } from "util";
 import { PROJECT_EXTENSION } from "./BoostProjectData";
-import { errorMimeType } from "./base_controller";
+import { errorMimeType } from "./controllers/base_controller";
 import { BoostExtension } from "./BoostExtension";
-import { ControllerOutputType } from "./controllerOutputTypes";
+import { ControllerOutputType } from "./controllers/controllerOutputTypes";
 import { setExtensionMode } from "./extension_state";
 import { get } from "lodash";
 
