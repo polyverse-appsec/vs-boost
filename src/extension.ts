@@ -519,20 +519,22 @@ export function getProjectName(): string {
 }
 
 export async function getAllProjectFiles(
-    useRelativePaths: boolean = false
+    useRelativePaths: boolean = false,
+    targetFolder : vscode.Uri | undefined = undefined
 ): Promise<string[]> {
-    let baseWorkspace;
-    if (vscode.workspace.workspaceFolders) {
-        baseWorkspace = vscode.workspace.workspaceFolders![0].uri;
-    } else {
-        throw new Error("No workspace folders found");
+    if (!targetFolder) {
+        if (vscode.workspace.workspaceFolders) {
+            targetFolder = vscode.workspace.workspaceFolders![0].uri;
+        } else {
+            throw new Error("No workspace folders found. Please load a Project folder first");
+        }
     }
 
     const searchPattern = new vscode.RelativePattern(
-        baseWorkspace.fsPath,
+        targetFolder.fsPath,
         "**/**"
     );
-    const ignorePatterns = buildVSCodeIgnorePattern(baseWorkspace, true);
+    const ignorePatterns = buildVSCodeIgnorePattern(targetFolder, true);
     const files = await vscode.workspace.findFiles(
         searchPattern,
         ignorePatterns
@@ -632,7 +634,7 @@ export function updateBoostIgnoreForTarget(
     );
 }
 
-export function buildVSCodeIgnorePattern(
+function buildVSCodeIgnorePattern(
     targetFolder: vscode.Uri,
     ignoreBoostFolder: boolean = true
 ): vscode.RelativePattern | null {

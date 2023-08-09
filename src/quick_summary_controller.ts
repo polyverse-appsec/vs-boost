@@ -7,7 +7,7 @@ import {
 
 import { BoostConfiguration } from './boostConfiguration';
 
-import { buildVSCodeIgnorePattern } from './extension';
+import { getAllProjectFiles } from './extension';
 
 import {
     FunctionKernelControllerBase,
@@ -173,23 +173,7 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
             }
         }
 
-        // do the diagnostic collection query
-        const targetFolder = vscode.workspace.workspaceFolders?.[0].uri;
-        if (!targetFolder) {
-            return;
-        }
-        // we're going to search for everything under our target folder, and let the notebook parsing code filter out what it can't handle
-        const searchPattern = new vscode.RelativePattern(
-            targetFolder.fsPath,
-            "**/*.*"
-        );
-
-        // get the files
-        const ignorePatterns = buildVSCodeIgnorePattern(targetFolder);
-        const uris = await vscode.workspace.findFiles(searchPattern, ignorePatterns);
-        const filteredFiles = uris.map((uri) => {
-            return path.relative(targetFolder.fsPath,uri.fsPath);
-        });
+        const filteredFiles = await getAllProjectFiles(true);
 
         let offlineSummary = undefined;
         let topSeverityIssues = "[]";
