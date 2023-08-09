@@ -1,11 +1,11 @@
-import { BoostNotebook, NotebookCellKind } from "./jupyter_notebook";
+import { BoostNotebook, NotebookCellKind } from "../data/jupyter_notebook";
 import { marked } from "marked";
 import hljs from "highlight.js";
 import * as fs from "fs";
 
 import { markedHighlight } from "marked-highlight";
 
-import { NOTEBOOK_EXTENSION } from "./jupyter_notebook";
+import { NOTEBOOK_EXTENSION } from "../data/jupyter_notebook";
 
 const cellStyleSheet =
     "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css";

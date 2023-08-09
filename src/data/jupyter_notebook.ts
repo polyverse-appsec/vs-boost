@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as nbformat from '@jupyterlab/nbformat';
 import { randomUUID } from 'crypto';
-import { boostLogging } from './boostLogging';
+import { boostLogging } from '../utilities/boostLogging';
 
 export const NOTEBOOK_TYPE = 'polyverse-boost-notebook';
 export const NOTEBOOK_EXTENSION = ".boost-notebook";

@@ -1,14 +1,14 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as _ from 'lodash';
-import { BoostExtension } from './BoostExtension';
+import { BoostExtension } from './extension/BoostExtension';
 import {marked} from 'marked';
-import { BoostFileType, findCellByKernel, getBoostFile } from './extension';
+import { BoostFileType, findCellByKernel, getBoostFile } from './extension//extension';
 import { BoostUserAnalysisType } from './userAnalysisType';
-import { BoostNotebook, BoostNotebookCell } from './jupyter_notebook';
-import { boostLogging } from './boostLogging';
+import { BoostNotebook, BoostNotebookCell } from './data/jupyter_notebook';
+import { boostLogging } from './utilities/boostLogging';
 import { ControllerOutputType } from './controllers/controllerOutputTypes';
-import { noProjectOpenMessage, extensionNotFullyActivated, extensionFailedToActivate } from './boostprojectdata_interface';
+import { noProjectOpenMessage, extensionNotFullyActivated, extensionFailedToActivate } from './data/boostprojectdata_interface';
 
 /*
     // ability to get all VS commands - whether internal or not, filtered by prefix

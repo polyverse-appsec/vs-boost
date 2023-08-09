@@ -5,17 +5,17 @@ import * as path from "path";
 
 import * as micromatch from "micromatch";
 
-import * as boostnb from "./jupyter_notebook";
+import * as boostnb from "../data/jupyter_notebook";
 
-import { BoostContentSerializer } from "./serializer";
-import { parseFunctions } from "./split";
+import { BoostContentSerializer } from "../utilities/serializer";
+import { parseFunctions } from "../utilities/split";
 import { BoostConfiguration } from "./boostConfiguration";
-import { boostLogging } from "./boostLogging";
+import { boostLogging } from "../utilities/boostLogging";
 import { TextDecoder } from "util";
-import { PROJECT_EXTENSION } from "./BoostProjectData";
-import { errorMimeType } from "./controllers/base_controller";
+import { PROJECT_EXTENSION } from "../data/BoostProjectData";
+import { errorMimeType } from "../controllers/base_controller";
 import { BoostExtension } from "./BoostExtension";
-import { ControllerOutputType } from "./controllers/controllerOutputTypes";
+import { ControllerOutputType } from "../controllers/controllerOutputTypes";
 import { setExtensionMode } from "./extension_state";
 import { get } from "lodash";
 

@@ -1,6 +1,6 @@
 import { OutputChannel, Disposable, window } from "vscode";
 
-import { BoostConfiguration } from "./boostConfiguration";
+import { BoostConfiguration } from "../extension/boostConfiguration";
 
 export class BoostLogger extends Disposable {
     private _outputChannel: OutputChannel | undefined;

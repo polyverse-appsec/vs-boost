@@ -1,10 +1,10 @@
 import * as vscode from "vscode";
 import axios from "axios";
-import { Remote } from "./git.d";
-import { BoostConfiguration } from "./boostConfiguration";
-import { boostLogging } from "./boostLogging";
-import { fetchUserOrganizationsServiceRequest } from "./controllers/user_organizations";
-import { getExtensionMode } from "./extension_state";
+import { Remote } from "../git";
+import { BoostConfiguration } from "../extension/boostConfiguration";
+import { boostLogging } from "../utilities/boostLogging";
+import { fetchUserOrganizationsServiceRequest } from "../controllers/user_organizations";
+import { getExtensionMode } from "../extension/extension_state";
 
 import { exec } from "child_process";
 

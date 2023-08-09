@@ -1,12 +1,12 @@
 import * as vscode from "vscode";
-import { NOTEBOOK_TYPE } from "../../jupyter_notebook";
+import { NOTEBOOK_TYPE } from "../../data/jupyter_notebook";
 import { getRandomTestSourceFile, seconds, minutes } from "../suite/utils";
 import * as assert from "assert";
-import { getBoostFile } from "../../extension";
+import { getBoostFile } from "../../extension/extension";
 import { debug } from "console";
-import { BoostConfiguration } from "../../boostConfiguration";
+import { BoostConfiguration } from "../../extension/boostConfiguration";
 import * as fs from "fs";
-import { BoostNotebook } from "../../jupyter_notebook";
+import { BoostNotebook } from "../../data/jupyter_notebook";
 import { rightClickLoadFileCommandTest } from "./testCommandUtilities";
 import { before } from 'mocha';
 

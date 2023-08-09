@@ -1,4 +1,4 @@
-import { BoostNotebook, SerializedNotebookCellOutput, NOTEBOOK_EXTENSION } from './jupyter_notebook';
+import { BoostNotebook, SerializedNotebookCellOutput, NOTEBOOK_EXTENSION } from '../data/jupyter_notebook';
 import * as fs from 'fs';
 
 export async function generateMarkdownforNotebook(boostNotebookPath : string, baseFolderPath : string) : Promise<string> {

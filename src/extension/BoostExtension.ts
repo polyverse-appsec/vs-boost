@@ -2,56 +2,56 @@ import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
 
-import * as boostnb from "./jupyter_notebook";
+import * as boostnb from "../data/jupyter_notebook";
 
 import {
     BoostPerformanceFunctionKernel,
     performanceFunctionKernelName,
-} from "./controllers/performance_function_controller";
+} from "../controllers/performance_function_controller";
 import {
     BoostPerformanceKernel,
     performanceKernelName,
-} from "./controllers/performance_controller";
+} from "../controllers/performance_controller";
 
-import { BoostAnalyzeKernel, analyzeKernelName } from "./controllers/analyze_controller";
+import { BoostAnalyzeKernel, analyzeKernelName } from "../controllers/analyze_controller";
 import {
     BoostAnalyzeFunctionKernel,
     analyzeFunctionKernelName,
-} from "./controllers/analyze_function_controller";
-import { BoostTestgenKernel, testgenKernelName } from "./controllers/testgen_controller";
-import { BoostConvertKernel, convertKernelName } from "./controllers/convert_controller";
+} from "../controllers/analyze_function_controller";
+import { BoostTestgenKernel, testgenKernelName } from "../controllers/testgen_controller";
+import { BoostConvertKernel, convertKernelName } from "../controllers/convert_controller";
 import {
     BoostComplianceKernel,
     complianceKernelName,
-} from "./controllers/compliance_controller";
+} from "../controllers/compliance_controller";
 import {
     BoostComplianceFunctionKernel,
     complianceFunctionKernelName,
-} from "./controllers/compliance_function_controller";
-import { BoostExplainKernel, explainKernelName } from "./controllers/explain_controller";
+} from "../controllers/compliance_function_controller";
+import { BoostExplainKernel, explainKernelName } from "../controllers/explain_controller";
 import {
     BoostCodeGuidelinesKernel,
     codeGuidelinesKernelName,
-} from "./controllers/codeguidelines_controller";
+} from "../controllers/codeguidelines_controller";
 import {
     BoostArchitectureBlueprintKernel,
     blueprintKernelName,
-} from "./controllers/blueprint_controller";
+} from "../controllers/blueprint_controller";
 import {
     BoostCustomProcessKernel,
     customProcessCellMarker,
-} from "./controllers/custom_controller";
+} from "../controllers/custom_controller";
 import {
     BoostFlowDiagramKernel,
     flowDiagramKernelName,
-} from "./controllers/flowdiagram_controller";
-import { SummarizeKernel, summarizeKernelName } from "./controllers/summary_controller";
-import { ControllerOutputType } from "./controllers/controllerOutputTypes";
+} from "../controllers/flowdiagram_controller";
+import { SummarizeKernel, summarizeKernelName } from "../controllers/summary_controller";
+import { ControllerOutputType } from "../controllers/controllerOutputTypes";
 
-import { BoostSummaryViewProvider, summaryViewType } from "./summary_view";
-import { BoostStartViewProvider } from "./start_view";
-import { BoostChatViewProvider } from "./chat_view";
-import { boostNotebookToFileSummaryItem } from "./BoostProjectData";
+import { BoostSummaryViewProvider, summaryViewType } from "../summary_view";
+import { BoostStartViewProvider } from "../start_view";
+import { BoostChatViewProvider } from "../chat_view";
+import { boostNotebookToFileSummaryItem } from "../data/BoostProjectData";
 
 import {
     getOrCreateGuideline,
@@ -72,53 +72,53 @@ import {
     getBoostIgnoreFile,
     getAllProjectFiles,
 } from "./extension";
-import { BoostUserAnalysisType } from "./userAnalysisType";
+import { BoostUserAnalysisType } from "../userAnalysisType";
 
-import { BoostContentSerializer } from "./serializer";
+import { BoostContentSerializer } from "../utilities/serializer";
 import { BoostConfiguration } from "./boostConfiguration";
-import { boostLogging } from "./boostLogging";
+import { boostLogging } from "../utilities/boostLogging";
 import {
     KernelControllerBase,
     errorMimeType,
     boostUriSchema,
-} from "./controllers/base_controller";
+} from "../controllers/base_controller";
 import {
     updateBoostStatusColors,
     registerCustomerPortalCommand,
     setupBoostStatus,
     preflightCheckForCustomerStatus,
-} from "./portal";
-import { generatePDFforNotebook } from "./convert_pdf";
-import { generateMarkdownforNotebook } from "./convert_markdown";
-import { generateHTMLforNotebook } from "./convert_html";
-import { BoostProjectData } from "./BoostProjectData";
-import { IncompatibleVersionException } from "./incompatibleVersionException";
-import { emptyProjectData } from "./boostprojectdata_interface";
-import { BoostMarkdownViewProvider } from "./markdown_view";
+} from "../portal";
+import { generatePDFforNotebook } from "../utilities/convert_pdf";
+import { generateMarkdownforNotebook } from "../utilities/convert_markdown";
+import { generateHTMLforNotebook } from "../utilities/convert_html";
+import { BoostProjectData } from "../data/BoostProjectData";
+import { IncompatibleVersionException } from "../data/incompatibleVersionException";
+import { emptyProjectData } from "../data/boostprojectdata_interface";
+import { BoostMarkdownViewProvider } from "../markdown_view";
 
-import instructions from "./instructions.json";
+import instructions from "../instructions.json";
 import {
     BoostQuickBlueprintKernel,
     quickBlueprintKernelName,
-} from "./controllers/quick_blueprint_controller";
-import { FunctionKernelControllerBase } from "./controllers/function_base_controller";
+} from "../controllers/quick_blueprint_controller";
+import { FunctionKernelControllerBase } from "../controllers/function_base_controller";
 import {
     BoostQuickComplianceSummaryKernel,
     quickComplianceSummaryKernelName,
-} from "./controllers/quick_compliance_summary_controller";
+} from "../controllers/quick_compliance_summary_controller";
 import {
     BoostQuickSecuritySummaryKernel,
     quickSecuritySummaryKernelName,
-} from "./controllers/quick_security_summary_controller";
+} from "../controllers/quick_security_summary_controller";
 import {
     BoostQuickPerformanceSummaryKernel,
     quickPerformanceSummaryKernelName,
-} from "./controllers/quick_performance_summary_controller";
+} from "../controllers/quick_performance_summary_controller";
 import {
     BoostCustomQuickScanFunctionKernel,
-} from "./controllers/customquickscan_function_controller";
+} from "../controllers/customquickscan_function_controller";
 
-import { WorkflowEngine, PromiseGenerator } from "./workflow_engine";
+import { WorkflowEngine, PromiseGenerator } from "../utilities/workflow_engine";
 
 export class BoostNotebookContentProvider
     implements vscode.TextDocumentContentProvider
@@ -510,7 +510,7 @@ export class BoostExtension {
                     summaryPath
                 );
                 boostProjectData.summary.summaryUrl =
-                    "./" + relativeSummaryPath;
+                    "../" + relativeSummaryPath;
             } else {
                 if (path.isAbsolute(boostProjectData.summary.summaryUrl)) {
                     boostProjectData.summary.summaryUrl = path.relative(

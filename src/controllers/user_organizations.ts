@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { boostLogging } from '../boostLogging';
-import { BoostConfiguration } from '../boostConfiguration';
-import { fetchGithubSession } from '../authorization';
-import { mapError } from '../error';
+import { boostLogging } from '../utilities/boostLogging';
+import { BoostConfiguration } from '../extension/boostConfiguration';
+import { fetchGithubSession } from '../utilities/authorization';
+import { mapError } from '../utilities/error';
 
 function orgServiceEndpoint(): string {
     switch (BoostConfiguration.cloudServiceStage)

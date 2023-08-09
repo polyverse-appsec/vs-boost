@@ -3,8 +3,8 @@ import * as path from "path";
 import * as boostnb from "./jupyter_notebook";
 import * as vscode from "vscode";
 
-import { errorMimeType } from "./controllers/base_controller";
-import { boostLogging } from "./boostLogging";
+import { errorMimeType } from "../controllers/base_controller";
+import { boostLogging } from "../utilities/boostLogging";
 import { IncompatibleVersionException } from "./incompatibleVersionException";
 
 export const PROJECT_EXTENSION = ".boost-project";
@@ -19,8 +19,8 @@ import {
     JobStatus,
     AccountStatus,
 } from "./boostprojectdata_interface";
-import { ControllerOutputType } from "./controllers/controllerOutputTypes";
-import { BoostConfiguration } from "./boostConfiguration";
+import { ControllerOutputType } from "../controllers/controllerOutputTypes";
+import { BoostConfiguration } from "../extension/boostConfiguration";
 
 const oldComplianceFunctionType = "complianceList";
 

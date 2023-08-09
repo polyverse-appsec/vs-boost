@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
 import { TextDecoder, TextEncoder } from 'util';
-import { boostLogging } from './boostLogging';
-import { BoostConfiguration } from './boostConfiguration';
-import * as boostnb from './jupyter_notebook';
-import { errorMimeType } from './controllers/base_controller';
+import { boostLogging } from '../utilities/boostLogging';
+import { BoostConfiguration } from '../extension/boostConfiguration';
+import * as boostnb from '../data/jupyter_notebook';
+import { errorMimeType } from '../controllers/base_controller';
 /**
  * An ultra-minimal sample provider that lets the user type in JSON, and then
  * outputs JSON cells. The outputs are transient and not saved to notebook file on disk.

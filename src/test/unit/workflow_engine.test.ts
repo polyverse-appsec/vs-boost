@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { PromiseGenerator, WorkflowEngine, WorkflowError } from "../../workflow_engine";
+import { PromiseGenerator, WorkflowEngine, WorkflowError } from "../../utilities/workflow_engine";
 
 describe("WorkflowEngine", () => {
     it("should run promises in the correct order", async () => {

@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { getRandomTestSourceFile } from "../suite/utils";
-import { getBoostFile } from "../../extension";
+import { getBoostFile } from "../../extension/extension";
 import { rightClickLoadFileCommandTest } from "./testCommandUtilities";
 
 suite("Right Click Load File Command", function () {

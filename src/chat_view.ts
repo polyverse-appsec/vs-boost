@@ -3,20 +3,20 @@ import * as fs from "fs";
 import * as path from "path";
 import * as _ from "lodash";
 import * as os from "os";
-import { BoostExtension } from "./BoostExtension";
-import { BoostConfiguration } from "./boostConfiguration";
+import { BoostExtension } from "./extension/BoostExtension";
+import { BoostConfiguration } from "./extension/boostConfiguration";
 import { getServiceEndpoint } from "./controllers/custom_controller";
 import { marked } from "marked";
-import { findCellByKernel, getOrCreateBlueprintUri } from "./extension";
+import { findCellByKernel, getOrCreateBlueprintUri } from "./extension/extension";
 import { BoostServiceHelper } from "./controllers/boostServiceHelper";
-import { boostLogging } from "./boostLogging";
-import { BoostNotebook, BoostNotebookCell } from "./jupyter_notebook";
+import { boostLogging } from "./utilities/boostLogging";
+import { BoostNotebook, BoostNotebookCell } from "./data/jupyter_notebook";
 import { ControllerOutputType } from "./controllers/controllerOutputTypes";
 import {
     noProjectOpenMessage,
     extensionNotFullyActivated,
     extensionFailedToActivate,
-} from "./boostprojectdata_interface";
+} from "./data/boostprojectdata_interface";
 import sanitizeHtml from "sanitize-html";
 
 export const aiName = "Sara";

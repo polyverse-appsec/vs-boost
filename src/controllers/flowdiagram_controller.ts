@@ -2,8 +2,8 @@ import {
     KernelControllerBase
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
-import { BoostConfiguration } from '../boostConfiguration';
-import { generateCellOutputWithHeader } from '../extension';
+import { BoostConfiguration } from '../extension/boostConfiguration';
+import { generateCellOutputWithHeader } from '../extension/extension';
 
 export const flowDiagramOutputType = 'flowDiagram';
 export const flowDiagramKernelName = 'flowdiagram';

@@ -2,22 +2,22 @@ import * as path from "path";
 import * as fs from "fs";
 
 import { KernelControllerBase, markdownMimeType } from "./base_controller";
-import { BoostConfiguration } from "../boostConfiguration";
+import { BoostConfiguration } from "../extension/boostConfiguration";
 import * as vscode from "vscode";
 import {
     BoostNotebookCell,
     BoostNotebook,
     NotebookCellKind,
     SerializedNotebookCellOutput,
-} from "../jupyter_notebook";
-import { boostLogging } from "../boostLogging";
+} from "../data/jupyter_notebook";
+import { boostLogging } from "../utilities/boostLogging";
 import {
     findCellByKernel,
     generateCellOutputWithHeader,
     getAllProjectFiles,
     getProjectName,
-} from "../extension";
-import { getCurrentOrganization } from "../authorization";
+} from "../extension/extension";
+import { getCurrentOrganization } from "../utilities/authorization";
 import { ControllerOutputType } from "./controllerOutputTypes";
 
 export const quickBlueprintKernelName = "quickblueprint";

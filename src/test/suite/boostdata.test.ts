@@ -4,8 +4,8 @@ import * as path from "path";
 import {
     BoostProjectData,
     boostNotebookFileToFileSummaryItem,
-} from "../../BoostProjectData"; // Update the path
-import { FileSummaryItem } from "../../boostprojectdata_interface";
+} from "../../data/BoostProjectData"; // Update the path
+import { FileSummaryItem } from "../../data/boostprojectdata_interface";
 
 import * as assert from "assert";
 import * as vscode from "vscode";

@@ -1,12 +1,12 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as _ from 'lodash';
-import { BoostExtension } from './BoostExtension';
-import { getOrCreateBlueprintUri, getOrCreateGuideline, getBoostFile, BoostFileType } from './extension';
-import { boostLogging } from './boostLogging';
+import { BoostExtension } from './extension/BoostExtension';
+import { getOrCreateBlueprintUri, getOrCreateGuideline, getBoostFile, BoostFileType } from './extension/extension';
+import { boostLogging } from './utilities/boostLogging';
 import { summaryViewType } from './summary_view';
 import { aiName } from './chat_view';
-import { noProjectOpenMessage, extensionNotFullyActivated, extensionFailedToActivate } from './boostprojectdata_interface';
+import { noProjectOpenMessage, extensionNotFullyActivated, extensionFailedToActivate } from './data/boostprojectdata_interface';
 
 
 export class BoostStartViewProvider implements vscode.WebviewViewProvider {

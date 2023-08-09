@@ -1,15 +1,15 @@
 import * as vscode from "vscode";
 import axios from "axios";
-import { BoostConfiguration } from "./boostConfiguration";
-import { fetchGithubSession, getCurrentOrganization } from "./authorization";
-import { BoostExtension } from "./BoostExtension";
+import { BoostConfiguration } from "./extension/boostConfiguration";
+import { fetchGithubSession, getCurrentOrganization } from "./utilities/authorization";
+import { BoostExtension } from "./extension/BoostExtension";
 import {
     fetchUserOrganizationsServiceRequest,
     UserOrgs,
 } from "./controllers/user_organizations";
-import { NOTEBOOK_TYPE } from "./jupyter_notebook";
-import { boostLogging } from "./boostLogging";
-import { mapError } from "./error";
+import { NOTEBOOK_TYPE } from "./data/jupyter_notebook";
+import { boostLogging } from "./utilities/boostLogging";
+import { mapError } from "./utilities/error";
 
 function serviceEndpoint(): string {
     switch (BoostConfiguration.cloudServiceStage) {

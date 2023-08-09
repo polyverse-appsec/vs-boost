@@ -1,4 +1,4 @@
-import { BoostNotebook, NOTEBOOK_EXTENSION } from './jupyter_notebook';
+import { BoostNotebook, NOTEBOOK_EXTENSION } from '../data/jupyter_notebook';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';

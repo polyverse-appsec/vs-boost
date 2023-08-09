@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import * as assert from "assert";
-import { NOTEBOOK_TYPE } from "../../jupyter_notebook";
+import { NOTEBOOK_TYPE } from "../../data/jupyter_notebook";
 
 suite("Notebook Command", function () {
     this.timeout(20000); // set test timeout to be 20 seconds

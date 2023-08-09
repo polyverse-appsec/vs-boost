@@ -1,7 +1,7 @@
 //IMPORTANT!!  This file is shared with webviews, which are packaged separately.
 //do not import any depdencies or use any code that is not available in the webview
 
-import { ControllerOutputType } from "./controllers/controllerOutputTypes";
+import { ControllerOutputType } from "../controllers/controllerOutputTypes";
 
 export const noProjectOpenMessage =
     "Please open a project to chat with Sara, the Boost AI, about your project or analyze your project code.";

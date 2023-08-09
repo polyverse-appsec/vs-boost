@@ -2,12 +2,12 @@ import {
     KernelControllerBase, errorMimeType
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
-import { BoostConfiguration } from '../boostConfiguration';
+import { BoostConfiguration } from '../extension/boostConfiguration';
 import * as vscode from 'vscode';
 import { BoostNotebook, BoostNotebookCell,
-        NotebookCellKind, NOTEBOOK_SUMMARY_EXTENSION } from '../jupyter_notebook';
-import { boostLogging } from '../boostLogging';
-import { getBoostFile, findCellByKernel, BoostFileType, fullPathFromSourceFile, cleanCellOutput, generateCellOutputWithHeader } from '../extension';
+        NotebookCellKind, NOTEBOOK_SUMMARY_EXTENSION } from '../data/jupyter_notebook';
+import { boostLogging } from '../utilities/boostLogging';
+import { getBoostFile, findCellByKernel, BoostFileType, fullPathFromSourceFile, cleanCellOutput, generateCellOutputWithHeader } from '../extension/extension';
 import * as fs from 'fs';
 import * as path from 'path';
 import { ControllerOutputType } from './controllerOutputTypes';

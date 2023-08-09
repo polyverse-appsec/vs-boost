@@ -1,10 +1,10 @@
 import {
     KernelControllerBase
  } from './base_controller';
-import { BoostConfiguration } from '../boostConfiguration';
+import { BoostConfiguration } from '../extension/boostConfiguration';
 import * as vscode from 'vscode';
-import { BoostNotebookCell } from '../jupyter_notebook';
-import { generateCellOutputWithHeader } from '../extension';
+import { BoostNotebookCell } from '../data/jupyter_notebook';
+import { generateCellOutputWithHeader } from '../extension/extension';
 import { ControllerOutputType } from './controllerOutputTypes';
 
 export const blueprintKernelName = 'blueprint';

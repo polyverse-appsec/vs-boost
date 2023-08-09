@@ -1,4 +1,4 @@
-import { NOTEBOOK_TYPE } from "./jupyter_notebook";
+import { NOTEBOOK_TYPE } from "../data/jupyter_notebook";
 import { workspace, extensions, ConfigurationTarget } from "vscode";
 
 export const extensionId = 'polyversecorporation.polyverse-boost-notebook';

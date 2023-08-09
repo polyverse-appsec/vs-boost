@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { BoostExtension } from './BoostExtension';
+import { BoostExtension } from './extension/BoostExtension';
 interface BoostNode {
   name: string;
   children?: BoostNode[];
