@@ -9,7 +9,7 @@ Polyverse Boost Automatic Application Modernization
 - None
 
 ### Enhancements
-- N/A
+- Analysis of files is automatically prioritized based on perceived value and relevance to the project.
 
 ### Bug Fixes
 - Ensure Analysis Output files (e.g. PDF, HTML or Markdown) are only generated for source files under analysis (e.g. don't include ignored files)
