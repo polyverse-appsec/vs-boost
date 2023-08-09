@@ -59,7 +59,6 @@ import {
     getBoostFile,
     BoostFileType,
     parseFunctionsFromFile,
-    buildVSCodeIgnorePattern,
     newErrorFromItemData,
     createOrOpenNotebookFromSourceFile,
     _syncProblemsInCell,
