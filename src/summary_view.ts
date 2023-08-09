@@ -336,21 +336,15 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         ],
     ]);
 
-    private async analyzeAll(analysisTypes: string[]) {
-        let runSummary = false;
-
-        // creates and loads all notebook files
-        await vscode.commands.executeCommand(
-            NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
-            undefined
-        );
-
+    async processAllFilesInSequence(analysisTypes: string[]) {
         // refresh project data
         await vscode.commands.executeCommand(
             NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
         );
 
         try {
+            let runSummary = false;
+
             for (const [key, value] of this.analysisMap) {
                 if (!analysisTypes.includes(key)) {
                     continue;
@@ -407,6 +401,21 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             this.finishAllJobs(this._boostExtension.getBoostProjectData());
             this.refresh();
         }
+    }
+
+    private async analyzeAll(analysisTypes: string[]) {
+        // creates and loads/refreshes/rebuilds all notebook files
+        await vscode.commands.executeCommand(
+            NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
+            undefined
+        );
+
+        if (BoostConfiguration.processFilesInGroups) {
+            throw new Error("Rings-processing is not yet supported");
+        } else {
+            await this.processAllFilesInSequence(analysisTypes);
+        }
+
     }
 
     private async processEachStepOfAnalysisStage(value: string[], runSummary: boolean, key: BoostUserAnalysisType) {
