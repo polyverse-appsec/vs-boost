@@ -2878,8 +2878,7 @@ export class BoostExtension {
                         //if we don't have a boostignore file, then do the update and create one
                         //if we have one, then already generated it and skip this step.
                         const boostIgnoreFile = getBoostIgnoreFile();
-                        if (
-                            boostIgnoreFile === undefined ||
+                        if (boostIgnoreFile === undefined ||
                             !fs.existsSync(boostIgnoreFile.fsPath)
                         ) {
                             blueprintCell?.outputs.forEach((output) => {
@@ -2901,6 +2900,10 @@ export class BoostExtension {
                                     }
                                 );
                             });
+                        } else {
+                            boostLogging.log(
+                                `Skipping automatic AI generation of [${boostIgnoreFile.fsPath}] as it already exists`
+                            );
                         }
                     })
                     .catch((error) => {
