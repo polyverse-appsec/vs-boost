@@ -299,6 +299,43 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         }
     }
 
+    readonly analysisMap = new Map([
+        [
+            BoostUserAnalysisType.documentation,
+            [
+                getKernelName(quickBlueprintKernelName),
+                getKernelName(explainKernelName),
+                getKernelName(flowDiagramKernelName),
+            ],
+        ],
+        [
+            BoostUserAnalysisType.security,
+            [
+                getKernelName(analyzeFunctionKernelName),
+                getKernelName(quickSecuritySummaryKernelName),
+                // getKernelName(performanceFunctionKernelName),
+                // getKernelName(quickPerformanceSummaryKernelName),
+            ],
+        ],
+        [
+            BoostUserAnalysisType.compliance,
+            [
+                getKernelName(complianceFunctionKernelName),
+                getKernelName(quickComplianceSummaryKernelName),
+            ],
+        ],
+        [
+            BoostUserAnalysisType.deepCode,
+            [
+                getKernelName(blueprintKernelName),
+                getKernelName(analyzeKernelName),
+                getKernelName(complianceKernelName),
+                getKernelName(performanceKernelName),
+                getKernelName(summarizeKernelName),
+            ],
+        ],
+    ]);
+
     private async analyzeAll(analysisTypes: string[]) {
         let runSummary = false;
 
@@ -313,45 +350,8 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
         );
 
-        const analysisMap = new Map([
-            [
-                BoostUserAnalysisType.documentation,
-                [
-                    getKernelName(quickBlueprintKernelName),
-                    getKernelName(explainKernelName),
-                    getKernelName(flowDiagramKernelName),
-                ],
-            ],
-            [
-                BoostUserAnalysisType.security,
-                [
-                    getKernelName(analyzeFunctionKernelName),
-                    getKernelName(quickSecuritySummaryKernelName),
-                    // getKernelName(performanceFunctionKernelName),
-                    // getKernelName(quickPerformanceSummaryKernelName),
-                ],
-            ],
-            [
-                BoostUserAnalysisType.compliance,
-                [
-                    getKernelName(complianceFunctionKernelName),
-                    getKernelName(quickComplianceSummaryKernelName),
-                ],
-            ],
-            [
-                BoostUserAnalysisType.deepCode,
-                [
-                    getKernelName(blueprintKernelName),
-                    getKernelName(analyzeKernelName),
-                    getKernelName(complianceKernelName),
-                    getKernelName(performanceKernelName),
-                    getKernelName(summarizeKernelName),
-                ],
-            ],
-        ]);
-
         try {
-            for (const [key, value] of analysisMap) {
+            for (const [key, value] of this.analysisMap) {
                 if (!analysisTypes.includes(key)) {
                     continue;
                 }
@@ -364,52 +364,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     continue;
                 }
                 try {
-                    for (const analysisKernelName of value) {
-                        if (
-                            BoostConfiguration.runAllTargetAnalysisType &&
-                            !(
-                                BoostConfiguration.runAllTargetAnalysisType as string
-                            ).includes(analysisKernelName)
-                        ) {
-                            continue;
-                        }
-                        // we're skipping deep summaries for now to reduce
-                        //    processing time and unnecessary duplication
-                        if (analysisKernelName in [
-                            getKernelName(blueprintKernelName),
-                            getKernelName(summarizeKernelName),
-                            ]) {
-                            if (!BoostConfiguration.alwaysRunSummary) {
-                                boostLogging.debug(`Skipping ${analysisKernelName} analysis except by alwaysRunSummary config request`);
-                                continue;
-                            }
-                        }
-
-                        // quick operations uses the project-level command
-                        if (
-                            [
-                                getKernelName(quickBlueprintKernelName),
-                                getKernelName(quickComplianceSummaryKernelName),
-                                getKernelName(quickSecuritySummaryKernelName),
-                            ].includes(analysisKernelName)
-                        ) {
-                            await vscode.commands.executeCommand(
-                                NOTEBOOK_TYPE +
-                                    "." +
-                                    BoostCommands.processProject,
-                                analysisKernelName
-                            );
-                            // while all other commands run scans across all source files
-                        } else {
-                            await vscode.commands.executeCommand(
-                                NOTEBOOK_TYPE +
-                                    "." +
-                                    BoostCommands.processCurrentFolder,
-                                undefined,
-                                analysisKernelName
-                            );
-                        }
-                    }
+                    await this.processEachStepOfAnalysisStage(value, runSummary, key);
 
                     if (BoostConfiguration.alwaysRunSummary) {
                         runSummary = true;
@@ -420,7 +375,8 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         true
                     );
                 }
-                // refresh project data
+    
+                    // refresh project data
                 await vscode.commands.executeCommand(
                     NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
                 );
@@ -452,6 +408,52 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             this.refresh();
         }
     }
+
+    private async processEachStepOfAnalysisStage(value: string[], runSummary: boolean, key: BoostUserAnalysisType) {
+        for (const analysisKernelName of value) {
+            if (BoostConfiguration.runAllTargetAnalysisType &&
+                !(
+                    BoostConfiguration.runAllTargetAnalysisType as string
+                ).includes(analysisKernelName)) {
+                continue;
+            }
+            // we're skipping deep summaries for now to reduce
+            //    processing time and unnecessary duplication
+            if (analysisKernelName in [
+                getKernelName(blueprintKernelName),
+                getKernelName(summarizeKernelName),
+            ]) {
+                if (!BoostConfiguration.alwaysRunSummary) {
+                    boostLogging.debug(`Skipping ${analysisKernelName} analysis except by alwaysRunSummary config request`);
+                    continue;
+                }
+            }
+
+            // quick operations uses the project-level command
+            if ([
+                getKernelName(quickBlueprintKernelName),
+                getKernelName(quickComplianceSummaryKernelName),
+                getKernelName(quickSecuritySummaryKernelName),
+            ].includes(analysisKernelName)) {
+                await vscode.commands.executeCommand(
+                    NOTEBOOK_TYPE +
+                    "." +
+                    BoostCommands.processProject,
+                    analysisKernelName
+                );
+                // while all other commands run scans across all source files
+            } else {
+                await vscode.commands.executeCommand(
+                    NOTEBOOK_TYPE +
+                    "." +
+                    BoostCommands.processCurrentFolder,
+                    undefined,
+                    analysisKernelName
+                );
+            }
+        }
+    }
+
     private _getMarkdownForSummaries(): { [key: string]: string } {
         let markdown = {} as { [key: string]: string };
         if (!this._view?.webview) {
