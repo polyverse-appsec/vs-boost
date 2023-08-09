@@ -2529,222 +2529,144 @@ export class BoostExtension {
                 boostprojectdata
             );
 
-            if (BoostConfiguration.processFilesInGroups) {
-                let processedNotebookWaitsGenerators: PromiseGenerator[] =
-                    files.map((file) => {
-                        return () => {
-                            return async () => {
-                                return new Promise<boostnb.BoostNotebook>(
-                                    (resolve, reject) => {
+
+            let processedNotebookWaits: Promise<boostnb.BoostNotebook>[] =
+                files.map(async (file) => {
+                    return new Promise<boostnb.BoostNotebook>(
+                        (resolve, reject) => {
+                            const fileSize = fs.statSync(file.fsPath).size;
+                            const estimatedWords =
+                                this.calculateEstimatedWords(fileSize);
+                            const processingTime =
+                                this.calculateProcessingTime(
+                                    estimatedWords,
+                                    wordsPerFile
+                                );
+
+                            boostLogging.log(
+                                `Delaying file ${
+                                    file.fsPath
+                                } with ${estimatedWords} ~items to wait ${
+                                    processingTime / seconds
+                                } secs`
+                            );
+                            // get the distance from the workspace folder for the source file
+                            // for project-level status files, we ignore the relative path
+                            let relativePath = path.relative(
+                                targetFolder.fsPath,
+                                file.fsPath
+                            );
+
+                            setTimeout(async () => {
+                                // if its been more than 5 seconds, log it - that's about 13 pages of source in 5 seconds (wild estimate)
+                                if (processingTime > 5 * seconds) {
+                                    boostLogging.log(
+                                        `Starting processing file ${
+                                            file.fsPath
+                                        } with ${estimatedWords} ~items after waiting ${
+                                            processingTime * seconds
+                                        } secs`
+                                    );
+                                }
+
+                                this.summary?.addJobs(
+                                    targetedKernel.outputType,
+                                    [relativePath],
+                                    boostprojectdata
+                                );
+
+                                this.processCurrentFile(
+                                    file,
+                                    targetedKernel.id,
+                                    context,
+                                    options?.forceAnalysisRefresh
+                                        ? options.forceAnalysisRefresh
+                                        : false
+                                )
+                                    .then((notebook) => {
+                                        let summary =
+                                            boostNotebookToFileSummaryItem(
+                                                notebook
+                                            );
+                                        const boostprojectdata =
+                                            this.getBoostProjectData();
+                                        this.summary?.finishJob(
+                                            targetedKernel.outputType,
+                                            relativePath,
+                                            summary,
+                                            boostprojectdata,
+                                            null
+                                        );
+                                        resolve(notebook);
+                                    })
+                                    .catch((error) => {
                                         // get the distance from the workspace folder for the source file
                                         // for project-level status files, we ignore the relative path
                                         let relativePath = path.relative(
                                             targetFolder.fsPath,
                                             file.fsPath
                                         );
-
-                                        this.summary?.addJobs(
+                                        const boostprojectdata =
+                                            this.getBoostProjectData();
+                                        this.summary?.finishJob(
                                             targetedKernel.outputType,
-                                            [relativePath],
-                                            boostprojectdata
+                                            relativePath,
+                                            null,
+                                            boostprojectdata,
+                                            error
                                         );
-
-                                        this.processCurrentFile(
-                                            file,
-                                            targetedKernel.id,
-                                            context,
-                                            options?.forceAnalysisRefresh
-                                                ? options.forceAnalysisRefresh
-                                                : false
-                                        )
-                                            .then((notebook) => {
-                                                let summary =
-                                                    boostNotebookToFileSummaryItem(
-                                                        notebook
-                                                    );
-                                                const boostprojectdata =
-                                                    this.getBoostProjectData();
-                                                this.summary?.finishJob(
-                                                    targetedKernel.outputType,
-                                                    relativePath,
-                                                    summary,
-                                                    boostprojectdata,
-                                                    null
-                                                );
-                                                resolve(notebook);
-                                            })
-                                            .catch((error) => {
-                                                // get the distance from the workspace folder for the source file
-                                                // for project-level status files, we ignore the relative path
-                                                let relativePath =
-                                                    path.relative(
-                                                        targetFolder.fsPath,
-                                                        file.fsPath
-                                                    );
-                                                const boostprojectdata =
-                                                    this.getBoostProjectData();
-                                                this.summary?.finishJob(
-                                                    targetedKernel.outputType,
-                                                    relativePath,
-                                                    null,
-                                                    boostprojectdata,
-                                                    error
-                                                );
-                                                reject(error);
-                                            });
-                                    }
-                                );
-                            };
-                        };
-                    });
-
-                //let's convert the processedNotebookWaits to an array of promise generators for use
-                //in Workflow engine.  just loop through the array and return a function that returns
-                //the promise
-
-                let engine = new WorkflowEngine(
-                    processedNotebookWaitsGenerators as PromiseGenerator[]
-                );
-                await engine.run();
-            } else {
-                let processedNotebookWaits: Promise<boostnb.BoostNotebook>[] =
-                    files.map(async (file) => {
-                        return new Promise<boostnb.BoostNotebook>(
-                            (resolve, reject) => {
-                                const fileSize = fs.statSync(file.fsPath).size;
-                                const estimatedWords =
-                                    this.calculateEstimatedWords(fileSize);
-                                const processingTime =
-                                    this.calculateProcessingTime(
-                                        estimatedWords,
-                                        wordsPerFile
-                                    );
-
-                                boostLogging.log(
-                                    `Delaying file ${
-                                        file.fsPath
-                                    } with ${estimatedWords} ~items to wait ${
-                                        processingTime / seconds
-                                    } secs`
-                                );
-                                // get the distance from the workspace folder for the source file
-                                // for project-level status files, we ignore the relative path
-                                let relativePath = path.relative(
-                                    targetFolder.fsPath,
-                                    file.fsPath
-                                );
-
-                                setTimeout(async () => {
-                                    // if its been more than 5 seconds, log it - that's about 13 pages of source in 5 seconds (wild estimate)
-                                    if (processingTime > 5 * seconds) {
-                                        boostLogging.log(
-                                            `Starting processing file ${
-                                                file.fsPath
-                                            } with ${estimatedWords} ~items after waiting ${
-                                                processingTime * seconds
-                                            } secs`
-                                        );
-                                    }
-
-                                    this.summary?.addJobs(
-                                        targetedKernel.outputType,
-                                        [relativePath],
-                                        boostprojectdata
-                                    );
-
-                                    this.processCurrentFile(
-                                        file,
-                                        targetedKernel.id,
-                                        context,
-                                        options?.forceAnalysisRefresh
-                                            ? options.forceAnalysisRefresh
-                                            : false
-                                    )
-                                        .then((notebook) => {
-                                            let summary =
-                                                boostNotebookToFileSummaryItem(
-                                                    notebook
-                                                );
-                                            const boostprojectdata =
-                                                this.getBoostProjectData();
-                                            this.summary?.finishJob(
-                                                targetedKernel.outputType,
-                                                relativePath,
-                                                summary,
-                                                boostprojectdata,
-                                                null
-                                            );
-                                            resolve(notebook);
-                                        })
-                                        .catch((error) => {
-                                            // get the distance from the workspace folder for the source file
-                                            // for project-level status files, we ignore the relative path
-                                            let relativePath = path.relative(
-                                                targetFolder.fsPath,
-                                                file.fsPath
-                                            );
-                                            const boostprojectdata =
-                                                this.getBoostProjectData();
-                                            this.summary?.finishJob(
-                                                targetedKernel.outputType,
-                                                relativePath,
-                                                null,
-                                                boostprojectdata,
-                                                error
-                                            );
-                                            reject(error);
-                                        });
-                                }, processingTime);
-                            }
-                        );
-                    });
-
-                function reflect(promise: Promise<any>) {
-                    return promise.then(
-                        (v) => ({ v, status: "fulfilled" }),
-                        (e) => ({ e, status: "rejected" })
-                    );
-                }
-
-                let reflectedPromises = processedNotebookWaits.map(reflect);
-
-                await Promise.all(reflectedPromises).then((results) => {
-                    let successfullyProcessed = true;
-
-                    results.forEach((result) => {
-                        if (result.status === "fulfilled") {
-                            boostLogging.info(
-                                `Boost Notebook processed with command ${
-                                    targetedKernel.command
-                                }: ${
-                                    (result as { v: any; status: string }).v
-                                        .fsPath
-                                }`,
-                                false
-                            );
-                        } else if (result.status === "rejected") {
-                            successfullyProcessed = false;
-                            boostLogging.error(
-                                `Error Boosting folder ${
-                                    targetFolder.fsPath
-                                } due to Error: ${
-                                    (result as { e: any; status: string }).e
-                                }`,
-                                false
-                            );
+                                        reject(error);
+                                    });
+                            }, processingTime);
                         }
-                    });
+                    );
+                });
 
-                    if (successfullyProcessed) {
+            function reflect(promise: Promise<any>) {
+                return promise.then(
+                    (v) => ({ v, status: "fulfilled" }),
+                    (e) => ({ e, status: "rejected" })
+                );
+            }
+
+            let reflectedPromises = processedNotebookWaits.map(reflect);
+
+            await Promise.all(reflectedPromises).then((results) => {
+                let successfullyProcessed = true;
+
+                results.forEach((result) => {
+                    if (result.status === "fulfilled") {
                         boostLogging.info(
-                            `${reflectedPromises.length.toString()} Boost Notebooks processed for folder ${
+                            `Boost Notebook processed with command ${
+                                targetedKernel.command
+                            }: ${
+                                (result as { v: any; status: string }).v
+                                    .fsPath
+                            }`,
+                            false
+                        );
+                    } else if (result.status === "rejected") {
+                        successfullyProcessed = false;
+                        boostLogging.error(
+                            `Error Boosting folder ${
                                 targetFolder.fsPath
+                            } due to Error: ${
+                                (result as { e: any; status: string }).e
                             }`,
                             false
                         );
                     }
                 });
-            }
+
+                if (successfullyProcessed) {
+                    boostLogging.info(
+                        `${reflectedPromises.length.toString()} Boost Notebooks processed for folder ${
+                            targetFolder.fsPath
+                        }`,
+                        false
+                    );
+                }
+            });
 
             // if we are doing a summary operation, then we process the named folder only (for the project/folder-level summary)
             // this happens after we do rollup summaries for all other source files - to make our project-level use the latest rollup
