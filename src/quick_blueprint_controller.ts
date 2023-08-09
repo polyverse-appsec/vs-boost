@@ -247,6 +247,9 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
             recommendedListOfFilesToExcludeFromAnalysis:
                 draftResponse.details
                     .recommendedListOfFilesToExcludeFromAnalysis,
+            prioritizedListOfSourceFilesToAnalyze:
+                draftResponse.details
+                    .prioritizedListOfSourceFilesToAnalyze,
         };
         const normalizedFullProjectFilePath =
             path.normalize(fullProjectFilePath);
