@@ -520,18 +520,18 @@ export function getProjectName(): string {
 }
 
 export function getPrioritizedFileList(rootFolder : vscode.Uri) : string[] {
-    let getPrioritizedFileList : string[] = [];
+    let prioritizedFilelist : string[] = [];
 
     const summaryNotebookUri = getBoostFile(undefined, BoostFileType.summary, false);
     if (!fs.existsSync(summaryNotebookUri.fsPath)) {
-        return getPrioritizedFileList;
+        return prioritizedFilelist;
     }
 
     const summaryNotebook = new boostnb.BoostNotebook();
     summaryNotebook.load(summaryNotebookUri.fsPath);
     const blueprint = findCellByKernel(summaryNotebook, ControllerOutputType.blueprint) as boostnb.BoostNotebookCell;
     if (!blueprint?.outputs) {
-        return getPrioritizedFileList;
+        return prioritizedFilelist;
     }
 
     const quickBlueprintOutput = blueprint.outputs.filter((output) => {
@@ -539,11 +539,11 @@ export function getPrioritizedFileList(rootFolder : vscode.Uri) : string[] {
     });
 
     if (quickBlueprintOutput.length === 0) {
-        return getPrioritizedFileList;
+        return prioritizedFilelist;
     }
 
-    getPrioritizedFileList = quickBlueprintOutput[0].metadata.details.prioritizedListOfSourceFilesToAnalyze;
-    return getPrioritizedFileList?getPrioritizedFileList:[];
+    prioritizedFilelist = quickBlueprintOutput[0].metadata.details.prioritizedListOfSourceFilesToAnalyze;
+    return prioritizedFilelist?prioritizedFilelist:[];
 }
 
 export async function getAllProjectFiles(
