@@ -164,8 +164,8 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
         ) {
             if (existingBlueprintCell.metadata.blueprintType === "summary") {
                 boostLogging.info(
-                    `Skipping ${this.command} of Project-level Notebook " +
-                                  "because it already has a detailed Summary blueprint`,
+                    `Skipping ${this.command} of Project-level Notebook ` +
+                                  `because it already has a detailed Summary blueprint`,
                     false
                 );
                 return;
