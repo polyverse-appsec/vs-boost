@@ -162,13 +162,12 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
             existingBlueprintCell.value &&
             existingBlueprintCell.metadata?.blueprintType
         ) {
+            // overwriting deep summaries for now - since quick summaries are more reliable
             if (existingBlueprintCell.metadata.blueprintType === "summary") {
                 boostLogging.info(
-                    `Skipping ${this.command} of Project-level Notebook ` +
-                                  `because it already has a detailed Summary blueprint`,
+                    `Overwriting deep summary ${this.command} of Project-level Notebook with blueprint`,
                     false
                 );
-                return;
             } else if (
                 existingBlueprintCell.metadata.blueprintType === "quick"
             ) {

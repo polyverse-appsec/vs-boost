@@ -10,6 +10,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Enhancements
 - Analysis of files is automatically prioritized based on perceived value and relevance to the project.
+- Rebuild Executive Report Summary for Security, Compliance and Blueprint on every analysis run
 
 ### Bug Fixes
 - Ensure Analysis Output files (e.g. PDF, HTML or Markdown) are only generated for source files under analysis (e.g. don't include ignored files)

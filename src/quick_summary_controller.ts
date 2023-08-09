@@ -163,13 +163,19 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
         let existingSummaryCell = findCellByKernel(notebook, this.outputType) as BoostNotebookCell;
         if (existingSummaryCell && existingSummaryCell.value &&
             existingSummaryCell.metadata?.summaryType) {
+            // overwriting deep summaries for now - since quick summaries are more reliable
             if (existingSummaryCell.metadata.summaryType === "summary") {
-                boostLogging.info(`Skipping ${this.command} of Project-level Notebook " +
-                                  "because it already has a detailed Summary`, false);
-                return;
-            } else if (existingSummaryCell.metadata.summaryType === "quick") {
-                boostLogging.info(`Rebuilding ${this.command} of Project-level Notebook ` +
-                                  `from last quick summary`, false);
+                boostLogging.info(
+                    `Overwriting deep summary ${this.command} of Project-level Notebook with quick summary`,
+                    false
+                );
+            } else if (
+                existingSummaryCell.metadata.summaryType === "quick"
+            ) {
+                boostLogging.info(
+                    `Rebuilding ${this.command} of Project-level Notebook ` +
+                        `from last quick summary`, false
+                );
             }
         }
 
