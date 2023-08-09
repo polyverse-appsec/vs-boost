@@ -17,6 +17,7 @@ import { errorMimeType } from "./base_controller";
 import { BoostExtension } from "./BoostExtension";
 import { ControllerOutputType } from "./controllerOutputTypes";
 import { setExtensionMode } from "./extension_state";
+import { get } from "lodash";
 
 export enum BoostFileType {
     notebook = "notebook",
@@ -518,6 +519,33 @@ export function getProjectName(): string {
     return path.basename(vscode.workspace.workspaceFolders![0].uri.fsPath);
 }
 
+export function getPrioritizedFileList(rootFolder : vscode.Uri) : string[] {
+    let getPrioritizedFileList : string[] = [];
+
+    const summaryNotebookUri = getBoostFile(undefined, BoostFileType.summary, false);
+    if (!fs.existsSync(summaryNotebookUri.fsPath)) {
+        return getPrioritizedFileList;
+    }
+
+    const summaryNotebook = new boostnb.BoostNotebook();
+    summaryNotebook.load(summaryNotebookUri.fsPath);
+    const blueprint = findCellByKernel(summaryNotebook, ControllerOutputType.blueprint) as boostnb.BoostNotebookCell;
+    if (!blueprint?.outputs) {
+        return getPrioritizedFileList;
+    }
+
+    const quickBlueprintOutput = blueprint.outputs.filter((output) => {
+        return output.metadata.outputType === ControllerOutputType.blueprint;
+    });
+
+    if (quickBlueprintOutput.length === 0) {
+        return getPrioritizedFileList;
+    }
+
+    getPrioritizedFileList = quickBlueprintOutput[0].metadata.details.prioritizedListOfSourceFilesToAnalyze;
+    return getPrioritizedFileList?getPrioritizedFileList:[];
+}
+
 export async function getAllProjectFiles(
     useRelativePaths: boolean = false,
     targetFolder : vscode.Uri | undefined = undefined
@@ -530,6 +558,8 @@ export async function getAllProjectFiles(
         }
     }
 
+    const prioritizedFileList = targetFolder?getPrioritizedFileList(targetFolder):[];
+
     const searchPattern = new vscode.RelativePattern(
         targetFolder.fsPath,
         "**/**"
@@ -540,17 +570,32 @@ export async function getAllProjectFiles(
         ignorePatterns
     );
 
-    const paths: string[] = [];
+    let paths: string[] = [];
     files.forEach((file) => {
-        if (!useRelativePaths) {
-            paths.push(file.fsPath);
-            return;
-        }
-
-        const relativePath = vscode.workspace.asRelativePath(file);
-        paths.push(relativePath);
+        const pathToAdd = useRelativePaths ? vscode.workspace.asRelativePath(file) : file.fsPath;
+        paths.push(pathToAdd);
     });
-    return paths;
+
+    let prioritizedPaths: string[] = [];
+    for (let relativeFile of prioritizedFileList) {
+        const absoluteFile = vscode.Uri.joinPath(targetFolder, relativeFile).fsPath;
+        const index = paths.findIndex(p => {
+            const comparePath = useRelativePaths ? vscode.workspace.asRelativePath(p) : p;
+            return comparePath === absoluteFile;
+        });
+        
+        if (index !== -1) {
+            prioritizedPaths.push(paths[index]);
+            paths.splice(index, 1);
+        }
+    }
+
+    if (paths.length > 0) {
+        boostLogging.debug(`Unprioritized paths: ${paths.length}`);
+        prioritizedPaths = [...prioritizedPaths, ...paths];
+    }
+
+    return prioritizedPaths;
 }
 
 export function getBoostIgnoreFile(): vscode.Uri | undefined {
