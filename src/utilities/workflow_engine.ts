@@ -26,7 +26,7 @@ import { v4 as uuidv4 } from "uuid";
 
 // Custom error class for handling typed errors
 export class WorkflowError extends Error {
-    constructor(public type: "retry" | "skip" | "abort", message?: string) {
+    constructor(public type: "retry" | "skip" | "abort" | "cancel", message?: string) {
         super(message);
     }
 }
@@ -80,6 +80,7 @@ export class WorkflowEngine {
     private afterRun: AfterRunPromiseGenerator[];
     private pattern: number[];
     private aborted: boolean = false;
+    private canceled: boolean = false;
     private logger: any;
     private maxRetries: number;
     private retryCounts: Map<PromiseGenerator, number> = new Map(); // To keep track of retries for each promise generator
@@ -101,6 +102,7 @@ export class WorkflowEngine {
 
     public async run() : Promise<any[]> {
         this.aborted = false;
+        this.canceled = false;
         const overallStartTime = Date.now();
         let startTime = Date.now();
         let allResults: any[] = [];
@@ -121,13 +123,13 @@ export class WorkflowEngine {
         }
 
         let groupIndex = 0;
-        while (this.tasks.length > 0 && !this.aborted) {
+        while (this.tasks.length > 0 && !this.aborted && !this.canceled) {
             const groupSize =
                 this.pattern[groupIndex] ||
                 this.pattern[this.pattern.length - 1]; // Use the last group size if we've exceeded the pattern
 
             let groupResults: any[] = [];
-            for (let i = 0; i < groupSize && this.tasks.length > 0; i++) {
+            for (let i = 0; i < groupSize && this.tasks.length > 0 && !this.canceled; i++) {
                 if (this.aborted) {
                     return allResults;
                 }
@@ -205,6 +207,8 @@ export class WorkflowEngine {
 
                             // Just skip and continue
                             break;
+
+                            // abort will immediately exit the entire workflow process
                         case "abort":
                             this.logger?.error(
                                 `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Aborting workflow due to error: ${(error as Error).message}`
@@ -214,8 +218,21 @@ export class WorkflowEngine {
 
                             // report the error (after abort) as the result of the operation
                             groupResults.push(error);
+                            allResults.push(groupResults);
 
                             return allResults; // Exit the function immediately
+
+                            // cancel will only cancel the current task and group, but still perform end of group
+                            //      and end of workflow tasks
+                        case "cancel":
+                            this.logger?.error(
+                                `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Canceling tasks due to error: ${(error as Error).message}`
+                            );
+                            this.retryCounts.delete(promiseGenerator);
+                            this.cancel();
+
+                            // note that this task was canceled
+                            groupResults.push(error);
                     }
                 }
             }
@@ -271,6 +288,10 @@ export class WorkflowEngine {
 
     public abort() {
         this.aborted = true;
+    }
+
+    public cancel() {
+        this.canceled = true;
     }
 
     private async executePromises(promiseGenerators: PromiseGenerator[]) {

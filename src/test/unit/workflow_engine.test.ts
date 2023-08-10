@@ -293,9 +293,80 @@ describe("WorkflowEngine", () => {
         const engine = new WorkflowEngine(tasks);
         const allResults = await engine.run();
 
-        expect(allResults.length).to.equal(0);
+        expect(allResults.length).to.equal(1);
+        expect(allResults[0].length).to.equal(1);
+        expect(allResults[0][0] instanceof WorkflowError).to.equal(true);
 
         expect(log).to.deep.equal([]);
+    });
+
+    it('should cancel on "cancel" type error', async () => {
+        let log: string[] = [];
+
+        const tasks = [
+            () => async () => {
+                log.push("main1");
+                return "main1";
+            },
+            () => async () => {
+                throw new WorkflowError("cancel", "Cancel error");
+            },
+            () => async () => {
+                log.push("main2");
+                return "main2";
+            },
+        ];
+
+        const beforeRun = [
+            () => async () => {
+                log.push("beforeRun");
+                return;
+            },
+        ];
+        const afterEachTask = [
+            () => async () => {
+                log.push("afterEachTask");
+                return;
+            },
+        ];
+        const afterEachTaskGroup = [
+            () => async () => {
+                log.push("afterEachTaskGroup");
+                return;
+            },
+        ];
+        const afterRun = [
+            () => async () => {
+                log.push("afterRun");
+                return;
+            },
+        ];
+
+        const engine = new WorkflowEngine(tasks,
+            {
+                beforeRun: beforeRun,
+                afterEachTask: afterEachTask,
+                afterEachTaskGroup: afterEachTaskGroup,
+                afterRun: afterRun
+            });
+        const allResults = await engine.run();
+
+        expect(allResults.length).to.equal(2);
+
+        expect(allResults[0].length).to.equal(1);
+        expect(allResults[0][0]).to.equal("main1");
+
+        expect(allResults[1].length).to.equal(1);
+        expect(allResults[1][0] instanceof WorkflowError).to.equal(true);
+
+        expect(log).to.deep.equal([
+            "beforeRun",
+            "main1",
+            "afterEachTask",
+            "afterEachTaskGroup",
+            "afterEachTaskGroup",
+            "afterRun",
+        ]);
     });
 
     it("should allow a 'then' after run command", async () => {
