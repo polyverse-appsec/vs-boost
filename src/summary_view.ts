@@ -369,71 +369,89 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
     ]);
 
     async processAllFilesInRings(analysisTypes: string[], fileLimit: number) {
+        const tasks : any[] = [];
+
+        // we're going to dynamically build the list at the start of the run
+        //      so we get the best most up to date list of files from
+        //      blueprint
+        const prepareFileList = async () => {
             // get the entire list of files to analyze
-        const allFiles = await getAllProjectFiles();
-        boostLogging.debug(`Total Project is ${allFiles.length} files`);
+            const allFiles = await getAllProjectFiles();
+            boostLogging.debug(`Total Project is ${allFiles.length} files`);
+    
+            // get the requested # of files only
+            const limitedFiles = (fileLimit !== 0)?allFiles.slice(0, fileLimit):allFiles;
+            if (fileLimit !== 0) {
+                boostLogging.debug(`Processing only ${limitedFiles.length} files by request`);
+            }
 
-        // get the requested # of files only
-        const limitedFiles = (fileLimit !== 0)?allFiles.slice(0, fileLimit):allFiles;
-        if (fileLimit !== 0) {
-            boostLogging.debug(`Processing only ${limitedFiles.length} files by request`);
-        }
-
+            limitedFiles.forEach((file) => {
+                tasks.push(
+                    () => async () => {
+                        for (const [key, value] of this.ringFileAnalysisMap) {
+                            if (!analysisTypes.includes(key)) {
+                                continue;
+                            }
+                            const fileUri = vscode.Uri.parse(file);
+                            try {
+                                await this.processDepthOnRingFileTask(fileUri, value);
+                            } catch (error) {
+                                boostLogging.error(
+                                    `Error while running ${key} analysis: ${error}`,
+                                    false
+                                );
+                            }
+                        }
+    
+                        return file;
+                    }
+                );
+            });
+        };
 
         const beforeRun = [
             () => async () => {
                 if (BoostConfiguration.simulateServiceCalls) {
-                    boostLogging.debug(`Simulate:executeCommand: loadCurrentFolder()`);
-                    boostLogging.debug(`Simulate:executeCommand: refreshProjectData()`);
                     boostLogging.debug(`Simulate:executeCommand: processProject(${getKernelName(quickBlueprintKernelName)})`);
                 } else {
-                    // creates and loads/refreshes/rebuilds all notebook files
+                    // we want to run blueprint first so we get the excludes and priority list before
+                    //   we build the task list for the file rings
                     await vscode.commands.executeCommand(
-                        NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
-                        undefined
-                    );
-                    // refresh project data (since we may have rebuilt source/files)
-                    await vscode.commands.executeCommand(
-                        NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
-                    );
-                    return vscode.commands.executeCommand(
                         NOTEBOOK_TYPE +
                         "." +
                         BoostCommands.processProject,
                         getKernelName(quickBlueprintKernelName)
                     );
                 }
+
+                await prepareFileList();
+
+                if (BoostConfiguration.simulateServiceCalls) {
+                    boostLogging.debug(`Simulate:executeCommand: loadCurrentFolder()`);
+                    boostLogging.debug(`Simulate:executeCommand: refreshProjectData()`);
+                } else {
+
+                    // creates and loads/refreshes/rebuilds all notebook files
+                    await vscode.commands.executeCommand(
+                        NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
+                        undefined
+                    );
+                    // refresh project data (since we may have rebuilt source/files)
+                    return vscode.commands.executeCommand(
+                        NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
+                    );
+                }
             },
         ];
-        const tasks : any[] = [];
-        limitedFiles.forEach((file) => {
-            tasks.push(
-                () => async () => {
-                    for (const [key, value] of this.ringFileAnalysisMap) {
-                        if (!analysisTypes.includes(key)) {
-                            continue;
-                        }
-                        const fileUri = vscode.Uri.parse(file);
-                        try {
-                            await this.processDepthOnRingFileTask(fileUri, value);
-                        } catch (error) {
-                            boostLogging.error(
-                                `Error while running ${key} analysis: ${error}`,
-                                false
-                            );
-                        }
-                    }
 
-                    return file;
-                }
-            );
-        });
         const afterEachTask = [
             () => async (inputs: any[]) => {
+                const path = inputs[0]; // first param is the file path
+
                 if (!BoostConfiguration.alwaysRunSummary) {
+                    boostLogging.info(`Skipping summary for source file: ${path}`);
                     return;
                 }
-                const path = inputs[0]; // first param is the file path
 
                 if (BoostConfiguration.simulateServiceCalls) {
                     boostLogging.debug(`Simulate:executeCommand: processCurrentFolder(${path}, ${getKernelName(summarizeKernelName)})`);
