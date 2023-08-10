@@ -592,7 +592,7 @@ export async function getAllProjectFiles(
     }
 
     if (paths.length > 0) {
-        boostLogging.debug(`Unprioritized paths: ${paths.length}`);
+        boostLogging.debug(`Source files deprioritized to bottom due to unspecified order: ${paths.length}`);
         prioritizedPaths = [...prioritizedPaths, ...paths];
     }
 
