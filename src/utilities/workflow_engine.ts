@@ -149,8 +149,15 @@ export class WorkflowEngine {
                         await this.executePromisesWithInputs(this.afterEachTask, [
                             result,
                         ]);
-                    
-                        this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):afterEachTask:finished:success:${getElapsedTime(startTime)}`);
+
+                        if (this.retryCounts.has(promiseGenerator)) {
+                            this.logger?.log(
+                                `${getFormattedDate()}:Workflow(${this.id}):afterEachTask:finished:success:afterRetries=${this.retryCounts.get(promiseGenerator)}:${getElapsedTime(startTime)}`);
+
+                            this.retryCounts.delete(promiseGenerator);
+                        } else {
+                            this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):afterEachTask:finished:success:${getElapsedTime(startTime)}`);
+                        }
                         
                     } catch (error) {
                         this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):afterEachTask:finished:error:${getElapsedTime(startTime)}:${error}`);
@@ -165,7 +172,7 @@ export class WorkflowEngine {
                             case "retry":
                                 const currentRetries =
                                     this.retryCounts.get(promiseGenerator) || 0;
-                                if (currentRetries < this.maxRetries) {
+                                if (currentRetries < this.maxRetries + 1) {
                                     this.retryCounts.set(
                                         promiseGenerator,
                                         currentRetries + 1
@@ -175,18 +182,21 @@ export class WorkflowEngine {
                                     this.logger?.error(
                                         `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Max retries reached; Skipping.`
                                     );
+                                    this.retryCounts.delete(promiseGenerator);
                                 }
                                 break;
                             case "skip":
                                 this.logger?.error(
                                     `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Skipping due to error: ${error.message}`
                                 );
+                                this.retryCounts.delete(promiseGenerator);
                                 // Just skip and continue
                                 break;
                             case "abort":
                                 this.logger?.error(
                                     `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Aborting workflow due to error: ${error.message}`
                                 );
+                                this.retryCounts.delete(promiseGenerator);
                                 this.abort();
                                 return allResults; // Exit the function immediately
                         }
@@ -230,6 +240,16 @@ export class WorkflowEngine {
         }
 
         this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):Run ended:${getElapsedTime(overallStartTime)}`);
+    }
+
+    // return 0 if no retries, or the first retry count
+    // this assumes the number of active tasks is 0 or 1
+    get currentTaskRetries() : number {
+        if (this.retryCounts.size === 0) {
+            return 0;
+        } else {
+            return this.retryCounts.values().next().value;
+        }
     }
 
     public abort() {

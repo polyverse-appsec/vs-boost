@@ -280,10 +280,11 @@ describe("WorkflowEngine", () => {
             },
         ];
 
-        const engine = new WorkflowEngine(tasks, { maxRetries: 2 }); // Setting maxRetries to 2
+        const engine = new WorkflowEngine(tasks, { maxRetries: 1 }); // Setting maxRetries to 1 should only retry once
         await engine.run();
+        expect(engine.currentTaskRetries).to.equal(0); // retry count should be reset
 
-        expect(log).to.deep.equal([]); // Since maxRetries is 2, the promise should not be successful and "main" won't be logged
-        expect(executionCount).to.equal(3); // Should only retry 2 times, so total executions is 3
+        expect(log).to.deep.equal([]); // Since maxRetries is 1, the promise should not be successful and "main" won't be logged
+        expect(executionCount).to.equal(3); // Should only retry 1 times, so total executions is 3
     });
 });
