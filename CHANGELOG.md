@@ -14,6 +14,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Bug Fixes
 - Ensure Analysis Output files (e.g. PDF, HTML or Markdown) are only generated for source files under analysis (e.g. don't include ignored files)
+- Fix rare informational logging messages shown as popup notifications during automated analysis
 
 ## Version 1.2.5: August 8th, 2023
 

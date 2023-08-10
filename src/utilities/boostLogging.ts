@@ -36,7 +36,7 @@ export class BoostLogger extends Disposable {
         this._outputChannel?.appendLine(message);
     }
 
-    info(message: string, showUI: boolean = true) {
+    info(message: string, showUI: boolean = false) {
         if (!this.shouldLog("info")) {
             return;
         }
