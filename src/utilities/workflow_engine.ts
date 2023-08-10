@@ -137,18 +137,19 @@ export class WorkflowEngine {
                 }
                 const promiseGenerator = this.tasks.shift()!;
                 const promise = promiseGenerator();
+                const taskId = promise.name || uuidv4();
                 try {
-                    this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:starting`);
+                    this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:starting`);
 
                     let result = await promise();
 
-                    this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:finished:success:${getElapsedTime(startTime)}`);
+                    this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:finished:success:${getElapsedTime(startTime)}`);
 
                     groupResults.push(result);
 
                     startTime = Date.now();
                     try {
-                        this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):afterEachTask:starting`);
+                        this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:afterEachTask:starting`);
             
                         await this.executePromisesWithInputs(this.afterEachTask, [
                             result,
@@ -156,15 +157,15 @@ export class WorkflowEngine {
 
                         if (this.retryCounts.has(promiseGenerator)) {
                             this.logger?.log(
-                                `${getFormattedDate()}:Workflow(${this.id}):afterEachTask:finished:success:afterRetries=${this.retryCounts.get(promiseGenerator)}:${getElapsedTime(startTime)}`);
+                                `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:afterEachTask:finished:success:afterRetries=${this.retryCounts.get(promiseGenerator)}:${getElapsedTime(startTime)}`);
 
                             this.retryCounts.delete(promiseGenerator);
                         } else {
-                            this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):afterEachTask:finished:success:${getElapsedTime(startTime)}`);
+                            this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:afterEachTask:finished:success:${getElapsedTime(startTime)}`);
                         }
                         
                     } catch (error) {
-                        this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):afterEachTask:finished:error:${getElapsedTime(startTime)}:${error}`);
+                        this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:afterEachTask:finished:error:${getElapsedTime(startTime)}:${error}`);
                     }
 
                 } catch (error) {
@@ -196,14 +197,14 @@ export class WorkflowEngine {
                                 groupResults.push(error);
 
                                 this.logger?.error(
-                                    `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Max retries reached; Skipping.`
+                                    `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:Max retries reached; Skipping.`
                                 );
                                 this.retryCounts.delete(promiseGenerator);
                             }
                             break;
                         case "skip":
                             this.logger?.error(
-                                `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Skipping due to error: ${(error as Error).message}`
+                                `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:Skipping due to error: ${(error as Error).message}`
                             );
                             this.retryCounts.delete(promiseGenerator);
 
@@ -213,7 +214,7 @@ export class WorkflowEngine {
                             // abort will immediately exit the entire workflow process
                         case "abort":
                             this.logger?.error(
-                                `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Aborting workflow due to error: ${(error as Error).message}`
+                                `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:Aborting workflow due to error: ${(error as Error).message}`
                             );
                             this.retryCounts.delete(promiseGenerator);
                             this.abort();
@@ -228,7 +229,7 @@ export class WorkflowEngine {
                             //      and end of workflow tasks
                         case "cancel":
                             this.logger?.error(
-                                `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Canceling tasks due to error: ${(error as Error).message}`
+                                `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:Canceling tasks due to error: ${(error as Error).message}`
                             );
                             this.retryCounts.delete(promiseGenerator);
                             this.cancel();

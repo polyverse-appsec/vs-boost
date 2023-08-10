@@ -384,31 +384,40 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             if (fileLimit !== 0) {
                 boostLogging.debug(`Processing only ${limitedFiles.length} files by request`);
             }
-
             limitedFiles.forEach((file) => {
                 tasks.push(
-                    () => async () => {
-                        for (const [key, value] of this.ringFileAnalysisMap) {
-                            if (!analysisTypes.includes(key)) {
-                                continue;
+                    () => {
+                        const dynamicFunc = async () => { // use arrow function
+                            for (const [key, value] of this.ringFileAnalysisMap) {
+                                if (!analysisTypes.includes(key)) {
+                                    continue;
+                                }
+                                const fileUri = vscode.Uri.parse(file);
+                                try {
+                                    await this.processDepthOnRingFileTask(fileUri, value);
+                                } catch (error) {
+                                    boostLogging.error(
+                                        `Error while running ${key} analysis: ${error}`,
+                                        false
+                                    );
+                                }
                             }
-                            const fileUri = vscode.Uri.parse(file);
-                            try {
-                                await this.processDepthOnRingFileTask(fileUri, value);
-                            } catch (error) {
-                                boostLogging.error(
-                                    `Error while running ${key} analysis: ${error}`,
-                                    false
-                                );
-                            }
-                        }
-    
-                        return file;
+            
+                            return file;
+                        };
+                        
+                        // log the relative path for simplicity for user
+                        const rootPath = vscode.workspace.workspaceFolders?.[0].uri.fsPath as string;
+                        const relativePath = path.relative(rootPath, file);
+                        // Name the function dynamically based on the file (to improve logging)
+                        Object.defineProperty(dynamicFunc, 'name', { value: relativePath, writable: false });
+                        
+                        return dynamicFunc;
                     }
                 );
             });
         };
-
+ 
         const beforeRun = [
             () => async () => {
                 if (BoostConfiguration.simulateServiceCalls) {
