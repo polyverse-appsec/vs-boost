@@ -379,23 +379,30 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             boostLogging.debug(`Processing only ${limitedFiles.length} files by request`);
         }
 
+
         const beforeRun = [
             () => async () => {
-                // creates and loads/refreshes/rebuilds all notebook files
-                await vscode.commands.executeCommand(
-                    NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
-                    undefined
-                );
-                // refresh project data (since we may have rebuilt source/files)
-                await vscode.commands.executeCommand(
-                    NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
-                );
-                return vscode.commands.executeCommand(
-                    NOTEBOOK_TYPE +
-                    "." +
-                    BoostCommands.processProject,
-                    getKernelName(quickBlueprintKernelName)
-                );
+                if (BoostConfiguration.simulateServiceCalls) {
+                    boostLogging.debug(`Simulate:executeCommand: loadCurrentFolder()`);
+                    boostLogging.debug(`Simulate:executeCommand: refreshProjectData()`);
+                    boostLogging.debug(`Simulate:executeCommand: processProject(${getKernelName(quickBlueprintKernelName)})`);
+                } else {
+                    // creates and loads/refreshes/rebuilds all notebook files
+                    await vscode.commands.executeCommand(
+                        NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
+                        undefined
+                    );
+                    // refresh project data (since we may have rebuilt source/files)
+                    await vscode.commands.executeCommand(
+                        NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
+                    );
+                    return vscode.commands.executeCommand(
+                        NOTEBOOK_TYPE +
+                        "." +
+                        BoostCommands.processProject,
+                        getKernelName(quickBlueprintKernelName)
+                    );
+                }
             },
         ];
         const tasks : any[] = [];
@@ -428,12 +435,16 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                 }
                 const path = inputs[0]; // first param is the file path
 
-                // build the summary notebook for this file
-                return vscode.commands.executeCommand(
-                    NOTEBOOK_TYPE + "." + BoostCommands.processCurrentFolder,
-                    vscode.Uri.parse(path),
-                    getKernelName(summarizeKernelName)
-                );
+                if (BoostConfiguration.simulateServiceCalls) {
+                    boostLogging.debug(`Simulate:executeCommand: processCurrentFolder(${path}, ${getKernelName(summarizeKernelName)})`);
+                } else {
+                    // build the summary notebook for this file
+                    return vscode.commands.executeCommand(
+                        NOTEBOOK_TYPE + "." + BoostCommands.processCurrentFolder,
+                        vscode.Uri.parse(path),
+                        getKernelName(summarizeKernelName)
+                    );
+                }
             },
         ];
         const afterEachTaskGroup = [
@@ -452,19 +463,27 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     }
                 }
 
-                // refresh project data
-                return vscode.commands.executeCommand(
-                    NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
-                );
+                if (BoostConfiguration.simulateServiceCalls) {
+                    boostLogging.debug(`Simulate:executeCommand: refreshProjectData()`);
+                } else {
+                    // refresh project data
+                    return vscode.commands.executeCommand(
+                        NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
+                    );
+                }
             },
         ];
         const afterRun = [
             () => async () => {
-                // refresh project data, refresh the UI
-                await vscode.commands.executeCommand(
-                    NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
-                );
-                this.finishAllJobs(this._boostExtension.getBoostProjectData());
+                if (BoostConfiguration.simulateServiceCalls) {
+                    boostLogging.debug(`Simulate:executeCommand: refreshProjectData()`);
+                } else {
+                    // refresh project data, refresh the UI
+                    await vscode.commands.executeCommand(
+                        NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
+                    );
+                    this.finishAllJobs(this._boostExtension.getBoostProjectData());
+                }
                 this.refresh();
             },
         ];
@@ -520,6 +539,10 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
     private async processDepthOnRingFileTask(fileUri: vscode.Uri, value: string[]) {
         for (const analysisKernelName of value) {
+            if (BoostConfiguration.simulateServiceCalls) {
+                boostLogging.debug(`Simulate:executeCommand: processCurrentFolder(${fileUri}, ${analysisKernelName})`);
+                continue;
+            }
             const refreshed = await vscode.commands.executeCommand(
                 NOTEBOOK_TYPE +
                 "." +
@@ -534,6 +557,10 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
     private async processQuickSummaryOfRingFileTaskGroup(value: string[]) {
         for (const analysisKernelName of value) {
+            if (BoostConfiguration.simulateServiceCalls) {
+                boostLogging.debug(`Simulate:executeCommand: processProject(${analysisKernelName})`);
+                continue;
+            }
             await vscode.commands.executeCommand(
                 NOTEBOOK_TYPE +
                 "." +
