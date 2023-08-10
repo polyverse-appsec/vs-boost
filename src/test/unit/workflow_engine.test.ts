@@ -14,19 +14,19 @@ describe("WorkflowEngine", () => {
         const tasks = [
             () => async () => {
                 log.push("main1");
-                return;
+                return 1;
             },
             () => async () => {
                 log.push("main2");
-                return;
+                return 2;
             },
             () => async () => {
                 log.push("main3");
-                return;
+                return 3;
             },
             () => async () => {
                 log.push("main4");
-                return;
+                return 4;
             },
         ];
         const afterEachTask = [
@@ -57,7 +57,19 @@ describe("WorkflowEngine", () => {
             afterRun: afterRun,
             pattern: pattern,
         });
-        await engine.run();
+        const allResults = await engine.run();
+
+        expect(allResults.length).to.equal(3);
+
+        expect(allResults[0].length).to.equal(1);
+        expect(allResults[0][0]).to.equal(1);
+
+        expect(allResults[1].length).to.equal(2);
+        expect(allResults[1][0]).to.equal(2);
+        expect(allResults[1][1]).to.equal(3);
+
+        expect(allResults[2].length).to.equal(1);
+        expect(allResults[2][0]).to.equal(4);
 
         expect(log).to.deep.equal([
             "beforeRun",
@@ -203,12 +215,17 @@ describe("WorkflowEngine", () => {
                     throw new WorkflowError("retry", "Retry error");
                 } else {
                     log.push("main");
+                    return "main";
                 }
             },
         ];
 
         const engine = new WorkflowEngine(tasks);
-        await engine.run();
+        const allResults = await engine.run();
+
+        expect(allResults.length).to.equal(1);
+        expect(allResults[0].length).to.equal(1);
+        expect(allResults[0][0]).to.equal("main");
 
         expect(log).to.deep.equal(["main"]);
         expect(retryCount).to.equal(2);
@@ -245,11 +262,18 @@ describe("WorkflowEngine", () => {
             },
             () => async () => {
                 log.push("main");
+                return "main";
             },
         ];
 
         const engine = new WorkflowEngine(tasks);
-        await engine.run();
+        const allResults = await engine.run();
+
+        expect(allResults.length).to.equal(2);
+        expect(allResults[0].length).to.equal(0);
+
+        expect(allResults[1].length).to.equal(1);
+        expect(allResults[1][0]).to.equal("main");
 
         expect(log).to.deep.equal(["main"]);
     });
@@ -267,7 +291,9 @@ describe("WorkflowEngine", () => {
         ];
 
         const engine = new WorkflowEngine(tasks);
-        await engine.run();
+        const allResults = await engine.run();
+
+        expect(allResults.length).to.equal(0);
 
         expect(log).to.deep.equal([]);
     });

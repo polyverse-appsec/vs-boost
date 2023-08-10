@@ -99,10 +99,11 @@ export class WorkflowEngine {
         this.logger?.debug(`${getFormattedDate()}:Workflow(${this.id}):created`);
     }
 
-    public async run() {
+    public async run() : Promise<any[]> {
         this.aborted = false;
         const overallStartTime = Date.now();
         let startTime = Date.now();
+        let allResults: any[] = [];
 
         this.logger?.debug(`${getFormattedDate()}:Workflow(${this.id}):Run starting`);
 
@@ -116,9 +117,8 @@ export class WorkflowEngine {
         } catch (error) {
 
             this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):beforeRun:finished:error:${getElapsedTime(startTime)}:${error}`);
-            return;
+            return allResults;
         }
-        let allResults: any[] = [];
 
         let groupIndex = 0;
         while (this.tasks.length > 0 && !this.aborted) {
@@ -182,7 +182,15 @@ export class WorkflowEngine {
                                     currentRetries + 1
                                 );
                                 this.tasks.push(promiseGenerator);
+
+                                // we need to retry this iteration of the loop
+                                //    so we don't accidentally break out of the group
+                                i--;
                             } else {
+
+                                // report the error (after max-retries) as the result of the operation
+                                groupResults.push(error);
+
                                 this.logger?.error(
                                     `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Max retries reached; Skipping.`
                                 );
@@ -194,6 +202,7 @@ export class WorkflowEngine {
                                 `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Skipping due to error: ${(error as Error).message}`
                             );
                             this.retryCounts.delete(promiseGenerator);
+
                             // Just skip and continue
                             break;
                         case "abort":
@@ -202,6 +211,10 @@ export class WorkflowEngine {
                             );
                             this.retryCounts.delete(promiseGenerator);
                             this.abort();
+
+                            // report the error (after abort) as the result of the operation
+                            groupResults.push(error);
+
                             return allResults; // Exit the function immediately
                     }
                 }
@@ -239,10 +252,11 @@ export class WorkflowEngine {
             
         } catch (error) {
             this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):afterRun:finished:error:${getElapsedTime(startTime)}:${error}`);
-            return allResults;
         }
 
         this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):Run ended:${getElapsedTime(overallStartTime)}`);
+
+        return allResults;
     }
 
     // return 0 if no retries, or the first retry count
