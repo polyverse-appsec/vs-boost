@@ -310,7 +310,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         if (BoostConfiguration.processFilesInGroups) {
             await this.processAllFilesInRings(analysisTypes, fileLimit);
         } else {
-            await this.processAllFilesInSequence(analysisTypes);
+            await this.processAllFilesInSequence(analysisTypes, fileLimit);
         }
     }
 
@@ -580,7 +580,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         ],
     ]);
 
-    async processAllFilesInSequence(analysisTypes: string[]) {
+    async processAllFilesInSequence(analysisTypes: string[], fileLimit: number) {
         // creates and loads/refreshes/rebuilds all notebook files
         await vscode.commands.executeCommand(
             NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
@@ -608,7 +608,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     continue;
                 }
                 try {
-                    await this.processEachStepOfAnalysisStage(value);
+                    await this.processEachStepOfAnalysisStage(value, fileLimit);
 
                     if (BoostConfiguration.alwaysRunSummary) {
                         runSummary = true;
@@ -653,7 +653,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         }
     }
 
-    private async processEachStepOfAnalysisStage(value: string[]) {
+    private async processEachStepOfAnalysisStage(value: string[], fileLimit: number) {
         for (const analysisKernelName of value) {
             if (BoostConfiguration.runAllTargetAnalysisType &&
                 !(
@@ -692,7 +692,8 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     "." +
                     BoostCommands.processCurrentFolder,
                     {
-                        kernelCommand: analysisKernelName
+                        kernelCommand: analysisKernelName,
+                        fileLimit: fileLimit,
                     } as ProcessCurrentFolderOptions
                 );
             }

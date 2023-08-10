@@ -64,6 +64,7 @@ export interface ProcessCurrentFolderOptions {
     kernelCommand?: string;
     forceAnalysisRefresh?: boolean;
     filelist?: vscode.Uri[];
+    fileLimit?: number;
 }
 
 export async function activate(context: vscode.ExtensionContext) {

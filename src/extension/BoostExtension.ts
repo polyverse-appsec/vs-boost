@@ -2475,6 +2475,10 @@ export class BoostExtension {
                 return vscode.Uri.file(file);
             });
         }
+        // limit processing to first N files if file limit is set
+        if (options.fileLimit && options.fileLimit > 0) {
+            files = files.slice(0, options.fileLimit);
+        }
 
         boostLogging.debug(
             "Analyzing " + files.length + " files in folder: " + targetFolder
