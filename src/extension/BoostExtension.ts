@@ -2537,12 +2537,16 @@ export class BoostExtension {
                             const fileSize = fs.statSync(file.fsPath).size;
                             const estimatedWords =
                                 this.calculateEstimatedWords(fileSize);
-                            const processingTime =
+
+                                // disable all delays if processing serially in rings/groups
+                                // the server will throttle if a limit is hit, so we shoukd queue
+                                //      the request as soon as we can
+                            const processingTime = BoostConfiguration.processFilesInGroups?0:
                                 this.calculateProcessingTime(
                                     estimatedWords,
                                     wordsPerFile
                                 );
-
+                                
                             boostLogging.log(
                                 `Delaying file ${
                                     file.fsPath
