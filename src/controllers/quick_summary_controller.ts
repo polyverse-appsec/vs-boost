@@ -79,7 +79,7 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
         notebook: vscode.NotebookDocument | BoostNotebook,
         session: vscode.AuthenticationSession,
         forceAnalysisRefresh: boolean = false
-    ): Promise<void>  {
+    ): Promise<boolean>  {
         const usingBoostNotebook = notebook instanceof BoostNotebook;
 
         // for now, we ignore forceAnalysisRefresh - and always re-analyze
@@ -120,7 +120,8 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
         }
         finally {
             boostLogging.info(`Finished ${this.command} of Project-level Notebook at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
-            }    
+        }
+        return true;
     }
 
     private _parentController : FunctionKernelControllerBase | undefined = undefined;

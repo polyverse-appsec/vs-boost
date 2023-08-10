@@ -109,8 +109,8 @@ export class KernelControllerBase extends BoostServiceHelper {
         cells: vscode.NotebookCell[] | BoostNotebookCell[],
         notebook: vscode.NotebookDocument | BoostNotebook,
         forceAnalysisRefresh: boolean = false
-    ): Promise<void> {
-        return new Promise<void>(async (resolve, reject) => {
+    ): Promise<boolean> {
+        return new Promise<boolean>(async (resolve, reject) => {
             try {
                 // make sure we're authorized
                 // if not, run the authorization cell
@@ -121,13 +121,13 @@ export class KernelControllerBase extends BoostServiceHelper {
                     return;
                 }
 
-                await this.executeAll(
+                const refreshed = await this.executeAll(
                     cells,
                     notebook as vscode.NotebookDocument,
                     session,
                     forceAnalysisRefresh
                 );
-                resolve();
+                resolve(refreshed);
             } catch (error) {
                 reject(error);
             }
@@ -139,7 +139,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         notebook: vscode.NotebookDocument | BoostNotebook,
         session: vscode.AuthenticationSession,
         forceAnalysisRefresh: boolean = false
-    ): Promise<void> {
+    ): Promise<boolean> {
         // if caller asks to force refresh, or its set globally, or set for all calls to this command
         forceAnalysisRefresh =
             forceAnalysisRefresh ||
@@ -159,7 +159,7 @@ export class KernelControllerBase extends BoostServiceHelper {
                 }`,
                 false
             );
-            return;
+            return false;
         }
 
         boostLogging.info(
@@ -190,15 +190,16 @@ export class KernelControllerBase extends BoostServiceHelper {
             );
         }
 
+        let refreshed : boolean = false;
         for (const cell of cells) {
-            //if the cell is generated code, don't run it by default, the original code cell will
-            // run it, unless it is the only cell in array of cells being run, in which case, run it
+            // if the cell is generated code, don't run it by default, the original code cell will
+            //   run it, unless it is the only cell in array of cells being run, in which case, run it
             if (
                 this._useGeneratedCodeCellOptimization &&
                 cell.metadata?.type === "generatedCode" &&
                 cells.length > 1
             ) {
-                return;
+                return false;
             }
 
             // if this cell has output, then skip it unless we're forcing analysis
@@ -235,6 +236,7 @@ export class KernelControllerBase extends BoostServiceHelper {
                     if (!result) {
                         successfullyCompleted = false;
                     }
+                    refreshed = true;
                     if (usingBoostNotebook) {
                         boostLogging.info(
                             `Finished ${this.command} of Notebook ${
@@ -287,7 +289,7 @@ export class KernelControllerBase extends BoostServiceHelper {
                     );
                 }
             });
-
+        return refreshed;
     }
 
     async doExecution(

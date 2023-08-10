@@ -520,7 +520,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
     private async processDepthOnRingFileTask(fileUri: vscode.Uri, value: string[]) {
         for (const analysisKernelName of value) {
-            await vscode.commands.executeCommand(
+            const refreshed = await vscode.commands.executeCommand(
                 NOTEBOOK_TYPE +
                 "." +
                 BoostCommands.processCurrentFolder,
@@ -765,7 +765,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             boostLogging.debug(`Skipping ${getKernelName(summarizeKernelName)} analysis except by alwaysRunSummary config request`);
         } else {
             // summary across all files
-            await vscode.commands.executeCommand(
+            const refreshed = await vscode.commands.executeCommand(
                 NOTEBOOK_TYPE + "." + BoostCommands.processCurrentFolder,
                 undefined,
                 getKernelName(summarizeKernelName)

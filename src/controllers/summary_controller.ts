@@ -68,7 +68,7 @@ export class SummarizeKernel extends KernelControllerBase {
         notebook: vscode.NotebookDocument | BoostNotebook,
         session: vscode.AuthenticationSession,
         forceAnalysisRefresh: boolean = false
-    ) {
+    ) : Promise<boolean> {
         const usingBoostNotebook = notebook instanceof BoostNotebook;
 
         // for now, we ignore forceAnalysisRefresh - and always re-analyze
@@ -80,7 +80,7 @@ export class SummarizeKernel extends KernelControllerBase {
         // input data is not held cells - its held in satellite notebook files
         if (sourceCells.length === 0 && !summarizeProject) {
             boostLogging.warn(`No cells to ${this.command} of Notebook ${usingBoostNotebook ? notebook.fsPath : notebook.uri.toString()}`, false);
-            return;
+            return false;
         }
     
         boostLogging.info(`Starting ${this.command} of Notebook ${usingBoostNotebook ? notebook.fsPath : notebook.uri.toString()}`, false);
@@ -141,6 +141,7 @@ export class SummarizeKernel extends KernelControllerBase {
         if (usingBoostNotebook) {
             boostLogging.info(`Finished ${this.command} of Notebook ${targetNotebookUri.fsPath} at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
         }
+        return true;
     }
 
     noDataToSummarizeMessage = "No Data to Summarize";

@@ -64,7 +64,7 @@ export class BoostCustomQuickScanFunctionKernel extends FunctionKernelController
         cells: vscode.NotebookCell[] | BoostNotebookCell[],
         notebook: vscode.NotebookDocument | BoostNotebook,
         session : vscode.AuthenticationSession,
-        forceAnalysisRefresh : boolean = false) {
+        forceAnalysisRefresh : boolean = false) : Promise<boolean> {
 
         const userInputGuidance = await vscode.window.showInputBox({
             value: this._customScanGuidance,

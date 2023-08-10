@@ -78,7 +78,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
         cells: vscode.NotebookCell[] | BoostNotebookCell[],
         notebook: vscode.NotebookDocument | BoostNotebook,
         session : vscode.AuthenticationSession,
-        forceAnalysisRefresh : boolean = false) {
+        forceAnalysisRefresh : boolean = false) : Promise<boolean> {
 
         const userInput = await vscode.window.showInputBox({
             value: this._customPrompt,
@@ -98,6 +98,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
             // write user canceled warning to output, without UI
             boostLogging.warn(`Boost ${this.outputHeader} cancelled by user`, false);
         }
+        return true;
     }
 
     async makeBoostServiceRequest(cell: vscode.NotebookCell | BoostNotebookCell, serviceEndpoint: string, payload: any): Promise<any> {

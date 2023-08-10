@@ -1404,7 +1404,7 @@ export class BoostExtension {
                 if (likelyViaUI) {
                     options.kernelCommand = BoostConfiguration.currentKernelCommand;
                 }
-                await this.processCurrentFolder(
+                return await this.processCurrentFolder(
                     options,
                     context
                 ).catch((error) => {
@@ -2213,7 +2213,7 @@ export class BoostExtension {
         kernelCommand: string,
         _: vscode.ExtensionContext,
         forceAnalysisRefresh: boolean = false
-    ): Promise<boostnb.BoostNotebook> {
+    ): Promise<boostnb.BoostNotebook | undefined> {
         return new Promise(async (resolve, reject) => {
             try {
                 let inMemorySourceFile = false; // the source file is in memory (either Notebook or raw source)
@@ -2317,7 +2317,12 @@ export class BoostExtension {
                         notebook,
                         forceAnalysisRefresh
                     )
-                    .then(() => {
+                    .then((refreshed: boolean) => {
+                        if (!refreshed) {
+                            boostLogging.log("File ");
+                            resolve(undefined);
+                            return;
+                        }
                         if (targetedKernel.command === summarizeKernelName) {
                             const summaryNotebookUri = getBoostFile(
                                 sourceUri,
@@ -2425,7 +2430,7 @@ export class BoostExtension {
     async processCurrentFolder(
         options: ProcessCurrentFolderOptions,
         context: vscode.ExtensionContext
-    ) {
+    ) : Promise<boolean> {
         let targetFolder: vscode.Uri;
         // if we don't have a folder selected, then the user didn't right click
         // so we need to use the workspace folder
@@ -2436,7 +2441,7 @@ export class BoostExtension {
                         "Unable to find Workspace Folder. Please open a Project or Folder first",
                         true
                     );
-                    return;
+                    return false;
                 }
 
                 // use the first folder in the workspace
@@ -2456,7 +2461,7 @@ export class BoostExtension {
                     "Unable to find Workspace Folder. Please open a Project or Folder first",
                     true
                 );
-                return;
+                return false;
             }
             targetFolder = vscode.workspace.workspaceFolders[0].uri;
             if (!targetFolder) {
@@ -2464,7 +2469,7 @@ export class BoostExtension {
                     "Unable to find Workspace Folder. Please open a Project or Folder first",
                     true
                 );
-                return;
+                return false;
             }
         }
 
@@ -2486,7 +2491,7 @@ export class BoostExtension {
 
         const targetedKernel = this.getCurrentKernel(options?.kernelCommand);
         if (targetedKernel === undefined) {
-            return;
+            return false;
         }
 
         const boostprojectdata = await this.getBoostProjectData();
@@ -2498,8 +2503,12 @@ export class BoostExtension {
             boostLogging.error(
                 `Unable to process folder ${folderName} due to error: ${error}`
             );
-            return;
+            return false;
         }
+
+            // tracks if files were changed
+        let refreshed = false;
+
         try {
             // estimated processing about 160 pages of code per minute
             // Using the same calculation as before, at a rate of 40,000 words per minute (666.67 words per second) and
@@ -2527,10 +2536,9 @@ export class BoostExtension {
                 boostprojectdata
             );
 
-
-            let processedNotebookWaits: Promise<boostnb.BoostNotebook>[] =
+            let processedNotebookWaits: Promise<boostnb.BoostNotebook | undefined>[] =
                 files.map(async (file) => {
-                    return new Promise<boostnb.BoostNotebook>(
+                    return new Promise<boostnb.BoostNotebook | undefined>(
                         (resolve, reject) => {
                             const fileSize = fs.statSync(file.fsPath).size;
                             const estimatedWords =
@@ -2577,15 +2585,17 @@ export class BoostExtension {
                                     boostprojectdata
                                 );
 
-                                this.processCurrentFile(
+                                await this.processCurrentFile(
                                     file,
                                     targetedKernel.id,
                                     context,
                                     options?.forceAnalysisRefresh
                                         ? options.forceAnalysisRefresh
                                         : false
-                                )
-                                    .then((notebook) => {
+                                ).then((notebook) => {
+                                    if (notebook) {
+                                        refreshed = true;
+
                                         let summary =
                                             boostNotebookToFileSummaryItem(
                                                 notebook
@@ -2599,26 +2609,27 @@ export class BoostExtension {
                                             boostprojectdata,
                                             null
                                         );
-                                        resolve(notebook);
-                                    })
-                                    .catch((error) => {
-                                        // get the distance from the workspace folder for the source file
-                                        // for project-level status files, we ignore the relative path
-                                        let relativePath = path.relative(
-                                            targetFolder.fsPath,
-                                            file.fsPath
-                                        );
-                                        const boostprojectdata =
-                                            this.getBoostProjectData();
-                                        this.summary?.finishJob(
-                                            targetedKernel.outputType,
-                                            relativePath,
-                                            null,
-                                            boostprojectdata,
-                                            error
-                                        );
-                                        reject(error);
-                                    });
+                                    }
+                                    resolve(notebook);
+                                })
+                                .catch((error) => {
+                                    // get the distance from the workspace folder for the source file
+                                    // for project-level status files, we ignore the relative path
+                                    let relativePath = path.relative(
+                                        targetFolder.fsPath,
+                                        file.fsPath
+                                    );
+                                    const boostprojectdata =
+                                        this.getBoostProjectData();
+                                    this.summary?.finishJob(
+                                        targetedKernel.outputType,
+                                        relativePath,
+                                        null,
+                                        boostprojectdata,
+                                        error
+                                    );
+                                    reject(error);
+                                });
                             }, processingTime);
                         }
                     );
@@ -2676,14 +2687,16 @@ export class BoostExtension {
                 boostLogging.debug(
                     `Boost Project-level Summary starting with Project: ${targetFolder.fsPath}`
                 );
-                await this.processCurrentFile(
+                if (await this.processCurrentFile(
                     targetFolder,
                     targetedKernel.id,
                     context,
                     options?.forceAnalysisRefresh
                         ? options.forceAnalysisRefresh
                         : false
-                );
+                )) {
+                    refreshed = true;
+                }
                 boostLogging.info(
                     `Boost Project-level Summary completed with Project: ${targetFolder.fsPath}`,
                     false
@@ -2697,6 +2710,7 @@ export class BoostExtension {
                 false
             );
         }
+        return refreshed;
     }
 
     registerProjectLevelCommands(context: vscode.ExtensionContext) {
@@ -2877,7 +2891,7 @@ export class BoostExtension {
                 if (likelyViaUI) {
                     kernelCommand = BoostConfiguration.currentKernelCommand;
                 }
-                await this.processCurrentFile(
+                return await this.processCurrentFile(
                     uri,
                     kernelCommand as string,
                     context,

@@ -89,7 +89,7 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
         notebook: vscode.NotebookDocument | BoostNotebook,
         session: vscode.AuthenticationSession,
         forceAnalysisRefresh: boolean = false
-    ): Promise<void> {
+    ): Promise<boolean> {
         const usingBoostNotebook = notebook instanceof BoostNotebook;
 
         // for now, we ignore forceAnalysisRefresh - and always re-analyze
@@ -146,6 +146,7 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
                 !usingBoostNotebook
             );
         }
+        return true;
     }
 
     private async _runQuickBlueprintStages(
