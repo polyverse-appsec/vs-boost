@@ -406,6 +406,7 @@
         "@types/node": "16.x",
         "@types/sanitize-html": "^2.9.0",
         "@types/sinon": "10.0.13",
+        "@types/uuid": "^9.0.2",
         "@types/vscode": "^1.77.0",
         "@types/vscode-webview": "^1.57.1",
         "@typescript-eslint/eslint-plugin": "^5.56.0",
