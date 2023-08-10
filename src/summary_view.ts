@@ -406,8 +406,9 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         if (!analysisTypes.includes(key)) {
                             continue;
                         }
+                        const fileUri = vscode.Uri.parse(file);
                         try {
-                            await this.processDepthOnRingFileTask(value);
+                            await this.processDepthOnRingFileTask(fileUri, value);
                         } catch (error) {
                             boostLogging.error(
                                 `Error while running ${key} analysis: ${error}`,
@@ -429,7 +430,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
                 // build the summary notebook for this file
                 return vscode.commands.executeCommand(
-                    NOTEBOOK_TYPE + "." + BoostCommands.processCurrentFile,
+                    NOTEBOOK_TYPE + "." + BoostCommands.processCurrentFolder,
                     vscode.Uri.parse(path),
                     getKernelName(summarizeKernelName)
                 );
@@ -517,14 +518,16 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         }
     }
 
-    private async processDepthOnRingFileTask(value: string[]) {
+    private async processDepthOnRingFileTask(fileUri: vscode.Uri, value: string[]) {
         for (const analysisKernelName of value) {
             await vscode.commands.executeCommand(
                 NOTEBOOK_TYPE +
                 "." +
                 BoostCommands.processCurrentFolder,
-                undefined,
-                analysisKernelName
+                {
+                    kernelCommand: analysisKernelName,
+                    filelist: [fileUri],
+                } as ProcessCurrentFolderOptions
             );
         }
     }
@@ -688,8 +691,9 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     NOTEBOOK_TYPE +
                     "." +
                     BoostCommands.processCurrentFolder,
-                    undefined,
-                    analysisKernelName
+                    {
+                        kernelCommand: analysisKernelName
+                    } as ProcessCurrentFolderOptions
                 );
             }
         }

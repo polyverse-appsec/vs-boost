@@ -1397,21 +1397,15 @@ export class BoostExtension {
         disposable = vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE + "." + BoostCommands.processCurrentFolder,
             async (
-                uri: vscode.Uri,
-                kernelCommand?: string,
-                forceAnalysisRefresh: boolean = false
+                options: ProcessCurrentFolderOptions
             ) => {
                 const likelyViaUI =
-                    !kernelCommand || typeof kernelCommand !== "string";
+                    !options.kernelCommand || typeof options.kernelCommand !== "string";
                 if (likelyViaUI) {
-                    kernelCommand = BoostConfiguration.currentKernelCommand;
+                    options.kernelCommand = BoostConfiguration.currentKernelCommand;
                 }
                 await this.processCurrentFolder(
-                    {
-                        uri: uri,
-                        kernelCommand: kernelCommand,
-                        forceAnalysisRefresh: forceAnalysisRefresh,
-                    },
+                    options,
                     context
                 ).catch((error) => {
                     boostLogging.error((error as Error).message, likelyViaUI);
