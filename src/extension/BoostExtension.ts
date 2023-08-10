@@ -253,9 +253,7 @@ export class BoostExtension {
             this.refreshBoostProjectsData().then(() => {
                 this.finishedActivation = true;
 
-                if (BoostConfiguration.logLevel === "debug") {
-                    boostLogging.info("Polyverse Boost is now active");
-                }
+                boostLogging.info("Polyverse Boost is now active", (BoostConfiguration.logLevel === "debug"));
 
                 this.blueprint?.refresh();
                 this.docs?.refresh();
