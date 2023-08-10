@@ -148,6 +148,11 @@ export class BoostConfiguration {
             Defaults.alwaysRunSummaryValue;
     }
 
+    public static get simulateServiceCalls(): boolean {
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.simulateServiceCallsName) as boolean)??
+            Defaults.simulateServiceCallsValue;
+    }
+
     public static get defaultOutputFormat(): string {
         return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.defaultOutputFormatName) as string)??
             Defaults.defaultOutputFormatValue;
@@ -231,6 +236,9 @@ class Defaults {
 
     public static readonly alwaysRunSummaryName : string = "alwaysRunSummary";
     public static readonly alwaysRunSummaryValue : boolean = false;
+
+    public static readonly simulateServiceCallsName : string = "simulateServiceCalls";
+    public static readonly simulateServiceCallsValue : boolean = false;
 
     public static readonly defaultOutputFormatName : string = "defaultOutputFormat";
     public static readonly defaultOutputFormatValue : string = "markdown";
