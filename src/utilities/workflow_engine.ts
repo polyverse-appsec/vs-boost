@@ -164,42 +164,45 @@ export class WorkflowEngine {
                     }
 
                 } catch (error) {
-                    if (!(error instanceof WorkflowError)) {
-                        // for a generic error, just try again
-                        this.tasks.push(promiseGenerator); // Retry later
-                    } else {
-                        switch (error.type) {
-                            case "retry":
-                                const currentRetries =
-                                    this.retryCounts.get(promiseGenerator) || 0;
-                                if (currentRetries < this.maxRetries + 1) {
-                                    this.retryCounts.set(
-                                        promiseGenerator,
-                                        currentRetries + 1
-                                    );
-                                    this.tasks.push(promiseGenerator);
-                                } else {
-                                    this.logger?.error(
-                                        `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Max retries reached; Skipping.`
-                                    );
-                                    this.retryCounts.delete(promiseGenerator);
-                                }
-                                break;
-                            case "skip":
+                    // default to retry with generic error
+                    let errorType = "retry";
+
+                    // otherwise use the workflow specific requested retry logic
+                    if (error instanceof WorkflowError) {
+                        errorType = error.type;
+                    }
+                    
+                    switch (errorType) {
+                        case "retry":
+                            const currentRetries =
+                                this.retryCounts.get(promiseGenerator) || 0;
+                            if (currentRetries < this.maxRetries + 1) {
+                                this.retryCounts.set(
+                                    promiseGenerator,
+                                    currentRetries + 1
+                                );
+                                this.tasks.push(promiseGenerator);
+                            } else {
                                 this.logger?.error(
-                                    `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Skipping due to error: ${error.message}`
+                                    `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Max retries reached; Skipping.`
                                 );
                                 this.retryCounts.delete(promiseGenerator);
-                                // Just skip and continue
-                                break;
-                            case "abort":
-                                this.logger?.error(
-                                    `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Aborting workflow due to error: ${error.message}`
-                                );
-                                this.retryCounts.delete(promiseGenerator);
-                                this.abort();
-                                return allResults; // Exit the function immediately
-                        }
+                            }
+                            break;
+                        case "skip":
+                            this.logger?.error(
+                                `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Skipping due to error: ${(error as Error).message}`
+                            );
+                            this.retryCounts.delete(promiseGenerator);
+                            // Just skip and continue
+                            break;
+                        case "abort":
+                            this.logger?.error(
+                                `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Aborting workflow due to error: ${(error as Error).message}`
+                            );
+                            this.retryCounts.delete(promiseGenerator);
+                            this.abort();
+                            return allResults; // Exit the function immediately
                     }
                 }
             }

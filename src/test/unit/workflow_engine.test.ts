@@ -214,6 +214,28 @@ describe("WorkflowEngine", () => {
         expect(retryCount).to.equal(2);
     });
 
+    it('should retry on generic task error', async () => {
+        let log: string[] = [];
+        let retryCount = 0;
+
+        const tasks = [
+            () => async () => {
+                if (retryCount < 2) {
+                    retryCount++;
+                    throw new Error("Test Generic Error retry");
+                } else {
+                    log.push("main");
+                }
+            },
+        ];
+
+        const engine = new WorkflowEngine(tasks);
+        await engine.run();
+
+        expect(log).to.deep.equal(["main"]);
+        expect(retryCount).to.equal(2);
+    });
+
     it('should skip on "skip" type error', async () => {
         let log: string[] = [];
 
@@ -265,7 +287,7 @@ describe("WorkflowEngine", () => {
         expect(thenWorked).to.be.true;
     });
 
-    it("should respect maxRetries option", async () => {
+    it("should respect maxRetries option with WorkflowError", async () => {
         let log: string[] = [];
         let executionCount = 0;
 
@@ -287,4 +309,26 @@ describe("WorkflowEngine", () => {
         expect(log).to.deep.equal([]); // Since maxRetries is 1, the promise should not be successful and "main" won't be logged
         expect(executionCount).to.equal(3); // Should only retry 1 times, so total executions is 3
     });
-});
+
+    it("should respect maxRetries option with Generic Error", async () => {
+        let log: string[] = [];
+        let executionCount = 0;
+
+        const tasks = [
+            () => async () => {
+                if (executionCount < 4) {
+                    executionCount++;
+                    throw new Error("Unknown Error object - to test general retry");
+                } else {
+                    log.push("main");
+                }
+            },
+        ];
+
+        const engine = new WorkflowEngine(tasks, { maxRetries: 1 }); // Setting maxRetries to 1 should only retry once
+        await engine.run();
+        expect(engine.currentTaskRetries).to.equal(0); // retry count should be reset
+
+        expect(log).to.deep.equal([]); // Since maxRetries is 1, the promise should not be successful and "main" won't be logged
+        expect(executionCount).to.equal(3); // Should only retry 1 times, so total executions is 3
+    });});
