@@ -165,6 +165,7 @@ function handleAnalyzeAllClick() {
     vscode.postMessage({
         command: "analyze_all",
         analysisTypes: getAnalysisTypes(),
+        fileLimit: getFileLimit(),
     });
 }
 
@@ -191,6 +192,14 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
             slowRefreshUI(boostprojectdata);
             break;
     }
+}
+
+function getFileLimit(): number {
+    // this function should query the UI settings (from the user or drop-down or whatever)
+    // for now, we set no limit
+    // otherwise, we'd set a limit of maybe 5-7 files to analyze for a trial/sample
+    
+    return 0;
 }
 
 function getAnalysisTypes(): Array<string> {

@@ -2,8 +2,11 @@ import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
 import * as _ from "lodash";
+
 import { BoostExtension } from "./extension/BoostExtension";
 import { aiName } from "./chat_view";
+
+import { WorkflowEngine } from "./utilities/workflow_engine";
 
 import {
     BoostCommands,
@@ -100,7 +103,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     break;
                 case "analyze_all":
                     {
-                        await this.analyzeAll(data.analysisTypes);
+                        await this.analyzeAll(data.analysisTypes, data.fileLimit);
                     }
 
                     break;
@@ -336,6 +339,57 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         ],
     ]);
 
+    async processAllFilesInRings(analysisTypes: string[], fileLimit: number) {
+        const beforeRun = [
+            () => async () => {
+                // refresh project data
+                return vscode.commands.executeCommand(
+                    NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
+                );
+            },
+        ];
+        const tasks = [
+            () => async () => {
+                return;
+            },
+            () => async () => {
+                return;
+            },
+        ];
+        const afterEachTask = [
+            () => async () => {
+                return;
+            },
+        ];
+        const afterEachTaskGroup = [
+            () => async () => {
+                return;
+            },
+        ];
+        const afterRun = [
+            () => async () => {
+                return;
+            },
+        ];
+
+        // if we're doing a targeted limit, then process 1 sample then small batch at a time
+        // if we have no limit, then double ring size each iteration
+        const pattern = (fileLimit === 0)?
+            [1, 2, 4, 8, 16]    // infinite limit, doubling in size each ring
+            :[1, 4];            // limited (sample), 1 sample then 4 at a time
+
+        const engine = new WorkflowEngine(tasks, {
+            beforeRun: beforeRun,
+            afterEachTask: afterEachTask,
+            afterEachTaskGroup: afterEachTaskGroup,
+            afterRun: afterRun,
+            pattern: pattern,
+            logger: boostLogging,
+        });
+
+        await engine.run();
+    }
+
     async processAllFilesInSequence(analysisTypes: string[]) {
         // refresh project data
         await vscode.commands.executeCommand(
@@ -358,7 +412,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     continue;
                 }
                 try {
-                    await this.processEachStepOfAnalysisStage(value, runSummary, key);
+                    await this.processEachStepOfAnalysisStage(value);
 
                     if (BoostConfiguration.alwaysRunSummary) {
                         runSummary = true;
@@ -403,7 +457,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         }
     }
 
-    private async analyzeAll(analysisTypes: string[]) {
+    private async analyzeAll(analysisTypes: string[], fileLimit: number) {
         // creates and loads/refreshes/rebuilds all notebook files
         await vscode.commands.executeCommand(
             NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
@@ -411,14 +465,14 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         );
 
         if (BoostConfiguration.processFilesInGroups) {
-            throw new Error("Rings-processing is not yet supported");
+            await this.processAllFilesInRings(analysisTypes, fileLimit);
         } else {
             await this.processAllFilesInSequence(analysisTypes);
         }
 
     }
 
-    private async processEachStepOfAnalysisStage(value: string[], runSummary: boolean, key: BoostUserAnalysisType) {
+    private async processEachStepOfAnalysisStage(value: string[]) {
         for (const analysisKernelName of value) {
             if (BoostConfiguration.runAllTargetAnalysisType &&
                 !(
