@@ -6,10 +6,11 @@ import * as _ from "lodash";
 import { BoostExtension } from "./extension/BoostExtension";
 import { aiName } from "./chat_view";
 
-import { WorkflowEngine } from "./utilities/workflow_engine";
+import { WorkflowEngine, WorkflowError } from "./utilities/workflow_engine";
 
 import {
     BoostCommands,
+    getAllProjectFiles,
     getKernelName,
     ProcessCurrentFolderOptions,
 } from "./extension/extension";
@@ -25,6 +26,7 @@ import { explainKernelName } from "./controllers/explain_controller";
 import { boostLogging } from "./utilities/boostLogging";
 import { BoostConfiguration } from "./extension/boostConfiguration";
 import { complianceFunctionKernelName } from "./controllers/compliance_function_controller";
+import { performanceFunctionKernelName } from "./controllers/performance_function_controller";
 import { BoostProjectData } from "./data/BoostProjectData";
 import {
     FileSummaryItem,
@@ -43,6 +45,8 @@ import { BoostNotebook, BoostNotebookCell } from "./data/jupyter_notebook";
 import { ControllerOutputType } from "./controllers/controllerOutputTypes";
 import { getOrCreateBlueprintUri, getOrCreateGuideline } from "./extension/extension";
 import * as boostnb from "./data/jupyter_notebook";
+import { quickPerformanceSummaryKernelName } from "./controllers/quick_performance_summary_controller";
+import { codeGuidelinesKernelName } from "./controllers/codeguidelines_controller";
 
 export const summaryViewType = "polyverse-boost-summary-view";
 
@@ -302,6 +306,240 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         }
     }
 
+    private async analyzeAll(analysisTypes: string[], fileLimit: number) {
+        if (BoostConfiguration.processFilesInGroups) {
+            await this.processAllFilesInRings(analysisTypes, fileLimit);
+        } else {
+            await this.processAllFilesInSequence(analysisTypes);
+        }
+    }
+
+    readonly ringSummaryAnalysisMap = new Map([
+        [
+            BoostUserAnalysisType.documentation,
+            [
+            ],
+        ],
+        [
+            BoostUserAnalysisType.security,
+            [
+                getKernelName(quickSecuritySummaryKernelName),
+                getKernelName(quickPerformanceSummaryKernelName),
+            ],
+        ],
+        [
+            BoostUserAnalysisType.compliance,
+            [
+                getKernelName(quickComplianceSummaryKernelName),
+            ],
+        ],
+    ]);
+
+    readonly ringFileAnalysisMap = new Map([
+        [
+            BoostUserAnalysisType.documentation,
+            [
+                getKernelName(explainKernelName),
+                getKernelName(flowDiagramKernelName),
+            ],
+        ],
+        [
+            BoostUserAnalysisType.security,
+            [
+                getKernelName(analyzeFunctionKernelName),
+                getKernelName(performanceFunctionKernelName),
+            ],
+        ],
+        [
+            BoostUserAnalysisType.compliance,
+            [
+                getKernelName(complianceFunctionKernelName),
+            ],
+        ],
+        [
+            BoostUserAnalysisType.deepCode,
+            [
+                getKernelName(analyzeKernelName),
+                getKernelName(complianceKernelName),
+                getKernelName(performanceKernelName),
+                getKernelName(codeGuidelinesKernelName),
+                getKernelName(performanceKernelName),
+            ],
+        ],
+    ]);
+
+    async processAllFilesInRings(analysisTypes: string[], fileLimit: number) {
+            // get the entire list of files to analyze
+        const allFiles = await getAllProjectFiles();
+        boostLogging.debug(`Total Project is ${allFiles.length} files`);
+
+        // get the requested # of files only
+        const limitedFiles = (fileLimit !== 0)?allFiles.slice(0, fileLimit):allFiles;
+        if (fileLimit !== 0) {
+            boostLogging.debug(`Processing only ${limitedFiles.length} files by request`);
+        }
+
+        const beforeRun = [
+            () => async () => {
+                // creates and loads/refreshes/rebuilds all notebook files
+                await vscode.commands.executeCommand(
+                    NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
+                    undefined
+                );
+                // refresh project data (since we may have rebuilt source/files)
+                await vscode.commands.executeCommand(
+                    NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
+                );
+                return vscode.commands.executeCommand(
+                    NOTEBOOK_TYPE +
+                    "." +
+                    BoostCommands.processProject,
+                    getKernelName(quickBlueprintKernelName)
+                );
+            },
+        ];
+        const tasks : any[] = [];
+        limitedFiles.forEach((file) => {
+            tasks.push(
+                () => async () => {
+                    for (const [key, value] of this.ringFileAnalysisMap) {
+                        if (!analysisTypes.includes(key)) {
+                            continue;
+                        }
+                        try {
+                            await this.processDepthOnRingFileTask(value);
+                        } catch (error) {
+                            boostLogging.error(
+                                `Error while running ${key} analysis: ${error}`,
+                                false
+                            );
+                        }
+                    }
+
+                    return file;
+                }
+            );
+        });
+        const afterEachTask = [
+            () => async (inputs: any[]) => {
+                if (!BoostConfiguration.alwaysRunSummary) {
+                    return;
+                }
+                const path = inputs[0]; // first param is the file path
+
+                // build the summary notebook for this file
+                return vscode.commands.executeCommand(
+                    NOTEBOOK_TYPE + "." + BoostCommands.processCurrentFile,
+                    vscode.Uri.parse(path),
+                    getKernelName(summarizeKernelName)
+                );
+            },
+        ];
+        const afterEachTaskGroup = [
+            () => async () => {
+                for (const [key, value] of this.ringSummaryAnalysisMap) {
+                    if (!analysisTypes.includes(key)) {
+                        continue;
+                    }
+                    try {
+                        await this.processQuickSummaryOfRingFileTaskGroup(analysisTypes);
+                    } catch (error) {
+                        boostLogging.error(
+                            `Error while running ${key} analysis: ${error}`,
+                            false
+                        );
+                    }
+                }
+
+                // refresh project data
+                return vscode.commands.executeCommand(
+                    NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
+                );
+            },
+        ];
+        const afterRun = [
+            () => async () => {
+                // refresh project data, refresh the UI
+                await vscode.commands.executeCommand(
+                    NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
+                );
+                this.finishAllJobs(this._boostExtension.getBoostProjectData());
+                this.refresh();
+            },
+        ];
+
+        // if we're doing a targeted limit, then process 1 sample then small batch at a time
+        // if we have no limit, then double ring size each iteration
+        const pattern = (fileLimit === 0)?
+            [1, 2, 4, 8, 16]    // infinite limit, doubling in size each ring
+            :[1, 4];            // limited (sample), 1 sample then 4 at a time
+
+        const engine = new WorkflowEngine(tasks, {
+            beforeRun: beforeRun,
+            afterEachTask: afterEachTask,
+            afterEachTaskGroup: afterEachTaskGroup,
+            afterRun: afterRun,
+            pattern: pattern,
+            logger: boostLogging,
+        });
+
+        const allResults = await engine.run();
+
+        let successfulTasksCompleted = 0;
+        let workflowCompletion = "completed";
+        allResults.forEach((result) => {
+            if (!result) {
+                return;
+            }
+            successfulTasksCompleted += result.filter((r : any) => {
+                if (!r || !(r instanceof Error)) {
+                    return true;
+                } else if (r instanceof WorkflowError) {
+                    const error = r as WorkflowError;
+                    if (error.type === "cancel" || error.type === "abort") {
+                        workflowCompletion = error.type;
+                    }
+                }
+            }).length;
+        });
+        switch (workflowCompletion) {
+            case "cancel":
+                boostLogging.error(`Graceful Cancel of Workflow Analysis: tasks completed: ${successfulTasksCompleted}`);
+                break;
+            case "abort":
+                boostLogging.error(`Unexpected Abort of Workflow Analysis: tasks completed: ${successfulTasksCompleted}`);
+                break;
+            case "completed":
+                boostLogging.info(`Successful Workflow Analysis tasks completed: ${successfulTasksCompleted}`);
+                break;
+            default:
+                boostLogging.error(`Unknown Workflow Completion: ${workflowCompletion}`);
+        }
+    }
+
+    private async processDepthOnRingFileTask(value: string[]) {
+        for (const analysisKernelName of value) {
+            await vscode.commands.executeCommand(
+                NOTEBOOK_TYPE +
+                "." +
+                BoostCommands.processCurrentFolder,
+                undefined,
+                analysisKernelName
+            );
+        }
+    }
+
+    private async processQuickSummaryOfRingFileTaskGroup(value: string[]) {
+        for (const analysisKernelName of value) {
+            await vscode.commands.executeCommand(
+                NOTEBOOK_TYPE +
+                "." +
+                BoostCommands.processProject,
+                analysisKernelName
+            );
+        }
+    }
+
     readonly analysisMap = new Map([
         [
             BoostUserAnalysisType.documentation,
@@ -339,58 +577,13 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         ],
     ]);
 
-    async processAllFilesInRings(analysisTypes: string[], fileLimit: number) {
-        const beforeRun = [
-            () => async () => {
-                // refresh project data
-                return vscode.commands.executeCommand(
-                    NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
-                );
-            },
-        ];
-        const tasks = [
-            () => async () => {
-                return;
-            },
-            () => async () => {
-                return;
-            },
-        ];
-        const afterEachTask = [
-            () => async () => {
-                return;
-            },
-        ];
-        const afterEachTaskGroup = [
-            () => async () => {
-                return;
-            },
-        ];
-        const afterRun = [
-            () => async () => {
-                return;
-            },
-        ];
-
-        // if we're doing a targeted limit, then process 1 sample then small batch at a time
-        // if we have no limit, then double ring size each iteration
-        const pattern = (fileLimit === 0)?
-            [1, 2, 4, 8, 16]    // infinite limit, doubling in size each ring
-            :[1, 4];            // limited (sample), 1 sample then 4 at a time
-
-        const engine = new WorkflowEngine(tasks, {
-            beforeRun: beforeRun,
-            afterEachTask: afterEachTask,
-            afterEachTaskGroup: afterEachTaskGroup,
-            afterRun: afterRun,
-            pattern: pattern,
-            logger: boostLogging,
-        });
-
-        await engine.run();
-    }
-
     async processAllFilesInSequence(analysisTypes: string[]) {
+        // creates and loads/refreshes/rebuilds all notebook files
+        await vscode.commands.executeCommand(
+            NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
+            undefined
+        );
+
         // refresh project data
         await vscode.commands.executeCommand(
             NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
@@ -455,21 +648,6 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             this.finishAllJobs(this._boostExtension.getBoostProjectData());
             this.refresh();
         }
-    }
-
-    private async analyzeAll(analysisTypes: string[], fileLimit: number) {
-        // creates and loads/refreshes/rebuilds all notebook files
-        await vscode.commands.executeCommand(
-            NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
-            undefined
-        );
-
-        if (BoostConfiguration.processFilesInGroups) {
-            await this.processAllFilesInRings(analysisTypes, fileLimit);
-        } else {
-            await this.processAllFilesInSequence(analysisTypes);
-        }
-
     }
 
     private async processEachStepOfAnalysisStage(value: string[]) {
