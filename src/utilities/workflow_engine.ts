@@ -86,9 +86,11 @@ export class WorkflowEngine {
     private retryCounts: Map<PromiseGenerator, number> = new Map(); // To keep track of retries for each promise generator
     private id: string = uuidv4();
 
+    // tasks WILL be modified by the workflow engine - intentionally, enabling processing of the
+    //      tasks to be stopped and restarted across runs
     constructor(tasks: PromiseGenerator[], options: WorkflowEngineOptions = {}) {
         this.beforeRun = options.beforeRun || [];
-        this.tasks = [...tasks];
+        this.tasks = tasks;
         this.afterEachTask = options.afterEachTask || [];
         this.afterEachTaskGroup = options.afterEachTaskGroup || [];
         this.afterRun = options.afterRun || [];
