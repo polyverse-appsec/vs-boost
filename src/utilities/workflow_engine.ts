@@ -22,6 +22,8 @@ Finally, the after promises will be run.
 Abort: If the abort API is called, the workflow will stop executing further promises.
 */
 
+import { v4 as uuidv4 } from "uuid";
+
 // Custom error class for handling typed errors
 export class WorkflowError extends Error {
     constructor(public type: "retry" | "skip" | "abort", message?: string) {
@@ -46,6 +48,30 @@ export interface WorkflowEngineOptions {
     maxRetries?: number;
 }
 
+function getElapsedTime(startTime: number): string {
+    const elapsedMilliseconds = Date.now() - startTime;
+    const elapsedSeconds = elapsedMilliseconds / 1000;
+
+    if (elapsedSeconds < 110) {
+        return `${elapsedSeconds.toFixed(2)} secs`;
+    } else {
+        const elapsedMinutes = elapsedSeconds / 60;
+        return `${elapsedMinutes.toFixed(2)} mins`;
+    }
+}
+
+function getFormattedDate(): string {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // months are 0-based in JS
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
 export class WorkflowEngine {
     private beforeRun: BeforeRunPromiseGenerator[];
     private tasks: PromiseGenerator[];
@@ -57,6 +83,7 @@ export class WorkflowEngine {
     private logger: any;
     private maxRetries: number;
     private retryCounts: Map<PromiseGenerator, number> = new Map(); // To keep track of retries for each promise generator
+    private id: string = uuidv4();
 
     constructor(tasks: PromiseGenerator[], options: WorkflowEngineOptions = {}) {
         this.beforeRun = options.beforeRun || [];
@@ -68,14 +95,27 @@ export class WorkflowEngine {
         //default to a no-op function for logger if none is provided
         this.logger = options.logger || undefined;
         this.maxRetries = options.maxRetries || 5;
+
+        this.logger?.debug(`${getFormattedDate()}:Workflow(${this.id}):created`);
     }
 
     public async run() {
         this.aborted = false;
+        const overallStartTime = Date.now();
+        let startTime = Date.now();
+
+        this.logger?.debug(`${getFormattedDate()}:Workflow(${this.id}):Run starting`);
+
         try {
+            this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):beforeRun:starting`);
+
             await this.executePromises(this.beforeRun);
+
+            this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):beforeRun:finished:success:${getElapsedTime(startTime)}`);
+
         } catch (error) {
-            this.logger?.error(`Error running before promises: ${error}`);
+
+            this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):beforeRun:finished:error:${getElapsedTime(startTime)}:${error}`);
             return;
         }
         let allResults: any[] = [];
@@ -94,13 +134,33 @@ export class WorkflowEngine {
                 const promiseGenerator = this.tasks.shift()!;
                 const promise = promiseGenerator();
                 try {
+                    this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:starting`);
+
                     let result = await promise();
+
+                    this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:finished:success:${getElapsedTime(startTime)}`);
+
                     groupResults.push(result);
-                    await this.executePromisesWithInputs(this.afterEachTask, [
-                        result,
-                    ]);
+
+                    startTime = Date.now();
+                    try {
+                        this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):afterEachTask:starting`);
+            
+                        await this.executePromisesWithInputs(this.afterEachTask, [
+                            result,
+                        ]);
+                    
+                        this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):afterEachTask:finished:success:${getElapsedTime(startTime)}`);
+                        
+                    } catch (error) {
+                        this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):afterEachTask:finished:error:${getElapsedTime(startTime)}:${error}`);
+                    }
+
                 } catch (error) {
-                    if (error instanceof WorkflowError) {
+                    if (!(error instanceof WorkflowError)) {
+                        // for a generic error, just try again
+                        this.tasks.push(promiseGenerator); // Retry later
+                    } else {
                         switch (error.type) {
                             case "retry":
                                 const currentRetries =
@@ -112,54 +172,64 @@ export class WorkflowEngine {
                                     );
                                     this.tasks.push(promiseGenerator);
                                 } else {
-                                    this.logger?.info(
-                                        `Max retries reached for promise ${promise.name}. Skipping.`
+                                    this.logger?.error(
+                                        `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Max retries reached; Skipping.`
                                     );
                                 }
                                 break;
                             case "skip":
-                                this.logger?.info(
-                                    "Skipping promise " +
-                                        promise.name +
-                                        " due to error: " +
-                                        error.message
+                                this.logger?.error(
+                                    `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Skipping due to error: ${error.message}`
                                 );
                                 // Just skip and continue
                                 break;
                             case "abort":
                                 this.logger?.error(
-                                    "Aborting workflow due to error: " +
-                                        error.message +
-                                        "in promise " +
-                                        promise.name
+                                    `${getFormattedDate()}:Workflow(${this.id}):task-${promise.name}:Aborting workflow due to error: ${error.message}`
                                 );
                                 this.abort();
                                 return allResults; // Exit the function immediately
                         }
-                    } else {
-                        // for a generic error, just try again
-                        this.tasks.push(promiseGenerator); // Retry later
                     }
                 }
             }
 
-            await this.executePromisesWithInputs(
-                this.afterEachTaskGroup,
-                groupResults
-            );
-
+            startTime = Date.now();
+            try {
+                this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):afterEachTaskGroup:starting`);
+    
+                await this.executePromisesWithInputs(
+                    this.afterEachTaskGroup,
+                    groupResults
+                );
+        
+                this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):afterEachTaskGroup:finished:success:${getElapsedTime(startTime)}`);
+                
+            } catch (error) {
+                this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):afterEachTaskGroup:finished:error:${getElapsedTime(startTime)}:${error}`);
+            }
+    
             // Move to the next group size if available
             if (groupIndex < this.pattern.length - 1) {
                 groupIndex++;
             }
             allResults.push(groupResults);
         }
+
+        startTime = Date.now();
         try {
+            this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):afterRun:starting`);
+
             await this.executePromisesWithInputs(this.afterRun, allResults);
+
+            this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):afterRun:finished:success:${getElapsedTime(startTime)}`);
+            
         } catch (error) {
-            this.logger?.error(`Error running after promises: ${error}`);
+            this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):afterRun:finished:error:${getElapsedTime(startTime)}:${error}`);
             return allResults;
         }
+
+        this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):Run ended:${getElapsedTime(overallStartTime)}`);
     }
 
     public abort() {
