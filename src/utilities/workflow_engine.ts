@@ -124,13 +124,17 @@ export class WorkflowEngine {
             return allResults;
         }
 
+        let patternIndex = 0;
         let groupIndex = 0;
         while (this.tasks.length > 0 && !this.aborted && !this.canceled) {
             const groupSize =
-                this.pattern[groupIndex] ||
+                this.pattern[patternIndex] ||
                 this.pattern[this.pattern.length - 1]; // Use the last group size if we've exceeded the pattern
 
+            const taskGroupId = `ring-${groupIndex}-size-${groupSize}`;
+
             let groupResults: any[] = [];
+
             for (let i = 0; i < groupSize && this.tasks.length > 0 && !this.canceled; i++) {
                 if (this.aborted) {
                     return allResults;
@@ -242,24 +246,25 @@ export class WorkflowEngine {
 
             startTime = Date.now();
             try {
-                this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):afterEachTaskGroup:starting`);
+                this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:afterEachTaskGroup:starting`);
     
                 await this.executePromisesWithInputs(
                     this.afterEachTaskGroup,
                     groupResults
                 );
         
-                this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):afterEachTaskGroup:finished:success:${getElapsedTime(startTime)}`);
+                this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:afterEachTaskGroup:finished:success:${getElapsedTime(startTime)}`);
                 
             } catch (error) {
-                this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):afterEachTaskGroup:finished:error:${getElapsedTime(startTime)}:${error}`);
+                this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:afterEachTaskGroup:finished:error:${getElapsedTime(startTime)}:${error}`);
             }
     
             // Move to the next group size if available
-            if (groupIndex < this.pattern.length - 1) {
-                groupIndex++;
+            if (patternIndex < this.pattern.length - 1) {
+                patternIndex++;
             }
             allResults.push(groupResults);
+            groupIndex++;
         }
 
         startTime = Date.now();
