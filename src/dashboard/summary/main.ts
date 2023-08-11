@@ -12,7 +12,8 @@ import {
     vsCodePanelTab,
     vsCodePanelView,
     vsCodeLink,
-    vsCodeDropdown,
+    vsCodeRadio,
+    vsCodeRadioGroup,
     Button,
 } from "@vscode/webview-ui-toolkit";
 import * as d3 from "d3";
@@ -52,7 +53,8 @@ provideVSCodeDesignSystem().register(
     vsCodePanels(),
     vsCodePanelTab(),
     vsCodePanelView(),
-    vsCodeDropdown(),
+    vsCodeRadio(),
+    vsCodeRadioGroup(),
     vsCodeLink()
 );
 

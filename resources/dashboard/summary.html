@@ -62,22 +62,6 @@
             padding: 2px; /* optional padding */
             border-radius: 2px
         }
-        .dropdown-container {
-            box-sizing: border-box;
-            display: flex;
-            flex-flow: column nowrap;
-            align-items: flex-start;
-            justify-content: flex-start;
-        }
-
-        .dropdown-container label {
-        display: block;
-        color: var(--vscode-foreground);
-        cursor: pointer;
-        font-size: var(--vscode-font-size);
-        line-height: normal;
-        margin-bottom: 2px;
-        }
     </style>
 </head>
 <body>
@@ -93,18 +77,18 @@
                 <vscode-data-grid aria-label="Summary" id="summarygrid">
                 </vscode-data-grid>
                 <div class="dropdown-container">
-                    <label for="my-dropdown">Choose an option:</label>
-                    <vscode-dropdown id="my-dropdown">
-                      <vscode-option>Option Label #1</vscode-option>
-                      <vscode-option>Option Label #2</vscode-option>
-                      <vscode-option>Option Label #3</vscode-option>
-                    </vscode-dropdown>
-                </div>
                 <div align="center">
-                    <vscode-button id="update-summary">Run Selected Analyses</vscode-button>
+                    <vscode-radio-group orientation="vertical">
+                        <label slot="label">Analysis Mode</label>
+                        <vscode-radio>Analyze all files</vscode-radio>
+                        <vscode-radio checked="true">Let Sara pick and analyze top 5 files</vscode-radio>
+                    </vscode-radio-group>
+                    <div id="progress-text" align="left">
+                    </div>
+                    <br/>
+                    <vscode-button id="update-summary">Run Selected Analyses
+                    </vscode-button>
                     <vscode-progress-ring id="job-progress" class="progress" hidden></vscode-progress-ring>
-                </div>
-                <div id="progress-text" align="left">
                 </div>
                 <vscode-divider></vscode-divider>
                 <h4>Details</h4>
