@@ -266,16 +266,24 @@ describe("WorkflowEngine", () => {
             },
         ];
 
-        const engine = new WorkflowEngine(tasks);
+        const afterRun = [
+            () => async (taskResults: any[]) => {
+                expect(taskResults.length).to.equal(2);
+                expect(taskResults[0].length).to.equal(1);
+                expect(taskResults[0][0] instanceof WorkflowError).to.equal(true);
+                expect(taskResults[0][0].type).to.equal("skip");
+        
+                expect(taskResults[1].length).to.equal(1);
+                expect(taskResults[1][0]).to.equal("main");
+                return;
+            },
+        ];
+
+        const engine = new WorkflowEngine(tasks, { afterRun: afterRun});
+
         const allResults = await engine.run();
 
-        expect(allResults.length).to.equal(2);
-        expect(allResults[0].length).to.equal(1);
-        expect(allResults[0][0] instanceof WorkflowError).to.equal(true);
-        expect(allResults[0][0].type).to.equal("skip");
-
-        expect(allResults[1].length).to.equal(1);
-        expect(allResults[1][0]).to.equal("main");
+        afterRun[0]()(allResults);
 
         expect(log).to.deep.equal(["main"]);
     });
