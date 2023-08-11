@@ -387,28 +387,39 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             limitedFiles.forEach((file) => {
                 tasks.push(
                     () => {
+                        // log the relative path for simplicity for user
+                        const rootPath = vscode.workspace.workspaceFolders?.[0].uri.fsPath as string;
+                        const relativePath = path.relative(rootPath, file);
+
                         const dynamicFunc = async () => { // use arrow function
+                            const fileAnalysisTasks : any[] = [];
+            
                             for (const [key, value] of this.ringFileAnalysisMap) {
-                                if (!analysisTypes.includes(key)) {
-                                    continue;
-                                }
-                                const fileUri = vscode.Uri.parse(file);
-                                try {
-                                    await this.processDepthOnRingFileTask(fileUri, value);
-                                } catch (error) {
-                                    boostLogging.error(
-                                        `Error while running ${key} analysis: ${error}`,
-                                        false
-                                    );
-                                }
+                                fileAnalysisTasks.push(
+                                    () => async () => {
+                                        if (!analysisTypes.includes(key)) {
+                                            throw new WorkflowError("skip", `Skipping File Analysis ${key} by user request`);
+                                        }
+                                        const fileUri = vscode.Uri.parse(file);
+                                        await this.processDepthOnRingFileTask(fileUri, value);
+                                    }
+                                );
+                                // If you still want to name the function, do so here, outside the pushed function.
+                                Object.defineProperty(fileAnalysisTasks[fileAnalysisTasks.length - 1], 'name', { value: key, writable: false });
                             }
+            
+                            const fileAnalysisEngine = new WorkflowEngine(fileAnalysisTasks, {
+                                pattern: [1],
+                                logger: boostLogging,
+                            });
+            
+                            const fileAnalysisResults = await fileAnalysisEngine.run();
+                            boostLogging.info(`${relativePath} Analysis completed: ${fileAnalysisResults.filter((x) => !x[0] || !(x[0] instanceof WorkflowError)).length}`);
+                            boostLogging.info(`${relativePath} Analysis skipped: ${fileAnalysisResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "skip").length}`);
             
                             return file;
                         };
                         
-                        // log the relative path for simplicity for user
-                        const rootPath = vscode.workspace.workspaceFolders?.[0].uri.fsPath as string;
-                        const relativePath = path.relative(rootPath, file);
                         // Name the function dynamically based on the file (to improve logging)
                         Object.defineProperty(dynamicFunc, 'name', { value: relativePath, writable: false });
                         
@@ -580,21 +591,41 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
     }
 
     private async processDepthOnRingFileTask(fileUri: vscode.Uri, value: string[]) {
+        // log the relative path for simplicity for user
+        const rootPath = vscode.workspace.workspaceFolders?.[0].uri.fsPath as string;
+        const relativePath = path.relative(rootPath, fileUri.fsPath);
+
+        const analysisTypeKernelTasks : any[] = [];
+            
         for (const analysisKernelName of value) {
-            if (BoostConfiguration.simulateServiceCalls) {
-                boostLogging.debug(`Simulate:executeCommand: processCurrentFolder(${fileUri}, ${analysisKernelName})`);
-                continue;
-            }
-            const refreshed = await vscode.commands.executeCommand(
-                NOTEBOOK_TYPE +
-                "." +
-                BoostCommands.processCurrentFolder,
-                {
-                    kernelCommand: analysisKernelName,
-                    filelist: [fileUri],
-                } as ProcessCurrentFolderOptions
+            analysisTypeKernelTasks.push(
+                () => async () => {
+                    if (BoostConfiguration.simulateServiceCalls) {
+                        boostLogging.debug(`Simulate:executeCommand: processCurrentFolder(${fileUri}, ${analysisKernelName})`);
+                        return;
+                    }
+                    const refreshed = await vscode.commands.executeCommand(
+                        NOTEBOOK_TYPE +
+                        "." +
+                        BoostCommands.processCurrentFolder,
+                        {
+                            kernelCommand: analysisKernelName,
+                            filelist: [fileUri],
+                        } as ProcessCurrentFolderOptions
+                    );
+                }
             );
+            Object.defineProperty(analysisTypeKernelTasks[analysisTypeKernelTasks.length - 1], 'name', { value: `${relativePath}:${analysisKernelName}`, writable: false });
         }
+
+        const fileAnalysisEngine = new WorkflowEngine(analysisTypeKernelTasks, {
+            pattern: [1],
+            logger: boostLogging,
+        });
+
+        const analysisTypeResults = await fileAnalysisEngine.run();
+        boostLogging.info(`${relativePath} Analysis Kernels completed: ${analysisTypeResults.filter((x) => !x[0] || !(x[0] instanceof WorkflowError)).length}`);
+        boostLogging.info(`${relativePath} Analysis Kernels skipped: ${analysisTypeResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "skip").length}`);
     }
 
     private async processQuickSummaryOfRingFileTaskGroup(value: string[]) {
