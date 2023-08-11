@@ -2703,7 +2703,7 @@ export class BoostExtension {
             boostLogging.error(
                 `Unable to Process ${
                     options?.kernelCommand
-                } on Folder:[${options?.uri?.fsPath.toString()} due to error:${error}`,
+                } on Folder:[${options?.uri?options.uri.fsPath.toString():options.filelist?.length.toString() + " files"} due to error:${error}`,
                 false
             );
         }
