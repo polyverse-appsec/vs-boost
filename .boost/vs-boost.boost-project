@@ -1,10 +1,10 @@
 {
-  "dataFormatVersion": "1.2.3",
+  "dataFormatVersion": "1.2.5",
   "summary": {
     "projectName": "vs-boost",
     "summaryUrl": ".boost/vs-boost.summary.boost-notebook",
-    "filesToAnalyze": 144,
-    "filesAnalyzed": 124,
+    "filesToAnalyze": 146,
+    "filesAnalyzed": 87,
     "issues": [
       "Error refreshing Boost Project data for /Users/alexgo/code/vs-boost: SyntaxError: Unexpected token 'E', \"Error: Boo\"... is not valid JSON"
     ]
@@ -2360,5 +2360,19 @@
         }
       }
     }
+  },
+  "account": {
+    "refreshed": false,
+    "enabled": false,
+    "status": "trial",
+    "trialRemaining": 0,
+    "usageThisMonth": 0,
+    "discountedUsage": 0,
+    "balanceDue": 0,
+    "couponType": "Intializing...",
+    "org": "Polyverse",
+    "owner": "support@polyverse.com",
+    "created": "",
+    "creditCardLinked": false
   }
 }

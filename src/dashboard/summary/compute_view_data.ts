@@ -1,4 +1,4 @@
-import { IBoostProjectData, JobStatus } from "../../boostprojectdata_interface";
+import { IBoostProjectData, JobStatus } from "../../data/boostprojectdata_interface";
 
 import { ControllerOutputType } from "../../controllers/controllerOutputTypes";
 import {
