@@ -613,6 +613,9 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                             filelist: [fileUri],
                         } as ProcessCurrentFolderOptions
                     );
+                    if (!refreshed) {
+                        throw new WorkflowError("skip", `Analysis for ${relativePath} was skipped - all analyzable content was already up to date`);
+                    }
                 }
             );
             Object.defineProperty(analysisTypeKernelTasks[analysisTypeKernelTasks.length - 1], 'name', { value: `${relativePath}:${analysisKernelName}`, writable: false });
