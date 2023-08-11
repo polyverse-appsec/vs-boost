@@ -12,6 +12,7 @@ import {
     vsCodePanelTab,
     vsCodePanelView,
     vsCodeLink,
+    vsCodeDropdown,
     Button,
 } from "@vscode/webview-ui-toolkit";
 import * as d3 from "d3";
@@ -26,7 +27,7 @@ import {
 } from "./compute_view_data";
 import { openFile } from "./util";
 
-import { JobStatus, IBoostProjectData } from "../../boostprojectdata_interface";
+import { JobStatus, IBoostProjectData } from "../../data/boostprojectdata_interface";
 import Typewritter from "typewriter-effect/dist/core";
 import { type } from "os";
 import { BoostUserAnalysisType } from "../../userAnalysisType";
@@ -51,6 +52,7 @@ provideVSCodeDesignSystem().register(
     vsCodePanels(),
     vsCodePanelTab(),
     vsCodePanelView(),
+    vsCodeDropdown(),
     vsCodeLink()
 );
 

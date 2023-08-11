@@ -62,6 +62,22 @@
             padding: 2px; /* optional padding */
             border-radius: 2px
         }
+        .dropdown-container {
+            box-sizing: border-box;
+            display: flex;
+            flex-flow: column nowrap;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .dropdown-container label {
+        display: block;
+        color: var(--vscode-foreground);
+        cursor: pointer;
+        font-size: var(--vscode-font-size);
+        line-height: normal;
+        margin-bottom: 2px;
+        }
     </style>
 </head>
 <body>
@@ -76,6 +92,14 @@
             <section style="display: flex; flex-direction: column; width: 100%;">
                 <vscode-data-grid aria-label="Summary" id="summarygrid">
                 </vscode-data-grid>
+                <div class="dropdown-container">
+                    <label for="my-dropdown">Choose an option:</label>
+                    <vscode-dropdown id="my-dropdown">
+                      <vscode-option>Option Label #1</vscode-option>
+                      <vscode-option>Option Label #2</vscode-option>
+                      <vscode-option>Option Label #3</vscode-option>
+                    </vscode-dropdown>
+                </div>
                 <div align="center">
                     <vscode-button id="update-summary">Run Selected Analyses</vscode-button>
                     <vscode-progress-ring id="job-progress" class="progress" hidden></vscode-progress-ring>
