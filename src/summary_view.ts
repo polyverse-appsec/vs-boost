@@ -481,7 +481,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         continue;
                     }
                     try {
-                        await this.processQuickSummaryOfRingFileTaskGroup(analysisTypes);
+                        await this.processQuickSummaryOfRingFileTaskGroup(value);
                     } catch (error) {
                         boostLogging.error(
                             `Error while running ${key} analysis: ${error}`,
