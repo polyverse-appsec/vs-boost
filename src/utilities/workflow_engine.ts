@@ -212,6 +212,8 @@ export class WorkflowEngine {
                             );
                             this.retryCounts.delete(promiseGenerator);
 
+                            groupResults.push(error);
+
                             // Just skip and continue
                             break;
 
