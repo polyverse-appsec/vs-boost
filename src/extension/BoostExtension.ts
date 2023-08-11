@@ -2647,15 +2647,14 @@ export class BoostExtension {
 
                 results.forEach((result) => {
                     if (result.status === "fulfilled") {
-                        boostLogging.info(
-                            `Boost Notebook processed with command ${
-                                targetedKernel.command
-                            }: ${
-                                (result as { v: any; status: string }).v
-                                    .fsPath
-                            }`,
-                            false
-                        );
+                        if ((result as { v: any; status: string }).v) {
+                            boostLogging.info(
+                                `Boost Notebook processed with command ${targetedKernel.command}: ${(result as { v: any; status: string }).v.fsPath}`,
+                                false
+                            );
+                        } else {
+                            boostLogging.debug(`Boost Notebook analysis skipped for ${targetedKernel.command} - no unanalyzed content found`);
+                        }
                     } else if (result.status === "rejected") {
                         successfullyProcessed = false;
                         boostLogging.error(
@@ -2704,7 +2703,7 @@ export class BoostExtension {
             boostLogging.error(
                 `Unable to Process ${
                     options?.kernelCommand
-                } on Folder:[${options?.uri?.fsPath.toString()} due to error:${error}`,
+                } on Folder:[${options?.uri?options.uri.fsPath.toString():options.filelist?.length.toString() + " files"} due to error:${error}`,
                 false
             );
         }
