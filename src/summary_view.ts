@@ -476,28 +476,43 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         ];
         const afterEachTaskGroup = [
             () => async () => {
+                const afterRingSummaryRun = [
+                    () => async () => {
+                        if (BoostConfiguration.simulateServiceCalls) {
+                            boostLogging.debug(`Simulate:executeCommand: refreshProjectData()`);
+                        } else {
+                            // refresh project data
+                            return vscode.commands.executeCommand(
+                                NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
+                            );
+                        }
+                    },
+                ];
+
+                const summaryTasks : any[] = [];
+
                 for (const [key, value] of this.ringSummaryAnalysisMap) {
-                    if (!analysisTypes.includes(key)) {
-                        continue;
-                    }
-                    try {
-                        await this.processQuickSummaryOfRingFileTaskGroup(value);
-                    } catch (error) {
-                        boostLogging.error(
-                            `Error while running ${key} analysis: ${error}`,
-                            false
-                        );
-                    }
+                    summaryTasks.push(
+                        () => async () => {
+                            if (!analysisTypes.includes(key)) {
+                                throw new WorkflowError("skip", `Skipping Summary Analysis ${key} by user request`);
+                            }
+                            return this.processQuickSummaryOfRingFileTaskGroup(value);
+                        }
+                    );
+                    // If you still want to name the function, do so here, outside the pushed function.
+                    Object.defineProperty(summaryTasks[summaryTasks.length - 1], 'name', { value: key, writable: false });
                 }
 
-                if (BoostConfiguration.simulateServiceCalls) {
-                    boostLogging.debug(`Simulate:executeCommand: refreshProjectData()`);
-                } else {
-                    // refresh project data
-                    return vscode.commands.executeCommand(
-                        NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
-                    );
-                }
+                const summaryEngine = new WorkflowEngine(summaryTasks, {
+                    afterRun: afterRingSummaryRun,
+                    pattern: [1],
+                    logger: boostLogging,
+                });
+
+                const summaryResults = await summaryEngine.run();
+                boostLogging.info(`Workflow Analysis Summaries completed: ${summaryResults.filter((x) => !x[0] || !(x[0] instanceof WorkflowError)).length}`);
+                boostLogging.info(`Workflow Analysis Summaries skipped: ${summaryResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "skip").length}`);
             },
         ];
         const afterRun = [
