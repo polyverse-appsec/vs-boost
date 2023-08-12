@@ -74,8 +74,6 @@ export const outputTypeToDisplayGroup = {
     ],
 };
 
-//TEMPORARY for now--create a type that is either AnalyzeAllFiles or Top5Files
-export type AnalysisDepth = "AnalyzeAllFiles" | "Top5Files";
 
 //find the summary for the given output type by searching through the outputTypeToDisplay structure
 export function mapOutputTypeToSummary(outputType: string) {
@@ -336,7 +334,7 @@ function mergeSummary(
 export function statusViewData(
     boostprojectdata: IBoostProjectData,
     analysisTypes: string[],
-    analysisDepth: AnalysisDepth
+    fileLimit: number
 ): StatusViewData {
     let busy = false;
     let jobsRunning = 0;
@@ -361,7 +359,7 @@ export function statusViewData(
     }
 
     let filesTotal = 0;
-    if( analysisDepth === "AnalyzeAllFiles" ) {
+    if( fileLimit === 0 ) {
         filesTotal = boostprojectdata.summary.filesToAnalyze;
     } else {
         filesTotal = 5;

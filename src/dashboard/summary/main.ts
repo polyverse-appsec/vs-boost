@@ -24,8 +24,7 @@ import {
     summaryViewData,
     detailsViewData,
     statusViewData,
-    StatusViewData,
-    AnalysisDepth as AnalysisDepth
+    StatusViewData
 } from "./compute_view_data";
 import { openFile } from "./util";
 
@@ -219,11 +218,13 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
 }
 
 function getFileLimit(): number {
-    // this function should query the UI settings (from the user or drop-down or whatever)
-    // for now, we set no limit
-    // otherwise, we'd set a limit of maybe 5-7 files to analyze for a trial/sample
-    
-    return 0;
+    //get the limit from the 
+    let fileLimit = 0;
+    const top5Mode = document.getElementById('top5-mode') as HTMLInputElement;
+    if (top5Mode.checked) {
+        fileLimit = 5; 
+    }
+    return fileLimit;
 }
 
 function getAnalysisTypes(): Array<string> {
@@ -266,17 +267,13 @@ export function refreshUI(boostprojectdata: IBoostProjectData) {
     if (!analysisTypes.includes("deepcode")) {
         skipFilter.push("deepcode");
     }
-
-    // get the analysis mode:
-    let analysisDepth: AnalysisDepth = "Top5Files";
-    const analyzeAllMode = document.getElementById('analyze-all-mode') as HTMLInputElement;
-    if (analyzeAllMode.checked) {
-        analysisDepth = "AnalyzeAllFiles";
-    }
+    
+    //get the fileLimit
+    const fileLimit = getFileLimit();
 
     let summaryView = summaryViewData(boostprojectdata);
     let detailsView = detailsViewData(boostprojectdata, skipFilter);
-    let statusView = statusViewData(boostprojectdata, analysisTypes, analysisDepth);
+    let statusView = statusViewData(boostprojectdata, analysisTypes, fileLimit);
 
     d3.select("#summarygrid")
         .selectAll("vscode-data-grid-row")
