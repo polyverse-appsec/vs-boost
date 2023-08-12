@@ -25,6 +25,7 @@ import {
     detailsViewData,
     statusViewData,
     StatusViewData,
+    AnalysisDepth as AnalysisDepth
 } from "./compute_view_data";
 import { openFile } from "./util";
 
@@ -37,7 +38,7 @@ import { BoostUserAnalysisType } from "../../userAnalysisType";
 declare var boostprojectdata: IBoostProjectData;
 
 let typewriter = new Typewritter("#progress-text", {
-    delay: 5,
+    delay: 2,
     cursor: "",
 });
 
@@ -132,6 +133,31 @@ function setupListeners() {
     showDashboardLinks.forEach((link) => {
         link.addEventListener("click", showDashboardTab);
     });
+
+    const analyzeAllMode = document.getElementById('analyze-all-mode') as HTMLElement;
+    const top5Mode = document.getElementById('top5-mode') as HTMLElement;
+
+
+    // Attach event listeners to both radio buttons to detect changes
+    analyzeAllMode.addEventListener('change', (event) => {
+        const target = event.target as HTMLInputElement;
+        if(target?.checked) {
+            setTimeout(() => {
+                //refresh the UI
+                refreshUI(boostprojectdata);
+            }, 100);
+        }
+    });
+
+    top5Mode.addEventListener('change', (event) => {
+        const target = event.target as HTMLInputElement;
+        if(target?.checked) {
+            setTimeout(() => {
+                //refresh the UI
+                refreshUI(boostprojectdata);
+            }, 100);
+        }
+    });
 }
 
 function showDashboardTab() {
@@ -175,12 +201,6 @@ function handleAnalyzeAllClick() {
 
 function handleIncomingSummaryMessage(event: MessageEvent) {
     const message = event.data; // The JSON data our extension sent
-    const spinner = document.getElementById("job-progress");
-    const runbutton = document.getElementById("update-summary");
-    const progressText = document.getElementById(
-        "progress-text"
-    ) as HTMLElement;
-    let text = "";
 
     switch (message.command) {
         case "refreshUI":
@@ -246,9 +266,17 @@ export function refreshUI(boostprojectdata: IBoostProjectData) {
     if (!analysisTypes.includes("deepcode")) {
         skipFilter.push("deepcode");
     }
+
+    // get the analysis mode:
+    let analysisDepth: AnalysisDepth = "Top5Files";
+    const analyzeAllMode = document.getElementById('analyze-all-mode') as HTMLInputElement;
+    if (analyzeAllMode.checked) {
+        analysisDepth = "AnalyzeAllFiles";
+    }
+
     let summaryView = summaryViewData(boostprojectdata);
     let detailsView = detailsViewData(boostprojectdata, skipFilter);
-    let statusView = statusViewData(boostprojectdata, analysisTypes);
+    let statusView = statusViewData(boostprojectdata, analysisTypes, analysisDepth);
 
     d3.select("#summarygrid")
         .selectAll("vscode-data-grid-row")
@@ -343,7 +371,7 @@ function refreshProgressText(statusData: StatusViewData) {
         }
     } else if (existingText !== "" || existingText !== undefined) {
         //if we are not busy, and there is text, clear it out slowly to avoid ui jitty
-        typewriter.deleteAll(1).pauseFor(1000).start();
+        typewriter.deleteAll(1).pauseFor(300).start();
         refreshPrediction(statusData);
     } else {
         refreshPrediction(statusData);

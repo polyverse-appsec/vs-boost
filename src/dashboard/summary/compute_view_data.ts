@@ -74,6 +74,9 @@ export const outputTypeToDisplayGroup = {
     ],
 };
 
+//TEMPORARY for now--create a type that is either AnalyzeAllFiles or Top5Files
+export type AnalysisDepth = "AnalyzeAllFiles" | "Top5Files";
+
 //find the summary for the given output type by searching through the outputTypeToDisplay structure
 export function mapOutputTypeToSummary(outputType: string) {
     //loop through the outputTypeToDisplay structure and find the summary
@@ -332,7 +335,8 @@ function mergeSummary(
 
 export function statusViewData(
     boostprojectdata: IBoostProjectData,
-    analysisTypes: string[]
+    analysisTypes: string[],
+    analysisDepth: AnalysisDepth
 ): StatusViewData {
     let busy = false;
     let jobsRunning = 0;
@@ -355,7 +359,13 @@ export function statusViewData(
             }
         });
     }
-    const filesTotal = boostprojectdata.summary.filesToAnalyze;
+
+    let filesTotal = 0;
+    if( analysisDepth === "AnalyzeAllFiles" ) {
+        filesTotal = boostprojectdata.summary.filesToAnalyze;
+    } else {
+        filesTotal = 5;
+    }
 
     return {
         accountRefreshed: boostprojectdata.account.refreshed,

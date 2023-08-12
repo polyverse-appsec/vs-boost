@@ -2362,17 +2362,17 @@
     }
   },
   "account": {
-    "refreshed": false,
-    "enabled": false,
-    "status": "trial",
-    "trialRemaining": 0,
-    "usageThisMonth": 0,
-    "discountedUsage": 0,
+    "refreshed": true,
+    "enabled": true,
+    "status": "paid",
+    "trialRemaining": 76.56,
+    "usageThisMonth": 23.44,
+    "discountedUsage": 23.44,
     "balanceDue": 0,
-    "couponType": "Intializing...",
-    "org": "Polyverse",
-    "owner": "support@polyverse.com",
-    "created": "",
+    "couponType": "Polyverse Boost Free Trial",
+    "org": "polyverse-appsec",
+    "owner": "alex@polyverse.io",
+    "created": "2023-05-06",
     "creditCardLinked": false
   }
 }
