@@ -208,7 +208,7 @@ export class WorkflowEngine {
                             break;
                         case "skip":
                             this.logger?.error(
-                                `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:Skipping due to error: ${(error as Error).message}`
+                                `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:Skipping due to ${(error as Error).message}`
                             );
                             this.retryCounts.delete(promiseGenerator);
 
@@ -220,7 +220,7 @@ export class WorkflowEngine {
                             // abort will immediately exit the entire workflow process
                         case "abort":
                             this.logger?.error(
-                                `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:Aborting workflow due to error: ${(error as Error).message}`
+                                `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:Aborting workflow due to ${(error as Error).message}`
                             );
                             this.retryCounts.delete(promiseGenerator);
                             this.abort();
@@ -235,7 +235,7 @@ export class WorkflowEngine {
                             //      and end of workflow tasks
                         case "cancel":
                             this.logger?.error(
-                                `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:Canceling tasks due to error: ${(error as Error).message}`
+                                `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:Canceling tasks due to ${(error as Error).message}`
                             );
                             this.retryCounts.delete(promiseGenerator);
                             this.cancel();
