@@ -1490,7 +1490,7 @@ export class BoostExtension {
             }
         );
         context.subscriptions.push(disposable);
-        
+
         disposable = vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE +
                 "." +

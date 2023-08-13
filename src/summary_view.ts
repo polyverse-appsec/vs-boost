@@ -395,23 +395,28 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         const rootPath = vscode.workspace.workspaceFolders?.[0].uri.fsPath as string;
                         const relativePath = path.relative(rootPath, file);
 
-                        const dynamicFunc = async () => { // use arrow function
+                        const fileDynamicFunc = async () => { // use arrow function
                             const fileAnalysisTasks : any[] = [];
             
                             for (const [key, value] of this.ringFileAnalysisMap) {
                                 fileAnalysisTasks.push(
-                                    () => async () => {
-                                        if (!analysisTypes.includes(key)) {
-                                            throw new WorkflowError("skip", `Skipping File Analysis ${key} by user request`);
-                                        }
-                                        const fileUri = vscode.Uri.parse(file);
-                                        await this.processDepthOnRingFileTask(fileUri, value);
+                                    () => {
+                                        const analysisTypeDynamicFunc = async () => {
+                                            if (!analysisTypes.includes(key)) {
+                                                throw new WorkflowError("skip", `Skipping File Analysis ${key} by user request`);
+                                            }
+                                            const fileUri = vscode.Uri.parse(file);
+                                            await this.processDepthOnRingFileTask(fileUri, value);
+                                        };
+                                        
+                                        // Name the function dynamically based on the key
+                                        Object.defineProperty(analysisTypeDynamicFunc, 'name', { value: key, writable: false });
+                                        
+                                        return analysisTypeDynamicFunc;
                                     }
                                 );
-                                // If you still want to name the function, do so here, outside the pushed function.
-                                Object.defineProperty(fileAnalysisTasks[fileAnalysisTasks.length - 1], 'name', { value: key, writable: false });
                             }
-            
+                                        
                             const fileAnalysisEngine = new WorkflowEngine(fileAnalysisTasks, {
                                 pattern: [1],
                                 logger: boostLogging,
@@ -425,9 +430,9 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         };
                         
                         // Name the function dynamically based on the file (to improve logging)
-                        Object.defineProperty(dynamicFunc, 'name', { value: relativePath, writable: false });
+                        Object.defineProperty(fileDynamicFunc, 'name', { value: relativePath, writable: false });
                         
-                        return dynamicFunc;
+                        return fileDynamicFunc;
                     }
                 );
             });
@@ -508,17 +513,22 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
                 for (const [key, value] of this.ringSummaryAnalysisMap) {
                     summaryTasks.push(
-                        () => async () => {
-                            if (!analysisTypes.includes(key)) {
-                                throw new WorkflowError("skip", `Skipping Summary Analysis ${key} by user request`);
-                            }
-                            return this.processQuickSummaryOfRingFileTaskGroup(value);
+                        () => {
+                            const dynamicFunc = async () => {
+                                if (!analysisTypes.includes(key)) {
+                                    throw new WorkflowError("skip", `Skipping Summary Analysis ${key} by user request`);
+                                }
+                                return this.processQuickSummaryOfRingFileTaskGroup(value);
+                            };
+                            
+                            // Name the function dynamically based on the key
+                            Object.defineProperty(dynamicFunc, 'name', { value: key, writable: false });
+                            
+                            return dynamicFunc;
                         }
                     );
-                    // If you still want to name the function, do so here, outside the pushed function.
-                    Object.defineProperty(summaryTasks[summaryTasks.length - 1], 'name', { value: key, writable: false });
                 }
-
+                
                 const summaryEngine = new WorkflowEngine(summaryTasks, {
                     afterRun: afterRingSummaryRun,
                     pattern: [1],
@@ -603,28 +613,34 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             
         for (const analysisKernelName of value) {
             analysisTypeKernelTasks.push(
-                () => async () => {
-                    if (BoostConfiguration.simulateServiceCalls) {
-                        boostLogging.debug(`Simulate:executeCommand: processCurrentFolder(${fileUri}, ${analysisKernelName})`);
-                        return;
-                    }
-                    const refreshed = await vscode.commands.executeCommand(
-                        NOTEBOOK_TYPE +
-                        "." +
-                        BoostCommands.processCurrentFolder,
-                        {
-                            kernelCommand: analysisKernelName,
-                            filelist: [fileUri],
-                        } as ProcessCurrentFolderOptions
-                    );
-                    if (!refreshed) {
-                        throw new WorkflowError("skip", `Analysis for ${relativePath} was skipped - all analyzable content was already up to date`);
-                    }
+                () => {
+                    const dynamicFunc = async () => {
+                        if (BoostConfiguration.simulateServiceCalls) {
+                            boostLogging.debug(`Simulate:executeCommand: processCurrentFolder(${fileUri}, ${analysisKernelName})`);
+                            return;
+                        }
+                        const refreshed = await vscode.commands.executeCommand(
+                            NOTEBOOK_TYPE +
+                            "." +
+                            BoostCommands.processCurrentFolder,
+                            {
+                                kernelCommand: analysisKernelName,
+                                filelist: [fileUri],
+                            } as ProcessCurrentFolderOptions
+                        );
+                        if (!refreshed) {
+                            throw new WorkflowError("skip", `Analysis for ${relativePath} was skipped - all analyzable content was already up to date`);
+                        }
+                    };
+                    
+                    // Name the function dynamically
+                    Object.defineProperty(dynamicFunc, 'name', { value: `${relativePath}:${analysisKernelName}`, writable: false });
+                    
+                    return dynamicFunc;
                 }
             );
-            Object.defineProperty(analysisTypeKernelTasks[analysisTypeKernelTasks.length - 1], 'name', { value: `${relativePath}:${analysisKernelName}`, writable: false });
         }
-
+        
         const fileAnalysisEngine = new WorkflowEngine(analysisTypeKernelTasks, {
             pattern: [1],
             logger: boostLogging,

@@ -141,6 +141,9 @@ export class WorkflowEngine {
                 }
                 const promiseGenerator = this.tasks.shift()!;
                 const promise = promiseGenerator();
+                if (!promise.name) {
+                    this.logger?.debug(`Workflow(${this.id}):task-${i}:no-name`);
+                }
                 const taskId = promise.name || uuidv4();
                 try {
                     this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:starting`);
