@@ -7,7 +7,14 @@ import * as vscode from 'vscode';
 import { BoostNotebook, BoostNotebookCell,
         NotebookCellKind, NOTEBOOK_SUMMARY_EXTENSION } from '../data/jupyter_notebook';
 import { boostLogging } from '../utilities/boostLogging';
-import { getBoostFile, findCellByKernel, BoostFileType, fullPathFromSourceFile, cleanCellOutput, generateCellOutputWithHeader } from '../extension/extension';
+import {
+    getBoostFile,
+    findCellByKernel,
+    BoostFileType,
+    fullPathFromSourceFile,
+    cleanCellOutput,
+    generateCellOutputWithHeader
+} from '../extension/extension';
 import * as fs from 'fs';
 import * as path from 'path';
 import { ControllerOutputType } from './controllerOutputTypes';

@@ -10,10 +10,14 @@ import { WorkflowEngine, WorkflowError } from "./utilities/workflow_engine";
 
 import {
     BoostCommands,
-    getAllProjectFiles,
     getKernelName,
     ProcessCurrentFolderOptions,
 } from "./extension/extension";
+
+import {
+    getAllProjectFiles,
+} from "./utilities/files";
+
 import { NOTEBOOK_TYPE } from "./data/jupyter_notebook";
 
 import { summarizeKernelName } from "./controllers/summary_controller";

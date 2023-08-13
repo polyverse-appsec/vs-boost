@@ -3,10 +3,10 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 1.3.0: August 10th, 2023
+## Version 1.3.0: August 13th, 2023
 
 ### New Features
-- None
+- Support for analyzing ONLY selected files in a project folder - using .boostOnly file (similar to .boostIgnore)
 
 ### Enhancements
 - Analysis of files is automatically prioritized based on perceived value and relevance to the project.

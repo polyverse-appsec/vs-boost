@@ -54,14 +54,23 @@ import { BoostChatViewProvider } from "../chat_view";
 import { boostNotebookToFileSummaryItem } from "../data/BoostProjectData";
 
 import {
-    getOrCreateGuideline,
     updateBoostIgnoreForTarget,
+    getBoostIgnoreFile,
+    getAllProjectFiles,
+} from "../utilities/files";
+
+import {
+    addToBoostOnly,
+    removeFromBoostOnly,
+} from "../utilities/boostOnly";
+
+import {
+    getOrCreateGuideline,
     getBoostFile,
     BoostFileType,
     parseFunctionsFromFile,
     newErrorFromItemData,
     createOrOpenNotebookFromSourceFile,
-    _syncProblemsInCell,
     createOrOpenSummaryNotebookFromSourceFile,
     BoostCommands,
     findCellByKernel,
@@ -69,8 +78,6 @@ import {
     boostActivityBarId,
     fullPathFromSourceFile,
     ProcessCurrentFolderOptions,
-    getBoostIgnoreFile,
-    getAllProjectFiles,
 } from "./extension";
 import { BoostUserAnalysisType } from "../userAnalysisType";
 
@@ -217,7 +224,7 @@ export class BoostExtension {
 
             this.registerProjectLevelCommands(context);
 
-            this.registerRightClickExcludeFromAnalysisCommand(context);
+            this.registerFileExplorerRightClickAnalysisSelectionCommands(context);
 
             this.registerFileRightClickAnalyzeCommand(context);
 
@@ -749,7 +756,7 @@ export class BoostExtension {
                         );
                     });
                 });
-                _syncProblemsInCell(cell, problems);
+                this.syncProblemsInCell(cell, problems);
             });
         } else {
             notebook.getCells().forEach((cell) => {
@@ -789,7 +796,7 @@ export class BoostExtension {
                         );
                     });
                 });
-                _syncProblemsInCell(cell, problems);
+                this.syncProblemsInCell(cell, problems);
             });
         }
     }
@@ -851,14 +858,14 @@ export class BoostExtension {
                         continue;
                     }
 
-                    _syncProblemsInCell(cellChange.cell, problems);
+                    this.syncProblemsInCell(cellChange.cell, problems);
                 }
 
                 // when content in a cell changes - look for full deletions of cell
                 // Loop through each changed cell content
                 for (const changedContent of event.contentChanges) {
                     for (const cell of changedContent.removedCells) {
-                        _syncProblemsInCell(cell, problems, true);
+                        this.syncProblemsInCell(cell, problems, true);
                     }
                 }
             });
@@ -1305,7 +1312,7 @@ export class BoostExtension {
     }
 
     async loadCurrentFolder(targetFolder: vscode.Uri, context: vscode.ExtensionContext) {
-        const files = (await getAllProjectFiles(false, targetFolder)).map((file) => {
+        const files = (await getAllProjectFiles(false, targetFolder)).map((file : string) => {
             return vscode.Uri.file(file);
         });
 
@@ -1317,7 +1324,7 @@ export class BoostExtension {
                 vscode.NotebookDocument | boostnb.BoostNotebook
             >[] = [];
 
-            files.filter(async (file) => {
+            files.filter(async (file: vscode.Uri) => {
                 newNotebookWaits.push(
                     createOrOpenNotebookFromSourceFile(file, true)
                 );
@@ -1413,7 +1420,7 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
     }
 
-    registerRightClickExcludeFromAnalysisCommand(
+    registerFileExplorerRightClickAnalysisSelectionCommands(
         context: vscode.ExtensionContext
     ) {
         let disposable = vscode.commands.registerCommand(
@@ -1430,6 +1437,7 @@ export class BoostExtension {
                 }
 
                 updateBoostIgnoreForTarget(uri.fsPath);
+                removeFromBoostOnly(uri.fsPath);
                 await this.refreshBoostProjectsData().then(() => {
                     this.start?.refresh();
                     this.summary?.refresh();
@@ -1452,6 +1460,51 @@ export class BoostExtension {
                 }
 
                 updateBoostIgnoreForTarget(uri.fsPath);
+                removeFromBoostOnly(uri.fsPath);
+                await this.refreshBoostProjectsData().then(() => {
+                    this.start?.refresh();
+                    this.summary?.refresh();
+                });
+            }
+        );
+        context.subscriptions.push(disposable);
+
+        disposable = vscode.commands.registerCommand(
+            boostnb.NOTEBOOK_TYPE +
+                "." +
+                BoostCommands.analyzeOnlyTargetForBoostAnalysis,
+            async (uri: vscode.Uri) => {
+                if (!uri) {
+                    boostLogging.warn(
+                        "No inclusion target was provided.",
+                        false
+                    );
+                    return;
+                }
+
+                addToBoostOnly(uri.fsPath);
+                await this.refreshBoostProjectsData().then(() => {
+                    this.start?.refresh();
+                    this.summary?.refresh();
+                });
+            }
+        );
+        context.subscriptions.push(disposable);
+        
+        disposable = vscode.commands.registerCommand(
+            boostnb.NOTEBOOK_TYPE +
+                "." +
+                BoostCommands.analyzeOnlyTargetFolderForBoostAnalysis,
+            async (uri: vscode.Uri) => {
+                if (!uri) {
+                    boostLogging.warn(
+                        "No inclusion target was provided.",
+                        false
+                    );
+                    return;
+                }
+
+                addToBoostOnly(uri.fsPath);
                 await this.refreshBoostProjectsData().then(() => {
                     this.start?.refresh();
                     this.summary?.refresh();
@@ -3155,5 +3208,55 @@ export class BoostExtension {
             }
         }
         return summaries;
+    }
+
+
+    syncProblemsInCell(
+        cell: vscode.NotebookCell | boostnb.BoostNotebookCell,
+        problems: vscode.DiagnosticCollection,
+        cellsBeingRemoved: boolean = false
+    ) {
+        const usingBoostNotebook = "value" in cell;
+
+        const cellUri = usingBoostNotebook
+            ? vscode.Uri.parse(cell.id as string)
+            : cell.document.uri;
+
+        // if no problems for this cell, skip it
+        const thisCellProblems = problems.get(cellUri);
+        if (!thisCellProblems || thisCellProblems.length === 0) {
+            return;
+        }
+
+        // Check if the cell has any error output
+        const hasErrorOutput = cell.outputs.some((output: any) => {
+            for (const item of output.items) {
+                return item.mime === errorMimeType;
+            }
+        });
+        // If the cell has error output, check if there are any problems associated with it
+
+        // if the cell has no error output, remove all problems associated with it
+        if (!hasErrorOutput) {
+            problems.delete(cellUri);
+            return;
+        }
+        const diagnostics: vscode.Diagnostic[] = [];
+        // Loop through each problem and check if it can still be matched to an error output
+        for (const problem of thisCellProblems) {
+            const errorOutputIndex = cell.outputs.findIndex((output) => {
+                for (const item of output.items) {
+                    return item.mime === errorMimeType;
+                    //    && output.metadata?.cellId === problem?.source?.toString();
+                }
+            });
+            // Error output found for the problem, add it back to the diagnostics
+            // unless the cell is being removed, in which case, we'll drop it (e.g. skip the re-add)
+            if (errorOutputIndex !== -1 && !cellsBeingRemoved) {
+                diagnostics.push(problem);
+            }
+        }
+        // Replace the problems with the updated diagnostics
+        problems.set(cellUri, diagnostics);
     }
 }

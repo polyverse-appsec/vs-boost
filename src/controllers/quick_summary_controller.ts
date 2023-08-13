@@ -7,7 +7,7 @@ import {
 
 import { BoostConfiguration } from '../extension/boostConfiguration';
 
-import { getAllProjectFiles } from '../extension/extension';
+import { getAllProjectFiles } from '../utilities/files';
 
 import {
     FunctionKernelControllerBase,

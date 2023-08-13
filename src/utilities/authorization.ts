@@ -1,5 +1,4 @@
 import * as vscode from "vscode";
-import axios from "axios";
 import { Remote } from "./git";
 import { BoostConfiguration } from "../extension/boostConfiguration";
 import { boostLogging } from "../utilities/boostLogging";

@@ -14,9 +14,11 @@ import { boostLogging } from "../utilities/boostLogging";
 import {
     findCellByKernel,
     generateCellOutputWithHeader,
-    getAllProjectFiles,
     getProjectName,
 } from "../extension/extension";
+import {
+    getAllProjectFiles
+} from "../utilities/files";
 import { getCurrentOrganization } from "../utilities/authorization";
 import { ControllerOutputType } from "./controllerOutputTypes";
 
