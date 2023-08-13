@@ -212,7 +212,7 @@ export class WorkflowEngine {
                             }
                             break;
                         case "skip":
-                            this.logger?.error(
+                            this.logger?.info(
                                 `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:Skipping due to ${(error as Error).message}`
                             );
                             this.retryCounts.delete(promiseGenerator);
