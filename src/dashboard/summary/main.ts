@@ -218,7 +218,7 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
 }
 
 function getFileLimit(): number {
-    //get the limit from the 
+    //get the limit from the UI
     let fileLimit = 0;
     const top5Mode = document.getElementById('top5-mode') as HTMLInputElement;
     if (top5Mode.checked) {

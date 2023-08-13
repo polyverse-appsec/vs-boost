@@ -383,12 +383,12 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         const prepareFileList = async () => {
             // get the entire list of files to analyze
             const allFiles = await getAllProjectFiles();
-            boostLogging.debug(`Total Project is ${allFiles.length} files`);
+            boostLogging.info(`Total Project is ${allFiles.length} files`);
     
             // get the requested # of files only
             const limitedFiles = (fileLimit !== 0)?allFiles.slice(0, fileLimit):allFiles;
             if (fileLimit !== 0) {
-                boostLogging.debug(`Processing only ${limitedFiles.length} files by request`);
+                boostLogging.info(`Processing only ${limitedFiles.length} files by request`);
             }
             limitedFiles.forEach((file) => {
                 tasks.push(
