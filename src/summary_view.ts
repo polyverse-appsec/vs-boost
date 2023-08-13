@@ -375,6 +375,8 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
     async processAllFilesInRings(analysisTypes: string[], fileLimit: number) {
         const tasks : any[] = [];
 
+        const workflowName = "Run Seleted Analysis";
+
         // we're going to dynamically build the list at the start of the run
         //      so we get the best most up to date list of files from
         //      blueprint
@@ -398,15 +400,17 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         const fileDynamicFunc = async () => { // use arrow function
                             const fileAnalysisTasks : any[] = [];
 
+                            const fileAnalysisWorkflowName = `${workflowName}-File ${relativePath}`;
                             for (const [key, value] of this.ringFileAnalysisMap) {
                                 fileAnalysisTasks.push(
                                     () => {
                                         const analysisTypeDynamicFunc = async () => {
                                             if (!analysisTypes.includes(key)) {
-                                                throw new WorkflowError("skip", `Skipping File Analysis ${key} by user request`);
+                                                throw new WorkflowError("skip", `Skipping File ${key} Analysis by user request`);
                                             }
                                             const fileUri = vscode.Uri.parse(file);
-                                            await this.processDepthOnRingFileTask(fileUri, value);
+                                            const areaAnalysisWorkflowName = `${fileAnalysisWorkflowName}-${key}`;
+                                            await this.processDepthOnRingFileTask(fileUri, value, areaAnalysisWorkflowName);
                                         };
                                         
                                         // Name the function dynamically based on the key
@@ -420,6 +424,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                             const fileAnalysisEngine = new WorkflowEngine(fileAnalysisTasks, {
                                 pattern: [1],
                                 logger: boostLogging,
+                                name: fileAnalysisWorkflowName,
                             });
 
                             const fileAnalysisResults = await fileAnalysisEngine.run();
@@ -525,6 +530,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
                 const summaryTasks : any[] = [];
 
+                const summaryWorkflowName = `${workflowName}-Summarization`;
                 for (const [key, value] of this.ringSummaryAnalysisMap) {
                     summaryTasks.push(
                         () => {
@@ -547,6 +553,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     afterRun: afterRingSummaryRun,
                     pattern: [1],
                     logger: boostLogging,
+                    name: summaryWorkflowName,
                 });
 
                 const summaryResults = await summaryEngine.run();
@@ -596,6 +603,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             afterRun: afterRun,
             pattern: pattern,
             logger: boostLogging,
+            name: workflowName,
         });
 
         const allResults = await engine.run();
@@ -632,13 +640,16 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         }
     }
 
-    private async processDepthOnRingFileTask(fileUri: vscode.Uri, value: string[]) {
+    private async processDepthOnRingFileTask(
+        fileUri: vscode.Uri,
+        value: string[],
+        workflowName: string) {
         // log the relative path for simplicity for user
         const rootPath = vscode.workspace.workspaceFolders?.[0].uri.fsPath as string;
         const relativePath = path.relative(rootPath, fileUri.fsPath);
 
         const analysisTypeKernelTasks : any[] = [];
-            
+        
         for (const analysisKernelName of value) {
             analysisTypeKernelTasks.push(
                 () => {
@@ -672,6 +683,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         const fileAnalysisEngine = new WorkflowEngine(analysisTypeKernelTasks, {
             pattern: [1],
             logger: boostLogging,
+            name: workflowName,
         });
 
         const analysisTypeResults = await fileAnalysisEngine.run();

@@ -46,6 +46,7 @@ export interface WorkflowEngineOptions {
     pattern?: number[];
     logger?: any;
     maxRetries?: number;
+    name?: string;
 }
 
 function getElapsedTime(startTime: number): string {
@@ -98,6 +99,7 @@ export class WorkflowEngine {
         //default to a no-op function for logger if none is provided
         this.logger = options.logger || undefined;
         this.maxRetries = options.maxRetries || 5;
+        this.id = options.name || this.id;
 
         this.logger?.debug(`${getFormattedDate()}:Workflow(${this.id}):created`);
     }
