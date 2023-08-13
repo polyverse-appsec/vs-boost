@@ -39,12 +39,6 @@ export class BoostProjectData implements IBoostProjectData {
         this.dataFormatVersion = BoostConfiguration.version;
         this.summary = { ...emptyProjectData.summary };
         this.sectionSummary = {};
-        //loop through the keys of the emptyProjectData.sectionSummary object and copy the values to the new object
-        Object.keys(emptyProjectData.sectionSummary).forEach((key) => {
-            this.sectionSummary[key] = {
-                ...emptyProjectData.sectionSummary[key],
-            };
-        });
         this.fsPath = "";
         this.files = {};
         this.jobStatus = { ...emptyProjectData.jobStatus };
@@ -182,48 +176,49 @@ export class BoostProjectData implements IBoostProjectData {
         if (previous && previous.sections) {
             sections = Object.keys(previous.sections);
             sections.forEach((section) => {
-                const sectionSummary = this.sectionSummary[section];
-                if (sectionSummary) {
-                    sectionSummary.totalCells -=
-                        previous.sections[section].totalCells;
-                    sectionSummary.completedCells -=
-                        previous.sections[section].completedCells;
-                    sectionSummary.errorCells -=
-                        previous.sections[section].errorCells;
-                    sectionSummary.filesAnalyzed -= 1;
-                } else {
-                    boostLogging.debug(
-                        `Updating BoostProjectData File Summaries: Previous ${section} sectionSummary not found`
-                    );
+                let sectionSummary = this.sectionSummary[section];
+                if (!sectionSummary) {
+                    this.sectionSummary[section] = {
+                        ...fileSummary.sections[section],
+                    };
+                    sectionSummary = this.sectionSummary[section];
                 }
+                sectionSummary.totalCells -=
+                    previous.sections[section].totalCells;
+                sectionSummary.completedCells -=
+                    previous.sections[section].completedCells;
+                sectionSummary.errorCells -=
+                    previous.sections[section].errorCells;
+                sectionSummary.filesAnalyzed -= 1;
             });
-        }
+        }        
 
         sections = Object.keys(fileSummary.sections);
         sections.forEach((section) => {
-            const sectionSummary = this.sectionSummary[section];
-            if (sectionSummary) {
-                sectionSummary.totalCells +=
-                    fileSummary.sections[section].totalCells;
-                sectionSummary.completedCells +=
-                    fileSummary.sections[section].completedCells;
-                sectionSummary.errorCells +=
-                    fileSummary.sections[section].errorCells;
-                sectionSummary.filesAnalyzed += 1;
+            let sectionSummary = this.sectionSummary[section];
+            if (!sectionSummary) {
+                this.sectionSummary[section] = {
+                    ...fileSummary.sections[section],
+                };
+                sectionSummary = this.sectionSummary[section];
+            }
 
-                if (
-                    sectionSummary.completedCells === sectionSummary.totalCells
-                ) {
-                    sectionSummary.status = BoostProcessingStatus.completed;
-                } else if (sectionSummary.completedCells > 0) {
-                    sectionSummary.status = BoostProcessingStatus.incomplete;
-                } else {
-                    sectionSummary.status = BoostProcessingStatus.notStarted;
-                }
+            sectionSummary.totalCells +=
+                fileSummary.sections[section].totalCells;
+            sectionSummary.completedCells +=
+                fileSummary.sections[section].completedCells;
+            sectionSummary.errorCells +=
+                fileSummary.sections[section].errorCells;
+            sectionSummary.filesAnalyzed += 1;
+
+            if (
+                sectionSummary.completedCells === sectionSummary.totalCells
+            ) {
+                sectionSummary.status = BoostProcessingStatus.completed;
+            } else if (sectionSummary.completedCells > 0) {
+                sectionSummary.status = BoostProcessingStatus.incomplete;
             } else {
-                boostLogging.debug(
-                    `Updating BoostProjectData File Summaries: New File Summary ${section} sectionSummary not found`
-                );
+                sectionSummary.status = BoostProcessingStatus.notStarted;
             }
         });
     }
