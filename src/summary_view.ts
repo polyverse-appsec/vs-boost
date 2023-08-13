@@ -397,7 +397,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
                         const fileDynamicFunc = async () => { // use arrow function
                             const fileAnalysisTasks : any[] = [];
-            
+
                             for (const [key, value] of this.ringFileAnalysisMap) {
                                 fileAnalysisTasks.push(
                                     () => {
@@ -416,16 +416,30 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                     }
                                 );
                             }
-                                        
+
                             const fileAnalysisEngine = new WorkflowEngine(fileAnalysisTasks, {
                                 pattern: [1],
                                 logger: boostLogging,
                             });
-            
+
                             const fileAnalysisResults = await fileAnalysisEngine.run();
-                            boostLogging.info(`${relativePath} Analysis completed: ${fileAnalysisResults.filter((x) => !x[0] || !(x[0] instanceof WorkflowError)).length}`);
-                            boostLogging.info(`${relativePath} Analysis skipped: ${fileAnalysisResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "skip").length}`);
-            
+                            const completed = fileAnalysisResults.filter((x) => !x[0] || !(x[0] instanceof WorkflowError)).length;
+                            const skipped = fileAnalysisResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "skip").length;
+                            const aborted = fileAnalysisResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "abort").length;
+                            const canceled = fileAnalysisResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "abort").length;
+                            boostLogging.info(`${relativePath} Analysis completed: ${completed}`);
+                            boostLogging.info(`${relativePath} Analysis skipped: ${skipped}`);
+
+                            if (aborted > 0) {
+                                throw new WorkflowError("abort", `Aborting File ${relativePath} Analysis because of ${aborted} analysis`);
+                            }
+                            if (canceled > 0) {
+                                throw new WorkflowError("cancel", `Canceling File ${relativePath} Analysis because of ${canceled} analysis`);
+                            }
+                            if (completed === 0 && skipped > 0) {
+                                throw new WorkflowError("skip", `Skipping File ${relativePath} Analysis because all analysis types were skipped`);
+                            }
+
                             return file;
                         };
                         
@@ -536,8 +550,22 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                 });
 
                 const summaryResults = await summaryEngine.run();
-                boostLogging.info(`Workflow Analysis Summaries completed: ${summaryResults.filter((x) => !x[0] || !(x[0] instanceof WorkflowError)).length}`);
-                boostLogging.info(`Workflow Analysis Summaries skipped: ${summaryResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "skip").length}`);
+                const completed = summaryResults.filter((x) => !x[0] || !(x[0] instanceof WorkflowError)).length;
+                const skipped = summaryResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "skip").length;
+                const aborted = summaryResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "abort").length;
+                const canceled = summaryResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "abort").length;
+                boostLogging.info(`Workflow Analysis Summaries completed: ${completed}`);
+                boostLogging.info(`Workflow Analysis Summaries skipped: ${skipped}`);
+
+                if (aborted > 0) {
+                    throw new WorkflowError("abort", `Aborting Workflow Analysis Summaries because of ${aborted} analysis`);
+                }
+                if (canceled > 0) {
+                    throw new WorkflowError("cancel", `Canceling Workflow Analysis Summaries because of ${canceled} analysis`);
+                }
+                if (completed === 0 && skipped > 0) {
+                    throw new WorkflowError("skip", `Skipping Workflow Analysis Summaries because all analysis types were skipped`);
+                }
             },
         ];
         const afterRun = [
@@ -647,8 +675,22 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         });
 
         const analysisTypeResults = await fileAnalysisEngine.run();
-        boostLogging.info(`${relativePath} Analysis Kernels completed: ${analysisTypeResults.filter((x) => !x[0] || !(x[0] instanceof WorkflowError)).length}`);
-        boostLogging.info(`${relativePath} Analysis Kernels skipped: ${analysisTypeResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "skip").length}`);
+        const completed = analysisTypeResults.filter((x) => !x[0] || !(x[0] instanceof WorkflowError)).length;
+        const skipped = analysisTypeResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "skip").length;
+        const aborted = analysisTypeResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "abort").length;
+        const canceled = analysisTypeResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "cancel").length;
+        boostLogging.info(`${relativePath} Analysis Kernels completed: ${completed}`);
+        boostLogging.info(`${relativePath} Analysis Kernels skipped: ${skipped}`);
+
+        if (aborted > 0) {
+            throw new WorkflowError("abort", `Aborting Analysis Kernels because of ${aborted} analysis`);
+        }
+        if (canceled > 0) {
+            throw new WorkflowError("cancel", `Canceling Analysis Kernels because of ${canceled} analysis`);
+        }
+        if (completed === 0 && skipped > 0) {
+            throw new WorkflowError("skip", `Skipping Analysis Kernels because all analysis types were skipped`);
+        }
     }
 
     private async processQuickSummaryOfRingFileTaskGroup(value: string[]) {
