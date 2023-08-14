@@ -367,7 +367,7 @@ export class BoostExtension {
 
     public updateAccountInfo(accountInfo: any) {
         this._accountInfo = accountInfo;
-        const boostdata = this.getBoostProjectData();
+        const boostdata : BoostProjectData | undefined = this.getBoostProjectData();
         if (boostdata) {
             boostdata.updateAccountStatusFromService(accountInfo);
             //and if we have boostdata, go ahead and refresh the dashboard
