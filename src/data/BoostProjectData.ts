@@ -147,15 +147,42 @@ export class BoostProjectData implements IBoostProjectData {
         this.account.refreshed = true;
         this.account.status = accountStatus.status;
         this.account.enabled = accountStatus.enabled;
-        this.account.trialRemaining = accountStatus.trial_remaining;
-        this.account.usageThisMonth = accountStatus.usage_this_month;
-        this.account.discountedUsage = accountStatus.discounted_usage;
-        this.account.balanceDue = accountStatus.balance_due;
-        this.account.couponType = accountStatus.coupon_type;
-        this.account.created = accountStatus.created;
-        this.account.creditCardLinked = accountStatus.credit_card_linked;
         this.account.org = accountStatus.org;
-        this.account.owner = accountStatus.owner;
+
+        // we may have been passed minimal account info if there's an account lookup error
+        //  so only set the fields if they're present
+        // alternatively - we can clear all the unset fields, but for now, we'll just leave them
+        if (accountStatus.trial_remaining !== undefined) {
+            this.account.trialRemaining = accountStatus.trial_remaining;
+        }
+    
+        if (accountStatus.usage_this_month !== undefined) {
+            this.account.usageThisMonth = accountStatus.usage_this_month;
+        }
+    
+        if (accountStatus.discounted_usage !== undefined) {
+            this.account.discountedUsage = accountStatus.discounted_usage;
+        }
+    
+        if (accountStatus.balance_due !== undefined) {
+            this.account.balanceDue = accountStatus.balance_due;
+        }
+    
+        if (accountStatus.coupon_type !== undefined) {
+            this.account.couponType = accountStatus.coupon_type;
+        }
+    
+        if (accountStatus.created !== undefined) {
+            this.account.created = accountStatus.created;
+        }
+    
+        if (accountStatus.credit_card_linked !== undefined) {
+            this.account.creditCardLinked = accountStatus.credit_card_linked;
+        }
+    
+        if (accountStatus.owner !== undefined) {
+            this.account.owner = accountStatus.owner;
+        }
     }
 
     private addFileSummaryToSectionSummaries(
