@@ -15,6 +15,7 @@ import { BoostUserAnalysisType } from "../userAnalysisType";
 import { BoostConfiguration } from "../extension/boostConfiguration";
 import { boostLogging } from "../utilities/boostLogging";
 import { fetchGithubSession, getCurrentOrganization } from "../utilities/authorization";
+import { BoostAuthenticationException } from "../portal";
 
 // we can get timeouts and other errors from both openai and lambda. This is a generic handler for those
 // conditions to attempt a retry.
@@ -308,7 +309,12 @@ export class BoostServiceHelper {
                 serviceEndpoint,
                 payload
             );
-            if (result.error) {
+            if (result.account && !result.account['enabled']) {
+                // the account is in error - we'll assume that's the cause
+                return new BoostAuthenticationException(
+                    `Unable to use the Boost Service. Your account is ${result.account['status']} and is not currently enabled.` +
+                    ` Please use the Account portal to update your account.`);
+            } else if (result.error) {
                 // if we have an error, throw it - this is generally happens with the local service shim
                 return new Error(
                     `Boost Service failed with a network error: ${result.error}`
