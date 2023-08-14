@@ -135,13 +135,24 @@ const gitHubAuthorizationFailureToolTip =
 
 export async function updateBoostStatusColors(
     context: vscode.ExtensionContext,
-    _: any,
+    extraData: any,
     closure: BoostExtension
 ): Promise<string> {
     if (closure.statusBar === undefined) {
         return "unknown";
     }
 
+    // if the caller provided the account data, we can use it, otherwise fetch it
+    // today the caller only provides status and enabled - so if want full info we
+    // need to fetch it
+    const callerAccountInfo = extraData?.response?.data?.account;
+    if (callerAccountInfo) {
+        // we'll update whatever fields/info we got (shallow update)
+        // in case the deep-get fails (network issue or bigger account problem)
+        closure.updateAccountInfo(callerAccountInfo);
+    }
+
+    // then do a deep update to get more details of the account
     const accountInfo = await getCustomerStatus(context);
 
     if (accountInfo === undefined || accountInfo instanceof Error) {
