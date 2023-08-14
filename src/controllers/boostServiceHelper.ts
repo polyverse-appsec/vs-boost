@@ -323,7 +323,12 @@ export class BoostServiceHelper {
             return result;
         } catch (err: any) {
             if (this.onServiceError) {
-                this.onServiceError(err);
+                const result = this.onServiceError(err);
+
+                // if the handler is asynchronous, wait for it to complete before continuing
+                if (result instanceof Promise) {
+                    await result;
+                }
             }
             return mapError(err);
         }
