@@ -55,6 +55,9 @@ export enum BoostCommands {
     refreshProjectData = "refreshProjectData",
 
     showGuidelines = "showGuidelines",
+
+    customerPortal = "customerPortal",
+    selectOrganization = "selectOrganization",
 }
 
 export interface ProcessCurrentFolderOptions {

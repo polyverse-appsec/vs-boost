@@ -10,6 +10,7 @@ import {
 import { NOTEBOOK_TYPE } from "./data/jupyter_notebook";
 import { boostLogging } from "./utilities/boostLogging";
 import { mapError } from "./utilities/error";
+import { BoostCommands } from "./extension/extension";
 
 function serviceEndpoint(): string {
     switch (BoostConfiguration.cloudServiceStage) {
@@ -26,7 +27,7 @@ function serviceEndpoint(): string {
     }
 }
 
-class BoostAuthenticationException extends Error {
+export class BoostAuthenticationException extends Error {
     constructor(message?: string) {
         super(message);
         this.name = "BoostAuthenticationException";
@@ -110,7 +111,7 @@ export function registerCustomerPortalCommand(
 ) {
     context.subscriptions.push(
         vscode.commands.registerCommand(
-            NOTEBOOK_TYPE + ".customerPortal",
+            NOTEBOOK_TYPE + "." + BoostCommands.customerPortal,
             async () => {
                 let url;
                 try {
@@ -339,13 +340,13 @@ function boostStatusCommand(this: any) {
                 // The user clicked the "Open Account Dashboard" button
                 // Perform the appropriate action, e.g., open a URL or show a webview
                 vscode.commands.executeCommand(
-                    NOTEBOOK_TYPE + ".customerPortal"
+                    NOTEBOOK_TYPE + "." + BoostCommands.customerPortal
                 );
             } else if (selection === changeBillingOrganizationButton) {
                 // The user clicked the "Change Billing Organization" button
                 // Perform the appropriate action, e.g., open a URL or show a webview
                 vscode.commands.executeCommand(
-                    NOTEBOOK_TYPE + ".selectOrganization"
+                    NOTEBOOK_TYPE + "." + BoostCommands.selectOrganization
                 );
             } else {
                 // The user dismissed the message without clicking any button
@@ -360,7 +361,7 @@ function registerSelectOrganizationCommand(
 ) {
     context.subscriptions.push(
         vscode.commands.registerCommand(
-            NOTEBOOK_TYPE + ".selectOrganization",
+            NOTEBOOK_TYPE + "." + BoostCommands.selectOrganization,
             async () => {
                 try {
                     // first, fetch the organizations from the portal
