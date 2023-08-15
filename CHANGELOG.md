@@ -3,7 +3,7 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 1.3.0: August 13th, 2023
+## Version 1.3.0: August 14th, 2023
 
 ### New Features
 - Default analysis by "Run Selected Analyses" in the Activity Bar will run against a sample or trial of the currently loaded project, including estimated cost.
