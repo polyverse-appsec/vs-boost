@@ -322,6 +322,9 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             }
         } catch (e) {
             boostLogging.error(`Run Selected Analysis failed: ${e}`, true);
+        } finally {
+            // make sure we always restore the analysis state to quiescent after finishing analysis
+            this._boostExtension.getBoostProjectData()?.setAnalysisState(AnalysisState.quiescent);
         }
     }
 
@@ -656,9 +659,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     await vscode.commands.executeCommand(
                         NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
                     );
-                    this.finishAllJobs(this._boostExtension.getBoostProjectData());
                 }
-                this.refresh();
             },
         ];
 
@@ -678,37 +679,42 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             name: workflowName,
         });
 
-        const allResults = await engine.run();
+        try {
+            const allResults = await engine.run();
 
-        let successfulTasksCompleted = 0;
-        let workflowCompletion = "completed";
-        allResults.forEach((result) => {
-            if (!result) {
-                return;
-            }
-            successfulTasksCompleted += result.filter((r : any) => {
-                if (!r || !(r instanceof Error)) {
-                    return true;
-                } else if (r instanceof WorkflowError) {
-                    const error = r as WorkflowError;
-                    if (error.type === "cancel" || error.type === "abort") {
-                        workflowCompletion = error.type;
-                    }
+            let successfulTasksCompleted = 0;
+            let workflowCompletion = "completed";
+            allResults.forEach((result) => {
+                if (!result) {
+                    return;
                 }
-            }).length;
-        });
-        switch (workflowCompletion) {
-            case "cancel":
-                boostLogging.error(`Graceful Cancel of Workflow Analysis: tasks completed: ${successfulTasksCompleted}`);
-                break;
-            case "abort":
-                boostLogging.error(`Unexpected Abort of Workflow Analysis: tasks completed: ${successfulTasksCompleted}`);
-                break;
-            case "completed":
-                boostLogging.info(`Successful Workflow Analysis tasks completed: ${successfulTasksCompleted}`);
-                break;
-            default:
-                boostLogging.error(`Unknown Workflow Completion: ${workflowCompletion}`);
+                successfulTasksCompleted += result.filter((r : any) => {
+                    if (!r || !(r instanceof Error)) {
+                        return true;
+                    } else if (r instanceof WorkflowError) {
+                        const error = r as WorkflowError;
+                        if (error.type === "cancel" || error.type === "abort") {
+                            workflowCompletion = error.type;
+                        }
+                    }
+                }).length;
+            });
+            switch (workflowCompletion) {
+                case "cancel":
+                    boostLogging.error(`Graceful Cancel of Workflow Analysis: tasks completed: ${successfulTasksCompleted}`);
+                    break;
+                case "abort":
+                    boostLogging.error(`Unexpected Abort of Workflow Analysis: tasks completed: ${successfulTasksCompleted}`);
+                    break;
+                case "completed":
+                    boostLogging.info(`Successful Workflow Analysis tasks completed: ${successfulTasksCompleted}`);
+                    break;
+                default:
+                    boostLogging.error(`Unknown Workflow Completion: ${workflowCompletion}`);
+            }
+        } finally {
+            this.finishAllJobs(this._boostExtension.getBoostProjectData());
+            this.refresh();
         }
     }
 
