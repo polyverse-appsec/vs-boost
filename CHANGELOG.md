@@ -3,6 +3,17 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 1.3.2: August 23rd, 2023
+
+### New Features
+- N/A
+
+### Enhancements
+- N/A
+
+### Bug Fixes
+- N/A
+
 ## Version 1.3.1: August 15th, 2023
 
 ### New Features
