@@ -402,18 +402,20 @@ function refreshPrediction(statusData: StatusViewData) {
 }
 
 function refreshAnalysisState(analysisState: AnalysisState) {
-    if( analysisState === AnalysisState.preparing ) {
-        refreshSpinner(analysisState);
-        const progressText = document.getElementById(
-            "progress-text"
-        ) as HTMLElement;
-        //get the current text of the progress text, delete it if it exists
-        let existingText = progressText.innerText;
-
-        if (existingText !== "" || existingText !== undefined) {
-            typewriter.deleteAll(1).pauseFor(300).start();
-        }
-        typewriter.typeString("Sara is preparing the analysis. This may take a few minutes.").start();
+    if (analysisState !== AnalysisState.preparing) {
+        // the progress field will be updated by the refreshProgressText function
+        return;
     }
-    //otherwise, the progress field will be updated by the refreshProgressText function
+    
+    refreshSpinner(analysisState);
+    const progressText = document.getElementById(
+        "progress-text"
+    ) as HTMLElement;
+    //get the current text of the progress text, delete it if it exists
+    let existingText = progressText.innerText;
+
+    if (existingText !== "" || existingText !== undefined) {
+        typewriter.deleteAll(1).pauseFor(300).start();
+    }
+    typewriter.typeString("Sara is preparing the analysis. This may take a few minutes.").start();
 }
