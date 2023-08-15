@@ -3,6 +3,18 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 1.3.1: August 15th, 2023
+
+### New Features
+- N/A
+
+### Enhancements
+- N/A
+
+### Bug Fixes
+- Ensure Error messages are shown in logs and UI by default
+- Check account status before running analysis - and show error if account is expired or canceled
+
 ## Version 1.3.0: August 14th, 2023
 
 ### New Features
