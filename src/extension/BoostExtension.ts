@@ -258,6 +258,12 @@ export class BoostExtension {
             // initialize once on startup...
             // don't wait for it to finish, since we want UI to come up asap
             this.refreshBoostProjectsData().then(() => {
+
+                // on startup we're going to reset the job status and analysis status of active project
+                //  This ensures UI renders correctly idle state, and previous running jobs are reset
+                const projectData : BoostProjectData | undefined  = this.getBoostProjectData();
+                projectData?.finishAllJobs();
+
                 this.finishedActivation = true;
 
                 boostLogging.info("Polyverse Boost is now active", (BoostConfiguration.logLevel === "debug"));
