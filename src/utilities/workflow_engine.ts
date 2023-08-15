@@ -22,6 +22,7 @@ Finally, the after promises will be run.
 Abort: If the abort API is called, the workflow will stop executing further promises.
 */
 
+import { all } from "micromatch";
 import { v4 as uuidv4 } from "uuid";
 
 // Custom error class for handling typed errors
@@ -123,6 +124,8 @@ export class WorkflowEngine {
         } catch (error) {
 
             this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):beforeRun:finished:error:${getElapsedTime(startTime)}:${error}`);
+
+            allResults.push(error);
             return allResults;
         }
 
@@ -175,6 +178,7 @@ export class WorkflowEngine {
                         
                     } catch (error) {
                         this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:afterEachTask:finished:error:${getElapsedTime(startTime)}:${error}`);
+                        allResults.push(error);
                     }
 
                 } catch (error) {
@@ -264,6 +268,7 @@ export class WorkflowEngine {
                 
             } catch (error) {
                 this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:afterEachTaskGroup:finished:error:${getElapsedTime(startTime)}:${error}`);
+                allResults.push(error);
             }
     
             // Move to the next group size if available
@@ -284,6 +289,7 @@ export class WorkflowEngine {
             
         } catch (error) {
             this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):afterRun:finished:error:${getElapsedTime(startTime)}:${error}`);
+            allResults.push(error);
         }
 
         this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):Run ended:${getElapsedTime(overallStartTime)}`);

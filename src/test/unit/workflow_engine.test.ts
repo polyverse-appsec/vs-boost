@@ -325,6 +325,40 @@ describe("WorkflowEngine", () => {
             expect(log).to.deep.equal([]);
         });
     });
+
+    it('should abort on "abort" beforeRun abort', function() {
+        let log: string[] = [];
+    
+        const beforeRun = [
+            () => async () => {
+                throw new WorkflowError("abort", "Abort error");
+            },
+        ];
+
+        const tasks = [
+            () => async () => {
+                log.push("main1");
+                return "main1";
+            },
+            () => async () => {
+                throw new WorkflowError("cancel", "Cancel error");
+            },
+            () => async () => {
+                log.push("main2");
+                return "main2";
+            },
+        ];
+
+        const engine : WorkflowEngine = new WorkflowEngine(tasks,{
+            name: (this as any).test.title,
+            beforeRun: beforeRun });
+        return engine.run().then(allResults => {
+            expect(allResults.length).to.equal(1);
+            expect(allResults[0] instanceof WorkflowError).to.equal(true);
+    
+            expect(log).to.deep.equal([]);
+        });
+    });
     
     it('should cancel on "cancel" type error', function() {
         let log: string[] = [];
