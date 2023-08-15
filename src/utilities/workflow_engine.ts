@@ -115,11 +115,11 @@ export class WorkflowEngine {
         this.logger?.debug(`${getFormattedDate()}:Workflow(${this.id}):Run starting`);
 
         try {
-            this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):beforeRun:starting`);
+            this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):beforeRun:starting`);
 
             await this.executePromises(this.beforeRun);
 
-            this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):beforeRun:finished:success:${getElapsedTime(startTime)}`);
+            this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):beforeRun:finished:success:${getElapsedTime(startTime)}`);
 
         } catch (error) {
 
@@ -151,29 +151,29 @@ export class WorkflowEngine {
                 }
                 const taskId = promise.name || uuidv4();
                 try {
-                    this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:starting`);
+                    this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:starting`);
 
                     let result = await promise();
 
-                    this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:finished:success:${getElapsedTime(startTime)}`);
+                    this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:finished:success:${getElapsedTime(startTime)}`);
 
                     groupResults.push(result);
 
                     startTime = Date.now();
                     try {
-                        this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:afterEachTask:starting`);
+                        this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:afterEachTask:starting`);
             
                         await this.executePromisesWithInputs(this.afterEachTask, [
                             result,
                         ]);
 
                         if (this.retryCounts.has(promiseGenerator)) {
-                            this.logger?.log(
+                            this.logger?.info(
                                 `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:afterEachTask:finished:success:afterRetries=${this.retryCounts.get(promiseGenerator)}:${getElapsedTime(startTime)}`);
 
                             this.retryCounts.delete(promiseGenerator);
                         } else {
-                            this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:afterEachTask:finished:success:${getElapsedTime(startTime)}`);
+                            this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:afterEachTask:finished:success:${getElapsedTime(startTime)}`);
                         }
                         
                     } catch (error) {
@@ -257,14 +257,14 @@ export class WorkflowEngine {
 
             startTime = Date.now();
             try {
-                this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:afterEachTaskGroup:starting`);
+                this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:afterEachTaskGroup:starting`);
     
                 await this.executePromisesWithInputs(
                     this.afterEachTaskGroup,
                     groupResults
                 );
         
-                this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:afterEachTaskGroup:finished:success:${getElapsedTime(startTime)}`);
+                this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:afterEachTaskGroup:finished:success:${getElapsedTime(startTime)}`);
                 
             } catch (error) {
                 this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:afterEachTaskGroup:finished:error:${getElapsedTime(startTime)}:${error}`);
@@ -281,11 +281,11 @@ export class WorkflowEngine {
 
         startTime = Date.now();
         try {
-            this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):afterRun:starting`);
+            this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):afterRun:starting`);
 
             await this.executePromisesWithInputs(this.afterRun, allResults);
 
-            this.logger?.log(`${getFormattedDate()}:Workflow(${this.id}):afterRun:finished:success:${getElapsedTime(startTime)}`);
+            this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):afterRun:finished:success:${getElapsedTime(startTime)}`);
             
         } catch (error) {
             this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):afterRun:finished:error:${getElapsedTime(startTime)}:${error}`);
