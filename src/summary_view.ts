@@ -372,6 +372,39 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         ],
     ]);
 
+    readonly ringFileAnalysisOutputMap = new Map([
+        [
+            BoostUserAnalysisType.documentation,
+            [
+                ControllerOutputType.explain,
+                ControllerOutputType.flowDiagram,
+            ],
+        ],
+        [
+            BoostUserAnalysisType.security,
+            [
+                ControllerOutputType.analyzeFunction,
+                ControllerOutputType.performanceFunction,
+            ],
+        ],
+        [
+            BoostUserAnalysisType.compliance,
+            [
+                ControllerOutputType.complianceFunction,
+            ],
+        ],
+        [
+            BoostUserAnalysisType.deepCode,
+            [
+                ControllerOutputType.analyze,
+                ControllerOutputType.compliance,
+                ControllerOutputType.performance,
+                ControllerOutputType.codeGuidelines,
+                ControllerOutputType.performance
+            ],
+        ],
+    ]);     
+
     async processAllFilesInRings(analysisTypes: string[], fileLimit: number) {
         const tasks : any[] = [];
 
@@ -390,6 +423,24 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             if (fileLimit !== 0) {
                 boostLogging.info(`Processing only ${limitedFiles.length} files by request`);
             }
+
+            //compute the ControllerOutputTypes for the analysisTypes by looking at the ringSummaryAnalysisMap
+            //with the analysisTypes, turn into an array. the map returns an array of contollers, we
+            // get the outputtype with controller.outputType
+
+            const controllerOutputTypes = analysisTypes.map((analysisType) => {
+                const outputTypes = this.ringFileAnalysisOutputMap.get(analysisType as BoostUserAnalysisType);
+                if (outputTypes) {
+                    return outputTypes.map((outputType) => {
+                        return outputType as ControllerOutputType;
+                    });
+                } else {
+                    return [];
+                }
+            }).flat();
+
+            this.addQueue(controllerOutputTypes, limitedFiles, this._boostExtension.getBoostProjectData());
+
             limitedFiles.forEach((file) => {
                 tasks.push(
                     () => {
