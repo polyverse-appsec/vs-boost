@@ -433,7 +433,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         // check current account status before even starting
         this.checkAccountEnabledBeforeContinuingAnalysis();
 
-        const workflowName = "Run Seleted Analysis";
+        const workflowName = "Run Selected Analysis";
 
         // we're going to dynamically build the list at the start of the run
         //      so we get the best most up to date list of files from
