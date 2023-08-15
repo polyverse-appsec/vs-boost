@@ -313,10 +313,15 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
     private async analyzeAll(analysisTypes: string[], fileLimit: number) {
         this._boostExtension.getBoostProjectData()?.setAnalysisState(AnalysisState.preparing);
-        if (BoostConfiguration.processFilesInGroups) {
-            await this.processAllFilesInRings(analysisTypes, fileLimit);
-        } else {
-            await this.processAllFilesInSequence(analysisTypes, fileLimit);
+        try
+        {
+            if (BoostConfiguration.processFilesInGroups) {
+                await this.processAllFilesInRings(analysisTypes, fileLimit);
+            } else {
+                await this.processAllFilesInSequence(analysisTypes, fileLimit);
+            }
+        } catch (e) {
+            boostLogging.error(`Run Selected Analysis failed: ${e}`, true);
         }
     }
 
