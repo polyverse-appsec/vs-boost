@@ -138,6 +138,8 @@ export class WorkflowEngine {
 
             const taskGroupId = `ring-${groupIndex}-size-${groupSize}`;
 
+            this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:starting`);
+
             let groupResults: any[] = [];
 
             for (let i = 0; i < groupSize && this.tasks.length > 0 && !this.canceled; i++) {
@@ -147,21 +149,21 @@ export class WorkflowEngine {
                 const promiseGenerator = this.tasks.shift()!;
                 const promise = promiseGenerator();
                 if (!promise.name) {
-                    this.logger?.debug(`Workflow(${this.id}):task-${i}:no-name`);
+                    this.logger?.debug(`Workflow(${this.id}):${taskGroupId}:task-${i}:no-name`);
                 }
                 const taskId = promise.name || uuidv4();
                 try {
-                    this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:starting`);
+                    this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:starting`);
 
                     let result = await promise();
 
-                    this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:finished:success:${getElapsedTime(startTime)}`);
+                    this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:finished:success:${getElapsedTime(startTime)}`);
 
                     groupResults.push(result);
 
                     startTime = Date.now();
                     try {
-                        this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:afterEachTask:starting`);
+                        this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:afterEachTask:starting`);
             
                         await this.executePromisesWithInputs(this.afterEachTask, [
                             result,
@@ -169,15 +171,15 @@ export class WorkflowEngine {
 
                         if (this.retryCounts.has(promiseGenerator)) {
                             this.logger?.info(
-                                `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:afterEachTask:finished:success:afterRetries=${this.retryCounts.get(promiseGenerator)}:${getElapsedTime(startTime)}`);
+                                `${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:afterEachTask:finished:success:afterRetries=${this.retryCounts.get(promiseGenerator)}:${getElapsedTime(startTime)}`);
 
                             this.retryCounts.delete(promiseGenerator);
                         } else {
-                            this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:afterEachTask:finished:success:${getElapsedTime(startTime)}`);
+                            this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:afterEachTask:finished:success:${getElapsedTime(startTime)}`);
                         }
                         
                     } catch (error) {
-                        this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:afterEachTask:finished:error:${getElapsedTime(startTime)}:${error}`);
+                        this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:afterEachTask:finished:error:${getElapsedTime(startTime)}:${error}`);
                         allResults.push(error);
                     }
 
@@ -210,14 +212,14 @@ export class WorkflowEngine {
                                 groupResults.push(error);
 
                                 this.logger?.error(
-                                    `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:Max retries reached; Skipping.`
+                                    `${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:Max retries reached; Skipping.`
                                 );
                                 this.retryCounts.delete(promiseGenerator);
                             }
                             break;
                         case "skip":
                             this.logger?.info(
-                                `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:Skipping due to ${(error as Error).message}`
+                                `${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:Skipping due to ${(error as Error).message}`
                             );
                             this.retryCounts.delete(promiseGenerator);
 
@@ -229,7 +231,7 @@ export class WorkflowEngine {
                             // abort will immediately exit the entire workflow process
                         case "abort":
                             this.logger?.error(
-                                `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:Aborting workflow due to ${(error as Error).message}`
+                                `${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:Aborting workflow due to ${(error as Error).message}`
                             );
                             this.retryCounts.delete(promiseGenerator);
                             this.abort();
@@ -244,7 +246,7 @@ export class WorkflowEngine {
                             //      and end of workflow tasks
                         case "cancel":
                             this.logger?.error(
-                                `${getFormattedDate()}:Workflow(${this.id}):task-${taskId}:Canceling tasks due to ${(error as Error).message}`
+                                `${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:Canceling tasks due to ${(error as Error).message}`
                             );
                             this.retryCounts.delete(promiseGenerator);
                             this.cancel();
