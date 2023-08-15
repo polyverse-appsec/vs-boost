@@ -244,7 +244,7 @@ class Defaults {
     public static readonly defaultOutputFormatValue : string = "markdown";
 
     public static readonly processFilesInGroupsName : string = "processFilesInGroups";
-    public static readonly processFilesInGroupsValue : boolean = false;
+    public static readonly processFilesInGroupsValue : boolean = true;
 
     // enables targeting a specific kernel for analysis when using run all in UX
     // for example, if you want to run only security analysis with source id and no summary, use:
