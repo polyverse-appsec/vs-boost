@@ -258,12 +258,6 @@ export class BoostExtension {
             // initialize once on startup...
             // don't wait for it to finish, since we want UI to come up asap
             this.refreshBoostProjectsData().then(() => {
-
-                // on startup we're going to reset the job status and analysis status of active project
-                //  This ensures UI renders correctly idle state, and previous running jobs are reset
-                const projectData : BoostProjectData | undefined  = this.getBoostProjectData();
-                projectData?.finishAllJobs();
-
                 this.finishedActivation = true;
 
                 boostLogging.info("Polyverse Boost is now active", (BoostConfiguration.logLevel === "debug"));
@@ -429,6 +423,9 @@ export class BoostExtension {
             BoostFileType.status
         );
 
+        // if we have an existing data cache then remember that we're refreshing
+        const firstCacheLoad = boostProjectData === undefined;
+
         if (boostProjectData) {
             // Refresh project data and save boost project data
             await this.refreshProjectData(
@@ -482,6 +479,11 @@ export class BoostExtension {
                         boostProjectData,
                         workspaceFolder.uri
                     );
+                }
+                // if this is the first time we're loading this project cache,
+                //      then reset it to idle
+                if (firstCacheLoad) {
+                    boostProjectData.finishAllJobs();
                 }
             }
 
