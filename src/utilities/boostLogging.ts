@@ -93,7 +93,7 @@ export class BoostLogger extends Disposable {
                     logLevel === "debug" ||
                     logLevel === "info" ||
                     logLevel === "warn" ||
-                    logLevel === "debug"
+                    logLevel === "error"
                 );
             default:
                 return true;
