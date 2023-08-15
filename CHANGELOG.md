@@ -9,7 +9,7 @@ Polyverse Boost Automatic Application Modernization
 - N/A
 
 ### Enhancements
-- N/A
+- Reduce verbose analysis workflow logging by default
 
 ### Bug Fixes
 - Ensure Error messages are shown in logs and UI by default
