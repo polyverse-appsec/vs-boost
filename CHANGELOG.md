@@ -14,6 +14,7 @@ Polyverse Boost Automatic Application Modernization
 ### Bug Fixes
 - Ensure Error messages are shown in logs and UI by default
 - Check account status before running analysis - and show error if account is expired or canceled
+- Fix logging error when rebuilding source notebook files
 
 ## Version 1.3.0: August 14th, 2023
 

@@ -1323,7 +1323,9 @@ export class BoostExtension {
         const files = (await getAllProjectFiles(false, targetFolder)).map((file : string) => {
             return vscode.Uri.file(file);
         });
-
+        if (!targetFolder) {
+            targetFolder = vscode.workspace.workspaceFolders![0].uri;
+        }    
         boostLogging.debug(
             "Analyzing " + files.length + " files in folder: " + targetFolder
         );
