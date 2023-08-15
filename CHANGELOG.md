@@ -6,11 +6,17 @@ Polyverse Boost Automatic Application Modernization
 ## Version 1.3.0: August 13th, 2023
 
 ### New Features
+- Default analysis by "Run Selected Analyses" in the Activity Bar will run against a sample or trial of the currently loaded project, including estimated cost.
+- Project analysis has been significantly improved to increasing batches of files - including processing analyzing file completely before continuing to next file.
 - Support for analyzing ONLY selected files in a project folder - using .boostOnly file (similar to .boostIgnore)
 
 ### Enhancements
 - Analysis of files is automatically prioritized based on perceived value and relevance to the project.
 - Rebuild Executive Report Summary for Security, Compliance and Blueprint on every analysis run
+- File analysis will continue even if another file or part of analysis fails.
+- "Run Selected Analyses" will abort quickly if user account has an expired trial, past due payment or canceled subscription
+- Analysis errors launched from Activity Bar UX will be shown in a Visual Studio Code popup window (in addition to Output tab)
+- Project Blueprint is regenerated / refreshed at the start of all analysis runs to improve analysis and prioritize order of file analysis
 
 ### Bug Fixes
 - Ensure Analysis Output files (e.g. PDF, HTML or Markdown) are only generated for source files under analysis (e.g. don't include ignored files)

@@ -407,6 +407,17 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         ],
     ]);     
 
+    checkAccountEnabledBeforeContinuingAnalysis() {
+        const projectData = this._boostExtension.getBoostProjectData();
+        if (!projectData) {
+            throw new WorkflowError("abort", "Aborting analysis - Unable to determine current account status.");
+        }
+        const processingEnabled = projectData.account.enabled;
+        if (!processingEnabled) {
+            throw new WorkflowError("abort", `Account is ${projectData.account.status} and cannot perform analysis. Please update your account in the Account Dashboard.`);
+        }
+    }
+
     async processAllFilesInRings(analysisTypes: string[], fileLimit: number) {
         const tasks : any[] = [];
 
@@ -515,6 +526,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                 if (BoostConfiguration.simulateServiceCalls) {
                     boostLogging.debug(`Simulate:executeCommand: processProject(${getKernelName(quickBlueprintKernelName)})`);
                 } else {
+                    this.checkAccountEnabledBeforeContinuingAnalysis();
                     // we want to run blueprint first so we get the excludes and priority list before
                     //   we build the task list for the file rings
                     await vscode.commands.executeCommand(
@@ -523,6 +535,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         BoostCommands.processProject,
                         getKernelName(quickBlueprintKernelName)
                     );
+                    this.checkAccountEnabledBeforeContinuingAnalysis();
                 }
 
                 await prepareFileList();
@@ -558,11 +571,12 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     boostLogging.debug(`Simulate:executeCommand: processCurrentFolder(${path}, ${getKernelName(summarizeKernelName)})`);
                 } else {
                     // build the summary notebook for this file
-                    return vscode.commands.executeCommand(
+                    await vscode.commands.executeCommand(
                         NOTEBOOK_TYPE + "." + BoostCommands.processCurrentFolder,
                         vscode.Uri.parse(path),
                         getKernelName(summarizeKernelName)
                     );
+                    this.checkAccountEnabledBeforeContinuingAnalysis();
                 }
             },
         ];
@@ -711,6 +725,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                             boostLogging.debug(`Simulate:executeCommand: processCurrentFolder(${fileUri}, ${analysisKernelName})`);
                             return;
                         }
+                        this.checkAccountEnabledBeforeContinuingAnalysis();
                         const refreshed = await vscode.commands.executeCommand(
                             NOTEBOOK_TYPE +
                             "." +
@@ -720,6 +735,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                                 filelist: [fileUri],
                             } as ProcessCurrentFolderOptions
                         );
+                        this.checkAccountEnabledBeforeContinuingAnalysis();
                         if (!refreshed) {
                             throw new WorkflowError("skip", `Analysis for ${relativePath} was skipped - all analyzable content was already up to date`);
                         }
@@ -764,12 +780,14 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                 boostLogging.debug(`Simulate:executeCommand: processProject(${analysisKernelName})`);
                 continue;
             }
+            this.checkAccountEnabledBeforeContinuingAnalysis();
             await vscode.commands.executeCommand(
                 NOTEBOOK_TYPE +
                 "." +
                 BoostCommands.processProject,
                 analysisKernelName
             );
+            this.checkAccountEnabledBeforeContinuingAnalysis();
         }
     }
 
@@ -823,6 +841,8 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         );
 
         try {
+            this.checkAccountEnabledBeforeContinuingAnalysis();
+
             let runSummary = false;
 
             for (const [key, value] of this.analysisMap) {
@@ -872,6 +892,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         kernelCommand: getKernelName(summarizeKernelName),
                     } as ProcessCurrentFolderOptions
                 );
+                this.checkAccountEnabledBeforeContinuingAnalysis();
             }
         } finally {
             // refresh project data
@@ -915,6 +936,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     BoostCommands.processProject,
                     analysisKernelName
                 );
+                this.checkAccountEnabledBeforeContinuingAnalysis();
                 // while all other commands run scans across all source files
             } else {
                 await vscode.commands.executeCommand(
@@ -926,6 +948,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         fileLimit: fileLimit,
                     } as ProcessCurrentFolderOptions
                 );
+                this.checkAccountEnabledBeforeContinuingAnalysis();
             }
         }
     }
