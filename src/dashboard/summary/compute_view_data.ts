@@ -1,4 +1,4 @@
-import { IBoostProjectData, JobStatus } from "../../data/boostprojectdata_interface";
+import { IBoostProjectData, JobStatus, AnalysisState } from "../../data/boostprojectdata_interface";
 
 import { ControllerOutputType } from "../../controllers/controllerOutputTypes";
 import {
@@ -54,6 +54,7 @@ export interface StatusViewData {
     couponRemaining: number;
     currentSpend: number;
     discountedUsage: number;
+    analysisState: AnalysisState;
 }
 
 //compute the display summary of boostprojectdata
@@ -380,5 +381,6 @@ export function statusViewData(
             boostprojectdata.account.usageThisMonth -
             boostprojectdata.account.discountedUsage,
         discountedUsage: boostprojectdata.account.discountedUsage,
+        analysisState: boostprojectdata.uiState.analysisState,
     };
 }

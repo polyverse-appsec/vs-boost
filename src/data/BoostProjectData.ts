@@ -18,6 +18,8 @@ import {
     BoostProcessingStatus,
     JobStatus,
     AccountStatus,
+    UIState,
+    AnalysisState
 } from "./boostprojectdata_interface";
 import { ControllerOutputType } from "../controllers/controllerOutputTypes";
 import { BoostConfiguration } from "../extension/boostConfiguration";
@@ -34,6 +36,7 @@ export class BoostProjectData implements IBoostProjectData {
     };
     jobStatus: JobStatus;
     account: AccountStatus;
+    uiState: UIState;
 
     constructor() {
         this.dataFormatVersion = BoostConfiguration.version;
@@ -43,6 +46,7 @@ export class BoostProjectData implements IBoostProjectData {
         this.files = {};
         this.jobStatus = { ...emptyProjectData.jobStatus };
         this.account = { ...emptyProjectData.account };
+        this.uiState = { ...emptyProjectData.uiState };
     }
 
     create(jsonString: string): void {
@@ -265,6 +269,7 @@ export class BoostProjectData implements IBoostProjectData {
     }
 
     addJobs(job: string, relFiles: [string]) {
+        this.setAnalysisState(AnalysisState.analyzing);
         relFiles.forEach((file: string) => {
             //create the jobs set if necessary then add message.job to it
             if (!this.jobStatus[file]) {
@@ -302,9 +307,11 @@ export class BoostProjectData implements IBoostProjectData {
 
     finishAllJobs() {
         this.jobStatus = { ...emptyProjectData.jobStatus };
+        this.setAnalysisState(AnalysisState.quiescent);
     }
 
     addQueue(jobs: string[], relFiles: string[]) {
+        this.setAnalysisState(AnalysisState.analyzing);
         relFiles.forEach((file: string) => {
             //create the jobs set if necessary then add message.job to it
             if (!this.jobStatus[file]) {
@@ -318,6 +325,10 @@ export class BoostProjectData implements IBoostProjectData {
             );
             this.jobStatus[file].status = "queued";
         });
+    }
+
+    setAnalysisState(state: AnalysisState) {
+        this.uiState.analysisState = state;
     }
 
     static get default(): BoostProjectData {

@@ -10,6 +10,16 @@ export const extensionNotFullyActivated =
 export const extensionFailedToActivate =
     "Boost encountered an error during startup. Please restart Visual Studio Code and try again. If the problem persists, please contact Polyverse Boost Support";
 
+export enum AnalysisState {
+    quiescent = "quiescent",
+    preparing = "preparing",
+    analyzing = "analyzing"
+}
+//this is where we should remember UI state like which analysis were selected, etc. 
+export interface UIState {
+    analysisState: AnalysisState;
+}
+
 export interface AccountStatus {
     refreshed: boolean;
     enabled: boolean;
@@ -79,6 +89,7 @@ export interface IBoostProjectData {
     };
     jobStatus: JobStatus;
     account: AccountStatus;
+    uiState: UIState;
 }
 
 export const emptyProjectData: IBoostProjectData = {
@@ -115,5 +126,8 @@ export const emptyProjectData: IBoostProjectData = {
         owner: "",
         created: "",
         creditCardLinked: false,
+    },
+    uiState: {
+        analysisState: AnalysisState.quiescent,
     },
 };

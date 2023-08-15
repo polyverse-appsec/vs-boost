@@ -28,7 +28,7 @@ import {
 } from "./compute_view_data";
 import { openFile } from "./util";
 
-import { JobStatus, IBoostProjectData } from "../../data/boostprojectdata_interface";
+import { JobStatus, IBoostProjectData, AnalysisState } from "../../data/boostprojectdata_interface";
 import Typewritter from "typewriter-effect/dist/core";
 import { type } from "os";
 import { BoostUserAnalysisType } from "../../userAnalysisType";
@@ -190,7 +190,7 @@ const checkDashboardWideEnough = (): void => {
 
 // Callback function that is executed when the howdy button is clicked
 function handleAnalyzeAllClick() {
-    //TODO: we need to show what is checked in the grid.
+    refreshAnalysisState(AnalysisState.preparing);
     vscode.postMessage({
         command: "analyze_all",
         analysisTypes: getAnalysisTypes(),
@@ -318,16 +318,16 @@ export function refreshUI(boostprojectdata: IBoostProjectData) {
         .transition()
         .duration(100);
 
-    refreshSpinner(statusView);
+    refreshSpinner(statusView.analysisState);
     refreshProgressText(statusView);
 }
 
-function refreshSpinner(statusView: StatusViewData) {
+function refreshSpinner(analysisState: AnalysisState) {
     const spinner = document.getElementById("job-progress");
     const runbutton = document.getElementById("update-summary");
     // set our spinner
 
-    if (statusView.busy) {
+    if (analysisState !== AnalysisState.quiescent) {
         spinner?.removeAttribute("hidden");
         runbutton?.setAttribute("hidden", "");
     } else {
@@ -338,6 +338,12 @@ function refreshSpinner(statusView: StatusViewData) {
 }
 
 function refreshProgressText(statusData: StatusViewData) {
+
+    if( statusData.analysisState === AnalysisState.preparing)
+    {
+        return refreshAnalysisState(statusData.analysisState);
+    }    
+
     const progressText = document.getElementById(
         "progress-text"
     ) as HTMLElement;
@@ -393,4 +399,21 @@ function refreshPrediction(statusData: StatusViewData) {
             .typeString(predictionFinish)
             .start();
     }
+}
+
+function refreshAnalysisState(analysisState: AnalysisState) {
+    if( analysisState === AnalysisState.preparing ) {
+        refreshSpinner(analysisState);
+        const progressText = document.getElementById(
+            "progress-text"
+        ) as HTMLElement;
+        //get the current text of the progress text, delete it if it exists
+        let existingText = progressText.innerText;
+
+        if (existingText !== "" || existingText !== undefined) {
+            typewriter.deleteAll(1).pauseFor(300).start();
+        }
+        typewriter.typeString("Sara is preparing the analysis. This may take a few minutes.").start();
+    }
+    //otherwise, the progress field will be updated by the refreshProgressText function
 }

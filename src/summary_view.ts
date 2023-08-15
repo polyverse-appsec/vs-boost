@@ -37,6 +37,7 @@ import {
     noProjectOpenMessage,
     extensionNotFullyActivated,
     extensionFailedToActivate,
+    AnalysisState,
 } from "./data/boostprojectdata_interface";
 import { quickBlueprintKernelName } from "./controllers/quick_blueprint_controller";
 import { performanceKernelName } from "./controllers/performance_controller";
@@ -311,6 +312,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
     }
 
     private async analyzeAll(analysisTypes: string[], fileLimit: number) {
+        this._boostExtension.getBoostProjectData()?.setAnalysisState(AnalysisState.preparing);
         if (BoostConfiguration.processFilesInGroups) {
             await this.processAllFilesInRings(analysisTypes, fileLimit);
         } else {
