@@ -4,16 +4,17 @@ import * as path from 'path';
 import * as crypto from 'crypto';
 import { convertNotebookToHTML } from './convert_html';
 import puppeteer from 'puppeteer';
+import * as vscode from 'vscode';
 
 
-export async function generatePDFforNotebook(boostNotebookPath : string, baseFolderPath : string) : Promise<string> {
+export async function generatePDFforNotebook(boostNotebookPath : string, baseFolderPath : string, context: vscode.ExtensionContext) : Promise<string> {
     return new Promise<string> (async (resolve, reject) => {
         try {
             const pdfFilename = boostNotebookPath.replace(NOTEBOOK_EXTENSION, '.pdf');
 
             const boostNotebook = new BoostNotebook();
             boostNotebook.load(boostNotebookPath);
-            await generatePdfFromJson(boostNotebook, boostNotebookPath, baseFolderPath, pdfFilename);
+            await generatePdfFromJson(boostNotebook, boostNotebookPath, baseFolderPath, pdfFilename, context);
             resolve(pdfFilename);
         } catch (error) {
             reject(error);
@@ -21,7 +22,7 @@ export async function generatePDFforNotebook(boostNotebookPath : string, baseFol
     });
 }
 
-async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : string, baseFolderPath : string, outputPath: string): Promise<void> {
+async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : string, baseFolderPath : string, outputPath: string, context: vscode.ExtensionContext): Promise<void> {
     return new Promise<void> (async (resolve, reject) => {
         try {
                         // Generate a random filename
@@ -30,7 +31,7 @@ async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : 
             // Write the HTML to a temporary file with the random filename
             const tempHtmlPath = path.join(baseFolderPath, randomFilename);
             const normalizedTempHtmlPath = path.normalize(tempHtmlPath);
-            await convertNotebookToHTML(boostNotebook, notebookPath, baseFolderPath, normalizedTempHtmlPath);
+            await convertNotebookToHTML(boostNotebook, notebookPath, baseFolderPath, normalizedTempHtmlPath, context);
 
             try {
                 // convert the html file to pdf using puppeteer

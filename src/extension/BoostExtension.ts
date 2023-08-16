@@ -178,6 +178,7 @@ export class BoostExtension {
     public summary: BoostSummaryViewProvider | undefined;
     private _accountInfo: any | undefined;
 
+    public _context: vscode.ExtensionContext | undefined;
     problems: vscode.DiagnosticCollection;
 
     successfullyActivated = false;
@@ -186,6 +187,7 @@ export class BoostExtension {
     constructor(context: vscode.ExtensionContext) {
         // ensure logging is shutdown
         context.subscriptions.push(boostLogging);
+        this._context = context;
 
         this._setupBoostProjectDataLifecycle(context);
 
@@ -1540,7 +1542,8 @@ export class BoostExtension {
                 await this.buildCurrentFileOutput(
                     uri,
                     false,
-                    BoostConfiguration.defaultOutputFormat
+                    BoostConfiguration.defaultOutputFormat,
+                    context
                 )
                     .then((outputFile: string) => {
                         boostLogging.info(
@@ -1577,7 +1580,8 @@ export class BoostExtension {
                 await this.buildCurrentFileOutput(
                     uri,
                     false,
-                    BoostConfiguration.defaultOutputFormat
+                    BoostConfiguration.defaultOutputFormat,
+                    context
                 )
                     .then(async (outputFile: string) => {
                         boostLogging.info(
@@ -1659,7 +1663,8 @@ export class BoostExtension {
             async (uri: vscode.Uri) => {
                 await this.buildCurrentFolderOutput(
                     uri,
-                    BoostConfiguration.defaultOutputFormat
+                    BoostConfiguration.defaultOutputFormat,
+                    context
                 ).catch((error: any) => {
                     boostLogging.error((error as Error).message);
                 });
@@ -1684,7 +1689,8 @@ export class BoostExtension {
                 await this.buildCurrentFileOutput(
                     uri,
                     true,
-                    BoostConfiguration.defaultOutputFormat
+                    BoostConfiguration.defaultOutputFormat,
+                    context
                 )
                     .then((outputFile: string) => {
                         boostLogging.info(
@@ -1721,7 +1727,8 @@ export class BoostExtension {
                 await this.buildCurrentFileOutput(
                     uri,
                     true,
-                    BoostConfiguration.defaultOutputFormat
+                    BoostConfiguration.defaultOutputFormat,
+                    context
                 )
                     .then(async (outputFile: string) => {
                         boostLogging.info(
@@ -1803,7 +1810,8 @@ export class BoostExtension {
                 await this.buildCurrentFileOutput(
                     uri,
                     true,
-                    BoostConfiguration.defaultOutputFormat
+                    BoostConfiguration.defaultOutputFormat,
+                    context
                 )
                     .then((outputFile: string) => {
                         if (!uri) {
@@ -1839,7 +1847,8 @@ export class BoostExtension {
                 await this.buildCurrentFileOutput(
                     uri,
                     true,
-                    BoostConfiguration.defaultOutputFormat
+                    BoostConfiguration.defaultOutputFormat,
+                    context
                 )
                     .then(async (outputFile: string) => {
                         if (!uri) {
@@ -2992,7 +3001,8 @@ export class BoostExtension {
     async buildCurrentFileOutput(
         uri: vscode.Uri,
         summary: boolean,
-        outputFormat: string
+        outputFormat: string,
+        context: vscode.ExtensionContext
     ): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             try {
@@ -3050,7 +3060,8 @@ export class BoostExtension {
                     case "html":
                         generateHTMLforNotebook(
                             boostUri.fsPath,
-                            baseWorkspacePath
+                            baseWorkspacePath,
+                            context
                         )
                             .then((htmlFile) => {
                                 resolve(htmlFile);
@@ -3062,7 +3073,8 @@ export class BoostExtension {
                     case "pdf":
                         generatePDFforNotebook(
                             boostUri.fsPath,
-                            baseWorkspacePath
+                            baseWorkspacePath,
+                            context
                         )
                             .then((pdfFile) => {
                                 resolve(pdfFile);
@@ -3098,7 +3110,8 @@ export class BoostExtension {
 
     async buildCurrentFolderOutput(
         folderUri: vscode.Uri,
-        outputFormat: string
+        outputFormat: string,
+        context: vscode.ExtensionContext
     ) {
         let targetFolder: vscode.Uri;
         // if we don't have a folder selected, then the user didn't right click
@@ -3149,7 +3162,7 @@ export class BoostExtension {
 
             notebookFilesThatExist.filter(async (file) => {
                 convertedNotebookWaits.push(
-                    this.buildCurrentFileOutput(vscode.Uri.parse(file), false, outputFormat)
+                    this.buildCurrentFileOutput(vscode.Uri.parse(file), false, outputFormat, context)
                 );
             });
 

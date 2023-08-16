@@ -1,0 +1,86 @@
+<html>
+<head>
+    <link rel="stylesheet" href="<%= cellStyleSheet %>">
+    <script type="module">import mermaid from "<%= mermaidScript %>"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {margin: 2cm;}
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.5;
+            overflow-x: auto;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            border-top: 2px solid #666;
+            padding-top: 16px;
+            margin-top: 24px;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1><%= pageTitle %></h1>
+    <p>Producer: <%= producer %></p>
+    <p>Source File: <%= sourceFile %></p>
+    <p>Date Generated: <%= fileStamp %></p>
+    <%= cellsHtml.join('') %>
+</body>
+</html>
