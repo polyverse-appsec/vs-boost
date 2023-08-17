@@ -103,25 +103,37 @@ async function convertNotebookToHTMLinMemory(
     const fileStamp = timestamp.toISOString();
 
     // Retrieve metadata from the notebook
-    const pageTitle = `Polyverse Boost-generated Source Documentation`;
-    const producer = "Polyverse Boost";
     const sourceFile = notebook.metadata["sourceFile"] as string;
+    const pageTitle = `Polyverse Boost - ${sourceFile}`;
 
+    let count = 0;
     const cellHtmls: string[] = [];
     for (let cell of cells) {
+        count++;
         let cellHtml = "";
         if (cell.kind === NotebookCellKind.Markup) {
             cellHtml += marked.parse(cell.value, {
                 highlight: (code, lang) => hljs.highlightAuto(code, [lang]).value,
             });
         } else if (cell.kind === NotebookCellKind.Code) {
+            //if there is a lineNumberBase, then add 1 to it to get the original line number and 
+            //add that info
+            const line = cell.metadata?.lineNumberBase ? cell.metadata?.lineNumberBase as number + 1 : 1;
+            const lineText = cell.metadata?.lineNumberBase ? `line ${line}:` : ":";
+            if( count > 1 ){
+                cellHtml += `<div class="new-page-section">`;
+            } else {
+                cellHtml += `<div>`;
+            }
             cellHtml += `
+                <h2>${sourceFile} ${lineText}</h2>
                 <p>Programming Language: ${cell.languageId}</p>
-                <p>Original Code:</p>
                 <pre><code>${hljs.highlightAuto(cell.value).value}</code></pre>
             `;
+            cellHtml += "</div>";
         }
         if (cell.outputs) {
+            cellHtml += "<div class='analysis-section'>";
             for (let output of cell.outputs) {
                 output.items.forEach((item) => {
                     if (item.mime.startsWith("text/x-")) {
@@ -134,6 +146,7 @@ async function convertNotebookToHTMLinMemory(
                     });
                 });
             }
+            cellHtml += "</div>";
         }
         cellHtmls.push(cellHtml);
     }
@@ -143,7 +156,6 @@ async function convertNotebookToHTMLinMemory(
         cellStyleSheet: cellStyleSheet,
         mermaidScript: mermaidScript,
         pageTitle: pageTitle,
-        producer: producer,
         sourceFile: sourceFile,
         fileStamp: fileStamp,
         cellsHtml: cellHtmls

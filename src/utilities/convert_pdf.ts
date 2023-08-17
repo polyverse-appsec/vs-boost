@@ -39,9 +39,36 @@ async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : 
                 const page = await browser.newPage();
                 // convert the file path to a URL
                 const url = `file://${tempHtmlPath}`;
+                const sourceFile = boostNotebook.metadata["sourceFile"] as string;
                 await page.goto(url, { waitUntil: 'networkidle0' });
-                await page.pdf({ path: outputPath});
+                await page.pdf({
+                    path: outputPath,
+                    format: 'letter',
+                    displayHeaderFooter: true,
+                    headerTemplate: `
+                        <div style="font-size:10px; width:100%; padding: 10px; text-align:right">
+                            ${sourceFile}
+                        </div>`,
+                    footerTemplate: `
+                        <table style="font-size:10px; width:100%; padding: 10px">
+                            <tr>
+                                <td style="text-align:left; width:25%!important;">
+                                    <span class="date"></span>
+                                </td>
+                                <td style="text-align:center; width: 50%">
+                                    <span>Polyverse Boost: https://www.polyverse.com</span>
+                                </td>
+                                <td style="text-align:right; width:25%!important;">
+                                    <span class="pageNumber"></span> of <span class="totalPages"></span>
+                                </td>
+                            </tr>
+                        </table>
+                    `
+                });
+                
+/*
 
+*/
                 await browser.close();
 
             } finally {
