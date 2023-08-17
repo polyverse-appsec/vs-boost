@@ -9,7 +9,8 @@ Polyverse Boost Automatic Application Modernization
 - N/A
 
 ### Enhancements
-- N/A
+- Improvements to readability, style and source line numbers in HTML and PDF output
+- Enabled Right-click in File Explorer for showing PDF, HTML and Markdown of any Boost Notebook
 
 ### Bug Fixes
 - N/A
