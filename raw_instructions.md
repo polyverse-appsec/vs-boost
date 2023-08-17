@@ -1,84 +1,51 @@
-# Polyverse Boost Visual Studio Extension
+# Boost: Visual Studio Code Extension by Polyverse
 =======================================
 
-**Transform, secure, and enhance your code with AI-driven analysis, all in one powerful extension - Polyverse Boost.**
+**Empower your coding journey with AI-driven insights - Introducing Polyverse Boost!**
 
-Welcome to the Polyverse Boost Visual Studio extension! Boost is a powerful Visual Studio Code Notebook extension designed to help you modernize, enhance, and maintain your software architecture and codebase. It preserves the innovations you've invested in and provides access to the latest technology, such as modern programming languages, Cloud services, containerization, microservice principles, and zero-trust code. Boost analyzes your entire product codebase, including raw source code, comments, and code documentation, and produces easily consumable Architectural Blueprints. Guided by your core Architecture, Boost helps you automatically convert your legacy code into a new programming language, analyze code for security vulnerabilities, find data and privacy compliance issues, ensure your source follows best practice coding guidelines, and generate test cases using AI-driven tools. By operating on a stronger, more modern foundation, you can add new features, solve customer problems with confidence, and innovate faster. Boost your Architecture and Productivity with Polyverse Boost and AI!
+Welcome aboard! Boost isn’t just another Visual Studio Code extension. It's your coding companion, designed to supercharge your workflow, ensure code security, and offer transformative insights. Dive into the future with Boost and unlock a world of AI-enhanced coding!
 
-## Quick Start
+## Dive Right In 🚀
 
-### Prerequisites
-- **Set up a [GitHub.com](https://GitHub.com) account**: To link your auto-generated Polyverse Trial license to your email address. Note: Even if your GitHub email account is marked as private, you can still use it to link your license to your email address. Polyverse Boost does not share your email with any third party. Your email is only used to link your email to your billing account.
-
-- ** Install Git** Visual Studio Code requires a local install of the Git software (e.g. Windows or Mac OS). You can download Git from [https://git-scm.com/downloads](https://git-scm.com/downloads). Note: Visual Studio Code automatically includes Git integration, so no special Git Extensions should be required.
-
-- **Trial License and Usage Billing**: Polyverse Boost is a paid subscription service. Your Auto-generated Polyverse Trial license is valid for a limited amount of trial usage. Once your trial license expires, you will need to update your Polyverse Boost account with a credit card to continue using Boost. Billing and Usage rates are available on your Polyverse Boost account page, accessible via the Extension Status bar.
-
-### Installation
-
-1. **Install the Boost Modernization extension** from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Polyverse.polyverse-boost). Note: A restart of Visual Studio Code may be required.
-
-2. **Authorize and Link Your GitHub.com account with Boost**: The first time you launch Boost, you may need to allow and authorize Boost to access GitHub.com. This is only required to link your license to your email address. If you have not already done so, you will need to create a GitHub.com account.
-
-   ![GitHub.com account access authorization](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_10.03.32_PM.jpg?width=500)
-
-3. **Create your first Boost Notebook** - using the Command dropdown and selecting `Create Polyverse Boost Notebook` (Ctrl+Shift+P or Cmd+Shift+P on Mac) 
-
-   ![Create Boost Notebook](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-26_at_5.40.18_PM.jpg?width=500)
-
-4. **Load your Source Code**: Use the `Boost: Load File` command to parse your source code into Boost Notebook cells so you can review and edit.
-
-5. **Select Your Modernization Process**: Use the `Boost: Select Kernel` command to choose from available AI-enhanced processing options:
-
-   ![Select Your Processing Task](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-26_at_5.52.28_PM.jpg?width=500)
-
-
+### Before We Start
+- 📌 **Have a [GitHub.com](https://GitHub.com) account handy**: We use this to seamlessly connect Boost to your coding world. And hey, privacy's our game — we won't share your email or use it for those pesky marketing emails. Just authentic, uninterrupted Boost experience.
   
-   * **Analyze Code for Bugs, Defects, and Security Vulnerabilities**: Select `Analyze code for security vulnerabilities`.
-   * **Check Code for Data, Privacy, and Personal Info Compliance**: Select `Check compliance`.
-   * **Generate Code Flow Diagrams with Color Highlights from Source**: Select `Generate Flow Diagrams`.
-   * **Evaluate Source Code for Best Practices and Guidelines**: Select `Evaluate Code Guidelines`.
-   * **Modernize Code to a Newer Language**: Select `Convert Legacy Code to New Code`.
-   * **Generate Test Cases**: Select `Generate Test Cases for code`.
-   * **Generate Documentation**: Select `Generate PDF` and `Generate Markdown`.
-   * **Batch Mode Processing**: Select `Batch Mode` Processing of Folder or Project.
-   * **Generate Code Explanation**: Select `Explain code`.
+- 📌 **Git's the Word**: Make sure you have Git installed. Visual Studio Code and Boost love it. Grab it from [here](https://git-scm.com/downloads) if you haven't already.
 
-   ![Available Processing Tasks](https://polyverse.com/cdn/shop/files/Screenshot_2023-04-19_at_3.26.47_PM.jpg?width=500)
+- 📌 **Trial and Billing**: Boost offers a taste-test with its trial license. Once you're hooked (and we bet you will be!), just update your payment details in your Polyverse Boost account and continue the magic. For rates and more, check out your account page.
 
+### Set Up Boost
 
-6. _NOTE: For Code Conversion only_ **Choose Your New Programming Language**: Select `Boost: Select Output Language` and choose from supported languages, including Python, Java, C#, C++, TypeScript, and JavaScript.
+1. **Welcome Boost**: Visit the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=Polyverse.polyverse-boost) and get the Polyverse Boost extension. Here's a hint: look for the 'Install' button!
+   
+   ![Visual Studio Code Marketplace](https://polyverse.com/cdn/shop/files/Screenshot_2023-07-28_at_3.09.01_PM.jpg?v=1690582157&width=1100)
 
-    ![Select Your Output Language](https://cdn.shopify.com/s/files/1/0581/9940/8779/files/Screenshot_2023-03-28_at_9.41.57_PM.jpg?width=500)
+2. **Hop Onboard**: Once you click 'Install', VS Code might want to check with you before opening up. It's polite that way! Just allow it to proceed.
 
+   ![Permission to Install](https://polyverse.com/cdn/shop/files/Screenshot_2023-07-28_at_2.54.00_PM.jpg?v=1690581321&width=1100)
+   
+   Some installations are faster than a hiccup and might be done by now. If not, just hit the "Install" button in VS Code. Ready to roll!
+   
+   ![Installing in VS Code](https://polyverse.com/cdn/shop/files/Screenshot_2023-07-28_at_2.54.11_PM.jpg?v=1690581438&width=1100)
 
-7. **Run the AI-enabled Analysis and Processing**: For full file analysis across all Cells, click the Boost button `run-all`. Or select a single Boost Notebook cell and click the Boost button `run`.
+3. **Spot Boost**: Boost should now be waving at you from your VSC extensions list. Want to get acquainted? Just click on the Boost logo in the left extension panel and learn all its tricks!
+   
+   ![Boost in Extensions](https://polyverse.com/cdn/shop/files/Screenshot_2023-07-28_at_2.54.24_PM.jpg?v=1690581458&width=1100)
 
-    ![Analyze a single cell](https://polyverse.com/cdn/shop/files/Screenshot_2023-04-19_at_4.54.02_PM.jpg?width=500)
+4. **First Time's Special**: The first time you run Boost, it'll ask for a handshake (or an approval prompt). It's just getting to know GitHub better! Remember to press 'Allow'.
 
+   ![Approval Prompt](https://polyverse.com/cdn/shop/files/Screenshot_2023-07-28_at_3.03.13_PM.jpg?v=1690581814&width=1100)
 
-8. **Review the Results**: Each Boost Notebook cell will contain the results of the AI-enhanced processing.
+   And remember, while we need your GitHub token for the magic to work, we’re not here to store your data. Promise!
 
-  * **For Architectural Blueprints**: You can analyze all aspects of your code and project to produce a high-level Architectural Blueprint.
+### Boost In Action
 
-  * **For Defect and Security Analysis**: You can edit the code in each Cell and re-run the analysis to see the results.
+From analyzing code for potential pitfalls, to transforming your old code to a fresh new language — Boost is packed with features. Explore, experiment, and elevate your coding game!
 
-  * **For Data Compliance**: You can review the data compliance issues in each Cell and learn more about how your code uses data.
+Got questions or hit a snag? Our [Polyverse Boost page](https://polyverse.com/pages/boost-visual-studio) is packed with info and friendly folks to help you out.
 
-  * **For Coding Guidelines**: You can review the analysis in each Cell to see how your code follows best practices or differs from standard coding guidelines.
-
-  * **For Code Conversion**: You can review the new code in each Cell for integration into your new modernized project.
-
-  * **For Documentation and Flow Diagrams**: You can read the documentation to better understand legacy code, review for architectural or potential redesign, and better understand how the original code actually worked.
-  
-  * **For Test Generation**: You can review the test cases and integrate them into your automated test harness or CI/CD/CT system.
-
-9. **Batch Mode Processing**: For Batch Mode processing, you can select a folder or project, and Boost will process all files in the folder or project. You can also select a single file, and Boost will process that file. Right-click any folder or source file to launch "Batch Processing" on the target. Alternatively, for project-wide analysis, launch the command from the "Command Menu".
-
-If you encounter any other issues or have questions, please refer to the [Polyverse Boost](https://polyverse.com/pages/boost-visual-studio) website for more information and support options.
-
-*Happy coding!*
+**Happy coding, and may the Boost be with you!**
 
 ## About Polyverse
 
-Founded in 2015 by Alex Gounares, former CTO of AOL and Microsoft Online, and Bill Gates' technology advisor, Polyverse Corporation has been delivering state-of-the-art cybersecurity tools to the Fortune 500 and the US Government. Our mission is to empower developers with cutting-edge solutions to keep their code safe from sophisticated attacks.
+Bringing the future to the present — that's us, Polyverse! Born in 2015, thanks to Alex Gounares (yeah, the tech genius from AOL and Microsoft), we've been on a mission. A mission to provide world-class cybersecurity tools, be it to the giants of the industry or the game-changers in the government. With Boost, we’re taking another step to put groundbreaking solutions right at your fingertips.
