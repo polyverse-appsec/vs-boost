@@ -38,7 +38,15 @@ Welcome aboard! Boost isn’t just another Visual Studio Code extension. It's yo
 
    And remember, while we need your GitHub token for the magic to work, we’re not here to store your data. Promise!
 
-### Boost In Action
+5. **Boost In Action**: To launch analysis on your project, use the Boost Activity Bar on the left to "Run Selected Analyses"
+
+   ![Run Selected Analyses](https://polyverse.com/cdn/shop/files/Screenshot_2023-07-28_at_2.59.14_PM.jpg?v=1690581580&width=500)
+
+   By default, you can run a sample of the top 5 AI-chosen files on any project, including security, data compliance, documentation and bug analysis.
+
+   You can also select "Analyze All Files" to analyze all files in your project.
+
+   The Sara AI will estimate your usage, costs and update on your current account status.
 
 From analyzing code for potential pitfalls, to transforming your old code to a fresh new modern code — Boost is packed with features. Explore, experiment, and elevate your coding game!
 
