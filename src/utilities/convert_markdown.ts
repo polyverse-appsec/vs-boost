@@ -1,10 +1,14 @@
-import { BoostNotebook, SerializedNotebookCellOutput, NOTEBOOK_EXTENSION } from '../data/jupyter_notebook';
 import * as fs from 'fs';
+import * as vscode from 'vscode';
+
+import { BoostNotebook, SerializedNotebookCellOutput, NOTEBOOK_EXTENSION } from '../data/jupyter_notebook';
+import { BoostFileType, OutputType, getBoostFile } from "../extension/extension";
 
 export async function generateMarkdownforNotebook(boostNotebookPath : string, baseFolderPath : string) : Promise<string> {
     return new Promise<string> (async (resolve, reject) => {
         try {
-            const mdFilename = boostNotebookPath.replace(NOTEBOOK_EXTENSION, '.md');
+            const mdFilename = getBoostFile(vscode.Uri.parse(boostNotebookPath),
+                { format: BoostFileType.output, outputType: OutputType.markdown }).fsPath;
 
             const boostNotebook = new BoostNotebook();
             boostNotebook.load(boostNotebookPath);

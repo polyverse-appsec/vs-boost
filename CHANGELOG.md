@@ -11,6 +11,7 @@ Polyverse Boost Automatic Application Modernization
 ### Enhancements
 - Improvements to readability, style and source line numbers in HTML and PDF output
 - Enabled Right-click in File Explorer for showing PDF, HTML and Markdown of any Boost Notebook
+- All Output files are stored in Boost Output folder - for ease of packaging and publishing
 
 ### Bug Fixes
 - N/A

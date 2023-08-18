@@ -20,6 +20,7 @@ export enum BoostFileType {
     summary = "summary",
     status = "status",
     guidelines = "guidelines",
+    output = "output",
 }
 
 export function getKernelName(kernelName: string): string {
@@ -95,10 +96,21 @@ export async function deactivate(): Promise<void> {
     return undefined;
 }
 
+export enum OutputType {
+    pdf = "pdf",
+    markdown = "md",
+    html = "html"
+}
+
+export interface BoostFileOptions {
+    format?: BoostFileType;
+    showUI?: boolean;
+    outputType?: OutputType;
+}
+
 export function getBoostFile(
     sourceFile: vscode.Uri | undefined,
-    format: BoostFileType = BoostFileType.notebook,
-    showUI: boolean = false
+    options?: BoostFileOptions,
 ): vscode.Uri {
     // if we don't have a workspace folder, just place the Boost file in a new Boostdir - next to the source file
     let baseFolder;
@@ -115,6 +127,7 @@ export function getBoostFile(
             sourceFile = workspaceFolder.uri;
         }
     }
+
     if (!sourceFile) {
         throw new Error("Unable to determine source file for Boost file");
     }
@@ -146,6 +159,10 @@ export function getBoostFile(
         baseFolder === sourceFile.fsPath
             ? path.basename(baseFolder)
             : path.relative(baseFolder, sourceFile.fsPath);
+
+    const format = options?.format?options.format:BoostFileType.notebook;
+    const showUI = options?.showUI?options.showUI:false;
+
     // create the .boost file path, from the new boost folder + amended relative source file path
     switch (format) {
         case BoostFileType.summary:
@@ -194,6 +211,42 @@ export function getBoostFile(
                 normalizedAbsoluteBoostProjectDataFile
             );
             return boostProjectDataFile;
+        case BoostFileType.output:
+            const isNotebook = path.extname(sourceFile.fsPath) === boostnb.NOTEBOOK_EXTENSION;
+
+            // grab the requested output format, or the default format from config or markdown if not specified
+            const outputType = options?.outputType?options.outputType:
+                OutputType[BoostConfiguration.defaultOutputFormat as keyof typeof OutputType] || OutputType.markdown;
+            
+            const nonNormalizedOutputFolder = path.join(path.join(boostFolder, BoostFileType.output.toString()), outputType);
+            const outputFolder = path.normalize(nonNormalizedOutputFolder);
+            if (!fs.existsSync(outputFolder)) {
+                try {
+                    fs.mkdirSync(outputFolder, { recursive: true });
+                } catch (error) {
+                    throw new Error(
+                        `Failed to create Boost Output folder at ${outputFolder} due to Error: ${error} - possible permission issue`
+                    );
+                }
+            }
+        
+            let sourceFilePathRelative = path.relative(baseFolder, sourceFile.fsPath);
+            if (isNotebook) {
+                const dirName = path.dirname(sourceFile.path);
+                let baseNameWithoutExt = path.basename(sourceFile.path, path.extname(sourceFile.path));
+                // strip out summary extension if that exists as well
+                if (path.extname(baseNameWithoutExt) === boostnb.NOTEBOOK_SUMMARY_PRE_EXTENSION) {
+                    baseNameWithoutExt = path.basename(baseNameWithoutExt, path.extname(baseNameWithoutExt));
+                }
+                const nonNormalizedSourceFilePathUnderBoost = path.join(dirName, baseNameWithoutExt);
+                const sourceFilePathUnderBoost = path.normalize(nonNormalizedSourceFilePathUnderBoost);
+                sourceFilePathRelative = path.relative(boostFolder, sourceFilePathUnderBoost);
+            }
+
+            const nonNormalizedOutputFilePath = path.join(outputFolder, sourceFilePathRelative) + "." + outputType;
+            const outputFilePath = path.normalize(nonNormalizedOutputFilePath);
+            return vscode.Uri.parse(outputFilePath);
+
         case BoostFileType.notebook:
         default:
             // if the new file is outside of our current workspace, then warn user
@@ -250,7 +303,7 @@ export function findCellByKernel(
 export async function createOrOpenSummaryNotebookFromSourceFile(
     sourceFile: vscode.Uri
 ): Promise<boostnb.BoostNotebook> {
-    const notebookSummaryPath = getBoostFile(sourceFile, BoostFileType.summary);
+    const notebookSummaryPath = getBoostFile(sourceFile, { format: BoostFileType.summary} );
     const summaryFileExists = fs.existsSync(notebookSummaryPath.fsPath);
     // if doesn't exist, create it
     if (!summaryFileExists) {

@@ -1,16 +1,19 @@
-import { BoostNotebook, NOTEBOOK_EXTENSION } from '../data/jupyter_notebook';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
-import { convertNotebookToHTML } from './convert_html';
 import puppeteer from 'puppeteer';
 import * as vscode from 'vscode';
+
+import { BoostNotebook } from '../data/jupyter_notebook';
+import { BoostFileType, OutputType, getBoostFile } from "../extension/extension";
+import { convertNotebookToHTML } from './convert_html';
 
 
 export async function generatePDFforNotebook(boostNotebookPath : string, baseFolderPath : string, context: vscode.ExtensionContext) : Promise<string> {
     return new Promise<string> (async (resolve, reject) => {
         try {
-            const pdfFilename = boostNotebookPath.replace(NOTEBOOK_EXTENSION, '.pdf');
+            const pdfFilename = getBoostFile(vscode.Uri.parse(boostNotebookPath),
+                { format: BoostFileType.output, outputType: OutputType.pdf }).fsPath;
 
             const boostNotebook = new BoostNotebook();
             boostNotebook.load(boostNotebookPath);

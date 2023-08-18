@@ -8,7 +8,7 @@ import * as vscode from 'vscode';
 
 import { markedHighlight } from "marked-highlight";
 
-import { NOTEBOOK_EXTENSION } from "../data/jupyter_notebook";
+import { BoostFileType, OutputType, getBoostFile } from "../extension/extension";
 
 const cellStyleSheet =
     "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css";
@@ -46,10 +46,8 @@ export async function generateHTMLforNotebook(
 ): Promise<string> {
     return new Promise<string>(async (resolve, reject) => {
         try {
-            const htmlFilename = boostNotebookPath.replace(
-                NOTEBOOK_EXTENSION,
-                ".html"
-            );
+            const htmlFileUri = getBoostFile(vscode.Uri.parse(boostNotebookPath),
+                { format: BoostFileType.output, outputType: OutputType.html }).fsPath;
 
             const boostNotebook = new BoostNotebook();
             boostNotebook.load(boostNotebookPath);
@@ -57,10 +55,10 @@ export async function generateHTMLforNotebook(
                 boostNotebook,
                 boostNotebookPath,
                 baseFolderPath,
-                htmlFilename,
+                htmlFileUri,
                 context
             );
-            resolve(htmlFilename);
+            resolve(htmlFileUri);
         } catch (error) {
             reject(error);
         }

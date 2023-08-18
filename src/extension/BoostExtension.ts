@@ -422,7 +422,7 @@ export class BoostExtension {
         let boostProjectData = this._boostProjectData.get(workspaceFolder.uri);
         let boostProjectUri = getBoostFile(
             workspaceFolder.uri,
-            BoostFileType.status
+            { format: BoostFileType.status }
         );
 
         // if we have an existing data cache then remember that we're refreshing
@@ -518,7 +518,7 @@ export class BoostExtension {
             if (!boostProjectData.summary.summaryUrl) {
                 const summaryPath = getBoostFile(
                     workspaceFolder,
-                    BoostFileType.summary
+                    { format: BoostFileType.summary }
                 ).fsPath;
                 const relativeSummaryPath = path.relative(
                     workspaceFolder.fsPath,
@@ -580,7 +580,7 @@ export class BoostExtension {
 
         boostProjectData.summary.summaryUrl = path.relative(
             workspaceFolder.fsPath,
-            getBoostFile(workspaceFolder, BoostFileType.summary).fsPath
+            getBoostFile(workspaceFolder, { format: BoostFileType.summary}).fsPath
         );
         await this.getBoostFilesForFolder(
             workspaceFolder,
@@ -594,7 +594,7 @@ export class BoostExtension {
         );
 
         boostProjectData.save(
-            getBoostFile(workspaceFolder, BoostFileType.status).fsPath
+            getBoostFile(workspaceFolder, { format: BoostFileType.status}).fsPath
         );
     }
 
@@ -2009,8 +2009,8 @@ export class BoostExtension {
             async (guidelineType) => {
                 const globalProjectGuidelineFile = getBoostFile(
                     undefined,
-                    BoostFileType.guidelines,
-                    false
+                    { format: BoostFileType.guidelines,
+                      showUI: false }
                 );
                 let projectGuidelineFile;
                 if (!guidelineType) {
@@ -2348,12 +2348,12 @@ export class BoostExtension {
                     if (targetedKernel.command === summarizeKernelName) {
                         notebookUri = getBoostFile(
                             sourceUri,
-                            BoostFileType.notebook
+                            { format: BoostFileType.notebook }
                         );
                     } else {
                         notebookUri = getBoostFile(
                             sourceUri,
-                            BoostFileType.notebook
+                            { format: BoostFileType.notebook }
                         );
                     }
                 } // else we are using a notebook file, so just use it
@@ -2396,7 +2396,7 @@ export class BoostExtension {
                         if (targetedKernel.command === summarizeKernelName) {
                             const summaryNotebookUri = getBoostFile(
                                 sourceUri,
-                                BoostFileType.summary
+                                { format: BoostFileType.summary }
                             );
                             boostLogging.info(
                                 `Saved Updated Notebook for ${kernelCommand} in file:[${summaryNotebookUri.fsPath}]`,
@@ -2789,8 +2789,8 @@ export class BoostExtension {
                 // we only process project level analysis at summary level for now
                 const projectBoostFile = getBoostFile(
                     undefined,
-                    BoostFileType.summary,
-                    false
+                    { format: BoostFileType.summary,
+                      showUI: false }
                 );
                 // create the Boost file, if it doesn't exist
                 if (!fs.existsSync(projectBoostFile.fsPath)) {
@@ -2975,7 +2975,7 @@ export class BoostExtension {
         disposable = vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE + "." + BoostCommands.loadSummaryFile,
             async (uri: vscode.Uri) => {
-                const boostFile = getBoostFile(uri, BoostFileType.summary);
+                const boostFile = getBoostFile(uri, { format: BoostFileType.summary} );
                 // create the Boost file, if it doesn't exist
                 if (!fs.existsSync(boostFile.fsPath)) {
                     if (
@@ -3034,7 +3034,7 @@ export class BoostExtension {
                 // if we got a source file, then load the notebook from it
                 if (!uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
                     if (summary) {
-                        boostUri = getBoostFile(uri, BoostFileType.summary);
+                        boostUri = getBoostFile(uri, { format: BoostFileType.summary });
                     } else {
                         boostUri = getBoostFile(uri);
                     }
@@ -3199,8 +3199,8 @@ export class BoostExtension {
         const summaries: string[] = [];
         const projectSummaryFile = getBoostFile(
             undefined,
-            BoostFileType.summary,
-            false
+            { format: BoostFileType.summary,
+              showUI: false }
         );
         if (projectSummaryFile && fs.existsSync(projectSummaryFile.fsPath)) {
             const projectSummary = new boostnb.BoostNotebook();
