@@ -45,7 +45,9 @@ async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : 
                     const page = await browser.newPage();
                     // convert the file path to a URL
                     const sourceFile = boostNotebook.metadata["sourceFile"] as string;
-                    const prettySourceFile = sourceFile;
+                    const prettySourceFile = (sourceFile === "./")?
+                        `Project: ${path.basename(baseFolderPath)}`:
+                        `Source: ${sourceFile}`;
                     await page.goto(tempHtmlUri.toString(), { waitUntil: 'networkidle0' });
                     await page.pdf({
                         path: outputPath,
