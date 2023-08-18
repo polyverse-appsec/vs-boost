@@ -14,7 +14,7 @@ Polyverse Boost Automatic Application Modernization
 - All Output files are stored in Boost Output folder - for ease of packaging and publishing
 
 ### Bug Fixes
-- N/A
+- Fixed issue preventing status bar account status from updating when no Project folder is loaded
 
 ## Version 1.3.1: August 15th, 2023
 

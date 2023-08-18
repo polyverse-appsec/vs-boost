@@ -372,6 +372,7 @@ export class BoostExtension {
         const boostdata : BoostProjectData | undefined = this.getBoostProjectData();
         if (boostdata) {
             boostdata.updateAccountStatusFromService(accountInfo);
+
             //and if we have boostdata, go ahead and refresh the dashboard
             this.summary?.refresh();
         }
@@ -601,7 +602,7 @@ export class BoostExtension {
     public getBoostProjectData(): any {
         let workspaceFolder = vscode.workspace.workspaceFolders?.[0].uri;
         if (!workspaceFolder) {
-            return emptyProjectData;
+            return new BoostProjectData();
         }
 
         return this._boostProjectData.get(workspaceFolder);
