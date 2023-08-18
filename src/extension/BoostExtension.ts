@@ -1544,17 +1544,26 @@ export class BoostExtension {
                     false,
                     BoostConfiguration.defaultOutputFormat,
                     context
-                )
-                    .then((outputFile: string) => {
+                    ).then((outputFile: string) => {
+
+                    const relativeOutputFile = vscode.workspace.workspaceFolders?
+                        path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, outputFile):
+                        outputFile;
+
                         boostLogging.info(
-                            `${outputFile} created`,
+                            `${relativeOutputFile} created`,
                             uri === undefined
                         );
                     })
                     .catch((error: any) => {
+
+                        const relativeSourcePath = vscode.workspace.workspaceFolders?
+                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            uri.fsPath;
+
                         boostLogging.error(
-                            `Unable to generate output for current file${
-                                uri.fsPath
+                            `Unable to generate output for current file:${
+                                relativeSourcePath
                             } due to ${(error as Error).message}`,
                             true
                         );
@@ -1582,10 +1591,17 @@ export class BoostExtension {
                     false,
                     BoostConfiguration.defaultOutputFormat,
                     context
-                )
-                    .then(async (outputFile: string) => {
+                    ).then(async (outputFile: string) => {
+
+                        const relativeOutputFile = vscode.workspace.workspaceFolders?
+                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, outputFile):
+                            outputFile;
+                        const relativeSourcePath = vscode.workspace.workspaceFolders?
+                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            uri.fsPath;
+
                         boostLogging.info(
-                            `${outputFile} created for file:${uri.fsPath}.`,
+                            `${relativeOutputFile} created for file:${relativeSourcePath}.`,
                             false
                         );
 
@@ -1600,13 +1616,13 @@ export class BoostExtension {
                                     .then(
                                         (success) => {
                                             boostLogging.info(
-                                                `Markdown Preview opened for ${outputFile}`,
+                                                `Markdown Preview opened for ${relativeOutputFile}`,
                                                 true
                                             );
                                         },
                                         (reason) => {
                                             boostLogging.error(
-                                                `Unable to open Markdown Preview for ${outputFile} due to ${
+                                                `Unable to open Markdown Preview for ${relativeOutputFile} due to ${
                                                     (reason as Error).message
                                                 }`,
                                                 true
@@ -1621,13 +1637,13 @@ export class BoostExtension {
                                     .then(
                                         (success) => {
                                             boostLogging.info(
-                                                `${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview opened for ${outputFile}`,
+                                                `${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview opened for ${relativeOutputFile}`,
                                                 true
                                             );
                                         },
                                         (reason) => {
                                             boostLogging.error(
-                                                `Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview for ${outputFile} due to ${
+                                                `Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview for ${relativeOutputFile} due to ${
                                                     (reason as Error).message
                                                 }`,
                                                 true
@@ -1637,16 +1653,19 @@ export class BoostExtension {
                                 break;
                             default:
                                 boostLogging.error(
-                                    `Unable to open output for ${outputFile} due to unknown format ${BoostConfiguration.defaultOutputFormat}`,
+                                    `Unable to open output for ${relativeOutputFile} due to unknown format ${BoostConfiguration.defaultOutputFormat}`,
                                     true
                                 );
                         }
                     })
                     .catch((error: any) => {
+
+                        const relativeSourcePath = vscode.workspace.workspaceFolders?
+                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            uri.fsPath;
+
                         boostLogging.error(
-                            `Unable to generate and show output for current file ${
-                                uri.fsPath
-                            } due to ${(error as Error).message}`,
+                            `Unable to generate and show output for current file ${relativeSourcePath} due to ${(error as Error).message}`,
                             true
                         );
                     });
@@ -1691,18 +1710,28 @@ export class BoostExtension {
                     true,
                     BoostConfiguration.defaultOutputFormat,
                     context
-                )
-                    .then((outputFile: string) => {
+                    ).then((outputFile: string) => {
+
+                        const relativeOutputFile = vscode.workspace.workspaceFolders?
+                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, outputFile):
+                            outputFile;
+                        const relativeSourcePath = vscode.workspace.workspaceFolders?
+                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            uri.fsPath;
+
                         boostLogging.info(
-                            `${outputFile} created for file:${uri.fsPath}.`,
+                            `${relativeOutputFile} created for file:${relativeSourcePath}.`,
                             uri === undefined
-                        );
+                            );
                     })
                     .catch((error: any) => {
+
+                        const relativeSourcePath = vscode.workspace.workspaceFolders?
+                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            uri.fsPath;
+
                         boostLogging.error(
-                            `Unable to generate output for current file${
-                                uri.fsPath
-                            } due to ${(error as Error).message}`,
+                            `Unable to generate output for current file:${relativeSourcePath} due to ${(error as Error).message}`,
                             true
                         );
                     });
@@ -1725,14 +1754,21 @@ export class BoostExtension {
                 }
 
                 await this.buildCurrentFileOutput(
-                    uri,
-                    true,
-                    BoostConfiguration.defaultOutputFormat,
-                    context
-                )
-                    .then(async (outputFile: string) => {
+                        uri,
+                        true,
+                        BoostConfiguration.defaultOutputFormat,
+                        context
+                    ) .then(async (outputFile: string) => {
+
+                        const relativeOutputFile = vscode.workspace.workspaceFolders?
+                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, outputFile):
+                            outputFile;
+                        const relativeSourcePath = vscode.workspace.workspaceFolders?
+                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            uri.fsPath;
+
                         boostLogging.info(
-                            `${outputFile} created for file:${uri.fsPath}.`,
+                            `${relativeOutputFile} created for file:${relativeSourcePath}.`,
                             uri === undefined
                         );
 
@@ -1747,13 +1783,13 @@ export class BoostExtension {
                                     .then(
                                         (success) => {
                                             boostLogging.info(
-                                                `Markdown Preview opened for ${outputFile}`,
+                                                `Markdown Preview opened for ${relativeOutputFile}`,
                                                 false
                                             );
                                         },
                                         (reason) => {
                                             boostLogging.error(
-                                                `Unable to open Markdown Preview for ${outputFile} due to ${
+                                                `Unable to open Markdown Preview for ${relativeOutputFile} due to ${
                                                     (reason as Error).message
                                                 }`,
                                                 false
@@ -1768,15 +1804,14 @@ export class BoostExtension {
                                     .then(
                                         (success) => {
                                             boostLogging.info(
-                                                `${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview opened for ${outputFile}`,
+                                                `${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview opened for ${relativeOutputFile}`,
                                                 true
                                             );
                                         },
                                         (reason) => {
                                             boostLogging.error(
-                                                `Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview for ${outputFile} due to ${
-                                                    (reason as Error).message
-                                                }`,
+                                                `Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} ` + 
+                                                `Preview for ${relativeOutputFile} due to ${(reason as Error).message}`,
                                                 true
                                             );
                                         }
@@ -1784,16 +1819,16 @@ export class BoostExtension {
                                 break;
                             default:
                                 boostLogging.error(
-                                    `Unable to open output for ${outputFile} due to unknown format ${BoostConfiguration.defaultOutputFormat}`,
+                                    `Unable to open output for ${relativeOutputFile} due to unknown format ${BoostConfiguration.defaultOutputFormat}`,
                                     true
                                 );
                         }
                     })
                     .catch((error: any) => {
+                        const relativeSourcePath = path.relative(vscode.workspace.workspaceFolders![0].uri.fsPath, uri.fsPath);
+
                         boostLogging.error(
-                            `Unable to generate and show summary output for current file${
-                                uri.fsPath
-                            } due to ${(error as Error).message}`,
+                            `Unable to generate and show summary output for current file:${relativeSourcePath} due to ${(error as Error).message}`,
                             true
                         );
                     });
@@ -1814,25 +1849,36 @@ export class BoostExtension {
                     context
                 )
                     .then((outputFile: string) => {
+
+                        const relativeOutputFile = vscode.workspace.workspaceFolders?
+                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, outputFile):
+                            outputFile;
+                        const relativeSourcePath = vscode.workspace.workspaceFolders?
+                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            uri.fsPath;
+
                         if (!uri) {
                             boostLogging.info(
-                                `${outputFile} created`,
+                                `${relativeOutputFile} created`,
                                 uri === undefined
                             );
                         } else {
                             boostLogging.info(
-                                `${outputFile} created for file:${uri.fsPath}.`,
+                                `${relativeOutputFile} created for file:${relativeSourcePath}.`,
                                 uri === undefined
                             );
                         }
                     })
                     .catch((error: any) => {
+
+                        const relativeSourcePath = vscode.workspace.workspaceFolders?
+                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            uri.fsPath;
+
                         boostLogging.error(
-                            `Unable to generate summary output for current folder${
-                                uri ? ":" + uri.fsPath : ""
-                            } due to ${(error as Error).message}`,
-                            uri === undefined
-                        );
+                            `Unable to generate summary output for current folder${uri ? ":" + relativeSourcePath : ""}` +
+                            ` due to ${(error as Error).message}`,
+                            uri === undefined);
                     });
             }
         );
@@ -1849,78 +1895,88 @@ export class BoostExtension {
                     true,
                     BoostConfiguration.defaultOutputFormat,
                     context
-                )
-                    .then(async (outputFile: string) => {
-                        if (!uri) {
-                            boostLogging.info(`${outputFile} created`, false);
-                        } else {
-                            boostLogging.info(
-                                `${outputFile} created for file:${uri.fsPath}.`,
-                                uri === undefined
-                            );
-                        }
+                ).then(async (outputFile: string) => {
 
-                        // show the file now
-                        switch (BoostConfiguration.defaultOutputFormat) {
-                            case "markdown":
-                                await vscode.commands
-                                    .executeCommand(
-                                        "markdown.showPreview",
-                                        vscode.Uri.parse(outputFile)
-                                    )
-                                    .then(
-                                        (success) => {
-                                            boostLogging.info(
-                                                `Markdown Preview opened for ${outputFile}`,
-                                                false
-                                            );
-                                        },
-                                        (reason) => {
-                                            boostLogging.error(
-                                                `Unable to open Markdown Preview for ${outputFile} due to ${
-                                                    (reason as Error).message
-                                                }`,
-                                                true
-                                            );
-                                        }
-                                    );
-                                break;
-                            case "pdf":
-                            case "html":
-                                await vscode.env
-                                    .openExternal(vscode.Uri.parse(outputFile))
-                                    .then(
-                                        (success) => {
-                                            boostLogging.info(
-                                                `${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview opened for ${outputFile}`,
-                                                true
-                                            );
-                                        },
-                                        (reason) => {
-                                            boostLogging.error(
-                                                `Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview for ${outputFile} due to ${
-                                                    (reason as Error).message
-                                                }`,
-                                                true
-                                            );
-                                        }
-                                    );
-                                break;
-                            default:
-                                boostLogging.error(
-                                    `Unable to open output for ${outputFile} due to unknown format ${BoostConfiguration.defaultOutputFormat}`,
-                                    true
-                                );
-                        }
-                    })
-                    .catch((error: any) => {
-                        boostLogging.error(
-                            `Unable to generate and show summary output for current folder${
-                                uri ? ":" + uri.fsPath : ""
-                            } due to ${(error as Error).message}`,
-                            true
+                    const relativeOutputFile = vscode.workspace.workspaceFolders?
+                        path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, outputFile):
+                        outputFile;
+                    const relativeSourcePath = vscode.workspace.workspaceFolders?
+                        path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                        uri.fsPath;
+
+                    if (!uri) {
+                        boostLogging.info(`${relativeOutputFile} created`, false);
+                    } else {
+                        boostLogging.info(
+                            `${outputFile} created for file:${relativeSourcePath}.`,
+                            uri === undefined
                         );
-                    });
+                    }
+
+                    // show the file now
+                    switch (BoostConfiguration.defaultOutputFormat) {
+                        case "markdown":
+                            await vscode.commands
+                                .executeCommand(
+                                    "markdown.showPreview",
+                                    vscode.Uri.parse(outputFile)
+                                )
+                                .then(
+                                    (success) => {
+                                        boostLogging.info(
+                                            `Markdown Preview opened for ${relativeOutputFile}`,
+                                            false
+                                        );
+                                    },
+                                    (reason) => {
+                                        boostLogging.error(
+                                            `Unable to open Markdown Preview for ${relativeOutputFile} due to ${
+                                                (reason as Error).message
+                                            }`,
+                                            true
+                                        );
+                                    }
+                                );
+                            break;
+                        case "pdf":
+                        case "html":
+                            await vscode.env
+                                .openExternal(vscode.Uri.parse(outputFile))
+                                .then(
+                                    (success) => {
+                                        boostLogging.info(
+                                            `${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview opened for ${relativeOutputFile}`,
+                                            true
+                                        );
+                                    },
+                                    (reason) => {
+                                        boostLogging.error(
+                                            `Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview for ${relativeOutputFile} due to ${
+                                                (reason as Error).message
+                                            }`,
+                                            true
+                                        );
+                                    }
+                                );
+                            break;
+                        default:
+                            boostLogging.error(
+                                `Unable to open output for ${relativeOutputFile} due to unknown format ${BoostConfiguration.defaultOutputFormat}`,
+                                true
+                            );
+                    }
+                })
+                .catch((error: any) => {
+                    const relativeSourcePath = vscode.workspace.workspaceFolders?
+                        path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                        uri.fsPath;
+                    boostLogging.error(
+                        `Unable to generate and show summary output for current folder:${
+                            uri ? ":" + relativeSourcePath : ""
+                        } due to ${(error as Error).message}`,
+                        true
+                    );
+                });
             }
         );
         context.subscriptions.push(disposable);
@@ -3030,6 +3086,9 @@ export class BoostExtension {
                     uri = vscode.workspace.workspaceFolders[0].uri;
                 }
 
+                const baseWorkspacePath =
+                    vscode.workspace.workspaceFolders![0].uri.fsPath;
+
                 let boostUri = uri;
                 // if we got a source file, then load the notebook from it
                 if (!uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
@@ -3041,16 +3100,14 @@ export class BoostExtension {
                 }
 
                 if (!fs.existsSync(boostUri.fsPath)) {
+                    const relativePath = path.relative(baseWorkspacePath, uri.fsPath);
                     reject(
                         new Error(
-                            `Unable to find Boost notebook for ${uri.fsPath} - please create Boost notebook first`
+                            `Unable to find Boost notebook for ${relativePath.startsWith("../")?uri.fsPath:relativePath} - please create Boost notebook first`
                         )
                     );
                     return;
                 }
-
-                const baseWorkspacePath =
-                    vscode.workspace.workspaceFolders![0].uri.fsPath;
 
                 // if user didn't specify output format, then we'll use configuration
                 if (!outputFormat) {
