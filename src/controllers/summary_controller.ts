@@ -103,7 +103,7 @@ export class SummarizeKernel extends KernelControllerBase {
 
         // if we're summarizing a source file, we need to summarize all the cells in the source
         if (!summarizeProject) {
-            targetNotebookUri = getBoostFile(fullPathFromSourceFile(notebook.metadata['sourceFile'] as string), BoostFileType.summary);
+            targetNotebookUri = getBoostFile(fullPathFromSourceFile(notebook.metadata['sourceFile'] as string), { format: BoostFileType.summary });
 
             if (fs.existsSync(targetNotebookUri.fsPath)) {
                 targetNotebook.load(targetNotebookUri.fsPath);
@@ -252,7 +252,7 @@ export class SummarizeKernel extends KernelControllerBase {
         const normalizedBoostFolder = path.normalize(boostFolder);
         const searchFolder = path.join(normalizedBoostFolder, sourceFolder);
         const normalizedSearchFolder = path.normalize(searchFolder);
-        const summaryNotebookFileUri = getBoostFile(workspaceFolder.uri, BoostFileType.summary);
+        const summaryNotebookFileUri = getBoostFile(workspaceFolder.uri, { format: BoostFileType.summary });
         
         // we're going to search for every boost summary notebook under our target folder (which is under Boost folder)
         const searchPattern = new vscode.RelativePattern(normalizedSearchFolder, '**/*' + NOTEBOOK_SUMMARY_EXTENSION);

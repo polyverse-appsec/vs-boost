@@ -145,7 +145,7 @@ export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
             return `<html><body><h3>${contentType} Summary</h3><p>${message}</p></body></html>`;
         }
 
-        const summaryDataUri = getBoostFile(workspaceFolder?.uri, BoostFileType.summary);
+        const summaryDataUri = getBoostFile(workspaceFolder?.uri, { format: BoostFileType.summary });
         const boostNotebook = new BoostNotebook();
         // if we have a summary file, load it
         let ourCellContent = "";

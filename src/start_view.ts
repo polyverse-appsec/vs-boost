@@ -80,7 +80,7 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
             if (filename === boostprojectdata.summary.summaryUrl) {
                 targetNotebookUri = await getOrCreateBlueprintUri(this.context, filename);
             } else {
-                targetNotebookUri = getBoostFile(undefined, BoostFileType.guidelines);
+                targetNotebookUri = getBoostFile(undefined, { format: BoostFileType.guidelines });
                 getOrCreateGuideline(targetNotebookUri, BoostFileType.guidelines);
             }
             const document = await vscode.workspace.openNotebookDocument(targetNotebookUri as vscode.Uri);
@@ -129,7 +129,7 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
 
         const blueprintFile = boostprojectdata.summary.summaryUrl;
-        const guidelinesFile = getBoostFile(undefined, BoostFileType.guidelines, false).fsPath;
+        const guidelinesFile = getBoostFile(undefined, { format: BoostFileType.guidelines, showUI: false }).fsPath;
 
         const template = _.template(rawHtmlContent);
         const htmlContent = template({ jsSrc, nonce, boostprojectdata, blueprintFile, guidelinesFile, aiName });

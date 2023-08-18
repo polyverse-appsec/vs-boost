@@ -22,7 +22,7 @@ import * as boostnb from "../data/jupyter_notebook";
 export function getPrioritizedFileList() : string[] {
     let prioritizedFilelist : string[] = [];
 
-    const summaryNotebookUri = getBoostFile(undefined, BoostFileType.summary, false);
+    const summaryNotebookUri = getBoostFile(undefined, { format: BoostFileType.summary, showUI: false });
     if (!fs.existsSync(summaryNotebookUri.fsPath)) {
         return prioritizedFilelist;
     }

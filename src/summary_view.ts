@@ -181,8 +181,8 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         const blueprintFile = boostprojectdata.summary.summaryUrl;
         const guidelinesFile = getBoostFile(
             undefined,
-            BoostFileType.guidelines,
-            false
+            { format: BoostFileType.guidelines,
+              showUI: false}
         ).fsPath;
 
         const summaryMarkdown = this._getMarkdownForSummaries();
@@ -280,7 +280,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         ) {
             targetNotebookUri = getBoostFile(
                 undefined,
-                BoostFileType.guidelines
+                { format: BoostFileType.guidelines }
             );
             getOrCreateGuideline(targetNotebookUri, BoostFileType.guidelines);
             docAbsolutePath = targetNotebookUri.fsPath;
@@ -967,7 +967,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
         const summaryDataUri = getBoostFile(
             workspaceFolder?.uri,
-            BoostFileType.summary
+            { format: BoostFileType.summary }
         );
 
         const boostNotebook = new BoostNotebook();

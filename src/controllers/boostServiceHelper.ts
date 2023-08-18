@@ -241,8 +241,8 @@ export class BoostServiceHelper {
         const guidelines: string[] = [];
         const projectGuidelinesFile = getBoostFile(
             undefined,
-            BoostFileType.guidelines,
-            false
+            { format: BoostFileType.guidelines,
+              showUI: false }
         );
         if (
             projectGuidelinesFile &&
