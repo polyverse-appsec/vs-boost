@@ -134,7 +134,11 @@ export class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {
 
         let message;
         if (!this._boostExtension.finishedActivation) {
-            message = extensionNotFullyActivated;
+            if (!vscode.workspace.workspaceFolders) {
+                message = noProjectOpenMessage;
+            } else {
+                message = extensionNotFullyActivated;
+            }
         } else if (!this._boostExtension.successfullyActivated) {
             message = extensionFailedToActivate;
         } else if (!workspaceFolder) {

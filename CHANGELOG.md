@@ -15,6 +15,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Bug Fixes
 - Fixed issue preventing status bar account status from updating when no Project folder is loaded
+- Fixed issue where UI reports 'activating' indefinitely when no Project folder is loaded 
 
 ## Version 1.3.1: August 15th, 2023
 
