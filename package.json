@@ -1,10 +1,10 @@
 {
     "name": "polyverse-boost-notebook",
-    "displayName": "Polyverse Boost: Automatic Application Modernization",
-    "description": "Polyverse Boost Application Modernization tool uses AI and source code analysis to find code bugs, security defects, generation documentation and convert to modern programming languages.",
+    "displayName": "Polyverse Boost AI: Complexity Simplified",
+    "description": "Polyverse Boost uses AI to analyze entire software projects to generate documentation, find security bugs, and ensure regulatory compliance.",
     "publisher": "polyversecorporation",
     "license": "SEE LICENSE IN LICENSE",
-    "homepage": "https://www.polyverse.com/boost/",
+    "homepage": "https://www.polyverse.com",
     "bugs": {
         "email": "support@polyverse.com"
     },
@@ -53,73 +53,142 @@
                 }
             ]
         },
-        "configuration": {
-            "title": "Polyverse Boost",
-            "properties": {
-                "polyverse-boost-notebook.defaultDir": {
-                    "type": "string",
-                    "default": ".boost",
-                    "description": "Default directory for Polyverse Boost notebook save files"
-                },
-                "polyverse-boost-notebook.outputLanguage": {
-                    "type": "string",
-                    "default": "python",
-                    "description": "Default output language for Polyverse Boost automatic code conversion"
-                },
-                "polyverse-boost-notebook.testFramework": {
-                    "type": "string",
-                    "default": "pytest",
-                    "description": "Default test framework for Polyverse Boost automatic test code generation"
-                },
-                "polyverse-boost-notebook.defaultOrganization": {
-                    "type": "string",
-                    "default": "",
-                    "description": "Default organization for Polyverse Boost billing"
-                },
-                "polyverse-boost-notebook.currentKernelCommand": {
-                    "type": "string",
-                    "default": "",
-                    "description": "Boost Kernel to use for Automated Processing"
-                },
-                "polyverse-boost-notebook.refreshAnalysisAlways": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Force analysis refresh when existing Cell analysis is available"
-                },
-                "polyverse-boost-notebook.defaultOutputFormat": {
-                    "type": "string",
-                    "default": "markdown",
-                    "enum": [
-                        "html",
-                        "markdown",
-                        "pdf"
-                    ],
-                    "enumDescriptions": [
-                        "HTML webpage format",
-                        "Markdown format (default)",
-                        "PDF binary format"
-                    ],
-                    "markdownDescription": "Select your preferred *output format* for exporting analysis results."
-                },
-                "polyverse-boost-notebook.logLevel": {
-                    "type": "string",
-                    "default": "error",
-                    "enum": [
-                        "debug",
-                        "info",
-                        "warn",
-                        "error"
-                    ],
-                    "enumDescriptions": [
-                        "All logging for debugging",
-                        "Error, Warning, and Information logging",
-                        "Error and Warning logging",
-                        "Error logging only"
-                    ],
-                    "markdownDescription": "Select the logging level for Polyverse Boost Notebook extension."
+        "configuration":[
+            {
+                "title": "General",
+                "order": 1,
+                "properties": {
+                    "polyverse-boost-notebook.defaultDir": {
+                        "type": "string",
+                        "default": ".boost",
+                        "description": "Default directory for Polyverse Boost notebook save files"
+                    },
+                    "polyverse-boost-notebook.logLevel": {
+                        "type": "string",
+                        "default": "error",
+                        "enum": [
+                            "debug",
+                            "info",
+                            "warn",
+                            "error"
+                        ],
+                        "enumDescriptions": [
+                            "All logging for debugging",
+                            "Error, Warning, and Information logging",
+                            "Error and Warning logging",
+                            "Error logging only"
+                        ],
+                        "markdownDescription": "Select the logging level for Polyverse Boost Notebook extension."
+                    }
+                }
+            },
+            {
+                "title": "Account Management",
+                "order": 2,
+                "properties": {
+                    "polyverse-boost-notebook.account.defaultOrganization": {
+                        "type": "string",
+                        "default": "",
+                        "description": "Default organization for Polyverse Boost billing. Please use a valid Github organization name."
+                    }
+                }
+            },
+            {
+                "title": "Output Formats",
+                "order": 3,
+                "properties": {
+                    "polyverse-boost-notebook.output.prologue": {
+                        "order": 1,
+                        "type": "string",
+                        "default": "",
+                        "markdownDescription": "Markdown that will be included at the beginning of an exported PDF, Markdown, or HTML page.\n\n [Lodash](http://lodash.com) templating is also supported, current available variables are `boostSourceFile` and `boostUsername`.",
+                        "editPresentation": "multilineText"
+                    },
+                    "polyverse-boost-notebook.output.epilogue": {
+                        "order": 2,
+                        "type": "string",
+                        "default": "",
+                        "markdownDescription": "Markdown that will be included at the end of an exported PDF, Markdown, or HTML page.\n\n [Lodash](http://lodash.com) templating is also supported, current available variables are `boostSourceFile` and `boostUsername`.",
+                        "editPresentation": "multilineText"
+                    },
+                    "polyverse-boost-notebook.output.pdf.header": {
+                        "order": 3,
+                        "type": "string",
+                        "default": "<div style=\"font-size:10px; width:100%; padding: 10px; text-align:right\"><%= sourceFile %></div>",
+                        "markdownDescription": "HTML to be used by Puppeteer to render as the heading on every PDF page. Please see [Puppeteer Documentation](https://pptr.dev/api/puppeteer.pdfoptions) for details.\n\n[Lodash](http://lodash.com) templating is also supported, current available variables are `boostSourceFile` and `boostUsername`.",
+                        "editPresentation": "multilineText"
+                    },
+                    "polyverse-boost-notebook.output.pdf.footer": {
+                        "order": 4,
+                        "type": "string",
+                        "default": "<table style=\"font-size:10px; width:100%; padding: 10px\"><tr><td style=\"text-align:left; width:25%!important;\"><span class=\"date\"></span></td><td style=\"text-align:center; width: 50%\"><span>Polyverse Boost: https://www.polyverse.com</span></td><td style=\"text-align:right; width:25%!important;\"><span class=\"pageNumber\"></span> of <span class=\"totalPages\"></span></td></tr></table>",
+                        "markdownDescription": "HTML to be used by Puppeteer to render as the footer on every PDF page. Please see [Puppeteer Documentation](https://pptr.dev/api/puppeteer.pdfoptions) for details.\n\n [Lodash](http://lodash.com) templating is also supported, current available variables are `boostSourceFile` and `boostUsername`.",
+                        "editPresentation": "multilineText"
+                    },
+                    "polyverse-boost-notebook.output.sales.prologue": {
+                        "order": 5,
+                        "type": "string",
+                        "default": "",
+                        "markdownDescription": "When rendering a sales focused output document, the markdown that will be included at the beginning of an exported PDF, Markdown, or HTML page.\n\n [Lodash](http://lodash.com) templating is also supported, current available variables are `boostSourceFile` and `boostUsername`.",
+                        "editPresentation": "multilineText"
+                    },
+                    "polyverse-boost-notebook.output.sales.epilogue": {
+                        "order": 6,
+                        "type": "string",
+                        "default": "",
+                        "markdownDescription": "When rendering a sales focused output document, markdown that will be included at the end of an exported PDF, Markdown, or HTML page.\n\n [Lodash](http://lodash.com) templating is also supported, current available variables are `boostSourceFile` and `boostUsername`.",
+                        "editPresentation": "multilineText"
+                    },
+                    "polyverse-boost-notebook.output.sales.pdf.header": {
+                        "order": 7,
+                        "type": "string",
+                        "default": "<div style=\"font-size:10px; width:100%; padding: 10px; text-align:right\"><%= sourceFile %></div>",
+                        "markdownDescription": "When rendering a sales focused output document, HTML to be used by Puppeteer to render as the heading on every PDF page. Please see [Puppeteer Documentation](https://pptr.dev/api/puppeteer.pdfoptions) for details.\n\n [Lodash](http://lodash.com) templating is also supported, current available variables are `boostSourceFile` and `boostUsername`.",
+                        "editPresentation": "multilineText"
+                    },
+                    "polyverse-boost-notebook.output.sales.pdf.footer": {
+                        "order": 8,
+                        "type": "string",
+                        "default": "<table style=\"font-size:10px; width:100%; padding: 10px\"><tr><td style=\"text-align:left; width:25%!important;\"><span class=\"date\"></span></td><td style=\"text-align:center; width: 50%\"><span>Polyverse Boost: https://www.polyverse.com</span></td><td style=\"text-align:right; width:25%!important;\"><span class=\"pageNumber\"></span> of <span class=\"totalPages\"></span></td></tr></table>",
+                        "markdownDescription": "When rendering a sales focused output document, HTML to be used by Puppeteer to render as the footer on every PDF page. Please see [Puppeteer Documentation](https://pptr.dev/api/puppeteer.pdfoptions) for details.\n\n [Lodash](http://lodash.com) templating is also supported, current available variables are `boostSourceFile` and `boostUsername`.",
+                        "editPresentation": "multilineText"
+                    }                   
+                }  
+            },
+            {
+                "title": "Code Generation and Testing",
+                "order": 4,
+                "properties": {
+                    "polyverse-boost-notebook.codeConversion.outputLanguage": {
+                        "type": "string",
+                        "default": "python",
+                        "description": "Default output language for Polyverse Boost automatic code conversion"
+                    },
+                    "polyverse-boost-notebook.testGeneration.testFramework": {
+                        "type": "string",
+                        "default": "pytest",
+                        "description": "Default test framework for Polyverse Boost automatic test code generation"
+                    }
+                } 
+            },
+            {
+                "title": "Advanced",
+                "order": 5,
+                "properties": {
+                    "polyverse-boost-notebook.advanced.currentKernelCommand": {
+                        "type": "string",
+                        "default": "",
+                        "description": "Boost Kernel to use for Automated Processing"
+                    },
+                    "polyverse-boost-notebook.advanced.refreshAnalysisAlways": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Force analysis refresh when existing Cell analysis is available"
+                    }
                 }
             }
-        },
+            ]
+        ,
         "commands": [
             {
                 "command": "polyverse-boost-notebook.customerPortal",

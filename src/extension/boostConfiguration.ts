@@ -185,11 +185,11 @@ export class BoostConfiguration {
 }
 
 class Defaults {
-    public static readonly defaultOutputLanguageName = "outputLanguage";
+    public static readonly defaultOutputLanguageName = "codeConversion.outputLanguage";
 
     public static readonly defaultOutputLanguageValue = "python";
 
-    public static readonly testFrameworkName = "testFramework";
+    public static readonly testFrameworkName = "testGeneration.testFramework";
     public static readonly testFrameworkValue = "";
 
     // default directory to write Boost files
@@ -210,7 +210,7 @@ class Defaults {
     public static readonly serializationOfCellsContainingErrorsName = "serializationOfCellsContainingErrors";
     public static readonly serializationOfCellsContainingErrorsValue = true;
 
-    public static readonly defaultOrganizationName : string = "defaultOrganization";
+    public static readonly defaultOrganizationName : string = "account.defaultOrganization";
     public static readonly defaultOrganizationValue : string = "";
 
     public static readonly enableDevOnlyKernelsName : string = "enableDevOnlyKernels";
@@ -231,7 +231,7 @@ class Defaults {
     public static readonly analysisModelName : string = "analysisModel";
     public static readonly analysisModelValue : string = "";
 
-    public static readonly refreshAnalysisAlwaysName : string = "refreshAnalysisAlways";
+    public static readonly refreshAnalysisAlwaysName : string = "advanced.refreshAnalysisAlways";
     public static readonly refreshAnalysisAlwaysValue : boolean = false;
 
     public static readonly alwaysRunSummaryName : string = "alwaysRunSummary";
