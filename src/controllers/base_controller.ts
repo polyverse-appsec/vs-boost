@@ -292,6 +292,10 @@ export class KernelControllerBase extends BoostServiceHelper {
         return refreshed;
     }
 
+    get requiresInputData(): boolean {
+        return true;
+    }
+
     async doExecution(
         notebook: vscode.NotebookDocument | BoostNotebook,
         cell: vscode.NotebookCell | BoostNotebookCell,
@@ -327,7 +331,7 @@ export class KernelControllerBase extends BoostServiceHelper {
             : (cell as vscode.NotebookCell).document.getText();
 
         // skip whitespace trim on MultilineString - not worth code complexity trouble for now
-        if (
+        if (this.requiresInputData &&
             typeof inputData === "string" &&
             (inputData as string).trim().length === 0
         ) {
