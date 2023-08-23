@@ -12,6 +12,7 @@ export enum ControllerOutputType {
     flowDiagram = 'flowDiagram',
     summary = 'summary',
     explain = 'explainCode',
+    chat = 'chat',
     codeGuidelines = 'guidelinesCode',
     convert = 'generatedCode',
     customQuickScanFunction = 'customQuickScanCode' + functionOutputTypeExtension,

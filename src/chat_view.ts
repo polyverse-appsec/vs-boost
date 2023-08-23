@@ -4,20 +4,24 @@ import * as path from "path";
 import * as _ from "lodash";
 import * as os from "os";
 import { BoostExtension } from "./extension/BoostExtension";
-import { BoostConfiguration } from "./extension/boostConfiguration";
-import { getServiceEndpoint } from "./controllers/custom_controller";
 import { marked } from "marked";
-import { findCellByKernel, getOrCreateBlueprintUri } from "./extension/extension";
+import { cleanCellOutput } from "./extension/extension";
 import { BoostServiceHelper } from "./controllers/boostServiceHelper";
 import { boostLogging } from "./utilities/boostLogging";
-import { BoostNotebook, BoostNotebookCell } from "./data/jupyter_notebook";
+import {
+    BoostNotebook,
+    BoostNotebookCell,
+    NotebookCellKind
+} from "./data/jupyter_notebook";
 import { ControllerOutputType } from "./controllers/controllerOutputTypes";
+import { chatKernelName } from "./controllers/chat_controller";
 import {
     noProjectOpenMessage,
     extensionNotFullyActivated,
     extensionFailedToActivate,
 } from "./data/boostprojectdata_interface";
 import sanitizeHtml from "sanitize-html";
+import { ICellMetadata } from "@jupyterlab/nbformat";
 
 export const aiName = "Sara";
 
@@ -220,38 +224,23 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
 
         // we don't save the initial prompts - so we can refresh them each time we send... we only save chat history (persisted)
         try {
-            const chatMessages = this._chats[index].messages;
-            const messages = [await this._getInitialSystemMessage()];
-            messages.push(...chatMessages);
-
-            let finalPayload;
-            const payload = {
-                messages: JSON.stringify([
-                    ...messages,
-                    {
-                        role: "user",
-                        content: prompt,
-                    },
-                ]),
-            };
-            if (BoostConfiguration.analysisModel) {
-                finalPayload = {
-                    ...payload,
-                    model: BoostConfiguration.analysisModel,
-                };
-            } else {
-                finalPayload = payload;
-            }
-
-            const response = await this.chatService.doKernelExecution(
+            const chatNotebook = new BoostNotebook();
+            const tempProcessingCell = new BoostNotebookCell(
+                NotebookCellKind.Markup,
+                prompt,
+                "markdown",
                 undefined,
-                undefined,
-                undefined,
-                finalPayload,
-                getServiceEndpoint()
+                { // eslint-disable-next-line @typescript-eslint/naming-convention
+                    "analysis_type": ControllerOutputType.chat,
+                } as unknown as ICellMetadata
             );
+            chatNotebook.addCell(tempProcessingCell);
 
-            this._addResponse(prompt, response.analysis);
+            const chatKernel = (this._boostExtension as BoostExtension).kernels.get(chatKernelName)!;
+            const success = await chatKernel.executeAllWithAuthorization(chatNotebook.cells, chatNotebook, true);
+            const chatOutput = success?cleanCellOutput(tempProcessingCell.outputs[0]?.items[0]?.data):"";
+
+            this._addResponse(prompt, chatOutput);
         } catch (error) {
             boostLogging.error(
                 `Chat requested could not complete due to ${error}`,
@@ -319,41 +308,6 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         this._chats.splice(chatindex, 1);
         this._saveJsonData(this._chats);
         this.refresh();
-    }
-
-    private async _getInitialSystemMessage(): Promise<any> {
-        const boostprojectdata = this._boostExtension.getBoostProjectData();
-        const blueprintUri = boostprojectdata.summary.summaryUrl
-            ? await getOrCreateBlueprintUri(
-                  this.context,
-                  boostprojectdata.summary.summaryUrl
-              )
-            : undefined;
-        let blueprintdata = "";
-        if (blueprintUri && fs.existsSync(blueprintUri.fsPath)) {
-            //now load the blueprint from the file system and get the first prompt
-            const projectSummaryNotebook = new BoostNotebook();
-            projectSummaryNotebook.load(blueprintUri.fsPath);
-            const blueprintCell = findCellByKernel(
-                projectSummaryNotebook,
-                ControllerOutputType.blueprint
-            ) as BoostNotebookCell;
-            if (!blueprintCell) {
-                boostLogging.warn(
-                    `No blueprint found in ${blueprintUri.fsPath}`,
-                    false
-                );
-            } else {
-                blueprintdata = blueprintCell.value;
-            }
-        }
-        const systemPrompt =
-            `You are an AI programming assistant, named ${aiName} working on a project described after ####.` +
-            ` You prioritize accurate responses and all responses are in markdown format. ####\n`;
-        return {
-            role: "system",
-            content: systemPrompt + blueprintdata,
-        };
     }
 
     private _getTempFilename(): string {

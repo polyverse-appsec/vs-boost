@@ -124,6 +124,9 @@ import {
 import {
     BoostCustomQuickScanFunctionKernel,
 } from "../controllers/customquickscan_function_controller";
+import {
+    BoostChatKernel,
+} from "../controllers/chat_controller";
 
 import { WorkflowEngine, PromiseGenerator } from "../utilities/workflow_engine";
 
@@ -1085,6 +1088,7 @@ export class BoostExtension {
             BoostQuickComplianceSummaryKernel,
             BoostQuickSecuritySummaryKernel,
             BoostQuickPerformanceSummaryKernel,
+            BoostChatKernel,
         ];
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
@@ -3253,41 +3257,43 @@ export class BoostExtension {
         }
     }
 
-    public getSummaries(analysisType: BoostUserAnalysisType): string[] {
+    public getSummaries(analysisTypes: BoostUserAnalysisType[]): string[] {
         const summaries: string[] = [];
         const projectSummaryFile = getBoostFile(
             undefined,
             { format: BoostFileType.summary,
               showUI: false }
         );
-        if (projectSummaryFile && fs.existsSync(projectSummaryFile.fsPath)) {
-            const projectSummary = new boostnb.BoostNotebook();
-            projectSummary.load(projectSummaryFile.fsPath);
-            let outputType;
-            switch (analysisType) {
-                case BoostUserAnalysisType.blueprint:
-                    outputType = ControllerOutputType.blueprint;
-                    break;
-                case BoostUserAnalysisType.compliance:
-                    outputType = ControllerOutputType.compliance;
-                    break;
-                case BoostUserAnalysisType.security:
-                    outputType = ControllerOutputType.analyze;
-                    break;
-                case BoostUserAnalysisType.documentation:
-                    outputType = ControllerOutputType.explain;
-                    break;
-                default:
-                    throw new Error(`Unknown analysis type ${analysisType}`);
+        analysisTypes.forEach((analysisType) => {
+            if (projectSummaryFile && fs.existsSync(projectSummaryFile.fsPath)) {
+                const projectSummary = new boostnb.BoostNotebook();
+                projectSummary.load(projectSummaryFile.fsPath);
+                let outputType;
+                switch (analysisType) {
+                    case BoostUserAnalysisType.blueprint:
+                        outputType = ControllerOutputType.blueprint;
+                        break;
+                    case BoostUserAnalysisType.compliance:
+                        outputType = ControllerOutputType.compliance;
+                        break;
+                    case BoostUserAnalysisType.security:
+                        outputType = ControllerOutputType.analyze;
+                        break;
+                    case BoostUserAnalysisType.documentation:
+                        outputType = ControllerOutputType.explain;
+                        break;
+                    default:
+                        throw new Error(`Unknown analysis type ${analysisType}`);
+                }
+                const summaryCell = findCellByKernel(
+                    projectSummary,
+                    outputType
+                ) as boostnb.BoostNotebookCell;
+                if (summaryCell) {
+                    summaries.push(summaryCell.value);
+                }
             }
-            const summaryCell = findCellByKernel(
-                projectSummary,
-                outputType
-            ) as boostnb.BoostNotebookCell;
-            if (summaryCell) {
-                summaries.push(summaryCell.value);
-            }
-        }
+        });
         return summaries;
     }
 

@@ -119,9 +119,11 @@ export class BoostServiceHelper {
         }
 
         // inject blueprint/summaries into the payload for analysis context (overall project view)
-        const summaries = this.hostExtension.getSummaries(
-            BoostUserAnalysisType.blueprint
-        );
+        const summaries = this.hostExtension.getSummaries([
+            BoostUserAnalysisType.blueprint,
+//            BoostUserAnalysisType.compliance,
+//            BoostUserAnalysisType.security
+            ]);
         // Add summaries to the payload only if it's not undefined or an empty array
         if (summaries && summaries.length > 0) {
             // we mark it as the system role since it may be used as hints
