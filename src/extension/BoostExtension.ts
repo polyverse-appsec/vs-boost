@@ -236,7 +236,7 @@ export class BoostExtension {
 
             this.registerFolderRightClickAnalyzeCommand(context);
 
-            this.registerFolderRightClickOutputCommands(context);
+            this.registerFileExplorerRightClickOutputCommands(context);
 
             this.registerSourceCodeRightClickCommands(context);
 
@@ -1532,11 +1532,11 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
     }
 
-    registerFolderRightClickOutputCommands(context: vscode.ExtensionContext) {
+    registerFileExplorerRightClickOutputCommands(context: vscode.ExtensionContext) {
         // register the command to build the current file
         let disposable = vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE + "." + BoostCommands.buildCurrentFileOutput,
-            async (uri: vscode.Uri) => {
+            async (uri: vscode.Uri, outputFormat: string) => {
                 if (!uri) {
                     boostLogging.error(
                         `Unable to generate analysis output for current file due to no file selected`,
@@ -1548,7 +1548,7 @@ export class BoostExtension {
                 await this.buildCurrentFileOutput(
                     uri,
                     false,
-                    BoostConfiguration.defaultOutputFormat,
+                    outputFormat?outputFormat:BoostConfiguration.defaultOutputFormat,
                     context
                     ).then((outputFile: string) => {
 
@@ -1558,13 +1558,14 @@ export class BoostExtension {
 
                         boostLogging.info(
                             `${relativeOutputFile} created`,
-                            uri === undefined
+                            false
                         );
                     })
                     .catch((error: any) => {
 
                         const relativeSourcePath = vscode.workspace.workspaceFolders?
-                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
                             uri.fsPath;
 
                         boostLogging.error(
@@ -1603,7 +1604,8 @@ export class BoostExtension {
                             path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, outputFile):
                             outputFile;
                         const relativeSourcePath = vscode.workspace.workspaceFolders?
-                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
                             uri.fsPath;
 
                         boostLogging.info(
@@ -1667,7 +1669,8 @@ export class BoostExtension {
                     .catch((error: any) => {
 
                         const relativeSourcePath = vscode.workspace.workspaceFolders?
-                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
                             uri.fsPath;
 
                         boostLogging.error(
@@ -1685,10 +1688,10 @@ export class BoostExtension {
             boostnb.NOTEBOOK_TYPE +
                 "." +
                 BoostCommands.buildCurrentFolderOutput,
-            async (uri: vscode.Uri) => {
+            async (uri: vscode.Uri, outputFormat: string) => {
                 await this.buildCurrentFolderOutput(
                     uri,
-                    BoostConfiguration.defaultOutputFormat,
+                    outputFormat?outputFormat:BoostConfiguration.defaultOutputFormat,
                     context
                 ).catch((error: any) => {
                     boostLogging.error((error as Error).message);
@@ -1702,7 +1705,7 @@ export class BoostExtension {
             boostnb.NOTEBOOK_TYPE +
                 "." +
                 BoostCommands.buildCurrentFileSummaryOutput,
-            async (uri: vscode.Uri) => {
+            async (uri: vscode.Uri, outputFormat: string) => {
                 if (!uri) {
                     boostLogging.error(
                         `Unable to generate analysis summary output for current file due to no file selected`,
@@ -1714,7 +1717,7 @@ export class BoostExtension {
                 await this.buildCurrentFileOutput(
                     uri,
                     true,
-                    BoostConfiguration.defaultOutputFormat,
+                    outputFormat?outputFormat:BoostConfiguration.defaultOutputFormat,
                     context
                     ).then((outputFile: string) => {
 
@@ -1722,7 +1725,8 @@ export class BoostExtension {
                             path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, outputFile):
                             outputFile;
                         const relativeSourcePath = vscode.workspace.workspaceFolders?
-                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
                             uri.fsPath;
 
                         boostLogging.info(
@@ -1733,7 +1737,8 @@ export class BoostExtension {
                     .catch((error: any) => {
 
                         const relativeSourcePath = vscode.workspace.workspaceFolders?
-                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
                             uri.fsPath;
 
                         boostLogging.error(
@@ -1770,7 +1775,8 @@ export class BoostExtension {
                             path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, outputFile):
                             outputFile;
                         const relativeSourcePath = vscode.workspace.workspaceFolders?
-                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
                             uri.fsPath;
 
                         boostLogging.info(
@@ -1860,31 +1866,33 @@ export class BoostExtension {
                             path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, outputFile):
                             outputFile;
                         const relativeSourcePath = vscode.workspace.workspaceFolders?
-                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
                             uri.fsPath;
 
                         if (!uri) {
                             boostLogging.info(
                                 `${relativeOutputFile} created`,
-                                uri === undefined
+                                false
                             );
                         } else {
                             boostLogging.info(
                                 `${relativeOutputFile} created for file:${relativeSourcePath}.`,
-                                uri === undefined
+                                false
                             );
                         }
                     })
                     .catch((error: any) => {
 
                         const relativeSourcePath = vscode.workspace.workspaceFolders?
-                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                            path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
                             uri.fsPath;
 
                         boostLogging.error(
                             `Unable to generate summary output for current folder${uri ? ":" + relativeSourcePath : ""}` +
                             ` due to ${(error as Error).message}`,
-                            uri === undefined);
+                            false);
                     });
             }
         );
@@ -1907,7 +1915,8 @@ export class BoostExtension {
                         path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, outputFile):
                         outputFile;
                     const relativeSourcePath = vscode.workspace.workspaceFolders?
-                        path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                        (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                        path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
                         uri.fsPath;
 
                     if (!uri) {
@@ -1915,7 +1924,7 @@ export class BoostExtension {
                     } else {
                         boostLogging.info(
                             `${outputFile} created for file:${relativeSourcePath}.`,
-                            uri === undefined
+                            false
                         );
                     }
 
@@ -1974,7 +1983,8 @@ export class BoostExtension {
                 })
                 .catch((error: any) => {
                     const relativeSourcePath = vscode.workspace.workspaceFolders?
-                        path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                        (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
+                        path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
                         uri.fsPath;
                     boostLogging.error(
                         `Unable to generate and show summary output for current folder:${
@@ -3245,7 +3255,7 @@ export class BoostExtension {
                 .catch((error) => {
                     // Handle the error here
                     boostLogging.error(
-                        `Error convertting Notebooks in folder ${targetFolder.fsPath} due to Error: ${errorToString(error)}`
+                        `Error converting Notebooks in folder ${targetFolder.fsPath} due to Error: ${errorToString(error)}`
                     );
                 });
         } catch (error) {

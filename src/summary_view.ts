@@ -668,6 +668,28 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
                     );
                 }
+
+                // refresh output files for ALL analyzed notebooks
+                if (BoostConfiguration.simulateServiceCalls && false) {
+                    boostLogging.debug(`Simulate:executeCommand: buildCurrentFolderOutput`);
+                } else {
+                    await vscode.commands.executeCommand(
+                        NOTEBOOK_TYPE + "." + BoostCommands.buildCurrentFolderOutput,
+                        undefined,
+                        "all" // build all summary outputs for the entire project
+                    );
+                }
+
+                // refresh summary output at the end of the run
+                if (BoostConfiguration.simulateServiceCalls && false) {
+                    boostLogging.debug(`Simulate:executeCommand: buildCurrentFolderSummaryOutput`);
+                } else {
+                    await vscode.commands.executeCommand(
+                        NOTEBOOK_TYPE + "." + BoostCommands.buildCurrentFolderSummaryOutput,
+                        undefined,
+                        "all" // build all summary outputs for the entire project
+                    );
+                }
             },
         ];
 
