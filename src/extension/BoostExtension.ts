@@ -1342,14 +1342,11 @@ export class BoostExtension {
                 vscode.NotebookDocument | boostnb.BoostNotebook
             >[] = [];
 
-            files.filter(async (file: vscode.Uri) => {
-                newNotebookWaits.push(
-                    createOrOpenNotebookFromSourceFile(file, true)
-                );
-                newNotebookWaits.push(
-                    createOrOpenSummaryNotebookFromSourceFile(file)
-                );
+            files.forEach((file: vscode.Uri) => {
+                newNotebookWaits.push(createOrOpenNotebookFromSourceFile(file, true));
+                newNotebookWaits.push(createOrOpenSummaryNotebookFromSourceFile(file));
             });
+
             // create project level rollup
             newNotebookWaits.push(
                 createOrOpenSummaryNotebookFromSourceFile(targetFolder)
@@ -2245,15 +2242,7 @@ export class BoostExtension {
                 // Note this only happens when using right-click in explorer or a non-Notebook active editor
                 if (currentNotebook === undefined && !sourceFileUri) {
                     const boostNotebooks: vscode.NotebookDocument[] =
-                        vscode.workspace.notebookDocuments.filter(
-                            async (doc) => {
-                                // we're skipping non Boost notebooks
-                                resolve(
-                                    doc.notebookType === boostnb.NOTEBOOK_TYPE
-                                );
-                                return;
-                            }
-                        );
+                        vscode.workspace.notebookDocuments.filter(doc => doc.notebookType === boostnb.NOTEBOOK_TYPE);
 
                     // if we have more than one notebook, we need to ask user which one to use
                     if (boostNotebooks.length > 1) {
@@ -3218,9 +3207,10 @@ export class BoostExtension {
         const notebookFilesThatExist = sourceFiles.filter((file) => {
             if (!fs.existsSync(file)) {
                 boostLogging.debug(`Skipping missing Boost Notebook file: ${file} for expected source`);
-                return;
+                return false;
             }
             const boostFile = getBoostFile(vscode.Uri.parse(file));
+            return fs.existsSync(boostFile.fsPath);
         });
 
         boostLogging.debug(
@@ -3230,7 +3220,7 @@ export class BoostExtension {
         try {
             let convertedNotebookWaits: any[] = [];
 
-            notebookFilesThatExist.filter(async (file) => {
+            notebookFilesThatExist.forEach((file : string) => {
                 convertedNotebookWaits.push(
                     this.buildCurrentFileOutput(vscode.Uri.parse(file), false, outputFormat, context)
                 );
