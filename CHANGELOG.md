@@ -3,7 +3,7 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 1.3.2: August 23rd, 2023
+## Version 1.3.2: August 24th, 2023
 
 ### New Features
 - N/A
@@ -12,6 +12,7 @@ Polyverse Boost Automatic Application Modernization
 - Improvements to readability, style and source line numbers in HTML and PDF output
 - Enabled Right-click in File Explorer for showing PDF, HTML and Markdown of any Boost Notebook
 - All Output files are stored in Boost Output folder - for ease of packaging and publishing
+- Enhanced Chat and source analysis to include more security and compliance background
 
 ### Bug Fixes
 - Fixed issue preventing status bar account status from updating when no Project folder is loaded

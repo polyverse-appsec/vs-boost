@@ -3,6 +3,9 @@ import * as fs from "fs";
 import * as path from "path";
 
 import * as boostnb from "../data/jupyter_notebook";
+import * as analysis from "../data/IAnalysisContextData";
+
+import { errorToString } from "../utilities/error";
 
 import {
     BoostPerformanceFunctionKernel,
@@ -128,8 +131,6 @@ import {
     BoostChatKernel,
 } from "../controllers/chat_controller";
 
-import { WorkflowEngine, PromiseGenerator } from "../utilities/workflow_engine";
-
 export class BoostNotebookContentProvider
     implements vscode.TextDocumentContentProvider
 {
@@ -246,7 +247,7 @@ export class BoostExtension {
             this.successfullyActivated = false;
             const error = e as Error;
             boostLogging.error(
-                `Extension Activation failed due to critical error ${error.toString()}`,
+                `Extension Activation failed due to critical error ${errorToString(error)}`,
                 false
             );
         } finally {
@@ -3247,18 +3248,30 @@ export class BoostExtension {
                 .catch((error) => {
                     // Handle the error here
                     boostLogging.error(
-                        `Error convertting Notebooks in folder ${targetFolder.fsPath} due to Error: ${error}`
+                        `Error convertting Notebooks in folder ${targetFolder.fsPath} due to Error: ${errorToString(error)}`
                     );
                 });
         } catch (error) {
             boostLogging.error(
-                `Unable to Convert Notebooks in Folder:[${folderUri.fsPath.toString()} due to error:${error}`
+                `Unable to Convert Notebooks in Folder:[${folderUri.fsPath.toString()} due to error:${errorToString(error)}`
             );
         }
     }
 
-    public getSummaries(analysisTypes: BoostUserAnalysisType[]): string[] {
-        const summaries: string[] = [];
+    public getBackgroundContext(commandId?: string): any[] {
+        const analysisContext: any[] = [];
+
+        analysisContext.push( ...this.getSummaries([
+            BoostUserAnalysisType.blueprint,
+            BoostUserAnalysisType.compliance,
+            BoostUserAnalysisType.security
+            ]));
+
+        return analysisContext;
+    }
+
+    getSummaries(analysisTypes: BoostUserAnalysisType[]): analysis.IAnalysisContextData[] {
+        const summaries: any[] = [];
         const projectSummaryFile = getBoostFile(
             undefined,
             { format: BoostFileType.summary,
@@ -3290,7 +3303,11 @@ export class BoostExtension {
                     outputType
                 ) as boostnb.BoostNotebookCell;
                 if (summaryCell) {
-                    summaries.push(summaryCell.value);
+                    summaries.push( {
+                        type: analysis.AnalysisContextType.projectSummary,
+                        data: summaryCell.value,
+                        name: analysisType,
+                    } as analysis.IAnalysisContextData);
                 }
             }
         });

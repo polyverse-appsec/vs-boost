@@ -10,6 +10,7 @@ import {
     NOTEBOOK_TYPE,
 } from "../data/jupyter_notebook";
 import { fullPathFromSourceFile, getKernelName } from "../extension/extension";
+import { errorToString } from "../utilities/error";
 
 export const errorMimeType = "application/vnd.code.notebook.error";
 export const markdownMimeType = "text/markdown";
@@ -272,7 +273,7 @@ export class KernelControllerBase extends BoostServiceHelper {
                                 usingBoostNotebook
                                     ? notebook.fsPath
                                     : notebook.uri.toString()
-                            }: ${(result as { e: any; status: string }).e.toString()}}`,
+                            }: ${errorToString((result as { e: any; status: string }).e)}}`,
                             !usingBoostNotebook
                         );
                     }

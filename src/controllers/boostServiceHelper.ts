@@ -11,7 +11,6 @@ import {
     NOTEBOOK_GUIDELINES_PRE_EXTENSION,
 } from "../data/jupyter_notebook";
 import { getBoostFile, BoostFileType } from "../extension/extension";
-import { BoostUserAnalysisType } from "../userAnalysisType";
 import { BoostConfiguration } from "../extension/boostConfiguration";
 import { boostLogging } from "../utilities/boostLogging";
 import { fetchGithubSession, getCurrentOrganization } from "../utilities/authorization";
@@ -118,16 +117,10 @@ export class BoostServiceHelper {
             payload.guidelines = JSON.stringify(["system", guidelines]);
         }
 
-        // inject blueprint/summaries into the payload for analysis context (overall project view)
-        const summaries = this.hostExtension.getSummaries([
-            BoostUserAnalysisType.blueprint,
-//            BoostUserAnalysisType.compliance,
-//            BoostUserAnalysisType.security
-            ]);
-        // Add summaries to the payload only if it's not undefined or an empty array
-        if (summaries && summaries.length > 0) {
-            // we mark it as the system role since it may be used as hints
-            payload.summaries = JSON.stringify(["system", summaries]);
+        // collect background context and inject into the payload for analysis context
+        const analysisContext : any[] = this.hostExtension.getBackgroundContext(this.command);
+        if (analysisContext && analysisContext.length > 0) {
+            payload.context = JSON.stringify(analysisContext);
         }
 
         // read any cell-specific temperature or top_p settings
