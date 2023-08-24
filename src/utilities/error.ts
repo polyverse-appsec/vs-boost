@@ -1,3 +1,5 @@
+import { BoostConfiguration } from "../extension/boostConfiguration";
+
 export function mapError(err: any) : Error {
     if (err.response) {
         switch (err.response.status) {
@@ -55,5 +57,17 @@ export function mapError(err: any) : Error {
         }
     } else {
         throw err;
+    }
+}
+
+export function errorToString(err: any): string {
+    if (err instanceof Error) {
+        if (BoostConfiguration.cloudServiceStage === "local") {
+            return `${err.message}\n${err.stack}`;
+        } else {
+            return err.message;
+        }
+    } else {
+        return String(err);
     }
 }
