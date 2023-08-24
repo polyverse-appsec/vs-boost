@@ -3066,7 +3066,7 @@ export class BoostExtension {
         outputFormat: string,
         context: vscode.ExtensionContext
     ): Promise<string> {
-        return new Promise<string>((resolve, reject) => {
+        return new Promise<string>(async (resolve, reject) => {
             try {
                 // if we don't have a file selected, and asking for single file analysis, then fail
                 //  we only report summaries for folders
@@ -3120,43 +3120,40 @@ export class BoostExtension {
                     outputFormat = BoostConfiguration.defaultOutputFormat;
                 }
                 switch (outputFormat.toLowerCase()) {
+                    case "all":
+                        try {
+                            const markdownFile = await generateMarkdownforNotebook(boostUri.fsPath, baseWorkspacePath);
+                            const htmlFile = await generateHTMLforNotebook(boostUri.fsPath, baseWorkspacePath, context);
+                            const pdfFile = await generatePDFforNotebook(boostUri.fsPath, baseWorkspacePath, context);
+                            // since we're generating all 3, we're only going to report the last one
+                            resolve(pdfFile);
+                        } catch (error) {
+                            reject(error);
+                        }
+                        break;
                     case "html":
-                        generateHTMLforNotebook(
-                            boostUri.fsPath,
-                            baseWorkspacePath,
-                            context
-                        )
-                            .then((htmlFile) => {
-                                resolve(htmlFile);
-                            })
-                            .catch((error) => {
-                                reject(error);
-                            });
+                        try {
+                            const htmlFile = generateHTMLforNotebook( boostUri.fsPath, baseWorkspacePath, context);
+                            resolve(htmlFile);
+                        } catch (error) {
+                            reject(error);
+                        }
                         break;
                     case "pdf":
-                        generatePDFforNotebook(
-                            boostUri.fsPath,
-                            baseWorkspacePath,
-                            context
-                        )
-                            .then((pdfFile) => {
-                                resolve(pdfFile);
-                            })
-                            .catch((error) => {
-                                reject(error);
-                            });
+                        try {
+                            const pdfFile = generatePDFforNotebook( boostUri.fsPath, baseWorkspacePath, context);
+                            resolve(pdfFile);
+                        } catch (error) {
+                            reject(error);
+                        }
                         break;
                     case "markdown":
-                        generateMarkdownforNotebook(
-                            boostUri.fsPath,
-                            baseWorkspacePath
-                        )
-                            .then((markdownFile) => {
-                                resolve(markdownFile);
-                            })
-                            .catch((error) => {
-                                reject(error);
-                            });
+                        try {
+                            const markdownFile = generateMarkdownforNotebook( boostUri.fsPath, baseWorkspacePath);
+                            resolve(markdownFile);
+                        } catch (error) {
+                            reject(error);
+                        }
                         break;
                     default:
                         reject(

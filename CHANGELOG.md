@@ -13,6 +13,7 @@ Polyverse Boost Automatic Application Modernization
 - Enabled Right-click in File Explorer for showing PDF, HTML and Markdown of any Boost Notebook
 - All Output files are stored in Boost Output folder - for ease of packaging and publishing
 - Enhanced Chat and source analysis to include more security and compliance background
+- Analysis Output generation command can generate all formats by using format "all"
 
 ### Bug Fixes
 - Fixed issue preventing status bar account status from updating when no Project folder is loaded
