@@ -9,6 +9,7 @@ import * as vscode from 'vscode';
 import { markedHighlight } from "marked-highlight";
 
 import { BoostFileType, OutputType, getBoostFile } from "../extension/extension";
+import { formatDateTime } from "./datetime";
 
 const cellStyleSheet =
     "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css";
@@ -98,7 +99,7 @@ async function convertNotebookToHTMLinMemory(
 
     const stats = fs.statSync(notebookPath);
     const timestamp = stats.mtime;
-    const fileStamp = timestamp.toISOString();
+    const fileStamp = formatDateTime(timestamp);
 
     // Retrieve metadata from the notebook
     const sourceFile = notebook.metadata["sourceFile"] as string;
