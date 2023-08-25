@@ -95,7 +95,7 @@ async function generateMarkdownFromObject(
     const projectLevel = sourceFile === "./";
     const analysisType = projectLevel ? "Project" : "Source";
     const buildingSummary = notebookPath.endsWith(NOTEBOOK_SUMMARY_EXTENSION);
-    const pageTitle = `Polyverse Boost-generated ${analysisType} Analysis${buildingSummary?" Summary":""}`;
+    const pageTitle = `Polyverse Boost-generated ${analysisType} Analysis${buildingSummary?" Summary":projectLevel?"":" Details"}`;
 
     const prettySourceFile =
         sourceFile === "./" ? path.basename(baseFolderPath) : sourceFile;
@@ -104,21 +104,42 @@ async function generateMarkdownFromObject(
 
     let markdownContent = `# ${pageTitle}\n\n` + `## ${sectionHeading}\n\n`;
 
+    let summaryNotebook: BoostNotebook | undefined = undefined;
     if (projectLevel || buildingSummary) {
+        summaryNotebook = boostNotebook;
+    } else {
+        const summaryBoostFile = getBoostFile(vscode.Uri.parse(path.join(baseFolderPath,sourceFile)), {
+            format: BoostFileType.summary
+        });
+        // if summary exists, then print that 
+        if (fs.existsSync(summaryBoostFile.fsPath)) {
+            summaryNotebook = new BoostNotebook();
+            summaryNotebook.load(summaryBoostFile.fsPath);
+        }
+    }
+
+    if (summaryNotebook) {
         // print the blueprint first in the summary
-        const blueprintCell = findCellByKernel(boostNotebook, ControllerOutputType.blueprint) as BoostNotebookCell;
+        const blueprintCell = findCellByKernel(summaryNotebook, ControllerOutputType.blueprint) as BoostNotebookCell;
         if (blueprintCell) {
             markdownContent += `${blueprintCell.value}\n`;
         }
 
         // then print the other summaries
-        for (const boostCell of boostNotebook.cells) {
+        for (const boostCell of summaryNotebook.cells) {
             if (boostCell.id === blueprintCell?.id) {
                 continue;
             }
             markdownContent += `${boostCell.value}\n`;
         }
-    } else{
+    }
+
+    // if we are printing details for a file, keep displaying - otherwise summary only
+    if (!projectLevel && !buildingSummary) {
+        if (summaryNotebook) {
+            markdownContent += `---\n## Detailed Analysis:\n`;
+        }
+
         for (const boostCell of boostNotebook.cells) {
             markdownContent += `\n### Cell ${boostCell.id}:\n`;
             
