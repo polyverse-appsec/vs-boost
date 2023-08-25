@@ -17,6 +17,7 @@ Polyverse Boost Automatic Application Modernization
 - Analysis Output generation command can generate all formats by using format "all"
 - Markdown Output formatting and layout improvements
 - Enable Executive Report Summaries for individual source files
+- Include Analysis Summary in Detailed Files Analysis Output files
 
 ### Bug Fixes
 - Fixed issue preventing status bar account status from updating when no Project folder is loaded
