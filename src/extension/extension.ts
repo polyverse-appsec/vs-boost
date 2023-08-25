@@ -235,10 +235,7 @@ export function getBoostFile(
             if (isNotebook) {
                 const dirName = path.dirname(sourceFile.path);
                 let baseNameWithoutExt = path.basename(sourceFile.path, path.extname(sourceFile.path));
-                // strip out summary extension if that exists as well
-                if (path.extname(baseNameWithoutExt) === boostnb.NOTEBOOK_SUMMARY_PRE_EXTENSION) {
-                    baseNameWithoutExt = path.basename(baseNameWithoutExt, path.extname(baseNameWithoutExt));
-                }
+
                 const nonNormalizedSourceFilePathUnderBoost = path.join(dirName, baseNameWithoutExt);
                 const sourceFilePathUnderBoost = path.normalize(nonNormalizedSourceFilePathUnderBoost);
                 sourceFilePathRelative = path.relative(boostFolder, sourceFilePathUnderBoost);
