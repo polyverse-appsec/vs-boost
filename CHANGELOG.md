@@ -16,6 +16,7 @@ Polyverse Boost Automatic Application Modernization
 - Enhanced Chat and source analysis to include more security and compliance background
 - Analysis Output generation command can generate all formats by using format "all"
 - Markdown Output formatting and layout improvements
+- Enable Executive Report Summaries for individual source files
 
 ### Bug Fixes
 - Fixed issue preventing status bar account status from updating when no Project folder is loaded

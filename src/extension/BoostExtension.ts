@@ -2406,7 +2406,11 @@ export class BoostExtension {
                 let notebookUri = sourceUri;
                 // if we got a source file or folder, then load the notebook from it
                 if (!sourceUri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
-                    if (targetedKernel.command === summarizeKernelName) {
+                    if ([summarizeKernelName,
+                        quickComplianceSummaryKernelName,
+                        quickSecuritySummaryKernelName,
+                        quickPerformanceSummaryKernelName
+                    ].includes(targetedKernel.command)) {
                         notebookUri = getBoostFile(
                             sourceUri,
                             { format: BoostFileType.summary }
@@ -2421,7 +2425,11 @@ export class BoostExtension {
 
                 let notebook = new boostnb.BoostNotebook();
                 if (!fs.existsSync(notebookUri.fsPath)) {
-                    if (targetedKernel.command !== summarizeKernelName) {
+                    if ([summarizeKernelName,
+                        quickComplianceSummaryKernelName,
+                        quickSecuritySummaryKernelName,
+                        quickPerformanceSummaryKernelName
+                    ].includes(targetedKernel.command)) {
                         // if we haven't yet loaded/parsed this file, then let's do it implicitly for the customer
                         await createOrOpenNotebookFromSourceFile(
                             sourceUri,
@@ -2454,10 +2462,14 @@ export class BoostExtension {
                             resolve(undefined);
                             return;
                         }
-                        if (targetedKernel.command === summarizeKernelName) {
-                            const summaryNotebookUri = getBoostFile(
-                                sourceUri,
-                                { format: BoostFileType.summary }
+                        if ([summarizeKernelName,
+                            quickComplianceSummaryKernelName,
+                            quickSecuritySummaryKernelName,
+                            quickPerformanceSummaryKernelName
+                        ].includes(targetedKernel.command)) {
+                                const summaryNotebookUri = getBoostFile(
+                                    sourceUri,
+                                    { format: BoostFileType.summary }
                             );
                             boostLogging.info(
                                 `Saved Updated Notebook for ${kernelCommand} in file:[${summaryNotebookUri.fsPath}]`,
@@ -2475,7 +2487,7 @@ export class BoostExtension {
                     })
                     .catch((error) => {
                         boostLogging.warn(
-                            `Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${sourceUri.fsPath}] due to error:${error}`,
+                            `Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${sourceUri.fsPath}] due to error:${errorToString(error)}`,
                             true
                         );
                         reject(error);
@@ -2836,7 +2848,7 @@ export class BoostExtension {
             boostLogging.error(
                 `Unable to Process ${
                     options?.kernelCommand
-                } on Folder:[${options?.uri?options.uri.fsPath.toString():options.filelist?.length.toString() + " files"} due to error:${error}`,
+                } on Folder:[${options?.uri?options.uri.fsPath.toString():options.filelist?.length.toString() + " files"} due to error:${errorToString(error)}`,
                 false
             );
         }
@@ -2975,7 +2987,7 @@ export class BoostExtension {
                     })
                     .catch((error) => {
                         boostLogging.warn(
-                            `Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${projectBoostFile.fsPath}] due to error:${error}`,
+                            `Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${projectBoostFile.fsPath}] due to error:${errorToString(error)}`,
                             likelyViaUI
                         );
                     });
@@ -3027,7 +3039,7 @@ export class BoostExtension {
                     context,
                     forceAnalysisRefresh
                 ).catch((error) => {
-                    boostLogging.error((error as Error).message, likelyViaUI);
+                    boostLogging.error(errorToString(error), likelyViaUI);
                 });
             }
         );

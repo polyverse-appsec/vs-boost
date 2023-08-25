@@ -91,9 +91,6 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
 
         // are we analyzing a source file or a project?
         let projectWideAnalysis = (notebook.metadata['sourceFile'] as string) === './';
-        if (!projectWideAnalysis) {
-            throw new Error("Quick Summary can only be run at the Project level");
-        }
 
         // now get the current organization
         let organization = await getCurrentOrganization(this.context);
@@ -111,15 +108,15 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
         let successfullyCompleted = true;
         try
         {
-            await this._runQuickSummary(notebook, authPayload);
+            await this._runQuickSummary(notebook, authPayload, projectWideAnalysis);
 
         } catch (rethrow) {
             successfullyCompleted = false;
-            boostLogging.error(`Error during ${this.command} of Project-level Notebook at ${new Date().toLocaleTimeString()}`, false);
+            boostLogging.error(`Error during ${this.command} of ${projectWideAnalysis?"Project":"Source"}-level Notebook at ${new Date().toLocaleTimeString()}`, false);
             throw rethrow;
         }
         finally {
-            boostLogging.info(`Finished ${this.command} of Project-level Notebook at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
+            boostLogging.info(`Finished ${this.command} of ${projectWideAnalysis?"Project":"Source"}-level Notebook at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
         }
         return true;
     }
@@ -154,7 +151,8 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
 
     private async _runQuickSummary(
             notebook: BoostNotebook,
-            authPayload: any) {
+            authPayload: any,
+            projectWideAnalysis: boolean) {
 
         if (!this.parentController) {
             throw new Error("Parent Controller not found");
@@ -167,38 +165,52 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
             // overwriting deep summaries for now - since quick summaries are more reliable
             if (existingSummaryCell.metadata.summaryType === "summary") {
                 boostLogging.info(
-                    `Overwriting deep summary ${this.command} of Project-level Notebook with quick summary`,
+                    `Overwriting deep summary ${this.command} of ${projectWideAnalysis?"Project":"Source"}-level Notebook with quick summary`,
                     false
                 );
             } else if (
                 existingSummaryCell.metadata.summaryType === "quick"
             ) {
                 boostLogging.info(
-                    `Rebuilding ${this.command} of Project-level Notebook ` +
+                    `Rebuilding ${this.command} of ${projectWideAnalysis?"Project":"Source"}-level Notebook ` +
                         `from last quick summary`, false
                 );
             }
         }
 
-        const filteredFiles = await getAllProjectFiles(true);
+        // get the list of files to analyze (or current file for single file analysis)
+        const filteredFiles = projectWideAnalysis?
+            await getAllProjectFiles(true):
+            [notebook.metadata['sourceFile']];
+
+        const targetFolder = vscode.workspace.workspaceFolders?.[0].uri;
+        if (!targetFolder) {
+            throw new Error("Diagnostic Summaries only available within a project");
+        }
+        const sourceFileTarget = projectWideAnalysis?undefined:
+            vscode.Uri.joinPath(targetFolder, notebook.metadata['sourceFile'] as string);
 
         let offlineSummary = undefined;
         let topSeverityIssues = "[]";
 
         if (filteredFiles.length !== 0) {
             // get the top 20% of issues (by severity)
-            topSeverityIssues = this.getTopSeverityIssues(this.parentController.sourceLevelIssueCollection);
+            topSeverityIssues = this.getTopSeverityIssues(
+                this.parentController.sourceLevelIssueCollection,
+                sourceFileTarget);
             // boostLogging.debug(`${this.outputType} Top Severity Issues:\n\n${topSeverityIssues}`);
         }
         if (topSeverityIssues === "[]") {
-            offlineSummary = this.buildDefaultOfflineSummary(filteredFiles.length);
+            offlineSummary = this.buildDefaultOfflineSummary(filteredFiles.length, projectWideAnalysis);
         }
         // we create a placeholder cell for the input, so we can do processing on the input
         const tempProcessingCell = new BoostNotebookCell(NotebookCellKind.Markup,
             "", "markdown");
 
         if (filteredFiles.length !== 0 && topSeverityIssues !== "[]") {
-            const categorizedData = this.getTableOfIssuesBySeverityAndCategory(this.parentController.sourceLevelIssueCollection);
+            const categorizedData = this.getTableOfIssuesBySeverityAndCategory(
+                this.parentController.sourceLevelIssueCollection,
+                sourceFileTarget);
             // boostLogging.debug(`${this.outputType} Categorized Issues:\n\n${categorizedData}`);
 
             const payloadQuick = {
@@ -241,7 +253,7 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
             });
         }
 
-        if (filteredFiles.length !== 0 || topSeverityIssues !== "[]") {
+        if (filteredFiles.length !== 0 && topSeverityIssues !== "[]") {
             // snap the processed quick report from the temp cell and store it in real notebook
             targetCell.value = tempProcessingCell.outputs[0].items[0].data;
 
@@ -262,7 +274,7 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
         notebook.flushToFS();
     }
 
-    buildDefaultOfflineSummary(fileCount: number) : string {
+    buildDefaultOfflineSummary(fileCount: number, projectWideAnalysis: boolean) : string {
         let archImpact: string;
         let riskAnalysis: string;
         let custImpact: string;
@@ -277,6 +289,13 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
             perfIssues = "No performance issues identified due to the absence of files for analysis.";
             riskAssessment = "With no files to review, a risk assessment cannot be performed at this time.";
             highlights = "Unable to provide highlights as no files were available for analysis.";
+        } else if (!projectWideAnalysis) {
+            archImpact = `The analysis of this file has not revealed any severe issues.`;
+            riskAnalysis = `The analysis of this file has not revealed any severe issues.`;
+            custImpact = "Based on the analysis, there are no severe issues that could potentially impact customers.";
+            perfIssues = "Our analysis did not identify any explicit performance issues in the file.";
+            riskAssessment = `Based on the current analysis of this file, no severe issues have been found. However, this doesn't guarantee that the file is risk-free.`;
+            highlights = `No severe issues were identified in the current analysis of this file.`;
         } else {
             archImpact = `The analysis of ${fileCount} files in the project's architecture has not revealed any severe issues.`;
             riskAnalysis = `Out of ${fileCount} files, none have been flagged for severe issues.`;
@@ -314,17 +333,17 @@ Highlights:
         return generateCellOutputWithHeader(this.outputHeader, response.summary);
     }
 
-    getTopSeverityIssues(diagnosticCollection: vscode.DiagnosticCollection): string {
+    getTopSeverityIssues(diagnosticCollection: vscode.DiagnosticCollection, sourceFileTarget: vscode.Uri | undefined): string {
         const allDiagnostics: {uri: vscode.Uri, diagnostic: vscode.Diagnostic}[] = [];
 
-        const targetFolder = vscode.workspace.workspaceFolders?.[0].uri;
-        if (!targetFolder) {
-            throw new Error("Diagnostic Summaries only avaiable within a project");
-        }
+        const targetFolder = vscode.workspace.workspaceFolders![0].uri;
         
         // Flatten the diagnostics from the diagnostic collection into a single array
         diagnosticCollection.forEach((uri: vscode.Uri, diagnostics: readonly vscode.Diagnostic[]) => {
             diagnostics.forEach(diagnostic => {
+                if (sourceFileTarget && sourceFileTarget !== uri) {
+                    return;
+                }
                 allDiagnostics.push({uri, diagnostic});
             });
         });
@@ -398,11 +417,11 @@ Highlights:
         return jsonString;
     }
 
-    getTableOfIssuesBySeverityAndCategory(diagnosticCollection: vscode.DiagnosticCollection): string {
+    getTableOfIssuesBySeverityAndCategory(diagnosticCollection: vscode.DiagnosticCollection, sourceFileTarget: vscode.Uri | undefined): string {
 
         const targetFolder = vscode.workspace.workspaceFolders?.[0].uri;
         if (!targetFolder) {
-            throw new Error("Diagnostic Summaries only avaiable within a project");
+            throw new Error("Diagnostic Summaries only available within a project");
         }
 
         const allDiagnostics: {uri: vscode.Uri, diagnostic: vscode.Diagnostic}[] = [];
@@ -410,6 +429,9 @@ Highlights:
         // Flatten the diagnostics from the diagnostic collection into a single array
         diagnosticCollection.forEach((uri: vscode.Uri, diagnostics: readonly vscode.Diagnostic[]) => {
             diagnostics.forEach(diagnostic => {
+                if (sourceFileTarget && sourceFileTarget !== uri) {
+                    return;
+                }
                 allDiagnostics.push({uri, diagnostic});
             });
         });
