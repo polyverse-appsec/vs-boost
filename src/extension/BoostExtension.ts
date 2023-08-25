@@ -1394,13 +1394,13 @@ export class BoostExtension {
                 // Handle the errors here
                 for (const error of errors) {
                     boostLogging.error(
-                        `Error Boosting folder ${targetFolder.fsPath} due to Error: ${error}`
+                        `Error Boosting folder ${targetFolder.fsPath} due to Error: ${errorToString(error)}`
                     );
                 }
             });
         } catch (error) {
             boostLogging.error(
-                `Error Boosting folder ${targetFolder} due to Error: ${error}`
+                `Error Boosting folder ${targetFolder} due to Error: ${errorToString(error)}`
             );
         }
     }
@@ -1428,7 +1428,7 @@ export class BoostExtension {
                     options,
                     context
                 ).catch((error) => {
-                    boostLogging.error((error as Error).message, likelyViaUI);
+                    boostLogging.error(errorToString(error), likelyViaUI);
                 });
             }
         );
@@ -1568,7 +1568,7 @@ export class BoostExtension {
                         boostLogging.error(
                             `Unable to generate output for current file:${
                                 relativeSourcePath
-                            } due to ${(error as Error).message}`,
+                            } due to ${errorToString(error)}`,
                             true
                         );
                     });
@@ -1649,7 +1649,7 @@ export class BoostExtension {
                                         (reason) => {
                                             boostLogging.error(
                                                 `Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview for ${relativeOutputFile} due to ${
-                                                    (reason as Error).message
+                                                    errorToString(reason)
                                                 }`,
                                                 true
                                             );
@@ -1671,7 +1671,7 @@ export class BoostExtension {
                             uri.fsPath;
 
                         boostLogging.error(
-                            `Unable to generate and show output for current file ${relativeSourcePath} due to ${(error as Error).message}`,
+                            `Unable to generate and show output for current file ${relativeSourcePath} due to ${errorToString(error)}`,
                             true
                         );
                     });
@@ -1691,7 +1691,7 @@ export class BoostExtension {
                     outputFormat?outputFormat:BoostConfiguration.defaultOutputFormat,
                     context
                 ).catch((error: any) => {
-                    boostLogging.error((error as Error).message);
+                    boostLogging.error(errorToString(error));
                 });
             }
         );
@@ -1739,7 +1739,7 @@ export class BoostExtension {
                             uri.fsPath;
 
                         boostLogging.error(
-                            `Unable to generate output for current file:${relativeSourcePath} due to ${(error as Error).message}`,
+                            `Unable to generate output for current file:${relativeSourcePath} due to ${errorToString(error)}`,
                             true
                         );
                     });
@@ -1799,7 +1799,7 @@ export class BoostExtension {
                                         (reason) => {
                                             boostLogging.error(
                                                 `Unable to open Markdown Preview for ${relativeOutputFile} due to ${
-                                                    (reason as Error).message
+                                                    errorToString(reason)
                                                 }`,
                                                 false
                                             );
@@ -1820,7 +1820,7 @@ export class BoostExtension {
                                         (reason) => {
                                             boostLogging.error(
                                                 `Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} ` + 
-                                                `Preview for ${relativeOutputFile} due to ${(reason as Error).message}`,
+                                                `Preview for ${relativeOutputFile} due to ${errorToString(reason)}`,
                                                 true
                                             );
                                         }
@@ -1837,7 +1837,7 @@ export class BoostExtension {
                         const relativeSourcePath = path.relative(vscode.workspace.workspaceFolders![0].uri.fsPath, uri.fsPath);
 
                         boostLogging.error(
-                            `Unable to generate and show summary output for current file:${relativeSourcePath} due to ${(error as Error).message}`,
+                            `Unable to generate and show summary output for current file:${relativeSourcePath} due to ${errorToString(error)}`,
                             true
                         );
                     });
@@ -1888,7 +1888,7 @@ export class BoostExtension {
 
                         boostLogging.error(
                             `Unable to generate summary output for current folder${uri ? ":" + relativeSourcePath : ""}` +
-                            ` due to ${(error as Error).message}`,
+                            ` due to ${errorToString(error as Error)}`,
                             false);
                     });
             }
@@ -1986,7 +1986,7 @@ export class BoostExtension {
                     boostLogging.error(
                         `Unable to generate and show summary output for current folder:${
                             uri ? ":" + relativeSourcePath : ""
-                        } due to ${(error as Error).message}`,
+                        } due to ${errorToString(error)}`,
                         true
                     );
                 });
@@ -2009,7 +2009,7 @@ export class BoostExtension {
                     .catch((error: any) => {
                         boostLogging.error(
                             `Unable to Refresh Project Data due to error ${
-                                (error as Error).message
+                                errorToString(error as Error)
                             }`,
                             false
                         );
@@ -2063,7 +2063,7 @@ export class BoostExtension {
                         boostLogging.error(
                             `Unable to Analyze Selected Text with ${
                                 BoostConfiguration.currentKernelCommand
-                            } due to ${error as Error}`,
+                            } due to ${errorToString(error)}`,
                             true
                         );
                     });
@@ -2329,7 +2329,7 @@ export class BoostExtension {
                 await vscode.window.showNotebookDocument(currentNotebook);
             } catch (error) {
                 boostLogging.error(
-                    `Unable to load Boost file:[${sourceFileUri.fsPath.toString()} due to error:${error}`,
+                    `Unable to load Boost file:[${sourceFileUri.fsPath.toString()} due to error:${errorToString(error)}`,
                     false
                 );
                 resolve(false);
@@ -2644,7 +2644,7 @@ export class BoostExtension {
         } catch (error) {
             const folderName = path.basename(targetFolder.fsPath);
             boostLogging.error(
-                `Unable to process folder ${folderName} due to error: ${error}`
+                `Unable to process folder ${folderName} due to error: ${errorToString(error)}`
             );
             return false;
         }
@@ -2806,7 +2806,7 @@ export class BoostExtension {
                             `Error Boosting folder ${
                                 targetFolder.fsPath
                             } due to Error: ${
-                                (result as { e: any; status: string }).e
+                                errorToString((result as { e: any; status: string }).e)
                             }`,
                             false
                         );
