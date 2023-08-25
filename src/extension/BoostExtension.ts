@@ -2409,7 +2409,7 @@ export class BoostExtension {
                     if (targetedKernel.command === summarizeKernelName) {
                         notebookUri = getBoostFile(
                             sourceUri,
-                            { format: BoostFileType.notebook }
+                            { format: BoostFileType.summary }
                         );
                     } else {
                         notebookUri = getBoostFile(
