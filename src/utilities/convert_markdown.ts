@@ -1,18 +1,42 @@
-import * as fs from 'fs';
-import * as vscode from 'vscode';
+import * as fs from "fs";
+import * as vscode from "vscode";
+import * as path from "path";
 
-import { BoostNotebook, SerializedNotebookCellOutput, NOTEBOOK_EXTENSION } from '../data/jupyter_notebook';
-import { BoostFileType, OutputType, getBoostFile } from "../extension/extension";
+import {
+    BoostNotebook,
+    BoostNotebookCell,
+    SerializedNotebookCellOutput,
+} from "../data/jupyter_notebook";
+import {
+    BoostFileType,
+    OutputType,
+    findCellByKernel,
+    getBoostFile,
+} from "../extension/extension";
+import { ControllerOutputType } from "../controllers/controllerOutputTypes";
 
-export async function generateMarkdownforNotebook(boostNotebookPath : string, baseFolderPath : string) : Promise<string> {
-    return new Promise<string> (async (resolve, reject) => {
+export async function generateMarkdownforNotebook(
+    boostNotebookPath: string,
+    baseFolderPath: string
+): Promise<string> {
+    return new Promise<string>(async (resolve, reject) => {
         try {
-            const mdFilename = getBoostFile(vscode.Uri.parse(boostNotebookPath),
-                { format: BoostFileType.output, outputType: OutputType.markdown }).fsPath;
+            const mdFilename = getBoostFile(
+                vscode.Uri.parse(boostNotebookPath),
+                {
+                    format: BoostFileType.output,
+                    outputType: OutputType.markdown,
+                }
+            ).fsPath;
 
             const boostNotebook = new BoostNotebook();
             boostNotebook.load(boostNotebookPath);
-            await generateMarkdownFromJson(boostNotebook, boostNotebookPath, baseFolderPath, mdFilename);
+            await generateMarkdownFromJson(
+                boostNotebook,
+                boostNotebookPath,
+                baseFolderPath,
+                mdFilename
+            );
             resolve(mdFilename);
         } catch (error) {
             reject(error);
@@ -20,14 +44,25 @@ export async function generateMarkdownforNotebook(boostNotebookPath : string, ba
     });
 }
 
-async function generateMarkdownFromJson(boostNotebook: BoostNotebook, notebookPath : string, baseFolderPath : string, outputPath: string): Promise<void> {
-    return new Promise<void> (async (resolve, reject) => {
+async function generateMarkdownFromJson(
+    boostNotebook: BoostNotebook,
+    notebookPath: string,
+    baseFolderPath: string,
+    outputPath: string
+): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
         try {
-            const markdown = await generateMarkdownFromObject(boostNotebook, notebookPath, baseFolderPath,
-                { showOutputMetadata: false,
-                  printSourceCodeBorder: false,
-                  wrapText: false } );
-          
+            const markdown = await generateMarkdownFromObject(
+                boostNotebook,
+                notebookPath,
+                baseFolderPath,
+                {
+                    showOutputMetadata: false,
+                    printSourceCodeBorder: false,
+                    wrapText: false,
+                }
+            );
+
             // Save the Markdown to a file
             fs.writeFileSync(outputPath, markdown);
             resolve();
@@ -38,69 +73,92 @@ async function generateMarkdownFromJson(boostNotebook: BoostNotebook, notebookPa
 }
 
 interface PrintOptions {
-  showOutputMetadata: boolean;
-  printSourceCodeBorder: boolean;
-  wrapText: boolean;
+    showOutputMetadata: boolean;
+    printSourceCodeBorder: boolean;
+    wrapText: boolean;
 }
 async function generateMarkdownFromObject(
     boostNotebook: BoostNotebook,
     notebookPath: string,
     baseFolderPath: string,
     printOptions: PrintOptions
-  ): Promise<string> {
-    const largeFontSize = 16;
-    const mediumFontSize = 12;
-    const smallFixedFontSize = 9;
-  
+): Promise<string> {
     const stats = fs.statSync(notebookPath);
     const timestamp = stats.mtime;
     const fileStamp = timestamp.toISOString();
-  
-    const pageTitle = `Polyverse Boost-generated Source Documentation`;
-  
-    const sourceFile = boostNotebook.metadata['sourceFile'] as string;
-  
-    const sectionHeading = `Source File: ${sourceFile}\nDate Generated: ${fileStamp}`;
-  
-    let markdownContent =
-        `# ${pageTitle}\n\n` +
-        `## ${sectionHeading}\n\n`;
-  
-    for (const boostCell of boostNotebook.cells) {
-      markdownContent += `\n### Cell ${boostCell.id}:\n`;
-      markdownContent += `Programming Language: ${boostCell.languageId}\n`;
-      markdownContent += `## Original Code:\n\n`;
-  
-      let cellContent = boostCell.value.replace(/\t/g, ' ');
-  
-      markdownContent += "```\n" + `${cellContent}` + '\n```\n';
-  
-      const cellOutputs = boostCell.outputs || [];
-      const outputText = cellOutputs
-        .map((output) => formatOutput(output, printOptions))
-        .join('\n');
-  
-      markdownContent += `## Boost Analysis:\n${outputText}\n\n`;
-    }
-  
-    return markdownContent;
-  }
-  
-  function formatOutput(output: SerializedNotebookCellOutput, printOptions: PrintOptions): string {
-    const items = output.items
-      .map((item) => {
-        let text = '';
-        if (item.mime.startsWith('text/x-')) {
-          text += `Converted Programming Language: ${item.mime.replace('text/x-', '')}\n`;
-        } else if (!item.mime.startsWith('text/markdown')) {
-          text += `MIME Type: ${item.mime}\n`;
+
+    const sourceFile = boostNotebook.metadata["sourceFile"] as string;
+
+    const projectLevel = sourceFile === "./";
+    const analysisType = projectLevel ? "Project" : "Source";
+    const pageTitle = `Polyverse Boost-generated Source Analysis`;
+
+    const prettySourceFile =
+        sourceFile === "./" ? path.basename(baseFolderPath) : sourceFile;
+
+    const sectionHeading = `${analysisType}: ${prettySourceFile}\nDate Generated: ${fileStamp}`;
+
+    let markdownContent = `# ${pageTitle}\n\n` + `## ${sectionHeading}\n\n`;
+
+    if (projectLevel) {
+        // print the blueprint first in the summary
+        const blueprintCell = findCellByKernel(boostNotebook, ControllerOutputType.blueprint) as BoostNotebookCell;
+        if (blueprintCell) {
+            markdownContent += `${blueprintCell.value}\n`;
         }
-        return text + `\n${item.data}`;
-      })
-      .join('\n');
-  
-    const metadata = printOptions.showOutputMetadata && output.metadata ? `Metadata: ${JSON.stringify(output.metadata, null, 2)}` : '';
-  
+
+        // then print the other summaries
+        for (const boostCell of boostNotebook.cells) {
+            if (boostCell.id === blueprintCell.id) {
+                continue;
+            }
+            markdownContent += `${boostCell.value}\n`;
+        }
+    } else{
+        for (const boostCell of boostNotebook.cells) {
+            markdownContent += `\n### Cell ${boostCell.id}:\n`;
+            markdownContent += `Programming Language: ${boostCell.languageId}\n`;
+            markdownContent += `## Original Code:\n\n`;
+    
+            let cellContent = boostCell.value.replace(/\t/g, " ");
+    
+            markdownContent += "```\n" + `${cellContent}` + "\n```\n";
+    
+            const cellOutputs = boostCell.outputs || [];
+            const outputText = cellOutputs
+                .map((output) => formatOutput(output, printOptions))
+                .join("\n");
+    
+            markdownContent += `## Boost Analysis:\n${outputText}\n\n`;
+        }
+    }
+
+    return markdownContent;
+}
+
+function formatOutput(
+    output: SerializedNotebookCellOutput,
+    printOptions: PrintOptions
+): string {
+    const items = output.items
+        .map((item) => {
+            let text = "";
+            if (item.mime.startsWith("text/x-")) {
+                text += `Converted Programming Language: ${item.mime.replace(
+                    "text/x-",
+                    ""
+                )}\n`;
+            } else if (!item.mime.startsWith("text/markdown")) {
+                text += `MIME Type: ${item.mime}\n`;
+            }
+            return text + `\n${item.data}`;
+        })
+        .join("\n");
+
+    const metadata =
+        printOptions.showOutputMetadata && output.metadata
+            ? `Metadata: ${JSON.stringify(output.metadata, null, 2)}`
+            : "";
+
     return `${items}\n${metadata}`;
-  }
-  
+}
