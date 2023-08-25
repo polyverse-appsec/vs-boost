@@ -578,6 +578,17 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             () => async (inputs: any[]) => {
                 const path = inputs[0]; // first param is the file path
 
+                // refresh output files for the analysis on this file
+                if (BoostConfiguration.simulateServiceCalls) {
+                    boostLogging.debug(`Simulate:executeCommand: buildCurrentFileOutput`);
+                } else {
+                    await vscode.commands.executeCommand(
+                        NOTEBOOK_TYPE + "." + BoostCommands.buildCurrentFileOutput,
+                        vscode.Uri.parse(path),
+                        "all" // build all outputs for this file
+                    );
+                }
+
                 if (!BoostConfiguration.alwaysRunSummary) {
                     boostLogging.info(`Skipping summary for source file: ${path}`);
                     return;
@@ -593,6 +604,17 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         getKernelName(summarizeKernelName)
                     );
                     this.checkAccountEnabledBeforeContinuingAnalysis();
+                }
+
+                // refresh output files for the analysis summary on this file
+                if (BoostConfiguration.simulateServiceCalls) {
+                    boostLogging.debug(`Simulate:executeCommand: buildCurrentFileSummaryOutput`);
+                } else {
+                    await vscode.commands.executeCommand(
+                        NOTEBOOK_TYPE + "." + BoostCommands.buildCurrentFileSummaryOutput,
+                        vscode.Uri.parse(path),
+                        "all" // build all outputs for this file
+                    );
                 }
             },
         ];
@@ -669,19 +691,8 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     );
                 }
 
-                // refresh output files for ALL analyzed notebooks
-                if (BoostConfiguration.simulateServiceCalls && false) {
-                    boostLogging.debug(`Simulate:executeCommand: buildCurrentFolderOutput`);
-                } else {
-                    await vscode.commands.executeCommand(
-                        NOTEBOOK_TYPE + "." + BoostCommands.buildCurrentFolderOutput,
-                        undefined,
-                        "all" // build all summary outputs for the entire project
-                    );
-                }
-
                 // refresh summary output at the end of the run
-                if (BoostConfiguration.simulateServiceCalls && false) {
+                if (BoostConfiguration.simulateServiceCalls) {
                     boostLogging.debug(`Simulate:executeCommand: buildCurrentFolderSummaryOutput`);
                 } else {
                     await vscode.commands.executeCommand(
