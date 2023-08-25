@@ -266,7 +266,13 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
 
             targetCell.updateOutputItem(this.outputType, analysisOutput);
         } else {
-            targetCell.value = offlineSummary as string;
+            const offlineSummaryOutput: SerializedNotebookCellOutput = {
+                items: [{ mime: markdownMimeType, data: "" }],
+                metadata: { outputType: this.outputType },
+            };
+            targetCell.updateOutputItem(this.outputType, offlineSummaryOutput!);
+
+            targetCell.value = generateCellOutputWithHeader(this.outputHeader, offlineSummary!);
 
             // we're not going to store an extra output, since we have no useful analysis or background
         }
@@ -341,7 +347,7 @@ Highlights:
         // Flatten the diagnostics from the diagnostic collection into a single array
         diagnosticCollection.forEach((uri: vscode.Uri, diagnostics: readonly vscode.Diagnostic[]) => {
             diagnostics.forEach(diagnostic => {
-                if (sourceFileTarget && sourceFileTarget !== uri) {
+                if (sourceFileTarget && sourceFileTarget.fsPath !== uri.fsPath) {
                     return;
                 }
                 allDiagnostics.push({uri, diagnostic});
@@ -429,7 +435,7 @@ Highlights:
         // Flatten the diagnostics from the diagnostic collection into a single array
         diagnosticCollection.forEach((uri: vscode.Uri, diagnostics: readonly vscode.Diagnostic[]) => {
             diagnostics.forEach(diagnostic => {
-                if (sourceFileTarget && sourceFileTarget !== uri) {
+                if (sourceFileTarget && sourceFileTarget.fsPath !== uri.fsPath) {
                     return;
                 }
                 allDiagnostics.push({uri, diagnostic});
@@ -447,7 +453,6 @@ Highlights:
         allDiagnostics.forEach(({uri, diagnostic}) => {
             const { severity, source } = diagnostic;
             const filename = path.relative(targetFolder.fsPath, uri.fsPath);
-
 
             const raisedSeverity = diagnostic.severity === vscode.DiagnosticSeverity.Warning?
                 vscode.DiagnosticSeverity.Error:
