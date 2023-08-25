@@ -216,7 +216,7 @@ class Defaults {
     public static readonly enableDevOnlyKernelsName : string = "enableDevOnlyKernels";
     public static readonly enableDevOnlyKernelsValue : boolean = false;
 
-    public static readonly currentKernelCommandName : string = "currentKernelCommand";
+    public static readonly currentKernelCommandName : string = "advanced.currentKernelCommand";
     public static readonly currentKernelCommandValue : string = "";
 
     public static readonly logLevelName : string = "logLevel";
@@ -240,7 +240,7 @@ class Defaults {
     public static readonly simulateServiceCallsName : string = "simulateServiceCalls";
     public static readonly simulateServiceCallsValue : boolean = false;
 
-    public static readonly defaultOutputFormatName : string = "defaultOutputFormat";
+    public static readonly defaultOutputFormatName : string = "output.defaultOutputFormat";
     public static readonly defaultOutputFormatValue : string = "markdown";
 
     public static readonly processFilesInGroupsName : string = "processFilesInGroups";
