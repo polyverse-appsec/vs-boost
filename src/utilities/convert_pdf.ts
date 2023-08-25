@@ -36,18 +36,26 @@ async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : 
             const normalizedTempHtmlPath = path.normalize(tempHtmlPathUnderBaseFolder);
             const tempHtmlUri = getBoostFile(vscode.Uri.parse(normalizedTempHtmlPath), { format: BoostFileType.output, outputType: OutputType.html });
 
+            // convert the file path to a URL
+            const sourceFile = boostNotebook.metadata["sourceFile"] as string;
+            const prettySourceFile = (sourceFile === "./")?
+                `Project: ${path.basename(baseFolderPath)}`:
+                `Source: ${sourceFile}`;
+
             try {
-                await convertNotebookToHTML(boostNotebook, notebookPath, baseFolderPath, tempHtmlUri.fsPath, context);
+                await convertNotebookToHTML(
+                    boostNotebook,
+                    notebookPath,
+                    baseFolderPath,
+                    tempHtmlUri.fsPath,
+                    context);
 
                 // convert the html file to pdf using puppeteer
                 const browser = await puppeteer.launch();
                 try {
                     const page = await browser.newPage();
-                    // convert the file path to a URL
-                    const sourceFile = boostNotebook.metadata["sourceFile"] as string;
-                    const prettySourceFile = (sourceFile === "./")?
-                        `Project: ${path.basename(baseFolderPath)}`:
-                        `Source: ${sourceFile}`;
+
+
                     await page.goto(tempHtmlUri.toString(), { waitUntil: 'networkidle0' });
                     await page.pdf({
                         path: outputPath,
