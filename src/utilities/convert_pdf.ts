@@ -81,8 +81,8 @@ async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : 
                 // delete the temporary html file so we don't leak the file in the user's workspace
                 // this means debugging failures will be harder to diagnose, but it's better than alternative
                 // we can use a debug flag in future to keep the file around for debugging
-                if (fs.existsSync(normalizedTempHtmlPath)) {
-                    fs.unlinkSync(normalizedTempHtmlPath);
+                if (fs.existsSync(tempHtmlUri.fsPath)) {
+                    fs.unlinkSync(tempHtmlUri.fsPath);
                 }
             }
 
