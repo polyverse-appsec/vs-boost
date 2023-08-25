@@ -366,13 +366,16 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             BoostUserAnalysisType.security,
             [
                 getKernelName(analyzeFunctionKernelName),
+                getKernelName(quickSecuritySummaryKernelName),
                 getKernelName(performanceFunctionKernelName),
+                getKernelName(quickPerformanceSummaryKernelName),
             ],
         ],
         [
             BoostUserAnalysisType.compliance,
             [
                 getKernelName(complianceFunctionKernelName),
+                getKernelName(quickComplianceSummaryKernelName),
             ],
         ],
         [
