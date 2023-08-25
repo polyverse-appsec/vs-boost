@@ -14,6 +14,7 @@ import { PROJECT_EXTENSION } from "../data/BoostProjectData";
 import { BoostExtension } from "./BoostExtension";
 import { ControllerOutputType } from "../controllers/controllerOutputTypes";
 import { setExtensionMode } from "./extension_state";
+import { getCurrentDateTime } from "../utilities/datetime";
 
 export enum BoostFileType {
     notebook = "notebook",
@@ -695,17 +696,4 @@ export function generateCellOutputWithHeader(
     analysisResults: string
 ): string {
     return `\n\n---\n\n### Boost ${analysisType}\n\nLast Updated: ${getCurrentDateTime()}\n\n${analysisResults}`;
-}
-
-export function getCurrentDateTime(): string {
-    return new Date().toLocaleDateString("en-US", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-        timeZoneName: "short",
-    });
 }
