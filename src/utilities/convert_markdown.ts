@@ -5,6 +5,7 @@ import * as path from "path";
 import {
     BoostNotebook,
     BoostNotebookCell,
+    NOTEBOOK_SUMMARY_EXTENSION,
     SerializedNotebookCellOutput,
 } from "../data/jupyter_notebook";
 import {
@@ -14,6 +15,7 @@ import {
     getBoostFile,
 } from "../extension/extension";
 import { ControllerOutputType } from "../controllers/controllerOutputTypes";
+import { formatDateTime } from "./datetime";
 
 export async function generateMarkdownforNotebook(
     boostNotebookPath: string,
@@ -77,6 +79,7 @@ interface PrintOptions {
     printSourceCodeBorder: boolean;
     wrapText: boolean;
 }
+
 async function generateMarkdownFromObject(
     boostNotebook: BoostNotebook,
     notebookPath: string,
@@ -85,13 +88,14 @@ async function generateMarkdownFromObject(
 ): Promise<string> {
     const stats = fs.statSync(notebookPath);
     const timestamp = stats.mtime;
-    const fileStamp = timestamp.toISOString();
+    const fileStamp = formatDateTime(timestamp);
 
     const sourceFile = boostNotebook.metadata["sourceFile"] as string;
 
     const projectLevel = sourceFile === "./";
     const analysisType = projectLevel ? "Project" : "Source";
-    const pageTitle = `Polyverse Boost-generated ${analysisType} Analysis`;
+    const buildingSummary = notebookPath.endsWith(NOTEBOOK_SUMMARY_EXTENSION);
+    const pageTitle = `Polyverse Boost-generated ${analysisType} Analysis${buildingSummary?" Summary":""}`;
 
     const prettySourceFile =
         sourceFile === "./" ? path.basename(baseFolderPath) : sourceFile;
@@ -100,7 +104,7 @@ async function generateMarkdownFromObject(
 
     let markdownContent = `# ${pageTitle}\n\n` + `## ${sectionHeading}\n\n`;
 
-    if (projectLevel) {
+    if (projectLevel || buildingSummary) {
         // print the blueprint first in the summary
         const blueprintCell = findCellByKernel(boostNotebook, ControllerOutputType.blueprint) as BoostNotebookCell;
         if (blueprintCell) {
@@ -109,7 +113,7 @@ async function generateMarkdownFromObject(
 
         // then print the other summaries
         for (const boostCell of boostNotebook.cells) {
-            if (boostCell.id === blueprintCell.id) {
+            if (boostCell.id === blueprintCell?.id) {
                 continue;
             }
             markdownContent += `${boostCell.value}\n`;
