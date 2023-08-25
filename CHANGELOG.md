@@ -15,7 +15,7 @@ Polyverse Boost Automatic Application Modernization
 - All Output files are stored in Boost Output folder - for ease of packaging and publishing
 - Enhanced Chat and source analysis to include more security and compliance background
 - Analysis Output generation command can generate all formats by using format "all"
-- Project-level Markdown Output formatting and layout improvements
+- Markdown Output formatting and layout improvements
 
 ### Bug Fixes
 - Fixed issue preventing status bar account status from updating when no Project folder is loaded

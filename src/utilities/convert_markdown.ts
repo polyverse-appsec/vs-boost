@@ -91,7 +91,7 @@ async function generateMarkdownFromObject(
 
     const projectLevel = sourceFile === "./";
     const analysisType = projectLevel ? "Project" : "Source";
-    const pageTitle = `Polyverse Boost-generated Source Analysis`;
+    const pageTitle = `Polyverse Boost-generated ${analysisType} Analysis`;
 
     const prettySourceFile =
         sourceFile === "./" ? path.basename(baseFolderPath) : sourceFile;
@@ -117,12 +117,14 @@ async function generateMarkdownFromObject(
     } else{
         for (const boostCell of boostNotebook.cells) {
             markdownContent += `\n### Cell ${boostCell.id}:\n`;
-            markdownContent += `Programming Language: ${boostCell.languageId}\n`;
+            
             markdownContent += `## Original Code:\n\n`;
+
+            markdownContent += `Programming Language: ${boostCell.languageId}\n\n`;
     
             let cellContent = boostCell.value.replace(/\t/g, " ");
     
-            markdownContent += "```\n" + `${cellContent}` + "\n```\n";
+            markdownContent += `\`\`\`${boostCell.languageId}\n${cellContent}\n\`\`\`\n`;
     
             const cellOutputs = boostCell.outputs || [];
             const outputText = cellOutputs
@@ -144,21 +146,20 @@ function formatOutput(
         .map((item) => {
             let text = "";
             if (item.mime.startsWith("text/x-")) {
-                text += `Converted Programming Language: ${item.mime.replace(
-                    "text/x-",
-                    ""
-                )}\n`;
+                const programmingLanguage = item.mime.replace("text/x-", "");
+                text += `Converted Programming Language: ${programmingLanguage}\n`;
+                return text + `\n\`\`\`${programmingLanguage}\n${item.data}\`\`\``;
             } else if (!item.mime.startsWith("text/markdown")) {
                 text += `MIME Type: ${item.mime}\n`;
-            }
+            } 
             return text + `\n${item.data}`;
         })
         .join("\n");
 
     const metadata =
         printOptions.showOutputMetadata && output.metadata
-            ? `Metadata: ${JSON.stringify(output.metadata, null, 2)}`
+            ? `\n\nMetadata: ${JSON.stringify(output.metadata, null, 2)}`
             : "";
 
-    return `${items}\n${metadata}`;
+    return `${items}${metadata}`;
 }
