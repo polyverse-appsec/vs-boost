@@ -1,15 +1,15 @@
-import { BoostNotebook, NotebookCellKind } from "../data/jupyter_notebook";
 import { marked } from "marked";
 import hljs from "highlight.js";
 import * as fs from "fs";
 import * as _ from "lodash";
 import * as vscode from 'vscode';
-
-
+import * as path from "path";
 import { markedHighlight } from "marked-highlight";
 
 import { BoostFileType, OutputType, getBoostFile } from "../extension/extension";
 import { formatDateTime } from "./datetime";
+import { BoostNotebook, NotebookCellKind } from "../data/jupyter_notebook";
+import { NOTEBOOK_SUMMARY_EXTENSION } from "../data/jupyter_notebook";
 
 const cellStyleSheet =
     "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css";
@@ -102,8 +102,16 @@ async function convertNotebookToHTMLinMemory(
     const fileStamp = formatDateTime(timestamp);
 
     // Retrieve metadata from the notebook
+    // convert the file path to a URL
     const sourceFile = notebook.metadata["sourceFile"] as string;
-    const pageTitle = `Polyverse Boost - ${sourceFile}`;
+    const prettySourceFile = (sourceFile === "./")?
+        `${path.basename(baseFolderPath)}`:
+        `${sourceFile}`;
+
+    const projectLevel = sourceFile === "./";
+    const analysisType = projectLevel ? "Project" : "Source";
+    const buildingSummary = notebookPath.endsWith(NOTEBOOK_SUMMARY_EXTENSION);
+    const pageTitle = `Polyverse Boost ${analysisType} Analysis${buildingSummary?" Summary":projectLevel?"":" Details"}: ${prettySourceFile}`;
 
     let count = 0;
     const cellHtmls: string[] = [];
