@@ -162,7 +162,22 @@
                         "default": "<table style=\"font-size:10px; width:100%; padding: 10px\"><tr><td style=\"text-align:left; width:25%!important;\"><span class=\"date\"></span></td><td style=\"text-align:center; width: 50%\"><span>Polyverse Boost: https://www.polyverse.com</span></td><td style=\"text-align:right; width:25%!important;\"><span class=\"pageNumber\"></span> of <span class=\"totalPages\"></span></td></tr></table>",
                         "markdownDescription": "When rendering a sales focused output document, HTML to be used by Puppeteer to render as the footer on every PDF page. Please see [Puppeteer Documentation](https://pptr.dev/api/puppeteer.pdfoptions) for details.\n\n [Lodash](http://lodash.com) templating is also supported, current available variables are `boostSourceFile` and `boostUsername`.",
                         "editPresentation": "multilineText"
-                    }                   
+                    },
+                    "polyverse-boost-notebook.output.defaultOutputFormat": {
+                        "type": "string",
+                        "default": "markdown",
+                        "enum": [
+                            "html",
+                            "markdown",
+                            "pdf"
+                        ],
+                        "enumDescriptions": [
+                            "HTML webpage format",
+                            "Markdown format (default)",
+                            "PDF binary format"
+                        ],
+                        "markdownDescription": "Select your preferred *output format* for showing results."
+                    }
                 }  
             },
             {
