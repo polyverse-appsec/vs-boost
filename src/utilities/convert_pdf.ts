@@ -55,31 +55,22 @@ async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : 
                 try {
                     const page = await browser.newPage();
 
-
+                    // Load header resource and replace the placeholder with the actual source file data
+                    const pdfHeaderOnDisk = vscode.Uri.joinPath(context.extensionUri, 'resources', 'export', 'pdf_header.html');
+                    const pdfHeader = fs.readFileSync(pdfHeaderOnDisk.fsPath, 'utf8');                    
+                    const headerTemplate = pdfHeader.replace('{{prettySourceFile}}', prettySourceFile);
+                    
+                    // Load footer resource
+                    const pdfFooterOnDisk = vscode.Uri.joinPath(context.extensionUri, 'resources', 'export', 'pdf_footer.html');
+                    const pdfFooter = fs.readFileSync(pdfFooterOnDisk.fsPath, 'utf8');
+                
                     await page.goto(tempHtmlUri.toString(), { waitUntil: 'networkidle0' });
                     await page.pdf({
                         path: outputPath,
                         format: 'letter',
                         displayHeaderFooter: true,
-                        headerTemplate: `
-                            <div style="font-size:10px; width:100%; padding: 10px; text-align:right">
-                                ${prettySourceFile}
-                            </div>`,
-                        footerTemplate: `
-                            <table style="font-size:10px; width:100%; padding: 10px">
-                                <tr>
-                                    <td style="text-align:left; width:25%!important;">
-                                        <span class="date"></span>
-                                    </td>
-                                    <td style="text-align:center; width: 50%">
-                                        <span>Polyverse Boost: https://www.polyverse.com</span>
-                                    </td>
-                                    <td style="text-align:right; width:25%!important;">
-                                        <span class="pageNumber"></span> of <span class="totalPages"></span>
-                                    </td>
-                                </tr>
-                            </table>
-                        `
+                        headerTemplate: headerTemplate,
+                        footerTemplate: pdfFooter
                     });
                 } finally {
                     await browser.close();
