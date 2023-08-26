@@ -202,6 +202,7 @@ async function convertNotebookToHTMLinMemory(
                 cellHtml += "<div class='analysis-section'>";
                 for (let output of cell.outputs) {
                     output.items.forEach((item) => {
+                        cellHtml += "<div class='output-item'>";
                         if (item.mime.startsWith("text/x-")) {
                             cellHtml += `<p>Converted Programming Language: ${item.mime.replace("text/x-", "")}</p>`;
                         } else if (!item.mime.startsWith("text/markdown")) {
@@ -210,6 +211,7 @@ async function convertNotebookToHTMLinMemory(
                         cellHtml += marked.parse(item.data, {
                             highlight: (code, lang) => hljs.highlightAuto(code, [lang]).value,
                         });
+                        cellHtml += "</div'>";
                     });
                 }
                 cellHtml += "</div>";
