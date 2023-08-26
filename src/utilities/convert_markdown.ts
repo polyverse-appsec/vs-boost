@@ -141,11 +141,17 @@ async function generateMarkdownFromObject(
         }
 
         for (const boostCell of boostNotebook.cells) {
+            // if there is a lineNumberBase, then add 1 to it to get the original line number and 
+            // add that info
+            const line = boostCell.metadata?.lineNumberBase ? boostCell.metadata?.lineNumberBase as number + 1 : 1;
+            const lineText = boostCell.metadata?.lineNumberBase ? `line ${line}` : "";
+
             markdownContent += `\n### Cell ${boostCell.id}:\n`;
             
             markdownContent += `## Original Code:\n\n`;
 
-            markdownContent += `Programming Language: ${boostCell.languageId}\n\n`;
+            markdownContent += `### Programming Language: ${boostCell.languageId}\n`;
+            markdownContent += `### ${prettySourceFile} ${lineText}\n\n`;
     
             let cellContent = boostCell.value.replace(/\t/g, " ");
     
