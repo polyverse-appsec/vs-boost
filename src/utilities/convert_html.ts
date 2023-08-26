@@ -6,10 +6,20 @@ import * as vscode from 'vscode';
 import * as path from "path";
 import { markedHighlight } from "marked-highlight";
 
-import { BoostFileType, OutputType, getBoostFile } from "../extension/extension";
+import {
+    BoostFileType,
+    OutputType,
+    getBoostFile,
+    findCellByKernel
+} from "../extension/extension";
 import { formatDateTime } from "./datetime";
-import { BoostNotebook, NotebookCellKind } from "../data/jupyter_notebook";
-import { NOTEBOOK_SUMMARY_EXTENSION } from "../data/jupyter_notebook";
+import {
+    BoostNotebook,
+    NotebookCellKind,
+    BoostNotebookCell,
+    NOTEBOOK_SUMMARY_EXTENSION
+} from "../data/jupyter_notebook";
+import { ControllerOutputType } from "../controllers/controllerOutputTypes";
 
 const cellStyleSheet =
     "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css";
@@ -111,53 +121,102 @@ async function convertNotebookToHTMLinMemory(
     const projectLevel = sourceFile === "./";
     const analysisType = projectLevel ? "Project" : "Source";
     const buildingSummary = notebookPath.endsWith(NOTEBOOK_SUMMARY_EXTENSION);
-    const pageTitle = `Polyverse Boost ${analysisType} Analysis${buildingSummary?" Summary":projectLevel?"":" Details"}: ${prettySourceFile}`;
+    const pageTitle = `Polyverse Boost ${analysisType} Analysis ${buildingSummary?"Summary":projectLevel?"":"Details"}: ${prettySourceFile}`;
 
-    let count = 0;
-    const cellHtmls: string[] = [];
-    for (let cell of cells) {
-        count++;
-        let cellHtml = "";
-        if (cell.kind === NotebookCellKind.Markup) {
-            cellHtml += marked.parse(cell.value, {
-                highlight: (code, lang) => hljs.highlightAuto(code, [lang]).value,
-            });
-        } else if (cell.kind === NotebookCellKind.Code) {
-            //if there is a lineNumberBase, then add 1 to it to get the original line number and 
-            //add that info
-            const line = cell.metadata?.lineNumberBase ? cell.metadata?.lineNumberBase as number + 1 : 1;
-            const lineText = cell.metadata?.lineNumberBase ? `line ${line}:` : ":";
-            if( count > 1 ){
-                cellHtml += `<div class="new-page-section">`;
-            } else {
-                cellHtml += `<div>`;
-            }
-            cellHtml += `
-                <h2>${sourceFile} ${lineText}</h2>
-                <p>Programming Language: ${cell.languageId}</p>
-                <pre><code>${hljs.highlightAuto(cell.value).value}</code></pre>
-            `;
-            cellHtml += "</div>";
+    let summaryNotebook: BoostNotebook | undefined = undefined;
+    if (projectLevel || buildingSummary) {
+        summaryNotebook = notebook;
+    } else {
+        const summaryBoostFile = getBoostFile(vscode.Uri.parse(path.join(baseFolderPath,sourceFile)), {
+            format: BoostFileType.summary
+        });
+        // if summary exists, then print that 
+        if (fs.existsSync(summaryBoostFile.fsPath)) {
+            summaryNotebook = new BoostNotebook();
+            summaryNotebook.load(summaryBoostFile.fsPath);
         }
-        if (cell.outputs) {
-            cellHtml += "<div class='analysis-section'>";
-            for (let output of cell.outputs) {
-                output.items.forEach((item) => {
-                    if (item.mime.startsWith("text/x-")) {
-                        cellHtml += `<p>Converted Programming Language: ${item.mime.replace("text/x-", "")}</p>`;
-                    } else if (!item.mime.startsWith("text/markdown")) {
-                        cellHtml += `<p>Output Type: ${item.mime}</p>`;
-                    }
-                    cellHtml += marked.parse(item.data, {
-                        highlight: (code, lang) => hljs.highlightAuto(code, [lang]).value,
-                    });
-                });
-            }
-            cellHtml += "</div>";
-        }
-        cellHtmls.push(cellHtml);
     }
 
+    const summaryContent : string[] = [];
+    if (summaryNotebook) {
+        // print the blueprint first in the summary
+        const blueprintCell = findCellByKernel(summaryNotebook, ControllerOutputType.blueprint) as BoostNotebookCell;
+
+        if (blueprintCell) {
+            const convertedMarkdown : string = marked.parse(blueprintCell.value, {
+                highlight: (code, lang) => hljs.highlightAuto(code, [lang]).value,
+            });
+
+            summaryContent.push(`<div class="blueprint-section">${convertedMarkdown}</div><p></p>`);
+        }
+
+        // then print the other summaries
+        for (const boostCell of summaryNotebook.cells) {
+            if (boostCell.id === blueprintCell?.id) {
+                continue;
+            }
+            const convertedMarkdown : string = marked.parse(boostCell.value, {
+                highlight: (code, lang) => hljs.highlightAuto(code, [lang]).value,
+            });
+            summaryContent.push(`<div class="${summaryContent.length > 0?"new-page-section":""}>${convertedMarkdown}</div><p></p>`);
+        }
+    }
+
+    const cellHtmls: string[] = [];
+
+    // if we are printing details for a file, keep displaying - otherwise summary only
+    if (!projectLevel && !buildingSummary) {
+        if (summaryNotebook) {
+            cellHtmls.push(`<h1>Detailed Analysis</h1>`);
+        }
+
+        let count = 0;
+        for (let cell of cells) {
+            count++;
+            let cellHtml = "";
+            if (cell.kind === NotebookCellKind.Markup) {
+                cellHtml += marked.parse(cell.value, {
+                    highlight: (code, lang) => hljs.highlightAuto(code, [lang]).value,
+                });
+            } else if (cell.kind === NotebookCellKind.Code) {
+
+                // if there is a lineNumberBase, then add 1 to it to get the original line number and 
+                // add that info
+                const line = cell.metadata?.lineNumberBase ? cell.metadata?.lineNumberBase as number + 1 : 1;
+                const lineText = cell.metadata?.lineNumberBase ? `line ${line}:` : ":";
+
+                if( count > 1 ){
+                    cellHtml += `<div class="new-page-section">`;
+                } else {
+                    cellHtml += `<div>`;
+                }
+
+                cellHtml += `
+                    <h2>${sourceFile} ${lineText}</h2>
+                    <p>Programming Language: ${cell.languageId}</p>
+                    <pre><code>${hljs.highlightAuto(cell.value).value}</code></pre>
+                `;
+                cellHtml += "</div>";
+            }
+            if (cell.outputs) {
+                cellHtml += "<div class='analysis-section'>";
+                for (let output of cell.outputs) {
+                    output.items.forEach((item) => {
+                        if (item.mime.startsWith("text/x-")) {
+                            cellHtml += `<p>Converted Programming Language: ${item.mime.replace("text/x-", "")}</p>`;
+                        } else if (!item.mime.startsWith("text/markdown")) {
+                            cellHtml += `<p>Output Type: ${item.mime}</p>`;
+                        }
+                        cellHtml += marked.parse(item.data, {
+                            highlight: (code, lang) => hljs.highlightAuto(code, [lang]).value,
+                        });
+                    });
+                }
+                cellHtml += "</div>";
+            }
+            cellHtmls.push(cellHtml);
+        }
+    }
 
     return template({
         cellStyleSheet: cellStyleSheet,
@@ -165,6 +224,7 @@ async function convertNotebookToHTMLinMemory(
         pageTitle: pageTitle,
         sourceFile: sourceFile,
         fileStamp: fileStamp,
+        summaryContent: summaryContent,
         cellsHtml: cellHtmls
     });
 }
