@@ -241,7 +241,7 @@ class Defaults {
     public static readonly simulateServiceCallsValue : boolean = false;
 
     public static readonly defaultOutputFormatName : string = "output.defaultOutputFormat";
-    public static readonly defaultOutputFormatValue : string = "markdown";
+    public static readonly defaultOutputFormatValue : string = "pdf";
 
     public static readonly processFilesInGroupsName : string = "processFilesInGroups";
     public static readonly processFilesInGroupsValue : boolean = true;

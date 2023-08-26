@@ -18,6 +18,7 @@ Polyverse Boost Automatic Application Modernization
 - Markdown Output formatting and layout improvements
 - Enable Executive Report Summaries for individual source files
 - Include Analysis Summary in Detailed Files Analysis Output files
+- Default Format Output for all Analysis is PDF (was Markdown)
 
 ### Bug Fixes
 - Fixed issue preventing status bar account status from updating when no Project folder is loaded
