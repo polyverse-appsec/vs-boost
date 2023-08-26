@@ -3270,56 +3270,97 @@ export class BoostExtension {
     public getBackgroundContext(commandId?: string): any[] {
         const analysisContext: any[] = [];
 
-        analysisContext.push( ...this.getSummaries([
-            BoostUserAnalysisType.blueprint,
-            BoostUserAnalysisType.compliance,
-            BoostUserAnalysisType.security
-            ]));
+        // always get blueprint
+        const targetAnalysisSummaries : BoostUserAnalysisType[] = [
+            BoostUserAnalysisType.blueprint
+        ];
+
+        // if a compliance query - add compliance context
+        if (commandId && [
+            complianceFunctionKernelName,
+            complianceKernelName,
+            ].includes(commandId)) {
+            targetAnalysisSummaries.push(BoostUserAnalysisType.compliance);
+
+        // if a security query - add security context
+        } else if (commandId && [
+            analyzeFunctionKernelName,
+            analyzeKernelName,
+            performanceKernelName,
+            performanceFunctionKernelName
+        ].includes(commandId)) {
+            targetAnalysisSummaries.push(BoostUserAnalysisType.security);
+
+            // if a quick analysis query - leave out all summary context
+        } else if (commandId && [
+            quickBlueprintKernelName,
+            quickComplianceSummaryKernelName,
+            quickSecuritySummaryKernelName,
+            quickPerformanceSummaryKernelName].includes(commandId)) {
+
+            // target nothing but the blueprint
+
+        // by default add all summary context
+        } else {
+            targetAnalysisSummaries.push(BoostUserAnalysisType.compliance);
+            targetAnalysisSummaries.push(BoostUserAnalysisType.security);
+        }
+
+        analysisContext.push( ...this.getSummaries(targetAnalysisSummaries));
 
         return analysisContext;
     }
 
     getSummaries(analysisTypes: BoostUserAnalysisType[]): analysis.IAnalysisContextData[] {
         const summaries: any[] = [];
+
+        if (!analysisTypes || analysisTypes.length === 0) {
+            return summaries;
+        }
+
         const projectSummaryFile = getBoostFile(
             undefined,
             { format: BoostFileType.summary,
               showUI: false }
         );
+        if (!projectSummaryFile || !fs.existsSync(projectSummaryFile.fsPath)) {
+            return summaries;
+        }
+
+        const projectSummary = new boostnb.BoostNotebook();
+        projectSummary.load(projectSummaryFile.fsPath);
+
         analysisTypes.forEach((analysisType) => {
-            if (projectSummaryFile && fs.existsSync(projectSummaryFile.fsPath)) {
-                const projectSummary = new boostnb.BoostNotebook();
-                projectSummary.load(projectSummaryFile.fsPath);
-                let outputType;
-                switch (analysisType) {
-                    case BoostUserAnalysisType.blueprint:
-                        outputType = ControllerOutputType.blueprint;
-                        break;
-                    case BoostUserAnalysisType.compliance:
-                        outputType = ControllerOutputType.compliance;
-                        break;
-                    case BoostUserAnalysisType.security:
-                        outputType = ControllerOutputType.analyze;
-                        break;
-                    case BoostUserAnalysisType.documentation:
-                        outputType = ControllerOutputType.explain;
-                        break;
-                    default:
-                        throw new Error(`Unknown analysis type ${analysisType}`);
-                }
-                const summaryCell = findCellByKernel(
-                    projectSummary,
-                    outputType
-                ) as boostnb.BoostNotebookCell;
-                if (summaryCell) {
-                    summaries.push( {
-                        type: analysis.AnalysisContextType.projectSummary,
-                        data: summaryCell.value,
-                        name: analysisType,
-                    } as analysis.IAnalysisContextData);
-                }
+            let outputType;
+            switch (analysisType) {
+                case BoostUserAnalysisType.blueprint:
+                    outputType = ControllerOutputType.blueprint;
+                    break;
+                case BoostUserAnalysisType.compliance:
+                    outputType = ControllerOutputType.compliance;
+                    break;
+                case BoostUserAnalysisType.security:
+                    outputType = ControllerOutputType.analyze;
+                    break;
+                case BoostUserAnalysisType.documentation:
+                    outputType = ControllerOutputType.explain;
+                    break;
+                default:
+                    throw new Error(`Unknown analysis type ${analysisType}`);
+            }
+            const summaryCell = findCellByKernel(
+                projectSummary,
+                outputType
+            ) as boostnb.BoostNotebookCell;
+            if (summaryCell) {
+                summaries.push( {
+                    type: analysis.AnalysisContextType.projectSummary,
+                    data: summaryCell.value,
+                    name: analysisType,
+                } as analysis.IAnalysisContextData);
             }
         });
+
         return summaries;
     }
 
