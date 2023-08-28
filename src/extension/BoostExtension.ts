@@ -43,6 +43,7 @@ import {
 import {
     BoostCustomProcessKernel,
     customProcessCellMarker,
+    customProcessKernelName,
 } from "../controllers/custom_controller";
 import {
     BoostFlowDiagramKernel,
@@ -128,7 +129,7 @@ import {
     BoostCustomQuickScanFunctionKernel,
 } from "../controllers/customquickscan_function_controller";
 import {
-    BoostChatKernel,
+    BoostChatKernel, chatKernelName,
 } from "../controllers/chat_controller";
 
 export class BoostNotebookContentProvider
@@ -3207,7 +3208,7 @@ export class BoostExtension {
             );
         }
 
-        let baseWorkspace;
+        let baseWorkspace : vscode.Uri;
         if (vscode.workspace.workspaceFolders) {
             baseWorkspace = vscode.workspace.workspaceFolders![0].uri;
         } else {
@@ -3267,7 +3268,7 @@ export class BoostExtension {
         }
     }
 
-    public getBackgroundContext(commandId?: string): any[] {
+    public getBackgroundContext(commandId?: string): analysis.IAnalysisContextData[] {
         const analysisContext: any[] = [];
 
         // always get blueprint
@@ -3275,63 +3276,194 @@ export class BoostExtension {
             BoostUserAnalysisType.blueprint
         ];
 
-        // if a compliance query - add compliance context
-        if (commandId && [
-            complianceFunctionKernelName,
-            complianceKernelName,
-            ].includes(commandId)) {
-            targetAnalysisSummaries.push(BoostUserAnalysisType.compliance);
-
-        // if a security query - add security context
-        } else if (commandId && [
-            analyzeFunctionKernelName,
-            analyzeKernelName,
-            performanceKernelName,
-            performanceFunctionKernelName
-        ].includes(commandId)) {
-            targetAnalysisSummaries.push(BoostUserAnalysisType.security);
-
-            // if a quick analysis query - leave out all summary context
-        } else if (commandId && [
-            quickBlueprintKernelName,
-            quickComplianceSummaryKernelName,
-            quickSecuritySummaryKernelName,
-            quickPerformanceSummaryKernelName].includes(commandId)) {
-
-            // target nothing but the blueprint
-
-        // by default add all summary context
-        } else {
-            targetAnalysisSummaries.push(BoostUserAnalysisType.compliance);
-            targetAnalysisSummaries.push(BoostUserAnalysisType.security);
+        if (!commandId) {
+            commandId = "";
         }
 
-        analysisContext.push( ...this.getSummaries(targetAnalysisSummaries));
+        switch (commandId) {
+
+        // compliance query
+        case complianceFunctionKernelName:
+        case complianceKernelName:
+            targetAnalysisSummaries.push(BoostUserAnalysisType.compliance);
+            break;
+
+        // if a security query - add security context
+        case analyzeFunctionKernelName:
+        case analyzeKernelName:
+        case performanceKernelName:
+        case performanceFunctionKernelName:
+            targetAnalysisSummaries.push(BoostUserAnalysisType.security);
+            break;
+
+        // if a quick analysis query - leave out all summary context
+        case quickBlueprintKernelName:
+        case quickComplianceSummaryKernelName:
+        case quickSecuritySummaryKernelName:
+        case quickPerformanceSummaryKernelName:
+
+            // target nothing but the blueprint
+            break;
+
+        // for chat and custom queries add all summary context
+        case chatKernelName:
+        case customProcessKernelName:
+            const advancedChat = BoostConfiguration.advancedChat;
+
+            targetAnalysisSummaries.push(BoostUserAnalysisType.compliance);
+            targetAnalysisSummaries.push(BoostUserAnalysisType.security);
+
+            if (advancedChat) {
+                    // get context for current code
+                const activeEditor = this.getActiveEditorSurroundingLines();
+                if (activeEditor) {
+                    analysisContext.push( {
+                        type: analysis.AnalysisContextType.userFocus,
+                        data: activeEditor,
+                        name: "activeEditor",
+                    });
+                }
+
+                // grab all the active tab filenames
+                const activeTabFiles = this.getActiveTabFilenames();
+                if (activeTabFiles.length > 0) {
+                    analysisContext.push( {
+                        type: analysis.AnalysisContextType.related,
+                        data: activeTabFiles.join("\n"),
+                        name: "activeTabFiles",
+                    });
+                }
+
+                // we're going to get all the summaries for all active tabs for our target analysis types
+                const activeTabAnalysis : analysis.IAnalysisContextData[] = this.getActiveTabAnalysis(targetAnalysisSummaries, activeTabFiles);
+                if (activeTabAnalysis.length > 0) {
+                    analysisContext.push( ...activeTabAnalysis);
+                }
+            }
+            
+            break;
+
+        default:
+            // target nothing but the blueprint
+            break;
+        }
+
+        analysisContext.push( ...this.getBoostSummaryAnalysisContext(targetAnalysisSummaries));
+
 
         return analysisContext;
     }
 
-    getSummaries(analysisTypes: BoostUserAnalysisType[]): analysis.IAnalysisContextData[] {
-        const summaries: any[] = [];
+    getActiveTabAnalysis(
+        analysisTypes: BoostUserAnalysisType[],
+        activeTabFiles: string[]): analysis.IAnalysisContextData[] {
+
+        let activeAnalysis : analysis.IAnalysisContextData[] = [];
+        let isFirstFile = true;
+
+        for (const activeTabFile of activeTabFiles) {
+        
+            const baseFolderPath = vscode.workspace.workspaceFolders![0].uri;
+        
+            // we're going to skip getting analysis for files outside of the current project
+            if (activeTabFile.startsWith("../")) {
+                continue;
+            }
+        
+            let contextType = isFirstFile ? analysis.AnalysisContextType.userFocus : analysis.AnalysisContextType.related;
+        
+            // Process the file with the determined context type
+            const result = this.getBoostSummaryAnalysisContext(
+                analysisTypes,
+                BoostFileType.summary,
+                contextType,
+                vscode.Uri.joinPath(baseFolderPath, activeTabFile)
+            );
+        
+            // Only the first file should have the userFocus context
+            if (isFirstFile) {
+                isFirstFile = false;
+            }
+        }
+        return activeAnalysis;
+    }
+
+    readonly activeSourceContextLines: number = 30;
+
+    getActiveEditorSurroundingLines(): string {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            return ""; // No active editor
+        }
+    
+        const document = editor.document;
+        const position = editor.selection.active;
+    
+        let startLine = position.line - (this.activeSourceContextLines / 2);
+        let endLine = position.line + (this.activeSourceContextLines / 2);
+    
+        // If we can't get enough lines before the position, use the extra lines after
+        if (startLine < 0) {
+            const extraLines = Math.abs(startLine);
+            startLine = 0;
+            endLine += extraLines;
+        }
+    
+        // If we can't get enough lines after the position, use the extra lines before
+        if (endLine >= document.lineCount) {
+            const extraLines = endLine - document.lineCount + 1;
+            endLine = document.lineCount - 1;
+            startLine = Math.max(0, startLine - extraLines);
+        }
+    
+        let lines: string[] = [];
+        for (let i = startLine; i <= endLine; i++) {
+            lines.push(document.lineAt(i).text);
+        }
+    
+        return lines.join('\n');
+    }
+    
+    // get all active tab filenames (as relative paths)
+    getActiveTabFilenames(): string[] {
+        const baseFolderPath = vscode.workspace.workspaceFolders![0].uri.fsPath;
+        if (!baseFolderPath) {
+            return [];
+        }
+
+        return vscode.window.visibleTextEditors.map(editor => {
+            return path.relative(baseFolderPath, editor.document.fileName);
+        });
+    }
+    
+    // get all analysis for the project, or target folder
+    getBoostSummaryAnalysisContext(
+        analysisTypes: BoostUserAnalysisType[],
+        fileType: BoostFileType = BoostFileType.summary,
+        contextType: analysis.AnalysisContextType = analysis.AnalysisContextType.projectSummary,
+        fileTarget?: vscode.Uri,
+        ): analysis.IAnalysisContextData[] {
+
+        const analysisContext: any[] = [];
 
         if (!analysisTypes || analysisTypes.length === 0) {
-            return summaries;
+            return analysisContext;
         }
 
-        const projectSummaryFile = getBoostFile(
-            undefined,
-            { format: BoostFileType.summary,
+        const analysisFile = getBoostFile(
+            fileTarget,
+            { format: fileType,
               showUI: false }
         );
-        if (!projectSummaryFile || !fs.existsSync(projectSummaryFile.fsPath)) {
-            return summaries;
+        if (!analysisFile || !fs.existsSync(analysisFile.fsPath)) {
+            return analysisContext;
         }
 
-        const projectSummary = new boostnb.BoostNotebook();
-        projectSummary.load(projectSummaryFile.fsPath);
+        const analysisNotebook = new boostnb.BoostNotebook();
+        analysisNotebook.load(analysisFile.fsPath);
 
         analysisTypes.forEach((analysisType) => {
-            let outputType;
+            let outputType : string;
             switch (analysisType) {
                 case BoostUserAnalysisType.blueprint:
                     outputType = ControllerOutputType.blueprint;
@@ -3348,22 +3480,58 @@ export class BoostExtension {
                 default:
                     throw new Error(`Unknown analysis type ${analysisType}`);
             }
-            const summaryCell = findCellByKernel(
-                projectSummary,
-                outputType
-            ) as boostnb.BoostNotebookCell;
-            if (summaryCell) {
-                summaries.push( {
-                    type: analysis.AnalysisContextType.projectSummary,
-                    data: summaryCell.value,
-                    name: analysisType,
-                } as analysis.IAnalysisContextData);
+            switch (fileType) {
+                case BoostFileType.summary:
+
+                    const analysisCell = findCellByKernel(
+                        analysisNotebook,
+                        outputType
+                    ) as boostnb.BoostNotebookCell;
+                    if (!analysisCell) {
+                        break;
+                    }
+
+                    analysisContext.push( {
+                        type: contextType,
+                        data: analysisCell.value,
+                        name: analysisType,
+                    } as analysis.IAnalysisContextData);
+                    break;
+
+                case BoostFileType.notebook:
+                    const analyzedCellData : string[] = [];
+
+                    analysisNotebook.cells.forEach((cell : boostnb.BoostNotebookCell) => {
+                        cell.outputs.forEach((output : boostnb.SerializedNotebookCellOutput) => {
+                            // ignore outputs that aren't our output type
+                            if (output.metadata?.outputType !== outputType) {
+                                return;
+                            }
+
+                            for (const item of output.items) {
+                                if (item.mime === errorMimeType) {
+                                    return;
+                                }
+
+                                analyzedCellData.push(item.data);
+                            }
+                        });
+                    });
+
+                    analysisContext.push( {
+                        type: contextType,
+                        data: analyzedCellData.join("\n"),
+                        name: analysisType,
+                    } as analysis.IAnalysisContextData);
+
+                    break;
+                default:
+                    throw new Error(`Unknown analysis file type ${fileType}`);
             }
         });
 
-        return summaries;
+        return analysisContext;
     }
-
 
     syncProblemsInCell(
         cell: vscode.NotebookCell | boostnb.BoostNotebookCell,
