@@ -80,6 +80,11 @@ export class BoostConfiguration {
             Defaults.enableDevOnlyKernelsValue;
     }
 
+    public static get advancedChat(): boolean {
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.advancedChatName) as boolean)??
+            Defaults.advancedChatValue;
+    }
+
     public static get currentKernelCommand(): string {
         let command = workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.currentKernelCommandName) as any;
         if (command) {
@@ -215,6 +220,9 @@ class Defaults {
 
     public static readonly enableDevOnlyKernelsName : string = "enableDevOnlyKernels";
     public static readonly enableDevOnlyKernelsValue : boolean = false;
+
+    public static readonly advancedChatName : string = "advancedChat";
+    public static readonly advancedChatValue : boolean = false;
 
     public static readonly currentKernelCommandName : string = "advanced.currentKernelCommand";
     public static readonly currentKernelCommandValue : string = "";
