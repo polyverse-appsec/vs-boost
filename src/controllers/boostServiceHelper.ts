@@ -15,6 +15,7 @@ import { BoostConfiguration } from "../extension/boostConfiguration";
 import { boostLogging } from "../utilities/boostLogging";
 import { fetchGithubSession, getCurrentOrganization } from "../utilities/authorization";
 import { BoostAuthenticationException } from "../portal";
+import { IAnalysisContextData } from "../data/IAnalysisContextData";
 
 // we can get timeouts and other errors from both openai and lambda. This is a generic handler for those
 // conditions to attempt a retry.
@@ -118,7 +119,7 @@ export class BoostServiceHelper {
         }
 
         // collect background context and inject into the payload for analysis context
-        const analysisContext : any[] = this.hostExtension.getBackgroundContext(this.command);
+        const analysisContext : IAnalysisContextData[] = this.hostExtension.getBackgroundContext(this.command);
         if (analysisContext && analysisContext.length > 0) {
             payload.context = analysisContext;
         }
