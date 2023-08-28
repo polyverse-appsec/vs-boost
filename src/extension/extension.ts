@@ -173,6 +173,14 @@ export function getBoostFile(
             if (format === BoostFileType.guidelines) {
                 extension = boostnb.NOTEBOOK_GUIDELINES_EXTENSION;
             }
+            // if we are already looking at the file, just return it
+            const existingExtension = path.extname(sourceFile.fsPath);
+            if (existingExtension === extension) {
+                return sourceFile;
+                // if we were given a notebook, and we are looking for guidelines or summary, then return same path with new extension
+            } else if (existingExtension === boostnb.NOTEBOOK_EXTENSION) {
+                return vscode.Uri.parse(sourceFile.fsPath.slice(0, boostnb.NOTEBOOK_EXTENSION.length * -1) + extension);
+            }
 
             // if the new file is outside of our current workspace, then warn user
             // and place the new .boost file next to it (not great, but better than nothing)
@@ -247,6 +255,7 @@ export function getBoostFile(
 
         case BoostFileType.notebook:
         default:
+
             // if the new file is outside of our current workspace, then warn user
             // and place the new .boost file next to it (not great, but better than nothing)
             if (relativePath.startsWith("..")) {
