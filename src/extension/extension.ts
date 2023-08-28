@@ -154,6 +154,26 @@ export function getBoostFile(
         }
     }
 
+    // if the source file is an output file, then we're going to use the original source file instead
+    const outputUri = vscode.Uri.joinPath(vscode.Uri.parse(boostFolder), BoostFileType.output.toString());
+    if (sourceFile.fsPath.includes(outputUri.fsPath)) {
+        const relativeToOutput = path.relative(outputUri.fsPath, sourceFile.fsPath);
+
+        // Split the path into its components
+        let pathSegments = relativeToOutput.split(path.sep);
+
+        // Remove the second segment (i.e., 'foo')
+        pathSegments.splice(0, 1);
+
+        // Modify the last segment to remove the file extension
+        pathSegments[pathSegments.length - 1] = path.basename(pathSegments[pathSegments.length - 1], path.extname(pathSegments[pathSegments.length - 1]));
+
+        // Rejoin the segments to get the new path
+        let newPath = pathSegments.join(path.sep);
+
+        sourceFile = vscode.Uri.joinPath(vscode.Uri.parse(baseFolder), newPath);
+    }
+
     // get the distance from the workspace folder for the source file
     // for project-level status files, we ignore the relative path
     let relativePath =
@@ -177,6 +197,7 @@ export function getBoostFile(
             const existingExtension = path.extname(sourceFile.fsPath);
             if (existingExtension === extension) {
                 return sourceFile;
+
                 // if we were given a notebook, and we are looking for guidelines or summary, then return same path with new extension
             } else if (existingExtension === boostnb.NOTEBOOK_EXTENSION) {
                 return vscode.Uri.parse(sourceFile.fsPath.slice(0, boostnb.NOTEBOOK_EXTENSION.length * -1) + extension);
