@@ -3405,7 +3405,7 @@ export class BoostExtension {
         return activeAnalysis;
     }
 
-    readonly activeSourceContextLines: number = 30;
+    readonly activeSourceContextLines: number = 50;
 
     getActiveEditorSurroundingLines(): string[] {
         const editor = vscode.window.activeTextEditor;
@@ -3427,7 +3427,7 @@ export class BoostExtension {
 
         // if the text is actually highlighted, then only send that portion
         if (selectedText.length > 0) {
-            return selectedText.split("\n");
+            return selectedText.split("\n").slice(0, this.activeSourceContextLines);
         }
 
         // otherwise, send all the lines around the current cursor position
@@ -3456,6 +3456,9 @@ export class BoostExtension {
         return lines;
     }
 
+    readonly activeNotebookContentCellSize: number = 50;
+    readonly activeNotebookContentMaxSize: number = this.activeNotebookContentCellSize * 4;
+
     getActiveNotebookSurroundingLines(): string[] {
         const notebook = vscode.window.activeNotebookEditor?.notebook;
     
@@ -3470,6 +3473,12 @@ export class BoostExtension {
         if (notebook.uri.scheme !== "file") {
             return lines; // Not a file
         }
+
+        // if we're looking at a Boost Notebook, then ignore this data, since we're going to
+        //      collect it separately via the tab summary analysis collection
+        if (notebook.uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
+            return lines;
+        }
     
         const fullRange = [new vscode.NotebookRange(0, vscode.window.activeNotebookEditor!.notebook.cellCount)];
         const selections = vscode.window.activeNotebookEditor!.selections;
@@ -3481,9 +3490,10 @@ export class BoostExtension {
             for (let cell of selectedCells) {
                 // Get cell text
                 const cellText = cell.document.getText();
-                const cellLines = cellText.split('\n').slice(0, this.activeSourceContextLines);
+                // we're going to increase the buffer size if a notebook is active (since that's critical info for user)
+                const cellLines = cellText.split('\n').slice(0, this.activeNotebookContentCellSize);
                 lines.push(...cellLines);
-                if (lines.length > this.activeSourceContextLines) {
+                if (lines.length > this.activeNotebookContentMaxSize) {
                     break;
                 }
         
@@ -3499,9 +3509,9 @@ export class BoostExtension {
                         if (outputText.length === 0) {
                             continue;
                         }
-                        const outputLines = outputText.split('\n').slice(0, 50); // Get first 50 lines or fewer
+                        const outputLines = outputText.split('\n').slice(0, this.activeNotebookContentCellSize);
                         lines.push(...outputLines);
-                        if (lines.length > this.activeSourceContextLines) {
+                        if (lines.length > this.activeNotebookContentMaxSize) {
                             break;
                         }
                     }
@@ -3510,8 +3520,8 @@ export class BoostExtension {
         }
 
         // Trim to line limit
-        if (lines.length > this.activeSourceContextLines) {
-            lines = lines.slice(0, this.activeSourceContextLines);
+        if (lines.length > this.activeNotebookContentMaxSize) {
+            lines = lines.slice(0, this.activeNotebookContentMaxSize);
         }
     
         return lines;
@@ -3573,70 +3583,103 @@ export class BoostExtension {
         analysisNotebook.load(analysisFile.fsPath);
 
         analysisTypes.forEach((analysisType) => {
-            let outputType : string;
+            const outputTypes : any[] = [];
             switch (analysisType) {
                 case BoostUserAnalysisType.blueprint:
-                    outputType = ControllerOutputType.blueprint;
+                    outputTypes.push(ControllerOutputType.blueprint);
                     break;
                 case BoostUserAnalysisType.compliance:
-                    outputType = ControllerOutputType.compliance;
+                    outputTypes.push(ControllerOutputType.compliance);
+                    outputTypes.push(ControllerOutputType.complianceFunction);
                     break;
                 case BoostUserAnalysisType.security:
-                    outputType = ControllerOutputType.analyze;
+                    outputTypes.push(ControllerOutputType.analyze);
+                    outputTypes.push(ControllerOutputType.analyzeFunction);
+                    outputTypes.push(ControllerOutputType.performance);
+                    outputTypes.push(ControllerOutputType.performanceFunction);
                     break;
                 case BoostUserAnalysisType.documentation:
-                    outputType = ControllerOutputType.explain;
+                    outputTypes.push(ControllerOutputType.explain);
                     break;
                 default:
                     throw new Error(`Unknown analysis type ${analysisType}`);
             }
-            switch (fileType) {
-                case BoostFileType.summary:
+            for (const outputType of outputTypes) {
+                switch (fileType) {
+                    case BoostFileType.summary:
 
-                    const analysisCell = findCellByKernel(
-                        analysisNotebook,
-                        outputType
-                    ) as boostnb.BoostNotebookCell;
-                    if (!analysisCell) {
+                        const analysisCell = findCellByKernel(
+                            analysisNotebook,
+                            outputType
+                        ) as boostnb.BoostNotebookCell;
+                        if (!analysisCell) {
+                            break;
+                        }
+
+                        const activeSummaryNotebook = vscode.window.activeNotebookEditor?.notebook;
+
+                        if (activeSummaryNotebook?.uri.fsPath === analysisNotebook.fsPath ||
+                            contextType === analysis.AnalysisContextType.userFocus) {
+                            analysisContext.push( {
+                                type: analysis.AnalysisContextType.userFocus,
+                                data: `I am currently focused on this summary analysis for the code:\n\n\`\`\`${analysisCell.value.split("\n").join('\n\t')}\`\`\``,
+                                name: "activeNotebook",
+                            });
+                        } else {
+                            analysisContext.push( {
+                                type: contextType,
+                                data: `Other summary analysis of the code I have reviewed is:\n\n\`\`\`${analysisCell.value.split("\n").join('\n\t')}\`\`\``,
+                                name: analysisType,
+                            } as analysis.IAnalysisContextData);
+                        }
                         break;
-                    }
 
-                    analysisContext.push( {
-                        type: contextType,
-                        data: analysisCell.value,
-                        name: analysisType,
-                    } as analysis.IAnalysisContextData);
-                    break;
+                    case BoostFileType.notebook:
+                        const analyzedCellData : string[] = [];
 
-                case BoostFileType.notebook:
-                    const analyzedCellData : string[] = [];
+                        analysisNotebook.cells.forEach((cell : boostnb.BoostNotebookCell) => {
 
-                    analysisNotebook.cells.forEach((cell : boostnb.BoostNotebookCell) => {
-                        cell.outputs.forEach((output : boostnb.SerializedNotebookCellOutput) => {
-                            // ignore outputs that aren't our output type
-                            if (output.metadata?.outputType !== outputType) {
-                                return;
-                            }
+                            // ignore the cell data, since its likely the original source code
+                            //      and we want to focus on analysis
 
-                            for (const item of output.items) {
-                                if (item.mime === errorMimeType) {
+                            // grab all the analysis
+                            cell.outputs.forEach((output : boostnb.SerializedNotebookCellOutput) => {
+                                // ignore outputs that aren't our output type
+                                if (output.metadata?.outputType !== outputType) {
                                     return;
                                 }
 
-                                analyzedCellData.push(item.data);
-                            }
+                                for (const item of output.items) {
+                                    if (item.mime === errorMimeType) {
+                                        return;
+                                    }
+
+                                    analyzedCellData.push(item.data);
+                                }
+                            });
                         });
-                    });
 
-                    analysisContext.push( {
-                        type: contextType,
-                        data: `Key ${analysisType} data is:\n\n${analyzedCellData.join("\n\t")}`,
-                        name: analysisType,
-                    } as analysis.IAnalysisContextData);
 
-                    break;
-                default:
-                    throw new Error(`Unknown analysis file type ${fileType}`);
+                        const activeNotebook = vscode.window.activeNotebookEditor?.notebook;
+
+                        if (activeNotebook?.uri.fsPath === analysisNotebook.fsPath ||
+                            contextType === analysis.AnalysisContextType.userFocus) {
+                            analysisContext.push( {
+                                type: analysis.AnalysisContextType.userFocus,
+                                data: `I am currently focused on this ${analysisType} analysis for the code:\n\n\`\`\`${analyzedCellData.join('\n\t')}\`\`\``,
+                                name: "activeNotebook",
+                            });
+                        } else {
+                            analysisContext.push( {
+                                type: contextType,
+                                data: `Other ${analysisType} analysis data for the code I have is:\n\n${analyzedCellData.join("\n\t")}`,
+                                name: analysisType,
+                            } as analysis.IAnalysisContextData);
+                        }
+                        break;
+                    default:
+                        throw new Error(`Unknown analysis file type ${fileType}`);
+                }
             }
         });
 
