@@ -3,17 +3,17 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 1.3.2: August 24th, 2023
+## Version 1.3.2: August 29th, 2023
 
 ### New Features
-- N/A
+- Sara Chat can be used to analyze open files, and ask questions about key analysis
+- Chat and source analysis include all key security, performance and compliance analysis
 
 ### Enhancements
 - Project Analysis Summary and File Analysis Output are automatically generated during UI analysis runs
 - Improvements to readability, style and source line numbers in HTML and PDF output
 - Enabled Right-click in File Explorer for showing PDF, HTML and Markdown of any Boost Notebook
 - All Output files are stored in Boost Output folder - for ease of packaging and publishing
-- Enhanced Chat and source analysis to include more security and compliance background
 - Analysis Output generation command can generate all formats by using format "all"
 - Markdown Output formatting and layout improvements
 - Enable Executive Report Summaries for individual source files
