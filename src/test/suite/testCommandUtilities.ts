@@ -32,7 +32,7 @@ export async function rightClickLoadFileCommandTest(
 
     // Wait for the notebook to be created
     await new Promise((resolve) => {
-        setTimeout(resolve, 2000); // 2 seconds to make sure notebook is created
+        setTimeout(resolve, 2500); // 2 seconds to make sure notebook is created
     });
 
     // Get all the cells in the newly created notebook
