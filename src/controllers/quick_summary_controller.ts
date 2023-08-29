@@ -362,7 +362,9 @@ Highlights:
         const sortedDiagnostics = allDiagnostics.sort((a, b) => a.diagnostic.severity - b.diagnostic.severity);
 
         // Filter the array to only include diagnostics with severity Warning or Error
-        const filteredDiagnostics = sortedDiagnostics.filter(item => item.diagnostic.severity <= vscode.DiagnosticSeverity.Warning);
+        // NOTE! Since we are lowering the severity of the diagnostics to avoid blocking the build,
+        //  we are going to include the Information diagnostics as well (which are labeled Warning in the UI/output)
+        const filteredDiagnostics = sortedDiagnostics.filter(item => item.diagnostic.severity <= vscode.DiagnosticSeverity.Information);
 
         // Filter out duplicates, keeping only the first occurrence of each unique diagnostic message
         const uniqueDiagnostics = [];

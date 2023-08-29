@@ -25,6 +25,7 @@ Polyverse Boost Automatic Application Modernization
 - Fixed issue where UI reports 'activating' indefinitely when no Project folder is loaded
 - Stability improvements in source parsing and output generation
 - Ensure File Summary output includes summary file extension
+- Fixed omission of Warnings from Quick Summary Executive Reports for Performance, Security and Compliance
 
 ## Version 1.3.1: August 15th, 2023
 
