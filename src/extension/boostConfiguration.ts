@@ -222,7 +222,7 @@ class Defaults {
     public static readonly enableDevOnlyKernelsValue : boolean = false;
 
     public static readonly advancedChatName : string = "advancedChat";
-    public static readonly advancedChatValue : boolean = false;
+    public static readonly advancedChatValue : boolean = true;
 
     public static readonly currentKernelCommandName : string = "advanced.currentKernelCommand";
     public static readonly currentKernelCommandValue : string = "";
