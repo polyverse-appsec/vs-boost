@@ -3313,51 +3313,61 @@ export class BoostExtension {
             targetAnalysisSummaries.push(BoostUserAnalysisType.compliance);
             targetAnalysisSummaries.push(BoostUserAnalysisType.security);
 
-            if (advancedChat) {
-                // grab all the active tab filenames
-                const activeTabFiles = this.getActiveTabFilenames();
-                if (activeTabFiles.length > 0) {
-                    // send the active tab to userFocus
-                    analysisContext.push( {
-                        type: analysis.AnalysisContextType.userFocus,
-                        data: `I am currently looking at file: ${activeTabFiles[0]}`,
-                        name: "visibleActiveTab",
-                    });
-                }
+            if (!advancedChat) {
+                break;
+            }
 
-                // get context for current code
+        // grab all the active tab filenames
+            const activeTabFiles = this.getActiveTabFilenames();
+            if (activeTabFiles.length > 0) {
+                boostLogging.debug(`User Context(${analysis.AnalysisContextType.userFocus}):ActiveTabFilenames(primary):${activeTabFiles[0]}`);
+                // send the active tab to userFocus
+                analysisContext.push( {
+                    type: analysis.AnalysisContextType.userFocus,
+                    data: `I am currently looking at file: ${activeTabFiles[0]}`,
+                    name: "visibleActiveTab",
+                });
+            } else {
+                boostLogging.debug(`User Context(${analysis.AnalysisContextType.userFocus}):ActiveTabFilenames(primary):SKIPPED`);
+            }
+
+            // get context for current code
+            const activeNotebookText = this.getActiveNotebookSurroundingLines();
+            if (activeNotebookText.length > 0) {
+                boostLogging.debug(`User Context(${analysis.AnalysisContextType.userFocus}):ActiveNotebook:${activeNotebookText.length} lines`);
+                analysisContext.push( {
+                    type: analysis.AnalysisContextType.userFocus,
+                    data: `I am currently focused on this notebook \n\n\`\`\`${activeNotebookText.join('\n\t')}\`\`\``,
+                    name: "activeNotebook",
+                });
+            } else {
                 const activeEditorText = this.getActiveEditorSurroundingLines();
                 if (activeEditorText.length > 0) {
+                    boostLogging.debug(`User Context(${analysis.AnalysisContextType.userFocus}):ActiveEditorText:${activeEditorText.length} lines`);
                     analysisContext.push( {
                         type: analysis.AnalysisContextType.userFocus,
                         data: `I am currently focused on this text in my source code editor\n\n\`\`\`${activeEditorText.join('\n\t')}\`\`\``,
                         name: "activeEditor",
                     });
                 } else {
-                    const activeNotebookText = this.getActiveNotebookSurroundingLines();
-                    if (activeNotebookText.length > 0) {
-                        analysisContext.push( {
-                            type: analysis.AnalysisContextType.userFocus,
-                            data: `I am currently focused on this notebook \n\n\`\`\`${activeNotebookText.join('\n\t')}\`\`\``,
-                            name: "activeNotebook",
-                        });
-                    }
+                    boostLogging.debug(`User Context(${analysis.AnalysisContextType.userFocus}):ActiveNotebook:SKIPPED`);
                 }
+            }
 
-                // send all other tabs to related
-                if (activeTabFiles.length > 1) {
-                    analysisContext.push( {
-                        type: analysis.AnalysisContextType.related,
-                        data: `I have also looked at these files: ${activeTabFiles.slice(1).join("\n\t")}`,
-                        name: "hiddenActiveTab",
-                    });
-                }
+            // send all other tabs to related
+            if (activeTabFiles.length > 1) {
+                boostLogging.debug(`User Context(${analysis.AnalysisContextType.related}):RelatedTabs:${activeTabFiles.join(",")}`);
+                analysisContext.push( {
+                    type: analysis.AnalysisContextType.related,
+                    data: `I have also looked at these files: ${activeTabFiles.slice(1).join("\n\t")}`,
+                    name: "hiddenActiveTab",
+                });
+            }
 
-                // we're going to get all the summaries for all active tabs for our target analysis types
-                const activeTabAnalysis : analysis.IAnalysisContextData[] = this.getActiveTabAnalysis(targetAnalysisSummaries, activeTabFiles);
-                if (activeTabAnalysis.length > 0) {
-                    analysisContext.push( ...activeTabAnalysis);
-                }
+            // we're going to get all the summaries for all active tabs for our target analysis types
+            const activeTabAnalysis : analysis.IAnalysisContextData[] = this.getActiveTabAnalysis(targetAnalysisSummaries, activeTabFiles);
+            if (activeTabAnalysis.length > 0) {
+                analysisContext.push( ...activeTabAnalysis);
             }
 
             break;
@@ -3583,6 +3593,7 @@ export class BoostExtension {
 
         const analysisNotebook = new boostnb.BoostNotebook();
         analysisNotebook.load(analysisFile.fsPath);
+        const relativeFile = vscode.workspace.asRelativePath(analysisFile);
 
         analysisTypes.forEach((analysisType) => {
             const outputTypes : any[] = [];
@@ -3614,7 +3625,9 @@ export class BoostExtension {
                             analysisNotebook,
                             outputType
                         ) as boostnb.BoostNotebookCell;
-                        if (!analysisCell) {
+
+                        // skip if no summary or empty data
+                        if (!analysisCell?.value) {
                             break;
                         }
 
@@ -3622,12 +3635,17 @@ export class BoostExtension {
 
                         if (activeSummaryNotebook?.uri.fsPath === analysisNotebook.fsPath ||
                             contextType === analysis.AnalysisContextType.userFocus) {
+
+                            boostLogging.debug(`User Context(${analysis.AnalysisContextType.userFocus}):ActiveSummaryNotebook:${relativeFile}:${outputType}`);
+
                             analysisContext.push( {
                                 type: analysis.AnalysisContextType.userFocus,
                                 data: `I am currently focused on this summary analysis for the code:\n\n\`\`\`${analysisCell.value.split("\n").join('\n\t')}\`\`\``,
                                 name: "activeNotebook",
                             });
                         } else {
+                            boostLogging.debug(`User Context(${contextType}):SummaryNotebook:${relativeFile}:${outputType}`);
+
                             analysisContext.push( {
                                 type: contextType,
                                 data: `Other summary analysis of the code I have reviewed is:\n\n\`\`\`${analysisCell.value.split("\n").join('\n\t')}\`\`\``,
@@ -3641,7 +3659,7 @@ export class BoostExtension {
 
                         analysisNotebook.cells.forEach((cell : boostnb.BoostNotebookCell) => {
 
-                            // ignore the cell data, since its likely the original source code
+                            // ignore the cell value/data, since its likely the original source code
                             //      and we want to focus on analysis
 
                             // grab all the analysis
@@ -3661,17 +3679,26 @@ export class BoostExtension {
                             });
                         });
 
-
                         const activeNotebook = vscode.window.activeNotebookEditor?.notebook;
+
+                        // skip empty cells
+                        if (analyzedCellData.length === 0) {
+                            break;
+                        }
 
                         if (activeNotebook?.uri.fsPath === analysisNotebook.fsPath ||
                             contextType === analysis.AnalysisContextType.userFocus) {
-                            analysisContext.push( {
+
+                                boostLogging.debug(`User Context(${analysis.AnalysisContextType.userFocus}):ActiveNotebook:${relativeFile}:${outputType}`);
+
+                                analysisContext.push( {
                                 type: analysis.AnalysisContextType.userFocus,
                                 data: `I am currently focused on this ${analysisType} analysis for the code:\n\n\`\`\`${analyzedCellData.join('\n\t')}\`\`\``,
                                 name: "activeNotebook",
                             });
                         } else {
+                            boostLogging.debug(`User Context(${contextType}):Notebook:${relativeFile}:${outputType}`);
+
                             analysisContext.push( {
                                 type: contextType,
                                 data: `Other ${analysisType} analysis data for the code I have is:\n\n${analyzedCellData.join("\n\t")}`,
