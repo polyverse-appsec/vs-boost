@@ -62,7 +62,7 @@ export function mapError(err: any) : Error {
 
 export function errorToString(err: any): string {
     if (err instanceof Error) {
-        if (BoostConfiguration.cloudServiceStage === "local") {
+        if (BoostConfiguration.cloudServiceStage === "local" || BoostConfiguration.logLevel === "debug") {
             return `${err.message}\n${err.stack}`;
         } else {
             return err.message;
