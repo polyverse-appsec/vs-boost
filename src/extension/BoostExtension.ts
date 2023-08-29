@@ -3471,8 +3471,11 @@ export class BoostExtension {
             return lines; // Not a file
         }
     
+        const fullRange = [new vscode.NotebookRange(0, vscode.window.activeNotebookEditor!.notebook.cellCount)];
         const selections = vscode.window.activeNotebookEditor!.selections;
-        for (let selection of selections) {
+        const targetCells = (selections && selections.length > 0 && selections[0].start !== 0 && selections[0].end !== 1)?
+            selections: fullRange;
+        for (let selection of targetCells) {
             const selectedCells = notebook.getCells(selection);
         
             for (let cell of selectedCells) {
