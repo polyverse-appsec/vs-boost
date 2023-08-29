@@ -9,10 +9,18 @@ import { exec } from "child_process";
 
 function getGithubToken(): Promise<string> {
     return new Promise((resolve, reject) => {
+        exec('command -v gh', (error, stdout, stderr) => {
+            if (error) {
+                boostLogging.error('GitHub CLI (gh) is NOT installed');
+            } else {
+                boostLogging.info('GitHub CLI (gh) is installed');
+            }
+        });
+        
         // Execute the command to get the token status.
         exec("gh auth status --show-token", (error, stdout, stderr) => {
             if (error) {
-                console.error(`exec error: ${error}`);
+                boostLogging.error(`exec error: ${error}`);
                 reject(new Error("Failed to execute command."));
                 return;
             }
@@ -23,7 +31,7 @@ function getGithubToken(): Promise<string> {
                 const token = tokenMatch[1];
                 resolve(token);
             } else {
-                console.error("Failed to parse GitHub token.");
+                boostLogging.error("Failed to parse GitHub token.");
                 reject(new Error("Failed to parse GitHub token."));
             }
         });
