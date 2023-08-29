@@ -3396,6 +3396,8 @@ export class BoostExtension {
                 isFirstFile ? analysis.AnalysisContextType.userFocus : analysis.AnalysisContextType.related,
                 vscode.Uri.joinPath(baseFolderPath, activeTabFile)
             );
+
+            activeAnalysis.push(...result);
         
             // Only the first file should have the userFocus context
             if (isFirstFile) {
