@@ -26,6 +26,7 @@ Polyverse Boost Automatic Application Modernization
 - Stability improvements in source parsing and output generation
 - Ensure File Summary output includes summary file extension
 - Fixed omission of Warnings from Quick Summary Executive Reports for Performance, Security and Compliance
+- Fix minor cosmetic rendering issue with some filenames in UI Dashboard
 
 ## Version 1.3.1: August 15th, 2023
 

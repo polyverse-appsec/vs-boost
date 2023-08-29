@@ -471,14 +471,16 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                 }
             }).flat();
 
-            this.addQueue(controllerOutputTypes, limitedFiles, this._boostExtension.getBoostProjectData());
+            // log the relative path for simplicity for user
+            const rootPath = vscode.workspace.workspaceFolders?.[0].uri.fsPath as string;
+
+            const relFiles : string[] = [];
 
             limitedFiles.forEach((file) => {
+                const relativePath = path.relative(rootPath, file);
+                relFiles.push(relativePath);
                 tasks.push(
                     () => {
-                        // log the relative path for simplicity for user
-                        const rootPath = vscode.workspace.workspaceFolders?.[0].uri.fsPath as string;
-                        const relativePath = path.relative(rootPath, file);
 
                         const fileDynamicFunc = async () => { // use arrow function
                             const fileAnalysisTasks : any[] = [];
@@ -538,6 +540,8 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     }
                 );
             });
+
+            this.addQueue(controllerOutputTypes, relFiles, this._boostExtension.getBoostProjectData());
         };
  
         const beforeRun = [
