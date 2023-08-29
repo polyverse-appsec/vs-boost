@@ -42,10 +42,9 @@ suite("Right Click Process File Command", function () {
         BoostConfiguration.logLevel = "debug";
         BoostConfiguration.currentKernelCommand =
             "polyverse-boost-explain-kernel";
-        assert.ok(
-            BoostConfiguration.currentKernelCommand ===
-                "polyverse-boost-explain-kernel",
-            `BoostConfig is not polyverse-boost-explain-kernel`
+        assert.equal(BoostConfiguration.currentKernelCommand,
+                     "polyverse-boost-explain-kernel",
+                     `BoostConfig is not polyverse-boost-explain-kernel`
         );
 
         assert.ok(
