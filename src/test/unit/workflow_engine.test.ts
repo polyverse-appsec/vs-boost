@@ -203,7 +203,7 @@ describe("WorkflowEngine", () => {
             };
         };
         //now create the engine
-        const engine = new WorkflowEngine(promiseGenerators, {
+        const engine : WorkflowEngine = new WorkflowEngine(promiseGenerators, {
             afterEachTaskGroup: [summaryPromiseGenerator],
             name: (this as any).test.title,
         });
@@ -214,10 +214,11 @@ describe("WorkflowEngine", () => {
         });
     });
 
-    it('should retry on "retry" type error', function(done) { // Notice `function` instead of an arrow function
-        let log: string[] = [];
-        let retryCount = 0;
+    it('should retry on "retry" type error', function(done) {
+        let log : any[] = []; // To track what happened
+        let retryCount = 0; // To count how many times we retried
     
+        // Define the tasks array
         const tasks = [
             () => async () => {
                 if (retryCount < 2) {
@@ -227,11 +228,11 @@ describe("WorkflowEngine", () => {
                     log.push("main");
                     return "main";
                 }
-            },
+            }
         ];
     
-        // Using "this.test.title" without casting
         const engine = new WorkflowEngine(tasks, { name: (this as any).test.title });
+    
         engine.run().then(allResults => {
             expect(allResults.length).to.equal(1);
             expect(allResults[0].length).to.equal(1);
@@ -239,11 +240,13 @@ describe("WorkflowEngine", () => {
     
             expect(log).to.deep.equal(["main"]);
             expect(retryCount).to.equal(2);
-            done(); // We use done to tell Mocha that our test has completed
+    
+            done();
         }).catch(err => {
-            done(err); // Pass the error to done() to handle test failure
+            done(err); // If there's an error, pass it to done to fail the test
         });
-    });    
+    });
+    
 
     it('should retry on generic task error', function () {
         let log: string[] = [];
