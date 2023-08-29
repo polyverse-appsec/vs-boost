@@ -3405,6 +3405,12 @@ export class BoostExtension {
         }
     
         const document = editor.document;
+
+        // for now, we're skipping non-file active tabs
+        if (document.uri.scheme !== "file") {
+            return []; // Not a file
+        }
+
         const position = editor.selection.active;
     
         const selectedText = editor.document.getText(editor.selection);
@@ -3447,9 +3453,16 @@ export class BoostExtension {
             return [];
         }
 
-        return vscode.window.visibleTextEditors.map(editor => {
-            return path.relative(baseFolderPath, editor.document.fileName);
+        const activeTabFiles : string[] = [];
+        vscode.window.visibleTextEditors.forEach(editor => {
+            if (editor.document.uri.scheme === "file") {
+                activeTabFiles.push(path.relative(baseFolderPath, editor.document.uri.fsPath));
+            } else {
+                // we're skipping other tabs, like output tabs
+                // editor.document.uri.fsPath for an output tab would be "output:foo"
+            }
         });
+        return activeTabFiles;
     }
     
     // get all analysis for the project, or target folder
