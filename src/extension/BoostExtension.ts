@@ -3326,13 +3326,22 @@ export class BoostExtension {
                 }
 
                 // get context for current code
-                const activeEditor = this.getActiveEditorSurroundingLines();
-                if (activeEditor) {
+                const activeEditorText = this.getActiveEditorSurroundingLines();
+                if (activeEditorText.length > 0) {
                     analysisContext.push( {
                         type: analysis.AnalysisContextType.userFocus,
-                        data: `I am currently focused on this text in my source code editor\n\n\`\`\`${activeEditor.join('\n\t')}\`\`\``,
+                        data: `I am currently focused on this text in my source code editor\n\n\`\`\`${activeEditorText.join('\n\t')}\`\`\``,
                         name: "activeEditor",
                     });
+                } else {
+                    const activeNotebookText = this.getActiveNotebookSurroundingLines();
+                    if (activeNotebookText.length > 0) {
+                        analysisContext.push( {
+                            type: analysis.AnalysisContextType.userFocus,
+                            data: `I am currently focused on this notebook \n\n\`\`\`${activeNotebookText.join('\n\t')}\`\`\``,
+                            name: "activeNotebook",
+                        });
+                    }
                 }
 
                 // send all other tabs to related
@@ -3401,7 +3410,8 @@ export class BoostExtension {
     getActiveEditorSurroundingLines(): string[] {
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
-            return []; // No active editor
+            // No active editor
+            return [];
         }
     
         const document = editor.document;
@@ -3445,6 +3455,65 @@ export class BoostExtension {
     
         return lines;
     }
+
+    getActiveNotebookSurroundingLines(): string[] {
+        const notebook = vscode.window.activeNotebookEditor?.notebook;
+    
+        let lines: string[] = [];
+    
+        if (!notebook) {
+            // No active notebook
+            return lines;
+        }
+    
+        // for now, we're skipping non-file active tabs
+        if (notebook.uri.scheme !== "file") {
+            return lines; // Not a file
+        }
+    
+        const selections = vscode.window.activeNotebookEditor!.selections;
+        for (let selection of selections) {
+            const selectedCells = notebook.getCells(selection);
+        
+            for (let cell of selectedCells) {
+                // Get cell text
+                const cellText = cell.document.getText();
+                const cellLines = cellText.split('\n').slice(0, this.activeSourceContextLines);
+                lines.push(...cellLines);
+                if (lines.length > this.activeSourceContextLines) {
+                    break;
+                }
+        
+                // Get output text
+                for (let output of cell.outputs) {
+                    for (let item of output.items) {
+                        // we're going to try and grab any text that is not an error
+                        if (item.mime === errorMimeType) {
+                            continue;
+                        }
+                        const outputText = new TextDecoder().decode(item.data);
+                        // if no useful text, read next item
+                        if (outputText.length === 0) {
+                            continue;
+                        }
+                        const outputLines = outputText.split('\n').slice(0, 50); // Get first 50 lines or fewer
+                        lines.push(...outputLines);
+                        if (lines.length > this.activeSourceContextLines) {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Trim to line limit
+        if (lines.length > this.activeSourceContextLines) {
+            lines = lines.slice(0, this.activeSourceContextLines);
+        }
+    
+        return lines;
+    }
+    
     
     // get all active tab filenames (as relative paths)
     getActiveTabFilenames(): string[] {
@@ -3454,12 +3523,21 @@ export class BoostExtension {
         }
 
         const activeTabFiles : string[] = [];
+        // grab all text editors (active and visible)
         vscode.window.visibleTextEditors.forEach(editor => {
             if (editor.document.uri.scheme === "file") {
                 activeTabFiles.push(path.relative(baseFolderPath, editor.document.uri.fsPath));
             } else {
                 // we're skipping other tabs, like output tabs
                 // editor.document.uri.fsPath for an output tab would be "output:foo"
+            }
+        });
+        // grab all notebook editors (active and visible)
+        vscode.window.visibleNotebookEditors.forEach(notebook => {
+            if (notebook.notebook.uri.scheme === "file") {
+                activeTabFiles.push(path.relative(baseFolderPath, notebook.notebook.uri.fsPath));
+            } else {
+                // we're skipping other tabs, like non-filebased notebooks
             }
         });
         return activeTabFiles;

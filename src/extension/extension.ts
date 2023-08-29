@@ -194,12 +194,11 @@ export function getBoostFile(
                 extension = boostnb.NOTEBOOK_GUIDELINES_EXTENSION;
             }
             // if we are already looking at the file, just return it
-            const existingExtension = path.extname(sourceFile.fsPath);
-            if (existingExtension === extension) {
+            if (sourceFile.fsPath.endsWith(extension)) {
                 return sourceFile;
 
                 // if we were given a notebook, and we are looking for guidelines or summary, then return same path with new extension
-            } else if (existingExtension === boostnb.NOTEBOOK_EXTENSION) {
+            } else if (sourceFile.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
                 return vscode.Uri.parse(sourceFile.fsPath.slice(0, boostnb.NOTEBOOK_EXTENSION.length * -1) + extension);
             }
 
