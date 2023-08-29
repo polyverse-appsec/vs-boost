@@ -3314,23 +3314,33 @@ export class BoostExtension {
             targetAnalysisSummaries.push(BoostUserAnalysisType.security);
 
             if (advancedChat) {
-                    // get context for current code
+                // grab all the active tab filenames
+                const activeTabFiles = this.getActiveTabFilenames();
+                if (activeTabFiles.length > 0) {
+                    // send the active tab to userFocus
+                    analysisContext.push( {
+                        type: analysis.AnalysisContextType.userFocus,
+                        data: `I am currently looking at file: ${activeTabFiles[0]}`,
+                        name: "visibleActiveTab",
+                    });
+                }
+
+                // get context for current code
                 const activeEditor = this.getActiveEditorSurroundingLines();
                 if (activeEditor) {
                     analysisContext.push( {
                         type: analysis.AnalysisContextType.userFocus,
-                        data: activeEditor,
+                        data: `I am currently focused on this text in my source code editor\n\n\`\`\`${activeEditor.join('\n\t')}\`\`\``,
                         name: "activeEditor",
                     });
                 }
 
-                // grab all the active tab filenames
-                const activeTabFiles = this.getActiveTabFilenames();
-                if (activeTabFiles.length > 0) {
+                // send all other tabs to related
+                if (activeTabFiles.length > 1) {
                     analysisContext.push( {
                         type: analysis.AnalysisContextType.related,
-                        data: activeTabFiles.join("\n"),
-                        name: "activeTabFiles",
+                        data: `I have also looked at these files: ${activeTabFiles.slice(1).join("\n\t")}`,
+                        name: "hiddenActiveTab",
                     });
                 }
 
@@ -3340,7 +3350,7 @@ export class BoostExtension {
                     analysisContext.push( ...activeTabAnalysis);
                 }
             }
-            
+
             break;
 
         default:
@@ -3370,13 +3380,11 @@ export class BoostExtension {
                 continue;
             }
         
-            let contextType = isFirstFile ? analysis.AnalysisContextType.userFocus : analysis.AnalysisContextType.related;
-        
             // Process the file with the determined context type
             const result = this.getBoostSummaryAnalysisContext(
                 analysisTypes,
                 BoostFileType.summary,
-                contextType,
+                isFirstFile ? analysis.AnalysisContextType.userFocus : analysis.AnalysisContextType.related,
                 vscode.Uri.joinPath(baseFolderPath, activeTabFile)
             );
         
@@ -3390,15 +3398,23 @@ export class BoostExtension {
 
     readonly activeSourceContextLines: number = 30;
 
-    getActiveEditorSurroundingLines(): string {
+    getActiveEditorSurroundingLines(): string[] {
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
-            return ""; // No active editor
+            return []; // No active editor
         }
     
         const document = editor.document;
         const position = editor.selection.active;
     
+        const selectedText = editor.document.getText(editor.selection);
+
+        // if the text is actually highlighted, then only send that portion
+        if (selectedText.length > 0) {
+            return selectedText.split("\n");
+        }
+
+        // otherwise, send all the lines around the current cursor position
         let startLine = position.line - (this.activeSourceContextLines / 2);
         let endLine = position.line + (this.activeSourceContextLines / 2);
     
@@ -3421,7 +3437,7 @@ export class BoostExtension {
             lines.push(document.lineAt(i).text);
         }
     
-        return lines.join('\n');
+        return lines;
     }
     
     // get all active tab filenames (as relative paths)
@@ -3520,7 +3536,7 @@ export class BoostExtension {
 
                     analysisContext.push( {
                         type: contextType,
-                        data: analyzedCellData.join("\n"),
+                        data: `Key ${analysisType} data is:\n\n${analyzedCellData.join("\n\t")}`,
                         name: analysisType,
                     } as analysis.IAnalysisContextData);
 
