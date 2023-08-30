@@ -2,10 +2,76 @@ import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
 
+// Boost specific imports
 import * as boostnb from "../data/jupyter_notebook";
 import * as analysis from "../data/IAnalysisContextData";
 
 import { errorToString } from "../utilities/error";
+
+import { ControllerOutputType } from "../controllers/controllerOutputTypes";
+
+import { boostNotebookToFileSummaryItem } from "../data/BoostProjectData";
+
+import {
+    updateBoostIgnoreForTarget,
+    getBoostIgnoreFile,
+    getAllProjectFiles,
+} from "../utilities/files";
+
+import {
+    addToBoostOnly,
+    removeFromBoostOnly,
+} from "../utilities/boostOnly";
+
+import {
+    getOrCreateGuideline,
+    getBoostFile,
+    BoostFileType,
+    parseFunctionsFromFile,
+    newErrorFromItemData,
+    createOrOpenNotebookFromSourceFile,
+    createOrOpenSummaryNotebookFromSourceFile,
+    BoostCommands,
+    findCellByKernel,
+    boostActivityBarId,
+    ProcessCurrentFolderOptions,
+} from "./extension";
+import { cleanCellOutput } from "./extensionUtilities";
+import { fullPathFromSourceFile } from "../utilities/files";
+import { getAnalysisForSourceTarget } from "./vscodeUtilities";
+import { BoostUserAnalysisType } from "../userAnalysisType";
+
+import { BoostContentSerializer } from "../utilities/serializer";
+import { BoostConfiguration } from "./boostConfiguration";
+import { boostLogging } from "../utilities/boostLogging";
+
+import {
+    updateBoostStatusColors,
+    registerCustomerPortalCommand,
+    setupBoostStatus,
+    preflightCheckForCustomerStatus,
+} from "../portal";
+import { generatePDFforNotebook } from "../utilities/convert_pdf";
+import { generateMarkdownforNotebook } from "../utilities/convert_markdown";
+import { generateHTMLforNotebook } from "../utilities/convert_html";
+import { BoostProjectData } from "../data/BoostProjectData";
+import { IncompatibleVersionException } from "../data/incompatibleVersionException";
+import { emptyProjectData } from "../data/boostprojectdata_interface";
+
+// UI imports
+import { BoostMarkdownViewProvider } from "../markdown_view";
+import { BoostSummaryViewProvider, summaryViewType } from "../summary_view";
+import { BoostStartViewProvider } from "../start_view";
+import { BoostChatViewProvider } from "../chat_view";
+
+import instructions from "../instructions.json";
+
+// Controller imports
+import {
+    KernelControllerBase,
+    errorMimeType,
+    boostUriSchema,
+} from "../controllers/base_controller";
 
 import {
     BoostPerformanceFunctionKernel,
@@ -50,64 +116,6 @@ import {
     flowDiagramKernelName,
 } from "../controllers/flowdiagram_controller";
 import { SummarizeKernel, summarizeKernelName } from "../controllers/summary_controller";
-import { ControllerOutputType } from "../controllers/controllerOutputTypes";
-
-import { BoostSummaryViewProvider, summaryViewType } from "../summary_view";
-import { BoostStartViewProvider } from "../start_view";
-import { BoostChatViewProvider } from "../chat_view";
-import { boostNotebookToFileSummaryItem } from "../data/BoostProjectData";
-
-import {
-    updateBoostIgnoreForTarget,
-    getBoostIgnoreFile,
-    getAllProjectFiles,
-} from "../utilities/files";
-
-import {
-    addToBoostOnly,
-    removeFromBoostOnly,
-} from "../utilities/boostOnly";
-
-import {
-    getOrCreateGuideline,
-    getBoostFile,
-    BoostFileType,
-    parseFunctionsFromFile,
-    newErrorFromItemData,
-    createOrOpenNotebookFromSourceFile,
-    createOrOpenSummaryNotebookFromSourceFile,
-    BoostCommands,
-    findCellByKernel,
-    boostActivityBarId,
-    ProcessCurrentFolderOptions,
-} from "./extension";
-import { cleanCellOutput } from "./extensionUtilities";
-import { fullPathFromSourceFile } from "../utilities/files";
-import { BoostUserAnalysisType } from "../userAnalysisType";
-
-import { BoostContentSerializer } from "../utilities/serializer";
-import { BoostConfiguration } from "./boostConfiguration";
-import { boostLogging } from "../utilities/boostLogging";
-import {
-    KernelControllerBase,
-    errorMimeType,
-    boostUriSchema,
-} from "../controllers/base_controller";
-import {
-    updateBoostStatusColors,
-    registerCustomerPortalCommand,
-    setupBoostStatus,
-    preflightCheckForCustomerStatus,
-} from "../portal";
-import { generatePDFforNotebook } from "../utilities/convert_pdf";
-import { generateMarkdownforNotebook } from "../utilities/convert_markdown";
-import { generateHTMLforNotebook } from "../utilities/convert_html";
-import { BoostProjectData } from "../data/BoostProjectData";
-import { IncompatibleVersionException } from "../data/incompatibleVersionException";
-import { emptyProjectData } from "../data/boostprojectdata_interface";
-import { BoostMarkdownViewProvider } from "../markdown_view";
-
-import instructions from "../instructions.json";
 import {
     BoostQuickBlueprintKernel,
     quickBlueprintKernelName,
@@ -3355,6 +3363,19 @@ export class BoostExtension {
                 }
             }
 
+            // get related analysis for the current tab source code (if its raw source)
+            //      otherwise, we'll pull the summary or notebook in userFocus
+            const activeSourceTabDetailedAnalysis : analysis.IAnalysisContextData[] =
+            this.getDetailedAnalysisForCurrentTabSelection(targetAnalysisSummaries, analysis.AnalysisContextType.related);
+            if (activeSourceTabDetailedAnalysis.length > 0) {
+                boostLogging.debug(`User Context(${analysis.AnalysisContextType.related}):ActiveTabSourceDetailedAnalysis:${activeSourceTabDetailedAnalysis.length} types`);
+
+                analysisContext.push( ...activeSourceTabDetailedAnalysis);
+
+            } else {
+                boostLogging.debug(`User Context(${analysis.AnalysisContextType.related}):ActiveTabSourceDetailedAnalysis:SKIPPED`);
+            }
+
             // send all other tabs to related
             if (activeTabFiles.length > 1) {
                 boostLogging.debug(`User Context(${analysis.AnalysisContextType.related}):RelatedTabs:${activeTabFiles.join(",")}`);
@@ -3382,6 +3403,27 @@ export class BoostExtension {
 
 
         return analysisContext;
+    }
+
+    getDetailedAnalysisForCurrentTabSelection(
+        analysisTypes: BoostUserAnalysisType[],
+        contextType: analysis.AnalysisContextType): analysis.IAnalysisContextData[] {
+        const sourceAnalysis : analysis.IAnalysisContextData[] = [];
+
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            // No active editor
+            return [];
+        }
+    
+        const document = editor.document;
+
+        // for now, we're skipping non-file active tabs
+        if (document.uri.scheme !== "file") {
+            return []; // Not a file
+        }
+
+        return this.getBoostSummaryAnalysisContext(analysisTypes, BoostFileType.notebook, contextType, document.uri, editor.selection);
     }
 
     getActiveTabAnalysis(
@@ -3575,6 +3617,7 @@ export class BoostExtension {
         fileType: BoostFileType = BoostFileType.summary,
         contextType: analysis.AnalysisContextType = analysis.AnalysisContextType.projectSummary,
         fileTarget?: vscode.Uri,
+        selection?: vscode.Selection,
         ): analysis.IAnalysisContextData[] {
 
         const analysisContext: any[] = [];
@@ -3597,7 +3640,7 @@ export class BoostExtension {
         const relativeFile = vscode.workspace.asRelativePath(analysisFile);
 
         analysisTypes.forEach((analysisType) => {
-            const outputTypes : any[] = [];
+            const outputTypes : ControllerOutputType[] = [];
             switch (analysisType) {
                 case BoostUserAnalysisType.blueprint:
                     outputTypes.push(ControllerOutputType.blueprint);
@@ -3656,32 +3699,12 @@ export class BoostExtension {
                         break;
 
                     case BoostFileType.notebook:
+                        
                         const analyzedCellData : string[] = [];
 
-                        analysisNotebook.cells.forEach((cell : boostnb.BoostNotebookCell) => {
-
-                            // ignore the cell value/data, since its likely the original source code
-                            //      and we want to focus on analysis
-
-                            // grab all the analysis
-                            cell.outputs.forEach((output : boostnb.SerializedNotebookCellOutput) => {
-                                // ignore outputs that aren't our output type
-                                if (output.metadata?.outputType !== outputType) {
-                                    return;
-                                }
-
-                                for (const item of output.items) {
-                                    if (item.mime === errorMimeType) {
-                                        return;
-                                    }
-
-                                    analyzedCellData.push(item.data);
-                                }
-                            });
-                        });
-
+                        analyzedCellData.push(... getAnalysisForSourceTarget(outputType, analysisNotebook, selection));
                         const activeNotebook = vscode.window.activeNotebookEditor?.notebook;
-
+                        
                         // skip empty cells
                         if (analyzedCellData.length === 0) {
                             break;

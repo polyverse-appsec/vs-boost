@@ -9,7 +9,7 @@ Polyverse Boost Automatic Application Modernization
 - N/A
 
 ### Enhancements
-- N/A
+- Chat includes detailed Boost analysis for selected or active source file in the Visual Studio Code Text Editor
 
 ### Bug Fixes
 - N/A

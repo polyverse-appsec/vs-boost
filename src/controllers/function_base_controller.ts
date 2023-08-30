@@ -7,6 +7,7 @@ import * as boostnb from '../data/jupyter_notebook';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { boostLogging } from '../utilities/boostLogging';
 import { fullPathFromSourceFile } from '../utilities/files';
+import { lineNumberBaseFromCell } from '../extension/vscodeUtilities';
 
 export class FunctionKernelControllerBase extends KernelControllerBase {
 
@@ -189,17 +190,4 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         return super.onKernelProcessResponseDetails(details, cell, notebook);
     }
 
-}
-
-function lineNumberBaseFromCell(cell: vscode.NotebookCell | boostnb.BoostNotebookCell): number {
-    let lineNumberBase: any;
-
-    if (cell instanceof boostnb.BoostNotebookCell) {
-        lineNumberBase = cell.metadata ? cell.metadata.lineNumberBase : undefined;
-    } else {
-        lineNumberBase = cell.metadata ? cell.metadata.lineNumberBase : undefined;
-    }
-
-    // Check if lineNumberBase is a number, if not, return 0
-    return typeof lineNumberBase === 'number' ? lineNumberBase : 0;
 }
