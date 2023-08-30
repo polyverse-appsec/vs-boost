@@ -1,25 +1,25 @@
+import * as vscode from 'vscode';
+
 import {
     KernelControllerBase
  } from './base_controller';
-import { DiagnosticCollection, ExtensionContext } from 'vscode';
-import * as vscode from 'vscode';
 import * as boostnb from '../data/jupyter_notebook';
 import { fullPathFromSourceFile, generateCellOutputWithHeader } from '../extension/extension';
 import { boostLogging } from '../utilities/boostLogging';
 
 export class FunctionKernelControllerBase extends KernelControllerBase {
 
-    public sourceLevelIssueCollection: DiagnosticCollection;
+    public sourceLevelIssueCollection: vscode.DiagnosticCollection;
 
 	constructor(
-        collection: DiagnosticCollection,
+        collection: vscode.DiagnosticCollection,
         kernelId: string,
         kernelLabel: string,
         description: string,
         outputType: string,
         collectionType: string,
         outputHeader: string,
-        context: ExtensionContext,
+        context: vscode.ExtensionContext,
         otherThis: any,
         onServiceErrorHandler: any
         ) {
