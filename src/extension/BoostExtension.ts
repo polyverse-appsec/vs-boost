@@ -643,7 +643,7 @@ export class BoostExtension {
             boostNotebooks.push(boostNotebook);
 
             //get the summary of the notebook file
-            const filesummary = boostNotebookToFileSummaryItem(boostNotebook);
+            const filesummary = boostNotebookToFileSummaryItem(workspaceFolder.fsPath, boostNotebook);
 
             //now add it to boostprojectdata
             let relativePath = path.relative(
@@ -2742,6 +2742,7 @@ export class BoostExtension {
 
                                         let summary =
                                             boostNotebookToFileSummaryItem(
+                                                targetFolder.fsPath,
                                                 notebook
                                             );
                                         const boostprojectdata =

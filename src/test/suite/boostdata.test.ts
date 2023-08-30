@@ -8,7 +8,6 @@ import {
 import { FileSummaryItem } from "../../data/boostprojectdata_interface";
 
 import * as assert from "assert";
-import * as vscode from "vscode";
 
 suite("BoostProjectData", function () {
     this.timeout(5000);
@@ -27,8 +26,8 @@ suite("BoostProjectData", function () {
 
     // Get the temporary directory and define the path for sampleData.json
     const tempDirectory = os.tmpdir();
-    const sampleDataFilePath = path.join(tempDirectory, "sampleData.json");
-    const normalizedSampleDataFilePath = path.normalize(sampleDataFilePath);
+    const nonNormalizedFilePath = path.join(tempDirectory, "sampleData.json");
+    const sampleDataFilePath = path.normalize(nonNormalizedFilePath);
 
     suiteSetup(function (done) {
         // Write the sample data to a file before tests
@@ -74,9 +73,8 @@ suite("BoostProjectData", function () {
             __dirname,
             "../resources/security.php.boost-notebook"
         );
-        const fileUri = vscode.Uri.file(file);
         const fileSummaryItem: FileSummaryItem =
-            boostNotebookFileToFileSummaryItem(fileUri);
+            boostNotebookFileToFileSummaryItem(file, __dirname);
 
         // Add assertions based on what you expect the output to be for an empty file
         assert.strictEqual(fileSummaryItem.totalCells, 0);
@@ -91,9 +89,8 @@ suite("BoostProjectData", function () {
             __dirname,
             "../resources/high.js.boost-notebook"
         );
-        const fileUri = vscode.Uri.file(file);
         const fileSummaryItem: FileSummaryItem =
-            boostNotebookFileToFileSummaryItem(fileUri);
+            boostNotebookFileToFileSummaryItem(file, __dirname);
 
         // Add assertions based on what you expect the output to be for a non-empty file
         assert.strictEqual(fileSummaryItem.totalCells, 1);
@@ -109,9 +106,8 @@ suite("BoostProjectData", function () {
             __dirname,
             "../resources/instructions.php.boost-notebook"
         );
-        const fileUri = vscode.Uri.file(file);
         const fileSummaryItem: FileSummaryItem =
-            boostNotebookFileToFileSummaryItem(fileUri);
+            boostNotebookFileToFileSummaryItem(file, __dirname);
 
         // Add assertions based on what you expect the output to be for a non-empty file
         assert.strictEqual(fileSummaryItem.totalCells, 1);
@@ -139,15 +135,13 @@ suite("BoostProjectData", function () {
             __dirname,
             "../resources/instructions.php.boost-notebook"
         );
-        let fileUri = vscode.Uri.file(file);
         let fileSummaryItem: FileSummaryItem =
-            boostNotebookFileToFileSummaryItem(fileUri);
+            boostNotebookFileToFileSummaryItem(file, __dirname);
         boostprojectdata.updateWithFileSummary(fileSummaryItem, file);
 
         //now grab a second file and add it to the same boostprojectdata
         file = path.resolve(__dirname, "../resources/high.js.boost-notebook");
-        fileUri = vscode.Uri.file(file);
-        fileSummaryItem = boostNotebookFileToFileSummaryItem(fileUri);
+        fileSummaryItem = boostNotebookFileToFileSummaryItem(file, __dirname);
         boostprojectdata.updateWithFileSummary(fileSummaryItem, file);
 
         assert.strictEqual(
@@ -193,7 +187,7 @@ suite("BoostProjectData", function () {
         });
 
         //get a new item for the update
-        let updatedItem = boostNotebookFileToFileSummaryItem(fileUri);
+        let updatedItem = boostNotebookFileToFileSummaryItem(file, __dirname);
 
         updatedItem.sections.bugAnalysisList.totalCells = 3;
         updatedItem.sections.bugAnalysisList.completedCells = 2;

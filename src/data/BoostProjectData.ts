@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as boostnb from "./jupyter_notebook";
-import * as vscode from "vscode";
 
 import { errorMimeType } from "../controllers/base_controller";
 import { boostLogging } from "../utilities/boostLogging";
@@ -339,13 +338,12 @@ export class BoostProjectData implements IBoostProjectData {
 }
 
 export function boostNotebookToFileSummaryItem(
+    workspaceFolderPath: string,
     boostNotebook: boostnb.BoostNotebook
 ): FileSummaryItem {
-    let workspaceFolder = vscode.workspace.workspaceFolders?.[0].uri;
-
     const notebookRelFile =
-        path.isAbsolute(boostNotebook.fsPath) && workspaceFolder
-            ? path.relative(workspaceFolder.fsPath, boostNotebook.fsPath)
+        path.isAbsolute(boostNotebook.fsPath) && workspaceFolderPath
+            ? path.relative(workspaceFolderPath, boostNotebook.fsPath)
             : boostNotebook.fsPath;
 
     let summaryItem: FileSummaryItem = {
@@ -434,9 +432,10 @@ export function boostNotebookToFileSummaryItem(
 
 //NOTE! this will return a new FileSummaryItem object
 export function boostNotebookFileToFileSummaryItem(
-    file: vscode.Uri
+    filePath : string,
+    workspaceFolderPath: string
 ): FileSummaryItem {
     const boostNotebook = new boostnb.BoostNotebook();
-    boostNotebook.load(file.fsPath);
-    return boostNotebookToFileSummaryItem(boostNotebook);
+    boostNotebook.load(filePath);
+    return boostNotebookToFileSummaryItem(workspaceFolderPath, boostNotebook);
 }
