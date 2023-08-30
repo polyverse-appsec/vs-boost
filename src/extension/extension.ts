@@ -14,7 +14,6 @@ import { PROJECT_EXTENSION } from "../data/BoostProjectData";
 import { BoostExtension } from "./BoostExtension";
 import { ControllerOutputType } from "../controllers/controllerOutputTypes";
 import { setExtensionMode } from "./extension_state";
-import { getCurrentDateTime } from "../utilities/datetime";
 
 export enum BoostFileType {
     notebook = "notebook",
