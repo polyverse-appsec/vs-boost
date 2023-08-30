@@ -4,7 +4,7 @@ import {
 import { BoostConfiguration } from '../extension/boostConfiguration';
 import * as vscode from 'vscode';
 import { BoostNotebookCell } from '../data/jupyter_notebook';
-import { generateCellOutputWithHeader } from '../extension/cellUtilities';
+import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
 
 export const blueprintKernelName = 'blueprint';

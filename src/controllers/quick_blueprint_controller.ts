@@ -15,7 +15,7 @@ import {
     findCellByKernel,
     getProjectName,
 } from "../extension/extension";
-import { generateCellOutputWithHeader } from "../extension/cellUtilities";
+import { generateCellOutputWithHeader } from "../extension/extensionUtilities";
 import {
     getAllProjectFiles
 } from "../utilities/files";

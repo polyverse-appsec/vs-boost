@@ -1,6 +1,10 @@
 
 import { getCurrentDateTime } from "../utilities/datetime";
 
+export function getKernelName(kernelName: string): string {
+    return "polyverse-boost-" + kernelName + "-kernel";
+}
+
 export function cleanCellOutput(input: string): string {
     // strip out timestamps from the input
     // ### Boost Code Compliance Check Summary

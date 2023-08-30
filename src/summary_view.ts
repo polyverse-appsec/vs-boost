@@ -8,12 +8,7 @@ import { aiName } from "./chat_view";
 
 import { WorkflowEngine, WorkflowError } from "./utilities/workflow_engine";
 
-import {
-    BoostCommands,
-    getKernelName,
-    ProcessCurrentFolderOptions,
-} from "./extension/extension";
-
+import { getKernelName } from "./extension/extensionUtilities";
 import {
     getAllProjectFiles,
 } from "./utilities/files";
@@ -45,7 +40,13 @@ import { BoostUserAnalysisType } from "./userAnalysisType";
 import { quickComplianceSummaryKernelName } from "./controllers/quick_compliance_summary_controller";
 import { quickSecuritySummaryKernelName } from "./controllers/quick_security_summary_controller";
 import { marked } from "marked";
-import { BoostFileType, findCellByKernel, getBoostFile } from "./extension/extension";
+import {
+    BoostFileType,
+    findCellByKernel,
+    getBoostFile,
+    BoostCommands,
+    ProcessCurrentFolderOptions,
+} from "./extension/extension";
 import { BoostNotebook, BoostNotebookCell } from "./data/jupyter_notebook";
 import { ControllerOutputType } from "./controllers/controllerOutputTypes";
 import { getOrCreateBlueprintUri, getOrCreateGuideline } from "./extension/extension";

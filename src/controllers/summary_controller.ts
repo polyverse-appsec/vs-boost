@@ -12,7 +12,7 @@ import {
     findCellByKernel,
     BoostFileType,
 } from '../extension/extension';
-import { cleanCellOutput, generateCellOutputWithHeader } from '../extension/cellUtilities';
+import { cleanCellOutput, generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { fullPathFromSourceFile } from '../utilities/files';
 import * as fs from 'fs';
 import * as path from 'path';

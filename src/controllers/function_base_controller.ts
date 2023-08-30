@@ -4,7 +4,7 @@ import {
     KernelControllerBase
  } from './base_controller';
 import * as boostnb from '../data/jupyter_notebook';
-import { generateCellOutputWithHeader } from '../extension/cellUtilities';
+import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { boostLogging } from '../utilities/boostLogging';
 import { fullPathFromSourceFile } from '../utilities/files';
 

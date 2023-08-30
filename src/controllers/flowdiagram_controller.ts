@@ -3,7 +3,7 @@ import {
  } from './base_controller';
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from '../extension/boostConfiguration';
-import { generateCellOutputWithHeader } from '../extension/cellUtilities';
+import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 
 export const flowDiagramOutputType = 'flowDiagram';
 export const flowDiagramKernelName = 'flowdiagram';

@@ -21,7 +21,7 @@ import {
     SerializedNotebookCellOutput } from '../data/jupyter_notebook';
 import { boostLogging } from '../utilities/boostLogging';
 import { findCellByKernel } from '../extension/extension';
-import { generateCellOutputWithHeader } from '../extension/cellUtilities';
+import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { getCurrentOrganization } from "../utilities/authorization";
 import { ControllerOutputType } from './controllerOutputTypes';
 

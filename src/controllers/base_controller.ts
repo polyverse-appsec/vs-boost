@@ -9,7 +9,7 @@ import {
     SerializedNotebookCellOutput,
     NOTEBOOK_TYPE,
 } from "../data/jupyter_notebook";
-import { getKernelName } from "../extension/extension";
+import { getKernelName } from "../extension/extensionUtilities";
 import { fullPathFromSourceFile } from "../utilities/files";
 import { errorToString } from "../utilities/error";
 

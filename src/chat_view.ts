@@ -5,7 +5,7 @@ import * as _ from "lodash";
 import * as os from "os";
 import { BoostExtension } from "./extension/BoostExtension";
 import { marked } from "marked";
-import { cleanCellOutput } from "./extension/cellUtilities";
+import { cleanCellOutput } from "./extension/extensionUtilities";
 import { BoostServiceHelper } from "./controllers/boostServiceHelper";
 import { boostLogging } from "./utilities/boostLogging";
 import {

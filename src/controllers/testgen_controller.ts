@@ -4,7 +4,7 @@ import {
 import * as vscode from 'vscode';
 import { BoostConfiguration } from '../extension/boostConfiguration';
 import { BoostNotebookCell } from '../data/jupyter_notebook';
-import { generateCellOutputWithHeader } from '../extension/cellUtilities';
+import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
 
 export const testgenKernelName = 'testgen';

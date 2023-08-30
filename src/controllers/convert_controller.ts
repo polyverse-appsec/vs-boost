@@ -6,7 +6,7 @@ import * as vscode from 'vscode';
 import { BoostConfiguration } from '../extension/boostConfiguration';
 import { BoostNotebookCell, SerializedNotebookCellOutput, BoostNotebook } from '../data/jupyter_notebook';
 import { boostLogging } from '../utilities/boostLogging';
-import { generateCellOutputWithHeader } from '../extension/cellUtilities';
+import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
 
 export const convertKernelName = 'convert';

@@ -81,7 +81,7 @@ import {
     boostActivityBarId,
     ProcessCurrentFolderOptions,
 } from "./extension";
-import { cleanCellOutput } from "./cellUtilities";
+import { cleanCellOutput } from "./extensionUtilities";
 import { fullPathFromSourceFile } from "../utilities/files";
 import { BoostUserAnalysisType } from "../userAnalysisType";
 
