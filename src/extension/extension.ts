@@ -23,10 +23,6 @@ export enum BoostFileType {
     output = "output",
 }
 
-export function getKernelName(kernelName: string): string {
-    return "polyverse-boost-" + kernelName + "-kernel";
-}
-
 export const boostActivityBarId = "polyverse-boost-explorer";
 
 export enum BoostCommands {
