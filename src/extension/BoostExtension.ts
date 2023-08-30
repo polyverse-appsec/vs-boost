@@ -3702,7 +3702,7 @@ export class BoostExtension {
                         
                         const analyzedCellData : string[] = [];
 
-                        analyzedCellData.push(... getAnalysisForSourceTarget(outputType, analysisNotebook, selection));
+                        analyzedCellData.push(... getAnalysisForSourceTarget(analysisNotebook, outputType, selection));
                         const activeNotebook = vscode.window.activeNotebookEditor?.notebook;
                         
                         // skip empty cells

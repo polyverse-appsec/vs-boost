@@ -18,8 +18,8 @@ export function lineNumberBaseFromCell(cell: vscode.NotebookCell | boostnb.Boost
 }
 
 export function getAnalysisForSourceTarget(
-    outputType: ControllerOutputType,
     analysisNotebook : boostnb.BoostNotebook,
+    outputType?: ControllerOutputType,
     selection? : vscode.Selection) : string[] {
 
     const analysisLines : string[] = [];
@@ -53,7 +53,8 @@ export function getAnalysisForSourceTarget(
         // grab all the analysis
         cell.outputs.forEach((output : boostnb.SerializedNotebookCellOutput) => {
             // ignore outputs that aren't our output type
-            if (output.metadata?.outputType !== outputType) {
+            // an undefined outputType (e.g. all types) will always be included 
+            if (outputType && output.metadata?.outputType !== outputType) {
                 return;
             }
 
