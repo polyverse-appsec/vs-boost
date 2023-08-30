@@ -20,8 +20,8 @@ function getGithubToken(): Promise<string> {
         // Execute the command to get the token status.
         exec("gh auth status --show-token", (error, stdout, stderr) => {
             if (error) {
-                boostLogging.error(`exec error: ${error}`);
-                reject(new Error("Failed to execute command."));
+                boostLogging.error(`GitHub CLI (gh) failed authorization: ${error}`);
+                reject(new Error("GitHub CLI (gh) failed authorization: ${error}"));
                 return;
             }
 
