@@ -20,7 +20,8 @@ import {
     NotebookCellKind,
     SerializedNotebookCellOutput } from '../data/jupyter_notebook';
 import { boostLogging } from '../utilities/boostLogging';
-import { findCellByKernel, generateCellOutputWithHeader } from '../extension/extension';
+import { findCellByKernel } from '../extension/extension';
+import { generateCellOutputWithHeader } from '../extension/cellUtilities';
 import { getCurrentOrganization } from "../utilities/authorization";
 import { ControllerOutputType } from './controllerOutputTypes';
 

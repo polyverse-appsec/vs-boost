@@ -78,11 +78,11 @@ import {
     createOrOpenSummaryNotebookFromSourceFile,
     BoostCommands,
     findCellByKernel,
-    cleanCellOutput,
     boostActivityBarId,
-    fullPathFromSourceFile,
     ProcessCurrentFolderOptions,
 } from "./extension";
+import { cleanCellOutput } from "./cellUtilities";
+import { fullPathFromSourceFile } from "../utilities/files";
 import { BoostUserAnalysisType } from "../userAnalysisType";
 
 import { BoostContentSerializer } from "../utilities/serializer";

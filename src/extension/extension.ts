@@ -604,20 +604,6 @@ export function sourceFileFromFullPath(fileUri: vscode.Uri): string {
     return sourceFilePath;
 }
 
-export function fullPathFromSourceFile(sourceFile: string): vscode.Uri {
-    let baseFolder: string;
-    let fullPath = sourceFile;
-    if (vscode.workspace.workspaceFolders) {
-        if (sourceFile.startsWith("./")) {
-            const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder
-            baseFolder = workspaceFolder.uri.fsPath;
-            fullPath = path.join(baseFolder, sourceFile);
-            const normalizedFullPath = path.normalize(fullPath);
-            fullPath = normalizedFullPath;
-        }
-    }
-    return vscode.Uri.parse(fullPath);
-}
 
 export function getOrCreateGuideline(
     projectGuidelineFile: vscode.Uri,
@@ -704,22 +690,4 @@ export async function getOrCreateBlueprintUri(
     newBlueprintSummaryNotebook.save(uri.fsPath);
 
     return uri;
-}
-
-export function cleanCellOutput(input: string): string {
-    // strip out timestamps from the input
-    // ### Boost Code Compliance Check Summary
-    // Last Updated: Friday, June 16, 2023 at 8:24:17 PM PDT
-
-    // use regex to remove the above info
-    var pattern = /\n\n---\n\n### Boost [^\n]*\n\nLast Updated: [^\n]*\n\n/g;
-    const cleanedInput = input.replace(pattern, "");
-    return cleanedInput;
-}
-
-export function generateCellOutputWithHeader(
-    analysisType: string,
-    analysisResults: string
-): string {
-    return `\n\n---\n\n### Boost ${analysisType}\n\nLast Updated: ${getCurrentDateTime()}\n\n${analysisResults}`;
 }

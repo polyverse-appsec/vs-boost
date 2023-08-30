@@ -9,7 +9,8 @@ import {
     SerializedNotebookCellOutput,
     NOTEBOOK_TYPE,
 } from "../data/jupyter_notebook";
-import { fullPathFromSourceFile, getKernelName } from "../extension/extension";
+import { getKernelName } from "../extension/extension";
+import { fullPathFromSourceFile } from "../utilities/files";
 import { errorToString } from "../utilities/error";
 
 export const errorMimeType = "application/vnd.code.notebook.error";

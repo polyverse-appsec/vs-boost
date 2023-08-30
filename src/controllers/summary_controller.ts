@@ -11,10 +11,9 @@ import {
     getBoostFile,
     findCellByKernel,
     BoostFileType,
-    fullPathFromSourceFile,
-    cleanCellOutput,
-    generateCellOutputWithHeader
 } from '../extension/extension';
+import { cleanCellOutput, generateCellOutputWithHeader } from '../extension/cellUtilities';
+import { fullPathFromSourceFile } from '../utilities/files';
 import * as fs from 'fs';
 import * as path from 'path';
 import { ControllerOutputType } from './controllerOutputTypes';

@@ -13,9 +13,9 @@ import {
 import { boostLogging } from "../utilities/boostLogging";
 import {
     findCellByKernel,
-    generateCellOutputWithHeader,
     getProjectName,
 } from "../extension/extension";
+import { generateCellOutputWithHeader } from "../extension/cellUtilities";
 import {
     getAllProjectFiles
 } from "../utilities/files";

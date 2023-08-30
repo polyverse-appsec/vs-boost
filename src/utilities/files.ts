@@ -1,6 +1,8 @@
 import * as micromatch from "micromatch";
 import * as vscode from 'vscode';
 import * as fs from 'fs';
+import * as path from 'path';
+
 import {
     boostLogging
 } from "./boostLogging";
@@ -18,6 +20,22 @@ import {
 } from "../extension/extension";
 
 import * as boostnb from "../data/jupyter_notebook";
+
+
+export function fullPathFromSourceFile(sourceFile: string): vscode.Uri {
+    let baseFolder: string;
+    let fullPath = sourceFile;
+    if (vscode.workspace.workspaceFolders) {
+        if (sourceFile.startsWith("./")) {
+            const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder
+            baseFolder = workspaceFolder.uri.fsPath;
+            fullPath = path.join(baseFolder, sourceFile);
+            const normalizedFullPath = path.normalize(fullPath);
+            fullPath = normalizedFullPath;
+        }
+    }
+    return vscode.Uri.parse(fullPath);
+}
 
 export function getPrioritizedFileList() : string[] {
     let prioritizedFilelist : string[] = [];

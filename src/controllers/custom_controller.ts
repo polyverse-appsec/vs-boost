@@ -6,7 +6,7 @@ import * as vscode from 'vscode';
 import { BoostConfiguration } from '../extension/boostConfiguration';
 import { boostLogging } from '../utilities/boostLogging';
 import { BoostNotebookCell, BoostNotebook } from '../data/jupyter_notebook';
-import { generateCellOutputWithHeader } from '../extension/extension';
+import { generateCellOutputWithHeader } from '../extension/cellUtilities';
 
 export const customProcessCellMarker = 'customProcessCode';
 export const customProcessKernelName = 'custom';

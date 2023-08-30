@@ -4,7 +4,7 @@ import {
 import { DiagnosticCollection, ExtensionContext, NotebookCell } from 'vscode';
 import { BoostConfiguration } from '../extension/boostConfiguration';
 import { BoostNotebookCell } from '../data/jupyter_notebook';
-import { generateCellOutputWithHeader } from '../extension/extension';
+import { generateCellOutputWithHeader } from '../extension/cellUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
 
 export const complianceKernelName = 'compliance';
