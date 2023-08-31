@@ -28,7 +28,7 @@ export class BoostTreeDataProvider implements vscode.TreeDataProvider<BoostItem>
     if (element) {
       return Promise.resolve(this.convertToTreeItems(element.children));
     } else {
-      const data = this.boostExtension.getBoostProjectData()[this.section];
+      const data = (this.boostExtension.getBoostProjectData() as any)[this.section];
       if (data) {
         return Promise.resolve(this.convertToTreeItems(data));
       } else {
