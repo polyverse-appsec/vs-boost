@@ -98,7 +98,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
         webviewView.webview.html = this._getHtmlForWebview(
             webviewView.webview,
-            this._boostExtension.getBoostProjectData()
+            this._boostExtension.getBoostProjectData()!
         );
 
         webviewView.webview.onDidReceiveMessage(async (data) => {
@@ -116,6 +116,15 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         await this.analyzeAll(data.analysisTypes, data.fileLimit);
                     }
 
+                    break;
+                case "analysis_type_changed":
+                    {
+                        console.log(`analysis_type_changed ${data.analysisType} ${data.checked}}`);
+                        console.log(`analysis_type_changed BEFORE ${JSON.stringify(this._boostExtension.getBoostProjectData()?.uiState.activityBarState.summaryViewState.analysisTypesState)}}`);
+                        this._boostExtension.getBoostProjectData()!.toggleAnalysisTypeEnabled(
+                            data.analysisType, data.checked);
+                        console.log(`analysis_type_changed AFTER ${JSON.stringify(this._boostExtension.getBoostProjectData()?.uiState.activityBarState.summaryViewState.analysisTypesState)}}`);
+                        }
                     break;
                 case "refresh_deep_summary": {
                     await this.refreshDeepSummary();
@@ -139,7 +148,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         if (this._view) {
             this._view.webview.html = this._getHtmlForWebview(
                 this._view.webview,
-                this._boostExtension.getBoostProjectData()
+                this._boostExtension.getBoostProjectData()!
             );
             this._view.show?.(true);
         }
@@ -329,7 +338,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             boostLogging.error(`Run Selected Analysis failed: ${e}`, true);
         } finally {
             // make sure we always restore the analysis state to quiescent after finishing analysis
-            this.finishAllJobs(this._boostExtension.getBoostProjectData());
+            this.finishAllJobs(this._boostExtension.getBoostProjectData()!);
             this.refresh();
         }
     }
@@ -542,7 +551,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                 );
             });
 
-            this.addQueue(controllerOutputTypes, relFiles, this._boostExtension.getBoostProjectData());
+            this.addQueue(controllerOutputTypes, relFiles, this._boostExtension.getBoostProjectData()!);
         };
  
         const beforeRun = [
@@ -745,7 +754,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             }
 
         } finally {
-            this.finishAllJobs(this._boostExtension.getBoostProjectData());
+            this.finishAllJobs(this._boostExtension.getBoostProjectData()!);
             this.refresh();
         }
     }
@@ -942,7 +951,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
             await vscode.commands.executeCommand(
                 NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
             );
-            this.finishAllJobs(this._boostExtension.getBoostProjectData());
+            this.finishAllJobs(this._boostExtension.getBoostProjectData()!);
             this.refresh();
         }
     }

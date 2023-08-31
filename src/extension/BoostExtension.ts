@@ -612,7 +612,7 @@ export class BoostExtension {
         );
     }
 
-    public getBoostProjectData(): any {
+    public getBoostProjectData(): BoostProjectData | undefined {
         let workspaceFolder = vscode.workspace.workspaceFolders?.[0].uri;
         if (!workspaceFolder) {
             return new BoostProjectData();
@@ -2646,7 +2646,7 @@ export class BoostExtension {
             return false;
         }
 
-        const boostprojectdata = await this.getBoostProjectData();
+        const boostprojectdata = await this.getBoostProjectData()!;
 
         try {
             await preflightCheckForCustomerStatus(context, this);
@@ -2754,7 +2754,7 @@ export class BoostExtension {
                                                 notebook
                                             );
                                         const boostprojectdata =
-                                            this.getBoostProjectData();
+                                            this.getBoostProjectData()!;
                                         this.summary?.finishJob(
                                             targetedKernel.outputType,
                                             relativePath,
@@ -2773,7 +2773,7 @@ export class BoostExtension {
                                         file.fsPath
                                     );
                                     const boostprojectdata =
-                                        this.getBoostProjectData();
+                                        this.getBoostProjectData()!;
                                     this.summary?.finishJob(
                                         targetedKernel.outputType,
                                         relativePath,

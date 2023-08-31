@@ -24,13 +24,17 @@ import {
     summaryViewData,
     detailsViewData,
     statusViewData,
-    StatusViewData
+    StatusViewData,
 } from "./compute_view_data";
 import { openFile } from "./util";
 
-import { JobStatus, IBoostProjectData, AnalysisState } from "../../data/boostprojectdata_interface";
+import {
+    IBoostProjectData,
+    AnalysisState,
+    AnalysisTypesState,
+    emptyProjectData,
+} from "../../data/boostprojectdata_interface";
 import Typewritter from "typewriter-effect/dist/core";
-import { type } from "os";
 import { BoostUserAnalysisType } from "../../userAnalysisType";
 
 //declare the boostprojectdata global variable
@@ -80,9 +84,13 @@ const slowRefreshUI = _.debounce(refreshUI, 1000, { leading: true });
 
 // Main function that gets executed once the webview DOM loads
 function main() {
-    refreshUI(boostprojectdata);
-    //now setup listeners
-    setupListeners();
+    try {
+        refreshUI(boostprojectdata);
+        //now setup listeners
+        setupListeners();
+    } catch (error) {
+        console.error(`Error in Summary Dashboard:main: ${error.message}: ${error.stack}`);
+    }
 }
 
 function setupListeners() {
@@ -92,7 +100,9 @@ function setupListeners() {
     const runAnalysisButton = document.getElementById(
         "update-summary"
     ) as Button;
-    runAnalysisButton?.addEventListener("click", handleAnalyzeAllClick);
+    runAnalysisButton?.addEventListener("click", () => {
+        handleAnalyzeAllClick(boostprojectdata);
+    });
 
     // Get all the elements with type "vscode-checkbox"
     const checkboxes = document.querySelectorAll("vscode-checkbox");
@@ -104,6 +114,15 @@ function setupListeners() {
             // This will ensure that the default behavior of the checkbox (checking/unchecking) still occurs.
             // Refresh the UI after the default behavior has executed
             requestAnimationFrame(() => {
+                const target = event.target as HTMLInputElement;
+
+                // Extract the analysis type from the checkbox, and update the state
+                const match = target.id.match(/check-(.+)/);
+                if (match && match[1]) {
+                    const analysisType = match[1];
+                    analysisTypeCheckboxChanged(analysisType, target.checked);
+                }                
+
                 refreshUI(boostprojectdata);
             });
         });
@@ -133,14 +152,15 @@ function setupListeners() {
         link.addEventListener("click", showDashboardTab);
     });
 
-    const analyzeAllMode = document.getElementById('analyze-all-mode') as HTMLElement;
-    const top5Mode = document.getElementById('top5-mode') as HTMLElement;
-
+    const analyzeAllMode = document.getElementById(
+        "analyze-all-mode"
+    ) as HTMLElement;
+    const top5Mode = document.getElementById("top5-mode") as HTMLElement;
 
     // Attach event listeners to both radio buttons to detect changes
-    analyzeAllMode.addEventListener('change', (event) => {
+    analyzeAllMode.addEventListener("change", (event) => {
         const target = event.target as HTMLInputElement;
-        if(target?.checked) {
+        if (target?.checked) {
             setTimeout(() => {
                 //refresh the UI
                 refreshUI(boostprojectdata);
@@ -148,9 +168,9 @@ function setupListeners() {
         }
     });
 
-    top5Mode.addEventListener('change', (event) => {
+    top5Mode.addEventListener("change", (event) => {
         const target = event.target as HTMLInputElement;
-        if(target?.checked) {
+        if (target?.checked) {
             setTimeout(() => {
                 //refresh the UI
                 refreshUI(boostprojectdata);
@@ -188,12 +208,20 @@ const checkDashboardWideEnough = (): void => {
     }
 };
 
+function analysisTypeCheckboxChanged(analysisType: string, checked: boolean) {
+    vscode.postMessage({
+        command: "analysis_type_changed",
+        analysisType: analysisType,
+        checked: checked,
+    });
+}
+
 // Callback function that is executed when the howdy button is clicked
-function handleAnalyzeAllClick() {
+function handleAnalyzeAllClick(boostprojectdata: IBoostProjectData) {
     refreshAnalysisState(AnalysisState.preparing);
     vscode.postMessage({
         command: "analyze_all",
-        analysisTypes: getAnalysisTypes(),
+        analysisTypes: getAnalysisTypes(boostprojectdata.uiState.activityBarState.summaryViewState.analysisTypesState),
         fileLimit: getFileLimit(),
     });
 }
@@ -220,58 +248,58 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
 function getFileLimit(): number {
     //get the limit from the UI
     let fileLimit = 0;
-    const top5Mode = document.getElementById('top5-mode') as HTMLInputElement;
+    const top5Mode = document.getElementById("top5-mode") as HTMLInputElement;
     if (top5Mode.checked) {
-        fileLimit = 5; 
+        fileLimit = 5;
     }
     return fileLimit;
 }
 
-function getAnalysisTypes(): Array<string> {
+/* <vscode-checkbox
+    role="checkbox"
+    aria-checked="true"
+    aria-required="false"
+    aria-disabled="false"
+    tabindex="0"
+    aria-label="Checkbox"
+    checked=""
+    analysis-check="true"
+    id="check-documentation"
+    current-value="on"
+    current-checked="true"
+    class="checked"
+>
+    Documentation
+</vscode-checkbox>;
+ */
+function getAnalysisTypes(analysisTypesState: AnalysisTypesState): Array<string> {
     const analysisTypes: string[] = [];
-    const checkboxes = document.querySelectorAll(
-        "vscode-checkbox[analysis-check]"
-    );
 
     //if there are no checkboxes, we are in the initial default state
-    //so just return the default analysis types
-    if (!checkboxes || checkboxes.length === 0) {
-        return [
-            BoostUserAnalysisType.documentation,
-            BoostUserAnalysisType.security,
-            BoostUserAnalysisType.compliance,
-        ];
-    }
-
-    checkboxes.forEach((checkbox: Element) => {
-        const id: string | null = (checkbox as HTMLElement).getAttribute("id");
-        const isChecked: boolean = (checkbox as HTMLElement).classList.contains(
-            "checked"
-        );
-        if (id && isChecked) {
-            const match = id.match(/check-(.+)/);
-            if (match && match[1]) {
-                analysisTypes.push(match[1]);
-            }
+    //so just return the persisted analysis types state
+    for (const [key, value] of Object.entries(analysisTypesState)) {
+        if (value) {
+            analysisTypes.push(BoostUserAnalysisType[key as keyof typeof BoostUserAnalysisType]);
         }
-    });
-
+    }
+    console.log(`getAnalysisTypes: checkboxes: ${JSON.stringify(analysisTypes)}`);
     return analysisTypes;
 }
 
 export function refreshUI(boostprojectdata: IBoostProjectData) {
-    const analysisTypes = getAnalysisTypes();
+    const analysisTypes = getAnalysisTypes(boostprojectdata.uiState.activityBarState.summaryViewState.analysisTypesState);
     let skipFilter: string[] = [];
 
     //if deepcode is not the analysis type, hide the deepcode-specific stuff
     if (!analysisTypes.includes("deepcode")) {
         skipFilter.push("deepcode");
     }
-    
+
     //get the fileLimit
     const fileLimit = getFileLimit();
 
-    let summaryView = summaryViewData(boostprojectdata);
+    console.log(`refreshUI: analysisTypes: ${JSON.stringify(analysisTypes)}`);
+    let summaryView = summaryViewData(boostprojectdata, analysisTypes);
     let detailsView = detailsViewData(boostprojectdata, skipFilter);
     let statusView = statusViewData(boostprojectdata, analysisTypes, fileLimit);
 
@@ -338,11 +366,9 @@ function refreshSpinner(analysisState: AnalysisState) {
 }
 
 function refreshProgressText(statusData: StatusViewData) {
-
-    if( statusData.analysisState === AnalysisState.preparing)
-    {
+    if (statusData.analysisState === AnalysisState.preparing) {
         return refreshAnalysisState(statusData.analysisState);
-    }    
+    }
 
     const progressText = document.getElementById(
         "progress-text"
@@ -384,10 +410,21 @@ function refreshProgressText(statusData: StatusViewData) {
 function refreshPrediction(statusData: StatusViewData) {
     if (statusData.accountRefreshed) {
         let predictionStart = `Sara expects the analysis to cost between`;
-        let predictionFinish = ` $${statusData.spendLowerBound.toFixed(2)} and $${statusData.spendUpperBound.toFixed(2)}.` +
-            ` Your account is ${statusData.accountStatus} and you have spent $${statusData.currentSpend.toFixed(2)} so far this month.`;
+        let predictionFinish =
+            ` $${statusData.spendLowerBound.toFixed(
+                2
+            )} and $${statusData.spendUpperBound.toFixed(2)}.` +
+            ` Your account is ${
+                statusData.accountStatus
+            } and you have spent $${statusData.currentSpend.toFixed(
+                2
+            )} so far this month.`;
         if (statusData.couponRemaining > 0) {
-            predictionFinish += ` You have $${statusData.couponRemaining.toFixed(2)} of a free trial remaining ($${statusData.discountedUsage.toFixed(2)} used already).`;
+            predictionFinish += ` You have $${statusData.couponRemaining.toFixed(
+                2
+            )} of a free trial remaining ($${statusData.discountedUsage.toFixed(
+                2
+            )} used already).`;
         }
 
         typewriter
@@ -406,7 +443,7 @@ function refreshAnalysisState(analysisState: AnalysisState) {
         // the progress field will be updated by the refreshProgressText function
         return;
     }
-    
+
     refreshSpinner(analysisState);
     const progressText = document.getElementById(
         "progress-text"
@@ -417,5 +454,9 @@ function refreshAnalysisState(analysisState: AnalysisState) {
     if (existingText !== "" || existingText !== undefined) {
         typewriter.deleteAll(1).pauseFor(300).start();
     }
-    typewriter.typeString("Sara is preparing the analysis. This may take a few minutes.").start();
+    typewriter
+        .typeString(
+            "Sara is preparing the analysis. This may take a few minutes."
+        )
+        .start();
 }

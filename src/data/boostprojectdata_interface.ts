@@ -15,9 +15,25 @@ export enum AnalysisState {
     preparing = "preparing",
     analyzing = "analyzing"
 }
+
+export interface SummaryViewState {
+    analysisTypesState: AnalysisTypesState;
+}
+
+export interface AnalysisTypesState {
+    security: boolean;
+    compliance: boolean;
+    documentation: boolean;
+}
+
+export interface ActivityBarState {
+    summaryViewState: SummaryViewState;
+}
+
 //this is where we should remember UI state like which analysis were selected, etc. 
 export interface UIState {
     analysisState: AnalysisState;
+    activityBarState: ActivityBarState;
 }
 
 export interface AccountStatus {
@@ -129,5 +145,14 @@ export const emptyProjectData: IBoostProjectData = {
     },
     uiState: {
         analysisState: AnalysisState.quiescent,
+        activityBarState: {
+            summaryViewState: {
+                analysisTypesState: {
+                    security: true,
+                    compliance: true,
+                    documentation: true,
+                }
+            },
+        },
     },
 };

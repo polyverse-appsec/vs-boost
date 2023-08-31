@@ -18,7 +18,8 @@ import {
     JobStatus,
     AccountStatus,
     UIState,
-    AnalysisState
+    AnalysisState,
+    ActivityBarState
 } from "./boostprojectdata_interface";
 import { ControllerOutputType } from "../controllers/controllerOutputTypes";
 import { BoostConfiguration } from "../extension/boostConfiguration";
@@ -51,6 +52,8 @@ export class BoostProjectData implements IBoostProjectData {
     create(jsonString: string): void {
         const projectData = JSON.parse(jsonString) as BoostProjectData;
         Object.assign(this, projectData);
+
+        this.insertMissingData();
     }
 
     checkDataFormatVersion(dataVersion: string) {
@@ -144,6 +147,18 @@ export class BoostProjectData implements IBoostProjectData {
         this.save(this.fsPath);
     }
 
+    insertMissingData() {
+        // Initialize if it doesn't exist
+        if (!this.uiState.activityBarState) {
+            this.uiState.activityBarState = {} as ActivityBarState;
+        }
+        // Merge the missing fields into this.uiState.activityBarState
+        Object.assign(this.uiState.activityBarState, {
+            ...emptyProjectData.uiState.activityBarState,
+            ...this.uiState.activityBarState
+        });
+    }
+        
     public updateAccountStatusFromService(accountStatus: any) {
         //set the account fields from the accountStatus object. it's the same fields, only
         //snake case coming from the python server, so translate.
@@ -330,6 +345,11 @@ export class BoostProjectData implements IBoostProjectData {
         this.uiState.analysisState = state;
     }
 
+    toggleAnalysisTypeEnabled(analysisType: string, enabled: boolean) {
+        (this.uiState.activityBarState.summaryViewState.analysisTypesState as any)[analysisType] = enabled;
+        this.flushToFS();
+    }
+      
     static get default(): BoostProjectData {
         const boostProjectData = new BoostProjectData();
         Object.assign(boostProjectData, emptyProjectData);

@@ -88,10 +88,9 @@ export function mapOutputTypeToSummary(outputType: string) {
 }
 
 export function summaryViewData(
-    boostprojectdata: IBoostProjectData
+    boostprojectdata: IBoostProjectData,
+    analysisTypes: string[],
 ): SummaryViewData[] {
-    //TODO: in the future, make the default check settings configuratble and/or remembered
-    //in the state somewhere.
     const jobStatus = boostprojectdata.jobStatus;
     let summaryView = [
         {
@@ -105,7 +104,7 @@ export function summaryViewData(
                 ],
                 jobStatus
             ),
-            defaultChecked: true,
+            defaultChecked: analysisTypes.includes("documentation"),
         },
         {
             display: displayGroupFriendlyName.security,
@@ -115,7 +114,7 @@ export function summaryViewData(
                 [ControllerOutputType.analyzeFunction],
                 jobStatus
             ),
-            defaultChecked: true,
+            defaultChecked: analysisTypes.includes("security"),
         },
         {
             display: displayGroupFriendlyName.compliance,
@@ -125,7 +124,7 @@ export function summaryViewData(
                 [ControllerOutputType.complianceFunction],
                 jobStatus
             ),
-            defaultChecked: true,
+            defaultChecked: analysisTypes.includes("compliance"),
         } /*
         {
             display: displayGroupFriendlyName.deepcode,
@@ -143,6 +142,7 @@ export function summaryViewData(
             defaultChecked: false,
         },*/,
     ];
+    console.log(`summaryViewData: ${JSON.stringify(summaryView)}`);
     return summaryView;
 }
 

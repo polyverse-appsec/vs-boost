@@ -21,6 +21,12 @@ export function summaryEnter(enter: any) {
 
 export function summaryUpdate(update: any) {
     update.select("vscode-badge").call(badgeUpdate);
+
+    const checkboxUpdate = update.select("vscode-checkbox")
+        .attr("checked", (d) => d.defaultChecked)
+        .attr("analysis-check", true)
+        .attr("id", (d: any) => "check-" + d.id)
+        .text((d: any) => d.display);
 }
 
 function badgeUpdate(update: any) {
