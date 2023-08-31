@@ -1,9 +1,9 @@
 {
-  "dataFormatVersion": "1.3.1",
+  "dataFormatVersion": "1.3.2",
   "summary": {
     "projectName": "vs-boost",
     "summaryUrl": ".boost/vs-boost.summary.boost-notebook",
-    "filesToAnalyze": 153,
+    "filesToAnalyze": 161,
     "filesAnalyzed": 87,
     "issues": [
       "Error refreshing Boost Project data for /Users/alexgo/code/vs-boost: SyntaxError: Unexpected token 'E', \"Error: Boo\"... is not valid JSON"
@@ -1629,9 +1629,9 @@
     "enabled": true,
     "status": "paid",
     "trialRemaining": 0,
-    "usageThisMonth": 135.66,
+    "usageThisMonth": 200.88,
     "discountedUsage": 100,
-    "balanceDue": 35.66,
+    "balanceDue": 100.88,
     "couponType": "Polyverse Boost Free Trial",
     "org": "polyverse-appsec",
     "owner": "alex@polyverse.io",
