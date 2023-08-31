@@ -38,7 +38,7 @@ import Typewritter from "typewriter-effect/dist/core";
 import { BoostUserAnalysisType } from "../../userAnalysisType";
 
 //declare the boostprojectdata global variable
-declare var boostprojectdata: IBoostProjectData;
+export declare var boostprojectdata: IBoostProjectData;
 
 let typewriter = new Typewritter("#progress-text", {
     delay: 2,
@@ -85,7 +85,8 @@ const slowRefreshUI = _.debounce(refreshUI, 1000, { leading: true });
 // Main function that gets executed once the webview DOM loads
 function main() {
     try {
-        refreshUI(boostprojectdata);
+        vscode.postMessage({ command: "refreshUI"});
+
         //now setup listeners
         setupListeners();
     } catch (error) {
@@ -104,29 +105,6 @@ function setupListeners() {
         handleAnalyzeAllClick(boostprojectdata);
     });
 
-    // Get all the elements with type "vscode-checkbox"
-    const checkboxes = document.querySelectorAll("vscode-checkbox");
-
-    // Loop through each checkbox and add the click event listener
-    checkboxes.forEach((checkbox) => {
-        checkbox.addEventListener("change", (event) => {
-            // You don't need to prevent the default action.
-            // This will ensure that the default behavior of the checkbox (checking/unchecking) still occurs.
-            // Refresh the UI after the default behavior has executed
-            requestAnimationFrame(() => {
-                const target = event.target as HTMLInputElement;
-
-                // Extract the analysis type from the checkbox, and update the state
-                const match = target.id.match(/check-(.+)/);
-                if (match && match[1]) {
-                    const analysisType = match[1];
-                    analysisTypeCheckboxChanged(analysisType, target.checked);
-                }                
-
-                refreshUI(boostprojectdata);
-            });
-        });
-    });
     // Listen for the DOMContentLoaded event to check initially
     checkDashboardWideEnough();
     // Listen for the resize event to check on webview resize
@@ -208,7 +186,7 @@ const checkDashboardWideEnough = (): void => {
     }
 };
 
-function analysisTypeCheckboxChanged(analysisType: string, checked: boolean) {
+export function analysisTypeCheckboxChanged(analysisType: string, checked: boolean) {
     vscode.postMessage({
         command: "analysis_type_changed",
         analysisType: analysisType,
@@ -282,7 +260,6 @@ function getAnalysisTypes(analysisTypesState: AnalysisTypesState): Array<string>
             analysisTypes.push(BoostUserAnalysisType[key as keyof typeof BoostUserAnalysisType]);
         }
     }
-    console.log(`getAnalysisTypes: checkboxes: ${JSON.stringify(analysisTypes)}`);
     return analysisTypes;
 }
 
@@ -298,7 +275,6 @@ export function refreshUI(boostprojectdata: IBoostProjectData) {
     //get the fileLimit
     const fileLimit = getFileLimit();
 
-    console.log(`refreshUI: analysisTypes: ${JSON.stringify(analysisTypes)}`);
     let summaryView = summaryViewData(boostprojectdata, analysisTypes);
     let detailsView = detailsViewData(boostprojectdata, skipFilter);
     let statusView = statusViewData(boostprojectdata, analysisTypes, fileLimit);

@@ -142,7 +142,6 @@ export function summaryViewData(
             defaultChecked: false,
         },*/,
     ];
-    console.log(`summaryViewData: ${JSON.stringify(summaryView)}`);
     return summaryView;
 }
 

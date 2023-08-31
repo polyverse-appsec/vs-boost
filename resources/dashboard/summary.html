@@ -127,8 +127,7 @@
       </vscode-panels>
 
     <script> 
-        var boostdataencoded = "<%= Buffer.from(JSON.stringify(boostprojectdata)).toString('base64') %>";
-		var boostprojectdata = JSON.parse(atob(boostdataencoded));
+		var boostprojectdata = undefined;
 	</script>
     <script src="<%= jsSrc %>" type="module"></script>
 </body>

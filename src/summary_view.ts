@@ -103,6 +103,16 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
 
         webviewView.webview.onDidReceiveMessage(async (data) => {
             switch (data.command) {
+                case "refreshUI":
+                    {
+                        const boostprojectdata = this._boostExtension.getBoostProjectData()!;
+                        const payload = {
+                            command: "refreshUI",
+                            boostprojectdata: boostprojectdata,
+                        };
+                        this._view?.webview.postMessage(payload);
+                    }
+                    break;
                 case "open_file":
                     {
                         await this._openFile(
@@ -119,11 +129,8 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     break;
                 case "analysis_type_changed":
                     {
-                        console.log(`analysis_type_changed ${data.analysisType} ${data.checked}}`);
-                        console.log(`analysis_type_changed BEFORE ${JSON.stringify(this._boostExtension.getBoostProjectData()?.uiState.activityBarState.summaryViewState.analysisTypesState)}}`);
                         this._boostExtension.getBoostProjectData()!.toggleAnalysisTypeEnabled(
                             data.analysisType, data.checked);
-                        console.log(`analysis_type_changed AFTER ${JSON.stringify(this._boostExtension.getBoostProjectData()?.uiState.activityBarState.summaryViewState.analysisTypesState)}}`);
                         }
                     break;
                 case "refresh_deep_summary": {
