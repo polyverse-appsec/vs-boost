@@ -63,6 +63,7 @@ export class DecoratorProvider {
     
                 const decoration = {
                     range: new vscode.Range(startPos, endPos),
+                    hoverMessage: new vscode.MarkdownString("*Hello* from Boost!"),
                     renderOptions: {
                         after: {
                             contentText: "hello from Boost",
