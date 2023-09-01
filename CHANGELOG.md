@@ -3,6 +3,17 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 1.4.1: September 7th, 2023
+
+### New Features
+- Command added for non-UI setting of user organization
+
+### Enhancements
+- N/A
+
+### Bug Fixes
+- N/A
+
 ## Version 1.4.0: September 1st, 2023
 
 ### New Features

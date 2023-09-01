@@ -55,6 +55,7 @@ export enum BoostCommands {
 
     customerPortal = "customerPortal",
     selectOrganization = "selectOrganization",
+    setOrganization = "setOrganization",
 }
 
 export interface ProcessCurrentFolderOptions {
