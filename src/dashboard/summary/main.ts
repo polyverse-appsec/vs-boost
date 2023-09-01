@@ -130,30 +130,20 @@ function setupListeners() {
         link.addEventListener("click", showDashboardTab);
     });
 
-    const analyzeAllMode = document.getElementById(
-        "analyze-all-mode"
-    ) as HTMLElement;
+    const analyzeAllMode = document.getElementById("analyze-all-mode") as HTMLElement;
     const top5Mode = document.getElementById("top5-mode") as HTMLElement;
 
-    // Attach event listeners to both radio buttons to detect changes
-    analyzeAllMode.addEventListener("change", (event) => {
-        const target = event.target as HTMLInputElement;
-        if (target?.checked) {
-            setTimeout(() => {
-                //refresh the UI
-                refreshUI(boostprojectdata);
-            }, 100);
-        }
-    });
-
-    top5Mode.addEventListener("change", (event) => {
-        const target = event.target as HTMLInputElement;
-        if (target?.checked) {
-            setTimeout(() => {
-                //refresh the UI
-                refreshUI(boostprojectdata);
-            }, 100);
-        }
+    const analysisModeButtons : HTMLElement[] = [analyzeAllMode, top5Mode];
+    analysisModeButtons.forEach((button) => {
+        // Attach event listeners to both radio buttons to detect changes
+        button.addEventListener("change", (event) => {
+            const target = event.target as HTMLInputElement;
+            if (target?.checked) {
+                setTimeout(() => {
+                    handleAnalyzeModeCheck(target.id, boostprojectdata);
+                }, 100);
+            }
+        });
     });
 }
 
@@ -201,6 +191,13 @@ function handleAnalyzeAllClick(boostprojectdata: IBoostProjectData) {
         command: "analyze_all",
         analysisTypes: getAnalysisTypes(boostprojectdata.uiState.activityBarState.summaryViewState.analysisTypesState),
         fileLimit: getFileLimit(),
+    });
+}
+
+function handleAnalyzeModeCheck(choice: string, boostprojectdata: IBoostProjectData) {
+    vscode.postMessage({
+        command: "analyze_mode_changed",
+        choice: choice,
     });
 }
 
@@ -271,6 +268,8 @@ export function refreshUI(boostprojectdata: IBoostProjectData) {
     if (!analysisTypes.includes("deepcode")) {
         skipFilter.push("deepcode");
     }
+
+    setAnalysisMode(boostprojectdata);
 
     //get the fileLimit
     const fileLimit = getFileLimit();
@@ -436,3 +435,12 @@ function refreshAnalysisState(analysisState: AnalysisState) {
         )
         .start();
 }
+
+function setAnalysisMode(boostprojectdata: IBoostProjectData) {
+    const defaultAnalysisMode : string = boostprojectdata.uiState.activityBarState.summaryViewState.analysisMode;
+    const checkedMode = document.getElementById(
+        defaultAnalysisMode? defaultAnalysisMode : "top5-mode"
+        ) as HTMLInputElement;
+    checkedMode.checked = true;
+}
+
