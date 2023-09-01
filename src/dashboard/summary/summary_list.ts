@@ -8,10 +8,6 @@ import { IBoostProjectData } from "../../data/boostprojectdata_interface";
 export declare var boostprojectdata: IBoostProjectData;
 
 export function summaryEnter(enter: any) {
-    summerEnterImpl(enter);
-}
-
-function summerEnterImpl(enter: any) {
     const row = enter.append("vscode-data-grid-row");
 
     const cell1 = row
