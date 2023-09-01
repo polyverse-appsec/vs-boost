@@ -1,0 +1,7 @@
+{
+    "require": ["ts-node/register", "test/helpers/setup.js"],
+    "timeout": 5000,
+    "reporter": "spec",
+    "recursive": true
+  }
+  
