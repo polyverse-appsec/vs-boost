@@ -10,7 +10,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Enhancements
 - Chat includes detailed Boost analysis for selected or active source file in the Visual Studio Code Text Editor
-- Analysis checkboxes persist across restarts in Activity Bar
+- Analysis checkboxes and radio buttons persist across restarts in Activity Bar
 
 ### Bug Fixes
 - N/A
