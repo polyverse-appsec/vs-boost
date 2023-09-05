@@ -1,13 +1,18 @@
 import * as vscode from 'vscode';
-
+import {getAnalysisForSourceTarget} from '../extension/vscodeUtilities';
+import * as boostnb from '../data/jupyter_notebook';
+import * as fs from 'fs';
+import {getBoostFile} from '../extension/extension'; 
+import {BoostNotebook} from '../data/jupyter_notebook'; 
 export class DecoratorProvider {
-    private smallNumberDecorationType: vscode.TextEditorDecorationType;
+    private boostLineSelectDecoration: vscode.TextEditorDecorationType;
     private timeout: NodeJS.Timer | undefined = undefined;
     private activeEditor: vscode.TextEditor | undefined;
+    private _activeEditorBoostNotebookShadow: boostnb.BoostNotebook | undefined;
 
     constructor(context: vscode.ExtensionContext) {
 
-        this.smallNumberDecorationType = vscode.window.createTextEditorDecorationType({
+        this.boostLineSelectDecoration = vscode.window.createTextEditorDecorationType({
             borderWidth: '1px',
             borderStyle: 'solid',
             overviewRulerColor: 'blue',
@@ -22,17 +27,20 @@ export class DecoratorProvider {
 
         this.activeEditor = vscode.window.activeTextEditor;
 
+        this.updateShadowNotebook();
         this.updateDecorations();
 
         vscode.window.onDidChangeActiveTextEditor(editor => {
             this.activeEditor = editor;
             if (editor) {
+                this.updateShadowNotebook();
                 this.triggerUpdateDecorations();
             }
         }, null, context.subscriptions);
 
         vscode.workspace.onDidChangeTextDocument(event => {
             if (this.activeEditor && event.document === this.activeEditor.document) {
+                this.updateShadowNotebook();
                 this.triggerUpdateDecorations(true);
             }
         }, null, context.subscriptions);
@@ -45,7 +53,7 @@ export class DecoratorProvider {
     }
 
     private updateDecorations() {
-        if (!this.activeEditor) {
+        if (!this.activeEditor || !this._activeEditorBoostNotebookShadow) {
             return;
         }
     
@@ -55,6 +63,7 @@ export class DecoratorProvider {
         for (const selection of this.activeEditor.selections) {
             const startLine = selection.start.line;
             const endLine = selection.end.line;
+            const results = getAnalysisForSourceTarget(this._activeEditorBoostNotebookShadow, undefined, selection);
     
             for (let lineNum = startLine; lineNum <= endLine; lineNum++) {
                 const line = this.activeEditor.document.lineAt(lineNum);
@@ -63,7 +72,7 @@ export class DecoratorProvider {
     
                 const decoration = {
                     range: new vscode.Range(startPos, endPos),
-                    hoverMessage: new vscode.MarkdownString("*Hello* from Boost!"),
+                    hoverMessage: new vscode.MarkdownString(results.join('\n')),
                     renderOptions: {
                         after: {
                             contentText: "hello from Boost",
@@ -75,7 +84,7 @@ export class DecoratorProvider {
             }
         }
     
-        this.activeEditor.setDecorations(this.smallNumberDecorationType, decorations);
+        this.activeEditor.setDecorations(this.boostLineSelectDecoration, decorations);
     }
     
 
@@ -88,6 +97,25 @@ export class DecoratorProvider {
             this.timeout = setTimeout(() => this.updateDecorations(), 500);
         } else {
             this.updateDecorations();
+        }
+    }
+
+    private updateShadowNotebook() {
+        if (!this.activeEditor) {
+            return;
+        }
+
+        const boostUri = getBoostFile(this.activeEditor.document.uri);
+        if (!boostUri) {
+            return;
+        }
+        //now load the notebook
+        const boostNotebook = new BoostNotebook();
+        if (fs.existsSync(boostUri.fsPath)) {
+            boostNotebook.load(boostUri.fsPath);
+            this._activeEditorBoostNotebookShadow = boostNotebook;
+        } else {
+            this._activeEditorBoostNotebookShadow = undefined;
         }
     }
 }

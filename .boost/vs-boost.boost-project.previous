@@ -1,17 +1,17 @@
 {
-  "dataFormatVersion": "1.2.5",
+  "dataFormatVersion": "1.3.2",
   "summary": {
     "projectName": "vs-boost",
     "summaryUrl": ".boost/vs-boost.summary.boost-notebook",
-    "filesToAnalyze": 148,
+    "filesToAnalyze": 164,
     "filesAnalyzed": 87,
     "issues": [
       "Error refreshing Boost Project data for /Users/alexgo/code/vs-boost: SyntaxError: Unexpected token 'E', \"Error: Boo\"... is not valid JSON"
     ]
   },
   "sectionSummary": {
-    "archblueprintCode": {
-      "analysisType": "archblueprintCode",
+    "summary": {
+      "analysisType": "summary",
       "status": "not-started",
       "completedCells": 0,
       "errorCells": 0,
@@ -22,68 +22,99 @@
     "explainCode": {
       "analysisType": "explainCode",
       "status": "incomplete",
-      "completedCells": 378,
-      "errorCells": 194,
+      "completedCells": 185,
+      "errorCells": 114,
       "issueCells": 0,
-      "totalCells": 574,
-      "filesAnalyzed": 116
-    },
-    "flowDiagram": {
-      "analysisType": "flowDiagram",
-      "status": "not-started",
-      "completedCells": 0,
-      "errorCells": 0,
-      "issueCells": 0,
-      "totalCells": 0,
-      "filesAnalyzed": 0
-    },
-    "bugAnalysis": {
-      "analysisType": "bugAnalysis",
-      "status": "not-started",
-      "completedCells": 0,
-      "errorCells": 0,
-      "issueCells": 0,
-      "totalCells": 0,
-      "filesAnalyzed": 0
-    },
-    "bugAnalysisList": {
-      "analysisType": "bugAnalysisList",
-      "status": "not-started",
-      "completedCells": 0,
-      "errorCells": 0,
-      "issueCells": 0,
-      "totalCells": 0,
-      "filesAnalyzed": 0
-    },
-    "complianceCode": {
-      "analysisType": "complianceCode",
-      "status": "not-started",
-      "completedCells": 0,
-      "errorCells": 0,
-      "issueCells": 0,
-      "totalCells": 0,
-      "filesAnalyzed": 0
-    },
-    "complianceCodeList": {
-      "analysisType": "complianceCodeList",
-      "status": "not-started",
-      "completedCells": 0,
-      "errorCells": 0,
-      "issueCells": 0,
-      "totalCells": 0,
-      "filesAnalyzed": 0
-    },
-    "summary": {
-      "analysisType": "summary",
-      "status": "not-started",
-      "completedCells": 0,
-      "errorCells": 0,
-      "issueCells": 0,
-      "totalCells": 0,
-      "filesAnalyzed": 0
+      "totalCells": 301,
+      "filesAnalyzed": 82
     }
   },
   "files": {
+    "build_instructions.sh": {
+      "sourceRelFile": "./build_instructions.sh",
+      "notebookRelFile": ".boost/build_instructions.sh.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "internal_readme.md": {
+      "sourceRelFile": "./internal_readme.md",
+      "notebookRelFile": ".boost/internal_readme.md.boost-notebook",
+      "totalCells": 5,
+      "completedCells": 5,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 5,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 5,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    ".prettierrc": {
+      "sourceRelFile": "./.prettierrc",
+      "notebookRelFile": ".boost/.prettierrc.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "package.json": {
+      "sourceRelFile": "./package.json",
+      "notebookRelFile": ".boost/package.json.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "package-lock.json": {
+      "sourceRelFile": "./package-lock.json",
+      "notebookRelFile": ".boost/package-lock.json.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 0,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {}
+    },
     "README.md": {
       "sourceRelFile": "./README.md",
       "notebookRelFile": ".boost/README.md.boost-notebook",
@@ -141,34 +172,6 @@
         }
       }
     },
-    "package.json": {
-      "sourceRelFile": "./package.json",
-      "notebookRelFile": ".boost/package.json.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "package-lock.json": {
-      "sourceRelFile": "./package-lock.json",
-      "notebookRelFile": ".boost/package-lock.json.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 0,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {}
-    },
     "CHANGELOG.md": {
       "sourceRelFile": "./CHANGELOG.md",
       "notebookRelFile": ".boost/CHANGELOG.md.boost-notebook",
@@ -184,424 +187,6 @@
           "errorCells": 0,
           "issueCells": 0,
           "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    ".prettierrc": {
-      "sourceRelFile": "./.prettierrc",
-      "notebookRelFile": ".boost/.prettierrc.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "build_instructions.sh": {
-      "sourceRelFile": "./build_instructions.sh",
-      "notebookRelFile": ".boost/build_instructions.sh.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/blueprint_controller.ts": {
-      "sourceRelFile": "./src/blueprint_controller.ts",
-      "notebookRelFile": ".boost/src/blueprint_controller.ts.boost-notebook",
-      "totalCells": 6,
-      "completedCells": 0,
-      "errorCells": 6,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 6,
-          "issueCells": 0,
-          "totalCells": 6,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/extension.ts": {
-      "sourceRelFile": "./src/extension.ts",
-      "notebookRelFile": ".boost/src/extension.ts.boost-notebook",
-      "totalCells": 33,
-      "completedCells": 33,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 33,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 33,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/function_base_controller.ts": {
-      "sourceRelFile": "./src/function_base_controller.ts",
-      "notebookRelFile": ".boost/src/function_base_controller.ts.boost-notebook",
-      "totalCells": 5,
-      "completedCells": 5,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 5,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 5,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/serializer.ts": {
-      "sourceRelFile": "./src/serializer.ts",
-      "notebookRelFile": ".boost/src/serializer.ts.boost-notebook",
-      "totalCells": 7,
-      "completedCells": 7,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 7,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 7,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/boostServiceHelper.ts": {
-      "sourceRelFile": "./src/boostServiceHelper.ts",
-      "notebookRelFile": ".boost/src/boostServiceHelper.ts.boost-notebook",
-      "totalCells": 10,
-      "completedCells": 10,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 10,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 10,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/convert_markdown.ts": {
-      "sourceRelFile": "./src/convert_markdown.ts",
-      "notebookRelFile": ".boost/src/convert_markdown.ts.boost-notebook",
-      "totalCells": 6,
-      "completedCells": 6,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 6,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 6,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/base_tree_view.ts": {
-      "sourceRelFile": "./src/base_tree_view.ts",
-      "notebookRelFile": ".boost/src/base_tree_view.ts.boost-notebook",
-      "totalCells": 4,
-      "completedCells": 0,
-      "errorCells": 4,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 4,
-          "issueCells": 0,
-          "totalCells": 4,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/convert_html.ts": {
-      "sourceRelFile": "./src/convert_html.ts",
-      "notebookRelFile": ".boost/src/convert_html.ts.boost-notebook",
-      "totalCells": 8,
-      "completedCells": 8,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 8,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 8,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/user_organizations.ts": {
-      "sourceRelFile": "./src/user_organizations.ts",
-      "notebookRelFile": ".boost/src/user_organizations.ts.boost-notebook",
-      "totalCells": 7,
-      "completedCells": 0,
-      "errorCells": 7,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 7,
-          "issueCells": 0,
-          "totalCells": 7,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/custom_controller.ts": {
-      "sourceRelFile": "./src/custom_controller.ts",
-      "notebookRelFile": ".boost/src/custom_controller.ts.boost-notebook",
-      "totalCells": 8,
-      "completedCells": 8,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 8,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 8,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/performance_controller.ts": {
-      "sourceRelFile": "./src/performance_controller.ts",
-      "notebookRelFile": ".boost/src/performance_controller.ts.boost-notebook",
-      "totalCells": 7,
-      "completedCells": 0,
-      "errorCells": 7,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 7,
-          "issueCells": 0,
-          "totalCells": 7,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/git.d.ts": {
-      "sourceRelFile": "./src/git.d.ts",
-      "notebookRelFile": ".boost/src/git.d.ts.boost-notebook",
-      "totalCells": 36,
-      "completedCells": 36,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 36,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 36,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/marked-highlights.d.ts": {
-      "sourceRelFile": "./src/marked-highlights.d.ts",
-      "notebookRelFile": ".boost/src/marked-highlights.d.ts.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/summary_controller.ts": {
-      "sourceRelFile": "./src/summary_controller.ts",
-      "notebookRelFile": ".boost/src/summary_controller.ts.boost-notebook",
-      "totalCells": 8,
-      "completedCells": 8,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 8,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 8,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/convert_pdf.ts": {
-      "sourceRelFile": "./src/convert_pdf.ts",
-      "notebookRelFile": ".boost/src/convert_pdf.ts.boost-notebook",
-      "totalCells": 4,
-      "completedCells": 0,
-      "errorCells": 4,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 4,
-          "issueCells": 0,
-          "totalCells": 4,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/boostprojectdata_interface.ts": {
-      "sourceRelFile": "./src/boostprojectdata_interface.ts",
-      "notebookRelFile": ".boost/src/boostprojectdata_interface.ts.boost-notebook",
-      "totalCells": 8,
-      "completedCells": 8,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 8,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 8,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/testgen_controller.ts": {
-      "sourceRelFile": "./src/testgen_controller.ts",
-      "notebookRelFile": ".boost/src/testgen_controller.ts.boost-notebook",
-      "totalCells": 6,
-      "completedCells": 6,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 6,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 6,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/performance_function_controller.ts": {
-      "sourceRelFile": "./src/performance_function_controller.ts",
-      "notebookRelFile": ".boost/src/performance_function_controller.ts.boost-notebook",
-      "totalCells": 6,
-      "completedCells": 0,
-      "errorCells": 6,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 6,
-          "issueCells": 0,
-          "totalCells": 6,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/error.ts": {
-      "sourceRelFile": "./src/error.ts",
-      "notebookRelFile": ".boost/src/error.ts.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 0,
-      "errorCells": 1,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 1,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/explain_controller.ts": {
-      "sourceRelFile": "./src/explain_controller.ts",
-      "notebookRelFile": ".boost/src/explain_controller.ts.boost-notebook",
-      "totalCells": 7,
-      "completedCells": 0,
-      "errorCells": 7,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 7,
-          "issueCells": 0,
-          "totalCells": 7,
           "filesAnalyzed": 1
         }
       }
@@ -644,44 +229,6 @@
         }
       }
     },
-    "src/quick_blueprint_controller.ts": {
-      "sourceRelFile": "./src/quick_blueprint_controller.ts",
-      "notebookRelFile": ".boost/src/quick_blueprint_controller.ts.boost-notebook",
-      "totalCells": 8,
-      "completedCells": 8,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 8,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 8,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/controllerOutputTypes.ts": {
-      "sourceRelFile": "./src/controllerOutputTypes.ts",
-      "notebookRelFile": ".boost/src/controllerOutputTypes.ts.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
     "src/userAnalysisType.ts": {
       "sourceRelFile": "./src/userAnalysisType.ts",
       "notebookRelFile": ".boost/src/userAnalysisType.ts.boost-notebook",
@@ -697,82 +244,6 @@
           "errorCells": 0,
           "issueCells": 0,
           "totalCells": 2,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/codeguidelines_controller.ts": {
-      "sourceRelFile": "./src/codeguidelines_controller.ts",
-      "notebookRelFile": ".boost/src/codeguidelines_controller.ts.boost-notebook",
-      "totalCells": 7,
-      "completedCells": 0,
-      "errorCells": 7,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 7,
-          "issueCells": 0,
-          "totalCells": 7,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/compliance_function_controller.ts": {
-      "sourceRelFile": "./src/compliance_function_controller.ts",
-      "notebookRelFile": ".boost/src/compliance_function_controller.ts.boost-notebook",
-      "totalCells": 6,
-      "completedCells": 0,
-      "errorCells": 6,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 6,
-          "issueCells": 0,
-          "totalCells": 6,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/incompatibleVersionException.ts": {
-      "sourceRelFile": "./src/incompatibleVersionException.ts",
-      "notebookRelFile": ".boost/src/incompatibleVersionException.ts.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/jupyter_notebook.ts": {
-      "sourceRelFile": "./src/jupyter_notebook.ts",
-      "notebookRelFile": ".boost/src/jupyter_notebook.ts.boost-notebook",
-      "totalCells": 9,
-      "completedCells": 9,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 9,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 9,
           "filesAnalyzed": 1
         }
       }
@@ -796,9 +267,66 @@
         }
       }
     },
-    "src/flowdiagram_controller.ts": {
-      "sourceRelFile": "./src/flowdiagram_controller.ts",
-      "notebookRelFile": ".boost/src/flowdiagram_controller.ts.boost-notebook",
+    "resources/blueprint_template.md": {
+      "sourceRelFile": "./resources/blueprint_template.md",
+      "notebookRelFile": ".boost/resources/blueprint_template.md.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 0,
+      "errorCells": 1,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 1,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "resources/dashboard/chat.html": {
+      "sourceRelFile": "./resources/dashboard/chat.html",
+      "notebookRelFile": ".boost/resources/dashboard/chat.html.boost-notebook",
+      "totalCells": 8,
+      "completedCells": 0,
+      "errorCells": 8,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 8,
+          "issueCells": 0,
+          "totalCells": 8,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "resources/dashboard/summary.html": {
+      "sourceRelFile": "./resources/dashboard/summary.html",
+      "notebookRelFile": ".boost/resources/dashboard/summary.html.boost-notebook",
+      "totalCells": 11,
+      "completedCells": 0,
+      "errorCells": 11,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 11,
+          "issueCells": 0,
+          "totalCells": 11,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/dashboard/summary/details_list.ts": {
+      "sourceRelFile": "./src/dashboard/summary/details_list.ts",
+      "notebookRelFile": ".boost/src/dashboard/summary/details_list.ts.boost-notebook",
       "totalCells": 5,
       "completedCells": 0,
       "errorCells": 5,
@@ -811,6 +339,63 @@
           "errorCells": 5,
           "issueCells": 0,
           "totalCells": 5,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/dashboard/start/main.ts": {
+      "sourceRelFile": "./src/dashboard/start/main.ts",
+      "notebookRelFile": ".boost/src/dashboard/start/main.ts.boost-notebook",
+      "totalCells": 6,
+      "completedCells": 0,
+      "errorCells": 6,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 6,
+          "issueCells": 0,
+          "totalCells": 6,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/dashboard/summary/main.ts": {
+      "sourceRelFile": "./src/dashboard/summary/main.ts",
+      "notebookRelFile": ".boost/src/dashboard/summary/main.ts.boost-notebook",
+      "totalCells": 17,
+      "completedCells": 17,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 17,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 17,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "resources/dashboard/markdown.html": {
+      "sourceRelFile": "./resources/dashboard/markdown.html",
+      "notebookRelFile": ".boost/resources/dashboard/markdown.html.boost-notebook",
+      "totalCells": 2,
+      "completedCells": 0,
+      "errorCells": 2,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 2,
+          "issueCells": 0,
+          "totalCells": 2,
           "filesAnalyzed": 1
         }
       }
@@ -872,603 +457,6 @@
         }
       }
     },
-    "src/dashboard/summary/details_list.ts": {
-      "sourceRelFile": "./src/dashboard/summary/details_list.ts",
-      "notebookRelFile": ".boost/src/dashboard/summary/details_list.ts.boost-notebook",
-      "totalCells": 5,
-      "completedCells": 0,
-      "errorCells": 5,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 5,
-          "issueCells": 0,
-          "totalCells": 5,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/dashboard/summary/main.ts": {
-      "sourceRelFile": "./src/dashboard/summary/main.ts",
-      "notebookRelFile": ".boost/src/dashboard/summary/main.ts.boost-notebook",
-      "totalCells": 17,
-      "completedCells": 17,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 17,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 17,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/dashboard/start/main.ts": {
-      "sourceRelFile": "./src/dashboard/start/main.ts",
-      "notebookRelFile": ".boost/src/dashboard/start/main.ts.boost-notebook",
-      "totalCells": 6,
-      "completedCells": 0,
-      "errorCells": 6,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 6,
-          "issueCells": 0,
-          "totalCells": 6,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/dashboard/markdown/main.ts": {
-      "sourceRelFile": "./src/dashboard/markdown/main.ts",
-      "notebookRelFile": ".boost/src/dashboard/markdown/main.ts.boost-notebook",
-      "totalCells": 2,
-      "completedCells": 2,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 2,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 2,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/hello.c": {
-      "sourceRelFile": "./src/test/resources/hello.c",
-      "notebookRelFile": ".boost/src/test/resources/hello.c.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/cmakelist.txt": {
-      "sourceRelFile": "./src/test/resources/cmakelist.txt",
-      "notebookRelFile": ".boost/src/test/resources/cmakelist.txt.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/cargo.toml": {
-      "sourceRelFile": "./src/test/resources/cargo.toml",
-      "notebookRelFile": ".boost/src/test/resources/cargo.toml.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/fo.xsl": {
-      "sourceRelFile": "./src/test/resources/fo.xsl",
-      "notebookRelFile": ".boost/src/test/resources/fo.xsl.boost-notebook",
-      "totalCells": 2,
-      "completedCells": 2,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 2,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 2,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/suite/commands_exist.test.ts": {
-      "sourceRelFile": "./src/test/suite/commands_exist.test.ts",
-      "notebookRelFile": ".boost/src/test/suite/commands_exist.test.ts.boost-notebook",
-      "totalCells": 2,
-      "completedCells": 0,
-      "errorCells": 2,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 2,
-          "issueCells": 0,
-          "totalCells": 2,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/suite/mocha.opts": {
-      "sourceRelFile": "./src/test/suite/mocha.opts",
-      "notebookRelFile": ".boost/src/test/suite/mocha.opts.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/suite/testCommandUtilities.ts": {
-      "sourceRelFile": "./src/test/suite/testCommandUtilities.ts",
-      "notebookRelFile": ".boost/src/test/suite/testCommandUtilities.ts.boost-notebook",
-      "totalCells": 3,
-      "completedCells": 0,
-      "errorCells": 3,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 3,
-          "issueCells": 0,
-          "totalCells": 3,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "resources/blueprint_template.md": {
-      "sourceRelFile": "./resources/blueprint_template.md",
-      "notebookRelFile": ".boost/resources/blueprint_template.md.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 0,
-      "errorCells": 1,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 1,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/suite/boostdata.test.ts": {
-      "sourceRelFile": "./src/test/suite/boostdata.test.ts",
-      "notebookRelFile": ".boost/src/test/suite/boostdata.test.ts.boost-notebook",
-      "totalCells": 3,
-      "completedCells": 3,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 3,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 3,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/heartbleed_d1_both.c": {
-      "sourceRelFile": "./src/test/resources/heartbleed_d1_both.c",
-      "notebookRelFile": ".boost/src/test/resources/heartbleed_d1_both.c.boost-notebook",
-      "totalCells": 37,
-      "completedCells": 0,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {}
-    },
-    "src/test/suite/analyze_command.test.ts": {
-      "sourceRelFile": "./src/test/suite/analyze_command.test.ts",
-      "notebookRelFile": ".boost/src/test/suite/analyze_command.test.ts.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/heartbleed.rb": {
-      "sourceRelFile": "./src/test/resources/heartbleed.rb",
-      "notebookRelFile": ".boost/src/test/resources/heartbleed.rb.boost-notebook",
-      "totalCells": 2,
-      "completedCells": 0,
-      "errorCells": 1,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 1,
-          "issueCells": 0,
-          "totalCells": 2,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/package.json": {
-      "sourceRelFile": "./src/test/resources/package.json",
-      "notebookRelFile": ".boost/src/test/resources/package.json.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/pubspec.yaml": {
-      "sourceRelFile": "./src/test/resources/pubspec.yaml",
-      "notebookRelFile": ".boost/src/test/resources/pubspec.yaml.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/setup.py": {
-      "sourceRelFile": "./src/test/resources/setup.py",
-      "notebookRelFile": ".boost/src/test/resources/setup.py.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/project.xcodeproj": {
-      "sourceRelFile": "./src/test/resources/project.xcodeproj",
-      "notebookRelFile": ".boost/src/test/resources/project.xcodeproj.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 0,
-      "errorCells": 1,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 1,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/instructions.php.boost-notebook": {
-      "sourceRelFile": "./src/test/resources/instructions.php.boost-notebook",
-      "notebookRelFile": ".boost/src/test/resources/instructions.php.boost-notebook.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 0,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {}
-    },
-    "src/test/resources/anagrams-deranged-anagrams.h": {
-      "sourceRelFile": "./src/test/resources/anagrams-deranged-anagrams.h",
-      "notebookRelFile": ".boost/src/test/resources/anagrams-deranged-anagrams.h.boost-notebook",
-      "totalCells": 3,
-      "completedCells": 0,
-      "errorCells": 3,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 3,
-          "issueCells": 0,
-          "totalCells": 3,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/pom.xml": {
-      "sourceRelFile": "./src/test/resources/pom.xml",
-      "notebookRelFile": ".boost/src/test/resources/pom.xml.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/security.php.boost-notebook": {
-      "sourceRelFile": "./src/test/resources/security.php.boost-notebook",
-      "notebookRelFile": ".boost/src/test/resources/security.php.boost-notebook.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 0,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {}
-    },
-    "src/test/resources/anagrams-deranged-anagrams.cpp": {
-      "sourceRelFile": "./src/test/resources/anagrams-deranged-anagrams.cpp",
-      "notebookRelFile": ".boost/src/test/resources/anagrams-deranged-anagrams.cpp.boost-notebook",
-      "totalCells": 2,
-      "completedCells": 0,
-      "errorCells": 2,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 2,
-          "issueCells": 0,
-          "totalCells": 2,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/heartbleed.txt": {
-      "sourceRelFile": "./src/test/resources/heartbleed.txt",
-      "notebookRelFile": ".boost/src/test/resources/heartbleed.txt.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 0,
-      "errorCells": 1,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 1,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/anagrams.py": {
-      "sourceRelFile": "./src/test/resources/anagrams.py",
-      "notebookRelFile": ".boost/src/test/resources/anagrams.py.boost-notebook",
-      "totalCells": 5,
-      "completedCells": 0,
-      "errorCells": 5,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 5,
-          "issueCells": 0,
-          "totalCells": 5,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/anagrams.pl": {
-      "sourceRelFile": "./src/test/resources/anagrams.pl",
-      "notebookRelFile": ".boost/src/test/resources/anagrams.pl.boost-notebook",
-      "totalCells": 3,
-      "completedCells": 0,
-      "errorCells": 3,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 3,
-          "issueCells": 0,
-          "totalCells": 3,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/project.sln": {
-      "sourceRelFile": "./src/test/resources/project.sln",
-      "notebookRelFile": ".boost/src/test/resources/project.sln.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "resources/dashboard/chat.html": {
-      "sourceRelFile": "./resources/dashboard/chat.html",
-      "notebookRelFile": ".boost/resources/dashboard/chat.html.boost-notebook",
-      "totalCells": 8,
-      "completedCells": 0,
-      "errorCells": 8,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 8,
-          "issueCells": 0,
-          "totalCells": 8,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "resources/dashboard/summary.html": {
-      "sourceRelFile": "./resources/dashboard/summary.html",
-      "notebookRelFile": ".boost/resources/dashboard/summary.html.boost-notebook",
-      "totalCells": 11,
-      "completedCells": 0,
-      "errorCells": 11,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 11,
-          "issueCells": 0,
-          "totalCells": 11,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/anagrams-5.go": {
-      "sourceRelFile": "./src/test/resources/anagrams-5.go",
-      "notebookRelFile": ".boost/src/test/resources/anagrams-5.go.boost-notebook",
-      "totalCells": 5,
-      "completedCells": 0,
-      "errorCells": 5,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 5,
-          "issueCells": 0,
-          "totalCells": 5,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "resources/dashboard/markdown.html": {
-      "sourceRelFile": "./resources/dashboard/markdown.html",
-      "notebookRelFile": ".boost/resources/dashboard/markdown.html.boost-notebook",
-      "totalCells": 2,
-      "completedCells": 0,
-      "errorCells": 2,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 2,
-          "issueCells": 0,
-          "totalCells": 2,
-          "filesAnalyzed": 1
-        }
-      }
-    },
     "resources/dashboard/start.html": {
       "sourceRelFile": "./resources/dashboard/start.html",
       "notebookRelFile": ".boost/resources/dashboard/start.html.boost-notebook",
@@ -1484,224 +472,6 @@
           "errorCells": 1,
           "issueCells": 0,
           "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/anagrams-deranged-anagrams-1.js": {
-      "sourceRelFile": "./src/test/resources/anagrams-deranged-anagrams-1.js",
-      "notebookRelFile": ".boost/src/test/resources/anagrams-deranged-anagrams-1.js.boost-notebook",
-      "totalCells": 5,
-      "completedCells": 0,
-      "errorCells": 5,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 5,
-          "issueCells": 0,
-          "totalCells": 5,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/foo.csproj": {
-      "sourceRelFile": "./src/test/resources/foo.csproj",
-      "notebookRelFile": ".boost/src/test/resources/foo.csproj.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/hello.o": {
-      "sourceRelFile": "./src/test/resources/hello.o",
-      "notebookRelFile": ".boost/src/test/resources/hello.o.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 0,
-      "errorCells": 1,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 1,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/hello.s": {
-      "sourceRelFile": "./src/test/resources/hello.s",
-      "notebookRelFile": ".boost/src/test/resources/hello.s.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 0,
-      "errorCells": 1,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 1,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/build.gradle": {
-      "sourceRelFile": "./src/test/resources/build.gradle",
-      "notebookRelFile": ".boost/src/test/resources/build.gradle.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/impossible.js.boost-notebook": {
-      "sourceRelFile": "./src/test/resources/impossible.js.boost-notebook",
-      "notebookRelFile": ".boost/src/test/resources/impossible.js.boost-notebook.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 0,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {}
-    },
-    "src/test/resources/anagrams.vb": {
-      "sourceRelFile": "./src/test/resources/anagrams.vb",
-      "notebookRelFile": ".boost/src/test/resources/anagrams.vb.boost-notebook",
-      "totalCells": 3,
-      "completedCells": 0,
-      "errorCells": 3,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 3,
-          "issueCells": 0,
-          "totalCells": 3,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/dashboard/chat/main.ts": {
-      "sourceRelFile": "./src/dashboard/chat/main.ts",
-      "notebookRelFile": ".boost/src/dashboard/chat/main.ts.boost-notebook",
-      "totalCells": 5,
-      "completedCells": 5,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 5,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 5,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/anagrams-deranged-anagrams.php": {
-      "sourceRelFile": "./src/test/resources/anagrams-deranged-anagrams.php",
-      "notebookRelFile": ".boost/src/test/resources/anagrams-deranged-anagrams.php.boost-notebook",
-      "totalCells": 3,
-      "completedCells": 0,
-      "errorCells": 3,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 3,
-          "issueCells": 0,
-          "totalCells": 3,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/identity-matrix.typescript": {
-      "sourceRelFile": "./src/test/resources/identity-matrix.typescript",
-      "notebookRelFile": ".boost/src/test/resources/identity-matrix.typescript.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/test_loop.sh": {
-      "sourceRelFile": "./src/test/test_loop.sh",
-      "notebookRelFile": ".boost/src/test/test_loop.sh.boost-notebook",
-      "totalCells": 2,
-      "completedCells": 2,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 2,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 2,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/convert_controller.ts": {
-      "sourceRelFile": "./src/convert_controller.ts",
-      "notebookRelFile": ".boost/src/convert_controller.ts.boost-notebook",
-      "totalCells": 7,
-      "completedCells": 7,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 7,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 7,
           "filesAnalyzed": 1
         }
       }
@@ -1725,44 +495,6 @@
         }
       }
     },
-    "src/boostLogging.ts": {
-      "sourceRelFile": "./src/boostLogging.ts",
-      "notebookRelFile": ".boost/src/boostLogging.ts.boost-notebook",
-      "totalCells": 4,
-      "completedCells": 0,
-      "errorCells": 4,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 4,
-          "issueCells": 0,
-          "totalCells": 4,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/authorization.ts": {
-      "sourceRelFile": "./src/authorization.ts",
-      "notebookRelFile": ".boost/src/authorization.ts.boost-notebook",
-      "totalCells": 7,
-      "completedCells": 7,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 7,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 7,
-          "filesAnalyzed": 1
-        }
-      }
-    },
     "src/instructions.json": {
       "sourceRelFile": "./src/instructions.json",
       "notebookRelFile": ".boost/src/instructions.json.boost-notebook",
@@ -1782,40 +514,40 @@
         }
       }
     },
-    "src/split.ts": {
-      "sourceRelFile": "./src/split.ts",
-      "notebookRelFile": ".boost/src/split.ts.boost-notebook",
-      "totalCells": 12,
-      "completedCells": 12,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 12,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 12,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/analyze_controller.ts": {
-      "sourceRelFile": "./src/analyze_controller.ts",
-      "notebookRelFile": ".boost/src/analyze_controller.ts.boost-notebook",
-      "totalCells": 7,
+    "src/base_tree_view.ts": {
+      "sourceRelFile": "./src/base_tree_view.ts",
+      "notebookRelFile": ".boost/src/base_tree_view.ts.boost-notebook",
+      "totalCells": 4,
       "completedCells": 0,
-      "errorCells": 7,
+      "errorCells": 4,
       "issueCells": 0,
       "sections": {
         "explainCode": {
           "analysisType": "explainCode",
           "status": "not-started",
           "completedCells": 0,
-          "errorCells": 7,
+          "errorCells": 4,
           "issueCells": 0,
-          "totalCells": 7,
+          "totalCells": 4,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/dashboard/markdown/main.ts": {
+      "sourceRelFile": "./src/dashboard/markdown/main.ts",
+      "notebookRelFile": ".boost/src/dashboard/markdown/main.ts.boost-notebook",
+      "totalCells": 2,
+      "completedCells": 2,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 2,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 2,
           "filesAnalyzed": 1
         }
       }
@@ -1839,103 +571,9 @@
         }
       }
     },
-    "src/analyze_function_controller.ts": {
-      "sourceRelFile": "./src/analyze_function_controller.ts",
-      "notebookRelFile": ".boost/src/analyze_function_controller.ts.boost-notebook",
-      "totalCells": 6,
-      "completedCells": 0,
-      "errorCells": 6,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 6,
-          "issueCells": 0,
-          "totalCells": 6,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/BoostProjectData.ts": {
-      "sourceRelFile": "./src/BoostProjectData.ts",
-      "notebookRelFile": ".boost/src/BoostProjectData.ts.boost-notebook",
-      "totalCells": 9,
-      "completedCells": 9,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 9,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 9,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/base_controller.ts": {
-      "sourceRelFile": "./src/base_controller.ts",
-      "notebookRelFile": ".boost/src/base_controller.ts.boost-notebook",
-      "totalCells": 62,
-      "completedCells": 0,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {}
-    },
-    "src/BoostExtension.ts": {
-      "sourceRelFile": "./src/BoostExtension.ts",
-      "notebookRelFile": ".boost/src/BoostExtension.ts.boost-notebook",
-      "totalCells": 36,
-      "completedCells": 0,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {}
-    },
-    "src/compliance_controller.ts": {
-      "sourceRelFile": "./src/compliance_controller.ts",
-      "notebookRelFile": ".boost/src/compliance_controller.ts.boost-notebook",
-      "totalCells": 7,
-      "completedCells": 0,
-      "errorCells": 7,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 7,
-          "issueCells": 0,
-          "totalCells": 7,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/boostConfiguration.ts": {
-      "sourceRelFile": "./src/boostConfiguration.ts",
-      "notebookRelFile": ".boost/src/boostConfiguration.ts.boost-notebook",
-      "totalCells": 4,
-      "completedCells": 4,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 4,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 4,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "internal_readme.md": {
-      "sourceRelFile": "./internal_readme.md",
-      "notebookRelFile": ".boost/internal_readme.md.boost-notebook",
+    "src/dashboard/chat/main.ts": {
+      "sourceRelFile": "./src/dashboard/chat/main.ts",
+      "notebookRelFile": ".boost/src/dashboard/chat/main.ts.boost-notebook",
       "totalCells": 5,
       "completedCells": 5,
       "errorCells": 0,
@@ -1948,110 +586,6 @@
           "errorCells": 0,
           "issueCells": 0,
           "totalCells": 5,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/anagrams-deranged-anagrams.hpp": {
-      "sourceRelFile": "./src/test/resources/anagrams-deranged-anagrams.hpp",
-      "notebookRelFile": ".boost/src/test/resources/anagrams-deranged-anagrams.hpp.boost-notebook",
-      "totalCells": 2,
-      "completedCells": 0,
-      "errorCells": 2,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 2,
-          "issueCells": 0,
-          "totalCells": 2,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/high.js.boost-notebook": {
-      "sourceRelFile": "./src/test/resources/high.js.boost-notebook",
-      "notebookRelFile": ".boost/src/test/resources/high.js.boost-notebook.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 0,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {}
-    },
-    "src/test/resources/anagrams-deranged-anagrams.c": {
-      "sourceRelFile": "./src/test/resources/anagrams-deranged-anagrams.c",
-      "notebookRelFile": ".boost/src/test/resources/anagrams-deranged-anagrams.c.boost-notebook",
-      "totalCells": 6,
-      "completedCells": 0,
-      "errorCells": 6,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 6,
-          "issueCells": 0,
-          "totalCells": 6,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/anagrams-deranged-anagrams.rb": {
-      "sourceRelFile": "./src/test/resources/anagrams-deranged-anagrams.rb",
-      "notebookRelFile": ".boost/src/test/resources/anagrams-deranged-anagrams.rb.boost-notebook",
-      "totalCells": 4,
-      "completedCells": 3,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "incomplete",
-          "completedCells": 3,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 4,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/anagrams.swift": {
-      "sourceRelFile": "./src/test/resources/anagrams.swift",
-      "notebookRelFile": ".boost/src/test/resources/anagrams.swift.boost-notebook",
-      "totalCells": 3,
-      "completedCells": 0,
-      "errorCells": 3,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 3,
-          "issueCells": 0,
-          "totalCells": 3,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/resources/atom-task.coffee": {
-      "sourceRelFile": "./src/test/resources/atom-task.coffee",
-      "notebookRelFile": ".boost/src/test/resources/atom-task.coffee.boost-notebook",
-      "totalCells": 20,
-      "completedCells": 20,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 20,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 20,
           "filesAnalyzed": 1
         }
       }
@@ -2075,173 +609,21 @@
         }
       }
     },
-    "src/test/suite/blueprint_command.test.ts": {
-      "sourceRelFile": "./src/test/suite/blueprint_command.test.ts",
-      "notebookRelFile": ".boost/src/test/suite/blueprint_command.test.ts.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/suite/guidelines_command.test.ts": {
-      "sourceRelFile": "./src/test/suite/guidelines_command.test.ts",
-      "notebookRelFile": ".boost/src/test/suite/guidelines_command.test.ts.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/suite/create_notebook_command.test.ts": {
-      "sourceRelFile": "./src/test/suite/create_notebook_command.test.ts",
-      "notebookRelFile": ".boost/src/test/suite/create_notebook_command.test.ts.boost-notebook",
+    "src/test/test_loop.sh": {
+      "sourceRelFile": "./src/test/test_loop.sh",
+      "notebookRelFile": ".boost/src/test/test_loop.sh.boost-notebook",
       "totalCells": 2,
-      "completedCells": 0,
-      "errorCells": 2,
+      "completedCells": 2,
+      "errorCells": 0,
       "issueCells": 0,
       "sections": {
         "explainCode": {
           "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 2,
+          "status": "completed",
+          "completedCells": 2,
+          "errorCells": 0,
           "issueCells": 0,
           "totalCells": 2,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/suite/loadCodeFile.test.ts": {
-      "sourceRelFile": "./src/test/suite/loadCodeFile.test.ts",
-      "notebookRelFile": ".boost/src/test/suite/loadCodeFile.test.ts.boost-notebook",
-      "totalCells": 4,
-      "completedCells": 4,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 4,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 4,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/suite/index.ts": {
-      "sourceRelFile": "./src/test/suite/index.ts",
-      "notebookRelFile": ".boost/src/test/suite/index.ts.boost-notebook",
-      "totalCells": 3,
-      "completedCells": 0,
-      "errorCells": 3,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 3,
-          "issueCells": 0,
-          "totalCells": 3,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/suite/explain_command.test.ts": {
-      "sourceRelFile": "./src/test/suite/explain_command.test.ts",
-      "notebookRelFile": ".boost/src/test/suite/explain_command.test.ts.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/suite/rightClick_ProcessFile_command.test.ts": {
-      "sourceRelFile": "./src/test/suite/rightClick_ProcessFile_command.test.ts",
-      "notebookRelFile": ".boost/src/test/suite/rightClick_ProcessFile_command.test.ts.boost-notebook",
-      "totalCells": 8,
-      "completedCells": 0,
-      "errorCells": 8,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "not-started",
-          "completedCells": 0,
-          "errorCells": 8,
-          "issueCells": 0,
-          "totalCells": 8,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/suite/compliance_command.test.ts": {
-      "sourceRelFile": "./src/test/suite/compliance_command.test.ts",
-      "notebookRelFile": ".boost/src/test/suite/compliance_command.test.ts.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
-          "filesAnalyzed": 1
-        }
-      }
-    },
-    "src/test/suite/rightClick_ProcessFolder_command.test.ts": {
-      "sourceRelFile": "./src/test/suite/rightClick_ProcessFolder_command.test.ts",
-      "notebookRelFile": ".boost/src/test/suite/rightClick_ProcessFolder_command.test.ts.boost-notebook",
-      "totalCells": 1,
-      "completedCells": 1,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 1,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 1,
           "filesAnalyzed": 1
         }
       }
@@ -2359,20 +741,904 @@
           "filesAnalyzed": 1
         }
       }
+    },
+    "src/test/resources/heartbleed_d1_both.c": {
+      "sourceRelFile": "./src/test/resources/heartbleed_d1_both.c",
+      "notebookRelFile": ".boost/src/test/resources/heartbleed_d1_both.c.boost-notebook",
+      "totalCells": 37,
+      "completedCells": 0,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {}
+    },
+    "src/test/suite/commands_exist.test.ts": {
+      "sourceRelFile": "./src/test/suite/commands_exist.test.ts",
+      "notebookRelFile": ".boost/src/test/suite/commands_exist.test.ts.boost-notebook",
+      "totalCells": 2,
+      "completedCells": 0,
+      "errorCells": 2,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 2,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/heartbleed.rb": {
+      "sourceRelFile": "./src/test/resources/heartbleed.rb",
+      "notebookRelFile": ".boost/src/test/resources/heartbleed.rb.boost-notebook",
+      "totalCells": 2,
+      "completedCells": 0,
+      "errorCells": 1,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 1,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/suite/mocha.opts": {
+      "sourceRelFile": "./src/test/suite/mocha.opts",
+      "notebookRelFile": ".boost/src/test/suite/mocha.opts.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/anagrams-deranged-anagrams.cpp": {
+      "sourceRelFile": "./src/test/resources/anagrams-deranged-anagrams.cpp",
+      "notebookRelFile": ".boost/src/test/resources/anagrams-deranged-anagrams.cpp.boost-notebook",
+      "totalCells": 2,
+      "completedCells": 0,
+      "errorCells": 2,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 2,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/suite/testCommandUtilities.ts": {
+      "sourceRelFile": "./src/test/suite/testCommandUtilities.ts",
+      "notebookRelFile": ".boost/src/test/suite/testCommandUtilities.ts.boost-notebook",
+      "totalCells": 3,
+      "completedCells": 0,
+      "errorCells": 3,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 3,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/heartbleed.txt": {
+      "sourceRelFile": "./src/test/resources/heartbleed.txt",
+      "notebookRelFile": ".boost/src/test/resources/heartbleed.txt.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 0,
+      "errorCells": 1,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 1,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/suite/boostdata.test.ts": {
+      "sourceRelFile": "./src/test/suite/boostdata.test.ts",
+      "notebookRelFile": ".boost/src/test/suite/boostdata.test.ts.boost-notebook",
+      "totalCells": 3,
+      "completedCells": 3,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 3,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/anagrams.py": {
+      "sourceRelFile": "./src/test/resources/anagrams.py",
+      "notebookRelFile": ".boost/src/test/resources/anagrams.py.boost-notebook",
+      "totalCells": 5,
+      "completedCells": 0,
+      "errorCells": 5,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 5,
+          "issueCells": 0,
+          "totalCells": 5,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/anagrams.pl": {
+      "sourceRelFile": "./src/test/resources/anagrams.pl",
+      "notebookRelFile": ".boost/src/test/resources/anagrams.pl.boost-notebook",
+      "totalCells": 3,
+      "completedCells": 0,
+      "errorCells": 3,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 3,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/suite/analyze_command.test.ts": {
+      "sourceRelFile": "./src/test/suite/analyze_command.test.ts",
+      "notebookRelFile": ".boost/src/test/suite/analyze_command.test.ts.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/project.sln": {
+      "sourceRelFile": "./src/test/resources/project.sln",
+      "notebookRelFile": ".boost/src/test/resources/project.sln.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/hello.c": {
+      "sourceRelFile": "./src/test/resources/hello.c",
+      "notebookRelFile": ".boost/src/test/resources/hello.c.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/cmakelist.txt": {
+      "sourceRelFile": "./src/test/resources/cmakelist.txt",
+      "notebookRelFile": ".boost/src/test/resources/cmakelist.txt.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/cargo.toml": {
+      "sourceRelFile": "./src/test/resources/cargo.toml",
+      "notebookRelFile": ".boost/src/test/resources/cargo.toml.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/fo.xsl": {
+      "sourceRelFile": "./src/test/resources/fo.xsl",
+      "notebookRelFile": ".boost/src/test/resources/fo.xsl.boost-notebook",
+      "totalCells": 2,
+      "completedCells": 2,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 2,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/suite/blueprint_command.test.ts": {
+      "sourceRelFile": "./src/test/suite/blueprint_command.test.ts",
+      "notebookRelFile": ".boost/src/test/suite/blueprint_command.test.ts.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/suite/guidelines_command.test.ts": {
+      "sourceRelFile": "./src/test/suite/guidelines_command.test.ts",
+      "notebookRelFile": ".boost/src/test/suite/guidelines_command.test.ts.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/suite/create_notebook_command.test.ts": {
+      "sourceRelFile": "./src/test/suite/create_notebook_command.test.ts",
+      "notebookRelFile": ".boost/src/test/suite/create_notebook_command.test.ts.boost-notebook",
+      "totalCells": 2,
+      "completedCells": 0,
+      "errorCells": 2,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 2,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/pom.xml": {
+      "sourceRelFile": "./src/test/resources/pom.xml",
+      "notebookRelFile": ".boost/src/test/resources/pom.xml.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/suite/loadCodeFile.test.ts": {
+      "sourceRelFile": "./src/test/suite/loadCodeFile.test.ts",
+      "notebookRelFile": ".boost/src/test/suite/loadCodeFile.test.ts.boost-notebook",
+      "totalCells": 4,
+      "completedCells": 4,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 4,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 4,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/suite/index.ts": {
+      "sourceRelFile": "./src/test/suite/index.ts",
+      "notebookRelFile": ".boost/src/test/suite/index.ts.boost-notebook",
+      "totalCells": 3,
+      "completedCells": 0,
+      "errorCells": 3,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 3,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/security.php.boost-notebook": {
+      "sourceRelFile": "./src/test/resources/security.php.boost-notebook",
+      "notebookRelFile": ".boost/src/test/resources/security.php.boost-notebook.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 0,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {}
+    },
+    "src/test/suite/explain_command.test.ts": {
+      "sourceRelFile": "./src/test/suite/explain_command.test.ts",
+      "notebookRelFile": ".boost/src/test/suite/explain_command.test.ts.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/suite/rightClick_ProcessFile_command.test.ts": {
+      "sourceRelFile": "./src/test/suite/rightClick_ProcessFile_command.test.ts",
+      "notebookRelFile": ".boost/src/test/suite/rightClick_ProcessFile_command.test.ts.boost-notebook",
+      "totalCells": 8,
+      "completedCells": 0,
+      "errorCells": 8,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 8,
+          "issueCells": 0,
+          "totalCells": 8,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/suite/compliance_command.test.ts": {
+      "sourceRelFile": "./src/test/suite/compliance_command.test.ts",
+      "notebookRelFile": ".boost/src/test/suite/compliance_command.test.ts.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/suite/rightClick_ProcessFolder_command.test.ts": {
+      "sourceRelFile": "./src/test/suite/rightClick_ProcessFolder_command.test.ts",
+      "notebookRelFile": ".boost/src/test/suite/rightClick_ProcessFolder_command.test.ts.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/pubspec.yaml": {
+      "sourceRelFile": "./src/test/resources/pubspec.yaml",
+      "notebookRelFile": ".boost/src/test/resources/pubspec.yaml.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/package.json": {
+      "sourceRelFile": "./src/test/resources/package.json",
+      "notebookRelFile": ".boost/src/test/resources/package.json.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/setup.py": {
+      "sourceRelFile": "./src/test/resources/setup.py",
+      "notebookRelFile": ".boost/src/test/resources/setup.py.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/project.xcodeproj": {
+      "sourceRelFile": "./src/test/resources/project.xcodeproj",
+      "notebookRelFile": ".boost/src/test/resources/project.xcodeproj.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 0,
+      "errorCells": 1,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 1,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/instructions.php.boost-notebook": {
+      "sourceRelFile": "./src/test/resources/instructions.php.boost-notebook",
+      "notebookRelFile": ".boost/src/test/resources/instructions.php.boost-notebook.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 0,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {}
+    },
+    "src/test/resources/anagrams-deranged-anagrams.h": {
+      "sourceRelFile": "./src/test/resources/anagrams-deranged-anagrams.h",
+      "notebookRelFile": ".boost/src/test/resources/anagrams-deranged-anagrams.h.boost-notebook",
+      "totalCells": 3,
+      "completedCells": 0,
+      "errorCells": 3,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 3,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/anagrams-deranged-anagrams.php": {
+      "sourceRelFile": "./src/test/resources/anagrams-deranged-anagrams.php",
+      "notebookRelFile": ".boost/src/test/resources/anagrams-deranged-anagrams.php.boost-notebook",
+      "totalCells": 3,
+      "completedCells": 0,
+      "errorCells": 3,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 3,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/atom-task.coffee": {
+      "sourceRelFile": "./src/test/resources/atom-task.coffee",
+      "notebookRelFile": ".boost/src/test/resources/atom-task.coffee.boost-notebook",
+      "totalCells": 20,
+      "completedCells": 20,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 20,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 20,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/identity-matrix.typescript": {
+      "sourceRelFile": "./src/test/resources/identity-matrix.typescript",
+      "notebookRelFile": ".boost/src/test/resources/identity-matrix.typescript.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/anagrams-5.go": {
+      "sourceRelFile": "./src/test/resources/anagrams-5.go",
+      "notebookRelFile": ".boost/src/test/resources/anagrams-5.go.boost-notebook",
+      "totalCells": 5,
+      "completedCells": 0,
+      "errorCells": 5,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 5,
+          "issueCells": 0,
+          "totalCells": 5,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/anagrams-deranged-anagrams-1.js": {
+      "sourceRelFile": "./src/test/resources/anagrams-deranged-anagrams-1.js",
+      "notebookRelFile": ".boost/src/test/resources/anagrams-deranged-anagrams-1.js.boost-notebook",
+      "totalCells": 5,
+      "completedCells": 0,
+      "errorCells": 5,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 5,
+          "issueCells": 0,
+          "totalCells": 5,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/foo.csproj": {
+      "sourceRelFile": "./src/test/resources/foo.csproj",
+      "notebookRelFile": ".boost/src/test/resources/foo.csproj.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/anagrams.swift": {
+      "sourceRelFile": "./src/test/resources/anagrams.swift",
+      "notebookRelFile": ".boost/src/test/resources/anagrams.swift.boost-notebook",
+      "totalCells": 3,
+      "completedCells": 0,
+      "errorCells": 3,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 3,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/hello.o": {
+      "sourceRelFile": "./src/test/resources/hello.o",
+      "notebookRelFile": ".boost/src/test/resources/hello.o.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 0,
+      "errorCells": 1,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 1,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/hello.s": {
+      "sourceRelFile": "./src/test/resources/hello.s",
+      "notebookRelFile": ".boost/src/test/resources/hello.s.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 0,
+      "errorCells": 1,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 1,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/build.gradle": {
+      "sourceRelFile": "./src/test/resources/build.gradle",
+      "notebookRelFile": ".boost/src/test/resources/build.gradle.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 1,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 1,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 1,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/impossible.js.boost-notebook": {
+      "sourceRelFile": "./src/test/resources/impossible.js.boost-notebook",
+      "notebookRelFile": ".boost/src/test/resources/impossible.js.boost-notebook.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 0,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {}
+    },
+    "src/test/resources/anagrams.vb": {
+      "sourceRelFile": "./src/test/resources/anagrams.vb",
+      "notebookRelFile": ".boost/src/test/resources/anagrams.vb.boost-notebook",
+      "totalCells": 3,
+      "completedCells": 0,
+      "errorCells": 3,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 3,
+          "issueCells": 0,
+          "totalCells": 3,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/anagrams-deranged-anagrams.hpp": {
+      "sourceRelFile": "./src/test/resources/anagrams-deranged-anagrams.hpp",
+      "notebookRelFile": ".boost/src/test/resources/anagrams-deranged-anagrams.hpp.boost-notebook",
+      "totalCells": 2,
+      "completedCells": 0,
+      "errorCells": 2,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 2,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/high.js.boost-notebook": {
+      "sourceRelFile": "./src/test/resources/high.js.boost-notebook",
+      "notebookRelFile": ".boost/src/test/resources/high.js.boost-notebook.boost-notebook",
+      "totalCells": 1,
+      "completedCells": 0,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {}
+    },
+    "src/test/resources/anagrams-deranged-anagrams.c": {
+      "sourceRelFile": "./src/test/resources/anagrams-deranged-anagrams.c",
+      "notebookRelFile": ".boost/src/test/resources/anagrams-deranged-anagrams.c.boost-notebook",
+      "totalCells": 6,
+      "completedCells": 0,
+      "errorCells": 6,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 6,
+          "issueCells": 0,
+          "totalCells": 6,
+          "filesAnalyzed": 1
+        }
+      }
+    },
+    "src/test/resources/anagrams-deranged-anagrams.rb": {
+      "sourceRelFile": "./src/test/resources/anagrams-deranged-anagrams.rb",
+      "notebookRelFile": ".boost/src/test/resources/anagrams-deranged-anagrams.rb.boost-notebook",
+      "totalCells": 4,
+      "completedCells": 3,
+      "errorCells": 0,
+      "issueCells": 0,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "incomplete",
+          "completedCells": 3,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 4,
+          "filesAnalyzed": 1
+        }
+      }
     }
   },
   "account": {
     "refreshed": true,
     "enabled": true,
     "status": "paid",
-    "trialRemaining": 76.56,
-    "usageThisMonth": 23.44,
-    "discountedUsage": 23.44,
-    "balanceDue": 0,
+    "trialRemaining": 0,
+    "usageThisMonth": 200.88,
+    "discountedUsage": 100,
+    "balanceDue": 100.88,
     "couponType": "Polyverse Boost Free Trial",
     "org": "polyverse-appsec",
     "owner": "alex@polyverse.io",
     "created": "2023-05-06",
     "creditCardLinked": false
+  },
+  "uiState": {
+    "analysisState": "quiescent"
   }
 }
