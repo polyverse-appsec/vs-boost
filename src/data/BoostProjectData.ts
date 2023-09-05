@@ -19,7 +19,6 @@ import {
     AccountStatus,
     UIState,
     AnalysisState,
-    ActivityBarState
 } from "./boostprojectdata_interface";
 import { ControllerOutputType } from "../controllers/controllerOutputTypes";
 import { BoostConfiguration } from "../extension/boostConfiguration";
@@ -147,18 +146,36 @@ export class BoostProjectData implements IBoostProjectData {
         this.save(this.fsPath);
     }
 
-    insertMissingData() {
-        // Initialize if it doesn't exist
-        if (!this.uiState.activityBarState) {
-            this.uiState.activityBarState = {} as ActivityBarState;
+    deepMerge(target: any, source: any) {
+        for (const key in source) {
+            if (
+                source[key] instanceof Object &&
+                key in target &&
+                target[key] instanceof Object
+            ) {
+                this.deepMerge(target[key], source[key]);
+            } else if (source[key] !== undefined) {
+                target[key] = source[key];
+            }
         }
-        // Merge the missing fields into this.uiState.activityBarState
-        Object.assign(this.uiState.activityBarState, {
-            ...emptyProjectData.uiState.activityBarState,
-            ...this.uiState.activityBarState
-        });
     }
-        
+
+    insertMissingData() {
+        // Initialize `this.uiState.activityBarState` if it doesn't exist
+        if (!this.uiState.activityBarState) {
+            // Deep clone to avoid pointing to the same object
+            this.uiState.activityBarState = JSON.parse(
+                JSON.stringify(emptyProjectData.uiState.activityBarState)
+            );
+        } else {
+            // Deep merge the existing `this.uiState.activityBarState` with the default values
+            this.deepMerge(
+                this.uiState.activityBarState,
+                emptyProjectData.uiState.activityBarState
+            );
+        }
+    }
+
     public updateAccountStatusFromService(accountStatus: any) {
         //set the account fields from the accountStatus object. it's the same fields, only
         //snake case coming from the python server, so translate.
@@ -173,31 +190,31 @@ export class BoostProjectData implements IBoostProjectData {
         if (accountStatus.trial_remaining !== undefined) {
             this.account.trialRemaining = accountStatus.trial_remaining;
         }
-    
+
         if (accountStatus.usage_this_month !== undefined) {
             this.account.usageThisMonth = accountStatus.usage_this_month;
         }
-    
+
         if (accountStatus.discounted_usage !== undefined) {
             this.account.discountedUsage = accountStatus.discounted_usage;
         }
-    
+
         if (accountStatus.balance_due !== undefined) {
             this.account.balanceDue = accountStatus.balance_due;
         }
-    
+
         if (accountStatus.coupon_type !== undefined) {
             this.account.couponType = accountStatus.coupon_type;
         }
-    
+
         if (accountStatus.created !== undefined) {
             this.account.created = accountStatus.created;
         }
-    
+
         if (accountStatus.credit_card_linked !== undefined) {
             this.account.creditCardLinked = accountStatus.credit_card_linked;
         }
-    
+
         if (accountStatus.owner !== undefined) {
             this.account.owner = accountStatus.owner;
         }
@@ -236,7 +253,7 @@ export class BoostProjectData implements IBoostProjectData {
                     previous.sections[section].errorCells;
                 sectionSummary.filesAnalyzed -= 1;
             });
-        }        
+        }
 
         sections = Object.keys(fileSummary.sections);
         sections.forEach((section) => {
@@ -256,9 +273,7 @@ export class BoostProjectData implements IBoostProjectData {
                 fileSummary.sections[section].errorCells;
             sectionSummary.filesAnalyzed += 1;
 
-            if (
-                sectionSummary.completedCells === sectionSummary.totalCells
-            ) {
+            if (sectionSummary.completedCells === sectionSummary.totalCells) {
                 sectionSummary.status = BoostProcessingStatus.completed;
             } else if (sectionSummary.completedCells > 0) {
                 sectionSummary.status = BoostProcessingStatus.incomplete;
@@ -346,10 +361,18 @@ export class BoostProjectData implements IBoostProjectData {
     }
 
     toggleAnalysisTypeEnabled(analysisType: string, enabled: boolean) {
-        (this.uiState.activityBarState.summaryViewState.analysisTypesState as any)[analysisType] = enabled;
+        (
+            this.uiState.activityBarState.summaryViewState
+                .analysisTypesState as any
+        )[analysisType] = enabled;
         this.flushToFS();
     }
-      
+
+    setAnalysisMode(choice: string) {
+        this.uiState.activityBarState.summaryViewState.analysisMode = choice;
+        this.flushToFS();
+    }
+
     static get default(): BoostProjectData {
         const boostProjectData = new BoostProjectData();
         Object.assign(boostProjectData, emptyProjectData);

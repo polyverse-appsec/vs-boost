@@ -38,7 +38,7 @@ import Typewritter from "typewriter-effect/dist/core";
 import { BoostUserAnalysisType } from "../../userAnalysisType";
 
 //declare the boostprojectdata global variable
-declare var boostprojectdata: IBoostProjectData;
+export declare var boostprojectdata: IBoostProjectData;
 
 let typewriter = new Typewritter("#progress-text", {
     delay: 2,
@@ -85,7 +85,8 @@ const slowRefreshUI = _.debounce(refreshUI, 1000, { leading: true });
 // Main function that gets executed once the webview DOM loads
 function main() {
     try {
-        refreshUI(boostprojectdata);
+        vscode.postMessage({ command: "refreshUI"});
+
         //now setup listeners
         setupListeners();
     } catch (error) {
@@ -104,29 +105,6 @@ function setupListeners() {
         handleAnalyzeAllClick(boostprojectdata);
     });
 
-    // Get all the elements with type "vscode-checkbox"
-    const checkboxes = document.querySelectorAll("vscode-checkbox");
-
-    // Loop through each checkbox and add the click event listener
-    checkboxes.forEach((checkbox) => {
-        checkbox.addEventListener("change", (event) => {
-            // You don't need to prevent the default action.
-            // This will ensure that the default behavior of the checkbox (checking/unchecking) still occurs.
-            // Refresh the UI after the default behavior has executed
-            requestAnimationFrame(() => {
-                const target = event.target as HTMLInputElement;
-
-                // Extract the analysis type from the checkbox, and update the state
-                const match = target.id.match(/check-(.+)/);
-                if (match && match[1]) {
-                    const analysisType = match[1];
-                    analysisTypeCheckboxChanged(analysisType, target.checked);
-                }                
-
-                refreshUI(boostprojectdata);
-            });
-        });
-    });
     // Listen for the DOMContentLoaded event to check initially
     checkDashboardWideEnough();
     // Listen for the resize event to check on webview resize
@@ -152,30 +130,20 @@ function setupListeners() {
         link.addEventListener("click", showDashboardTab);
     });
 
-    const analyzeAllMode = document.getElementById(
-        "analyze-all-mode"
-    ) as HTMLElement;
+    const analyzeAllMode = document.getElementById("analyze-all-mode") as HTMLElement;
     const top5Mode = document.getElementById("top5-mode") as HTMLElement;
 
-    // Attach event listeners to both radio buttons to detect changes
-    analyzeAllMode.addEventListener("change", (event) => {
-        const target = event.target as HTMLInputElement;
-        if (target?.checked) {
-            setTimeout(() => {
-                //refresh the UI
-                refreshUI(boostprojectdata);
-            }, 100);
-        }
-    });
-
-    top5Mode.addEventListener("change", (event) => {
-        const target = event.target as HTMLInputElement;
-        if (target?.checked) {
-            setTimeout(() => {
-                //refresh the UI
-                refreshUI(boostprojectdata);
-            }, 100);
-        }
+    const analysisModeButtons : HTMLElement[] = [analyzeAllMode, top5Mode];
+    analysisModeButtons.forEach((button) => {
+        // Attach event listeners to both radio buttons to detect changes
+        button.addEventListener("change", (event) => {
+            const target = event.target as HTMLInputElement;
+            if (target?.checked) {
+                setTimeout(() => {
+                    handleAnalyzeModeCheck(target.id, boostprojectdata);
+                }, 100);
+            }
+        });
     });
 }
 
@@ -208,7 +176,7 @@ const checkDashboardWideEnough = (): void => {
     }
 };
 
-function analysisTypeCheckboxChanged(analysisType: string, checked: boolean) {
+export function analysisTypeCheckboxChanged(analysisType: string, checked: boolean) {
     vscode.postMessage({
         command: "analysis_type_changed",
         analysisType: analysisType,
@@ -223,6 +191,13 @@ function handleAnalyzeAllClick(boostprojectdata: IBoostProjectData) {
         command: "analyze_all",
         analysisTypes: getAnalysisTypes(boostprojectdata.uiState.activityBarState.summaryViewState.analysisTypesState),
         fileLimit: getFileLimit(),
+    });
+}
+
+function handleAnalyzeModeCheck(choice: string, boostprojectdata: IBoostProjectData) {
+    vscode.postMessage({
+        command: "analyze_mode_changed",
+        choice: choice,
     });
 }
 
@@ -282,7 +257,6 @@ function getAnalysisTypes(analysisTypesState: AnalysisTypesState): Array<string>
             analysisTypes.push(BoostUserAnalysisType[key as keyof typeof BoostUserAnalysisType]);
         }
     }
-    console.log(`getAnalysisTypes: checkboxes: ${JSON.stringify(analysisTypes)}`);
     return analysisTypes;
 }
 
@@ -295,10 +269,11 @@ export function refreshUI(boostprojectdata: IBoostProjectData) {
         skipFilter.push("deepcode");
     }
 
+    setAnalysisMode(boostprojectdata);
+
     //get the fileLimit
     const fileLimit = getFileLimit();
 
-    console.log(`refreshUI: analysisTypes: ${JSON.stringify(analysisTypes)}`);
     let summaryView = summaryViewData(boostprojectdata, analysisTypes);
     let detailsView = detailsViewData(boostprojectdata, skipFilter);
     let statusView = statusViewData(boostprojectdata, analysisTypes, fileLimit);
@@ -460,3 +435,12 @@ function refreshAnalysisState(analysisState: AnalysisState) {
         )
         .start();
 }
+
+function setAnalysisMode(boostprojectdata: IBoostProjectData) {
+    const defaultAnalysisMode : string = boostprojectdata.uiState.activityBarState.summaryViewState.analysisMode;
+    const checkedMode = document.getElementById(
+        defaultAnalysisMode? defaultAnalysisMode : "top5-mode"
+        ) as HTMLInputElement;
+    checkedMode.checked = true;
+}
+

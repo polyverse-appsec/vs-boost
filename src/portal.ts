@@ -3,14 +3,11 @@ import axios from "axios";
 import { BoostConfiguration } from "./extension/boostConfiguration";
 import { fetchGithubSession, getCurrentOrganization } from "./utilities/authorization";
 import { BoostExtension } from "./extension/BoostExtension";
-import {
-    fetchUserOrganizationsServiceRequest,
-    UserOrgs,
-} from "./controllers/user_organizations";
 import { NOTEBOOK_TYPE } from "./data/jupyter_notebook";
 import { boostLogging } from "./utilities/boostLogging";
 import { mapError } from "./utilities/error";
 import { BoostCommands } from "./extension/extension";
+import { promptUserForOrganization, setUserOrganization } from "./user/organization";
 
 function serviceEndpoint(): string {
     switch (BoostConfiguration.cloudServiceStage) {
@@ -276,7 +273,7 @@ export async function setupBoostStatus(
         boostStatusCommand.bind(closure)
     );
     closure.statusBar.command = NOTEBOOK_TYPE + ".boostStatus";
-    registerSelectOrganizationCommand(context, closure);
+    registerOrganizationCommands(context, closure);
     context.subscriptions.push(closure.statusBar);
 }
 
@@ -366,83 +363,69 @@ function boostStatusCommand(this: any) {
         });
 }
 
-function registerSelectOrganizationCommand(
+function registerOrganizationCommands(
     context: vscode.ExtensionContext,
-    closure: BoostExtension
-) {
+    extension: BoostExtension) {
+
     context.subscriptions.push(
         vscode.commands.registerCommand(
             NOTEBOOK_TYPE + "." + BoostCommands.selectOrganization,
             async () => {
                 try {
-                    // first, fetch the organizations from the portal
-                    const orgs: UserOrgs =
-                        await fetchUserOrganizationsServiceRequest();
-                    const current = await getCurrentOrganization(context);
-                    // Use the vscode.window.showQuickPick method to let the user select a language
-                    // Create an array of QuickPickItem objects
-                    const quickPickItems: vscode.QuickPickItem[] = [];
-                    // Add the "Personal" label and the personal organization
-                    quickPickItems.push({
-                        label: "Personal",
-                        kind: vscode.QuickPickItemKind.Separator,
-                    });
-                    quickPickItems.push({ label: orgs.personal });
-                    quickPickItems.push({
-                        label: " ",
-                        kind: vscode.QuickPickItemKind.Separator,
-                    });
+                    if (!await promptUserForOrganization(context)) {
+                        return;
+                    }
 
-                    // Add a divider
-                    quickPickItems.push({
-                        label: "Organizations",
-                        kind: vscode.QuickPickItemKind.Separator,
-                    });
-
-                    // Add the "Organizations" label and the list of organizations
-                    orgs.organizations.forEach((org) => {
-                        quickPickItems.push({ label: org });
-                    });
-
-                    // Use the vscode.window.showQuickPick method to let the user select an organization
-                    const selected = await vscode.window.showQuickPick(
-                        quickPickItems,
-                        {
-                            canPickMany: false,
-                            placeHolder: "Select an organization",
-                        }
-                    );
-
-                    //check that selected.label is not undefined
-                    let organization = undefined;
-                    if (selected && selected.label) {
-                        organization = selected.label;
-
-                        //put the organization in the metadata for the extension
-                        context.globalState.update(
-                            "organization",
-                            organization
-                        );
-
-                        BoostConfiguration.defaultOrganization = organization;
-
+                    const organization = context.globalState.get("organization");
+                    
                         //now set the selectOrgnanizationButton text
-                        if (closure.statusBar) {
-                            closure.statusBar.text =
-                                "Boost: Organization is " + organization;
+                    if (extension.statusBar) {
+                        extension.statusBar.text =
+                            "Boost: Organization is " + organization;
 
-                            await updateBoostStatusColors(
-                                context,
-                                undefined,
-                                closure
-                            );
-                        }
+                        await updateBoostStatusColors(
+                            context,
+                            undefined,
+                            extension
+                        );
                     }
                 } catch (err: any) {
                     boostLogging.error(
                         `Unable to select organization: ${err.message}.`,
                         true
                     );
+                }
+            }
+        )
+    );
+
+    context.subscriptions.push(
+        vscode.commands.registerCommand(
+            NOTEBOOK_TYPE + "." + BoostCommands.setOrganization,
+            async (organizationName: string) : Promise<boolean>  => {
+                try {
+                    if (!await setUserOrganization(context, organizationName)) {
+                        return false;
+                    }
+
+                    //now set the selectOrgnanizationButton text
+                    if (extension.statusBar) {
+                        extension.statusBar.text =
+                            "Boost: Organization is " + organizationName;
+
+                        await updateBoostStatusColors(
+                            context,
+                            undefined,
+                            extension
+                        );
+                    }
+                    return true;
+                } catch (err: any) {
+                    boostLogging.error(
+                        `Unable to set organization to ${organizationName}: ${err.message}.`,
+                        true
+                    );
+                    return false;
                 }
             }
         )

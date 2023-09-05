@@ -42,7 +42,6 @@ function main() {
 }
 
 function handleAddClick() {
-    console.log("add click");
     vscode.postMessage({
         command: "add-chat"
     });

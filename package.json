@@ -8,7 +8,7 @@
     "bugs": {
         "email": "support@polyverse.com"
     },
-    "version": "1.4.0",
+    "version": "1.4.1",
     "engines": {
         "vscode": "^1.77.0"
     },
@@ -53,7 +53,7 @@
                 }
             ]
         },
-        "configuration":[
+        "configuration": [
             {
                 "title": "General",
                 "order": 1,
@@ -101,7 +101,10 @@
                         "order": 1,
                         "type": "string",
                         "default": "default",
-                        "enum": ["default", "sales"],
+                        "enum": [
+                            "default",
+                            "sales"
+                        ],
                         "enumDescriptions": [
                             "The default formatting for Markdown, HTML, and PDF output types",
                             "Use the sales formatting configuration by default for Markdown, HTML, and PDF outputs. Normally this is only accessed through the right click menu \"Generate Sales Formatted Output\""
@@ -178,7 +181,7 @@
                         ],
                         "markdownDescription": "Select your preferred *output format* for showing results."
                     }
-                }  
+                }
             },
             {
                 "title": "Code Generation and Testing",
@@ -194,7 +197,7 @@
                         "default": "pytest",
                         "description": "Default test framework for Polyverse Boost automatic test code generation"
                     }
-                } 
+                }
             },
             {
                 "title": "Advanced",
@@ -212,8 +215,7 @@
                     }
                 }
             }
-            ]
-        ,
+        ],
         "commands": [
             {
                 "command": "polyverse-boost-notebook.customerPortal",
@@ -361,6 +363,11 @@
                 "command": "polyverse-boost-notebook.analyzeOnlyTargetFolderForBoostAnalysis",
                 "title": "Boost: Include Folder for Analysis",
                 "icon": "$(folder)"
+            },
+            {
+                "command": "polyverse-boost-notebook.setOrganization",
+                "title": "Boost: Set Organization",
+                "icon": "$(gear)"
             }
         ],
         "notebooks": [
@@ -495,13 +502,18 @@
         "compile": "tsc -p ./ && npm run build-instructions && node ./esbuild.js",
         "watch": "node ./esbuild.js --watch & tsc -watch -p ./",
         "lint": "eslint src --ext ts",
-        "copy:test-data": "mkdir -p out/test && mkdir -p out/test/unit/data && cp -R src/test/resources/ out/test/resources/ && cp -R src/test/unit/data/ out/test/unit/data/",
+        "copy:test-data": "mkdir -p out/test && mkdir -p out/test/unit/data && cp -R src/test/resources/ out/test/resources/ && cp -R src/test/unit/data/ out/test/unit/data/ && cp -R src/test/*.json out/test/",
         "pretest": "npm run pretest:github:check && npm run clean && npm run compile && npm run lint && npm run copy:test-data",
         "esbuild-base": "npm run build-instructions && node ./esbuild.js",
         "esbuild": "npm run esbuild-base --sourcemap",
         "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
         "esbuild-pretest": "npm run clean && npm run esbuild && npm run lint && npm run copy:test-data",
         "test": "npm run pretest && DEBUG=nock.* node ./out/test/runTest.js",
+        "customer:github:sync": "node scripts/sync-github.js",
+        "customer:project:org": "scripts/set-org.sh",
+        "customer:project:load": "node scripts/load-project.js",
+        "customer:project:analyze:trial": "node scripts/analyze.js --trial",
+        "customer:project:analyze:all": "node scripts/analyze.js --all",
         "pretest:github:login": "gh auth login -s user:email",
         "pretest:github:check": "gh auth status",
         "prepublish:build": "NODE_ENV=production && npm run esbuild-base -- --minify",
@@ -536,6 +548,7 @@
         "lodash": "^4.17.21",
         "mocha": "^10.2.0",
         "nock": "^13.3.2",
+        "node-fetch": "^3.3.2",
         "sinon": "^15.0.3",
         "ts-node": "^10.9.1",
         "typescript": "^5.1.6",

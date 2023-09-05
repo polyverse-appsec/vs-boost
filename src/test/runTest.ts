@@ -4,19 +4,48 @@ import * as fs from "fs";
 import { runTests } from "@vscode/test-electron";
 
 import Mocha from "mocha";
+import { promises as fsPromises } from "fs";
+
+async function loadMochaConfig() {
+    const mochaConfigPath = path.resolve(__dirname, "mocha.json");
+    try {
+        const rawConfig = await fsPromises.readFile(mochaConfigPath, 'utf8');
+        return JSON.parse(rawConfig);
+    } catch (err) {
+        console.error("Could not read mocha.json", err);
+        return {};
+    }
+}
 
 async function runMochaTests() {
     // Create a Mocha instance
     console.log("Running Mocha tests");
-    const mocha = new Mocha();
 
-    // Add test files
-    const testDir = path.resolve(__dirname, "./unit");
-    fs.readdirSync(testDir)
-        .filter((file) => file.endsWith(".test.js"))
-        .forEach((file) => {
-            mocha.addFile(path.join(testDir, file));
-        });
+    const mochaConfig = await loadMochaConfig();
+
+    const mocha = new Mocha(mochaConfig);
+
+        // filter to one test if specified
+    if (mochaConfig.targetTestFile) {
+        // Specify the single test file
+        const specificTestFile = path.resolve(__dirname, mochaConfig.targetTestFile);
+        if (!fs.existsSync(specificTestFile)) {
+            throw new Error(`Could not find test file ${specificTestFile}`);
+        }
+        mocha.addFile(specificTestFile);
+    
+        if (mochaConfig.targetTestName) {
+            mocha.grep(mochaConfig.targetTestName);
+        }
+    } else {
+        // Add test files
+        const testDir = path.resolve(__dirname, "./unit");
+        fs.readdirSync(testDir)
+            .filter((file) => file.endsWith(".test.js"))
+            .forEach((file) => {
+                mocha.addFile(path.join(testDir, file));
+            });
+    }
 
     // Run Mocha tests
     try {

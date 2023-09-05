@@ -18,6 +18,7 @@ export enum AnalysisState {
 
 export interface SummaryViewState {
     analysisTypesState: AnalysisTypesState;
+    analysisMode: string;
 }
 
 export interface AnalysisTypesState {
@@ -147,6 +148,7 @@ export const emptyProjectData: IBoostProjectData = {
         analysisState: AnalysisState.quiescent,
         activityBarState: {
             summaryViewState: {
+                analysisMode: "analyze-all-mode",
                 analysisTypesState: {
                     security: true,
                     compliance: true,

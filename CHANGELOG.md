@@ -3,6 +3,17 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 1.4.1: September 7th, 2023
+
+### New Features
+- Command added for non-UI setting of user organization
+
+### Enhancements
+- N/A
+
+### Bug Fixes
+- N/A
+
 ## Version 1.4.0: September 1st, 2023
 
 ### New Features
@@ -10,7 +21,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Enhancements
 - Chat includes detailed Boost analysis for selected or active source file in the Visual Studio Code Text Editor
-- Analysis checkboxes persist across restarts in Activity Bar
+- Analysis checkboxes and radio buttons persist across restarts in Activity Bar
 
 ### Bug Fixes
 - N/A
