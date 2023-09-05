@@ -46,21 +46,25 @@ export class DecoratorProvider {
             }
         }, null, context.subscriptions);
 
-        vscode.window.onDidChangeTextEditorSelection(event => {
-            if (event.textEditor === this.activeEditor) {
-                this.updateDecorations();
-            }
-        }, null, context.subscriptions);
+        vscode.window.onDidChangeTextEditorSelection(
+            (event) => {
+                if (event.textEditor === this.activeEditor) {
+                    this.updateDecorations();
+                }
+            },
+            null,
+            context.subscriptions
+        );
     }
 
     private updateDecorations() {
         if (!this.activeEditor || !this._activeEditorBoostNotebookShadow) {
             return;
         }
-    
+
         const text = this.activeEditor.document.getText();
         const decorations: vscode.DecorationOptions[] = [];
-    
+
         for (const selection of this.activeEditor.selections) {
             const startLine = selection.start.line;
             const endLine = selection.end.line;
@@ -73,7 +77,11 @@ export class DecoratorProvider {
                 const line = this.activeEditor.document.lineAt(lineNum);
                 const startPos = new vscode.Position(lineNum, line.text.length);
                 const endPos = new vscode.Position(lineNum, line.text.length);
-    
+
+                const md = new vscode.MarkdownString(
+                    "[Run command](command:polyverse-boost-notebook.showGuidelines) *Hello* from Boost!"
+                );
+                md.isTrusted = true;
                 const decoration = {
                     range: new vscode.Range(startPos, endPos),
                     hoverMessage: new vscode.MarkdownString(results.join('\n')),
@@ -85,14 +93,13 @@ export class DecoratorProvider {
                         }
                     }
                 };
-    
+
                 decorations.push(decoration);
             }
         }
     
         this.activeEditor.setDecorations(this.boostLineSelectDecoration, decorations);
     }
-    
 
     private triggerUpdateDecorations(throttle = false) {
         if (this.timeout) {
