@@ -38,7 +38,7 @@ import {
 } from "./extension";
 import { cleanCellOutput } from "./extensionUtilities";
 import { fullPathFromSourceFile } from "../utilities/files";
-import { getAnalysisForSourceTarget } from "./vscodeUtilities";
+import { generateSingleLineSummaryForAnalysisData, getAnalysisForSourceTarget } from "./vscodeUtilities";
 import { BoostUserAnalysisType } from "../userAnalysisType";
 
 import { BoostContentSerializer } from "../utilities/serializer";
@@ -2029,7 +2029,7 @@ export class BoostExtension {
     }
 
     registerSourceCodeRightClickCommands(context: vscode.ExtensionContext) {
-        let disposable = vscode.commands.registerCommand(
+        context.subscriptions.push( vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE + "." + BoostCommands.analyzeSourceCode,
             async () => {
                 const editor = vscode.window.activeTextEditor;
@@ -2077,8 +2077,39 @@ export class BoostExtension {
                         );
                     });
             }
-        );
-        context.subscriptions.push(disposable);
+        ));
+
+        context.subscriptions.push( vscode.commands.registerCommand(
+            boostnb.NOTEBOOK_TYPE + "." + BoostCommands.analysisSummaryForSourceCode,
+            async () => {
+                const currentEditorFile = vscode.window.activeTextEditor?.document.uri;
+                if (!currentEditorFile) {
+                    boostLogging.warn(
+                        `No active editor found to analyze source code.`,
+                        true);
+                    return;
+                }
+
+                const currentSelection = vscode.window.activeTextEditor?.selection;
+                const boostTarget = getBoostFile(currentEditorFile);
+                if (!boostTarget || !fs.existsSync(boostTarget.fsPath)) {
+                    boostLogging.warn(
+                        `Unable to find Boost Analysis for ${currentEditorFile.fsPath}`,
+                        true);
+                    return;
+                }
+
+                const analysisNotebook = new boostnb.BoostNotebook();
+                analysisNotebook.load(boostTarget.fsPath);
+
+                const summary = generateSingleLineSummaryForAnalysisData(
+                    this,
+                    analysisNotebook,
+                    currentSelection);
+
+                boostLogging.info(summary, true);
+            }
+        ));
     }
 
     registerShowGuidelinesCommand(context: vscode.ExtensionContext) {
