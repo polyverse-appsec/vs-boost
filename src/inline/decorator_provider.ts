@@ -22,7 +22,8 @@ export class DecoratorProvider {
             },
             dark: {
                 borderColor: 'lightblue'
-            }
+            },
+            opacity: '0.5'
         });
 
         this.activeEditor = vscode.window.activeTextEditor;
@@ -65,6 +66,9 @@ export class DecoratorProvider {
             const endLine = selection.end.line;
             const results = getAnalysisForSourceTarget(this._activeEditorBoostNotebookShadow, undefined, selection);
     
+            if( !results || results.length === 0 ) {
+                continue;
+            }
             for (let lineNum = startLine; lineNum <= endLine; lineNum++) {
                 const line = this.activeEditor.document.lineAt(lineNum);
                 const startPos = new vscode.Position(lineNum, line.text.length);
@@ -75,7 +79,9 @@ export class DecoratorProvider {
                     hoverMessage: new vscode.MarkdownString(results.join('\n')),
                     renderOptions: {
                         after: {
-                            contentText: "hello from Boost",
+                            //just use the first 20 characters of the first result
+                            contentText: "Boost: " + results[0].slice(0, 20) + "...",
+                            color: 'rgba(150, 150, 150, 0.5)'  // grayed out with 50% transparency
                         }
                     }
                 };
