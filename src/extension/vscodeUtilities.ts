@@ -169,7 +169,7 @@ export function generateSingleLineSummaryForAnalysisData(
         const functionController = kernel as FunctionKernelControllerBase;
 
         const problemsIdentified = getAnalysisProblemMetaDataForSourceTarget(
-            kernel._problemsCollection, analysisNotebook.metadata.sourceFile as string, selection);
+            functionController.sourceLevelIssueCollection, analysisNotebook.metadata.sourceFile as string, selection);
 
         // if no problems for this output type, remove it from the list
         // so we don't report things like "No problems found" in the single line analysis summary
