@@ -14,7 +14,7 @@ import { getBoostFile, BoostFileType } from "../extension/extension";
 import { BoostConfiguration } from "../extension/boostConfiguration";
 import { boostLogging } from "../utilities/boostLogging";
 import { fetchGithubSession, getCurrentOrganization } from "../utilities/authorization";
-import { BoostAuthenticationException } from "../portal";
+import { BoostAuthenticationException } from "../controllers/customerPortal";
 import { IAnalysisContextData } from "../data/IAnalysisContextData";
 
 // we can get timeouts and other errors from both openai and lambda. This is a generic handler for those

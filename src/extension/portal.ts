@@ -1,131 +1,12 @@
 import * as vscode from "vscode";
-import axios from "axios";
-import { BoostConfiguration } from "./extension/boostConfiguration";
-import { fetchGithubSession, getCurrentOrganization } from "./utilities/authorization";
-import { BoostExtension } from "./extension/BoostExtension";
-import { NOTEBOOK_TYPE } from "./data/jupyter_notebook";
-import { boostLogging } from "./utilities/boostLogging";
-import { mapError } from "./utilities/error";
-import { BoostCommands } from "./extension/extension";
-import { promptUserForOrganization, setUserOrganization } from "./user/organization";
-
-function serviceEndpoint(): string {
-    switch (BoostConfiguration.cloudServiceStage) {
-        case "local":
-            return "http://127.0.0.1:8000/customer_portal";
-        case "dev":
-            return "https://hry4lqp3ktulatehaowyzhkbja0mkjob.lambda-url.us-west-2.on.aws/";
-        case "test":
-            return "https://kpxtpi5swejjt6yiflcpspchim0wrhaa.lambda-url.us-west-2.on.aws/";
-        case "staging":
-        case "prod":
-        default:
-            return "https://roxbi254sch3yijt7tqbz4s7jq0jxddr.lambda-url.us-west-2.on.aws/";
-    }
-}
-
-export class BoostAuthenticationException extends Error {
-    constructor(message?: string) {
-        super(message);
-        this.name = "BoostAuthenticationException";
-    }
-}
-
-export async function preflightCheckForCustomerStatus(
-    context: vscode.ExtensionContext,
-    extension: BoostExtension
-) {
-    const accountStatus = await updateBoostStatusColors(
-        context,
-        undefined,
-        extension
-    );
-    if (
-        accountStatus === "paid" ||
-        accountStatus === "trial" ||
-        accountStatus === "active"
-    ) {
-        return;
-    } else {
-        boostLogging.error(
-            `Unable to access Boost Cloud Service due to account status. Please check your account settings.`,
-            false
-        );
-        throw new BoostAuthenticationException(
-            `Unable to access Boost Cloud Service due to account status. Please check your account settings.`
-        );
-    }
-}
-
-export async function getCustomerStatus(
-    context: vscode.ExtensionContext
-): Promise<any> {
-    let session = await fetchGithubSession(!context); // get the session
-    let organization = await getCurrentOrganization(context);
-    if (!organization) {
-        boostLogging.warn("Unable to identify current organization", false);
-    } else if (!session) {
-        boostLogging.warn("Unable to identify current GitHub session", false);
-    }
-    let payload = {
-        session: session.accessToken,
-        organization: organization,
-    };
-    const headers = {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "User-Agent": `Boost-VSCE/${BoostConfiguration.version}`,
-    };
-
-    try {
-        if (
-            BoostConfiguration.serviceFaultInjection > 0 &&
-            Math.floor(Math.random() * 100) <
-                BoostConfiguration.serviceFaultInjection
-        ) {
-            boostLogging.debug(
-                `Injecting fault into service request fetching organizations`
-            );
-            await axios.get("https://serviceFaultInjection/synthetic/error/");
-        }
-
-        const result = await axios.post(serviceEndpoint(), payload, {
-            headers,
-        });
-        if (result && result.data && result.data.error) {
-            // if we have an error, throw it - this is generally happens with the local service shim
-            throw new Error(
-                `Boost Service failed with a network error: ${result.data.error}`
-            );
-        }
-        return result.data;
-    } catch (err: any) {
-        return mapError(err);
-    }
-}
-
-export function registerCustomerPortalCommand(
-    context: vscode.ExtensionContext
-) {
-    context.subscriptions.push(
-        vscode.commands.registerCommand(
-            NOTEBOOK_TYPE + "." + BoostCommands.customerPortal,
-            async () => {
-                let url;
-                try {
-                    let response = await getCustomerStatus(context);
-                    url = response["portal_url"];
-                } catch (err: any) {
-                    boostLogging.error(
-                        `Unable to launch customer portal: ${err.message}. Please contact Polyverse Boost Support`,
-                        true
-                    );
-                    return;
-                }
-                vscode.env.openExternal(vscode.Uri.parse(url));
-            }
-        )
-    );
-}
+import { BoostExtension } from "./BoostExtension";
+import { NOTEBOOK_TYPE } from "../data/jupyter_notebook";
+import { boostLogging } from "../utilities/boostLogging";
+import { BoostCommands } from "./extension";
+import { getCurrentOrganization } from "../utilities/authorization";
+import {
+    getCustomerStatus
+} from "../controllers/customerPortal";
 
 const gitHubAuthorizationFailureToolTip =
     "Unable to access your current account status. Please check your GitHub Authorization status, then network connection status.";
@@ -245,39 +126,11 @@ export async function updateBoostStatusColors(
     }
 }
 
-const pendingBoostStatusBarText = "Boost: Organization is *PENDING*";
+export const pendingBoostStatusBarText = "Boost: Organization is *PENDING*";
 const errorBoostStatusBarText = "Boost: Organization is *ERROR*";
 
-export async function setupBoostStatus(
-    context: vscode.ExtensionContext,
-    closure: BoostExtension
-) {
-    const boostStatusBar = vscode.window.createStatusBarItem(
-        vscode.StatusBarAlignment.Left,
-        10
-    );
-    closure.statusBar = boostStatusBar;
-    closure.statusBar.text = pendingBoostStatusBarText;
-    closure.statusBar.color = new vscode.ThemeColor(
-        "statusBarItem.warningForeground"
-    );
-    closure.statusBar.backgroundColor = new vscode.ThemeColor(
-        "statusBarItem.warningBackground"
-    );
-    closure.statusBar.show();
 
-    await refreshBoostOrgStatus(context, closure);
-
-    vscode.commands.registerCommand(
-        NOTEBOOK_TYPE + ".boostStatus",
-        boostStatusCommand.bind(closure)
-    );
-    closure.statusBar.command = NOTEBOOK_TYPE + ".boostStatus";
-    registerOrganizationCommands(context, closure);
-    context.subscriptions.push(closure.statusBar);
-}
-
-async function refreshBoostOrgStatus(
+export async function refreshBoostOrgStatus(
     context: vscode.ExtensionContext,
     closure: BoostExtension
 ) {
@@ -319,7 +172,7 @@ async function refreshBoostOrgStatus(
     }
 }
 
-function boostStatusCommand(this: any) {
+export function boostStatusCommand(this: any) {
     // if the org hasn't been set yet, retry setting it
     if (
         this.statusBar.text === pendingBoostStatusBarText ||
@@ -361,73 +214,4 @@ function boostStatusCommand(this: any) {
                 // Perform any necessary cleanup or logging
             }
         });
-}
-
-function registerOrganizationCommands(
-    context: vscode.ExtensionContext,
-    extension: BoostExtension) {
-
-    context.subscriptions.push(
-        vscode.commands.registerCommand(
-            NOTEBOOK_TYPE + "." + BoostCommands.selectOrganization,
-            async () => {
-                try {
-                    if (!await promptUserForOrganization(context)) {
-                        return;
-                    }
-
-                    const organization = context.globalState.get("organization");
-                    
-                        //now set the selectOrgnanizationButton text
-                    if (extension.statusBar) {
-                        extension.statusBar.text =
-                            "Boost: Organization is " + organization;
-
-                        await updateBoostStatusColors(
-                            context,
-                            undefined,
-                            extension
-                        );
-                    }
-                } catch (err: any) {
-                    boostLogging.error(
-                        `Unable to select organization: ${err.message}.`,
-                        true
-                    );
-                }
-            }
-        )
-    );
-
-    context.subscriptions.push(
-        vscode.commands.registerCommand(
-            NOTEBOOK_TYPE + "." + BoostCommands.setOrganization,
-            async (organizationName: string) : Promise<boolean>  => {
-                try {
-                    if (!await setUserOrganization(context, organizationName)) {
-                        return false;
-                    }
-
-                    //now set the selectOrgnanizationButton text
-                    if (extension.statusBar) {
-                        extension.statusBar.text =
-                            "Boost: Organization is " + organizationName;
-
-                        await updateBoostStatusColors(
-                            context,
-                            undefined,
-                            extension
-                        );
-                    }
-                    return true;
-                } catch (err: any) {
-                    boostLogging.error(
-                        `Unable to set organization to ${organizationName}: ${err.message}.`,
-                        true
-                    );
-                    return false;
-                }
-            }
-        )
-    );
 }

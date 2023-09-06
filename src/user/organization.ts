@@ -1,6 +1,5 @@
 import * as vscode from "vscode";
 
-import { BoostExtension } from "../extension/BoostExtension";
 import { BoostConfiguration } from "../extension/boostConfiguration";
 import { getCurrentOrganization } from "../utilities/authorization";
 import { boostLogging } from "../utilities/boostLogging";

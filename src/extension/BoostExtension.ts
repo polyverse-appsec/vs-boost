@@ -11,12 +11,26 @@ import { errorToString } from "../utilities/error";
 import { ControllerOutputType } from "../controllers/controllerOutputTypes";
 
 import { boostNotebookToFileSummaryItem } from "../data/BoostProjectData";
+import {
+    BoostAuthenticationException,
+    getCustomerStatus
+} from "../controllers/customerPortal";
 
 import {
     updateBoostIgnoreForTarget,
     getBoostIgnoreFile,
     getAllProjectFiles,
 } from "../utilities/files";
+
+import {
+    setUserOrganization,
+    promptUserForOrganization
+} from "../user/organization";
+
+import {
+    refreshBoostOrgStatus,
+    boostStatusCommand
+} from "./portal";
 
 import { addToBoostOnly, removeFromBoostOnly } from "../utilities/boostOnly";
 
@@ -34,6 +48,7 @@ import {
     ProcessCurrentFolderOptions,
 } from "./extension";
 import { cleanCellOutput } from "./extensionUtilities";
+import { pendingBoostStatusBarText } from "./portal";
 import { fullPathFromSourceFile } from "../utilities/files";
 import {
     generateSingleLineSummaryForAnalysisData,
@@ -47,10 +62,7 @@ import { boostLogging } from "../utilities/boostLogging";
 
 import {
     updateBoostStatusColors,
-    registerCustomerPortalCommand,
-    setupBoostStatus,
-    preflightCheckForCustomerStatus,
-} from "../portal";
+} from "./portal";
 import { generatePDFforNotebook } from "../utilities/convert_pdf";
 import { generateMarkdownforNotebook } from "../utilities/convert_markdown";
 import { generateHTMLforNotebook } from "../utilities/convert_html";
@@ -155,6 +167,7 @@ import {
 } from "../controllers/chat_controller";
 
 import { InlineBoostAnnotations } from "../inline/inline";
+
 export class BoostNotebookContentProvider
     implements vscode.TextDocumentContentProvider
 {
@@ -235,9 +248,9 @@ export class BoostExtension {
 
             this.registerRefreshProjectDataCommands(context);
 
-            registerCustomerPortalCommand(context);
+            this.registerCustomerPortalCommand(context);
 
-            setupBoostStatus(context, this);
+            this.setupBoostStatus(context);
 
             // register the select language command
             this.setupKernelCommandPicker(context);
@@ -2227,6 +2240,153 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
     }
 
+    async preflightCheckForCustomerStatus(
+        context: vscode.ExtensionContext,
+        extension: BoostExtension
+    ) {
+        const accountStatus = await updateBoostStatusColors(
+            context,
+            undefined,
+            extension
+        );
+        if (
+            accountStatus === "paid" ||
+            accountStatus === "trial" ||
+            accountStatus === "active"
+        ) {
+            return;
+        } else {
+            boostLogging.error(
+                `Unable to access Boost Cloud Service due to account status. Please check your account settings.`,
+                false
+            );
+            throw new BoostAuthenticationException(
+                `Unable to access Boost Cloud Service due to account status. Please check your account settings.`
+            );
+        }
+    }
+
+    registerCustomerPortalCommand(
+        context: vscode.ExtensionContext
+    ) {
+        context.subscriptions.push(
+            vscode.commands.registerCommand(
+                boostnb.NOTEBOOK_TYPE + "." + BoostCommands.customerPortal,
+                async () => {
+                    let url;
+                    try {
+                        let response = await getCustomerStatus(context);
+                        url = response["portal_url"];
+                    } catch (err: any) {
+                        boostLogging.error(
+                            `Unable to launch customer portal: ${err.message}. Please contact Polyverse Boost Support`,
+                            true
+                        );
+                        return;
+                    }
+                    vscode.env.openExternal(vscode.Uri.parse(url));
+                }
+            )
+        );
+    }
+
+    registerOrganizationCommands(
+        context: vscode.ExtensionContext,
+        extension: BoostExtension) {
+    
+        context.subscriptions.push(
+            vscode.commands.registerCommand(
+                boostnb.NOTEBOOK_TYPE + "." + BoostCommands.selectOrganization,
+                async () => {
+                    try {
+                        if (!await promptUserForOrganization(context)) {
+                            return;
+                        }
+    
+                        const organization = context.globalState.get("organization");
+                        
+                            //now set the selectOrgnanizationButton text
+                        if (extension.statusBar) {
+                            extension.statusBar.text =
+                                "Boost: Organization is " + organization;
+    
+                            await updateBoostStatusColors(
+                                context,
+                                undefined,
+                                extension
+                            );
+                        }
+                    } catch (err: any) {
+                        boostLogging.error(
+                            `Unable to select organization: ${err.message}.`,
+                            true
+                        );
+                    }
+                }
+            )
+        );
+    
+        context.subscriptions.push(
+            vscode.commands.registerCommand(
+                boostnb.NOTEBOOK_TYPE + "." + BoostCommands.setOrganization,
+                async (organizationName: string) : Promise<boolean>  => {
+                    try {
+                        if (!await setUserOrganization(context, organizationName)) {
+                            return false;
+                        }
+    
+                        //now set the selectOrgnanizationButton text
+                        if (extension.statusBar) {
+                            extension.statusBar.text =
+                                "Boost: Organization is " + organizationName;
+    
+                            await updateBoostStatusColors(
+                                context,
+                                undefined,
+                                extension
+                            );
+                        }
+                        return true;
+                    } catch (err: any) {
+                        boostLogging.error(
+                            `Unable to set organization to ${organizationName}: ${err.message}.`,
+                            true
+                        );
+                        return false;
+                    }
+                }
+            )
+        );
+    }
+
+    async setupBoostStatus(
+        context: vscode.ExtensionContext,
+    ) {
+        const boostStatusBar = vscode.window.createStatusBarItem(
+            vscode.StatusBarAlignment.Left,
+            10
+        );
+        this.statusBar = boostStatusBar;
+        this.statusBar.text = pendingBoostStatusBarText;
+        this.statusBar.color = new vscode.ThemeColor(
+            "statusBarItem.warningForeground"
+        );
+        this.statusBar.backgroundColor = new vscode.ThemeColor(
+            "statusBarItem.warningBackground"
+        );
+        this.statusBar.show();
+    
+        await refreshBoostOrgStatus(context, this);
+    
+        vscode.commands.registerCommand(
+            boostnb.NOTEBOOK_TYPE + ".boostStatus",
+            boostStatusCommand.bind(this)
+        );
+        this.statusBar.command = boostnb.NOTEBOOK_TYPE + ".boostStatus";
+        this.registerOrganizationCommands(context, this);
+        context.subscriptions.push(this.statusBar);
+    }
+    
     registerSourceCodeRightClickCommands(context: vscode.ExtensionContext) {
         context.subscriptions.push(
             vscode.commands.registerCommand(
@@ -2954,7 +3114,7 @@ export class BoostExtension {
         const boostprojectdata = await this.getBoostProjectData()!;
 
         try {
-            await preflightCheckForCustomerStatus(context, this);
+            await this.preflightCheckForCustomerStatus(context, this);
         } catch (error) {
             const folderName = path.basename(targetFolder.fsPath);
             boostLogging.error(
