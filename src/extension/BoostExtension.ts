@@ -18,10 +18,7 @@ import {
     getAllProjectFiles,
 } from "../utilities/files";
 
-import {
-    addToBoostOnly,
-    removeFromBoostOnly,
-} from "../utilities/boostOnly";
+import { addToBoostOnly, removeFromBoostOnly } from "../utilities/boostOnly";
 
 import {
     getOrCreateGuideline,
@@ -38,7 +35,10 @@ import {
 } from "./extension";
 import { cleanCellOutput } from "./extensionUtilities";
 import { fullPathFromSourceFile } from "../utilities/files";
-import { getAnalysisForSourceTarget } from "./vscodeUtilities";
+import {
+    generateSingleLineSummaryForAnalysisData,
+    getAnalysisForSourceTarget,
+} from "./vscodeUtilities";
 import { BoostUserAnalysisType } from "../userAnalysisType";
 
 import { BoostContentSerializer } from "../utilities/serializer";
@@ -82,13 +82,22 @@ import {
     performanceKernelName,
 } from "../controllers/performance_controller";
 
-import { BoostAnalyzeKernel, analyzeKernelName } from "../controllers/analyze_controller";
+import {
+    BoostAnalyzeKernel,
+    analyzeKernelName,
+} from "../controllers/analyze_controller";
 import {
     BoostAnalyzeFunctionKernel,
     analyzeFunctionKernelName,
 } from "../controllers/analyze_function_controller";
-import { BoostTestgenKernel, testgenKernelName } from "../controllers/testgen_controller";
-import { BoostConvertKernel, convertKernelName } from "../controllers/convert_controller";
+import {
+    BoostTestgenKernel,
+    testgenKernelName,
+} from "../controllers/testgen_controller";
+import {
+    BoostConvertKernel,
+    convertKernelName,
+} from "../controllers/convert_controller";
 import {
     BoostComplianceKernel,
     complianceKernelName,
@@ -97,7 +106,10 @@ import {
     BoostComplianceFunctionKernel,
     complianceFunctionKernelName,
 } from "../controllers/compliance_function_controller";
-import { BoostExplainKernel, explainKernelName } from "../controllers/explain_controller";
+import {
+    BoostExplainKernel,
+    explainKernelName,
+} from "../controllers/explain_controller";
 import {
     BoostCodeGuidelinesKernel,
     codeGuidelinesKernelName,
@@ -115,7 +127,10 @@ import {
     BoostFlowDiagramKernel,
     flowDiagramKernelName,
 } from "../controllers/flowdiagram_controller";
-import { SummarizeKernel, summarizeKernelName } from "../controllers/summary_controller";
+import {
+    SummarizeKernel,
+    summarizeKernelName,
+} from "../controllers/summary_controller";
 import {
     BoostQuickBlueprintKernel,
     quickBlueprintKernelName,
@@ -133,11 +148,10 @@ import {
     BoostQuickPerformanceSummaryKernel,
     quickPerformanceSummaryKernelName,
 } from "../controllers/quick_performance_summary_controller";
+import { BoostCustomQuickScanFunctionKernel } from "../controllers/customquickscan_function_controller";
 import {
-    BoostCustomQuickScanFunctionKernel,
-} from "../controllers/customquickscan_function_controller";
-import {
-    BoostChatKernel, chatKernelName,
+    BoostChatKernel,
+    chatKernelName,
 } from "../controllers/chat_controller";
 
 import { InlineBoostAnnotations } from "../inline/inline";
@@ -242,7 +256,9 @@ export class BoostExtension {
 
             this.registerProjectLevelCommands(context);
 
-            this.registerFileExplorerRightClickAnalysisSelectionCommands(context);
+            this.registerFileExplorerRightClickAnalysisSelectionCommands(
+                context
+            );
 
             this.registerFileRightClickAnalyzeCommand(context);
 
@@ -261,7 +277,9 @@ export class BoostExtension {
             this.successfullyActivated = false;
             const error = e as Error;
             boostLogging.error(
-                `Extension Activation failed due to critical error ${errorToString(error)}`,
+                `Extension Activation failed due to critical error ${errorToString(
+                    error
+                )}`,
                 false
             );
         } finally {
@@ -280,7 +298,10 @@ export class BoostExtension {
             this.refreshBoostProjectsData().then(() => {
                 this.finishedActivation = true;
 
-                boostLogging.info("Polyverse Boost is now active", (BoostConfiguration.logLevel === "debug"));
+                boostLogging.info(
+                    "Polyverse Boost is now active",
+                    BoostConfiguration.logLevel === "debug"
+                );
 
                 this.blueprint?.refresh();
                 this.docs?.refresh();
@@ -387,7 +408,8 @@ export class BoostExtension {
 
     public updateAccountInfo(accountInfo: any) {
         this._accountInfo = accountInfo;
-        const boostdata : BoostProjectData | undefined = this.getBoostProjectData();
+        const boostdata: BoostProjectData | undefined =
+            this.getBoostProjectData();
         if (boostdata) {
             boostdata.updateAccountStatusFromService(accountInfo);
 
@@ -439,10 +461,9 @@ export class BoostExtension {
     ) {
         // Check if boost project data already exists
         let boostProjectData = this._boostProjectData.get(workspaceFolder.uri);
-        let boostProjectUri = getBoostFile(
-            workspaceFolder.uri,
-            { format: BoostFileType.status }
-        );
+        let boostProjectUri = getBoostFile(workspaceFolder.uri, {
+            format: BoostFileType.status,
+        });
 
         // if we have an existing data cache then remember that we're refreshing
         const firstCacheLoad = boostProjectData === undefined;
@@ -535,10 +556,9 @@ export class BoostExtension {
         const issues: string[] = [];
         try {
             if (!boostProjectData.summary.summaryUrl) {
-                const summaryPath = getBoostFile(
-                    workspaceFolder,
-                    { format: BoostFileType.summary }
-                ).fsPath;
+                const summaryPath = getBoostFile(workspaceFolder, {
+                    format: BoostFileType.summary,
+                }).fsPath;
                 const relativeSummaryPath = path.relative(
                     workspaceFolder.fsPath,
                     summaryPath
@@ -599,7 +619,8 @@ export class BoostExtension {
 
         boostProjectData.summary.summaryUrl = path.relative(
             workspaceFolder.fsPath,
-            getBoostFile(workspaceFolder, { format: BoostFileType.summary}).fsPath
+            getBoostFile(workspaceFolder, { format: BoostFileType.summary })
+                .fsPath
         );
         await this.getBoostFilesForFolder(
             workspaceFolder,
@@ -613,7 +634,8 @@ export class BoostExtension {
         );
 
         boostProjectData.save(
-            getBoostFile(workspaceFolder, { format: BoostFileType.status}).fsPath
+            getBoostFile(workspaceFolder, { format: BoostFileType.status })
+                .fsPath
         );
     }
 
@@ -631,9 +653,11 @@ export class BoostExtension {
         boostProjectData: BoostProjectData,
         deepScan: boolean = false
     ): Promise<boostnb.BoostNotebook[]> {
-        const files = (await getAllProjectFiles(false, workspaceFolder)).map((file) => {
-            return vscode.Uri.file(file);
-        });
+        const files = (await getAllProjectFiles(false, workspaceFolder)).map(
+            (file) => {
+                return vscode.Uri.file(file);
+            }
+        );
 
         let total = 0;
         let exists = 0;
@@ -656,7 +680,10 @@ export class BoostExtension {
             boostNotebooks.push(boostNotebook);
 
             //get the summary of the notebook file
-            const filesummary = boostNotebookToFileSummaryItem(workspaceFolder.fsPath, boostNotebook);
+            const filesummary = boostNotebookToFileSummaryItem(
+                workspaceFolder.fsPath,
+                boostNotebook
+            );
 
             //now add it to boostprojectdata
             let relativePath = path.relative(
@@ -1108,9 +1135,7 @@ export class BoostExtension {
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
             // register the dev only kernels
-            const devKernelTypes: any[] = [
-                BoostCustomQuickScanFunctionKernel
-            ];
+            const devKernelTypes: any[] = [BoostCustomQuickScanFunctionKernel];
             kernelTypes = kernelTypes.concat(devKernelTypes);
         }
         // constructor and save all kernels
@@ -1341,13 +1366,18 @@ export class BoostExtension {
         );
     }
 
-    async loadCurrentFolder(targetFolder: vscode.Uri, context: vscode.ExtensionContext) {
-        const files = (await getAllProjectFiles(false, targetFolder)).map((file : string) => {
-            return vscode.Uri.file(file);
-        });
+    async loadCurrentFolder(
+        targetFolder: vscode.Uri,
+        context: vscode.ExtensionContext
+    ) {
+        const files = (await getAllProjectFiles(false, targetFolder)).map(
+            (file: string) => {
+                return vscode.Uri.file(file);
+            }
+        );
         if (!targetFolder) {
             targetFolder = vscode.workspace.workspaceFolders![0].uri;
-        }    
+        }
         boostLogging.debug(
             "Analyzing " + files.length + " files in folder: " + targetFolder
         );
@@ -1357,8 +1387,12 @@ export class BoostExtension {
             >[] = [];
 
             files.forEach((file: vscode.Uri) => {
-                newNotebookWaits.push(createOrOpenNotebookFromSourceFile(file, true));
-                newNotebookWaits.push(createOrOpenSummaryNotebookFromSourceFile(file));
+                newNotebookWaits.push(
+                    createOrOpenNotebookFromSourceFile(file, true)
+                );
+                newNotebookWaits.push(
+                    createOrOpenSummaryNotebookFromSourceFile(file)
+                );
             });
 
             // create project level rollup
@@ -1408,13 +1442,17 @@ export class BoostExtension {
                 // Handle the errors here
                 for (const error of errors) {
                     boostLogging.error(
-                        `Error Boosting folder ${targetFolder.fsPath} due to Error: ${errorToString(error)}`
+                        `Error Boosting folder ${
+                            targetFolder.fsPath
+                        } due to Error: ${errorToString(error)}`
                     );
                 }
             });
         } catch (error) {
             boostLogging.error(
-                `Error Boosting folder ${targetFolder} due to Error: ${errorToString(error)}`
+                `Error Boosting folder ${targetFolder} due to Error: ${errorToString(
+                    error
+                )}`
             );
         }
     }
@@ -1423,6 +1461,8 @@ export class BoostExtension {
         let disposable = vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFolder,
             async (uri: vscode.Uri) => {
+                await this.waitForActivationToFinish();
+
                 await this.loadCurrentFolder(uri, context);
             }
         );
@@ -1430,20 +1470,21 @@ export class BoostExtension {
 
         disposable = vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE + "." + BoostCommands.processCurrentFolder,
-            async (
-                options: ProcessCurrentFolderOptions
-            ) => {
+            async (options: ProcessCurrentFolderOptions) => {
+                await this.waitForActivationToFinish();
+
                 const likelyViaUI =
-                    !options.kernelCommand || typeof options.kernelCommand !== "string";
+                    !options.kernelCommand ||
+                    typeof options.kernelCommand !== "string";
                 if (likelyViaUI) {
-                    options.kernelCommand = BoostConfiguration.currentKernelCommand;
+                    options.kernelCommand =
+                        BoostConfiguration.currentKernelCommand;
                 }
-                return await this.processCurrentFolder(
-                    options,
-                    context
-                ).catch((error) => {
-                    boostLogging.error(errorToString(error), likelyViaUI);
-                });
+                return await this.processCurrentFolder(options, context).catch(
+                    (error) => {
+                        boostLogging.error(errorToString(error), likelyViaUI);
+                    }
+                );
             }
         );
         context.subscriptions.push(disposable);
@@ -1543,7 +1584,9 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
     }
 
-    registerFileExplorerRightClickOutputCommands(context: vscode.ExtensionContext) {
+    registerFileExplorerRightClickOutputCommands(
+        context: vscode.ExtensionContext
+    ) {
         // register the command to build the current file
         let disposable = vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE + "." + BoostCommands.buildCurrentFileOutput,
@@ -1556,16 +1599,25 @@ export class BoostExtension {
                     return;
                 }
 
+                await this.waitForActivationToFinish();
+
                 await this.buildCurrentFileOutput(
                     uri,
                     false,
-                    outputFormat?outputFormat:BoostConfiguration.defaultOutputFormat,
+                    outputFormat
+                        ? outputFormat
+                        : BoostConfiguration.defaultOutputFormat,
                     context
-                    ).then((outputFile: string) => {
-
-                    const relativeOutputFile = vscode.workspace.workspaceFolders?
-                        path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, outputFile):
-                        outputFile;
+                )
+                    .then((outputFile: string) => {
+                        const relativeOutputFile = vscode.workspace
+                            .workspaceFolders
+                            ? path.relative(
+                                  vscode.workspace.workspaceFolders[0].uri
+                                      .fsPath,
+                                  outputFile
+                              )
+                            : outputFile;
 
                         boostLogging.info(
                             `${relativeOutputFile} created`,
@@ -1573,16 +1625,24 @@ export class BoostExtension {
                         );
                     })
                     .catch((error: any) => {
-
-                        const relativeSourcePath = vscode.workspace.workspaceFolders?
-                            (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
-                            path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
-                            uri.fsPath;
+                        const relativeSourcePath = vscode.workspace
+                            .workspaceFolders
+                            ? uri
+                                ? path.relative(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath,
+                                      uri.fsPath
+                                  )
+                                : path.basename(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath
+                                  )
+                            : uri.fsPath;
 
                         boostLogging.error(
-                            `Unable to generate output for current file:${
-                                relativeSourcePath
-                            } due to ${errorToString(error)}`,
+                            `Unable to generate output for current file:${relativeSourcePath} due to ${errorToString(
+                                error
+                            )}`,
                             true
                         );
                     });
@@ -1604,20 +1664,36 @@ export class BoostExtension {
                     return;
                 }
 
+                await this.waitForActivationToFinish();
+
                 await this.buildCurrentFileOutput(
                     uri,
                     false,
                     BoostConfiguration.defaultOutputFormat,
                     context
-                    ).then(async (outputFile: string) => {
-
-                        const relativeOutputFile = vscode.workspace.workspaceFolders?
-                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, outputFile):
-                            outputFile;
-                        const relativeSourcePath = vscode.workspace.workspaceFolders?
-                            (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
-                            path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
-                            uri.fsPath;
+                )
+                    .then(async (outputFile: string) => {
+                        const relativeOutputFile = vscode.workspace
+                            .workspaceFolders
+                            ? path.relative(
+                                  vscode.workspace.workspaceFolders[0].uri
+                                      .fsPath,
+                                  outputFile
+                              )
+                            : outputFile;
+                        const relativeSourcePath = vscode.workspace
+                            .workspaceFolders
+                            ? uri
+                                ? path.relative(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath,
+                                      uri.fsPath
+                                  )
+                                : path.basename(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath
+                                  )
+                            : uri.fsPath;
 
                         boostLogging.info(
                             `${relativeOutputFile} created for file:${relativeSourcePath}.`,
@@ -1662,9 +1738,9 @@ export class BoostExtension {
                                         },
                                         (reason) => {
                                             boostLogging.error(
-                                                `Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview for ${relativeOutputFile} due to ${
-                                                    errorToString(reason)
-                                                }`,
+                                                `Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview for ${relativeOutputFile} due to ${errorToString(
+                                                    reason
+                                                )}`,
                                                 true
                                             );
                                         }
@@ -1678,14 +1754,24 @@ export class BoostExtension {
                         }
                     })
                     .catch((error: any) => {
-
-                        const relativeSourcePath = vscode.workspace.workspaceFolders?
-                            (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
-                            path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
-                            uri.fsPath;
+                        const relativeSourcePath = vscode.workspace
+                            .workspaceFolders
+                            ? uri
+                                ? path.relative(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath,
+                                      uri.fsPath
+                                  )
+                                : path.basename(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath
+                                  )
+                            : uri.fsPath;
 
                         boostLogging.error(
-                            `Unable to generate and show output for current file ${relativeSourcePath} due to ${errorToString(error)}`,
+                            `Unable to generate and show output for current file ${relativeSourcePath} due to ${errorToString(
+                                error
+                            )}`,
                             true
                         );
                     });
@@ -1700,9 +1786,13 @@ export class BoostExtension {
                 "." +
                 BoostCommands.buildCurrentFolderOutput,
             async (uri: vscode.Uri, outputFormat: string) => {
+                await this.waitForActivationToFinish();
+
                 await this.buildCurrentFolderOutput(
                     uri,
-                    outputFormat?outputFormat:BoostConfiguration.defaultOutputFormat,
+                    outputFormat
+                        ? outputFormat
+                        : BoostConfiguration.defaultOutputFormat,
                     context
                 ).catch((error: any) => {
                     boostLogging.error(errorToString(error));
@@ -1725,35 +1815,63 @@ export class BoostExtension {
                     return;
                 }
 
+                await this.waitForActivationToFinish();
+
                 await this.buildCurrentFileOutput(
                     uri,
                     true,
-                    outputFormat?outputFormat:BoostConfiguration.defaultOutputFormat,
+                    outputFormat
+                        ? outputFormat
+                        : BoostConfiguration.defaultOutputFormat,
                     context
-                    ).then((outputFile: string) => {
-
-                        const relativeOutputFile = vscode.workspace.workspaceFolders?
-                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, outputFile):
-                            outputFile;
-                        const relativeSourcePath = vscode.workspace.workspaceFolders?
-                            (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
-                            path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
-                            uri.fsPath;
+                )
+                    .then((outputFile: string) => {
+                        const relativeOutputFile = vscode.workspace
+                            .workspaceFolders
+                            ? path.relative(
+                                  vscode.workspace.workspaceFolders[0].uri
+                                      .fsPath,
+                                  outputFile
+                              )
+                            : outputFile;
+                        const relativeSourcePath = vscode.workspace
+                            .workspaceFolders
+                            ? uri
+                                ? path.relative(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath,
+                                      uri.fsPath
+                                  )
+                                : path.basename(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath
+                                  )
+                            : uri.fsPath;
 
                         boostLogging.info(
                             `${relativeOutputFile} created for file:${relativeSourcePath}.`,
                             uri === undefined
-                            );
+                        );
                     })
                     .catch((error: any) => {
-
-                        const relativeSourcePath = vscode.workspace.workspaceFolders?
-                            (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
-                            path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
-                            uri.fsPath;
+                        const relativeSourcePath = vscode.workspace
+                            .workspaceFolders
+                            ? uri
+                                ? path.relative(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath,
+                                      uri.fsPath
+                                  )
+                                : path.basename(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath
+                                  )
+                            : uri.fsPath;
 
                         boostLogging.error(
-                            `Unable to generate output for current file:${relativeSourcePath} due to ${errorToString(error)}`,
+                            `Unable to generate output for current file:${relativeSourcePath} due to ${errorToString(
+                                error
+                            )}`,
                             true
                         );
                     });
@@ -1775,20 +1893,36 @@ export class BoostExtension {
                     return;
                 }
 
-                await this.buildCurrentFileOutput(
-                        uri,
-                        true,
-                        BoostConfiguration.defaultOutputFormat,
-                        context
-                    ) .then(async (outputFile: string) => {
+                await this.waitForActivationToFinish();
 
-                        const relativeOutputFile = vscode.workspace.workspaceFolders?
-                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, outputFile):
-                            outputFile;
-                        const relativeSourcePath = vscode.workspace.workspaceFolders?
-                            (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
-                            path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
-                            uri.fsPath;
+                await this.buildCurrentFileOutput(
+                    uri,
+                    true,
+                    BoostConfiguration.defaultOutputFormat,
+                    context
+                )
+                    .then(async (outputFile: string) => {
+                        const relativeOutputFile = vscode.workspace
+                            .workspaceFolders
+                            ? path.relative(
+                                  vscode.workspace.workspaceFolders[0].uri
+                                      .fsPath,
+                                  outputFile
+                              )
+                            : outputFile;
+                        const relativeSourcePath = vscode.workspace
+                            .workspaceFolders
+                            ? uri
+                                ? path.relative(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath,
+                                      uri.fsPath
+                                  )
+                                : path.basename(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath
+                                  )
+                            : uri.fsPath;
 
                         boostLogging.info(
                             `${relativeOutputFile} created for file:${relativeSourcePath}.`,
@@ -1812,9 +1946,9 @@ export class BoostExtension {
                                         },
                                         (reason) => {
                                             boostLogging.error(
-                                                `Unable to open Markdown Preview for ${relativeOutputFile} due to ${
-                                                    errorToString(reason)
-                                                }`,
+                                                `Unable to open Markdown Preview for ${relativeOutputFile} due to ${errorToString(
+                                                    reason
+                                                )}`,
                                                 false
                                             );
                                         }
@@ -1833,8 +1967,10 @@ export class BoostExtension {
                                         },
                                         (reason) => {
                                             boostLogging.error(
-                                                `Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} ` + 
-                                                `Preview for ${relativeOutputFile} due to ${errorToString(reason)}`,
+                                                `Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} ` +
+                                                    `Preview for ${relativeOutputFile} due to ${errorToString(
+                                                        reason
+                                                    )}`,
                                                 true
                                             );
                                         }
@@ -1848,10 +1984,15 @@ export class BoostExtension {
                         }
                     })
                     .catch((error: any) => {
-                        const relativeSourcePath = path.relative(vscode.workspace.workspaceFolders![0].uri.fsPath, uri.fsPath);
+                        const relativeSourcePath = path.relative(
+                            vscode.workspace.workspaceFolders![0].uri.fsPath,
+                            uri.fsPath
+                        );
 
                         boostLogging.error(
-                            `Unable to generate and show summary output for current file:${relativeSourcePath} due to ${errorToString(error)}`,
+                            `Unable to generate and show summary output for current file:${relativeSourcePath} due to ${errorToString(
+                                error
+                            )}`,
                             true
                         );
                     });
@@ -1865,6 +2006,8 @@ export class BoostExtension {
                 "." +
                 BoostCommands.buildCurrentFolderSummaryOutput,
             async (uri: vscode.Uri) => {
+                await this.waitForActivationToFinish();
+
                 await this.buildCurrentFileOutput(
                     uri,
                     true,
@@ -1872,14 +2015,27 @@ export class BoostExtension {
                     context
                 )
                     .then((outputFile: string) => {
-
-                        const relativeOutputFile = vscode.workspace.workspaceFolders?
-                            path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, outputFile):
-                            outputFile;
-                        const relativeSourcePath = vscode.workspace.workspaceFolders?
-                            (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
-                            path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
-                            uri.fsPath;
+                        const relativeOutputFile = vscode.workspace
+                            .workspaceFolders
+                            ? path.relative(
+                                  vscode.workspace.workspaceFolders[0].uri
+                                      .fsPath,
+                                  outputFile
+                              )
+                            : outputFile;
+                        const relativeSourcePath = vscode.workspace
+                            .workspaceFolders
+                            ? uri
+                                ? path.relative(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath,
+                                      uri.fsPath
+                                  )
+                                : path.basename(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath
+                                  )
+                            : uri.fsPath;
 
                         if (!uri) {
                             boostLogging.info(
@@ -1894,16 +2050,26 @@ export class BoostExtension {
                         }
                     })
                     .catch((error: any) => {
-
-                        const relativeSourcePath = vscode.workspace.workspaceFolders?
-                            (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
-                            path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
-                            uri.fsPath;
+                        const relativeSourcePath = vscode.workspace
+                            .workspaceFolders
+                            ? uri
+                                ? path.relative(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath,
+                                      uri.fsPath
+                                  )
+                                : path.basename(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath
+                                  )
+                            : uri.fsPath;
 
                         boostLogging.error(
-                            `Unable to generate summary output for current folder${uri ? ":" + relativeSourcePath : ""}` +
-                            ` due to ${errorToString(error as Error)}`,
-                            false);
+                            `Unable to generate summary output for current folder${
+                                uri ? ":" + relativeSourcePath : ""
+                            }` + ` due to ${errorToString(error as Error)}`,
+                            false
+                        );
                     });
             }
         );
@@ -1915,95 +2081,123 @@ export class BoostExtension {
                 "." +
                 BoostCommands.showCurrentFolderAnalysisSummaryOutput,
             async (uri: vscode.Uri) => {
+                await this.waitForActivationToFinish();
+
                 await this.buildCurrentFileOutput(
                     uri,
                     true,
                     BoostConfiguration.defaultOutputFormat,
                     context
-                ).then(async (outputFile: string) => {
+                )
+                    .then(async (outputFile: string) => {
+                        const relativeOutputFile = vscode.workspace
+                            .workspaceFolders
+                            ? path.relative(
+                                  vscode.workspace.workspaceFolders[0].uri
+                                      .fsPath,
+                                  outputFile
+                              )
+                            : outputFile;
+                        const relativeSourcePath = vscode.workspace
+                            .workspaceFolders
+                            ? uri
+                                ? path.relative(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath,
+                                      uri.fsPath
+                                  )
+                                : path.basename(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath
+                                  )
+                            : uri.fsPath;
 
-                    const relativeOutputFile = vscode.workspace.workspaceFolders?
-                        path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, outputFile):
-                        outputFile;
-                    const relativeSourcePath = vscode.workspace.workspaceFolders?
-                        (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
-                        path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
-                        uri.fsPath;
-
-                    if (!uri) {
-                        boostLogging.info(`${relativeOutputFile} created`, false);
-                    } else {
-                        boostLogging.info(
-                            `${outputFile} created for file:${relativeSourcePath}.`,
-                            false
-                        );
-                    }
-
-                    // show the file now
-                    switch (BoostConfiguration.defaultOutputFormat) {
-                        case "markdown":
-                            await vscode.commands
-                                .executeCommand(
-                                    "markdown.showPreview",
-                                    vscode.Uri.parse(outputFile)
-                                )
-                                .then(
-                                    (success) => {
-                                        boostLogging.info(
-                                            `Markdown Preview opened for ${relativeOutputFile}`,
-                                            false
-                                        );
-                                    },
-                                    (reason) => {
-                                        boostLogging.error(
-                                            `Unable to open Markdown Preview for ${relativeOutputFile} due to ${
-                                                (reason as Error).message
-                                            }`,
-                                            true
-                                        );
-                                    }
-                                );
-                            break;
-                        case "pdf":
-                        case "html":
-                            await vscode.env
-                                .openExternal(vscode.Uri.parse(outputFile))
-                                .then(
-                                    (success) => {
-                                        boostLogging.info(
-                                            `${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview opened for ${relativeOutputFile}`,
-                                            true
-                                        );
-                                    },
-                                    (reason) => {
-                                        boostLogging.error(
-                                            `Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview for ${relativeOutputFile} due to ${
-                                                (reason as Error).message
-                                            }`,
-                                            true
-                                        );
-                                    }
-                                );
-                            break;
-                        default:
-                            boostLogging.error(
-                                `Unable to open output for ${relativeOutputFile} due to unknown format ${BoostConfiguration.defaultOutputFormat}`,
-                                true
+                        if (!uri) {
+                            boostLogging.info(
+                                `${relativeOutputFile} created`,
+                                false
                             );
-                    }
-                })
-                .catch((error: any) => {
-                    const relativeSourcePath = vscode.workspace.workspaceFolders?
-                        (uri?path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, uri.fsPath):
-                        path.basename(vscode.workspace.workspaceFolders[0].uri.fsPath)):
-                        uri.fsPath;
-                    boostLogging.error(
-                        `Unable to generate and show summary output for current folder:${
-                            uri ? ":" + relativeSourcePath : ""
-                        } due to ${errorToString(error)}`,
-                        true
-                    );
-                });
+                        } else {
+                            boostLogging.info(
+                                `${outputFile} created for file:${relativeSourcePath}.`,
+                                false
+                            );
+                        }
+
+                        // show the file now
+                        switch (BoostConfiguration.defaultOutputFormat) {
+                            case "markdown":
+                                await vscode.commands
+                                    .executeCommand(
+                                        "markdown.showPreview",
+                                        vscode.Uri.parse(outputFile)
+                                    )
+                                    .then(
+                                        (success) => {
+                                            boostLogging.info(
+                                                `Markdown Preview opened for ${relativeOutputFile}`,
+                                                false
+                                            );
+                                        },
+                                        (reason) => {
+                                            boostLogging.error(
+                                                `Unable to open Markdown Preview for ${relativeOutputFile} due to ${
+                                                    (reason as Error).message
+                                                }`,
+                                                true
+                                            );
+                                        }
+                                    );
+                                break;
+                            case "pdf":
+                            case "html":
+                                await vscode.env
+                                    .openExternal(vscode.Uri.parse(outputFile))
+                                    .then(
+                                        (success) => {
+                                            boostLogging.info(
+                                                `${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview opened for ${relativeOutputFile}`,
+                                                true
+                                            );
+                                        },
+                                        (reason) => {
+                                            boostLogging.error(
+                                                `Unable to open ${BoostConfiguration.defaultOutputFormat.toUpperCase()} Preview for ${relativeOutputFile} due to ${
+                                                    (reason as Error).message
+                                                }`,
+                                                true
+                                            );
+                                        }
+                                    );
+                                break;
+                            default:
+                                boostLogging.error(
+                                    `Unable to open output for ${relativeOutputFile} due to unknown format ${BoostConfiguration.defaultOutputFormat}`,
+                                    true
+                                );
+                        }
+                    })
+                    .catch((error: any) => {
+                        const relativeSourcePath = vscode.workspace
+                            .workspaceFolders
+                            ? uri
+                                ? path.relative(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath,
+                                      uri.fsPath
+                                  )
+                                : path.basename(
+                                      vscode.workspace.workspaceFolders[0].uri
+                                          .fsPath
+                                  )
+                            : uri.fsPath;
+                        boostLogging.error(
+                            `Unable to generate and show summary output for current folder:${
+                                uri ? ":" + relativeSourcePath : ""
+                            } due to ${errorToString(error)}`,
+                            true
+                        );
+                    });
             }
         );
         context.subscriptions.push(disposable);
@@ -2022,9 +2216,9 @@ export class BoostExtension {
                     })
                     .catch((error: any) => {
                         boostLogging.error(
-                            `Unable to Refresh Project Data due to error ${
-                                errorToString(error as Error)
-                            }`,
+                            `Unable to Refresh Project Data due to error ${errorToString(
+                                error as Error
+                            )}`,
                             false
                         );
                     });
@@ -2034,67 +2228,159 @@ export class BoostExtension {
     }
 
     registerSourceCodeRightClickCommands(context: vscode.ExtensionContext) {
-        let disposable = vscode.commands.registerCommand(
-            boostnb.NOTEBOOK_TYPE + "." + BoostCommands.analyzeSourceCode,
-            async () => {
-                const editor = vscode.window.activeTextEditor;
+        context.subscriptions.push(
+            vscode.commands.registerCommand(
+                boostnb.NOTEBOOK_TYPE + "." + BoostCommands.analyzeSourceCode,
+                async () => {
+                    const editor = vscode.window.activeTextEditor;
 
-                if (!editor) {
-                    boostLogging.warn(
-                        `No active editor found to analyze source code.`,
-                        false
+                    if (!editor) {
+                        boostLogging.warn(
+                            `No active editor found to analyze source code.`,
+                            false
+                        );
+                        return;
+                    }
+
+                    // get the user's selected text
+                    const selectedText = editor.document.getText(
+                        editor.selection
                     );
-                    return;
-                }
-
-                // get the user's selected text
-                const selectedText = editor.document.getText(editor.selection);
-                if (selectedText === undefined || selectedText === "") {
-                    boostLogging.warn(
-                        `No text selected to analyze source code.`,
-                        true
-                    );
-                    return;
-                }
-
-                const targetedKernel = this.getCurrentKernel(
-                    BoostConfiguration.currentKernelCommand
-                );
-                if (targetedKernel === undefined) {
-                    boostLogging.warn(
-                        `Please select an Analysis command type via Boost Status Bar at bottom of screen`,
-                        true
-                    );
-                    return;
-                }
-
-                // analyze the source code
-                await this.analyzeSourceCode(selectedText)
-                    .then((analysisResults: string) => {
-                        boostLogging.info(analysisResults, true);
-                    })
-                    .catch((error: any) => {
-                        boostLogging.error(
-                            `Unable to Analyze Selected Text with ${
-                                BoostConfiguration.currentKernelCommand
-                            } due to ${errorToString(error)}`,
+                    if (selectedText === undefined || selectedText === "") {
+                        boostLogging.warn(
+                            `No text selected to analyze source code.`,
                             true
                         );
-                    });
-            }
+                        return;
+                    }
+
+                    await this.waitForActivationToFinish();
+
+                    const targetedKernel = this.getCurrentKernel(
+                        BoostConfiguration.currentKernelCommand
+                    );
+                    if (targetedKernel === undefined) {
+                        boostLogging.warn(
+                            `Please select an Analysis command type via Boost Status Bar at bottom of screen`,
+                            true
+                        );
+                        return;
+                    }
+
+                    // analyze the source code
+                    await this.analyzeSourceCode(selectedText)
+                        .then((analysisResults: string) => {
+                            boostLogging.info(analysisResults, true);
+                        })
+                        .catch((error: any) => {
+                            boostLogging.error(
+                                `Unable to Analyze Selected Text with ${
+                                    BoostConfiguration.currentKernelCommand
+                                } due to ${errorToString(error)}`,
+                                true
+                            );
+                        });
+                }
+            )
         );
-        context.subscriptions.push(disposable);
+
+        context.subscriptions.push(
+            vscode.commands.registerCommand(
+                boostnb.NOTEBOOK_TYPE +
+                    "." +
+                    BoostCommands.analysisSummaryForSourceCode,
+                async () => {
+                    const currentEditorFile =
+                        vscode.window.activeTextEditor?.document.uri;
+                    if (!currentEditorFile) {
+                        boostLogging.warn(
+                            `No active editor found to analyze source code.`,
+                            true
+                        );
+                        return;
+                    }
+
+                    const currentSelection =
+                        vscode.window.activeTextEditor?.selection;
+                    const boostTarget = getBoostFile(currentEditorFile);
+                    if (!boostTarget || !fs.existsSync(boostTarget.fsPath)) {
+                        boostLogging.warn(
+                            `Unable to find Boost Analysis for ${currentEditorFile.fsPath}`,
+                            true
+                        );
+                        return;
+                    }
+
+                    await this.waitForActivationToFinish();
+
+                    const analysisNotebook = new boostnb.BoostNotebook();
+                    analysisNotebook.load(boostTarget.fsPath);
+
+                    const summary = generateSingleLineSummaryForAnalysisData(
+                        this,
+                        analysisNotebook,
+                        currentSelection
+                    );
+
+                    boostLogging.info(summary, true);
+                }
+            )
+        );
+    }
+
+    async waitForActivationToFinish() : Promise<void> {
+        let totalTimeWaited = 0; // in seconds
+        let waitTime = 1; // start off waiting for 1 second
+
+        return new Promise((resolve, reject) => {
+            const checkActivation = () => {
+                if (this.finishedActivation) {
+                    resolve();
+                    return;
+                }
+
+                totalTimeWaited += waitTime;
+                if (totalTimeWaited >= 15) {
+                    // 15 seconds timeout
+                    boostLogging.error(
+                        `Boost extension activation did not complete in ${totalTimeWaited} seconds.`,
+                        true
+                    );
+                    reject(
+                        new Error(
+                            `Boost extension activation did not complete in ${totalTimeWaited} seconds.`
+                        )
+                    );
+                    return;
+                }
+
+                setTimeout(() => {
+                    checkActivation();
+                    waitTime *= 2; // Double the wait time for the next round
+                }, waitTime * 1000);
+            };
+
+            // Initial delay and log
+            setTimeout(() => {
+                if (!this.finishedActivation) {
+                    boostLogging.warn(
+                        "Boost is still activating. Waiting a few seconds before continuing.",
+                        false
+                    );
+                }
+                checkActivation();
+            }, 1000);
+        });
     }
 
     registerShowGuidelinesCommand(context: vscode.ExtensionContext) {
         let disposable = vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE + "." + BoostCommands.showGuidelines,
             async (guidelineType) => {
-                const globalProjectGuidelineFile = getBoostFile(
-                    undefined,
-                    { format: BoostFileType.guidelines,
-                      showUI: false }
-                );
+                const globalProjectGuidelineFile = getBoostFile(undefined, {
+                    format: BoostFileType.guidelines,
+                    showUI: false,
+                });
                 let projectGuidelineFile;
                 if (!guidelineType) {
                     projectGuidelineFile = globalProjectGuidelineFile;
@@ -2256,7 +2542,9 @@ export class BoostExtension {
                 // Note this only happens when using right-click in explorer or a non-Notebook active editor
                 if (currentNotebook === undefined && !sourceFileUri) {
                     const boostNotebooks: vscode.NotebookDocument[] =
-                        vscode.workspace.notebookDocuments.filter(doc => doc.notebookType === boostnb.NOTEBOOK_TYPE);
+                        vscode.workspace.notebookDocuments.filter(
+                            (doc) => doc.notebookType === boostnb.NOTEBOOK_TYPE
+                        );
 
                     // if we have more than one notebook, we need to ask user which one to use
                     if (boostNotebooks.length > 1) {
@@ -2343,7 +2631,9 @@ export class BoostExtension {
                 await vscode.window.showNotebookDocument(currentNotebook);
             } catch (error) {
                 boostLogging.error(
-                    `Unable to load Boost file:[${sourceFileUri.fsPath.toString()} due to error:${errorToString(error)}`,
+                    `Unable to load Boost file:[${sourceFileUri.fsPath.toString()} due to error:${errorToString(
+                        error
+                    )}`,
                     false
                 );
                 resolve(false);
@@ -2420,30 +2710,34 @@ export class BoostExtension {
                 let notebookUri = sourceUri;
                 // if we got a source file or folder, then load the notebook from it
                 if (!sourceUri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
-                    if ([summarizeKernelName,
-                        quickComplianceSummaryKernelName,
-                        quickSecuritySummaryKernelName,
-                        quickPerformanceSummaryKernelName
-                    ].includes(targetedKernel.command)) {
-                        notebookUri = getBoostFile(
-                            sourceUri,
-                            { format: BoostFileType.summary }
-                        );
+                    if (
+                        [
+                            summarizeKernelName,
+                            quickComplianceSummaryKernelName,
+                            quickSecuritySummaryKernelName,
+                            quickPerformanceSummaryKernelName,
+                        ].includes(targetedKernel.command)
+                    ) {
+                        notebookUri = getBoostFile(sourceUri, {
+                            format: BoostFileType.summary,
+                        });
                     } else {
-                        notebookUri = getBoostFile(
-                            sourceUri,
-                            { format: BoostFileType.notebook }
-                        );
+                        notebookUri = getBoostFile(sourceUri, {
+                            format: BoostFileType.notebook,
+                        });
                     }
                 } // else we are using a notebook file, so just use it
 
                 let notebook = new boostnb.BoostNotebook();
                 if (!fs.existsSync(notebookUri.fsPath)) {
-                    if ([summarizeKernelName,
-                        quickComplianceSummaryKernelName,
-                        quickSecuritySummaryKernelName,
-                        quickPerformanceSummaryKernelName
-                    ].includes(targetedKernel.command)) {
+                    if (
+                        [
+                            summarizeKernelName,
+                            quickComplianceSummaryKernelName,
+                            quickSecuritySummaryKernelName,
+                            quickPerformanceSummaryKernelName,
+                        ].includes(targetedKernel.command)
+                    ) {
                         // if we haven't yet loaded/parsed this file, then let's do it implicitly for the customer
                         await createOrOpenNotebookFromSourceFile(
                             sourceUri,
@@ -2476,15 +2770,17 @@ export class BoostExtension {
                             resolve(undefined);
                             return;
                         }
-                        if ([summarizeKernelName,
-                            quickComplianceSummaryKernelName,
-                            quickSecuritySummaryKernelName,
-                            quickPerformanceSummaryKernelName
-                        ].includes(targetedKernel.command)) {
-                                const summaryNotebookUri = getBoostFile(
-                                    sourceUri,
-                                    { format: BoostFileType.summary }
-                            );
+                        if (
+                            [
+                                summarizeKernelName,
+                                quickComplianceSummaryKernelName,
+                                quickSecuritySummaryKernelName,
+                                quickPerformanceSummaryKernelName,
+                            ].includes(targetedKernel.command)
+                        ) {
+                            const summaryNotebookUri = getBoostFile(sourceUri, {
+                                format: BoostFileType.summary,
+                            });
                             boostLogging.info(
                                 `Saved Updated Notebook for ${kernelCommand} in file:[${summaryNotebookUri.fsPath}]`,
                                 false
@@ -2501,7 +2797,9 @@ export class BoostExtension {
                     })
                     .catch((error) => {
                         boostLogging.warn(
-                            `Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${sourceUri.fsPath}] due to error:${errorToString(error)}`,
+                            `Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${
+                                sourceUri.fsPath
+                            }] due to error:${errorToString(error)}`,
                             true
                         );
                         reject(error);
@@ -2587,7 +2885,7 @@ export class BoostExtension {
     async processCurrentFolder(
         options: ProcessCurrentFolderOptions,
         context: vscode.ExtensionContext
-    ) : Promise<boolean> {
+    ): Promise<boolean> {
         let targetFolder: vscode.Uri;
         // if we don't have a folder selected, then the user didn't right click
         // so we need to use the workspace folder
@@ -2633,9 +2931,11 @@ export class BoostExtension {
         // if user provided a filelist, use that, otherwise grab everything from the target folder
         let files = options?.filelist;
         if (!files) {
-            files = (await getAllProjectFiles(false, options?.uri)).map((file) => {
-                return vscode.Uri.file(file);
-            });
+            files = (await getAllProjectFiles(false, options?.uri)).map(
+                (file) => {
+                    return vscode.Uri.file(file);
+                }
+            );
         }
         // limit processing to first N files if file limit is set
         if (options.fileLimit && options.fileLimit > 0) {
@@ -2658,12 +2958,14 @@ export class BoostExtension {
         } catch (error) {
             const folderName = path.basename(targetFolder.fsPath);
             boostLogging.error(
-                `Unable to process folder ${folderName} due to error: ${errorToString(error)}`
+                `Unable to process folder ${folderName} due to error: ${errorToString(
+                    error
+                )}`
             );
             return false;
         }
 
-            // tracks if files were changed
+        // tracks if files were changed
         let refreshed = false;
 
         try {
@@ -2693,63 +2995,67 @@ export class BoostExtension {
                 boostprojectdata
             );
 
-            let processedNotebookWaits: Promise<boostnb.BoostNotebook | undefined>[] =
-                files.map(async (file) => {
-                    return new Promise<boostnb.BoostNotebook | undefined>(
-                        (resolve, reject) => {
-                            const fileSize = fs.statSync(file.fsPath).size;
-                            const estimatedWords =
-                                this.calculateEstimatedWords(fileSize);
+            let processedNotebookWaits: Promise<
+                boostnb.BoostNotebook | undefined
+            >[] = files.map(async (file) => {
+                return new Promise<boostnb.BoostNotebook | undefined>(
+                    (resolve, reject) => {
+                        const fileSize = fs.statSync(file.fsPath).size;
+                        const estimatedWords =
+                            this.calculateEstimatedWords(fileSize);
 
-                                // disable all delays if processing serially in rings/groups
-                                // the server will throttle if a limit is hit, so we shoukd queue
-                                //      the request as soon as we can
-                            const processingTime = BoostConfiguration.processFilesInGroups?0:
-                                this.calculateProcessingTime(
-                                    estimatedWords,
-                                    wordsPerFile
-                                );
-                                
-                            boostLogging.log(
-                                `Delaying file ${
-                                    file.fsPath
-                                } with ${estimatedWords} ~items to wait ${
-                                    processingTime / seconds
-                                } secs`
-                            );
-                            // get the distance from the workspace folder for the source file
-                            // for project-level status files, we ignore the relative path
-                            let relativePath = path.relative(
-                                targetFolder.fsPath,
+                        // disable all delays if processing serially in rings/groups
+                        // the server will throttle if a limit is hit, so we shoukd queue
+                        //      the request as soon as we can
+                        const processingTime =
+                            BoostConfiguration.processFilesInGroups
+                                ? 0
+                                : this.calculateProcessingTime(
+                                      estimatedWords,
+                                      wordsPerFile
+                                  );
+
+                        boostLogging.log(
+                            `Delaying file ${
                                 file.fsPath
+                            } with ${estimatedWords} ~items to wait ${
+                                processingTime / seconds
+                            } secs`
+                        );
+                        // get the distance from the workspace folder for the source file
+                        // for project-level status files, we ignore the relative path
+                        let relativePath = path.relative(
+                            targetFolder.fsPath,
+                            file.fsPath
+                        );
+
+                        setTimeout(async () => {
+                            // if its been more than 5 seconds, log it - that's about 13 pages of source in 5 seconds (wild estimate)
+                            if (processingTime > 5 * seconds) {
+                                boostLogging.log(
+                                    `Starting processing file ${
+                                        file.fsPath
+                                    } with ${estimatedWords} ~items after waiting ${
+                                        processingTime * seconds
+                                    } secs`
+                                );
+                            }
+
+                            this.summary?.addJobs(
+                                targetedKernel.outputType,
+                                [relativePath],
+                                boostprojectdata
                             );
 
-                            setTimeout(async () => {
-                                // if its been more than 5 seconds, log it - that's about 13 pages of source in 5 seconds (wild estimate)
-                                if (processingTime > 5 * seconds) {
-                                    boostLogging.log(
-                                        `Starting processing file ${
-                                            file.fsPath
-                                        } with ${estimatedWords} ~items after waiting ${
-                                            processingTime * seconds
-                                        } secs`
-                                    );
-                                }
-
-                                this.summary?.addJobs(
-                                    targetedKernel.outputType,
-                                    [relativePath],
-                                    boostprojectdata
-                                );
-
-                                await this.processCurrentFile(
-                                    file,
-                                    targetedKernel.id,
-                                    context,
-                                    options?.forceAnalysisRefresh
-                                        ? options.forceAnalysisRefresh
-                                        : false
-                                ).then((notebook) => {
+                            await this.processCurrentFile(
+                                file,
+                                targetedKernel.id,
+                                context,
+                                options?.forceAnalysisRefresh
+                                    ? options.forceAnalysisRefresh
+                                    : false
+                            )
+                                .then((notebook) => {
                                     if (notebook) {
                                         refreshed = true;
 
@@ -2788,10 +3094,10 @@ export class BoostExtension {
                                     );
                                     reject(error);
                                 });
-                            }, processingTime);
-                        }
-                    );
-                });
+                        }, processingTime);
+                    }
+                );
+            });
 
             function reflect(promise: Promise<any>) {
                 return promise.then(
@@ -2809,20 +3115,27 @@ export class BoostExtension {
                     if (result.status === "fulfilled") {
                         if ((result as { v: any; status: string }).v) {
                             boostLogging.info(
-                                `Boost Notebook processed with command ${targetedKernel.command}: ${(result as { v: any; status: string }).v.fsPath}`,
+                                `Boost Notebook processed with command ${
+                                    targetedKernel.command
+                                }: ${
+                                    (result as { v: any; status: string }).v
+                                        .fsPath
+                                }`,
                                 false
                             );
                         } else {
-                            boostLogging.debug(`Boost Notebook analysis skipped for ${targetedKernel.command} - no unanalyzed content found`);
+                            boostLogging.debug(
+                                `Boost Notebook analysis skipped for ${targetedKernel.command} - no unanalyzed content found`
+                            );
                         }
                     } else if (result.status === "rejected") {
                         successfullyProcessed = false;
                         boostLogging.error(
                             `Error Boosting folder ${
                                 targetFolder.fsPath
-                            } due to Error: ${
-                                errorToString((result as { e: any; status: string }).e)
-                            }`,
+                            } due to Error: ${errorToString(
+                                (result as { e: any; status: string }).e
+                            )}`,
                             false
                         );
                     }
@@ -2844,14 +3157,16 @@ export class BoostExtension {
                 boostLogging.debug(
                     `Boost Project-level Summary starting with Project: ${targetFolder.fsPath}`
                 );
-                if (await this.processCurrentFile(
-                    targetFolder,
-                    targetedKernel.id,
-                    context,
-                    options?.forceAnalysisRefresh
-                        ? options.forceAnalysisRefresh
-                        : false
-                )) {
+                if (
+                    await this.processCurrentFile(
+                        targetFolder,
+                        targetedKernel.id,
+                        context,
+                        options?.forceAnalysisRefresh
+                            ? options.forceAnalysisRefresh
+                            : false
+                    )
+                ) {
                     refreshed = true;
                 }
                 boostLogging.info(
@@ -2861,9 +3176,11 @@ export class BoostExtension {
             }
         } catch (error) {
             boostLogging.error(
-                `Unable to Process ${
-                    options?.kernelCommand
-                } on Folder:[${options?.uri?options.uri.fsPath.toString():options.filelist?.length.toString() + " files"} due to error:${errorToString(error)}`,
+                `Unable to Process ${options?.kernelCommand} on Folder:[${
+                    options?.uri
+                        ? options.uri.fsPath.toString()
+                        : options.filelist?.length.toString() + " files"
+                } due to error:${errorToString(error)}`,
                 false
             );
         }
@@ -2875,11 +3192,10 @@ export class BoostExtension {
             boostnb.NOTEBOOK_TYPE + "." + BoostCommands.processProject,
             async (kernelCommand?: string) => {
                 // we only process project level analysis at summary level for now
-                const projectBoostFile = getBoostFile(
-                    undefined,
-                    { format: BoostFileType.summary,
-                      showUI: false }
-                );
+                const projectBoostFile = getBoostFile(undefined, {
+                    format: BoostFileType.summary,
+                    showUI: false,
+                });
                 // create the Boost file, if it doesn't exist
                 if (!fs.existsSync(projectBoostFile.fsPath)) {
                     boostLogging.warn(
@@ -2917,6 +3233,8 @@ export class BoostExtension {
                     );
                     return;
                 }
+
+                await this.waitForActivationToFinish();
 
                 let notebook = new boostnb.BoostNotebook();
                 notebook.load(projectBoostFile.fsPath);
@@ -2972,7 +3290,8 @@ export class BoostExtension {
                         //if we don't have a boostignore file, then do the update and create one
                         //if we have one, then already generated it and skip this step.
                         const boostIgnoreFile = getBoostIgnoreFile();
-                        if (boostIgnoreFile === undefined ||
+                        if (
+                            boostIgnoreFile === undefined ||
                             !fs.existsSync(boostIgnoreFile.fsPath)
                         ) {
                             blueprintCell?.outputs.forEach((output) => {
@@ -3002,7 +3321,9 @@ export class BoostExtension {
                     })
                     .catch((error) => {
                         boostLogging.warn(
-                            `Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${projectBoostFile.fsPath}] due to error:${errorToString(error)}`,
+                            `Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${
+                                projectBoostFile.fsPath
+                            }] due to error:${errorToString(error)}`,
                             likelyViaUI
                         );
                     });
@@ -3015,6 +3336,8 @@ export class BoostExtension {
         let disposable = vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE + "." + BoostCommands.loadCurrentFile,
             async (uri: vscode.Uri) => {
+                await this.waitForActivationToFinish();
+
                 const boostFile = getBoostFile(uri);
                 // create the Boost file, if it doesn't exist
                 if (!fs.existsSync(boostFile.fsPath)) {
@@ -3048,6 +3371,9 @@ export class BoostExtension {
                 if (likelyViaUI) {
                     kernelCommand = BoostConfiguration.currentKernelCommand;
                 }
+
+                await this.waitForActivationToFinish();
+
                 return await this.processCurrentFile(
                     uri,
                     kernelCommand as string,
@@ -3063,7 +3389,11 @@ export class BoostExtension {
         disposable = vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE + "." + BoostCommands.loadSummaryFile,
             async (uri: vscode.Uri) => {
-                const boostFile = getBoostFile(uri, { format: BoostFileType.summary} );
+                await this.waitForActivationToFinish();
+
+                const boostFile = getBoostFile(uri, {
+                    format: BoostFileType.summary,
+                });
                 // create the Boost file, if it doesn't exist
                 if (!fs.existsSync(boostFile.fsPath)) {
                     if (
@@ -3125,17 +3455,26 @@ export class BoostExtension {
                 // if we got a source file, then load the notebook from it
                 if (!uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
                     if (summary) {
-                        boostUri = getBoostFile(uri, { format: BoostFileType.summary });
+                        boostUri = getBoostFile(uri, {
+                            format: BoostFileType.summary,
+                        });
                     } else {
                         boostUri = getBoostFile(uri);
                     }
                 }
 
                 if (!fs.existsSync(boostUri.fsPath)) {
-                    const relativePath = path.relative(baseWorkspacePath, uri.fsPath);
+                    const relativePath = path.relative(
+                        baseWorkspacePath,
+                        uri.fsPath
+                    );
                     reject(
                         new Error(
-                            `Unable to find Boost notebook for ${relativePath.startsWith("../")?uri.fsPath:relativePath} - please create Boost notebook first`
+                            `Unable to find Boost notebook for ${
+                                relativePath.startsWith("../")
+                                    ? uri.fsPath
+                                    : relativePath
+                            } - please create Boost notebook first`
                         )
                     );
                     return;
@@ -3148,9 +3487,21 @@ export class BoostExtension {
                 switch (outputFormat.toLowerCase()) {
                     case "all":
                         try {
-                            const markdownFile = await generateMarkdownforNotebook(boostUri.fsPath, baseWorkspacePath);
-                            const htmlFile = await generateHTMLforNotebook(boostUri.fsPath, baseWorkspacePath, context);
-                            const pdfFile = await generatePDFforNotebook(boostUri.fsPath, baseWorkspacePath, context);
+                            const markdownFile =
+                                await generateMarkdownforNotebook(
+                                    boostUri.fsPath,
+                                    baseWorkspacePath
+                                );
+                            const htmlFile = await generateHTMLforNotebook(
+                                boostUri.fsPath,
+                                baseWorkspacePath,
+                                context
+                            );
+                            const pdfFile = await generatePDFforNotebook(
+                                boostUri.fsPath,
+                                baseWorkspacePath,
+                                context
+                            );
                             // since we're generating all 3, we're only going to report the last one
                             resolve(pdfFile);
                         } catch (error) {
@@ -3159,7 +3510,11 @@ export class BoostExtension {
                         break;
                     case "html":
                         try {
-                            const htmlFile = generateHTMLforNotebook( boostUri.fsPath, baseWorkspacePath, context);
+                            const htmlFile = generateHTMLforNotebook(
+                                boostUri.fsPath,
+                                baseWorkspacePath,
+                                context
+                            );
                             resolve(htmlFile);
                         } catch (error) {
                             reject(error);
@@ -3167,7 +3522,11 @@ export class BoostExtension {
                         break;
                     case "pdf":
                         try {
-                            const pdfFile = generatePDFforNotebook( boostUri.fsPath, baseWorkspacePath, context);
+                            const pdfFile = generatePDFforNotebook(
+                                boostUri.fsPath,
+                                baseWorkspacePath,
+                                context
+                            );
                             resolve(pdfFile);
                         } catch (error) {
                             reject(error);
@@ -3175,7 +3534,10 @@ export class BoostExtension {
                         break;
                     case "markdown":
                         try {
-                            const markdownFile = generateMarkdownforNotebook( boostUri.fsPath, baseWorkspacePath);
+                            const markdownFile = generateMarkdownforNotebook(
+                                boostUri.fsPath,
+                                baseWorkspacePath
+                            );
                             resolve(markdownFile);
                         } catch (error) {
                             reject(error);
@@ -3222,7 +3584,7 @@ export class BoostExtension {
             );
         }
 
-        let baseWorkspace : vscode.Uri;
+        let baseWorkspace: vscode.Uri;
         if (vscode.workspace.workspaceFolders) {
             baseWorkspace = vscode.workspace.workspaceFolders![0].uri;
         } else {
@@ -3233,7 +3595,9 @@ export class BoostExtension {
         const sourceFiles = await getAllProjectFiles(false, folderUri);
         const notebookFilesThatExist = sourceFiles.filter((file) => {
             if (!fs.existsSync(file)) {
-                boostLogging.debug(`Skipping missing Boost Notebook file: ${file} for expected source`);
+                boostLogging.debug(
+                    `Skipping missing Boost Notebook file: ${file} for expected source`
+                );
                 return false;
             }
             const boostFile = getBoostFile(vscode.Uri.parse(file));
@@ -3241,15 +3605,23 @@ export class BoostExtension {
         });
 
         boostLogging.debug(
-            "Converting " + notebookFilesThatExist.length + " files in folder: " + targetFolder
+            "Converting " +
+                notebookFilesThatExist.length +
+                " files in folder: " +
+                targetFolder
         );
 
         try {
             let convertedNotebookWaits: any[] = [];
 
-            notebookFilesThatExist.forEach((file : string) => {
+            notebookFilesThatExist.forEach((file: string) => {
                 convertedNotebookWaits.push(
-                    this.buildCurrentFileOutput(vscode.Uri.parse(file), false, outputFormat, context)
+                    this.buildCurrentFileOutput(
+                        vscode.Uri.parse(file),
+                        false,
+                        outputFormat,
+                        context
+                    )
                 );
             });
 
@@ -3272,22 +3644,28 @@ export class BoostExtension {
                 .catch((error) => {
                     // Handle the error here
                     boostLogging.error(
-                        `Error converting Notebooks in folder ${targetFolder.fsPath} due to Error: ${errorToString(error)}`
+                        `Error converting Notebooks in folder ${
+                            targetFolder.fsPath
+                        } due to Error: ${errorToString(error)}`
                     );
                 });
         } catch (error) {
             boostLogging.error(
-                `Unable to Convert Notebooks in Folder:[${folderUri.fsPath.toString()} due to error:${errorToString(error)}`
+                `Unable to Convert Notebooks in Folder:[${folderUri.fsPath.toString()} due to error:${errorToString(
+                    error
+                )}`
             );
         }
     }
 
-    public getBackgroundContext(commandId?: string): analysis.IAnalysisContextData[] {
+    public getBackgroundContext(
+        commandId?: string
+    ): analysis.IAnalysisContextData[] {
         const analysisContext: any[] = [];
 
         // always get blueprint
-        const targetAnalysisSummaries : BoostUserAnalysisType[] = [
-            BoostUserAnalysisType.blueprint
+        const targetAnalysisSummaries: BoostUserAnalysisType[] = [
+            BoostUserAnalysisType.blueprint,
         ];
 
         if (!commandId) {
@@ -3295,132 +3673,164 @@ export class BoostExtension {
         }
 
         switch (commandId) {
-
-        // compliance query
-        case complianceFunctionKernelName:
-        case complianceKernelName:
-            targetAnalysisSummaries.push(BoostUserAnalysisType.compliance);
-            break;
-
-        // if a security query - add security context
-        case analyzeFunctionKernelName:
-        case analyzeKernelName:
-        case performanceKernelName:
-        case performanceFunctionKernelName:
-            targetAnalysisSummaries.push(BoostUserAnalysisType.security);
-            break;
-
-        // if a quick analysis query - leave out all summary context
-        case quickBlueprintKernelName:
-        case quickComplianceSummaryKernelName:
-        case quickSecuritySummaryKernelName:
-        case quickPerformanceSummaryKernelName:
-
-            // target nothing but the blueprint
-            break;
-
-        // for chat and custom queries add all summary context
-        case chatKernelName:
-        case customProcessKernelName:
-            const advancedChat = BoostConfiguration.advancedChat;
-
-            targetAnalysisSummaries.push(BoostUserAnalysisType.compliance);
-            targetAnalysisSummaries.push(BoostUserAnalysisType.security);
-
-            if (!advancedChat) {
+            // compliance query
+            case complianceFunctionKernelName:
+            case complianceKernelName:
+                targetAnalysisSummaries.push(BoostUserAnalysisType.compliance);
                 break;
-            }
 
-        // grab all the active tab filenames
-            const activeTabFiles = this.getActiveTabFilenames();
-            if (activeTabFiles.length > 0) {
-                boostLogging.debug(`User Context(${analysis.AnalysisContextType.userFocus}):ActiveTabFilenames(primary):${activeTabFiles[0]}`);
-                // send the active tab to userFocus
-                analysisContext.push( {
-                    type: analysis.AnalysisContextType.userFocus,
-                    data: `I am currently looking at file: ${activeTabFiles[0]}`,
-                    name: "visibleActiveTab",
-                });
-            } else {
-                boostLogging.debug(`User Context(${analysis.AnalysisContextType.userFocus}):ActiveTabFilenames(primary):SKIPPED`);
-            }
+            // if a security query - add security context
+            case analyzeFunctionKernelName:
+            case analyzeKernelName:
+            case performanceKernelName:
+            case performanceFunctionKernelName:
+                targetAnalysisSummaries.push(BoostUserAnalysisType.security);
+                break;
 
-            // get context for current code
-            const activeNotebookText = this.getActiveNotebookSurroundingLines();
-            if (activeNotebookText.length > 0) {
-                boostLogging.debug(`User Context(${analysis.AnalysisContextType.userFocus}):ActiveNotebook:${activeNotebookText.length} lines`);
-                analysisContext.push( {
-                    type: analysis.AnalysisContextType.userFocus,
-                    data: `I am currently focused on this notebook \n\n\`\`\`${activeNotebookText.join('\n\t')}\`\`\``,
-                    name: "activeNotebook",
-                });
-            } else {
-                const activeEditorText = this.getActiveEditorSurroundingLines();
-                if (activeEditorText.length > 0) {
-                    boostLogging.debug(`User Context(${analysis.AnalysisContextType.userFocus}):ActiveEditorText:${activeEditorText.length} lines`);
-                    analysisContext.push( {
+            // if a quick analysis query - leave out all summary context
+            case quickBlueprintKernelName:
+            case quickComplianceSummaryKernelName:
+            case quickSecuritySummaryKernelName:
+            case quickPerformanceSummaryKernelName:
+                // target nothing but the blueprint
+                break;
+
+            // for chat and custom queries add all summary context
+            case chatKernelName:
+            case customProcessKernelName:
+                const advancedChat = BoostConfiguration.advancedChat;
+
+                targetAnalysisSummaries.push(BoostUserAnalysisType.compliance);
+                targetAnalysisSummaries.push(BoostUserAnalysisType.security);
+
+                if (!advancedChat) {
+                    break;
+                }
+
+                // grab all the active tab filenames
+                const activeTabFiles = this.getActiveTabFilenames();
+                if (activeTabFiles.length > 0) {
+                    boostLogging.debug(
+                        `User Context(${analysis.AnalysisContextType.userFocus}):ActiveTabFilenames(primary):${activeTabFiles[0]}`
+                    );
+                    // send the active tab to userFocus
+                    analysisContext.push({
                         type: analysis.AnalysisContextType.userFocus,
-                        data: `I am currently focused on this text in my source code editor\n\n\`\`\`${activeEditorText.join('\n\t')}\`\`\``,
-                        name: "activeEditor",
+                        data: `I am currently looking at file: ${activeTabFiles[0]}`,
+                        name: "visibleActiveTab",
                     });
                 } else {
-                    boostLogging.debug(`User Context(${analysis.AnalysisContextType.userFocus}):ActiveNotebook:SKIPPED`);
+                    boostLogging.debug(
+                        `User Context(${analysis.AnalysisContextType.userFocus}):ActiveTabFilenames(primary):SKIPPED`
+                    );
                 }
-            }
 
-            // get related analysis for the current tab source code (if its raw source)
-            //      otherwise, we'll pull the summary or notebook in userFocus
-            const activeSourceTabDetailedAnalysis : analysis.IAnalysisContextData[] =
-            this.getDetailedAnalysisForCurrentTabSelection(targetAnalysisSummaries, analysis.AnalysisContextType.related);
-            if (activeSourceTabDetailedAnalysis.length > 0) {
-                boostLogging.debug(`User Context(${analysis.AnalysisContextType.related}):ActiveTabSourceDetailedAnalysis:${activeSourceTabDetailedAnalysis.length} types`);
+                // get context for current code
+                const activeNotebookText =
+                    this.getActiveNotebookSurroundingLines();
+                if (activeNotebookText.length > 0) {
+                    boostLogging.debug(
+                        `User Context(${analysis.AnalysisContextType.userFocus}):ActiveNotebook:${activeNotebookText.length} lines`
+                    );
+                    analysisContext.push({
+                        type: analysis.AnalysisContextType.userFocus,
+                        data: `I am currently focused on this notebook \n\n\`\`\`${activeNotebookText.join(
+                            "\n\t"
+                        )}\`\`\``,
+                        name: "activeNotebook",
+                    });
+                } else {
+                    const activeEditorText =
+                        this.getActiveEditorSurroundingLines();
+                    if (activeEditorText.length > 0) {
+                        boostLogging.debug(
+                            `User Context(${analysis.AnalysisContextType.userFocus}):ActiveEditorText:${activeEditorText.length} lines`
+                        );
+                        analysisContext.push({
+                            type: analysis.AnalysisContextType.userFocus,
+                            data: `I am currently focused on this text in my source code editor\n\n\`\`\`${activeEditorText.join(
+                                "\n\t"
+                            )}\`\`\``,
+                            name: "activeEditor",
+                        });
+                    } else {
+                        boostLogging.debug(
+                            `User Context(${analysis.AnalysisContextType.userFocus}):ActiveNotebook:SKIPPED`
+                        );
+                    }
+                }
 
-                analysisContext.push( ...activeSourceTabDetailedAnalysis);
+                // get related analysis for the current tab source code (if its raw source)
+                //      otherwise, we'll pull the summary or notebook in userFocus
+                const activeSourceTabDetailedAnalysis: analysis.IAnalysisContextData[] =
+                    this.getDetailedAnalysisForCurrentTabSelection(
+                        targetAnalysisSummaries,
+                        analysis.AnalysisContextType.related
+                    );
+                if (activeSourceTabDetailedAnalysis.length > 0) {
+                    boostLogging.debug(
+                        `User Context(${analysis.AnalysisContextType.related}):ActiveTabSourceDetailedAnalysis:${activeSourceTabDetailedAnalysis.length} types`
+                    );
 
-            } else {
-                boostLogging.debug(`User Context(${analysis.AnalysisContextType.related}):ActiveTabSourceDetailedAnalysis:SKIPPED`);
-            }
+                    analysisContext.push(...activeSourceTabDetailedAnalysis);
+                } else {
+                    boostLogging.debug(
+                        `User Context(${analysis.AnalysisContextType.related}):ActiveTabSourceDetailedAnalysis:SKIPPED`
+                    );
+                }
 
-            // send all other tabs to related
-            if (activeTabFiles.length > 1) {
-                boostLogging.debug(`User Context(${analysis.AnalysisContextType.related}):RelatedTabs:${activeTabFiles.join(",")}`);
-                analysisContext.push( {
-                    type: analysis.AnalysisContextType.related,
-                    data: `I have also looked at these files: ${activeTabFiles.slice(1).join("\n\t")}`,
-                    name: "hiddenActiveTab",
-                });
-            }
+                // send all other tabs to related
+                if (activeTabFiles.length > 1) {
+                    boostLogging.debug(
+                        `User Context(${
+                            analysis.AnalysisContextType.related
+                        }):RelatedTabs:${activeTabFiles.join(",")}`
+                    );
+                    analysisContext.push({
+                        type: analysis.AnalysisContextType.related,
+                        data: `I have also looked at these files: ${activeTabFiles
+                            .slice(1)
+                            .join("\n\t")}`,
+                        name: "hiddenActiveTab",
+                    });
+                }
 
-            // we're going to get all the summaries for all active tabs for our target analysis types
-            const activeTabAnalysis : analysis.IAnalysisContextData[] = this.getActiveTabAnalysis(targetAnalysisSummaries, activeTabFiles);
-            if (activeTabAnalysis.length > 0) {
-                analysisContext.push( ...activeTabAnalysis);
-            }
+                // we're going to get all the summaries for all active tabs for our target analysis types
+                const activeTabAnalysis: analysis.IAnalysisContextData[] =
+                    this.getActiveTabAnalysis(
+                        targetAnalysisSummaries,
+                        activeTabFiles
+                    );
+                if (activeTabAnalysis.length > 0) {
+                    analysisContext.push(...activeTabAnalysis);
+                }
 
-            break;
+                break;
 
-        default:
-            // target nothing but the blueprint
-            break;
+            default:
+                // target nothing but the blueprint
+                break;
         }
 
-        analysisContext.push( ...this.getBoostSummaryAnalysisContext(targetAnalysisSummaries));
-
+        analysisContext.push(
+            ...this.getBoostSummaryAnalysisContext(targetAnalysisSummaries)
+        );
 
         return analysisContext;
     }
 
     getDetailedAnalysisForCurrentTabSelection(
         analysisTypes: BoostUserAnalysisType[],
-        contextType: analysis.AnalysisContextType): analysis.IAnalysisContextData[] {
-        const sourceAnalysis : analysis.IAnalysisContextData[] = [];
+        contextType: analysis.AnalysisContextType
+    ): analysis.IAnalysisContextData[] {
+        const sourceAnalysis: analysis.IAnalysisContextData[] = [];
 
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
             // No active editor
             return [];
         }
-    
+
         const document = editor.document;
 
         // for now, we're skipping non-file active tabs
@@ -3428,35 +3838,42 @@ export class BoostExtension {
             return []; // Not a file
         }
 
-        return this.getBoostSummaryAnalysisContext(analysisTypes, BoostFileType.notebook, contextType, document.uri, editor.selection);
+        return this.getBoostSummaryAnalysisContext(
+            analysisTypes,
+            BoostFileType.notebook,
+            contextType,
+            document.uri,
+            editor.selection
+        );
     }
 
     getActiveTabAnalysis(
         analysisTypes: BoostUserAnalysisType[],
-        activeTabFiles: string[]): analysis.IAnalysisContextData[] {
-
-        let activeAnalysis : analysis.IAnalysisContextData[] = [];
+        activeTabFiles: string[]
+    ): analysis.IAnalysisContextData[] {
+        let activeAnalysis: analysis.IAnalysisContextData[] = [];
         let isFirstFile = true;
 
         for (const activeTabFile of activeTabFiles) {
-        
             const baseFolderPath = vscode.workspace.workspaceFolders![0].uri;
-        
+
             // we're going to skip getting analysis for files outside of the current project
             if (activeTabFile.startsWith("../")) {
                 continue;
             }
-        
+
             // Process the file with the determined context type
             const result = this.getBoostSummaryAnalysisContext(
                 analysisTypes,
                 BoostFileType.summary,
-                isFirstFile ? analysis.AnalysisContextType.userFocus : analysis.AnalysisContextType.related,
+                isFirstFile
+                    ? analysis.AnalysisContextType.userFocus
+                    : analysis.AnalysisContextType.related,
                 vscode.Uri.joinPath(baseFolderPath, activeTabFile)
             );
 
             activeAnalysis.push(...result);
-        
+
             // Only the first file should have the userFocus context
             if (isFirstFile) {
                 isFirstFile = false;
@@ -3473,7 +3890,7 @@ export class BoostExtension {
             // No active editor
             return [];
         }
-    
+
         const document = editor.document;
 
         // for now, we're skipping non-file active tabs
@@ -3482,53 +3899,56 @@ export class BoostExtension {
         }
 
         const position = editor.selection.active;
-    
+
         const selectedText = editor.document.getText(editor.selection);
 
         // if the text is actually highlighted, then only send that portion
         if (selectedText.length > 0) {
-            return selectedText.split("\n").slice(0, this.activeSourceContextLines);
+            return selectedText
+                .split("\n")
+                .slice(0, this.activeSourceContextLines);
         }
 
         // otherwise, send all the lines around the current cursor position
-        let startLine = position.line - (this.activeSourceContextLines / 2);
-        let endLine = position.line + (this.activeSourceContextLines / 2);
-    
+        let startLine = position.line - this.activeSourceContextLines / 2;
+        let endLine = position.line + this.activeSourceContextLines / 2;
+
         // If we can't get enough lines before the position, use the extra lines after
         if (startLine < 0) {
             const extraLines = Math.abs(startLine);
             startLine = 0;
             endLine += extraLines;
         }
-    
+
         // If we can't get enough lines after the position, use the extra lines before
         if (endLine >= document.lineCount) {
             const extraLines = endLine - document.lineCount + 1;
             endLine = document.lineCount - 1;
             startLine = Math.max(0, startLine - extraLines);
         }
-    
+
         let lines: string[] = [];
         for (let i = startLine; i <= endLine; i++) {
             lines.push(document.lineAt(i).text);
         }
-    
+
         return lines;
     }
 
     readonly activeNotebookContentCellSize: number = 50;
-    readonly activeNotebookContentMaxSize: number = this.activeNotebookContentCellSize * 4;
+    readonly activeNotebookContentMaxSize: number =
+        this.activeNotebookContentCellSize * 4;
 
     getActiveNotebookSurroundingLines(): string[] {
         const notebook = vscode.window.activeNotebookEditor?.notebook;
-    
+
         let lines: string[] = [];
-    
+
         if (!notebook) {
             // No active notebook
             return lines;
         }
-    
+
         // for now, we're skipping non-file active tabs
         if (notebook.uri.scheme !== "file") {
             return lines; // Not a file
@@ -3539,24 +3959,36 @@ export class BoostExtension {
         if (notebook.uri.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
             return lines;
         }
-    
-        const fullRange = [new vscode.NotebookRange(0, vscode.window.activeNotebookEditor!.notebook.cellCount)];
+
+        const fullRange = [
+            new vscode.NotebookRange(
+                0,
+                vscode.window.activeNotebookEditor!.notebook.cellCount
+            ),
+        ];
         const selections = vscode.window.activeNotebookEditor!.selections;
-        const targetCells = (selections && selections.length > 0 && selections[0].start !== 0 && selections[0].end !== 1)?
-            selections: fullRange;
+        const targetCells =
+            selections &&
+            selections.length > 0 &&
+            selections[0].start !== 0 &&
+            selections[0].end !== 1
+                ? selections
+                : fullRange;
         for (let selection of targetCells) {
             const selectedCells = notebook.getCells(selection);
-        
+
             for (let cell of selectedCells) {
                 // Get cell text
                 const cellText = cell.document.getText();
                 // we're going to increase the buffer size if a notebook is active (since that's critical info for user)
-                const cellLines = cellText.split('\n').slice(0, this.activeNotebookContentCellSize);
+                const cellLines = cellText
+                    .split("\n")
+                    .slice(0, this.activeNotebookContentCellSize);
                 lines.push(...cellLines);
                 if (lines.length > this.activeNotebookContentMaxSize) {
                     break;
                 }
-        
+
                 // Get output text
                 for (let output of cell.outputs) {
                     for (let item of output.items) {
@@ -3569,7 +4001,9 @@ export class BoostExtension {
                         if (outputText.length === 0) {
                             continue;
                         }
-                        const outputLines = outputText.split('\n').slice(0, this.activeNotebookContentCellSize);
+                        const outputLines = outputText
+                            .split("\n")
+                            .slice(0, this.activeNotebookContentCellSize);
                         lines.push(...outputLines);
                         if (lines.length > this.activeNotebookContentMaxSize) {
                             break;
@@ -3583,11 +4017,10 @@ export class BoostExtension {
         if (lines.length > this.activeNotebookContentMaxSize) {
             lines = lines.slice(0, this.activeNotebookContentMaxSize);
         }
-    
+
         return lines;
     }
-    
-    
+
     // get all active tab filenames (as relative paths)
     getActiveTabFilenames(): string[] {
         const baseFolderPath = vscode.workspace.workspaceFolders![0].uri.fsPath;
@@ -3595,47 +4028,50 @@ export class BoostExtension {
             return [];
         }
 
-        const activeTabFiles : string[] = [];
+        const activeTabFiles: string[] = [];
         // grab all text editors (active and visible)
-        vscode.window.visibleTextEditors.forEach(editor => {
+        vscode.window.visibleTextEditors.forEach((editor) => {
             if (editor.document.uri.scheme === "file") {
-                activeTabFiles.push(path.relative(baseFolderPath, editor.document.uri.fsPath));
+                activeTabFiles.push(
+                    path.relative(baseFolderPath, editor.document.uri.fsPath)
+                );
             } else {
                 // we're skipping other tabs, like output tabs
                 // editor.document.uri.fsPath for an output tab would be "output:foo"
             }
         });
         // grab all notebook editors (active and visible)
-        vscode.window.visibleNotebookEditors.forEach(notebook => {
+        vscode.window.visibleNotebookEditors.forEach((notebook) => {
             if (notebook.notebook.uri.scheme === "file") {
-                activeTabFiles.push(path.relative(baseFolderPath, notebook.notebook.uri.fsPath));
+                activeTabFiles.push(
+                    path.relative(baseFolderPath, notebook.notebook.uri.fsPath)
+                );
             } else {
                 // we're skipping other tabs, like non-filebased notebooks
             }
         });
         return activeTabFiles;
     }
-    
+
     // get all analysis for the project, or target folder
     getBoostSummaryAnalysisContext(
         analysisTypes: BoostUserAnalysisType[],
         fileType: BoostFileType = BoostFileType.summary,
-        contextType: analysis.AnalysisContextType = analysis.AnalysisContextType.projectSummary,
+        contextType: analysis.AnalysisContextType = analysis.AnalysisContextType
+            .projectSummary,
         fileTarget?: vscode.Uri,
-        selection?: vscode.Selection,
-        ): analysis.IAnalysisContextData[] {
-
+        selection?: vscode.Selection
+    ): analysis.IAnalysisContextData[] {
         const analysisContext: any[] = [];
 
         if (!analysisTypes || analysisTypes.length === 0) {
             return analysisContext;
         }
 
-        const analysisFile = getBoostFile(
-            fileTarget,
-            { format: fileType,
-              showUI: false }
-        );
+        const analysisFile = getBoostFile(fileTarget, {
+            format: fileType,
+            showUI: false,
+        });
         if (!analysisFile || !fs.existsSync(analysisFile.fsPath)) {
             return analysisContext;
         }
@@ -3645,7 +4081,7 @@ export class BoostExtension {
         const relativeFile = vscode.workspace.asRelativePath(analysisFile);
 
         analysisTypes.forEach((analysisType) => {
-            const outputTypes : ControllerOutputType[] = [];
+            const outputTypes: ControllerOutputType[] = [];
             switch (analysisType) {
                 case BoostUserAnalysisType.blueprint:
                     outputTypes.push(ControllerOutputType.blueprint);
@@ -3669,7 +4105,6 @@ export class BoostExtension {
             for (const outputType of outputTypes) {
                 switch (fileType) {
                     case BoostFileType.summary:
-
                         const analysisCell = findCellByKernel(
                             analysisNotebook,
                             outputType
@@ -3680,63 +4115,94 @@ export class BoostExtension {
                             break;
                         }
 
-                        const activeSummaryNotebook = vscode.window.activeNotebookEditor?.notebook;
+                        const activeSummaryNotebook =
+                            vscode.window.activeNotebookEditor?.notebook;
 
-                        if (activeSummaryNotebook?.uri.fsPath === analysisNotebook.fsPath ||
-                            contextType === analysis.AnalysisContextType.userFocus) {
+                        if (
+                            activeSummaryNotebook?.uri.fsPath ===
+                                analysisNotebook.fsPath ||
+                            contextType ===
+                                analysis.AnalysisContextType.userFocus
+                        ) {
+                            boostLogging.debug(
+                                `User Context(${analysis.AnalysisContextType.userFocus}):ActiveSummaryNotebook:${relativeFile}:${outputType}`
+                            );
 
-                            boostLogging.debug(`User Context(${analysis.AnalysisContextType.userFocus}):ActiveSummaryNotebook:${relativeFile}:${outputType}`);
-
-                            analysisContext.push( {
+                            analysisContext.push({
                                 type: analysis.AnalysisContextType.userFocus,
-                                data: `I am currently focused on this summary analysis for the code:\n\n\`\`\`${analysisCell.value.split("\n").join('\n\t')}\`\`\``,
+                                data: `I am currently focused on this summary analysis for the code:\n\n\`\`\`${analysisCell.value
+                                    .split("\n")
+                                    .join("\n\t")}\`\`\``,
                                 name: "activeNotebook",
                             });
                         } else {
-                            boostLogging.debug(`User Context(${contextType}):SummaryNotebook:${relativeFile}:${outputType}`);
+                            boostLogging.debug(
+                                `User Context(${contextType}):SummaryNotebook:${relativeFile}:${outputType}`
+                            );
 
-                            analysisContext.push( {
+                            analysisContext.push({
                                 type: contextType,
-                                data: `Other summary analysis of the code I have reviewed is:\n\n\`\`\`${analysisCell.value.split("\n").join('\n\t')}\`\`\``,
+                                data: `Other summary analysis of the code I have reviewed is:\n\n\`\`\`${analysisCell.value
+                                    .split("\n")
+                                    .join("\n\t")}\`\`\``,
                                 name: analysisType,
                             } as analysis.IAnalysisContextData);
                         }
                         break;
 
                     case BoostFileType.notebook:
-                        
-                        const analyzedCellData : string[] = [];
+                        const analyzedCellData: string[] = [];
 
-                        analyzedCellData.push(... getAnalysisForSourceTarget(analysisNotebook, outputType, selection));
-                        const activeNotebook = vscode.window.activeNotebookEditor?.notebook;
-                        
+                        analyzedCellData.push(
+                            ...getAnalysisForSourceTarget(
+                                analysisNotebook,
+                                outputType,
+                                selection
+                            )
+                        );
+                        const activeNotebook =
+                            vscode.window.activeNotebookEditor?.notebook;
+
                         // skip empty cells
                         if (analyzedCellData.length === 0) {
                             break;
                         }
 
-                        if (activeNotebook?.uri.fsPath === analysisNotebook.fsPath ||
-                            contextType === analysis.AnalysisContextType.userFocus) {
+                        if (
+                            activeNotebook?.uri.fsPath ===
+                                analysisNotebook.fsPath ||
+                            contextType ===
+                                analysis.AnalysisContextType.userFocus
+                        ) {
+                            boostLogging.debug(
+                                `User Context(${analysis.AnalysisContextType.userFocus}):ActiveNotebook:${relativeFile}:${outputType}`
+                            );
 
-                                boostLogging.debug(`User Context(${analysis.AnalysisContextType.userFocus}):ActiveNotebook:${relativeFile}:${outputType}`);
-
-                                analysisContext.push( {
+                            analysisContext.push({
                                 type: analysis.AnalysisContextType.userFocus,
-                                data: `I am currently focused on this ${analysisType} analysis for the code:\n\n\`\`\`${analyzedCellData.join('\n\t')}\`\`\``,
+                                data: `I am currently focused on this ${analysisType} analysis for the code:\n\n\`\`\`${analyzedCellData.join(
+                                    "\n\t"
+                                )}\`\`\``,
                                 name: "activeNotebook",
                             });
                         } else {
-                            boostLogging.debug(`User Context(${contextType}):Notebook:${relativeFile}:${outputType}`);
+                            boostLogging.debug(
+                                `User Context(${contextType}):Notebook:${relativeFile}:${outputType}`
+                            );
 
-                            analysisContext.push( {
+                            analysisContext.push({
                                 type: contextType,
-                                data: `Other ${analysisType} analysis data for the code I have is:\n\n${analyzedCellData.join("\n\t")}`,
+                                data: `Other ${analysisType} analysis data for the code I have is:\n\n${analyzedCellData.join(
+                                    "\n\t"
+                                )}`,
                                 name: analysisType,
                             } as analysis.IAnalysisContextData);
                         }
                         break;
                     default:
-                        throw new Error(`Unknown analysis file type ${fileType}`);
+                        throw new Error(
+                            `Unknown analysis file type ${fileType}`
+                        );
                 }
             }
         });

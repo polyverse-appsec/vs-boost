@@ -48,6 +48,7 @@ export enum BoostCommands {
     analyzeOnlyTargetFolderForBoostAnalysis = "analyzeOnlyTargetFolderForBoostAnalysis",
 
     analyzeSourceCode = "analyzeSourceCode",
+    analysisSummaryForSourceCode = "analysisSummaryForSourceCode",
 
     refreshProjectData = "refreshProjectData",
 

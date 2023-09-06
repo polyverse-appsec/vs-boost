@@ -9,7 +9,7 @@ Polyverse Boost Automatic Application Modernization
 - Command added for non-UI setting of user organization
 
 ### Enhancements
-- N/A
+- Improved startup synchronization to ensure user initiated UI commands wait for startup to complete before executing
 
 ### Bug Fixes
 - N/A

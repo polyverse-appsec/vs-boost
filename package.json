@@ -368,6 +368,11 @@
                 "command": "polyverse-boost-notebook.setOrganization",
                 "title": "Boost: Set Organization",
                 "icon": "$(gear)"
+            },
+            {
+                "command": "polyverse-boost-notebook.analysisSummaryForSourceCode",
+                "title": "Boost: Summarize Analysis for Source Code",
+                "icon": "$(search)"
             }
         ],
         "notebooks": [
@@ -412,6 +417,10 @@
             "editor/context": [
                 {
                     "command": "polyverse-boost-notebook.analyzeSourceCode",
+                    "group": "polyverseBoost"
+                },
+                {
+                    "command": "polyverse-boost-notebook.analysisSummaryForSourceCode",
                     "group": "polyverseBoost"
                 }
             ],
