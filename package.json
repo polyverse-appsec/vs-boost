@@ -418,10 +418,6 @@
                 {
                     "command": "polyverse-boost-notebook.analyzeSourceCode",
                     "group": "polyverseBoost"
-                },
-                {
-                    "command": "polyverse-boost-notebook.analysisSummaryForSourceCode",
-                    "group": "polyverseBoost"
                 }
             ],
             "notebook/toolbar": [
