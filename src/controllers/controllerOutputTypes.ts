@@ -1,4 +1,4 @@
-const functionOutputTypeExtension = 'List';
+export const functionOutputTypeExtension = 'List';
 
 export enum ControllerOutputType {
     analyze = 'bugAnalysis',

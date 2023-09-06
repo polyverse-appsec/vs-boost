@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as boostnb from '../data/jupyter_notebook';
 
-import { ControllerOutputType } from '../controllers/controllerOutputTypes';
+import { ControllerOutputType, functionOutputTypeExtension } from '../controllers/controllerOutputTypes';
 import { KernelControllerBase, errorMimeType } from '../controllers/base_controller';
 import { fullPathFromSourceFile } from '../utilities/files';
 import { BoostExtension } from './BoostExtension';
@@ -63,6 +63,12 @@ export function getAnalysisForSourceTarget(
                 return;
             }
 
+            // if we are looking at a function output, and there is no details (e.g. no diagnostic issues), skip it
+            if (outputType!.endsWith(functionOutputTypeExtension)) {
+                if (!output.metadata?.details?.length) {
+                    return;
+                }
+            }
             for (const item of output.items) {
                 if (item.mime === errorMimeType) {
                     return;
