@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import { BoostExtension } from './extension/BoostExtension';
 import {marked} from 'marked';
 import { BoostFileType, findCellByKernel, getBoostFile } from './extension//extension';
-import { BoostUserAnalysisType } from './userAnalysisType';
+import { BoostUserAnalysisType } from './data/userAnalysisType';
 import { BoostNotebook, BoostNotebookCell } from './data/jupyter_notebook';
 import { boostLogging } from './utilities/boostLogging';
 import { ControllerOutputType } from './controllers/controllerOutputTypes';

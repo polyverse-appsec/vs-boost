@@ -8,6 +8,7 @@ import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { boostLogging } from '../utilities/boostLogging';
 import { fullPathFromSourceFile } from '../utilities/files';
 import { lineNumberBaseFromCell } from '../extension/vscodeUtilities';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export class FunctionKernelControllerBase extends KernelControllerBase {
 
@@ -19,6 +20,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         kernelLabel: string,
         description: string,
         outputType: string,
+        displayGroup: DisplayGroupFriendlyName,
         collectionType: string,
         outputHeader: string,
         context: vscode.ExtensionContext,
@@ -32,6 +34,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
             kernelLabel,
             description,
             outputType,
+            displayGroup,
             outputHeader,
             true,
             true, 

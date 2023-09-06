@@ -6,6 +6,7 @@ import { BoostConfiguration } from '../extension/boostConfiguration';
 import { BoostNotebookCell } from '../data/jupyter_notebook';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const analyzeKernelName = 'analyze';
 const analysisOutputHeader = 'Code Analysis';
@@ -18,6 +19,7 @@ export class BoostAnalyzeKernel extends KernelControllerBase {
             'Analyze for bug and design flaws',
             'Deep analysis of all targeted source code for security vulnerabiities, bugs and potential design flaws',
             ControllerOutputType.analyze,
+            DisplayGroupFriendlyName.security,
             analysisOutputHeader,
             true,
             true, 

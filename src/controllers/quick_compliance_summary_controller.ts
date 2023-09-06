@@ -7,6 +7,7 @@ import { ControllerOutputType } from './controllerOutputTypes';
 
 import * as vscode from 'vscode';
 import { complianceFunctionKernelName } from './compliance_function_controller';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const quickComplianceSummaryKernelName = `${quickSummaryKernelNamePrefix}${complianceFunctionKernelName}`;
 
@@ -20,6 +21,7 @@ export class BoostQuickComplianceSummaryKernel extends BoostQuickSummaryKernelCo
             collection,
             complianceFunctionKernelName,
             ControllerOutputType.compliance,
+            DisplayGroupFriendlyName.compliance,
             ControllerOutputType.complianceFunction,
             "Compliance");
 	}

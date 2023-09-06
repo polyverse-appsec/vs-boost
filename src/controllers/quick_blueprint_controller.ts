@@ -21,6 +21,7 @@ import {
 } from "../utilities/files";
 import { getCurrentOrganization } from "../utilities/authorization";
 import { ControllerOutputType } from "./controllerOutputTypes";
+import { DisplayGroupFriendlyName } from "../data/userAnalysisType";
 
 export const quickBlueprintKernelName = "quickblueprint";
 const quickBlueprintOutputHeader = `Architectural Quick Blueprint`;
@@ -38,6 +39,7 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
             "Quick Architectural Blueprint Code",
             "Quickly builds an Archiectural Blueprint from hints about project and source code.",
             ControllerOutputType.blueprint,
+            DisplayGroupFriendlyName.documentation,
             quickBlueprintOutputHeader,
             false,
             false,

@@ -7,6 +7,7 @@ import { ControllerOutputType } from './controllerOutputTypes';
 
 import * as vscode from 'vscode';
 import { performanceFunctionKernelName } from './performance_function_controller';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const quickPerformanceSummaryKernelName = `${quickSummaryKernelNamePrefix}${performanceFunctionKernelName}`;
 
@@ -20,6 +21,7 @@ export class BoostQuickPerformanceSummaryKernel extends BoostQuickSummaryKernelC
             collection,
             performanceFunctionKernelName,
             ControllerOutputType.performance,
+            DisplayGroupFriendlyName.security,
             ControllerOutputType.performanceFunction,
             "Performance");
 	}

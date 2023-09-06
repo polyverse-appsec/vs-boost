@@ -8,6 +8,7 @@ import { BoostNotebookCell, SerializedNotebookCellOutput, BoostNotebook } from '
 import { boostLogging } from '../utilities/boostLogging';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const convertKernelName = 'convert';
 const convertOutputHeader = `Code Conversion`;
@@ -22,6 +23,7 @@ export class BoostConvertKernel extends KernelControllerBase {
             'Convert Legacy Code to New Code',
             'Converts targeted source code into a new programming language, using the best practices of the target language',
             ControllerOutputType.convert,
+            DisplayGroupFriendlyName.deepcode,
             convertOutputHeader,
             false,
             true,

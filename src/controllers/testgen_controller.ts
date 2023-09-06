@@ -6,6 +6,7 @@ import { BoostConfiguration } from '../extension/boostConfiguration';
 import { BoostNotebookCell } from '../data/jupyter_notebook';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const testgenKernelName = 'testgen';
 const testgenOutputHeader = `Test Generation`;
@@ -23,6 +24,7 @@ export class BoostTestgenKernel extends KernelControllerBase {
             'Generate Test Cases for Code',
             'Generates a set of unit Test Cases for testing the targeted source code using a specifie Test Framework',
             ControllerOutputType.testgen,
+            DisplayGroupFriendlyName.deepcode,
             testgenOutputHeader,
             true,
             true,

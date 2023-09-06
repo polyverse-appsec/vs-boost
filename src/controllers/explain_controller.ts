@@ -6,6 +6,7 @@ import { BoostConfiguration } from '../extension/boostConfiguration';
 import { BoostNotebookCell } from '../data/jupyter_notebook';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const explainKernelName = 'explain';
 const explainOutputHeader = 'Code Explanation';
@@ -18,6 +19,7 @@ export class BoostExplainKernel extends KernelControllerBase {
             'Explain Code',
             'Explains the targeted source code in English, including algorithms, referenced frameworks and design patterns',
             ControllerOutputType.explain,
+            DisplayGroupFriendlyName.documentation,
             explainOutputHeader,
             false,
             false,

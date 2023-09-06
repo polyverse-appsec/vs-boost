@@ -5,6 +5,7 @@ import { ControllerOutputType } from './controllerOutputTypes';
 import { BoostNotebookCell, BoostNotebook } from '../data/jupyter_notebook';
 import * as vscode from 'vscode';
 import { boostLogging } from '../utilities/boostLogging';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 const customQuickScanFunctionKernelName = "customQuickScan";
 
@@ -33,6 +34,7 @@ export class BoostCustomQuickScanFunctionKernel extends FunctionKernelController
             'Quick source scan for code issues',
             'Quickly analyzes all targeted source code for custom set of issues',
             ControllerOutputType.customQuickScanFunction,
+            DisplayGroupFriendlyName.deepcode,
             "customScan",
             "Custom Quick Scan", 
             context,

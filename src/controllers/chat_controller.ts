@@ -6,6 +6,7 @@ import { BoostConfiguration } from '../extension/boostConfiguration';
 import { BoostNotebookCell } from '../data/jupyter_notebook';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const chatKernelName = 'chat';
 const chatOutputHeader = 'Analysis Query';
@@ -18,6 +19,7 @@ export class BoostChatKernel extends KernelControllerBase {
             chatOutputHeader,
             'Enables custom queries and analysis against the project.',
             ControllerOutputType.chat,
+            DisplayGroupFriendlyName.deepcode,
             chatOutputHeader,
             false,
             false,

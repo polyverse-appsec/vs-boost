@@ -4,6 +4,7 @@ import { BoostConfiguration } from '../extension/boostConfiguration';
 import { FunctionKernelControllerBase } from './function_base_controller';
 import { complianceKernelName } from './compliance_controller';
 import { ControllerOutputType } from './controllerOutputTypes';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const complianceFunctionKernelName = complianceKernelName + '_function';
 const complianceOutputHeader = 'compliance';
@@ -17,6 +18,7 @@ export class BoostComplianceFunctionKernel extends FunctionKernelControllerBase 
             'Quick source scan for data and privacy compliance issues',
             'Quickly analyzes all targeted source code for data and privacy compliance issues',
             ControllerOutputType.complianceFunction,
+            DisplayGroupFriendlyName.compliance,
             complianceOutputHeader,
             "Data and Privacy Compliance Analysis", 
             context,

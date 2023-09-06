@@ -1,10 +1,13 @@
 import { IBoostProjectData, JobStatus, AnalysisState } from "../../data/boostprojectdata_interface";
 
-import { ControllerOutputType } from "../../controllers/controllerOutputTypes";
+import {
+    ControllerOutputType,
+    outputTypeToDisplayGroup
+} from "../../controllers/controllerOutputTypes";
 import {
     BoostUserAnalysisType,
-    displayGroupFriendlyName,
-} from "../../userAnalysisType";
+    DisplayGroupFriendlyName,
+} from "../../data/userAnalysisType";
 
 export interface AnalysisSectionSummary {
     analyzed: number;
@@ -57,24 +60,6 @@ export interface StatusViewData {
     analysisState: AnalysisState;
 }
 
-//compute the display summary of boostprojectdata
-//these are the sections supported currently. Be sure to update this list
-//if new analysis are done.
-export const outputTypeToDisplayGroup = {
-    documentation: [
-        ControllerOutputType.explain,
-        ControllerOutputType.flowDiagram,
-    ],
-    security: [ControllerOutputType.analyzeFunction],
-    compliance: [ControllerOutputType.complianceFunction],
-    deepcode: [
-        ControllerOutputType.compliance,
-        ControllerOutputType.blueprint,
-        ControllerOutputType.analyze,
-        ControllerOutputType.codeGuidelines,
-    ],
-};
-
 
 //find the summary for the given output type by searching through the outputTypeToDisplay structure
 export function mapOutputTypeToSummary(outputType: string) {
@@ -94,7 +79,7 @@ export function summaryViewData(
     const jobStatus = boostprojectdata.jobStatus;
     let summaryView = [
         {
-            display: displayGroupFriendlyName.documentation,
+            display: DisplayGroupFriendlyName.documentation,
             id: BoostUserAnalysisType.documentation,
             summary: mergeSummary(
                 boostprojectdata,
@@ -107,7 +92,7 @@ export function summaryViewData(
             defaultChecked: analysisTypes.includes("documentation"),
         },
         {
-            display: displayGroupFriendlyName.security,
+            display: DisplayGroupFriendlyName.security,
             id: BoostUserAnalysisType.security,
             summary: mergeSummary(
                 boostprojectdata,
@@ -117,7 +102,7 @@ export function summaryViewData(
             defaultChecked: analysisTypes.includes("security"),
         },
         {
-            display: displayGroupFriendlyName.compliance,
+            display: DisplayGroupFriendlyName.compliance,
             id: BoostUserAnalysisType.compliance,
             summary: mergeSummary(
                 boostprojectdata,
@@ -176,7 +161,7 @@ export function detailsViewData(
                 issueCells: 0,
                 totalCells: 0,
                 issueCount: 0,
-                display: displayGroupFriendlyName[key],
+                display: DisplayGroupFriendlyName[key],
             } as ProgressBarData;
 
             sections.forEach((section) => {
@@ -262,7 +247,7 @@ export function detailsViewData(
                 completedCells: 0,
                 issueCells: 0,
                 totalCells: 1,
-                display: displayGroupFriendlyName[key],
+                display: DisplayGroupFriendlyName[key],
             } as ProgressBarData;
             data.progressBar.push(progressbardata);
         });

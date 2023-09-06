@@ -8,9 +8,9 @@ export enum BoostUserAnalysisType {
     deepCode = 'deepcode',
 }
 
-export const displayGroupFriendlyName = {
-    documentation: "Documentation",
-    security: "Security",
-    compliance: "Compliance",
-    deepcode: "Deep Code Analysis",
-};
+export enum DisplayGroupFriendlyName {
+    documentation = "Documentation",
+    security = "Security",
+    compliance = "Compliance",
+    deepcode = "Deep Code Analysis",
+}

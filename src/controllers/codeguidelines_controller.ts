@@ -6,6 +6,7 @@ import { BoostConfiguration } from '../extension/boostConfiguration';
 import { BoostNotebookCell } from '../data/jupyter_notebook';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const codeGuidelinesKernelName = 'codeguidelines';
 const codeGuidelinesOutputHeader = `Code Guidelines Evaluation`;
@@ -18,6 +19,7 @@ export class BoostCodeGuidelinesKernel extends KernelControllerBase {
             'Evaluate Code Guidelines',
             'Evaluates targeted source code for following Code Guidelines for programming language and framework',
             ControllerOutputType.codeGuidelines,
+            DisplayGroupFriendlyName.documentation,
             codeGuidelinesOutputHeader,
             false,
             false,

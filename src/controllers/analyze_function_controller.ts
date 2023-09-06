@@ -3,6 +3,7 @@ import { BoostConfiguration } from '../extension/boostConfiguration';
 import { FunctionKernelControllerBase } from './function_base_controller';
 import { analyzeKernelName } from './analyze_controller';
 import { ControllerOutputType } from './controllerOutputTypes';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const analyzeFunctionKernelName = analyzeKernelName + '_function';
 
@@ -15,6 +16,7 @@ export class BoostAnalyzeFunctionKernel extends FunctionKernelControllerBase {
             'Quick source scan for security vulnerabilities',
             'Quickly analyzes all targeted source code for security vulnerabiities, bugs and potential design flaws',
             ControllerOutputType.analyzeFunction,
+            DisplayGroupFriendlyName.security,
             "security",
             "Security Analysis",
             context,

@@ -35,7 +35,7 @@ import {
     emptyProjectData,
 } from "../../data/boostprojectdata_interface";
 import Typewritter from "typewriter-effect/dist/core";
-import { BoostUserAnalysisType } from "../../userAnalysisType";
+import { BoostUserAnalysisType } from "../../data/userAnalysisType";
 
 //declare the boostprojectdata global variable
 export declare var boostprojectdata: IBoostProjectData;

@@ -6,6 +6,7 @@ import { BoostConfiguration } from '../extension/boostConfiguration';
 import { BoostNotebookCell } from '../data/jupyter_notebook';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const complianceKernelName = 'compliance';
 const complianceOutputHeader = `Data Compliance Check`;
@@ -18,6 +19,7 @@ export class BoostComplianceKernel extends KernelControllerBase {
             'Check Data Compliance',
             'Evaluates Data and Privacy Compliance of the code',
             ControllerOutputType.compliance,
+            DisplayGroupFriendlyName.compliance,
             complianceOutputHeader,
             false,
             false,

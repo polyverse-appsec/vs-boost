@@ -7,6 +7,7 @@ import { BoostConfiguration } from '../extension/boostConfiguration';
 import { boostLogging } from '../utilities/boostLogging';
 import { BoostNotebookCell, BoostNotebook } from '../data/jupyter_notebook';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const customProcessCellMarker = 'customProcessCode';
 export const customProcessKernelName = 'custom';
@@ -47,6 +48,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
             'Custom Process Code',
             'Uses a custom prompt from user to process the targeted source code',
             customProcessCellMarker,
+            DisplayGroupFriendlyName.deepcode,
             customProcessOutputHeader,
             false,
             false,

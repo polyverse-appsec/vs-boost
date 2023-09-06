@@ -36,7 +36,7 @@ import {
 } from "./data/boostprojectdata_interface";
 import { quickBlueprintKernelName } from "./controllers/quick_blueprint_controller";
 import { performanceKernelName } from "./controllers/performance_controller";
-import { BoostUserAnalysisType } from "./userAnalysisType";
+import { BoostUserAnalysisType, DisplayGroupFriendlyName } from "./data/userAnalysisType";
 import { quickComplianceSummaryKernelName } from "./controllers/quick_compliance_summary_controller";
 import { quickSecuritySummaryKernelName } from "./controllers/quick_security_summary_controller";
 import { marked } from "marked";
@@ -1030,9 +1030,9 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         }
 
         const userFriendlyNames = {
-            [ControllerOutputType.blueprint]: "Documentation",
-            [ControllerOutputType.analyze]: "Security",
-            [ControllerOutputType.compliance]: "Compliance",
+            [ControllerOutputType.blueprint]: DisplayGroupFriendlyName.documentation,
+            [ControllerOutputType.analyze]: DisplayGroupFriendlyName.security,
+            [ControllerOutputType.compliance]: DisplayGroupFriendlyName.compliance,
         };
 
         const workspaceFolder = vscode.workspace.workspaceFolders?.[0];

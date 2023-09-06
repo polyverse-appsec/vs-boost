@@ -17,6 +17,7 @@ import { fullPathFromSourceFile } from '../utilities/files';
 import * as fs from 'fs';
 import * as path from 'path';
 import { ControllerOutputType } from './controllerOutputTypes';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const summarizeKernelName = 'summarize';
 export const summmarizeOutputHeader = 'Summary';
@@ -38,6 +39,7 @@ export class SummarizeKernel extends KernelControllerBase {
             'Summarize Analysis',
             'Summarizes the analysis across cells',
             ControllerOutputType.summary,
+            DisplayGroupFriendlyName.documentation,
             summmarizeOutputHeader,
             false,
             false,

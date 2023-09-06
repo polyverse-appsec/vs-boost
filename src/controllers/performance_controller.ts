@@ -6,6 +6,7 @@ import { BoostConfiguration } from '../extension/boostConfiguration';
 import { BoostNotebookCell } from '../data/jupyter_notebook';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const performanceKernelName = 'performance';
 const performanceOutputHeader = `Performance Analysis`;
@@ -18,6 +19,7 @@ export class BoostPerformanceKernel extends KernelControllerBase {
             'Check Code Performance',
             'Evaluates Performance characteristics of the code',
             ControllerOutputType.performance,
+            DisplayGroupFriendlyName.security,
             performanceOutputHeader,
             false,
             false,

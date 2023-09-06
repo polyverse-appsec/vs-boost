@@ -24,6 +24,7 @@ import { findCellByKernel } from '../extension/extension';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { getCurrentOrganization } from "../utilities/authorization";
 import { ControllerOutputType } from './controllerOutputTypes';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const quickSummaryKernelNamePrefix = `quick_summary_`;
 
@@ -31,6 +32,7 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
 	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection,
             kernelName: string,
             outputType: ControllerOutputType,
+            displayGroup: DisplayGroupFriendlyName,
             coreOutputType: ControllerOutputType,
             outputHeader: string,
         ) {
@@ -40,6 +42,7 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
             `Quick ${outputHeader} Report`,
             `Quickly builds a ${outputHeader} Summary Report from data about project and ${outputType} analysis.`,
             outputType,
+            displayGroup,
             `Architectural Quick Summary ${outputHeader} Report`,
             false,
             false,

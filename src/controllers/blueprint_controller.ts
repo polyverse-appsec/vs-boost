@@ -5,7 +5,12 @@ import { BoostConfiguration } from '../extension/boostConfiguration';
 import * as vscode from 'vscode';
 import { BoostNotebookCell } from '../data/jupyter_notebook';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
-import { ControllerOutputType } from './controllerOutputTypes';
+import {
+    ControllerOutputType
+} from './controllerOutputTypes';
+import {
+    DisplayGroupFriendlyName
+} from '../data/userAnalysisType';
 
 export const blueprintKernelName = 'blueprint';
 const blueprintOutputHeader = 'Architectural Blueprint';
@@ -18,6 +23,7 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
             'Architectural Blueprint Code',
             'Builds Archiectural Blueprint of targeted source code by identifying architectural principles, patterns, licensing, performance, etc.',
             ControllerOutputType.blueprint,
+            DisplayGroupFriendlyName.documentation,
             blueprintOutputHeader,
             false,
             false,

@@ -7,6 +7,7 @@ import { ControllerOutputType } from './controllerOutputTypes';
 
 import * as vscode from 'vscode';
 import { analyzeFunctionKernelName } from './analyze_function_controller';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const quickSecuritySummaryKernelName = `${quickSummaryKernelNamePrefix}${analyzeFunctionKernelName}`;
 
@@ -20,6 +21,7 @@ export class BoostQuickSecuritySummaryKernel extends BoostQuickSummaryKernelCont
             collection,
             analyzeFunctionKernelName,
             ControllerOutputType.analyze,
+            DisplayGroupFriendlyName.security,
             ControllerOutputType.analyzeFunction,
             "Security");
 	}

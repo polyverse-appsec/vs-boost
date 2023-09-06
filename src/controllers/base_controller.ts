@@ -9,6 +9,9 @@ import {
     SerializedNotebookCellOutput,
     NOTEBOOK_TYPE,
 } from "../data/jupyter_notebook";
+
+import { DisplayGroupFriendlyName } from "../data/userAnalysisType";
+
 import { getKernelName } from "../extension/extensionUtilities";
 import { fullPathFromSourceFile } from "../utilities/files";
 import { errorToString } from "../utilities/error";
@@ -24,6 +27,7 @@ export class KernelControllerBase extends BoostServiceHelper {
     kernelLabel: string;
     description: string;
     outputHeader: string;
+    displayCategory : DisplayGroupFriendlyName;
     private _supportedLanguages = [];
     private _useGeneratedCodeCellOptimization: boolean;
     private useOriginalCodeCheck = false;
@@ -38,6 +42,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         kernelLabel: string,
         description: string,
         outputType: string,
+        displayCategory: DisplayGroupFriendlyName,
         outputHeader: string,
         useGeneratedCodeCellOptimization: boolean,
         useOriginalCodeCheck: boolean,
@@ -60,6 +65,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         this.id = getKernelName(kernelId);
         this.kernelLabel = kernelLabel;
         this.description = description;
+        this.displayCategory = displayCategory;
         this.outputHeader = outputHeader;
         this._useGeneratedCodeCellOptimization =
             useGeneratedCodeCellOptimization;

@@ -39,7 +39,7 @@ import {
     generateSingleLineSummaryForAnalysisData,
     getAnalysisForSourceTarget,
 } from "./vscodeUtilities";
-import { BoostUserAnalysisType } from "../userAnalysisType";
+import { BoostUserAnalysisType } from "../data/userAnalysisType";
 
 import { BoostContentSerializer } from "../utilities/serializer";
 import { BoostConfiguration } from "./boostConfiguration";

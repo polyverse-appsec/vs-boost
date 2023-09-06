@@ -3,6 +3,7 @@ import { BoostConfiguration } from '../extension/boostConfiguration';
 import { FunctionKernelControllerBase } from './function_base_controller';
 import { performanceKernelName } from './performance_controller';
 import { ControllerOutputType } from './controllerOutputTypes';
+import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const performanceFunctionKernelName = performanceKernelName + '_function';
 
@@ -15,6 +16,7 @@ export class BoostPerformanceFunctionKernel extends FunctionKernelControllerBase
             'Quick source scan for performance issues',
             'Quickly analyzes all targeted source code for performance issues',
             ControllerOutputType.performanceFunction,
+            DisplayGroupFriendlyName.security,
             "performance",
             "Performance Analysis", 
             context,
