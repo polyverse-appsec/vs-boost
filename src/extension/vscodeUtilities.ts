@@ -25,7 +25,8 @@ export function lineNumberBaseFromCell(cell: vscode.NotebookCell | boostnb.Boost
 export function getAnalysisForSourceTarget(
     analysisNotebook : boostnb.BoostNotebook,
     outputType?: ControllerOutputType,
-    selection? : vscode.Selection) : string[] {
+    selection? : vscode.Selection,
+    excludedOutputTypes? : ControllerOutputType[]) : string[] {
 
     const analysisLines : string[] = [];
 
@@ -60,6 +61,11 @@ export function getAnalysisForSourceTarget(
             // ignore outputs that aren't our output type
             // an undefined outputType (e.g. all types) will always be included 
             if (outputType && output.metadata?.outputType !== outputType) {
+                return;
+            }
+
+            // skip excluded types
+            if (excludedOutputTypes && excludedOutputTypes.includes(output.metadata?.outputType as ControllerOutputType)) {
                 return;
             }
 

@@ -13,6 +13,7 @@ import {
 import {
     BoostExtension
 } from '../extension/BoostExtension';
+import { ControllerOutputType } from '../controllers/controllerOutputTypes';
 
 export class DecoratorProvider {
     private boostLineSelectDecoration: vscode.TextEditorDecorationType;
@@ -81,7 +82,7 @@ export class DecoratorProvider {
         for (const selection of this.activeEditor.selections) {
             const startLine = selection.start.line;
             const endLine = selection.end.line;
-            const results = getAnalysisForSourceTarget(this._activeEditorBoostNotebookShadow, undefined, selection);
+            const results = getAnalysisForSourceTarget(this._activeEditorBoostNotebookShadow, undefined, selection, [ ControllerOutputType.flowDiagram]);
             const lineSummary = generateSingleLineSummaryForAnalysisData(this._extension, this._activeEditorBoostNotebookShadow, selection);
     
             if( !results || results.length === 0 ) {
