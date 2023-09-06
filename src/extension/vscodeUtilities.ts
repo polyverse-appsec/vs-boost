@@ -136,8 +136,12 @@ export function getAnalysisProblemMetaDataForSourceTarget(
 
     const analysisMetaDataFound : any = {};
 
-    const targetStartLine : number = selection ? selection.start.line : 0;
-    const targetEndLine : number = selection ? selection.end.line : Number.MAX_SAFE_INTEGER;
+    let targetStartLine : number = selection ? selection.start.line : 0;
+    let targetEndLine : number = selection ? selection.end.line : Number.MAX_SAFE_INTEGER;
+
+    //expand the startline and endline to three before and three after
+    targetStartLine = targetStartLine > 3 ? targetStartLine - 3 : 0;
+    targetEndLine= targetEndLine < Number.MAX_SAFE_INTEGER -3 ? targetEndLine + 3: Number.MAX_SAFE_INTEGER;
 
     const sourceUri = fullPathFromSourceFile(filenameTarget);
 
