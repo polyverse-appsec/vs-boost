@@ -1,19 +1,17 @@
 import * as vscode from 'vscode';
+import * as fs from 'fs';
+
 import {
     getAnalysisForSourceTarget,
     generateSingleLineSummaryForAnalysisData
 } from '../extension/vscodeUtilities';
 import * as boostnb from '../data/jupyter_notebook';
-import * as fs from 'fs';
 import {
     getBoostFile,
     BoostCommands
 } from '../extension/extension'; 
 import {
-    BoostNotebook
-} from '../data/jupyter_notebook'; 
-import {
-    BoostExtension,
+    BoostExtension
 } from '../extension/BoostExtension';
 
 export class DecoratorProvider {
@@ -103,7 +101,7 @@ export class DecoratorProvider {
                     hoverMessage: new vscode.MarkdownString(results.join('\n')),
                     renderOptions: {
                         after: {
-                            contentText: lineSummary,
+                            contentText: `   Boost Analysis: ${lineSummary}`,
                             color: 'rgba(150, 150, 150, 0.5)'  // grayed out with 50% transparency
                         }
                     }
@@ -138,7 +136,7 @@ export class DecoratorProvider {
             return;
         }
         //now load the notebook
-        const boostNotebook = new BoostNotebook();
+        const boostNotebook = new boostnb.BoostNotebook();
         if (fs.existsSync(boostUri.fsPath)) {
             boostNotebook.load(boostUri.fsPath);
             this._activeEditorBoostNotebookShadow = boostNotebook;

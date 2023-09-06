@@ -230,5 +230,5 @@ export function generateSingleLineSummaryForAnalysisData(
     
     const analysisReport = analysisItems.join(", ");
 
-    return `Boost Analysis: ${analysisReport}`;
+    return `${analysisReport}`;
 }
