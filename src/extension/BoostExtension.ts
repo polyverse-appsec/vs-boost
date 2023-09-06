@@ -270,7 +270,7 @@ export class BoostExtension {
 
             this.registerShowGuidelinesCommand(context);
 
-            this.inlineAnnotations = new InlineBoostAnnotations(context);
+            this.inlineAnnotations = new InlineBoostAnnotations(context, this);
 
             this.successfullyActivated = true;
         } catch (e) {

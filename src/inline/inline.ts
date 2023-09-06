@@ -1,12 +1,15 @@
 import * as vscode from 'vscode';
 import { CodelensProvider } from './codelens_provider';
 import { DecoratorProvider } from './decorator_provider';
+import { BoostExtension } from '../extension/BoostExtension';
 
 export class InlineBoostAnnotations {
     //public codeLensProvider: CodelensProvider;
     public decoratorProvider: DecoratorProvider;
+    public context: vscode.ExtensionContext;
+    public extension: BoostExtension;
 
-    constructor(context: vscode.ExtensionContext) {
+    constructor(context: vscode.ExtensionContext, extension: BoostExtension) {
         /*
          unused for now
 
@@ -17,6 +20,8 @@ export class InlineBoostAnnotations {
         });
         */
 
-        this.decoratorProvider = new DecoratorProvider(context);
+        this.decoratorProvider = new DecoratorProvider(context, extension);
+        this.context = context;
+        this.extension = extension;
     }
 }

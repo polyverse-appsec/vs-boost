@@ -1,16 +1,22 @@
 import * as vscode from 'vscode';
-import {getAnalysisForSourceTarget} from '../extension/vscodeUtilities';
+import {getAnalysisForSourceTarget, generateSingleLineSummaryForAnalysisData} from '../extension/vscodeUtilities';
 import * as boostnb from '../data/jupyter_notebook';
 import * as fs from 'fs';
 import {getBoostFile} from '../extension/extension'; 
 import {BoostNotebook} from '../data/jupyter_notebook'; 
+import {BoostExtension} from '../extension/BoostExtension';
+
 export class DecoratorProvider {
     private boostLineSelectDecoration: vscode.TextEditorDecorationType;
     private timeout: NodeJS.Timer | undefined = undefined;
     private activeEditor: vscode.TextEditor | undefined;
     private _activeEditorBoostNotebookShadow: boostnb.BoostNotebook | undefined;
+    private _context: vscode.ExtensionContext;
+    private _extension: BoostExtension;
 
-    constructor(context: vscode.ExtensionContext) {
+    constructor(context: vscode.ExtensionContext, extension: BoostExtension) {
+        this._context = context;
+        this._extension = extension;
 
         this.boostLineSelectDecoration = vscode.window.createTextEditorDecorationType({
             borderWidth: '1px',
@@ -62,13 +68,13 @@ export class DecoratorProvider {
             return;
         }
 
-        const text = this.activeEditor.document.getText();
         const decorations: vscode.DecorationOptions[] = [];
 
         for (const selection of this.activeEditor.selections) {
             const startLine = selection.start.line;
             const endLine = selection.end.line;
             const results = getAnalysisForSourceTarget(this._activeEditorBoostNotebookShadow, undefined, selection);
+            const lineSummary = generateSingleLineSummaryForAnalysisData(this._extension, this._activeEditorBoostNotebookShadow, selection)
     
             if( !results || results.length === 0 ) {
                 continue;
@@ -87,8 +93,7 @@ export class DecoratorProvider {
                     hoverMessage: new vscode.MarkdownString(results.join('\n')),
                     renderOptions: {
                         after: {
-                            //just use the first 20 characters of the first result
-                            contentText: "Boost: " + results[0].slice(0, 20) + "...",
+                            contentText: lineSummary,
                             color: 'rgba(150, 150, 150, 0.5)'  // grayed out with 50% transparency
                         }
                     }
