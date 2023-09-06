@@ -59,12 +59,12 @@ export function getAnalysisForSourceTarget(
         cell.outputs.forEach((output : boostnb.SerializedNotebookCellOutput) => {
             // ignore outputs that aren't our output type
             // an undefined outputType (e.g. all types) will always be included 
-            if (outputType && output.metadata?.outputType !== outputType) {
+            if (output.metadata?.outputType !== outputType) {
                 return;
             }
 
             // if we are looking at a function output, and there is no details (e.g. no diagnostic issues), skip it
-            if (outputType!.endsWith(functionOutputTypeExtension)) {
+            if (outputType?.endsWith(functionOutputTypeExtension)) {
                 if (!output.metadata?.details?.length) {
                     return;
                 }
@@ -164,7 +164,7 @@ export function getAnalysisProblemMetaDataForSourceTarget(
 
 interface AnalysisInfo {
     count: number;
-    outputHeader: string;
+    displayName: string;
 }
 
 export function generateSingleLineSummaryForAnalysisData(
@@ -174,17 +174,17 @@ export function generateSingleLineSummaryForAnalysisData(
     
     const analysisTypes = getAnalysisMetaDataForSourceTarget(analysisNotebook, selection);
     const analysisFound: Record<string, AnalysisInfo> = {};
-    analysisTypes.forEach((analysisType : ControllerOutputType) => {
-        analysisFound[analysisType] = { 
+    analysisTypes.forEach((outputType : ControllerOutputType) => {
+        analysisFound[outputType] = { 
             count: 0,
-            outputHeader: ""
-        }; 
+            displayName: ""
+        };
     });
 
     extension.kernels.forEach((kernel : KernelControllerBase) => {
         if( analysisFound[kernel.outputType] !== undefined ) {
             //if we have one of these in our output, set the display name.
-            analysisFound[kernel.outputType].outputHeader = kernel.outputHeader;
+            analysisFound[kernel.outputType].displayName = kernel.displayCategory;
         } 
         if (!(kernel instanceof FunctionKernelControllerBase)) {
             return;
@@ -198,20 +198,36 @@ export function generateSingleLineSummaryForAnalysisData(
         if (problemsIdentified.length === 0) {
             delete analysisFound[functionController.outputType];
         } else if (analysisFound[functionController.outputType] !== undefined) {
-            analysisFound[functionController.outputType].count = problemsIdentified.length;
-            analysisFound[functionController.outputType].outputHeader = functionController.outputHeader;
+            analysisFound[functionController.outputType].count += problemsIdentified.length;
+            analysisFound[functionController.outputType].displayName = functionController.displayCategory;
         }
     });
 
-    const analysisItems = [];
-    for (const [type, info ] of Object.entries(analysisFound) as [string, AnalysisInfo][]) {
-        if (info.count === 0) {
-            analysisItems.push(info.outputHeader);
+    const displayNameMap: Map<string, number> = new Map();
+
+    // Create a map with unique displayNames and their counts
+    for (const [type, info] of Object.entries(analysisFound) as [string, AnalysisInfo][]) {
+        if (displayNameMap.has(info.displayName)) {
+            if (info.count > 0) {
+                const existingCount = displayNameMap.get(info.displayName) || 0;
+                displayNameMap.set(info.displayName, existingCount + info.count);
+            }
         } else {
-            analysisItems.push(`${info.outputHeader}(${info.count})`);
+            displayNameMap.set(info.displayName, info.count);
         }
     }
-
+    
+    // Create the analysisItems based on the unique displayNames and their counts
+    const analysisItems: string[] = [];
+    
+    for (const [displayName, count] of displayNameMap.entries()) {
+        if (count > 0) {
+            analysisItems.push(`${displayName}(${count})`);
+        } else {
+            analysisItems.push(displayName);
+        }
+    }
+    
     const analysisReport = analysisItems.join(", ");
 
     return `Boost Analysis: ${analysisReport}`;
