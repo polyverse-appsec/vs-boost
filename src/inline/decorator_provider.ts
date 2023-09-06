@@ -1,10 +1,20 @@
 import * as vscode from 'vscode';
-import {getAnalysisForSourceTarget, generateSingleLineSummaryForAnalysisData} from '../extension/vscodeUtilities';
+import {
+    getAnalysisForSourceTarget,
+    generateSingleLineSummaryForAnalysisData
+} from '../extension/vscodeUtilities';
 import * as boostnb from '../data/jupyter_notebook';
 import * as fs from 'fs';
-import {getBoostFile} from '../extension/extension'; 
-import {BoostNotebook} from '../data/jupyter_notebook'; 
-import {BoostExtension} from '../extension/BoostExtension';
+import {
+    getBoostFile,
+    BoostCommands
+} from '../extension/extension'; 
+import {
+    BoostNotebook
+} from '../data/jupyter_notebook'; 
+import {
+    BoostExtension,
+} from '../extension/BoostExtension';
 
 export class DecoratorProvider {
     private boostLineSelectDecoration: vscode.TextEditorDecorationType;
@@ -85,7 +95,7 @@ export class DecoratorProvider {
                 const endPos = new vscode.Position(lineNum, line.text.length);
 
                 const md = new vscode.MarkdownString(
-                    "[Run command](command:polyverse-boost-notebook.showGuidelines) *Hello* from Boost!"
+                    `[Run command](command:${boostnb.NOTEBOOK_TYPE + "." + BoostCommands.showGuidelines}) *Hello* from Boost!`
                 );
                 md.isTrusted = true;
                 const decoration = {
