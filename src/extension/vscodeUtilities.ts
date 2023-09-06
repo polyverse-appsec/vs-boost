@@ -64,7 +64,7 @@ export function getAnalysisForSourceTarget(
             }
 
             // if we are looking at a function output, and there is no details (e.g. no diagnostic issues), skip it
-            if (outputType?.endsWith(functionOutputTypeExtension)) {
+            if (output.metadata?.outputType?.endsWith(functionOutputTypeExtension)) {
                 if (!output.metadata?.details?.length) {
                     return;
                 }
