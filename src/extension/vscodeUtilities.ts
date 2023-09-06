@@ -59,7 +59,7 @@ export function getAnalysisForSourceTarget(
         cell.outputs.forEach((output : boostnb.SerializedNotebookCellOutput) => {
             // ignore outputs that aren't our output type
             // an undefined outputType (e.g. all types) will always be included 
-            if (output.metadata?.outputType !== outputType) {
+            if (outputType !== undefined && output.metadata?.outputType !== outputType) {
                 return;
             }
 
