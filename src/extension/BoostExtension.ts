@@ -59,10 +59,10 @@ import { IncompatibleVersionException } from "../data/incompatibleVersionExcepti
 import { emptyProjectData } from "../data/boostprojectdata_interface";
 
 // UI imports
-import { BoostMarkdownViewProvider } from "../markdown_view";
-import { BoostSummaryViewProvider, summaryViewType } from "../summary_view";
-import { BoostStartViewProvider } from "../start_view";
-import { BoostChatViewProvider } from "../chat_view";
+import { BoostMarkdownViewProvider } from "../dashboard/markdown_view";
+import { BoostSummaryViewProvider, summaryViewType } from "../dashboard/summary_view";
+import { BoostStartViewProvider } from "../dashboard/start_view";
+import { BoostChatViewProvider } from "../dashboard/chat_view";
 
 import instructions from "../instructions.json";
 
