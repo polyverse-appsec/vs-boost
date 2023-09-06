@@ -42,7 +42,7 @@ async function runCommand(argv: string[]) {
         const extensionDevelopmentPath = path.resolve(__dirname, "../../");
 
         // The path to the test runner
-        const extensionTestsPath = path.resolve(__dirname, "./commandRunner.ts");
+        const extensionTestsPath = path.resolve(__dirname, "./commandRunner");
 
         process.env.COMMAND_INPUT_PATH = commandInputPath;
 

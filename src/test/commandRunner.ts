@@ -1,31 +1,32 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
+import * as path from "path";
+import Mocha = require('mocha'); // Corrected import of Mocha
 
-// ...
+export function run(): Promise<void> {
+  // Create the mocha test
+  const mocha = new Mocha({
+    ui: 'bdd',
+    color: true,
+  });
 
-suite('Extension Command Runner', () => {
-    // ...
+  const testsRoot = path.resolve(__dirname, '.');
 
-    test('Run specified command', async () => {
-        const commandInputPath = process.env.COMMAND_INPUT_PATH; 
-        if (!commandInputPath) {
-            console.error("Command input path is not set in the environment variables.");
-            throw new Error("Command input path is not set");
-        }
+  return new Promise((c, e) => {
+    mocha.addFile(path.resolve(testsRoot, 'yourActualCommand.js'));
 
-        const data = fs.readFileSync(commandInputPath, 'utf-8');
-        const { command, args } = JSON.parse(data);
-
-        if (command) {
-            try {
-                await vscode.commands.executeCommand(command, args);
-            } catch (error) {
-                console.error(`Failed to execute command ${command}:`, error);
-                throw error; // This will cause the test to fail
-            }
+    try {
+      // Run the mocha test
+      mocha.run((failures: number) => {
+        if (failures > 0) {
+          e(new Error(`${failures} tests failed.`));
         } else {
-            console.error(`Command is not specified in ${commandInputPath}`);
-            throw new Error("Command is not specified");
+          c();
         }
-    });
-});
+      });
+    } catch (err) {
+      console.error(err);
+      e(err);
+    }
+  });
+}
