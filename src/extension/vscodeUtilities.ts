@@ -6,6 +6,8 @@ import { KernelControllerBase, errorMimeType } from '../controllers/base_control
 import { fullPathFromSourceFile } from '../utilities/files';
 import { BoostExtension } from './BoostExtension';
 import { FunctionKernelControllerBase } from '../controllers/function_base_controller';
+import { stringify } from 'querystring';
+import { any } from 'micromatch';
 
 export function lineNumberBaseFromCell(cell: vscode.NotebookCell | boostnb.BoostNotebookCell): number {
     let lineNumberBase: any;
@@ -150,18 +152,30 @@ export function getAnalysisProblemMetaDataForSourceTarget(
     return scopedDiagnostics;
 }
 
+interface AnalysisInfo {
+    count: number;
+    outputHeader: string;
+}
+
 export function generateSingleLineSummaryForAnalysisData(
     extension : BoostExtension,
     analysisNotebook : boostnb.BoostNotebook,
     selection? : vscode.Selection) : string {
     
     const analysisTypes = getAnalysisMetaDataForSourceTarget(analysisNotebook, selection);
-    const analysisFound : any = {};
+    const analysisFound: Record<string, AnalysisInfo> = {};
     analysisTypes.forEach((analysisType : ControllerOutputType) => {
-        analysisFound[analysisType] = 0;
+        analysisFound[analysisType] = { 
+            count: 0,
+            outputHeader: ""
+        }; 
     });
 
     extension.kernels.forEach((kernel : KernelControllerBase) => {
+        if( analysisFound[kernel.outputType] !== undefined ) {
+            //if we have one of these in our output, set the display name.
+            analysisFound[kernel.outputType].outputHeader = kernel.outputHeader;
+        } 
         if (!(kernel instanceof FunctionKernelControllerBase)) {
             return;
         }
@@ -171,26 +185,24 @@ export function generateSingleLineSummaryForAnalysisData(
         const problemsIdentified = getAnalysisProblemMetaDataForSourceTarget(
             functionController.sourceLevelIssueCollection, analysisNotebook.metadata.sourceFile as string, selection);
 
-        // if no problems for this output type, remove it from the list
-        // so we don't report things like "No problems found" in the single line analysis summary
         if (problemsIdentified.length === 0) {
             delete analysisFound[functionController.outputType];
-        // otherwise, store the problem count
-        } else {
-            analysisFound[functionController.outputType] = problemsIdentified.length;
+        } else if (analysisFound[functionController.outputType] !== undefined) {
+            analysisFound[functionController.outputType].count = problemsIdentified.length;
+            analysisFound[functionController.outputType].outputHeader = functionController.outputHeader;
         }
     });
 
     const analysisItems = [];
-    for (const [type, count] of Object.entries(analysisFound)) {
-        if (count === 0) {
-            analysisItems.push(type);
+    for (const [type, info ] of Object.entries(analysisFound) as [string, AnalysisInfo][]) {
+        if (info.count === 0) {
+            analysisItems.push(info.outputHeader);
         } else {
-            analysisItems.push(`${type}(${count})`);
+            analysisItems.push(`${info.outputHeader}(${info.count})`);
         }
     }
 
     const analysisReport = analysisItems.join(", ");
 
-    return `Analysis available for ${analysisReport}`;
+    return `Boost Analysis: ${analysisReport}`;
 }

@@ -74,7 +74,7 @@ export class DecoratorProvider {
             const startLine = selection.start.line;
             const endLine = selection.end.line;
             const results = getAnalysisForSourceTarget(this._activeEditorBoostNotebookShadow, undefined, selection);
-            const lineSummary = generateSingleLineSummaryForAnalysisData(this._extension, this._activeEditorBoostNotebookShadow, selection)
+            const lineSummary = generateSingleLineSummaryForAnalysisData(this._extension, this._activeEditorBoostNotebookShadow, selection);
     
             if( !results || results.length === 0 ) {
                 continue;
