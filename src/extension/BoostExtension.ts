@@ -1653,7 +1653,7 @@ export class BoostExtension {
                             : uri.fsPath;
 
                         boostLogging.error(
-                            `Unable to generate output for current file:${relativeSourcePath} due to ${errorToString(
+                            `Unable to generate detailed ${outputFormat?outputFormat:BoostConfiguration.defaultOutputFormat} output for current file:${relativeSourcePath} due to ${errorToString(
                                 error
                             )}`,
                             true
@@ -1882,7 +1882,7 @@ export class BoostExtension {
                             : uri.fsPath;
 
                         boostLogging.error(
-                            `Unable to generate output for current file:${relativeSourcePath} due to ${errorToString(
+                            `Unable to generate summary ${outputFormat?outputFormat:BoostConfiguration.defaultOutputFormat} output for current file:${relativeSourcePath} due to ${errorToString(
                                 error
                             )}`,
                             true
