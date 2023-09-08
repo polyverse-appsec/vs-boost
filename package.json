@@ -168,18 +168,16 @@
                     },
                     "polyverse-boost-notebook.output.defaultOutputFormat": {
                         "type": "string",
-                        "default": "all",
+                        "default": "markdown",
                         "enum": [
                             "html",
                             "markdown",
-                            "pdf",
-                            "all"
+                            "pdf"
                         ],
                         "enumDescriptions": [
                             "HTML webpage format",
                             "Markdown format (default)",
-                            "PDF binary format",
-                            "All available formats"
+                            "PDF binary format"
                         ],
                         "markdownDescription": "Select your preferred *output format* for showing results."
                     }
@@ -298,12 +296,12 @@
             },
             {
                 "command": "polyverse-boost-notebook.showCurrentFileAnalysisOutput",
-                "title": "Boost: Generate Output Format(s) for Current File",
+                "title": "Boost: Show Detailed File Analysis",
                 "icon": "$(file)"
             },
             {
                 "command": "polyverse-boost-notebook.showCurrentFileAnalysisSummaryOutput",
-                "title": "Boost: Show File Summary",
+                "title": "Boost: Show Summary of File Analysis",
                 "icon": "$(file)"
             },
             {
