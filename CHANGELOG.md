@@ -3,12 +3,12 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 1.4.1: September 7th, 2023
+## Version 1.5.0: September 7th, 2023
 
 ### New Features
 - Code Editor includes inline 'grayed' summary of any available documentation or detected issues from analysis
 - Code Editor provides hover/pop-up analysis for any code that has been analyzed
-- Command added for non-UI setting of user organization
+- Command added for offline automation to set user organization
 
 ### Enhancements
 - Improved startup synchronization to ensure user initiated UI commands wait for startup to complete before executing

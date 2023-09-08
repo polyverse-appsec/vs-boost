@@ -8,7 +8,7 @@
     "bugs": {
         "email": "support@polyverse.com"
     },
-    "version": "1.4.1",
+    "version": "1.5.0",
     "engines": {
         "vscode": "^1.77.0"
     },
