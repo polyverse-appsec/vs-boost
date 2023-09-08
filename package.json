@@ -246,12 +246,12 @@
             },
             {
                 "command": "polyverse-boost-notebook.loadCurrentFile",
-                "title": "Boost: Open Detailed Analysis Notebook",
+                "title": "Boost: Show Analysis Details (Notebook format)",
                 "icon": "$(file)"
             },
             {
                 "command": "polyverse-boost-notebook.loadSummaryFile",
-                "title": "Boost: Open Summary Analysis Notebook",
+                "title": "Boost: Show Analysis Summary (Notebook format)",
                 "icon": "$(file)"
             },
             {
@@ -296,17 +296,17 @@
             },
             {
                 "command": "polyverse-boost-notebook.showCurrentFileAnalysisOutput",
-                "title": "Boost: Show Detailed File Analysis",
+                "title": "Boost: Show Analysis Details (Default Format)",
                 "icon": "$(file)"
             },
             {
                 "command": "polyverse-boost-notebook.showCurrentFileAnalysisSummaryOutput",
-                "title": "Boost: Show Summary of File Analysis",
+                "title": "Boost: Show Analysis Summary (Default Format)",
                 "icon": "$(file)"
             },
             {
                 "command": "polyverse-boost-notebook.showCurrentFolderAnalysisSummaryOutput",
-                "title": "Boost: Show Project Summary",
+                "title": "Boost: Show Project Summary (Default Format)",
                 "icon": "$(folder)"
             },
             {
