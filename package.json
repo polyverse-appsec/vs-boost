@@ -3,12 +3,13 @@
     "displayName": "Polyverse Boost AI: Complexity Simplified",
     "description": "Polyverse Boost uses AI to analyze entire software projects to generate documentation, find security bugs, and ensure regulatory compliance.",
     "publisher": "polyversecorporation",
+    "pricing": "Trial",
     "license": "SEE LICENSE IN LICENSE",
     "homepage": "https://www.polyverse.com",
     "bugs": {
         "email": "support@polyverse.com"
     },
-    "version": "1.5.0",
+    "version": "1.5.1",
     "engines": {
         "vscode": "^1.77.0"
     },
