@@ -168,16 +168,18 @@
                     },
                     "polyverse-boost-notebook.output.defaultOutputFormat": {
                         "type": "string",
-                        "default": "markdown",
+                        "default": "all",
                         "enum": [
                             "html",
                             "markdown",
-                            "pdf"
+                            "pdf",
+                            "all"
                         ],
                         "enumDescriptions": [
                             "HTML webpage format",
                             "Markdown format (default)",
-                            "PDF binary format"
+                            "PDF binary format",
+                            "All available formats"
                         ],
                         "markdownDescription": "Select your preferred *output format* for showing results."
                     }
@@ -296,7 +298,7 @@
             },
             {
                 "command": "polyverse-boost-notebook.showCurrentFileAnalysisOutput",
-                "title": "Boost: Show File Details",
+                "title": "Boost: Generate Output Format(s) for Current File",
                 "icon": "$(file)"
             },
             {

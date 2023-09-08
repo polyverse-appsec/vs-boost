@@ -86,6 +86,12 @@ export async function convertNotebookToHTML(
     return new Promise<void>(async (resolve, reject) => {
         convertNotebookToHTMLinMemory(notebook, notebookPath, baseFolderPath, context)
             .then((html: string) => {
+                const dir = path.dirname(outputPath);
+
+                if (!fs.existsSync(dir)) {
+                    fs.mkdirSync(dir, { recursive: true });
+                }
+                
                 fs.writeFileSync(outputPath, html);
                 resolve();
             })

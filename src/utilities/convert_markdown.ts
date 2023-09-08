@@ -65,7 +65,12 @@ async function generateMarkdownFromJson(
                 }
             );
 
-            // Save the Markdown to a file
+            // Save the Markdown to a file, creating the directory if necessary
+            const dir = path.dirname(outputPath);
+
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
+            }
             fs.writeFileSync(outputPath, markdown);
             resolve();
         } catch (error) {
