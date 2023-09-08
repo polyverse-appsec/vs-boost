@@ -268,6 +268,13 @@ export function getBoostFile(
 
             const nonNormalizedOutputFilePath = path.join(outputFolder, sourceFilePathRelative) + "." + outputType;
             const outputFilePath = path.normalize(nonNormalizedOutputFilePath);
+
+            // proactively create the output sub-folder if it doesn't exist, so we can write it
+            const outputFileParentFolder = path.dirname(outputFilePath);
+            if (!fs.existsSync(outputFileParentFolder)) {
+                fs.mkdirSync(outputFileParentFolder, { recursive: true });
+            }
+            
             return vscode.Uri.parse(outputFilePath);
 
         case BoostFileType.notebook:

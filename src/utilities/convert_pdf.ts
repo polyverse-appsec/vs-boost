@@ -65,12 +65,7 @@ async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : 
                     const pdfFooter = fs.readFileSync(pdfFooterOnDisk.fsPath, 'utf8');
                 
                     await page.goto(tempHtmlUri.toString(), { waitUntil: 'networkidle0' });
-                    //make sure the output path directory structure exists
-                    const dir = path.dirname(outputPath);
 
-                    if (!fs.existsSync(dir)) {
-                        fs.mkdirSync(dir, { recursive: true });
-                    }
                     await page.pdf({
                         path: outputPath,
                         format: 'letter',
