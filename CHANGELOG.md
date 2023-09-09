@@ -13,7 +13,7 @@ Polyverse Boost Automatic Application Modernization
 - Use .boostignore and .gitignore files only for source exclusion - and stop using .vscodeignore (which is specific to Extension development)
 
 ### Bug Fixes
-- N/A
+- Fixed issue preventing output generation when Notebook conversion language or test framework is changed via UI toolbar
 
 ## Version 1.5.0: September 7th, 2023
 
