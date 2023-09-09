@@ -10,6 +10,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Enhancements
 - Change Diagnostic Problems to Warning by default when Analysis of source code is not successful to avoid blocking user code build
+- Use .boostignore and .gitignore files only for source exclusion - and stop using .vscodeignore (which is specific to Extension development)
 
 ### Bug Fixes
 - N/A

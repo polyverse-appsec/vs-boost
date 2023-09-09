@@ -85,7 +85,7 @@ export async function getAllProjectFiles(
         boostOnlyPatterns.length ? `{${boostOnlyPatterns.join(',')}}` : "**/**"
     );
 
-    const ignorePatterns = buildVSCodeIgnorePattern(targetFolder, true);
+    const ignorePatterns = buildProjectSourceCodeIgnorePattern(targetFolder, true);
     const files = await vscode.workspace.findFiles(
         searchPattern,
         ignorePatterns
@@ -200,7 +200,7 @@ export function updateBoostIgnoreForTarget(
     );
 }
 
-function buildVSCodeIgnorePattern(
+function buildProjectSourceCodeIgnorePattern(
     targetFolder: vscode.Uri,
     ignoreBoostFolder: boolean = true
 ): vscode.RelativePattern | null {
@@ -212,13 +212,6 @@ function buildVSCodeIgnorePattern(
     }
 
     const patterns: string[] = [];
-
-    // read the .vscodeignore file
-    let vscignoreFile = vscode.Uri.joinPath(workspaceFolder, ".vscodeignore");
-    const vscodeIgnorePatterns = _extractIgnorePatternsFromFile(
-        vscignoreFile.fsPath
-    );
-    patterns.push(...vscodeIgnorePatterns);
 
     // read the .gitignore file
     let gitignoreFile = vscode.Uri.joinPath(workspaceFolder, ".gitignore");
