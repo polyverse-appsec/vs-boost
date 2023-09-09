@@ -522,7 +522,7 @@
         "customer:project:analyze:all": "node scripts/analyze.js --all",
         "pretest:github:login": "gh auth login -s user:email",
         "pretest:github:check": "gh auth status",
-        "prepublish:build": "NODE_ENV=production && npm run esbuild-base -- --minify",
+        "prepublish:build": "rm -rf ./out && NODE_ENV=production && npm run esbuild-base -- --minify",
         "prepackage:pretest": "npm run pretest:github:check && npm run clean && npm run prepublish:build && npm run copy:test-data",
         "prepackage:test": "npm run test",
         "prepackage:login": "vsce login polyversecorporation",
