@@ -113,7 +113,8 @@ async function convertNotebookToHTMLinMemory(
 
     // Retrieve metadata from the notebook
     // convert the file path to a URL
-    const sourceFile = notebook.metadata["sourceFile"] as string;
+    const sourceFile = notebook.metadata["sourceFile"]?notebook.metadata["sourceFile"] as string:"UNKNOWN-SOURCE-FILE";
+
     const prettySourceFile = (sourceFile === "./")?
         `${path.basename(baseFolderPath)}`:
         `${sourceFile}`;

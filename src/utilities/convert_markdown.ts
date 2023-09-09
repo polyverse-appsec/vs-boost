@@ -89,7 +89,7 @@ async function generateMarkdownFromObject(
     const timestamp = stats.mtime;
     const fileStamp = formatDateTime(timestamp);
 
-    const sourceFile = boostNotebook.metadata["sourceFile"] as string;
+    const sourceFile = boostNotebook.metadata["sourceFile"]?boostNotebook.metadata["sourceFile"] as string:"UNKNOWN-SOURCE-FILE";
 
     const projectLevel = sourceFile === "./";
     const analysisType = projectLevel ? "Project" : "Source";

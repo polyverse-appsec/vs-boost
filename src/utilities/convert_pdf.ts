@@ -37,7 +37,7 @@ async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : 
             const tempHtmlUri = getBoostFile(vscode.Uri.parse(normalizedTempHtmlPath), { format: BoostFileType.output, outputType: OutputType.html });
 
             // convert the file path to a URL
-            const sourceFile = boostNotebook.metadata["sourceFile"] as string;
+            const sourceFile = boostNotebook.metadata["sourceFile"]?boostNotebook.metadata["sourceFile"] as string:"UNKNOWN-SOURCE-FILE";
             const prettySourceFile = (sourceFile === "./")?
                 `Project: ${path.basename(baseFolderPath)}`:
                 `Source: ${sourceFile}`;
