@@ -1101,10 +1101,14 @@ export class BoostExtension {
                         vscode.window.activeNotebookEditor?.notebook;
                     if (currentNotebook) {
                         const edit = new vscode.WorkspaceEdit();
+                        //get the metadata for the current notebook
+                        const metadata = currentNotebook.metadata;
+                        //now add or udpate the output language. the metadata object needs to be
+                        //cloned first, as it's a read only object
+                        let newMetadata = Object.assign({}, metadata);
+                        newMetadata.outputLanguage = language;
                         edit.set(currentNotebook.uri, [
-                            vscode.NotebookEdit.updateNotebookMetadata({
-                                outputLanguage: language,
-                            }),
+                            vscode.NotebookEdit.updateNotebookMetadata(newMetadata),
                         ]);
                         await vscode.workspace.applyEdit(edit);
                     }

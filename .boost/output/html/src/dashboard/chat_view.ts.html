@@ -1,0 +1,1393 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/dashboard/chat_view.ts</h1>
+    <p>Date Generated: Saturday, September 9, 2023 at 9:39:41 AM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:33:12 AM PDT</p>
+<p>Executive Level Report:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The project appears to be well-structured and follows best practices for a Visual Studio Code extension. However, the file <code>src/dashboard/chat_view.ts</code> has been flagged for multiple issues, including Cross-Site Scripting (XSS), Insecure Data Processing, and Insecure File Handling. These issues could potentially impact the security and reliability of the project. </p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The presence of these issues in <code>src/dashboard/chat_view.ts</code> indicates a potential risk to the project. Cross-Site Scripting (XSS) is a serious security vulnerability that could allow an attacker to inject malicious scripts into web pages viewed by other users. Insecure Data Processing and Insecure File Handling could also lead to data breaches or other security incidents. </p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: If these issues are not addressed, they could potentially impact the user experience and trust in the product. Users could be exposed to security risks, and the reliability of the software could be compromised. </p>
+</li>
+<li><p><strong>Overall Issues</strong>: The project has a total of 1 file, and all of them have been flagged for issues. This indicates that 100% of the project files have issues of varying severity. </p>
+</li>
+<li><p><strong>Risk Assessment</strong>: Given that all the project files have been flagged for issues, the overall health of the project source could be considered at risk. It is recommended that these issues be addressed as soon as possible to mitigate potential security and reliability risks.</p>
+</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>The file <code>src/dashboard/chat_view.ts</code> has been flagged for multiple issues, including Cross-Site Scripting (XSS), Insecure Data Processing, and Insecure File Handling.</li>
+<li>Cross-Site Scripting (XSS) is a serious security vulnerability that could allow an attacker to inject malicious scripts into web pages viewed by other users.</li>
+<li>100% of the project files have been flagged for issues, indicating a potential risk to the overall health of the project source.</li>
+<li>The potential customer impact of these issues could include exposure to security risks and a compromised user experience.</li>
+<li>It is recommended that these issues be addressed as soon as possible to mitigate potential security and reliability risks.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:36:05 AM PDT</p>
+<h2 id="executive-report">Executive Report</h2>
+<h3 id="architectural-impact-and-risk-analysis">Architectural Impact and Risk Analysis</h3>
+<ol>
+<li><p><strong>File with the Most Severe Issues:</strong> The file <code>src/dashboard/chat_view.ts</code> has been identified as having the most severe issues. These issues are related to memory, CPU, and disk usage. The file is part of the dashboard functionality of the software, which is a critical component of the user interface. Any issues in this file could potentially impact the overall performance and user experience of the software.</p>
+</li>
+<li><p><strong>Potential Customer Impact:</strong> The identified issues could lead to degraded performance, including slower response times and increased resource consumption. This could result in a negative user experience, potentially leading to customer dissatisfaction and loss of trust in the software&#39;s reliability.</p>
+</li>
+<li><p><strong>Overall Health of the Project Source:</strong> Based on the analysis, only one file has been identified with issues out of the total number of files in the project. This suggests that the majority of the project files are free from detected issues, indicating a relatively healthy state of the project source. However, the severity of the issues in the <code>src/dashboard/chat_view.ts</code> file warrants immediate attention.</p>
+</li>
+<li><p><strong>Risk Assessment:</strong> The risk associated with the project is moderate. While the majority of the project files do not have detected issues, the issues in the <code>src/dashboard/chat_view.ts</code> file are of high severity. If left unaddressed, these issues could potentially impact the overall performance and reliability of the software.</p>
+</li>
+</ol>
+<h3 id="highlights-of-the-analysis">Highlights of the Analysis</h3>
+<ul>
+<li>The file <code>src/dashboard/chat_view.ts</code> has the most severe issues related to memory, CPU, and disk usage. These issues need to be addressed promptly to prevent potential performance degradation.</li>
+<li>The potential customer impact is significant, as the issues identified could lead to a negative user experience due to slower response times and increased resource consumption.</li>
+<li>The overall health of the project source is relatively good, with the majority of the files free from detected issues. However, the severity of the issues in the <code>src/dashboard/chat_view.ts</code> file could pose a risk to the overall project.</li>
+<li>The risk associated with the project is moderate. Immediate action is required to address the issues in the <code>src/dashboard/chat_view.ts</code> file to prevent potential impact on the software&#39;s performance and reliability.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:40:25 AM PDT</p>
+<h2 id="executive-report">Executive Report</h2>
+<h3 id="architectural-impact-and-risk-analysis">Architectural Impact and Risk Analysis</h3>
+<ol>
+<li><p><strong>Data Privacy and Compliance Risks</strong>: The file <code>src/dashboard/chat_view.ts</code> has been flagged with several data privacy and compliance issues, including GDPR, PCI DSS, and HIPAA. This suggests that the software may be handling sensitive data inappropriately, which could lead to data breaches and non-compliance with various regulations. This could have significant legal and financial implications for the project.</p>
+<ul>
+<li><strong>Detail</strong>: There are 4 Data Privacy, 5 GDPR, 2 PCI DSS, and 2 HIPAA issues in <code>src/dashboard/chat_view.ts</code>.</li>
+<li><strong>Risk</strong>: High. Non-compliance with data privacy regulations can lead to hefty fines and loss of customer trust.</li>
+</ul>
+</li>
+<li><p><strong>Code Quality Concerns</strong>: The same file, <code>src/dashboard/chat_view.ts</code>, also has a warning related to the function &#39;cleanCellOutput&#39;. This could indicate potential bugs or design flaws in the software, which could impact its functionality and reliability.</p>
+<ul>
+<li><strong>Detail</strong>: There is 1 warning related to the function &#39;cleanCellOutput&#39; in <code>src/dashboard/chat_view.ts</code>.</li>
+<li><strong>Risk</strong>: Medium. Bugs or design flaws can lead to software malfunctions and customer dissatisfaction.</li>
+</ul>
+</li>
+<li><p><strong>Customer Impact</strong>: Given that the issues are concentrated in <code>src/dashboard/chat_view.ts</code>, which appears to be a key component of the user interface, these issues could directly impact the user experience. If not addressed, this could lead to customer dissatisfaction and potential loss of users.</p>
+<ul>
+<li><strong>Detail</strong>: All identified issues are in <code>src/dashboard/chat_view.ts</code>, a key component of the user interface.</li>
+<li><strong>Risk</strong>: High. Poor user experience can lead to loss of users and negative reviews.</li>
+</ul>
+</li>
+<li><p><strong>Overall Project Health</strong>: Only one file was analyzed, and it contained several issues. This could indicate a lack of thorough testing or code review practices in the project. However, without analyzing the rest of the project files, it&#39;s difficult to make a definitive assessment of the overall project health.</p>
+<ul>
+<li><strong>Detail</strong>: 1 out of 1 file analyzed has issues.</li>
+<li><strong>Risk</strong>: Unknown. The risk level depends on the number and severity of issues in the rest of the project files.</li>
+</ul>
+</li>
+</ol>
+<h3 id="recommendations">Recommendations</h3>
+<ul>
+<li>Conduct a thorough review of <code>src/dashboard/chat_view.ts</code> to address the identified issues.</li>
+<li>Implement robust data handling practices to ensure compliance with data privacy regulations.</li>
+<li>Improve testing and code review practices to catch and fix issues early.</li>
+<li>Consider conducting a full project analysis to assess the overall project health.</li>
+</ul>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/dashboard/chat_view.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> vscode <span class="hljs-keyword">from</span> &quot;vscode&quot;;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> fs <span class="hljs-keyword">from</span> &quot;fs&quot;;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-type">path</span> <span class="hljs-keyword">from</span> &quot;path&quot;;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> _ <span class="hljs-keyword">from</span> &quot;lodash&quot;;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> os <span class="hljs-keyword">from</span> &quot;os&quot;;
+<span class="hljs-keyword">import</span> { BoostExtension } <span class="hljs-keyword">from</span> &quot;../extension/BoostExtension&quot;;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:23:54 AM PDT</p>
+<p>This code is written in TypeScript, a statically typed superset of JavaScript. It&#39;s the beginning of a file, and it&#39;s importing several modules that will be used later in the code. </p>
+<p>Let&#39;s break down each line:</p>
+<ol>
+<li><p><code>import * as vscode from &quot;vscode&quot;;</code> - This line is importing the entire vscode module. The vscode module is the API for interacting with Visual Studio Code. It provides functions and objects that can be used to interact with the editor, such as opening files, displaying messages, and so on. More information can be found at <a href="https://code.visualstudio.com/api/references/vscode-api">VS Code API</a>.</p>
+</li>
+<li><p><code>import * as fs from &quot;fs&quot;;</code> - This line is importing the entire fs (file system) module. The fs module is a Node.js core module for interacting with the file system. It provides functions for reading and writing files, creating directories, and so on. More information can be found at <a href="https://nodejs.org/api/fs.html">Node.js fs</a>.</p>
+</li>
+<li><p><code>import * as path from &quot;path&quot;;</code> - This line is importing the entire path module. The path module is a Node.js core module for manipulating file paths. It provides functions for joining paths, extracting parts of a path, and so on. More information can be found at <a href="https://nodejs.org/api/path.html">Node.js path</a>.</p>
+</li>
+<li><p><code>import * as _ from &quot;lodash&quot;;</code> - This line is importing the entire lodash module. Lodash is a JavaScript utility library that provides helpful functions for working with arrays, objects, functions, and so on. More information can be found at <a href="https://lodash.com/">Lodash</a>.</p>
+</li>
+<li><p><code>import * as os from &quot;os&quot;;</code> - This line is importing the entire os module. The os module is a Node.js core module for interacting with operating system-related utility methods and properties. More information can be found at <a href="https://nodejs.org/api/os.html">Node.js os</a>.</p>
+</li>
+<li><p><code>import { BoostExtension } from &quot;../extension/BoostExtension&quot;;</code> - This line is importing the <code>BoostExtension</code> object from the <code>BoostExtension</code> module located in the <code>extension</code> directory relative to the current file. The <code>BoostExtension</code> object is likely a class or function defined in that module.</p>
+</li>
+</ol>
+<p>The architectural guidelines provided do not specify any constraints or requirements that would conflict with this code. The use of standard Node.js modules and popular libraries like lodash is common in JavaScript and TypeScript projects. The use of the vscode module is necessary for creating a Visual Studio Code extension.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:29:18 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style BoostExtension fill:#228B22, stroke:#000000, stroke-width:4px;
+style fs fill:#228B22, stroke:#000000, stroke-width:4px;
+style path fill:#228B22, stroke:#000000, stroke-width:4px;
+style _ fill:#228B22, stroke:#000000, stroke-width:4px;
+style os fill:#228B22, stroke:#000000, stroke-width:4px;
+style vscode fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->BoostExtension;
+Start-->fs;
+Start-->path;
+Start-->_;
+Start-->os;
+Start-->vscode;</pre>
+</code></pre><p>The control flow graph for the provided source code is shown above. It represents the import statements for various modules used in the code. There is no control flow within these import statements, so the graph only shows the start node connecting to each imported module.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:31:06 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:34:01 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 1</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: Importing the entire &#39;vscode&#39; module can lead to increased memory usage if not all of its functionalities are used.</p>
+<p><strong>Solution</strong>: Import only the necessary functionalities from the &#39;vscode&#39; module to optimize memory usage. For example: <code>import { workspace, commands } from &#39;vscode&#39;;</code></p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 2</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: Importing the entire &#39;fs&#39; module can lead to increased memory usage if not all of its functionalities are used.</p>
+<p><strong>Solution</strong>: Import only the necessary functionalities from the &#39;fs&#39; module to optimize memory usage. For example: <code>import { readFile, writeFile } from &#39;fs&#39;;</code></p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 3</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: Importing the entire &#39;path&#39; module can lead to increased memory usage if not all of its functionalities are used.</p>
+<p><strong>Solution</strong>: Import only the necessary functionalities from the &#39;path&#39; module to optimize memory usage. For example: <code>import { join, resolve } from &#39;path&#39;;</code></p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 4</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: Importing the entire &#39;lodash&#39; library can lead to increased memory usage if not all of its functionalities are used.</p>
+<p><strong>Solution</strong>: Import only the necessary functionalities from the &#39;lodash&#39; library to optimize memory usage. For example: <code>import { map, filter } from &#39;lodash&#39;;</code></p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 5</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: Importing the entire &#39;os&#39; module can lead to increased memory usage if not all of its functionalities are used.</p>
+<p><strong>Solution</strong>: Import only the necessary functionalities from the &#39;os&#39; module to optimize memory usage. For example: <code>import { platform, homedir } from &#39;os&#39;;</code></p>
+</li>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 6</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: Importing the &#39;BoostExtension&#39; module might increase memory usage if not all of its functionalities are used.</p>
+<p><strong>Solution</strong>: Import only the necessary functionalities from the &#39;BoostExtension&#39; module to optimize memory usage. For example: <code>import { activate, deactivate } from &#39;../extension/BoostExtension&#39;;</code></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:37:02 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 1</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The &#39;vscode&#39; module provides access to VS Code&#39;s API, which can be used to access and manipulate user data. If not properly handled, this could lead to GDPR, PCI DSS, and HIPAA compliance issues.</p>
+<p><strong>Solution</strong>: Ensure that any user data accessed through the &#39;vscode&#39; module is handled in a manner compliant with GDPR, PCI DSS, and HIPAA. This includes obtaining user consent before collecting or processing personal data, encrypting sensitive data, and ensuring that data is only used for the purpose for which it was collected. More information can be found at: <a href="https://code.visualstudio.com/api/working-with-extensions/publishing-extension#personal-data-and-gdpr">https://code.visualstudio.com/api/working-with-extensions/publishing-extension#personal-data-and-gdpr</a></p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 2</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The &#39;fs&#39; module provides access to the file system, which could potentially be used to access and manipulate sensitive user data. If not properly handled, this could lead to GDPR, PCI DSS, and HIPAA compliance issues.</p>
+<p><strong>Solution</strong>: Ensure that any sensitive data accessed or manipulated through the &#39;fs&#39; module is handled in a manner compliant with GDPR, PCI DSS, and HIPAA. This includes ensuring that data is encrypted at rest, access to data is properly controlled and logged, and data is only used for the purpose for which it was collected. More information can be found at: <a href="https://nodejs.org/api/fs.html">https://nodejs.org/api/fs.html</a></p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 4</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The &#39;lodash&#39; library is a utility library that could potentially be used to manipulate user data. If not properly handled, this could lead to GDPR, PCI DSS, and HIPAA compliance issues.</p>
+<p><strong>Solution</strong>: Ensure that any user data manipulated with &#39;lodash&#39; is handled in a manner compliant with GDPR, PCI DSS, and HIPAA. This includes ensuring that data is only used for the purpose for which it was collected, access to data is properly controlled and logged, and sensitive data is encrypted. More information can be found at: <a href="https://lodash.com/docs/">https://lodash.com/docs/</a></p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 5</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The &#39;os&#39; module provides methods for working with operating system-related utility methods and properties. This could potentially be used to access and manipulate sensitive user data. If not properly handled, this could lead to GDPR, PCI DSS, and HIPAA compliance issues.</p>
+<p><strong>Solution</strong>: Ensure that any sensitive data accessed or manipulated through the &#39;os&#39; module is handled in a manner compliant with GDPR, PCI DSS, and HIPAA. This includes ensuring that data is encrypted at rest, access to data is properly controlled and logged, and data is only used for the purpose for which it was collected. More information can be found at: <a href="https://nodejs.org/api/os.html">https://nodejs.org/api/os.html</a></p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/dashboard/chat_view.ts line 7:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { marked } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;marked&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:24:23 AM PDT</p>
+<p>The code snippet you provided is fairly simple, but it&#39;s crucial to the operation of many JavaScript applications. It&#39;s a single line of code that imports a function called <code>marked</code> from a library also named <code>marked</code>. </p>
+<p>The <code>marked</code> library is a markdown parser and compiler built for speed. It&#39;s used to convert markdown into HTML or a functional React component and it&#39;s widely used in projects where markdown needs to be converted to HTML like in content management systems, documentation websites, blogs, etc.</p>
+<p>The function <code>marked</code> is used to convert markdown text into HTML. For example, you could use it like this:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">let</span> markdownText = <span class="hljs-string">&quot;# Hello, world!&quot;</span>;
+<span class="hljs-keyword">let</span> htmlText = <span class="hljs-title function_">marked</span>(markdownText);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(htmlText);  <span class="hljs-comment">// Outputs: &lt;h1&gt;Hello, world!&lt;/h1&gt;</span>
+</code></pre><p>In the above code, the <code>marked</code> function is used to convert a string of markdown text into a string of HTML. The markdown text <code># Hello, world!</code> is converted into the HTML text <code>&lt;h1&gt;Hello, world!&lt;/h1&gt;</code>.</p>
+<p>The algorithm used by the <code>marked</code> function involves parsing the markdown text and generating corresponding HTML. This involves recognizing the syntax of markdown, such as <code>#</code> for headers, <code>*</code> for emphasis, and so on, and generating the appropriate HTML tags.</p>
+<p>You can find more information about the <code>marked</code> library and its usage in the <a href="https://github.com/markedjs/marked">official GitHub repository</a>.</p>
+<p>As for the architectural guidelines, since there are no additional special architectural guidelines or constraints mentioned for this software project, this code is fairly standard for a JavaScript or TypeScript project that needs to parse and compile markdown text. It&#39;s a common practice to import libraries and functions that are needed, rather than trying to re-implement this functionality oneself.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:29:24 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre><p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:31:10 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:34:05 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:37:06 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/dashboard/chat_view.ts line 8:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { cleanCellOutput } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../extension/extensionUtilities&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:24:51 AM PDT</p>
+<p>The provided code is very short and straightforward. It&#39;s a single line of code that is importing a function named <code>cleanCellOutput</code> from a file named <code>extensionUtilities.js</code> located in the <code>extension</code> directory.</p>
+<p>The <code>import</code> statement is used to import functions, objects or values from other files or modules in JavaScript and TypeScript projects. This is part of the ES6 (ECMAScript 2015) module system.</p>
+<p>Here&#39;s a breakdown of the import statement:</p>
+<ul>
+<li><code>import</code>: This is the keyword that begins the import statement.</li>
+<li><code>{ cleanCellOutput }</code>: This is the function that is being imported. The curly braces are used for named exports (as opposed to default exports).</li>
+<li><code>from</code>: This keyword is used to specify the path of the file to import from.</li>
+<li><code>&quot;../extension/extensionUtilities&quot;</code>: This is the path to the file that contains the <code>cleanCellOutput</code> function. The <code>..</code> at the beginning of the path indicates to move up one directory level. The <code>/extension/extensionUtilities</code> indicates the directory and the file name. Note that the file extension is not included in the import statement.</li>
+</ul>
+<p>As for the function itself, <code>cleanCellOutput</code>, without more code or context, it&#39;s difficult to determine exactly what this function does. However, based on the name, it can be inferred that it likely involves cleaning or processing the output of a cell in some way. This could mean removing unnecessary data, formatting the data in a certain way, etc.</p>
+<p>For more information on ES6 modules and importing and exporting in JavaScript, you can refer to this resource: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">ES6 Modules</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:29:27 AM PDT</p>
+<p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:31:14 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:34:08 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:37:21 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 14</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The function &#39;cleanCellOutput&#39; may lead to improper handling of sensitive data. If the function is used to clean output from a cell that contains sensitive data, it could potentially result in the exposure of such data.</p>
+<p><strong>Solution</strong>: Ensure that the function &#39;cleanCellOutput&#39; is designed to handle sensitive data appropriately. This could include anonymizing or encrypting the data, or ensuring that it is not included in the output at all. Also, the function should be thoroughly tested to ensure that it behaves as expected in all cases.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/dashboard/chat_view.ts line 9:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { BoostServiceHelper } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../controllers/boostServiceHelper&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:25:20 AM PDT</p>
+<p>This line of code is an import statement written in JavaScript. It&#39;s using the ES6 (ECMAScript 2015) module syntax to import a specific module named <code>BoostServiceHelper</code> from a relative path <code>&quot;../controllers/boostServiceHelper&quot;</code>.</p>
+<p>Let&#39;s break it down:</p>
+<ul>
+<li><p><code>import</code>: This is a keyword in JavaScript that is used to import functions, objects or values from another module or file.</p>
+</li>
+<li><p><code>{ BoostServiceHelper }</code>: This is the specific module that is being imported. The curly braces are used for named exports. That means <code>BoostServiceHelper</code> is a named export in the module located at <code>&quot;../controllers/boostServiceHelper&quot;</code>.</p>
+</li>
+<li><p><code>from</code>: This keyword is used to specify the path of the module that you want to import.</p>
+</li>
+<li><p><code>&quot;../controllers/boostServiceHelper&quot;</code>: This is the relative path to the module. The <code>..</code> means it&#39;s going up one directory from the current file, then going into the <code>controllers</code> directory, and importing the <code>boostServiceHelper</code> module.</p>
+</li>
+</ul>
+<p>This code doesn&#39;t contain any specific algorithms. It&#39;s a simple import statement to bring in a module that is assumed to be used later in the code. The <code>BoostServiceHelper</code> is likely a class or a set of functions and values that assist in interacting with the Boost Service, based on the naming convention.</p>
+<p>The ES6 module system is designed to be static, so all imports and exports are done at the top level of the module and can&#39;t be dynamic. This allows for better performance optimizations by JavaScript engines.</p>
+<p>For more information about ES6 modules, you can refer to these resources:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">MDN Web Docs: import statement</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export">MDN Web Docs: export statement</a></li>
+<li><a href="https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/">JavaScript Modules: A Beginner’s Guide</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:29:32 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style BoostServiceHelper fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->BoostServiceHelper;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:31:18 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:34:12 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:37:25 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/dashboard/chat_view.ts line 10:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { boostLogging } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../utilities/boostLogging&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:25:33 AM PDT</p>
+<p>This line of code is an import statement in JavaScript, specifically using the ES6 syntax. It is importing a module named <code>boostLogging</code> from a relative path <code>../utilities/boostLogging</code>. This means that the file <code>boostLogging.js</code> (or <code>boostLogging.ts</code> if the project is in TypeScript) is located in a directory named <code>utilities</code> that is one level above the current directory.</p>
+<p>The <code>boostLogging</code> module could contain functions, classes, objects, or variables that have been exported for use in other files. Without seeing the contents of <code>boostLogging</code>, it&#39;s hard to say what exactly is being imported here. However, given the name, it&#39;s likely that this module contains functionality related to logging for the Boost application.</p>
+<p>This line of code doesn&#39;t include any algorithms. It&#39;s a simple import statement that allows the current file to use the exported contents of the <code>boostLogging</code> module.</p>
+<p>As for the architectural guidelines, this import statement seems to be in line with general good practices. It&#39;s common to organize related code into modules and import them where needed. This promotes code reusability and separation of concerns.</p>
+<p>For more information about ES6 import/export syntax, you can refer to this link: <a href="https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/">JavaScript Modules: A Beginner’s Guide</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:29:37 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style boostLogging fill:#228B22, stroke:#000000, stroke-width:2px;
+
+boostLogging</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:31:22 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:34:16 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:37:28 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/dashboard/chat_view.ts line 11:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>import {
+<span class="hljs-built_in">    BoostNotebook,</span>
+<span class="hljs-built_in">    BoostNotebookCell,</span>
+    NotebookCellKind
+} from <span class="hljs-string">&quot;../data/jupyter_notebook&quot;</span><span class="hljs-comment">;</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:26:02 AM PDT</p>
+<p>This code is written in TypeScript, a statically typed superset of JavaScript that adds types to the language. It is importing specific classes from a module located at &quot;../data/jupyter_notebook&quot;. The module is likely a part of the same project, and the path indicates that it is one directory up and then within a directory named &quot;data&quot;. </p>
+<p>The specific classes being imported are <code>BoostNotebook</code>, <code>BoostNotebookCell</code>, and <code>NotebookCellKind</code>. </p>
+<ol>
+<li><p><code>BoostNotebook</code>: This might be a class that represents a Boost Notebook, which could be a specialized form of a Jupyter notebook used in this project. The exact details of what a Boost Notebook is and how it is different from a standard Jupyter notebook would be defined in the class itself.</p>
+</li>
+<li><p><code>BoostNotebookCell</code>: This might be a class that represents a single cell in a Boost Notebook. In Jupyter notebooks, a cell is a container for text to be displayed or code to be executed. A Boost Notebook Cell might have additional properties or methods specific to the project.</p>
+</li>
+<li><p><code>NotebookCellKind</code>: This might be an enumeration (a special kind of class in TypeScript that defines a type with a limited set of values) that represents the different kinds of cells that can exist in a notebook. For example, in Jupyter notebooks, there are code cells, markdown cells, and raw cells. <code>NotebookCellKind</code> might define similar kinds of cells for Boost Notebooks.</p>
+</li>
+</ol>
+<p>The code does not include any algorithms. It is simply importing classes for use elsewhere in the code. </p>
+<p>There are no architectural guidelines provided, so it&#39;s not possible to comment on consistency or conflicts between the code and the guidelines. However, this code appears to be a standard import statement in TypeScript, which suggests that it is likely following good practices for modular code organization. </p>
+<p>For more details on TypeScript&#39;s import syntax, you can refer to the <a href="https://www.typescriptlang.org/docs/handbook/modules.html">TypeScript Handbook</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:29:43 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style BoostNotebook fill:#228B22, stroke:#000000, stroke-width:4px;
+style BoostNotebookCell fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->BoostNotebook;
+BoostNotebook-->BoostNotebookCell;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:31:25 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:34:19 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:38:01 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 20</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The import of &#39;BoostNotebook&#39; and &#39;BoostNotebookCell&#39; from &#39;jupyter_notebook&#39; indicates that the code could be handling personal data. If any of the data being handled includes personal data of EU citizens, this could be a violation of the General Data Protection Regulation (GDPR).</p>
+<p><strong>Solution</strong>: Ensure that any personal data is handled in compliance with GDPR. This could include obtaining proper consent before collecting personal data, anonymizing the data, and ensuring that data subjects can exercise their rights under GDPR. It&#39;s also important to ensure that any third parties that process the data are also in compliance with GDPR.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 20</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: If the &#39;BoostNotebook&#39; and &#39;BoostNotebookCell&#39; data includes payment card information, this could be a violation of the Payment Card Industry Data Security Standard (PCI DSS).</p>
+<p><strong>Solution</strong>: Ensure that any payment card data is handled in compliance with PCI DSS. This could include encrypting the data, limiting who has access to it, and regularly testing the system for security vulnerabilities. If possible, consider using a third-party payment processor to limit the amount of card data the application needs to handle.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 20</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: If the &#39;BoostNotebook&#39; and &#39;BoostNotebookCell&#39; data includes health information, this could be a violation of the Health Insurance Portability and Accountability Act (HIPAA).</p>
+<p><strong>Solution</strong>: Ensure that any health information is handled in compliance with HIPAA. This could include encrypting the data, limiting who has access to it, and implementing strong access controls. It&#39;s also important to ensure that any third parties that process the data are also in compliance with HIPAA.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/dashboard/chat_view.ts line 16:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { ControllerOutputType } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../controllers/controllerOutputTypes&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:26:20 AM PDT</p>
+<p>The line of code you&#39;ve shared is an import statement in JavaScript, specifically using the ES6 module syntax. This line is importing a specific export from another module.</p>
+<p>Let&#39;s break it down:</p>
+<ul>
+<li><p><code>import</code>: This is a keyword in JavaScript that is used to import functions, objects or values from another module or file.</p>
+</li>
+<li><p><code>{ ControllerOutputType }</code>: The curly braces here are used for named imports. This means that the <code>ControllerOutputType</code> is a specific export from the module that we&#39;re importing from. </p>
+</li>
+<li><p><code>from &quot;../controllers/controllerOutputTypes&quot;;</code>: This is the path to the module or file that we&#39;re importing from. The <code>..</code> at the beginning of the path means we&#39;re moving up one directory level. So this module is located in a <code>controllers</code> directory one level up from the current file. The file name is <code>controllerOutputTypes</code>.</p>
+</li>
+</ul>
+<p>In terms of what <code>ControllerOutputType</code> actually is, I can&#39;t say specifically from this line alone. It could be a function, a JavaScript object, a constant, etc. It&#39;s something that is being exported from the <code>controllerOutputTypes</code> module. </p>
+<p>To understand more about this import, you would need to look at the <code>controllerOutputTypes</code> file in the <code>controllers</code> directory. This will tell you what <code>ControllerOutputType</code> is, and potentially how it&#39;s being used in the current file.</p>
+<p>In terms of architectural guidelines, this import statement is pretty standard and should not conflict with most architectural guidelines. It&#39;s a common practice in modular and clean code architecture to separate concerns into different files and import them where needed.</p>
+<p>For more information about ES6 modules and import/export syntax in JavaScript, you can refer to this resource: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">MDN Web Docs: import</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:29:48 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ControllerOutputType fill:#228B22, stroke:#000000, stroke-width:2px;
+
+Start-->ControllerOutputType;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:31:29 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:34:23 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:38:17 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 30</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code does not seem to handle personal data, so it does not appear to have any GDPR compliance issues.</p>
+<p><strong>Solution</strong>: No action needed.</p>
+</li>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 30</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The code does not seem to handle credit card or payment data, so it does not appear to have any PCI DSS compliance issues.</p>
+<p><strong>Solution</strong>: No action needed.</p>
+</li>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 30</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The code does not seem to handle health information, so it does not appear to have any HIPAA compliance issues.</p>
+<p><strong>Solution</strong>: No action needed.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/dashboard/chat_view.ts line 17:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { chatKernelName } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../controllers/chat_controller&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:26:46 AM PDT</p>
+<p>The line of code you&#39;ve provided is a JavaScript import statement that is used to import a specific export from another module. In this case, it&#39;s importing <code>chatKernelName</code> from the module <code>chat_controller.js</code> located in the <code>controllers</code> directory one level up from the current file.</p>
+<p>Here&#39;s a breakdown of the code:</p>
+<ul>
+<li><p><code>import</code>: This is a keyword in JavaScript that is used to import functions, objects, or values from another module.</p>
+</li>
+<li><p><code>{ chatKernelName }</code>: This is the specific export that is being imported from the other module. The curly braces <code>{}</code> indicate that it&#39;s a named export. In JavaScript, a module can have multiple named exports, but only one default export.</p>
+</li>
+<li><p><code>from</code>: This is another keyword in JavaScript that is used in conjunction with <code>import</code> to specify the module from which to import.</p>
+</li>
+<li><p><code>&quot;../controllers/chat_controller&quot;</code>: This is the path to the module from which <code>chatKernelName</code> is being imported. The <code>..</code> at the start of the path indicates that the module is located in a directory one level up from the current file. The <code>/controllers/chat_controller</code> is the path from there to the <code>chat_controller.js</code> file.</p>
+</li>
+</ul>
+<p>The <code>chatKernelName</code> is likely a constant or a function defined in <code>chat_controller.js</code> that is needed in the current file. The exact details of what <code>chatKernelName</code> does would depend on its definition in <code>chat_controller.js</code>.</p>
+<p>Here are some resources for further reading:</p>
+<ul>
+<li><a href="https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/">JavaScript Modules: A Beginner’s Guide</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">JavaScript import</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export">JavaScript export</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:29:55 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre><p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:31:33 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:34:28 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:38:28 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 32</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The import statement may be importing a module that handles personal data. If this data is not properly anonymized or pseudonymized, it could lead to GDPR compliance issues.</p>
+<p><strong>Solution</strong>: Ensure that the &#39;chatKernelName&#39; module handles personal data in a way that is compliant with GDPR, including anonymization and pseudonymization of personal data. Consider using a GDPR compliance library or tool to help ensure compliance.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/dashboard/chat_view.ts line 18:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>import {
+<span class="hljs-built_in">    noProjectOpenMessage,</span>
+<span class="hljs-built_in">    extensionNotFullyActivated,</span>
+<span class="hljs-built_in">    extensionFailedToActivate,</span>
+} from <span class="hljs-string">&quot;../data/boostprojectdata_interface&quot;</span><span class="hljs-comment">;</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:27:12 AM PDT</p>
+<p>The provided code snippet is in TypeScript, a statically typed superset of JavaScript that adds optional types, classes, and modules to the language. It is importing three constants from a module called &quot;boostprojectdata_interface&quot;. </p>
+<p>Here&#39;s a breakdown of the code:</p>
+<ol>
+<li><p><code>import {...} from &quot;../data/boostprojectdata_interface&quot;;</code>: This is an import statement in TypeScript. It is used to import bindings which are exported by another module.</p>
+</li>
+<li><p><code>{noProjectOpenMessage, extensionNotFullyActivated, extensionFailedToActivate}</code>: These are the specific items being imported from the module. In this case, three constants are being imported: <code>noProjectOpenMessage</code>, <code>extensionNotFullyActivated</code>, and <code>extensionFailedToActivate</code>. These constants are likely used elsewhere in the code to provide user-facing messages related to the state of the software.</p>
+</li>
+<li><p><code>&quot;../data/boostprojectdata_interface&quot;</code>: This is the path to the module that contains the exported bindings. The <code>..</code> at the start of the path means that the module is located in a directory one level up from the current directory. Then, it goes into the <code>data</code> directory and accesses the <code>boostprojectdata_interface</code> module.</p>
+</li>
+</ol>
+<p>This code does not appear to use any specific algorithms. It is simply importing constants from another module.</p>
+<p>Regarding the architectural guidelines, this code appears to be in line with good software practices. It&#39;s modular, as it&#39;s importing from another module, which helps with code organization and separation of concerns. It&#39;s also clear and easy to understand, which aids in maintainability.</p>
+<p>For more information on TypeScript modules, you can refer to the TypeScript documentation here: <a href="https://www.typescriptlang.org/docs/handbook/modules.html">TypeScript Modules</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:30:01 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre><p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:31:37 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:34:31 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:38:32 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/dashboard/chat_view.ts line 23:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> sanitizeHtml <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;sanitize-html&quot;</span>;
+<span class="hljs-keyword">import</span> { ICellMetadata } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@jupyterlab/nbformat&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:27:30 AM PDT</p>
+<p>The provided code is a small snippet written in TypeScript, a statically typed superset of JavaScript. It includes two import statements, which are used to include external modules or libraries into the current file. Here is a detailed explanation:</p>
+<ol>
+<li><p><code>import sanitizeHtml from &quot;sanitize-html&quot;;</code></p>
+<p>This line is importing the <code>sanitizeHtml</code> function from the <code>sanitize-html</code> library. The <code>sanitize-html</code> library is a comprehensive utility for sanitizing user-input HTML to prevent XSS attacks (Cross-Site Scripting). It allows you to specify the tags, attributes, and other elements that you want to allow, and it will strip out everything else. You can find more information on the library and its usage <a href="https://www.npmjs.com/package/sanitize-html">here</a>.</p>
+</li>
+<li><p><code>import { ICellMetadata } from &quot;@jupyterlab/nbformat&quot;;</code></p>
+<p>This line is using a named import to import the <code>ICellMetadata</code> interface from the <code>@jupyterlab/nbformat</code> package. The <code>@jupyterlab/nbformat</code> package is a part of the JupyterLab project and provides TypeScript interfaces for the Jupyter Notebook format. The <code>ICellMetadata</code> interface specifically describes the metadata attribute of a cell in a Jupyter notebook. More information about the <code>ICellMetadata</code> interface can be found in the <a href="https://jupyterlab.github.io/jupyterlab/interfaces/_nbformat_index_.icellmetadata.html">JupyterLab documentation</a>.</p>
+</li>
+</ol>
+<p>These import statements suggest that the code in this file may be involved in processing or manipulating Jupyter notebook cells and sanitizing HTML content, likely to prevent any security vulnerabilities. </p>
+<p>Regarding architectural guidelines: Since no special architectural guidelines or constraints are provided for this software project, the general best practices would apply. The code provided follows the common practice of modular programming where functionalities are split into separate modules (in this case, <code>sanitize-html</code> and <code>@jupyterlab/nbformat</code>). This promotes reusability and maintainability. The usage of these libraries also suggests a focus on security (<code>sanitize-html</code>) and compatibility with Jupyter notebooks (<code>@jupyterlab/nbformat</code>), which are good practices in software development.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:30:09 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style sanitizeHtml fill:#228B22, stroke:#000000, stroke-width:4px;
+style ICellMetadata fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->sanitizeHtml;
+sanitizeHtml-->ICellMetadata;</pre>
+</code></pre><p>The control flow graph for the provided code is a simple linear flow. The code starts at the &quot;Start&quot; node and then flows to the &quot;sanitizeHtml&quot; function. Finally, it flows to the &quot;ICellMetadata&quot; module.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:31:40 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:34:34 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:38:49 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 44</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: This code imports the &#39;sanitize-html&#39; library, which is used to sanitize user input to prevent Cross-Site Scripting (XSS) attacks. However, it does not inherently protect against data leakage. If sensitive data is included in the user input, it could still be leaked, even if it is sanitized.</p>
+<p><strong>Solution</strong>: Consider implementing additional measures to ensure sensitive data is not included in user input. This could include data masking or tokenization techniques.</p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 45</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The code imports the &#39;ICellMetadata&#39; interface from the &#39;@jupyterlab/nbformat&#39; library. The &#39;ICellMetadata&#39; interface could potentially include fields that contain cardholder data. If this data is not properly protected, it could lead to PCI DSS compliance issues.</p>
+<p><strong>Solution</strong>: Ensure that cardholder data is properly protected at all times, including during transmission and storage. Consider using encryption and other security measures.</p>
+</li>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 45</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The &#39;ICellMetadata&#39; interface could potentially include fields that contain protected health information (PHI). If this data is not properly protected, it could lead to HIPAA compliance issues.</p>
+<p><strong>Solution</strong>: Ensure that PHI is properly protected at all times, including during transmission and storage. Consider using encryption and other security measures.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/dashboard/chat_view.ts line 25:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> aiName = <span class="hljs-string">&quot;Sara&quot;</span>;
+
+/*
+<span class="hljs-type">DO</span> <span class="hljs-type">NOT</span> <span class="hljs-type">USE</span> <span class="hljs-type">THIS</span>.  it&#x27;s a global variable <span class="hljs-keyword">and</span> will setup a second instance <span class="hljs-keyword">of</span> the highlighter
+the original one <span class="hljs-keyword">is</span> setup <span class="hljs-keyword">in</span> convert_html.ts
+
+marked.use(markedHighlight({
+    langPrefix: &#x27;hljs language-&#x27;,
+    highlight(code: <span class="hljs-type">string</span>, lang: <span class="hljs-type">string</span>) {
+      <span class="hljs-keyword">if</span>( lang === <span class="hljs-string">&quot;mermaid&quot;</span>) {
+        <span class="hljs-keyword">return</span> `&lt;pre class=<span class="hljs-string">&quot;mermaid&quot;</span>&gt;${code}&lt;/pre&gt;`;
+      }
+      <span class="hljs-keyword">const</span> language = hljs.getLanguage(lang) ? lang : &#x27;plaintext&#x27;;
+      <span class="hljs-keyword">const</span> <span class="hljs-built_in">result</span> = hljs.highlight(code, { language }).value;
+      console.log(<span class="hljs-string">&quot;original input is: &quot;</span> + code);
+      //console.log(<span class="hljs-string">&quot;highlighted output is: &quot;</span> + <span class="hljs-built_in">result</span>);
+      <span class="hljs-keyword">return</span> <span class="hljs-built_in">result</span>;
+    }
+    }));		
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:28:01 AM PDT</p>
+<p>This JavaScript code exports a constant named <code>aiName</code> and assigns it the string value &quot;Sara&quot;.</p>
+<p>The main part of the code is a usage of the <code>marked</code> library, which is a markdown parser and compiler. It&#39;s built for speed and is very flexible. This library is used to convert markdown into HTML. </p>
+<p>The code is using the <code>marked.use()</code> method to set up a custom highlighter for code blocks in the markdown. This is done by passing an object to the <code>marked.use()</code> method. This object has two properties: <code>langPrefix</code> and <code>highlight</code>.</p>
+<p>The <code>langPrefix</code> property is set to &#39;hljs language-&#39;, which is a string that will be prepended to the language name in the class attribute of the outputted HTML. This is used for styling the code block.</p>
+<p>The <code>highlight</code> property is a function that takes two arguments: <code>code</code> and <code>lang</code>. This function is called for each code block in the markdown. The <code>code</code> argument is the text of the code block, and <code>lang</code> is the language of the code block.</p>
+<p>If the language of the code block is &#39;mermaid&#39;, a special case is handled where the code is wrapped in a <code>&lt;pre&gt;</code> HTML tag with the class &#39;mermaid&#39;. </p>
+<p>Otherwise, the language is checked against the list of languages supported by <code>hljs</code> (highlight.js, a syntax highlighter). If the language is not supported, it defaults to &#39;plaintext&#39;. Then, the code block is highlighted using <code>hljs.highlight()</code>, and the highlighted code is returned.</p>
+<p>The highlighted code is logged to the console if it&#39;s the original input. The highlighted output is not logged to the console, as that line of code is commented out.</p>
+<p>This code is essentially extending the functionality of the <code>marked</code> library by providing a custom way to highlight code blocks. </p>
+<p>For more information, you can check out the following links:</p>
+<ul>
+<li><a href="https://marked.js.org/">Marked library</a></li>
+<li><a href="https://highlightjs.org/">highlight.js library</a></li>
+</ul>
+<p>Please note that the comment at the top of the code warns against using this code as it sets up a global variable and could potentially set up a second instance of the highlighter. The original one is set up in <code>convert_html.ts</code>, implying that this code should not be used without understanding the potential implications.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:30:17 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExtensionController fill:#228B22, stroke:#000000, stroke-width:4px;
+style RemoteService fill:#228B22, stroke:#000000, stroke-width:4px;
+style ErrorHandler fill:#B22222, stroke:#000000, stroke-width:2px;
+style DisplayResults fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->ExtensionController;
+ExtensionController-->RemoteService;
+RemoteService-->ErrorHandler;
+RemoteService-->DisplayResults;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:31:53 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 56</p>
+<p><strong>Bug Type</strong>: Insecure Logging</p>
+<p><strong>Description</strong>: The application is logging sensitive information to the console. This could potentially expose sensitive information in logs.</p>
+<p><strong>Solution</strong>: Avoid logging sensitive information. If it is necessary to log such information for debugging purposes, make sure to properly sanitize and anonymize the data before logging. Also, ensure logs are properly secured and access is restricted. More on this can be found here: <a href="https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:34:52 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 56</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The hljs.highlight function is CPU-intensive, as it involves parsing and highlighting the code. This could slow down the application, especially for large inputs.</p>
+<p><strong>Solution</strong>: Consider using a more efficient library for code highlighting, or use web workers to offload this heavy task from the main thread. Also, consider caching results for repeated inputs.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 57</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The console.log statement is storing the original input in memory, which may not be necessary and could lead to memory leaks if the input is large and the function is called many times.</p>
+<p><strong>Solution</strong>: Remove the console.log statement, or replace it with a more memory-efficient logging solution. Consider using a logging library that can handle large inputs and manage memory usage, such as Winston or Bunyan.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:39:15 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 48</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The global variable &#39;aiName&#39; is defined but not used anywhere. This could potentially lead to unnecessary data processing, which violates GDPR&#39;s principle of data minimization.</p>
+<p><strong>Solution</strong>: Consider removing the &#39;aiName&#39; variable if it&#39;s not used, or ensure it&#39;s used in a way that complies with data minimization principles. More information can be found here: <a href="https://gdpr-info.eu/art-5-gdpr/">https://gdpr-info.eu/art-5-gdpr/</a></p>
+</li>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 58</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code logs the original input, which could potentially include personal data. This could violate GDPR&#39;s principles if the logs are not properly managed and protected.</p>
+<p><strong>Solution</strong>: Ensure that any logging of personal data is necessary, limited to the minimum required, and that logs are properly protected. Consider anonymizing or pseudonymizing data where possible. More information can be found here: <a href="https://gdpr-info.eu/art-6-gdpr/">https://gdpr-info.eu/art-6-gdpr/</a></p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/dashboard/chat_view.ts line 45:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>*/
+export <span class="hljs-keyword">class</span> <span class="hljs-title class_">BoostChatViewProvider</span> <span class="hljs-title">implements</span> <span class="hljs-title">vscode</span>.<span class="hljs-title">WebviewViewProvider</span> {
+    <span class="hljs-keyword">public</span> static readonly viewType = <span class="hljs-string">&quot;polyverse-boost-chat-view&quot;</span>;
+
+    <span class="hljs-keyword">private</span> _view?: vscode.WebviewView;
+    <span class="hljs-keyword">private</span> _chats?: any;
+    <span class="hljs-keyword">private</span> _tempFilename?: string;
+    <span class="hljs-keyword">private</span> _context: vscode.ExtensionContext;
+    <span class="hljs-keyword">private</span> _activeid = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">private</span> _boostExtension: BoostExtension;
+    <span class="hljs-keyword">private</span> chatService: BoostServiceHelper;
+
+    <span class="hljs-keyword">constructor</span>(
+        <span class="hljs-keyword">private</span> readonly context: vscode.ExtensionContext,
+        <span class="hljs-keyword">private</span> boostExtension: BoostExtension
+    ) {
+        <span class="hljs-keyword">this</span>._context = context;
+        <span class="hljs-keyword">this</span>._boostExtension = boostExtension;
+        <span class="hljs-keyword">this</span>.chatService = new BoostServiceHelper(
+            <span class="hljs-string">&quot;chatService&quot;</span>,
+            <span class="hljs-string">&quot;chat&quot;</span>,
+            boostExtension
+        );
+    }
+
+    <span class="hljs-keyword">public</span> async resolveWebviewView(
+        webviewView: vscode.WebviewView,
+        context: vscode.WebviewViewResolveContext,
+        _token: vscode.CancellationToken
+    ) {
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">this</span>._resolveWebviewView(webviewView, context, _token);
+        } <span class="hljs-keyword">catch</span> (e) {
+            boostLogging.error(
+                `Could not refresh ${aiName} Chat View due to ${e}`,
+                <span class="hljs-literal">false</span>
+            );
+        }
+    }
+
+    async _resolveWebviewView(
+        webviewView: vscode.WebviewView,
+        context: vscode.WebviewViewResolveContext,
+        _token: vscode.CancellationToken
+    ) {
+        <span class="hljs-keyword">this</span>._view = webviewView;
+
+        <span class="hljs-keyword">this</span>._chats = await <span class="hljs-keyword">this</span>._initializeChats();
+
+        webviewView.webview.options = {
+            <span class="hljs-comment">// Allow scripts in the webview</span>
+            enableScripts: <span class="hljs-literal">true</span>,
+
+            localResourceRoots: [<span class="hljs-keyword">this</span>.context.extensionUri],
+        };
+
+        webviewView.webview.html = <span class="hljs-keyword">this</span>._getHtmlForWebview(webviewView.webview);
+
+        webviewView.webview.onDidReceiveMessage((<span class="hljs-keyword">data</span>) =&gt; {
+            switch (<span class="hljs-keyword">data</span>.command) {
+                case <span class="hljs-string">&quot;newprompt&quot;</span>: {
+                    <span class="hljs-keyword">this</span>._activeid = <span class="hljs-keyword">data</span>.chatindex;
+                    <span class="hljs-keyword">this</span>.updatePrompt(<span class="hljs-keyword">data</span>.prompt, <span class="hljs-keyword">data</span>.chatindex, <span class="hljs-keyword">data</span>.showUI);
+                    <span class="hljs-keyword">break</span>;
+                }
+                case <span class="hljs-string">&quot;add-chat&quot;</span>: {
+                    <span class="hljs-keyword">this</span>._addChat();
+                    <span class="hljs-keyword">break</span>;
+                }
+                case <span class="hljs-string">&quot;close-chat&quot;</span>: {
+                    <span class="hljs-keyword">this</span>._closeChat(<span class="hljs-keyword">data</span>.chatindex);
+                    <span class="hljs-keyword">break</span>;
+                }
+            }
+        });
+    }
+
+    <span class="hljs-keyword">public</span> refresh() {
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">this</span>._refresh();
+        } <span class="hljs-keyword">catch</span> (e) {
+            boostLogging.error(
+                `Could not refresh ${aiName} Chat View due to ${e}`,
+                <span class="hljs-literal">false</span>
+            );
+        }
+    }
+    _refresh() {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>._view) {
+            <span class="hljs-keyword">this</span>._view.webview.html = <span class="hljs-keyword">this</span>._getHtmlForWebview(
+                <span class="hljs-keyword">this</span>._view.webview
+            );
+            <span class="hljs-keyword">this</span>._view.show?.(<span class="hljs-literal">true</span>);
+        }
+    }
+
+    <span class="hljs-keyword">private</span> _getHtmlForWebview(webview: vscode.Webview) {
+        <span class="hljs-keyword">const</span> codiconsUri = webview.asWebviewUri(
+            vscode.Uri.joinPath(
+                <span class="hljs-keyword">this</span>._context.extensionUri,
+                <span class="hljs-string">&quot;node_modules&quot;</span>,
+                <span class="hljs-string">&quot;@vscode/codicons&quot;</span>,
+                <span class="hljs-string">&quot;dist&quot;</span>,
+                <span class="hljs-string">&quot;codicon.css&quot;</span>
+            )
+        );
+        <span class="hljs-keyword">const</span> htmlPathOnDisk = vscode.Uri.joinPath(
+            <span class="hljs-keyword">this</span>.context.extensionUri,
+            <span class="hljs-string">&quot;resources&quot;</span>,
+            <span class="hljs-string">&quot;dashboard&quot;</span>,
+            <span class="hljs-string">&quot;chat.html&quot;</span>
+        );
+        <span class="hljs-keyword">const</span> jsPathOnDisk = vscode.Uri.joinPath(
+            <span class="hljs-keyword">this</span>.context.extensionUri,
+            <span class="hljs-string">&quot;out&quot;</span>,
+            <span class="hljs-string">&quot;dashboard&quot;</span>,
+            <span class="hljs-string">&quot;chat&quot;</span>,
+            <span class="hljs-string">&quot;main.js&quot;</span>
+        );
+        <span class="hljs-keyword">const</span> jsSrc = webview.asWebviewUri(jsPathOnDisk);
+        <span class="hljs-keyword">const</span> nonce = <span class="hljs-string">&quot;nonce-123456&quot;</span>; <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> add a real nonce here</span>
+        <span class="hljs-keyword">const</span> rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, <span class="hljs-string">&quot;utf8&quot;</span>);
+        <span class="hljs-keyword">const</span> chats = <span class="hljs-keyword">this</span>._chats;
+
+        <span class="hljs-keyword">const</span> workspaceFolder = vscode.workspace.workspaceFolders
+            ? vscode.workspace.workspaceFolders[<span class="hljs-number">0</span>]
+            : <span class="hljs-string">&quot;&quot;</span>; <span class="hljs-comment">// Get the first workspace folder</span>
+
+        let message;
+
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>._boostExtension.finishedActivation) {
+            <span class="hljs-keyword">if</span> (!vscode.workspace.workspaceFolders) {
+                message = noProjectOpenMessage;
+            } <span class="hljs-keyword">else</span> {
+                message = extensionNotFullyActivated;
+            }
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>._boostExtension.successfullyActivated) {
+            message = extensionFailedToActivate;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!vscode.workspace.workspaceFolders) {
+            message = noProjectOpenMessage;
+        }
+
+        <span class="hljs-keyword">if</span> (message) {
+            <span class="hljs-keyword">return</span> `&lt;html&gt;&lt;body&gt;&lt;h3&gt;Boost ${aiName} Chat&lt;/h3&gt;&lt;p&gt;${message}&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;`;
+        }
+
+        <span class="hljs-keyword">const</span> projectName = workspaceFolder
+            ? path.basename(workspaceFolder.uri.fsPath)
+            : <span class="hljs-string">&quot;your workspace&quot;</span>;
+
+        <span class="hljs-keyword">const</span> template = _.template(rawHtmlContent);
+        <span class="hljs-keyword">const</span> convert = (text: string) =&gt; {
+            <span class="hljs-keyword">const</span> escapedText = _.escape(text);
+            <span class="hljs-keyword">const</span> rawHtml = marked.parse(escapedText);
+            <span class="hljs-keyword">const</span> cleanHTML = sanitizeHtml(rawHtml);
+            <span class="hljs-keyword">return</span> cleanHTML;
+        };
+        <span class="hljs-keyword">const</span> activeid = <span class="hljs-keyword">this</span>._activeid;
+        <span class="hljs-keyword">const</span> htmlContent = template({
+            jsSrc,
+            nonce,
+            chats,
+            convert,
+            codiconsUri,
+            activeid,
+            projectName,
+            aiName,
+        });
+
+        <span class="hljs-keyword">return</span> htmlContent;
+    }
+
+    <span class="hljs-keyword">public</span> async updatePrompt(
+        prompt: string,
+        index: number,
+        showUI: boolean = <span class="hljs-literal">true</span>
+    ) {
+        <span class="hljs-comment">//make a call to the service endpoint with the prompt plus existing context</span>
+        <span class="hljs-comment">//update the chat view with the response</span>
+
+        <span class="hljs-comment">// we don&#x27;t save the initial prompts - so we can refresh them each time we send... we only save chat history (persisted)</span>
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">const</span> chatNotebook = new BoostNotebook();
+            <span class="hljs-keyword">const</span> tempProcessingCell = new BoostNotebookCell(
+                NotebookCellKind.Markup,
+                prompt,
+                <span class="hljs-string">&quot;markdown&quot;</span>,
+                undefined,
+                { <span class="hljs-comment">// eslint-disable-next-line @typescript-eslint/naming-convention</span>
+                    <span class="hljs-string">&quot;analysis_type&quot;</span>: ControllerOutputType.chat,
+                } <span class="hljs-keyword">as</span> unknown <span class="hljs-keyword">as</span> ICellMetadata
+            );
+            chatNotebook.addCell(tempProcessingCell);
+
+            <span class="hljs-keyword">const</span> chatKernel = (<span class="hljs-keyword">this</span>._boostExtension <span class="hljs-keyword">as</span> BoostExtension).kernels.<span class="hljs-keyword">get</span>(chatKernelName)!;
+            <span class="hljs-keyword">const</span> success = await chatKernel.executeAllWithAuthorization(chatNotebook.cells, chatNotebook, <span class="hljs-literal">true</span>);
+            <span class="hljs-keyword">const</span> chatOutput = success?cleanCellOutput(tempProcessingCell.outputs[<span class="hljs-number">0</span>]?.items[<span class="hljs-number">0</span>]?.<span class="hljs-keyword">data</span>):<span class="hljs-string">&quot;&quot;</span>;
+
+            <span class="hljs-keyword">this</span>._addResponse(prompt, chatOutput);
+        } <span class="hljs-keyword">catch</span> (error) {
+            boostLogging.error(
+                `Chat requested could not complete due to ${error}`,
+                showUI
+            );
+            <span class="hljs-keyword">this</span>._addResponse(prompt, <span class="hljs-string">&quot;&quot;</span>);
+        } <span class="hljs-keyword">finally</span> {
+            <span class="hljs-keyword">this</span>._saveJsonData(<span class="hljs-keyword">this</span>._chats);
+            <span class="hljs-keyword">this</span>.refresh();
+        }
+    }
+
+    <span class="hljs-keyword">private</span> _addResponse(prompt: string, response: string) {
+        <span class="hljs-keyword">this</span>._chats[<span class="hljs-keyword">this</span>._activeid].messages.push({
+            role: <span class="hljs-string">&quot;user&quot;</span>,
+            content: prompt,
+        });
+
+        <span class="hljs-keyword">if</span> (!response) {
+            <span class="hljs-keyword">return</span>;
+        }
+        <span class="hljs-keyword">this</span>._chats[<span class="hljs-keyword">this</span>._activeid].messages.push({
+            role: <span class="hljs-string">&quot;assistant&quot;</span>,
+            content: response,
+        });
+    }
+
+    readonly _chatTitle = `${aiName} AI Chat`;
+
+    <span class="hljs-keyword">private</span> async _initializeChats(): Promise&lt;any&gt; {
+        <span class="hljs-keyword">this</span>._chats = <span class="hljs-keyword">this</span>._loadJsonData();
+
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>._chats === undefined) {
+            <span class="hljs-keyword">this</span>._chats = [
+                {
+                    title: <span class="hljs-keyword">this</span>._chatTitle,
+                    messages: [],
+                },
+            ];
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// we need to delete the original system prompts, since these should never be persisted</span>
+            <span class="hljs-comment">//   they duplicate the state in the blueprint file and provide no benefit persisted separately</span>
+            <span class="hljs-keyword">this</span>._chats.forEach((chat: any) =&gt; {
+                <span class="hljs-keyword">for</span> (let i = chat.messages.length - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) {
+                    <span class="hljs-keyword">if</span> (chat.messages[i].role === <span class="hljs-string">&quot;system&quot;</span>) {
+                        chat.messages.splice(i, <span class="hljs-number">1</span>);
+                    }
+                }
+            });
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._chats;
+    }
+
+    <span class="hljs-keyword">private</span> async _addChat() {
+        <span class="hljs-keyword">this</span>._chats.push({
+            title: <span class="hljs-keyword">this</span>._chatTitle,
+            messages: [],
+        });
+        <span class="hljs-keyword">this</span>._saveJsonData(<span class="hljs-keyword">this</span>._chats);
+        <span class="hljs-keyword">this</span>._activeid = <span class="hljs-keyword">this</span>._chats.length - <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">this</span>.refresh();
+    }
+
+    <span class="hljs-keyword">private</span> _closeChat(chatindex: number) {
+        <span class="hljs-keyword">this</span>._chats.splice(chatindex, <span class="hljs-number">1</span>);
+        <span class="hljs-keyword">this</span>._saveJsonData(<span class="hljs-keyword">this</span>._chats);
+        <span class="hljs-keyword">this</span>.refresh();
+    }
+
+    <span class="hljs-keyword">private</span> _getTempFilename(): string {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>._tempFilename) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._tempFilename;
+        }
+        <span class="hljs-keyword">const</span> editor = vscode.window.activeTextEditor;
+        let filenamePrefix = <span class="hljs-string">&quot;temp_&quot;</span>;
+
+        <span class="hljs-keyword">if</span> (editor) {
+            <span class="hljs-keyword">const</span> workspaceFolder = vscode.workspace.getWorkspaceFolder(
+                editor.document.uri
+            );
+            <span class="hljs-keyword">if</span> (workspaceFolder) {
+                filenamePrefix += workspaceFolder.name;
+            } <span class="hljs-keyword">else</span> {
+                filenamePrefix += <span class="hljs-string">&quot;boost_ai_chat&quot;</span>;
+            }
+        } <span class="hljs-keyword">else</span> {
+            filenamePrefix += <span class="hljs-string">&quot;boost_ai_chat&quot;</span>;
+        }
+
+        <span class="hljs-keyword">const</span> tempFilePath = path.join(os.tmpdir(), `${filenamePrefix}.json`);
+        <span class="hljs-keyword">const</span> normalizedTempPath = path.normalize(tempFilePath);
+        <span class="hljs-keyword">this</span>._tempFilename = normalizedTempPath;
+        <span class="hljs-keyword">return</span> normalizedTempPath;
+    }
+
+    <span class="hljs-keyword">private</span> _saveJsonData(<span class="hljs-keyword">data</span>: any): void {
+        <span class="hljs-keyword">const</span> tempFilename = <span class="hljs-keyword">this</span>._getTempFilename();
+
+        fs.writeFile(tempFilename, JSON.stringify(<span class="hljs-keyword">data</span>, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>), (err) =&gt; {
+            <span class="hljs-keyword">if</span> (err) {
+                vscode.window.showErrorMessage(
+                    `Failed to save <span class="hljs-keyword">data</span>: ${err.message}`
+                );
+            }
+        });
+    }
+
+    <span class="hljs-keyword">private</span> _loadJsonData(): any | undefined {
+        <span class="hljs-keyword">const</span> tempFilename = <span class="hljs-keyword">this</span>._getTempFilename();
+
+        <span class="hljs-comment">//check if file exists</span>
+        <span class="hljs-keyword">if</span> (!fs.existsSync(tempFilename)) {
+            <span class="hljs-keyword">return</span> undefined;
+        }
+
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">const</span> <span class="hljs-keyword">data</span> = fs.readFileSync(tempFilename, <span class="hljs-string">&quot;utf-8&quot;</span>);
+            <span class="hljs-keyword">return</span> JSON.parse(<span class="hljs-keyword">data</span>);
+        } <span class="hljs-keyword">catch</span> (err) {
+            boostLogging.error(
+                `Boost failed to load Chat history: ${(err <span class="hljs-keyword">as</span> Error).message}`,
+                <span class="hljs-literal">true</span>
+            );
+            <span class="hljs-keyword">return</span> undefined;
+        }
+    }
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:28:49 AM PDT</p>
+<p>This TypeScript code defines a class <code>BoostChatViewProvider</code> that implements the <code>vscode.WebviewViewProvider</code> interface. This class is used to create a custom chat view in a Visual Studio Code (VS Code) extension. </p>
+<p>The class uses the BoostExtension and BoostServiceHelper objects to interact with the Boost extension and service. It also uses some features of the VS Code API, such as webviews and commands.</p>
+<p>Here are the main parts of the code:</p>
+<ol>
+<li><p><strong>Constructor</strong>: The constructor initializes several properties, including a BoostExtension object, a BoostServiceHelper object, and an ExtensionContext object. The BoostServiceHelper object is initialized with the &quot;chatService&quot; and &quot;chat&quot; parameters.</p>
+</li>
+<li><p><strong>resolveWebviewView method</strong>: This asynchronous method is responsible for setting up the webview. It sets the webview&#39;s options, including enabling scripts and setting the local resource roots. It also sets up the webview&#39;s HTML content and sets up an event listener for messages from the webview. The messages can trigger different actions based on their command property, such as adding a new chat or closing a chat.</p>
+</li>
+<li><p><strong>_getHtmlForWebview method</strong>: This method generates the HTML content for the webview. It uses several resources, including a CSS file from the VS Code codicons package and an HTML file and a JavaScript file from the extension&#39;s resources. It also uses the lodash template function to generate the HTML content based on a template and some data. The data includes the chats, the active chat ID, and other information.</p>
+</li>
+<li><p><strong>updatePrompt method</strong>: This asynchronous method makes a call to the service endpoint with the provided prompt and the existing context. It updates the chat view with the response from the service.</p>
+</li>
+<li><p><strong>_addResponse method</strong>: This method adds a user message and an assistant message to the active chat.</p>
+</li>
+<li><p><strong>_initializeChats method</strong>: This asynchronous method initializes the chats by loading them from a JSON file. If the file does not exist, it creates a new chat. It also removes any system messages from the chats.</p>
+</li>
+<li><p><strong>_addChat and _closeChat methods</strong>: These methods add a new chat and close a chat, respectively. They update the chats, save them to the JSON file, and refresh the webview.</p>
+</li>
+<li><p><strong>_getTempFilename, _saveJsonData, and _loadJsonData methods</strong>: These methods are used to get the filename of the temporary JSON file, save data to the file, and load data from the file, respectively.</p>
+</li>
+</ol>
+<p>The code uses several libraries and APIs, including the VS Code API, the Node.js fs (file system) module, the lodash library, and the os (operating system) module.</p>
+<p>Here are some links for further learning:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api">VS Code Extension API</a></li>
+<li><a href="https://nodejs.org/api/fs.html">Node.js fs module</a></li>
+<li><a href="https://lodash.com/">lodash library</a></li>
+<li><a href="https://nodejs.org/api/os.html">os module</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:30:51 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->A;
+A-->B;
+B-->C;
+C-->D;
+D-->E;
+E-->F;
+F-->G;
+G-->H;
+H-->I;
+I-->J;
+J-->K;
+K-->L;
+L-->M;
+M-->N;
+N-->O;
+O-->P;
+P-->Q;
+Q-->R;
+R-->S;
+S-->T;
+T-->U;
+U-->V;
+V-->W;
+W-->X;
+X-->Y;
+Y-->Z;
+Z-->End;
+
+style A fill:#B22222, stroke:#000000, stroke-width:2px;
+style B fill:#B22222, stroke:#000000, stroke-width:2px;
+style C fill:#B22222, stroke:#000000, stroke-width:2px;
+style D fill:#B22222, stroke:#000000, stroke-width:2px;
+style E fill:#B22222, stroke:#000000, stroke-width:2px;
+style F fill:#B22222, stroke:#000000, stroke-width:2px;
+style G fill:#B22222, stroke:#000000, stroke-width:2px;
+style H fill:#B22222, stroke:#000000, stroke-width:2px;
+style I fill:#B22222, stroke:#000000, stroke-width:2px;
+style J fill:#B22222, stroke:#000000, stroke-width:2px;
+style K fill:#B22222, stroke:#000000, stroke-width:2px;
+style L fill:#B22222, stroke:#000000, stroke-width:2px;
+style M fill:#B22222, stroke:#000000, stroke-width:2px;
+style N fill:#B22222, stroke:#000000, stroke-width:2px;
+style O fill:#B22222, stroke:#000000, stroke-width:2px;
+style P fill:#B22222, stroke:#000000, stroke-width:2px;
+style Q fill:#B22222, stroke:#000000, stroke-width:2px;
+style R fill:#B22222, stroke:#000000, stroke-width:2px;
+style S fill:#B22222, stroke:#000000, stroke-width:2px;
+style T fill:#B22222, stroke:#000000, stroke-width:2px;
+style U fill:#B22222, stroke:#000000, stroke-width:2px;
+style V fill:#B22222, stroke:#000000, stroke-width:2px;
+style W fill:#B22222, stroke:#000000, stroke-width:2px;
+style X fill:#B22222, stroke:#000000, stroke-width:2px;
+style Y fill:#B22222, stroke:#000000, stroke-width:2px;
+style Z fill:#B22222, stroke:#000000, stroke-width:2px;
+style End fill:#228B22, stroke:#000000, stroke-width:2px;</pre>
+</code></pre><p>The control flow graph for the given source code is as follows:</p>
+<ul>
+<li>The start of the graph is the <code>BoostChatViewProvider</code> class.</li>
+<li>The primary path through the code is represented by the default non-colored style.</li>
+<li>Error paths are represented by the red-colored style.</li>
+<li>External library or non-standard function calls are not present in the code.</li>
+</ul>
+<p>Please note that this control flow graph is generated based on the provided source code. If there are any missing or incorrect control flow paths, please let me know.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:32:30 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 114</p>
+<p><strong>Bug Type</strong>: Cross-Site Scripting (XSS)</p>
+<p><strong>Description</strong>: The code is using a static nonce value for the Content Security Policy in the webview. This can lead to Cross-Site Scripting (XSS) attacks if an attacker can inject malicious scripts that match this nonce.</p>
+<p><strong>Solution</strong>: Generate a secure random nonce for each new session or request. Here is a resource to understand more about it: <a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html#use-of-nonce-to-mitigate-dom-xss">https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html#use-of-nonce-to-mitigate-dom-xss</a></p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 137</p>
+<p><strong>Bug Type</strong>: Insecure Data Processing</p>
+<p><strong>Description</strong>: The code uses the &#39;fs&#39; module to read files synchronously which can lead to blocking the event loop if the file is large, leading to potential Denial of Service (DoS) attacks.</p>
+<p><strong>Solution</strong>: Use the asynchronous version of &#39;fs.readFile&#39; instead of &#39;fs.readFileSync&#39;. Here is a resource on Node.js best practices: <a href="https://nodejs.dev/learn/the-nodejs-fs-module">https://nodejs.dev/learn/the-nodejs-fs-module</a></p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 201</p>
+<p><strong>Bug Type</strong>: Insecure File Handling</p>
+<p><strong>Description</strong>: The code writes to a file in the temp directory without validating or sanitizing the data. This can lead to potential security risks if the data is manipulated before it&#39;s written to the file.</p>
+<p><strong>Solution</strong>: Validate and sanitize the data before writing it to a file. Consider using a library like &#39;validator.js&#39; for validation and &#39;sanitize-html&#39; for sanitization. Here is a resource to understand more about it: <a href="https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html</a></p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 217</p>
+<p><strong>Bug Type</strong>: Insecure Data Processing</p>
+<p><strong>Description</strong>: The code uses &#39;fs.readFileSync&#39; to read data from a file. This is a blocking operation and can lead to potential Denial of Service (DoS) attacks if the file is large.</p>
+<p><strong>Solution</strong>: Use the asynchronous version &#39;fs.readFile&#39; instead of &#39;fs.readFileSync&#39;. Here is a resource on Node.js best practices: <a href="https://nodejs.dev/learn/the-nodejs-fs-module">https://nodejs.dev/learn/the-nodejs-fs-module</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:35:25 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 96</p>
+<p><strong>Bug Type</strong>: Disk</p>
+<p><strong>Description</strong>: The code reads a file synchronously, which can block the main thread and degrade performance.</p>
+<p><strong>Solution</strong>: Consider reading the file asynchronously using fs.readFile() instead of fs.readFileSync().</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 144</p>
+<p><strong>Bug Type</strong>: Disk</p>
+<p><strong>Description</strong>: The code writes to a file synchronously, which can block the main thread and degrade performance.</p>
+<p><strong>Solution</strong>: Consider writing to the file asynchronously using fs.writeFile() instead of fs.writeFileSync().</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 152</p>
+<p><strong>Bug Type</strong>: Disk</p>
+<p><strong>Description</strong>: The code checks if a file exists synchronously, which can block the main thread and degrade performance.</p>
+<p><strong>Solution</strong>: Consider checking if the file exists asynchronously using fs.access() instead of fs.existsSync().</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 158</p>
+<p><strong>Bug Type</strong>: Disk</p>
+<p><strong>Description</strong>: The code reads a file synchronously, which can block the main thread and degrade performance.</p>
+<p><strong>Solution</strong>: Consider reading the file asynchronously using fs.readFile() instead of fs.readFileSync().</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 113</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The code uses a template function from lodash to generate HTML content. This could be CPU-intensive for large inputs.</p>
+<p><strong>Solution</strong>: Consider using a more efficient templating library or optimizing the template to reduce computation.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 108</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The code uses the marked library to parse markdown text to HTML. This could be memory-intensive for large inputs.</p>
+<p><strong>Solution</strong>: Consider using a more efficient markdown parser or optimizing the input to reduce memory usage.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 9:39:41 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 89</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;_chats&#39; variable may contain personal data but is not encrypted or anonymized. This could lead to GDPR non-compliance.</p>
+<p><strong>Solution</strong>: Encrypt or anonymize any personal data stored in &#39;_chats&#39;.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 173</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The &#39;updatePrompt&#39; function sends potentially sensitive data to a remote service without proper encryption. This could lead to HIPAA non-compliance.</p>
+<p><strong>Solution</strong>: Encrypt any sensitive data before sending it to a remote service.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 263</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The &#39;_saveJsonData&#39; function saves potentially sensitive data to a file without proper encryption. This could lead to PCI DSS non-compliance.</p>
+<p><strong>Solution</strong>: Encrypt any sensitive data before saving it to a file.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 275</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;_loadJsonData&#39; function loads potentially personal data from a file without proper encryption. This could lead to GDPR non-compliance.</p>
+<p><strong>Solution</strong>: Encrypt any personal data before loading it from a file.</p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>
