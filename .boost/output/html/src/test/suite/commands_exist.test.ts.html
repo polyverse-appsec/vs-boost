@@ -1,0 +1,340 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/test/suite/commands_exist.test.ts</h1>
+    <p>Date Generated: Friday, September 8, 2023 at 11:51:51 PM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 11:50:36 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 11:51:32 PM PDT</p>
+<p>Executive Level Report:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The software project is a Visual Studio Code extension that provides code analysis functionality. It is well-structured and follows best practices for a VS Code extension. However, there is a CPU-intensive function call in the <code>commands_exist.test.ts</code> file that could potentially impact the performance of the extension. This issue needs to be addressed to ensure optimal performance.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The risk associated with this project is relatively low. Only one file has been identified with issues, and these issues are of &#39;Warning&#39; severity, not &#39;Error&#39;. However, the CPU-intensive function call could potentially slow down the extension, especially if the number of commands increases significantly. This could lead to a poor user experience.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: If the CPU-intensive function call is not addressed, customers may experience slower performance when using the extension. This could potentially impact the user experience and satisfaction. </p>
+</li>
+<li><p><strong>Overall Issues</strong>: The overall health of the project source is good, with only one file having detected issues. However, the issue identified is of &#39;Warning&#39; severity and could impact the performance of the extension.</p>
+</li>
+</ol>
+<p>Risk Assessment:</p>
+<ul>
+<li><strong>Health of the Project Source</strong>: The project source appears to be in good health, with only one file out of the total having detected issues. This represents a small percentage of the total project files.</li>
+</ul>
+<p>Highlights of the Analysis:</p>
+<ul>
+<li>The project follows best practices for a VS Code extension and makes good use of TypeScript features and the VS Code API.</li>
+<li>Only one file, <code>commands_exist.test.ts</code>, has been identified with issues. These issues are of &#39;Warning&#39; severity and relate to CPU-intensive function calls.</li>
+<li>If not addressed, the CPU-intensive function call could potentially slow down the extension, impacting the user experience.</li>
+<li>Despite the issue identified, the overall health of the project source is good.</li>
+</ul>
+<p>This analysis is based on the current state of the project and could change as more files are added or existing files are modified. Regular code reviews and performance testing are recommended to maintain the health of the project source.</p>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 11:51:54 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/test/suite/commands_exist.test.ts line 2:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-keyword">assert</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;assert&#x27;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> vscode <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vscode&#x27;</span>;
+<span class="hljs-keyword">import</span> { NOTEBOOK_TYPE } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../jupyter_notebook&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 11:49:09 PM PDT</p>
+<p>The provided code snippet is written in JavaScript and it is importing modules in a Node.js environment. It&#39;s a very small part of a larger codebase, likely for a Visual Studio Code (VS Code) extension related to Jupyter notebooks. Here&#39;s a detailed explanation:</p>
+<ol>
+<li><p><code>import * as assert from &#39;assert&#39;;</code> - This line is importing the built-in Node.js module &#39;assert&#39;. The &#39;assert&#39; module provides a set of assertion functions for verifying invariants in your code. In other words, it&#39;s used for writing tests. The <code>import * as</code> syntax means that all exported functions from the &#39;assert&#39; module are imported and can be accessed through the &#39;assert&#39; object.</p>
+</li>
+<li><p><code>import * as vscode from &#39;vscode&#39;;</code> - This line is importing the &#39;vscode&#39; module. This module provides the VS Code extensibility API, and it&#39;s how your extension interacts with the VS Code editor. Again, the <code>import * as</code> syntax is used, so all exported functions from the &#39;vscode&#39; module can be accessed through the &#39;vscode&#39; object.</p>
+</li>
+<li><p><code>import { NOTEBOOK_TYPE } from &#39;../../jupyter_notebook&#39;;</code> - This line is importing a specific export, <code>NOTEBOOK_TYPE</code>, from the module at the relative path <code>../../jupyter_notebook</code>. This suggests that <code>NOTEBOOK_TYPE</code> is a constant that&#39;s being used elsewhere in this file. The exact purpose of <code>NOTEBOOK_TYPE</code> would depend on its definition in the <code>jupyter_notebook</code> module.</p>
+</li>
+</ol>
+<p>This code doesn&#39;t contain any algorithms, it&#39;s just importing modules for use elsewhere in the code. The <code>assert</code> module might be used for writing tests, the <code>vscode</code> module will be used for interacting with the VS Code API, and <code>NOTEBOOK_TYPE</code> is likely a constant related to the handling of Jupyter notebooks.</p>
+<p>For more information on these topics, you can refer to the following links:</p>
+<ul>
+<li><a href="https://nodejs.org/api/assert.html">Node.js assert module</a></li>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api">VS Code Extension API</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">JavaScript Modules</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 11:50:08 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 11:50:28 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 11:50:44 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 11:51:47 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 4</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The import of &#39;NOTEBOOK_TYPE&#39; from &#39;jupyter_notebook&#39; may potentially involve processing of personal data. This could be a GDPR issue if personal data is being processed without proper consent or security measures.</p>
+<p><strong>Solution</strong>: Ensure that any processing of personal data complies with GDPR principles. This includes obtaining proper consent, implementing appropriate security measures, and providing a way for users to request deletion of their data.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/test/suite/commands_exist.test.ts line 4:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+suite(&#x27;Extension Commands&#x27;, () =&gt; {
+  vscode.window.showInformationMessage(&#x27;Start Command verification tests.&#x27;)<span class="hljs-comment">;</span>
+
+  test(&#x27;createJsonNotebook command should be present&#x27;, () =&gt; {
+    assert.ok(<span class="hljs-name">vscode</span>.commands.getCommands().then(<span class="hljs-name">cmds</span> =&gt; {
+      return cmds.indexOf(<span class="hljs-name">NOTEBOOK_TYPE</span> + &#x27;.createJsonNotebook&#x27;) !== <span class="hljs-number">-1</span><span class="hljs-comment">;</span>
+    }))<span class="hljs-comment">;</span>
+  })<span class="hljs-comment">;</span>
+
+  test(&#x27;loadCodeFile command should be present&#x27;, () =&gt; {
+    assert.ok(<span class="hljs-name">vscode</span>.commands.getCommands().then(<span class="hljs-name">cmds</span> =&gt; {
+      return cmds.indexOf(<span class="hljs-name">NOTEBOOK_TYPE</span> + &#x27;.loadCodeFile&#x27;) !== <span class="hljs-number">-1</span><span class="hljs-comment">;</span>
+    }))<span class="hljs-comment">;</span>
+  })<span class="hljs-comment">;</span>
+
+  test(&#x27;selectOutputLanguage command should be present&#x27;, () =&gt; {
+    assert.ok(<span class="hljs-name">vscode</span>.commands.getCommands().then(<span class="hljs-name">cmds</span> =&gt; {
+      return cmds.indexOf(<span class="hljs-name">NOTEBOOK_TYPE</span> + &#x27;.selectOutputLanguage&#x27;) !== <span class="hljs-number">-1</span><span class="hljs-comment">;</span>
+    }))<span class="hljs-comment">;</span>
+  })<span class="hljs-comment">;</span>
+
+  test(&#x27;selectTestFramework command should be present&#x27;, () =&gt; {
+    assert.ok(<span class="hljs-name">vscode</span>.commands.getCommands().then(<span class="hljs-name">cmds</span> =&gt; {
+      return cmds.indexOf(<span class="hljs-name">NOTEBOOK_TYPE</span> + &#x27;.selectTestFramework&#x27;) !== <span class="hljs-number">-1</span><span class="hljs-comment">;</span>
+    }))<span class="hljs-comment">;</span>
+  })<span class="hljs-comment">;</span>
+
+  test(&#x27;customerPortal command should be present&#x27;, () =&gt; {
+    assert.ok(<span class="hljs-name">vscode</span>.commands.getCommands().then(<span class="hljs-name">cmds</span> =&gt; {
+      return cmds.indexOf(<span class="hljs-name">NOTEBOOK_TYPE</span> + &#x27;.customerPortal&#x27;) !== <span class="hljs-number">-1</span><span class="hljs-comment">;</span>
+    }))<span class="hljs-comment">;</span>
+  })<span class="hljs-comment">;</span>
+
+  test(&#x27;boostStatus command should be present&#x27;, () =&gt; {
+    assert.ok(<span class="hljs-name">vscode</span>.commands.getCommands().then(<span class="hljs-name">cmds</span> =&gt; {
+      return cmds.indexOf(<span class="hljs-name">NOTEBOOK_TYPE</span> + &#x27;.boostStatus&#x27;) !== <span class="hljs-number">-1</span><span class="hljs-comment">;</span>
+    }))<span class="hljs-comment">;</span>
+  })<span class="hljs-comment">;</span>
+
+  test(&#x27;loadCurrentFile command should be present&#x27;, () =&gt; {
+    assert.ok(<span class="hljs-name">vscode</span>.commands.getCommands().then(<span class="hljs-name">cmds</span> =&gt; {
+      return cmds.indexOf(<span class="hljs-name">NOTEBOOK_TYPE</span> + &#x27;.loadCurrentFile&#x27;) !== <span class="hljs-number">-1</span><span class="hljs-comment">;</span>
+    }))<span class="hljs-comment">;</span>
+  })<span class="hljs-comment">;</span>
+
+  test(&#x27;loadCurrentFolder command should be present&#x27;, () =&gt; {
+    assert.ok(<span class="hljs-name">vscode</span>.commands.getCommands().then(<span class="hljs-name">cmds</span> =&gt; {
+      return cmds.indexOf(<span class="hljs-name">NOTEBOOK_TYPE</span> + &#x27;.loadCurrentFolder&#x27;) !== <span class="hljs-number">-1</span><span class="hljs-comment">;</span>
+    }))<span class="hljs-comment">;</span>
+  })<span class="hljs-comment">;</span>
+
+  test(&#x27;processCurrentFile command should be present&#x27;, () =&gt; {
+    assert.ok(<span class="hljs-name">vscode</span>.commands.getCommands().then(<span class="hljs-name">cmds</span> =&gt; {
+      return cmds.indexOf(<span class="hljs-name">NOTEBOOK_TYPE</span> + &#x27;.processCurrentFile&#x27;) !== <span class="hljs-number">-1</span><span class="hljs-comment">;</span>
+    }))<span class="hljs-comment">;</span>
+  })<span class="hljs-comment">;</span>
+
+  test(&#x27;processCurrentFolder command should be present&#x27;, () =&gt; {
+    assert.ok(<span class="hljs-name">vscode</span>.commands.getCommands().then(<span class="hljs-name">cmds</span> =&gt; {
+      return cmds.indexOf(<span class="hljs-name">NOTEBOOK_TYPE</span> + &#x27;.processCurrentFolder&#x27;) !== <span class="hljs-number">-1</span><span class="hljs-comment">;</span>
+    }))<span class="hljs-comment">;</span>
+  })<span class="hljs-comment">;</span>
+
+})<span class="hljs-comment">;</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 11:49:51 PM PDT</p>
+<p>This code is a test suite for a Visual Studio Code (VSCode) extension. It is written in JavaScript and uses Mocha, a JavaScript test framework, and the assert module from Node.js for assertions. The purpose of this test suite is to verify that certain commands are present in the VSCode extension. </p>
+<p>The suite contains several test cases, each of which checks for the presence of a specific command. The commands are part of the VSCode extension&#39;s functionality and are registered with VSCode&#39;s command palette. The test suite is ensuring that these commands are correctly registered and available for use.</p>
+<p>Here is a breakdown of the code:</p>
+<ol>
+<li><p><code>suite(&#39;Extension Commands&#39;, () =&gt; {...});</code> - This line declares a test suite named &quot;Extension Commands&quot;. A test suite is a collection of test cases that are logically related.</p>
+</li>
+<li><p><code>vscode.window.showInformationMessage(&#39;Start Command verification tests.&#39;);</code> - This line displays an information message in the VSCode window indicating that the command verification tests are starting.</p>
+</li>
+<li><p>Each test case uses the <code>test</code> function to define a test. The first argument to the <code>test</code> function is a string that describes what the test is checking. The second argument is a function that contains the code to execute the test.</p>
+</li>
+<li><p>Inside each test function, the code uses <code>assert.ok</code> to assert that a certain condition is true. If the condition is false, the test will fail.</p>
+</li>
+<li><p>The condition being checked in each test is whether a specific command is present in the list of commands returned by <code>vscode.commands.getCommands()</code>. This is done by calling <code>cmds.indexOf(NOTEBOOK_TYPE + &#39;.commandName&#39;) !== -1</code>, which checks if the index of the command in the array is not -1. If the command is not in the array, <code>indexOf</code> will return -1.</p>
+</li>
+</ol>
+<p>The algorithm used in this code is a linear search algorithm, which is used by the <code>indexOf</code> function to find the specified command in the array of commands. This algorithm checks each element of the array one by one until it finds the element it is searching for or it has checked all elements.</p>
+<p>For more information about Mocha, Node.js assert module, and VSCode extension testing, you can check the following links:</p>
+<ul>
+<li>Mocha: <a href="https://mochajs.org/">https://mochajs.org/</a></li>
+<li>Node.js assert module: <a href="https://nodejs.org/api/assert.html">https://nodejs.org/api/assert.html</a></li>
+<li>VSCode Extension Testing: <a href="https://code.visualstudio.com/api/working-with-extensions/testing-extension">https://code.visualstudio.com/api/working-with-extensions/testing-extension</a></li>
+</ul>
+<p>As per the architectural guidelines provided, this code does not seem to conflict with any of them, as it&#39;s a test suite ensuring the commands of the VSCode extension are present and correctly registered, which is a standard practice in software development.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 11:50:14 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;
+ExampleProcess-->End;
+ExamplErrorPath-->End;</pre>
+</code></pre><p>The code provided does not have any control flow.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 11:50:32 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 11:50:59 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 8</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The vscode.commands.getCommands() function is called multiple times, which is CPU intensive as it fetches all the commands every time.</p>
+<p><strong>Solution</strong>: Store the result of vscode.commands.getCommands() in a variable outside the tests and use that variable inside the tests. This will reduce the number of calls to the function.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 8</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The use of the <code>indexOf</code> function can be inefficient for large arrays, leading to increased memory usage.</p>
+<p><strong>Solution</strong>: Use a Set for storing the commands. Checking the existence of an element in a Set is faster and less memory-intensive than using <code>indexOf</code> on an array. Convert the array to a Set using new Set(array).</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 11:51:51 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div>
+</body>
+</html>

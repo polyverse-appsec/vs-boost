@@ -1,0 +1,238 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/extension/extension_state.ts</h1>
+    <p>Date Generated: Saturday, September 9, 2023 at 8:17:28 AM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 8:16:53 AM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 8:17:16 AM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 8:17:32 AM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/extension/extension_state.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> vscode <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vscode&#x27;</span>;
+
+<span class="hljs-keyword">let</span> <span class="hljs-attr">extensionMode</span>: vscode.<span class="hljs-property">ExtensionMode</span> | <span class="hljs-literal">undefined</span> = <span class="hljs-literal">undefined</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">setExtensionMode</span>(<span class="hljs-params">mode: vscode.ExtensionMode</span>) {
+    extensionMode = mode;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 8:15:42 AM PDT</p>
+<p>This is a simple piece of TypeScript code that is likely part of a larger Visual Studio Code extension. Here&#39;s a detailed breakdown:</p>
+<ol>
+<li><p><code>import * as vscode from &#39;vscode&#39;;</code>: This line is importing the entire <code>vscode</code> module. The <code>vscode</code> module provides the APIs that are available for interacting with Visual Studio Code in extensions.</p>
+</li>
+<li><p><code>let extensionMode: vscode.ExtensionMode | undefined = undefined;</code>: Here, a variable <code>extensionMode</code> is declared. This variable can either be of type <code>vscode.ExtensionMode</code> or <code>undefined</code>. Initially, it is set to <code>undefined</code>. The <code>vscode.ExtensionMode</code> is an enumeration that indicates the mode in which the extension is running. It can have one of three values: <code>Production</code>, <code>Development</code>, or <code>Test</code>.</p>
+</li>
+<li><p>The <code>setExtensionMode</code> function is an exported function, meaning it can be imported and used in other modules. It takes one parameter <code>mode</code> of type <code>vscode.ExtensionMode</code> and assigns it to the <code>extensionMode</code> variable.</p>
+</li>
+</ol>
+<p>This code doesn&#39;t use any specific algorithms; it&#39;s a simple piece of state management within a module. The <code>setExtensionMode</code> function allows other parts of the extension to change the <code>extensionMode</code> state.</p>
+<p>Here are some relevant links for further reading:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api">VS Code API</a></li>
+<li><a href="https://code.visualstudio.com/api">VS Code Extension Documentation</a></li>
+<li><a href="https://www.typescriptlang.org/docs/">TypeScript Documentation</a></li>
+</ul>
+<p>Regarding the architectural guidelines, this code seems to be in line with general good practices. It is simple, clear, and leverages TypeScript&#39;s static typing for better code safety and clarity. However, without the context of the larger project, it&#39;s hard to say whether it aligns with the project&#39;s specific architectural guidelines.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 8:16:26 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->ExampleProcess;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 8:16:46 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 8:17:08 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 8:17:24 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/extension/extension_state.ts line 8:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+export <span class="hljs-keyword">function</span> <span class="hljs-title">getExtensionMode</span>(): vscode.ExtensionMode | undefined {
+    <span class="hljs-keyword">return</span> <span class="hljs-type">extensionMode</span>;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 8:16:10 AM PDT</p>
+<p>The provided code snippet is a simple function written in TypeScript, which is used in the context of a Visual Studio Code (VS Code) extension. The function is named <code>getExtensionMode</code> and it does not take any parameters. The function returns a value of type <code>vscode.ExtensionMode</code> or <code>undefined</code>.</p>
+<p>The <code>vscode.ExtensionMode</code> is an enumeration defined in the VS Code API. It describes the mode in which the extension is running. The possible values are:</p>
+<ul>
+<li><code>vscode.ExtensionMode.Development</code>: The extension is running from the command line in the --extensionDevelopmentPath mode. This mode is typically used during extension development.</li>
+<li><code>vscode.ExtensionMode.Test</code>: The extension is running as part of an extension test.</li>
+<li><code>vscode.ExtensionMode.Production</code>: The extension is running normally.</li>
+</ul>
+<p>The <code>getExtensionMode</code> function is simply returning the current value of the <code>extensionMode</code> variable, which is not shown in the provided code snippet. This variable presumably holds the current mode of the extension.</p>
+<p>This function does not appear to use any complex algorithms. It is a simple getter function, a common pattern in object-oriented programming. Getter functions are used to control access to an object&#39;s properties.</p>
+<p>This function aligns with the architectural blueprint provided earlier. It is part of a VS Code extension and is written in TypeScript. It uses the VS Code API and follows object-oriented design principles.</p>
+<p>For more information on VS Code extensions and the VS Code API, you can refer to the following resources:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api">VS Code Extension API</a></li>
+<li><a href="https://code.visualstudio.com/api/get-started/your-first-extension">Creating a VS Code Extension</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 8:16:31 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->getExtensionMode;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 8:16:50 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 8:17:12 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 8:17:28 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div>
+</body>
+</html>

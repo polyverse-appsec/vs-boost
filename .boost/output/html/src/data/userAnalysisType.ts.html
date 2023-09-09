@@ -1,0 +1,245 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/data/userAnalysisType.ts</h1>
+    <p>Date Generated: Friday, September 8, 2023 at 6:17:34 PM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:17:08 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:17:23 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:17:37 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/data/userAnalysisType.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">enum</span> BoostUserAnalysisType {
+    blueprint = <span class="hljs-string">&quot;blueprint&quot;</span>,
+    security = <span class="hljs-string">&quot;security&quot;</span>,
+    documentation = <span class="hljs-string">&quot;documentation&quot;</span>,
+    compliance = <span class="hljs-string">&quot;compliance&quot;</span>,
+    performance = <span class="hljs-string">&quot;performance&quot;</span>,
+    deepCode = <span class="hljs-string">&#x27;deepcode&#x27;</span>,
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:16:00 PM PDT</p>
+<p>This code snippet is written in TypeScript, a statically typed superset of JavaScript. It defines an enumeration (enum) named <code>BoostUserAnalysisType</code>.</p>
+<p>An enum is a special &quot;class&quot; that represents a group of constants (unchangeable/read-only variables). In TypeScript, enums are used to define a type that can have one of several predefined string or numeric values. </p>
+<p>Here&#39;s a breakdown of the code:</p>
+<ol>
+<li><p><code>export</code>: This keyword is used to make the enum available for import in other modules or files in the project. This means that <code>BoostUserAnalysisType</code> can be used in other parts of the application outside of the file it is defined in.</p>
+</li>
+<li><p><code>enum</code>: This keyword is used to declare an enumeration.</p>
+</li>
+<li><p><code>BoostUserAnalysisType</code>: This is the name of the enum. By convention, the name of the enum is usually in PascalCase (i.e., the first letter of each word is capitalized).</p>
+</li>
+<li><p>Inside the curly braces <code>{...}</code> are the enum members. Each member is associated with a string value. The members are:</p>
+<ul>
+<li><code>blueprint</code>: Represents a blueprint analysis type.</li>
+<li><code>security</code>: Represents a security analysis type.</li>
+<li><code>documentation</code>: Represents a documentation analysis type.</li>
+<li><code>compliance</code>: Represents a compliance analysis type.</li>
+<li><code>performance</code>: Represents a performance analysis type.</li>
+<li><code>deepCode</code>: Represents a deep code analysis type.</li>
+</ul>
+</li>
+</ol>
+<p>These enum members represent different types of code analysis that can be performed. By using an enum, the code becomes more readable and less error-prone as the TypeScript compiler can check that any value assigned to a <code>BoostUserAnalysisType</code> is one of the valid members.</p>
+<p>This code doesn&#39;t contain any specific algorithms but uses the enum data structure provided by TypeScript. It&#39;s a simple yet effective way to group and manage a collection of related constants.</p>
+<p>For more information on TypeScript enums, you can check out the official TypeScript documentation here: <a href="https://www.typescriptlang.org/docs/handbook/enums.html">TypeScript Enums</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:16:43 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:17:02 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:17:16 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:17:31 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/data/userAnalysisType.ts line 10:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">enum</span> <span class="hljs-title class_">DisplayGroupFriendlyName</span> {
+    documentation = <span class="hljs-string">&quot;Documentation&quot;</span>,
+    security = <span class="hljs-string">&quot;Security&quot;</span>,
+    compliance = <span class="hljs-string">&quot;Compliance&quot;</span>,
+    deepcode = <span class="hljs-string">&quot;Deep Code Analysis&quot;</span>,
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:16:27 PM PDT</p>
+<p>The provided code is a TypeScript enumeration, or <code>enum</code> for short. An <code>enum</code> is a special type of value in TypeScript that allows for a variable to be one of a set of predefined constants. The name of the <code>enum</code> is <code>DisplayGroupFriendlyName</code> and it has four members: <code>documentation</code>, <code>security</code>, <code>compliance</code>, and <code>deepcode</code>.</p>
+<p>Each member of the <code>enum</code> is associated with a string value. For example, <code>DisplayGroupFriendlyName.documentation</code> is associated with the string &quot;Documentation&quot;. These string values are not necessary in TypeScript <code>enum</code>s, but they can be useful for display purposes or for serialization/deserialization.</p>
+<p>This <code>enum</code> is likely used in the context of the Visual Studio Code extension to categorize different types of code analysis. For example, when the extension performs a code analysis, it could categorize the results into these four groups: Documentation, Security, Compliance, and Deep Code Analysis. The exact use of this <code>enum</code> would depend on the rest of the codebase, but this is a likely scenario based on the names of the <code>enum</code> members and the context provided.</p>
+<p>This <code>enum</code> is exported, which means it can be imported and used in other parts of the codebase.</p>
+<p>As for the architectural guidelines, this code is in line with standard TypeScript practices. It&#39;s a good practice to use <code>enum</code>s to represent a fixed set of values, which seems to be the case here. This makes the code more readable and maintainable, as it&#39;s clear what the possible values are for a <code>DisplayGroupFriendlyName</code>.</p>
+<p>For more information about TypeScript <code>enum</code>s, you can visit the official TypeScript documentation: <a href="https://www.typescriptlang.org/docs/handbook/enums.html">TypeScript Enums</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:16:48 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style EnumDeclaration fill:#228B22, stroke:#000000, stroke-width:2px;
+style EnumMember fill:#228B22, stroke:#000000, stroke-width:2px;
+
+Start-->EnumDeclaration;
+EnumDeclaration-->EnumMember;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:17:05 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:17:20 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:17:34 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div>
+</body>
+</html>

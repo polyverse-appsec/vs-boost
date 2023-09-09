@@ -1,0 +1,622 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 10:52:02 PM PDT\n\nThe code snippet you provided is quite short and consists of two import statements in TypeScript. Import statements are used to include external modules or libraries in your code so that you can make use of their functionalities.\n\nLet's break it down:\n\n1. `import * as vscode from 'vscode';`\n\n   This line of code imports the entire `vscode` module. `vscode` is a library provided by Visual Studio Code that provides various functionalities for creating extensions. The `* as vscode` syntax means that all exported members of the `vscode` module will be loaded into an object named `vscode`. You can then access the members of the module using dot notation, like `vscode.window`, `vscode.commands`, etc.\n\n2. `import { KernelControllerBase } from './base_controller';`\n\n   This line of code imports a specific member, `KernelControllerBase`, from the module located at `./base_controller`. The `./base_controller` is a relative path pointing to a file in the same directory as the current file. The `{ KernelControllerBase }` syntax means that only the `KernelControllerBase` member of the `base_controller` module will be imported. This is known as named import.\n\nThe code doesn't present any algorithm or architectural design as it's just import statements. However, it does adhere to common best practices in TypeScript and Node.js development. Specifically, it makes use of module systems to organize code into separate files, and it imports only the necessary parts from each module, which can help improve performance and readability.\n\nHere are some resources for further reading:\n- [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/modules.html)\n- [VS Code Extension API](https://code.visualstudio.com/api/references/vscode-api)\n- [Node.js Modules](https://nodejs.org/api/modules.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 10:54:48 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle KernelControllerBase fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->KernelControllerBase;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:55:26 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:56:48 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:57:53 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as vscode from 'vscode';\n\nimport {\n    KernelControllerBase\n } from './base_controller';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 10:52:32 PM PDT\n\nThis code is written in TypeScript, which is a statically typed superset of JavaScript that adds types and other features to the language. The code is part of a larger project, most likely a Visual Studio Code extension as indicated by the architectural blueprint summary.\n\nThe code is importing modules from other parts of the project. Importing is a way of bringing in functionality from other files or modules in the project. The `import` statement is part of the ES6 (ECMAScript 2015) module system.\n\nThe `import * as boostnb from '../data/jupyter_notebook';` statement is importing all exports from the module located at '../data/jupyter_notebook'. The asterisk (*) indicates that all exported members of the module are imported. The `as boostnb` part is aliasing these imports under the name `boostnb`, so they can be referred to in the code as `boostnb.someExportedMember`.\n\nThe `import { generateCellOutputWithHeader } from '../extension/extensionUtilities';` statement is importing a specific function called `generateCellOutputWithHeader` from the module located at '../extension/extensionUtilities'. The curly braces ({}) are used to import specific named exports from a module.\n\nThe algorithms used in this code are not directly visible as this code is only importing modules and not implementing any logic itself. The algorithms would be in the functions or methods in the imported modules.\n\nFor more information on TypeScript and ES6 modules, you can refer to these resources:\n\n- TypeScript: https://www.typescriptlang.org/\n- ES6 modules: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules\n\nRegarding the architectural guidelines, this code seems to follow good practices for a Visual Studio Code extension written in TypeScript, as per the architectural blueprint summary. The code is modularized, which is a common practice in software development to enhance maintainability and reusability. It also appears to be consistent with event-driven programming and object-oriented design principles, as it is importing modules that are likely to contain classes or functions that respond to events. However, without seeing the rest of the code, it's hard to make a definitive judgment on this."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 10:54:53 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle generateCellOutputWithHeader fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->generateCellOutputWithHeader;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:55:30 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:56:52 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "application/vnd.code.notebook.error",
+              "data": "{\"name\":\"Error\",\"message\":\"Boost Data and Privacy Compliance Analysis failed: Unable to process this source code. This can be caused by a temporary issue with the Boost Cloud Service, or by an issue in the source input. Please try again, and if the problem persists, please contact Boost Support.\"}"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": {}
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import * as boostnb from '../data/jupyter_notebook';\nimport { generateCellOutputWithHeader } from '../extension/extensionUtilities';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 5
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 10:52:59 PM PDT\n\nThe code you provided is a single line of JavaScript (or TypeScript) code that is importing a module named `boostLogging` from a relative path `../utilities/boostLogging`.\n\nJavaScript and TypeScript use the `import` statement to bring in functionality (like variables, functions, objects, or classes) from other modules or files. This is part of the ES6 (ECMAScript 2015) module system.\n\nIn this specific line of code:\n\n```javascript\nimport { boostLogging } from '../utilities/boostLogging';\n```\n\nThe `{ boostLogging }` is a named import. It means that the `boostLogging` module exports something (a function, an object, a variable) under the name `boostLogging`. The import statement is then including this specific exported item into the current file.\n\nThe `from '../utilities/boostLogging'` part of the statement is specifying the path to the module file. In this case, it's a relative path, meaning it's looking for the `boostLogging` file in a `utilities` directory one level up from the current directory. The `.js` or `.ts` extension is usually omitted in import statements - the JavaScript or TypeScript runtime will automatically add it.\n\nAs for the architectural guidelines, this line of code seems to follow good practices. It's modular (the `boostLogging` functionality is kept in its own file), and the use of a utilities directory suggests a logical organization of code. However, without more context or more lines of code, it's hard to provide a detailed analysis.\n\nFor more information on JavaScript/TypeScript imports, you can refer to these resources:\n\n- [JavaScript Modules: A Beginner’s Guide](https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/)\n- [TypeScript Module System](https://www.typescripttutorial.net/typescript-tutorial/typescript-modules/)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 10:54:56 PM PDT\n\n```mermaid\ngraph TD;\nstyle boostLogging fill:#228B22, stroke:#000000, stroke-width:2px;\n\nboostLogging\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:55:33 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:56:55 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:58:29 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import { boostLogging } from '../utilities/boostLogging';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 7
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 10:53:22 PM PDT\n\nThe code you've provided is a single line of JavaScript code, specifically an import statement. It's part of a larger file, and without the rest of the code or context, I can only provide a limited explanation. However, I'll explain what I can.\n\n```javascript\nimport { fullPathFromSourceFile } from '../utilities/files';\n```\n\nThis line is using the ES6 (ES2015) module system to import a specific function, `fullPathFromSourceFile`, from a module located at '../utilities/files'. This is a relative file path, meaning that the module is located in a 'utilities' directory one level up from the current file.\n\nThe `fullPathFromSourceFile` function is likely a utility function that takes a source file (probably a file path) as an argument and returns the full path to that file. This can be useful in many contexts, for example when you need to read from or write to a file and need the full path to that file.\n\nAs for the architectural analysis, this line of code is consistent with typical JavaScript and Node.js practices. The ES6 module system is widely used in modern JavaScript development, and utility functions like `fullPathFromSourceFile` are a common way to organize code that is reused across different parts of a project.\n\nMore information about ES6 modules can be found here:\n- [MDN Web Docs: import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [MDN Web Docs: export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export)\n\nAnd for more information about file paths in Node.js, you can refer to:\n- [Node.js path module](https://nodejs.org/api/path.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 10:54:59 PM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:55:36 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:56:58 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:58:32 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "import { fullPathFromSourceFile } from '../utilities/files';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 8
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 10:53:38 PM PDT\n\nThe code you've provided is a single line of code in JavaScript (or TypeScript) that imports a specific function from another module. \n\nThe `import` statement is used to bring in functions, objects, or values from other modules or files in JavaScript. This allows for the separation of code into manageable pieces.\n\nIn this line of code, `{ lineNumberBaseFromCell }` is the specific function being imported. The curly braces around `lineNumberBaseFromCell` indicate that this function is being imported by name, which is known as named import. This means that `lineNumberBaseFromCell` function is a named export in the `'../extension/vscodeUtilities'` module.\n\nThe path `'../extension/vscodeUtilities'` is the location of the module from which the function is being imported. The `..` at the beginning of the path means to go up one level in the directory structure. So, this code is importing the `lineNumberBaseFromCell` function from the `vscodeUtilities.js` or `vscodeUtilities.ts` file located in an `extension` directory one level up from the current file.\n\nWithout the rest of the code, it's difficult to say exactly what the `lineNumberBaseFromCell` function does. But from the name, it seems like it might be a function that determines the base line number for a cell, possibly in the context of a table or grid in a Visual Studio Code extension.\n\nAs for the algorithm used, this line of code doesn't represent an algorithm. It's simply a statement that imports a function from another module. The algorithm (if any) would be in the implementation of the `lineNumberBaseFromCell` function itself.\n\nHere are some resources for further reading:\n\n- [JavaScript Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules): This guide from MDN (Mozilla Developer Network) provides a comprehensive overview of JavaScript modules, including `import` and `export` statements.\n- [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/modules.html): This is the official TypeScript documentation on modules, which work similarly to JavaScript modules but with some additional features."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 10:55:03 PM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:55:39 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:57:02 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:58:46 PM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 18\n\n   **Bug Type**: Data Compliance\n\n   **Description**: The function 'lineNumberBaseFromCell' is imported but it is not clear whether it handles data in a way that is compliant with GDPR, PCI DSS, and HIPAA. If this function processes personal data, it may pose a data compliance issue.\n\n   **Solution**: Ensure that 'lineNumberBaseFromCell' function complies with GDPR, PCI DSS, and HIPAA regulations. If it processes personal data, it should do so in a secure manner, provide necessary notifications to the user, have necessary user consent, and provide a way for users to request for their personal data to be deleted. If it processes payment card data, it should be PCI DSS compliant. If it processes health information, it should be HIPAA compliant.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 9,
+                "severity": 2,
+                "bugType": "Data Compliance",
+                "description": "The function 'lineNumberBaseFromCell' is imported but it is not clear whether it handles data in a way that is compliant with GDPR, PCI DSS, and HIPAA. If this function processes personal data, it may pose a data compliance issue.",
+                "solution": "Ensure that 'lineNumberBaseFromCell' function complies with GDPR, PCI DSS, and HIPAA regulations. If it processes personal data, it should do so in a secure manner, provide necessary notifications to the user, have necessary user consent, and provide a way for users to request for their personal data to be deleted. If it processes payment card data, it should be PCI DSS compliant. If it processes health information, it should be HIPAA compliant."
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "import { lineNumberBaseFromCell } from '../extension/vscodeUtilities';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 9
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 10:54:07 PM PDT\n\nThis line of code is a single import statement in JavaScript, specifically using ES6 syntax. It imports a specific exported member from another module. \n\nThe `DisplayGroupFriendlyName` is a named export from the module located at `../data/userAnalysisType`. The `../` indicates that the module is located in a directory one level up from the current module. From there, it goes into the `data` directory and imports the `userAnalysisType` module.\n\nHere's a breakdown of the syntax:\n\n- `import`: This is the keyword that begins the import statement. It tells JavaScript that we're going to bring in some functionality from another module.\n\n- `{ DisplayGroupFriendlyName }`: This is the named export we're importing. The curly braces `{}` are used for importing named exports. The name inside the braces must match exactly the name of the exported member in the module we're importing from.\n\n- `from`: This keyword is used to specify the path to the module we're importing from.\n\n- `'../data/userAnalysisType'`: This is the path to the module we're importing from. Paths can be relative or absolute. In this case, it's a relative path.\n\nThis code doesn't provide any algorithm or logic. It's just a way to include functionalities or data from other parts of the application. \n\nOne thing to note is that this import statement is used in a modular programming paradigm, which is a software design technique that emphasizes separating the functionality of a program into independent, interchangeable modules. This way, each module contains everything necessary to execute only one aspect of the desired functionality.\n\nHere is a link for more information on JavaScript modules and import/export statements: [JavaScript Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) \n\nAs per the given architectural guidelines, there doesn't seem to be any conflict with this line of code. It adheres to a modular programming approach which is a common practice in software development."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 10:55:06 PM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:55:42 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:57:06 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:59:03 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 20\n\n   **Bug Type**: Data Privacy\n\n   **Description**: The import statement is importing a module that handles user data. If this data is not properly handled, it can lead to data privacy issues and non-compliance with GDPR, PCI DSS, and HIPAA.\n\n   **Solution**: Ensure that the 'DisplayGroupFriendlyName' module handles user data in a secure and compliant manner. This includes encrypting sensitive data, not storing unnecessary data, and providing users with the ability to view, update, and delete their data. More details can be found at the following links: [GDPR](https://gdpr.eu/), [PCI DSS](https://www.pcisecuritystandards.org/pci_security/), [HIPAA](https://www.hhs.gov/hipaa/for-professionals/security/index.html)\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 10,
+                "severity": 5,
+                "bugType": "Data Privacy",
+                "description": "The import statement is importing a module that handles user data. If this data is not properly handled, it can lead to data privacy issues and non-compliance with GDPR, PCI DSS, and HIPAA.",
+                "solution": "Ensure that the 'DisplayGroupFriendlyName' module handles user data in a secure and compliant manner. This includes encrypting sensitive data, not storing unnecessary data, and providing users with the ability to view, update, and delete their data. More details can be found at the following links: [GDPR](https://gdpr.eu/), [PCI DSS](https://www.pcisecuritystandards.org/pci_security/), [HIPAA](https://www.hhs.gov/hipaa/for-professionals/security/index.html)"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "import { DisplayGroupFriendlyName } from '../data/userAnalysisType';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 10
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 10:54:33 PM PDT\n\nThe provided code is a TypeScript class named `FunctionKernelControllerBase` that extends another class named `KernelControllerBase`. This class seems to be part of a Visual Studio Code (VS Code) extension for code analysis, possibly for identifying bugs, vulnerabilities, and design flaws in the source code.\n\nHere is a breakdown of the class and its methods:\n\n1. **Constructor**: The constructor takes multiple parameters, including a diagnostic collection, kernel details, output details, and error handlers. It calls the parent class constructor and initializes the `sourceLevelIssueCollection` which is a diagnostic collection for the notebook type and the provided collection type.\n\n2. **dispose()**: This method calls the dispose method of the parent class. It is used to clean up any resources that the object is holding onto when the object is no longer needed.\n\n3. **onKernelOutputItem()**: This method takes a response, a notebook cell, and an additional parameter. It processes the response from the Boost Service. If the response details are undefined or empty, it generates a cell output indicating that no bugs were found. Otherwise, it iterates over the response details (which are presumably bug reports), calculates the line number of each bug, and generates a markdown string containing the bug details. It then generates a cell output with the markdown string.\n\n4. **onKernelProcessResponseDetails()**: This method takes details, a notebook cell, and a notebook document. It processes the details (which are presumably bug reports), determines the source file, calculates the base line number and the number of lines of text, retrieves existing diagnostics for the source file, and iterates over the details. For each bug, it checks the line number, determines the severity, creates a diagnostic object, and adds it to a list of diagnostics if it doesn't already exist in the existing diagnostics. It then filters the existing diagnostics that are not in the line range of the current cell, merges the filtered existing diagnostics with the new diagnostics, and sets the source-level issue collection for the source file to the merged diagnostics. It finally calls the parent class's `onKernelProcessResponseDetails()` method.\n\nThis class uses the **Iterator pattern** to iterate over the details of the response and the bugs. It also uses the **Factory Method pattern** to create diagnostic collections and diagnostic objects.\n\nThis code aligns with the architectural blueprint summary provided earlier. It uses TypeScript and object-oriented design, it communicates with a remote service for code analysis, it uses asynchronous programming, it includes extensive error handling and logging, and it is well-structured and organized into classes.\n\nFor more education and background, you can refer to the following resources:\n- [VS Code Extension API](https://code.visualstudio.com/api/references/vscode-api)\n- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)\n- [Iterator Pattern](https://en.wikipedia.org/wiki/Iterator_pattern)\n- [Factory Method Pattern](https://en.wikipedia.org/wiki/Factory_method_pattern)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 10:55:13 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExamplErrorPath-->End;\n```\n\nIn the mermaid code syntax, do not use parenthesis, invalid or special characters. If no control flow is present in the code (for example, the code is just comments), return the string \"NO CONTROL FLOW FOUND\"."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:56:00 PM PDT\n\n1. **Severity**: 6/10\n\n   **Line Number**: 35\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The 'response' object is directly accessed without any validation. This can lead to potential security vulnerabilities if the object contains sensitive data or is manipulated by an attacker.\n\n   **Solution**: Always validate and sanitize input data before using it. Consider using a schema validation library to ensure the data is in the expected format. More information can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 56\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The 'details' object is directly accessed without any validation. This can lead to potential security vulnerabilities if the object contains sensitive data or is manipulated by an attacker.\n\n   **Solution**: Always validate and sanitize input data before using it. Consider using a schema validation library to ensure the data is in the expected format. More information can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 24,
+                "severity": 6,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The 'response' object is directly accessed without any validation. This can lead to potential security vulnerabilities if the object contains sensitive data or is manipulated by an attacker.",
+                "solution": "Always validate and sanitize input data before using it. Consider using a schema validation library to ensure the data is in the expected format. More information can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+              },
+              {
+                "lineNumber": 45,
+                "severity": 7,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The 'details' object is directly accessed without any validation. This can lead to potential security vulnerabilities if the object contains sensitive data or is manipulated by an attacker.",
+                "solution": "Always validate and sanitize input data before using it. Consider using a schema validation library to ensure the data is in the expected format. More information can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:57:36 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 49\n\n   **Bug Type**: CPU\n\n   **Description**: Inefficient use of string concatenation in a loop can lead to performance issues.\n\n   **Solution**: Consider using an array and the join() method to concatenate strings. This approach is generally faster and more memory-efficient. Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join\n\n\n2. **Severity**: 3/10\n\n   **Line Number**: 86\n\n   **Bug Type**: Memory\n\n   **Description**: The 'existingDiagnostics' array is not cleared before being repopulated, which could lead to unnecessary memory usage.\n\n   **Solution**: Consider clearing the 'existingDiagnostics' array before repopulating it. If the array is not needed elsewhere, you could also consider reassigning it directly.\n\n\n3. **Severity**: 4/10\n\n   **Line Number**: 86\n\n   **Bug Type**: CPU\n\n   **Description**: The use of the 'find' method in a loop can lead to quadratic time complexity.\n\n   **Solution**: Consider using a data structure such as a Set or a Map to store the diagnostics, which can provide constant-time lookup. Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set\n\n\n4. **Severity**: 2/10\n\n   **Line Number**: 109\n\n   **Bug Type**: CPU\n\n   **Description**: The use of the 'filter' method followed by the spread operator can lead to unnecessary iterations over the array.\n\n   **Solution**: Consider using a single reduce operation to filter and merge the arrays. This would only require a single pass over the array. Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 38,
+                "severity": 5,
+                "bugType": "CPU",
+                "description": "Inefficient use of string concatenation in a loop can lead to performance issues.",
+                "solution": "Consider using an array and the join() method to concatenate strings. This approach is generally faster and more memory-efficient. Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join"
+              },
+              {
+                "lineNumber": 75,
+                "severity": 3,
+                "bugType": "Memory",
+                "description": "The 'existingDiagnostics' array is not cleared before being repopulated, which could lead to unnecessary memory usage.",
+                "solution": "Consider clearing the 'existingDiagnostics' array before repopulating it. If the array is not needed elsewhere, you could also consider reassigning it directly."
+              },
+              {
+                "lineNumber": 75,
+                "severity": 4,
+                "bugType": "CPU",
+                "description": "The use of the 'find' method in a loop can lead to quadratic time complexity.",
+                "solution": "Consider using a data structure such as a Set or a Map to store the diagnostics, which can provide constant-time lookup. Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set"
+              },
+              {
+                "lineNumber": 98,
+                "severity": 2,
+                "bugType": "CPU",
+                "description": "The use of the 'filter' method followed by the spread operator can lead to unnecessary iterations over the array.",
+                "solution": "Consider using a single reduce operation to filter and merge the arrays. This would only require a single pass over the array. Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:59:25 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 34\n\n   **Bug Type**: GDPR\n\n   **Description**: The code is potentially handling sensitive data (response details) without proper checks or encryption. This is a violation of the GDPR regulation which requires that any processing of personal data must be lawful and transparent.\n\n   **Solution**: Implement proper data handling procedures. This could include checking the type and sensitivity of data before processing and using encryption when storing or transmitting data.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 34\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If the response details include cardholder data, this is a violation of PCI DSS. PCI DSS requires that cardholder data be protected wherever it is stored, processed or transmitted.\n\n   **Solution**: Ensure that cardholder data is not included in the response details or that it is properly encrypted and stored in a secure environment.\n\n\n3. **Severity**: 7/10\n\n   **Line Number**: 34\n\n   **Bug Type**: HIPAA\n\n   **Description**: If the response details include protected health information (PHI), this is a violation of HIPAA. HIPAA requires that PHI be protected wherever it is stored, processed or transmitted.\n\n   **Solution**: Ensure that PHI is not included in the response details or that it is properly encrypted and stored in a secure environment.\n\n\n4. **Severity**: 5/10\n\n   **Line Number**: 102\n\n   **Bug Type**: GDPR\n\n   **Description**: The code is potentially storing sensitive data (diagnostics) without proper checks or encryption. This is a violation of the GDPR regulation which requires that any processing of personal data must be lawful and transparent.\n\n   **Solution**: Implement proper data handling procedures. This could include checking the type and sensitivity of data before storing and using encryption when storing data.\n\n\n5. **Severity**: 5/10\n\n   **Line Number**: 102\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If the diagnostics include cardholder data, this is a violation of PCI DSS. PCI DSS requires that cardholder data be protected wherever it is stored, processed or transmitted.\n\n   **Solution**: Ensure that cardholder data is not included in the diagnostics or that it is properly encrypted and stored in a secure environment.\n\n\n6. **Severity**: 5/10\n\n   **Line Number**: 102\n\n   **Bug Type**: HIPAA\n\n   **Description**: If the diagnostics include protected health information (PHI), this is a violation of HIPAA. HIPAA requires that PHI be protected wherever it is stored, processed or transmitted.\n\n   **Solution**: Ensure that PHI is not included in the diagnostics or that it is properly encrypted and stored in a secure environment.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 23,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The code is potentially handling sensitive data (response details) without proper checks or encryption. This is a violation of the GDPR regulation which requires that any processing of personal data must be lawful and transparent.",
+                "solution": "Implement proper data handling procedures. This could include checking the type and sensitivity of data before processing and using encryption when storing or transmitting data."
+              },
+              {
+                "lineNumber": 23,
+                "severity": 7,
+                "bugType": "PCI DSS",
+                "description": "If the response details include cardholder data, this is a violation of PCI DSS. PCI DSS requires that cardholder data be protected wherever it is stored, processed or transmitted.",
+                "solution": "Ensure that cardholder data is not included in the response details or that it is properly encrypted and stored in a secure environment."
+              },
+              {
+                "lineNumber": 23,
+                "severity": 7,
+                "bugType": "HIPAA",
+                "description": "If the response details include protected health information (PHI), this is a violation of HIPAA. HIPAA requires that PHI be protected wherever it is stored, processed or transmitted.",
+                "solution": "Ensure that PHI is not included in the response details or that it is properly encrypted and stored in a secure environment."
+              },
+              {
+                "lineNumber": 91,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "The code is potentially storing sensitive data (diagnostics) without proper checks or encryption. This is a violation of the GDPR regulation which requires that any processing of personal data must be lawful and transparent.",
+                "solution": "Implement proper data handling procedures. This could include checking the type and sensitivity of data before storing and using encryption when storing data."
+              },
+              {
+                "lineNumber": 91,
+                "severity": 5,
+                "bugType": "PCI DSS",
+                "description": "If the diagnostics include cardholder data, this is a violation of PCI DSS. PCI DSS requires that cardholder data be protected wherever it is stored, processed or transmitted.",
+                "solution": "Ensure that cardholder data is not included in the diagnostics or that it is properly encrypted and stored in a secure environment."
+              },
+              {
+                "lineNumber": 91,
+                "severity": 5,
+                "bugType": "HIPAA",
+                "description": "If the diagnostics include protected health information (PHI), this is a violation of HIPAA. HIPAA requires that PHI be protected wherever it is stored, processed or transmitted.",
+                "solution": "Ensure that PHI is not included in the diagnostics or that it is properly encrypted and stored in a secure environment."
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "\nexport class FunctionKernelControllerBase extends KernelControllerBase {\n\n    public sourceLevelIssueCollection: vscode.DiagnosticCollection;\n\n\tconstructor(\n        collection: vscode.DiagnosticCollection,\n        kernelId: string,\n        kernelLabel: string,\n        description: string,\n        outputType: string,\n        displayGroup: DisplayGroupFriendlyName,\n        collectionType: string,\n        outputHeader: string,\n        context: vscode.ExtensionContext,\n        otherThis: any,\n        onServiceErrorHandler: any\n        ) {\n\n        super(\n            collection,\n            kernelId,\n            kernelLabel,\n            description,\n            outputType,\n            displayGroup,\n            outputHeader,\n            true,\n            true, \n            context,\n            otherThis,\n            onServiceErrorHandler);\n\n        this.outputHeader = outputHeader;\n        this.sourceLevelIssueCollection = vscode.languages.createDiagnosticCollection(boostnb.NOTEBOOK_TYPE + collectionType);\n\t}\n\n\tdispose(): void {\n\t\tsuper.dispose();\n\t}\n\n    onKernelOutputItem(\n        response: any,\n        cell : vscode.NotebookCell | boostnb.BoostNotebookCell,\n        _ : any) : string {\n\n        if (response.details === undefined) {\n            throw new Error(\"Unexpected missing data from Boost Service\");\n        }\n\n        if (response.details.length === 0) {\n            return generateCellOutputWithHeader(`Source-Level ${this.outputHeader}`, `**No bugs found**`);\n        }\n\n        let markdown = '';\n        const baseLineNumber = lineNumberBaseFromCell(cell);\n\n        response.details.forEach((bug: any, index: number) => {\n            let calculatedLineNumber = baseLineNumber + bug.lineNumber;            \n            if (calculatedLineNumber < 1) {\n                calculatedLineNumber = 1;\n            }\n\n            markdown += `${index + 1}. **Severity**: ${bug.severity}/10\\n\\n`;\n            markdown += `   **Line Number**: ${calculatedLineNumber}\\n\\n`;\n            markdown += `   **Bug Type**: ${bug.bugType}\\n\\n`;\n            markdown += `   **Description**: ${bug.description}\\n\\n`;\n            markdown += `   **Solution**: ${bug.solution}\\n\\n\\n`;\n        });\n\n        return generateCellOutputWithHeader(`Source-Level ${this.outputHeader}`, markdown);\n    }\n\n    onKernelProcessResponseDetails(\n        details: any,\n        cell : vscode.NotebookCell | boostnb.BoostNotebookCell,\n        notebook: vscode.NotebookDocument | boostnb.BoostNotebook) : any {\n\n        //if the details exists, then we will use that as the output as an object\n        if (!details) {\n            return {};\n        }\n        //now add the bugs to the issue collection\n\n        const usingBoostNotebook = 'value' in cell;\n    \n        let sourceFile : string;\n        if (!notebook.metadata.sourceFile) {\n            //if there is no source file, this was a new notebook created in memory. \n            sourceFile = notebook.uri.fsPath;\n        } else {\n            sourceFile = fullPathFromSourceFile(notebook.metadata.sourceFile).fsPath;\n        }\n        const lineNumberBase = lineNumberBaseFromCell(cell);\n        const linesOfText = (usingBoostNotebook?cell.value:cell.document.getText()).split('\\n').length;\n\n        // Retrieve existing diagnostics\n        const sourceUri = vscode.Uri.parse(sourceFile);\n        const existingDiagnostics = this.sourceLevelIssueCollection.get(sourceUri);\n\n        let diagnostics: vscode.Diagnostic[] = [];\n        details.forEach((bug: any, _: number) => {\n            if (bug.lineNumber < 1) {\n                boostLogging.debug(`${this.id} - Diagnostic Problem reported in negative line number ` +\n                                 `(lineNumberBase=${lineNumberBase}, bug line=${bug.lineNumber}). Setting to 1.`);\n                bug.lineNumber = 1;\n            } else if (bug.lineNumber > lineNumberBase + linesOfText) {\n                boostLogging.debug(`${this.id} - Diagnostic Problem reported in line number greater than the number of lines in the cell ` +\n                                 `(lineNumberBase=${lineNumberBase}, bug line=${bug.lineNumber}).`);\n            }\n        \n            // for now we're hardcoding the following range:\n            // Error: 9-10\n            // Warning: 6-8\n            // Info: 0-5\n            // Hint: Unused by default\n            const thisSeverity = bug.severity > 8?\n                vscode.DiagnosticSeverity.Error: // should be error - but Error blocks builds for customer\n                bug.severity > 5?\n                    vscode.DiagnosticSeverity.Warning:\n                    vscode.DiagnosticSeverity.Information;\n    \n            const loweredSeverity = thisSeverity === vscode.DiagnosticSeverity.Error?\n                vscode.DiagnosticSeverity.Warning:\n                thisSeverity === vscode.DiagnosticSeverity.Warning?\n                    vscode.DiagnosticSeverity.Information:\n                    vscode.DiagnosticSeverity.Hint;\n\n            let severityToString = {\n                [vscode.DiagnosticSeverity.Error]: 'Error',\n                [vscode.DiagnosticSeverity.Warning]: 'Warning',\n                [vscode.DiagnosticSeverity.Information]: 'Information',\n                [vscode.DiagnosticSeverity.Hint]: 'Hint'\n            };\n\n            // we're going tp print the actual severity of the issue in the description\n            //      even though its one-off from the severity of the diagnostic\n            let range = new vscode.Range(bug.lineNumber, 0, bug.lineNumber, 0);\n            let diagnostic = new vscode.Diagnostic(\n                range,\n                `${severityToString[thisSeverity]}: ${bug.description}`,\n\n                // to prevent builds from being blocked, we're going to lower all severities by one level\n                loweredSeverity);\n\n            // add the bug type to the diagnostic so we know how to categorize\n            diagnostic.source = bug.bugType;\n\n            // if available, add the recommended solution to the issue\n            if (bug.solution) {\n                    // we use notebook for offline notebooks, and the cell for online notebooks\n                const solutionLocation =\n                    usingBoostNotebook?vscode.Uri.parse((notebook as boostnb.BoostNotebook).fsPath):cell.document.uri;\n                    // we don't have a specific location for the solution beyond the cell or notebook, so use start of the location\n                const solutionSpecificLocation = new vscode.Range(new vscode.Position(0, 0), new vscode.Position(0, 0));\n                let relatedInformation = new vscode.DiagnosticRelatedInformation(\n                    new vscode.Location(solutionLocation, solutionSpecificLocation), \n                    bug.solution);\n                diagnostic.relatedInformation = [relatedInformation];\n            }\n            \n            // Only add the diagnostic if it doesn't exist in the existingDiagnostics\n            if (!existingDiagnostics || !existingDiagnostics.find(existingDiagnostic => \n                existingDiagnostic.message === diagnostic.message && existingDiagnostic.range.isEqual(diagnostic.range))) {\n                diagnostics.push(diagnostic);\n            } else {\n                boostLogging.debug(`${this.id} - Diagnostic Problem already exists in the collection. Skipping.`);\n            }\n        });\n\n        // Filter existing diagnostics that are not in the line range of the current cell\n        const filteredDiagnostics = existingDiagnostics?existingDiagnostics.filter(diagnostic => {\n            const lineNumber = diagnostic.range.start.line;\n            return lineNumber < lineNumberBase || lineNumber >= lineNumberBase + linesOfText;\n        }):[];\n\n        // Merge filtered existing with new diagnostics\n        const mergedDiagnostics = [...filteredDiagnostics, ...diagnostics];\n        \n        this.sourceLevelIssueCollection.set(sourceUri, mergedDiagnostics);\n\n        return super.onKernelProcessResponseDetails(details, cell, notebook);\n    }\n\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 11
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/controllers/function_base_controller.ts"
+  }
+}

@@ -1,0 +1,191 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/test/suite/compliance_command.test.ts</h1>
+    <p>Date Generated: Friday, September 8, 2023 at 9:37:21 PM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:37:02 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:37:14 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:37:24 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/test/suite/compliance_command.test.ts line 0:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-title function_">suite</span>(<span class="hljs-string">&#x27;Compliance Code Command&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">timeout</span>(<span class="hljs-number">20000</span>); <span class="hljs-comment">// set test timeout to be 20 seconds</span>
+  
+    <span class="hljs-title function_">test</span>(<span class="hljs-string">&#x27;Compliance Code Command Test&#x27;</span>, <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">warn</span>(<span class="hljs-string">&#x27;Simulating Compliance Code Command Test&#x27;</span>);
+    });
+  });
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Wednesday, July 12, 2023 at 1:22:05 PM PDT</p>
+<p>This code is written in JavaScript, using Mocha, a JavaScript test framework running on Node.js. Mocha tests run serially, allowing for flexible and accurate reporting, while mapping uncaught exceptions to the correct test cases.</p>
+<p>Here&#39;s a breakdown of the code:</p>
+<ol>
+<li><p><code>suite(&#39;Compliance Code Command&#39;, function() {...}</code>: This is a test suite defined by Mocha. It&#39;s a way of grouping related tests together. In this case, the test suite is named &#39;Compliance Code Command&#39;. </p>
+</li>
+<li><p><code>this.timeout(20000);</code>: This line of code sets the timeout for the tests in this suite to be 20 seconds (20000 milliseconds). If a test takes longer than this to run, Mocha will assume it has failed due to a timeout.</p>
+</li>
+<li><p><code>test(&#39;Compliance Code Command Test&#39;, async function() {...});</code>: This is an individual test case, named &#39;Compliance Code Command Test&#39;. The <code>async</code> keyword means that this function returns a Promise, which is a way of handling asynchronous operations in JavaScript. Mocha natively supports Promises, so if this function were to return a Promise, Mocha would wait for that Promise to resolve before ending the test.</p>
+</li>
+<li><p><code>console.warn(&#39;Simulating Compliance Code Command Test&#39;);</code>: This line of code is the actual test. It&#39;s using <code>console.warn</code> to print a message to the console. In a real-world scenario, you would replace this with an actual test, such as an assertion.</p>
+</li>
+</ol>
+<p>In terms of architectural guidelines, this code is fairly standard for a Mocha test suite. There are no apparent conflicts with common architectural guidelines or principles.</p>
+<p>For more information on Mocha, you can visit the official website: <a href="https://mochajs.org/">https://mochajs.org/</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:36:46 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->ExampleProcess;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:36:59 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:37:10 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:37:21 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div>
+</body>
+</html>

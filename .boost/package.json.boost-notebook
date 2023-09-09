@@ -13,6 +13,79 @@
             "outputType": "explainCode",
             "details": []
           }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 5:10:48 PM PDT\n\nNO CONTROL FLOW FOUND\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\n```\n\nThe code provided does not contain any control flow.\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExamplErrorPath-->End;\n```\n\nThe code provided does not contain any control flow."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:11:02 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:11:28 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:12:13 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 22\n\n   **Bug Type**: GDPR\n\n   **Description**: The application collects user email for bug reporting. This could potentially lead to a violation of the user's privacy rights under GDPR if not handled correctly.\n\n   **Solution**: Ensure that the email collection is compliant with GDPR requirements. This includes obtaining user consent before collecting email, providing a clear and easily accessible privacy policy, and implementing proper security measures to protect user data. Anonymize or pseudonymize user data where possible.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 142\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The application has a configuration for the default organization for billing. If credit card or other sensitive authentication data is processed, transmitted, or stored, PCI DSS compliance requirements apply.\n\n   **Solution**: Ensure that the application complies with all PCI DSS requirements when handling credit card data. This includes, but is not limited to, using strong encryption for transmission of cardholder data, limiting cardholder data storage, and maintaining a vulnerability management program.\n\n\n3. **Severity**: 8/10\n\n   **Line Number**: 366\n\n   **Bug Type**: HIPAA\n\n   **Description**: The application uses axios for HTTP requests. If any Protected Health Information (PHI) is transmitted using axios, it needs to be secure to comply with HIPAA regulations.\n\n   **Solution**: Ensure that all PHI transmitted over the network is encrypted using a secure method such as SSL/TLS. If PHI is stored, it must be encrypted at rest and only accessible to authorized individuals.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 23,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "The application collects user email for bug reporting. This could potentially lead to a violation of the user's privacy rights under GDPR if not handled correctly.",
+                "solution": "Ensure that the email collection is compliant with GDPR requirements. This includes obtaining user consent before collecting email, providing a clear and easily accessible privacy policy, and implementing proper security measures to protect user data. Anonymize or pseudonymize user data where possible.",
+                "link": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 143,
+                "severity": 7,
+                "bugType": "PCI DSS",
+                "description": "The application has a configuration for the default organization for billing. If credit card or other sensitive authentication data is processed, transmitted, or stored, PCI DSS compliance requirements apply.",
+                "solution": "Ensure that the application complies with all PCI DSS requirements when handling credit card data. This includes, but is not limited to, using strong encryption for transmission of cardholder data, limiting cardholder data storage, and maintaining a vulnerability management program.",
+                "link": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 367,
+                "severity": 8,
+                "bugType": "HIPAA",
+                "description": "The application uses axios for HTTP requests. If any Protected Health Information (PHI) is transmitted using axios, it needs to be secure to comply with HIPAA regulations.",
+                "solution": "Ensure that all PHI transmitted over the network is encrypted using a secure method such as SSL/TLS. If PHI is stored, it must be encrypted at rest and only accessible to authorized individuals.",
+                "link": "https://www.hhs.gov/hipaa/for-professionals/security/index.html"
+              }
+            ]
+          }
         }
       ],
       "languageId": "json",

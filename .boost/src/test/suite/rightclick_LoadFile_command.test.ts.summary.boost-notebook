@@ -1,5 +1,79 @@
 {
-  "cells": [],
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": ""
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysis"
+          }
+        }
+      ],
+      "languageId": "markdown",
+      "id": "ca8e8d3c-a0cc-47f3-805b-c969a52a55d4",
+      "value": "\n\n---\n\n### Boost Architectural Quick Summary Security Report\n\nLast Updated: Friday, September 8, 2023 at 11:13:39 PM PDT\n\n\nExecutive Report:\n\n1. **Architectural Impact**: The analysis of this file has not revealed any severe issues.\n2. **Risk Analysis**: The analysis of this file has not revealed any severe issues.\n3. **Potential Customer Impact**: Based on the analysis, there are no severe issues that could potentially impact customers.\n4. **Performance Issues**: Our analysis did not identify any explicit performance issues in the file.\n5. **Risk Assessment**: Based on the current analysis of this file, no severe issues have been found. However, this doesn't guarantee that the file is risk-free.\n\nHighlights:\n\n- No severe issues were identified in the current analysis of this file.\n",
+      "kind": 1,
+      "metadata": {
+        "id": "ca8e8d3c-a0cc-47f3-805b-c969a52a55d4",
+        "outputType": "bugAnalysis",
+        "summaryType": "quick"
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": ""
+            }
+          ],
+          "metadata": {
+            "outputType": "performance"
+          }
+        }
+      ],
+      "languageId": "markdown",
+      "id": "321cca43-7afa-4fb3-9b58-02096007fb32",
+      "value": "\n\n---\n\n### Boost Architectural Quick Summary Performance Report\n\nLast Updated: Friday, September 8, 2023 at 11:14:33 PM PDT\n\n\nExecutive Report:\n\n1. **Architectural Impact**: The analysis of this file has not revealed any severe issues.\n2. **Risk Analysis**: The analysis of this file has not revealed any severe issues.\n3. **Potential Customer Impact**: Based on the analysis, there are no severe issues that could potentially impact customers.\n4. **Performance Issues**: Our analysis did not identify any explicit performance issues in the file.\n5. **Risk Assessment**: Based on the current analysis of this file, no severe issues have been found. However, this doesn't guarantee that the file is risk-free.\n\nHighlights:\n\n- No severe issues were identified in the current analysis of this file.\n",
+      "kind": 1,
+      "metadata": {
+        "id": "321cca43-7afa-4fb3-9b58-02096007fb32",
+        "outputType": "performance",
+        "summaryType": "quick"
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": ""
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "markdown",
+      "id": "60b9f4bb-e11a-4ffb-ae23-e21da1e7d40e",
+      "value": "\n\n---\n\n### Boost Architectural Quick Summary Compliance Report\n\nLast Updated: Friday, September 8, 2023 at 11:16:34 PM PDT\n\nExecutive Level Report:\n\n1. **Architectural Impact**: The software project is a Visual Studio Code extension that provides code analysis functionality. It is well-structured and follows best practices for a VS Code extension. However, the file `rightclick_LoadFile_command.test.ts` has been flagged for potential data privacy, data compliance, GDPR, and HIPAA issues. This could impact the architecture if these issues are not addressed, as they could require changes to how data is handled in the project.\n\n2. **Risk Analysis**: The risk associated with the identified issues is high. The file `rightclick_LoadFile_command.test.ts` has been flagged for potential HIPAA violations, which could lead to legal and financial repercussions if not addressed. Additionally, the file has been flagged for potential data privacy and GDPR issues, which could also lead to legal issues and loss of user trust if not properly handled.\n\n3. **Potential Customer Impact**: Customers could be impacted if their data is not handled in a compliant manner. This could lead to loss of trust and potential legal issues. It is crucial to ensure that all data handling practices are compliant with relevant regulations to maintain customer trust and avoid legal issues.\n\n4. **Overall Issues**: The overall health of the project source is concerning, as the file `rightclick_LoadFile_command.test.ts` has been flagged for multiple potential issues. This file represents 100% of the project files reviewed, indicating that all files in the project could potentially have issues.\n\nRisk Assessment:\n\n- **Overall Health**: The overall health of the project source is concerning. All files reviewed (100%) have been flagged for potential issues. This indicates a high risk level and suggests that a thorough review and potential refactoring of the code may be necessary.\n\nHighlights:\n\n- The project follows best practices for a VS Code extension and is well-structured.\n- The file `rightclick_LoadFile_command.test.ts` has been flagged for potential data privacy, data compliance, GDPR, and HIPAA issues.\n- These issues could lead to legal and financial repercussions if not addressed.\n- All files reviewed (100%) have been flagged for potential issues, indicating a high risk level.\n- It is crucial to ensure that all data handling practices are compliant with relevant regulations to maintain customer trust and avoid legal issues.",
+      "kind": 1,
+      "metadata": {
+        "id": "60b9f4bb-e11a-4ffb-ae23-e21da1e7d40e",
+        "outputType": "complianceCode",
+        "summaryType": "quick"
+      }
+    }
+  ],
   "metadata": {
     "defaultDir": ".boost",
     "sourceFile": "./src/test/suite/rightclick_LoadFile_command.test.ts"

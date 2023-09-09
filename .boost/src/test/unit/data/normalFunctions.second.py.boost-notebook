@@ -1,0 +1,20 @@
+{
+  "cells": [
+    {
+      "outputs": [],
+      "languageId": "python",
+      "id": "0",
+      "value": "\ndef testFunc2():\n    print(\"Goodbye, World!\")\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/unit/data/normalFunctions.second.py"
+  }
+}

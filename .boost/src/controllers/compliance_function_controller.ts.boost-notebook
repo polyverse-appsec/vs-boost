@@ -1,0 +1,580 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 10:07:47 PM PDT\n\nThis code snippet is a TypeScript import statement that is importing two specific exports from the 'vscode' module: `DiagnosticCollection` and `ExtensionContext`.\n\nLet's break down each part:\n\n- `import`: This is a keyword in JavaScript (and thus TypeScript) that is used to import functions, objects, or values from other files or modules. This helps in organizing code into separate, manageable parts and reusing code across multiple files.\n\n- `{ DiagnosticCollection, ExtensionContext }`: This is a list of named exports to import from the 'vscode' module. Named exports are specific items that a module exports that can be imported by their specific names.\n\n    - `DiagnosticCollection`: This is a class in the 'vscode' module that represents a collection of diagnostics. Diagnostics in VS Code are problems in your code that are highlighted with squiggly lines and can also show up in the Problems panel. They can represent anything from compile errors to linting issues to other types of problems. A `DiagnosticCollection` is a group of these diagnostics, typically related in some way.\n\n    - `ExtensionContext`: This is another class in the 'vscode' module that represents a context in which an extension is running. An `ExtensionContext` contains utilities for extensions, as well as state information such as the extension's current workspace, its global and workspace state, and its extension path. This context is provided to the `activate` function of an extension when it is activated.\n\n- `from 'vscode'`: This specifies the module to import from. In this case, it's the 'vscode' module, which is the API module for Visual Studio Code. This module contains all the types, functions, and classes that extensions can use to interact with the VS Code editor.\n\nHere are some resources for further learning:\n- [VS Code API (including DiagnosticCollection and ExtensionContext)](https://code.visualstudio.com/api/references/vscode-api)\n- [JavaScript Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)\n- [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/modules.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 10:10:30 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\n```\n\nThe provided code does not contain any control flow."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:11:10 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:12:28 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:13:15 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "\nimport { DiagnosticCollection, ExtensionContext } from 'vscode';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 10:08:17 PM PDT\n\nThe provided code snippet is a single line of code in JavaScript (or TypeScript) that is used to import a module named `BoostConfiguration` from a relative path `'../extension/boostConfiguration'`.\n\nHere's a detailed explanation:\n\n- `import`: This is a keyword in JavaScript (and TypeScript) that is used to import functions, objects, or values from other modules or files into the current file. This is part of the ES6 (ECMAScript 6) module system.\n\n- `{ BoostConfiguration }`: This is the name of the specific export from the module that we want to import into the current file. The use of curly braces `{}` indicates that we're using named imports. This means `BoostConfiguration` is not a default export, but a named export in the `boostConfiguration` module.\n\n- `from`: This keyword is used in conjunction with `import` to specify the path of the module from which we want to import.\n\n- `'../extension/boostConfiguration'`: This is the relative path to the module from which we're importing. The `..` at the beginning of the path indicates that we're going up one level in the directory structure. Then we're going into the `extension` directory and importing from the `boostConfiguration` file (the file extension is not needed when importing in JavaScript/TypeScript).\n\nThe `BoostConfiguration` module could contain a class, a function, an object, or any other exportable JavaScript entity. The specific details of what `BoostConfiguration` is and what it does would be contained within the `boostConfiguration` file.\n\nAs for the architectural guidelines, this code snippet is quite standard and doesn't seem to conflict with any common architectural principles. The use of modules and imports is a best practice in JavaScript and TypeScript as it promotes code organization, reusability, and separation of concerns.\n\nFor more information and education on JavaScript modules and imports, you can refer to the following resources:\n\n- [MDN Web Docs: import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [JavaScript Modules: A Beginner’s Guide](https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 10:10:33 PM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:11:14 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:12:31 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:13:22 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 4\n\n   **Bug Type**: GDPR\n\n   **Description**: The code imports a configuration file, which could potentially contain sensitive user data. This can be a GDPR compliance issue if user data is not properly protected.\n\n   **Solution**: Ensure that the configuration file does not contain sensitive user data. If it does, make sure it is encrypted and properly secured. Also, implement access controls to restrict who can access this data.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 2,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "The code imports a configuration file, which could potentially contain sensitive user data. This can be a GDPR compliance issue if user data is not properly protected.",
+                "solution": "Ensure that the configuration file does not contain sensitive user data. If it does, make sure it is encrypted and properly secured. Also, implement access controls to restrict who can access this data.",
+                "links": [
+                  "https://www.eugdpr.org/"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import { BoostConfiguration } from '../extension/boostConfiguration';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 2
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 10:08:41 PM PDT\n\nThe provided code is a single line of code written in TypeScript, which is a statically typed superset of JavaScript. It is an import statement, which is used to include functionality from another file or module into the current file.\n\nThe code is importing a class named `FunctionKernelControllerBase` from a file located at `./function_base_controller`. This class is likely to be a base class for other classes that need to control or manage a kernel in some way. \n\nIn the context of software, a \"kernel\" often refers to the core part of an operating system that has complete control over everything in the system. However, in this case, it's more likely to refer to a core component of the software that provides some essential functionality. \n\nThe `FunctionKernelControllerBase` class is probably defined in the `function_base_controller` file, which is in the same directory as the file where this import statement is found (as indicated by the `./` at the beginning of the file path). \n\nThis import statement would allow the current file to create instances of `FunctionKernelControllerBase`, or extend it to create more specialized classes.\n\nIn terms of architectural guidelines, this code is consistent with common practices in JavaScript and TypeScript. It's modular, which is a key principle in software architecture. It's also likely to be part of an object-oriented design, given the use of classes.\n\nFor more about TypeScript and import statements, you can check the following resources:\n- TypeScript: [https://www.typescriptlang.org/](https://www.typescriptlang.org/)\n- Understanding ES6 Modules via Their History: [https://hacks.mozilla.org/2015/08/es6-in-depth-modules/](https://hacks.mozilla.org/2015/08/es6-in-depth-modules/)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 10:10:37 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle FunctionKernelControllerBase fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->FunctionKernelControllerBase;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:11:17 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:12:35 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:13:26 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import { FunctionKernelControllerBase } from './function_base_controller';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 3
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 10:09:03 PM PDT\n\nThe line of code you've provided is a single statement written in JavaScript, specifically using the ES6 module system syntax. \n\nThis line of code is performing an import operation. The `import` statement is used to import functions, objects or values that have been exported from an external module, another script, or another file. \n\nIn this case, it is importing a specific exported member, `complianceKernelName`, from another module named `compliance_controller`. The `complianceKernelName` is likely a string constant or a function that is used elsewhere in the code where this import statement is.\n\nThe file `compliance_controller` is probably responsible for controlling or managing some aspect of compliance in the larger application. The `complianceKernelName` could be a unique identifier for a specific kernel or core part of the compliance controller.\n\nAs for algorithms, this line of code doesn't implement any. It's a simple import statement that doesn't perform any logic or computation. However, under the hood, the JavaScript engine will locate and load the specified module, resolve the specified export, and make it available to the code that follows.\n\nThis line of code seems to align with the architectural blueprint provided earlier. It makes use of ES6 modules, which are commonly used in modern JavaScript and TypeScript projects, including VS Code extensions. It doesn't conflict with any architectural guidelines or constraints mentioned in the blueprint.\n\nHere are some resources for further reading:\n\n- [Mozilla Developer Network (MDN) guide on import statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [Understanding ES6 Modules](https://www.sitepoint.com/understanding-es6-modules/)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 10:10:42 PM PDT\n\n```mermaid\ngraph TD;\nstyle complianceKernelName fill:#228B22, stroke:#000000, stroke-width:2px;\ncomplianceKernelName-->End;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:11:21 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:12:39 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:13:29 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "import { complianceKernelName } from './compliance_controller';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 4
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 10:09:24 PM PDT\n\nThe provided line of code is an import statement in JavaScript (more specifically, TypeScript). It is used to include external modules, functions, or types into the current file.\n\nIn this case, `ControllerOutputType` is being imported from the module './controllerOutputTypes'. The `ControllerOutputType` is likely a TypeScript type or interface that is defined in the 'controllerOutputTypes' module. This type is used to define the structure of the controller output, which could be used in the current file to type check the data returned by a controller function.\n\nThe './' at the beginning of the module name indicates that the module is located in the same directory as the current file. If the module was in a subdirectory, the path might look like './subdirectory/controllerOutputTypes'. If the module was in a parent directory, the path might look like '../controllerOutputTypes'.\n\nThis line of code doesn't include any specific algorithms. It's part of the module system in JavaScript, which is a way to organize code into separate files and manage dependencies between them.\n\nThis line of code is consistent with the architectural guidelines provided in the project blueprint summary. It uses TypeScript for static type checking, which helps catch many errors at compile time. It also shows that the code is organized into modules, which is a best practice for structuring code.\n\nFor more information on TypeScript and its module system, you can refer to the following links:\n- [TypeScript Documentation](https://www.typescriptlang.org/docs/)\n- [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/modules.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 10:10:46 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ControllerOutputType fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->ControllerOutputType;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:11:24 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:12:42 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:13:32 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "import { ControllerOutputType } from './controllerOutputTypes';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 5
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 10:09:44 PM PDT\n\nThis line of code is an import statement in JavaScript, specifically using ES6 (ECMAScript 2015) syntax. It's importing a specific item, `DisplayGroupFriendlyName`, from a module located at '../data/userAnalysisType'.\n\nThe `DisplayGroupFriendlyName` is likely a function, class, or constant that has been exported from the module at the specified path. The exact nature and purpose of `DisplayGroupFriendlyName` would depend on its implementation in that module.\n\nThe path '../data/userAnalysisType' indicates that the module is located in a directory named 'data' that is a sibling to the directory containing the file with this import statement. The module's file name is 'userAnalysisType', and it doesn't need to include the file extension in the import statement.\n\nIn terms of architecture, this line of code indicates a dependency on the 'userAnalysisType' module. This could have implications for testing, as you may need to mock this dependency, and for deployment, as you need to ensure this module is included.\n\nFor more information on ES6 modules and import/export syntax, you can refer to this resource: [MDN Web Docs: import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 10:10:49 PM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:11:27 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:12:46 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:13:41 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 12\n\n   **Bug Type**: GDPR\n\n   **Description**: Potential violation of GDPR principles. The import statement suggests that user data is being processed, potentially without explicit consent or necessary safeguards. GDPR requires that personal data of EU citizens is processed lawfully, fairly, and transparently.\n\n   **Solution**: Ensure that user data is processed in compliance with GDPR principles, including obtaining explicit consent, implementing necessary safeguards, and providing transparency about how the data is used. Consider using anonymization or pseudonymization techniques where possible.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 6,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "Potential violation of GDPR principles. The import statement suggests that user data is being processed, potentially without explicit consent or necessary safeguards. GDPR requires that personal data of EU citizens is processed lawfully, fairly, and transparently.",
+                "solution": "Ensure that user data is processed in compliance with GDPR principles, including obtaining explicit consent, implementing necessary safeguards, and providing transparency about how the data is used. Consider using anonymization or pseudonymization techniques where possible.",
+                "webLink": "https://gdpr-info.eu/"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "import { DisplayGroupFriendlyName } from '../data/userAnalysisType';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 6
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 10:10:13 PM PDT\n\nThis code is written in TypeScript, a statically typed superset of JavaScript. It defines a class called `BoostComplianceFunctionKernel` which extends another class `FunctionKernelControllerBase`. The class is part of a Visual Studio Code extension, which performs quick source code scans for data and privacy compliance issues.\n\nThe `BoostComplianceFunctionKernel` class has a constructor and two methods: `serviceEndpoint` getter method and `dispose`.\n\nThe constructor is used to initialize an object of the class. It takes several parameters, including `context`, `onServiceErrorHandler`, `otherThis`, and `collection`. These parameters are passed to the constructor of the base class `FunctionKernelControllerBase` via the `super` keyword. The `super` keyword is used to call the constructor of a parent class.\n\nThe `serviceEndpoint` getter method returns a string URL, which is the endpoint of the service that the extension will communicate with for code analysis. The URL is determined based on the value of `BoostConfiguration.cloudServiceStage`. Based on the value, it could be a local URL, or a URL for development, testing, staging, or production environments.\n\nThe `dispose` method is used to clean up resources when they are no longer needed. It simply calls the `dispose` method of the base class.\n\nThere are no specific algorithms used in this code, it's mostly about object-oriented programming and class inheritance in TypeScript. Here are some resources for more information:\n\n- [TypeScript Handbook: Classes](https://www.typescriptlang.org/docs/handbook/2/classes.html)\n- [TypeScript Handbook: Inheritance](https://www.typescriptlang.org/docs/handbook/2/classes.html#inheritance)\n- [TypeScript Handbook: Getters & Setters](https://www.typescriptlang.org/docs/handbook/2/classes.html#getters--setters)\n\nRegarding the architectural guidelines, this code seems to align with the summary provided earlier. The code is written in TypeScript, uses object-oriented design, and communicates with a remote service for code analysis. It also includes error handling through the `onServiceErrorHandler` parameter."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 10:10:56 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle External fill:#FFA500, stroke:#000000, stroke-width:2px;\nstyle Error fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->Initialize;\nInitialize-->SetServiceEndpoint;\nSetServiceEndpoint-->Dispose;\nSetServiceEndpoint-->GetServiceEndpoint;\nGetServiceEndpoint-->Switch;\nSwitch-->LocalEndpoint;\nSwitch-->DevEndpoint;\nSwitch-->TestEndpoint;\nSwitch-->StagingEndpoint;\nSwitch-->ProdEndpoint;\nLocalEndpoint-->Dispose;\nDevEndpoint-->Dispose;\nTestEndpoint-->Dispose;\nStagingEndpoint-->Dispose;\nProdEndpoint-->Dispose;\n\n```\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:11:40 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 30\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The serviceEndpoint method directly exposes internal service URLs based on the value of BoostConfiguration.cloudServiceStage. This could potentially allow an attacker to manipulate the value to gain unauthorized access to other environments.\n\n   **Solution**: Avoid exposing internal service URLs directly. Instead, use environment variables or a configuration file that is not included in the code repository. This file should be securely managed and only accessible to authorized personnel. For more information, see the OWASP guide on IDOR: https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A4-Insecure_Direct_Object_References\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 23,
+                "severity": 7,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The serviceEndpoint method directly exposes internal service URLs based on the value of BoostConfiguration.cloudServiceStage. This could potentially allow an attacker to manipulate the value to gain unauthorized access to other environments.",
+                "solution": "Avoid exposing internal service URLs directly. Instead, use environment variables or a configuration file that is not included in the code repository. This file should be securely managed and only accessible to authorized personnel. For more information, see the OWASP guide on IDOR: https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A4-Insecure_Direct_Object_References"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:12:58 PM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 28\n\n   **Bug Type**: Network\n\n   **Description**: The serviceEndpoint getter method is called each time the endpoint is needed. If this occurs frequently, it could lead to performance issues due to the overhead of switch-case statement.\n\n   **Solution**: Consider storing the endpoint in a private variable during the class initialization, and then simply return this variable in the serviceEndpoint getter. This way, the switch-case statement only runs once, reducing the overhead. Here is a resource on JavaScript performance: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#performance\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 21,
+                "severity": 2,
+                "bugType": "Network",
+                "description": "The serviceEndpoint getter method is called each time the endpoint is needed. If this occurs frequently, it could lead to performance issues due to the overhead of switch-case statement.",
+                "solution": "Consider storing the endpoint in a private variable during the class initialization, and then simply return this variable in the serviceEndpoint getter. This way, the switch-case statement only runs once, reducing the overhead. Here is a resource on JavaScript performance: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#performance"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:14:04 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 26\n\n   **Bug Type**: GDPR\n\n   **Description**: The service endpoints are hard-coded in the code. If the endpoints are compromised, it may result in unauthorized access to personal data, violating the GDPR's data protection principles.\n\n   **Solution**: Move the service endpoints to a secure configuration file that is not included in the code repository. Use environment variables to store sensitive information.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 26\n\n   **Bug Type**: PCI DSS\n\n   **Description**: Hard-coded endpoints can lead to exposure of sensitive information, including credit card information, if the endpoints are compromised. This is in violation of PCI DSS requirements for protecting cardholder data.\n\n   **Solution**: Store the service endpoints in a secure configuration file or use environment variables. Use secure communication protocols to protect data in transit.\n\n\n3. **Severity**: 7/10\n\n   **Line Number**: 26\n\n   **Bug Type**: HIPAA\n\n   **Description**: Hard-coded service endpoints can lead to exposure of Protected Health Information (PHI) if the endpoints are compromised. This is in violation of HIPAA's requirements for protecting PHI.\n\n   **Solution**: Store the service endpoints in a secure configuration file or use environment variables. Use secure communication protocols and encryption to protect PHI in transit.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 19,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The service endpoints are hard-coded in the code. If the endpoints are compromised, it may result in unauthorized access to personal data, violating the GDPR's data protection principles.",
+                "solution": "Move the service endpoints to a secure configuration file that is not included in the code repository. Use environment variables to store sensitive information.",
+                "webLink": "https://gdpr.eu/data-privacy/"
+              },
+              {
+                "lineNumber": 19,
+                "severity": 7,
+                "bugType": "PCI DSS",
+                "description": "Hard-coded endpoints can lead to exposure of sensitive information, including credit card information, if the endpoints are compromised. This is in violation of PCI DSS requirements for protecting cardholder data.",
+                "solution": "Store the service endpoints in a secure configuration file or use environment variables. Use secure communication protocols to protect data in transit.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/maintaining_payment_security"
+              },
+              {
+                "lineNumber": 19,
+                "severity": 7,
+                "bugType": "HIPAA",
+                "description": "Hard-coded service endpoints can lead to exposure of Protected Health Information (PHI) if the endpoints are compromised. This is in violation of HIPAA's requirements for protecting PHI.",
+                "solution": "Store the service endpoints in a secure configuration file or use environment variables. Use secure communication protocols and encryption to protect PHI in transit.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "\nexport const complianceFunctionKernelName = complianceKernelName + '_function';\nconst complianceOutputHeader = 'compliance';\n\nexport class BoostComplianceFunctionKernel extends FunctionKernelControllerBase {\n\n\tconstructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis: any, collection: DiagnosticCollection) {\n        super(\n            collection,\n            complianceFunctionKernelName,\n            'Quick source scan for data and privacy compliance issues',\n            'Quickly analyzes all targeted source code for data and privacy compliance issues',\n            ControllerOutputType.complianceFunction,\n            DisplayGroupFriendlyName.compliance,\n            complianceOutputHeader,\n            \"Data and Privacy Compliance Analysis\", \n            context,\n            otherThis,\n            onServiceErrorHandler,\n            );\n\t}\n\n    public get serviceEndpoint(): string {\n        switch (BoostConfiguration.cloudServiceStage)\n        {\n            case \"local\":\n                return 'http://127.0.0.1:8000/compliance_function';\n            case 'dev':\n                return 'https://t4so4gqwf5rr5fr7pvlpytvkne0prvcv.lambda-url.us-west-2.on.aws/';\n            case \"test\":\n                return 'https://obzwdrxuel32tuozt5vdafb4gy0vjpls.lambda-url.us-west-2.on.aws/';\n            case 'staging':\n            case 'prod':\n            default:\n                return 'https://srsybz6dbjz45skdwq6quou4ua0rxbnk.lambda-url.us-west-2.on.aws/';\n        }\n    }\n\n\tdispose(): void {\n\t\tsuper.dispose();\n\t}\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 7
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/controllers/compliance_function_controller.ts"
+  }
+}

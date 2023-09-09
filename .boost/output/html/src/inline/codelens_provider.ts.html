@@ -1,0 +1,298 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/inline/codelens_provider.ts</h1>
+    <p>Date Generated: Saturday, September 9, 2023 at 6:00:11 AM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:58:06 AM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:59:36 AM PDT</p>
+<p>Executive Level Report:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The software project is a Visual Studio Code extension that provides code analysis functionality. It is well-structured and organized into classes, following best practices for a VS Code extension. However, there is a high-severity memory issue in the file <code>src/inline/codelens_provider.ts</code>. This issue could potentially impact the performance of the extension, especially if the loop in question is executed many times. This could lead to high memory usage and GC pressure, which could degrade the user experience.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The risk associated with this project is moderate. The memory issue in <code>src/inline/codelens_provider.ts</code> is a concern, but it is the only high-severity issue identified. The project uses asynchronous programming for potentially long-running tasks, which should keep the VS Code UI responsive. However, if the memory issue is not addressed, it could potentially impact the performance of the extension.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: Customers using this extension could potentially experience performance issues due to the memory issue in <code>src/inline/codelens_provider.ts</code>. This could lead to a degraded user experience, especially if the loop in question is executed many times. However, the project includes extensive error handling and logging, which should help mitigate any potential issues.</p>
+</li>
+<li><p><strong>Overall Issues</strong>: The overall health of the project source is good, with only one file having detected issues. This represents a small percentage of the project files, indicating that the majority of the project is free of detected issues. However, the memory issue in <code>src/inline/codelens_provider.ts</code> should be addressed to ensure the performance and reliability of the extension.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: Based on the analysis, the overall risk of the project is moderate. The majority of the project files are free of detected issues, indicating a high level of code quality. However, the memory issue in <code>src/inline/codelens_provider.ts</code> represents a potential risk to the performance and reliability of the extension. It is recommended that this issue be addressed as soon as possible to mitigate this risk.</p>
+</li>
+</ol>
+<p>Highlights of the Analysis:</p>
+<ul>
+<li>The project is well-structured and follows best practices for a VS Code extension.</li>
+<li>There is a high-severity memory issue in <code>src/inline/codelens_provider.ts</code> that could potentially impact the performance of the extension.</li>
+<li>The project uses asynchronous programming for potentially long-running tasks, which should keep the VS Code UI responsive.</li>
+<li>The majority of the project files are free of detected issues, indicating a high level of code quality.</li>
+<li>The memory issue in <code>src/inline/codelens_provider.ts</code> represents a potential risk to the performance and reliability of the extension.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:00:15 AM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/inline/codelens_provider.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> vscode <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vscode&#x27;</span>;
+
+<span class="hljs-comment">/**
+ * CodelensProvider
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CodelensProvider</span> <span class="hljs-keyword">implements</span> vscode.<span class="hljs-property">CodeLensProvider</span> {
+
+	<span class="hljs-keyword">private</span> <span class="hljs-attr">codeLenses</span>: vscode.<span class="hljs-property">CodeLens</span>[] = [];
+	<span class="hljs-keyword">private</span> <span class="hljs-attr">regex</span>: <span class="hljs-title class_">RegExp</span>;
+	<span class="hljs-keyword">private</span> <span class="hljs-attr">_onDidChangeCodeLenses</span>: vscode.<span class="hljs-property">EventEmitter</span>&lt;<span class="hljs-built_in">void</span>&gt; = <span class="hljs-keyword">new</span> vscode.<span class="hljs-property">EventEmitter</span>&lt;<span class="hljs-built_in">void</span>&gt;();
+	<span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-attr">onDidChangeCodeLenses</span>: vscode.<span class="hljs-property">Event</span>&lt;<span class="hljs-built_in">void</span>&gt; = <span class="hljs-variable language_">this</span>.<span class="hljs-property">_onDidChangeCodeLenses</span>.<span class="hljs-property">event</span>;
+
+	<span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+		<span class="hljs-variable language_">this</span>.<span class="hljs-property">regex</span> = <span class="hljs-regexp">/(.+)/g</span>;
+
+		vscode.<span class="hljs-property">workspace</span>.<span class="hljs-title function_">onDidChangeConfiguration</span>(<span class="hljs-function">(<span class="hljs-params">_</span>) =&gt;</span> {
+			<span class="hljs-variable language_">this</span>.<span class="hljs-property">_onDidChangeCodeLenses</span>.<span class="hljs-title function_">fire</span>();
+		});
+	}
+
+	<span class="hljs-keyword">public</span> <span class="hljs-title function_">provideCodeLenses</span>(<span class="hljs-attr">document</span>: vscode.<span class="hljs-property">TextDocument</span>, <span class="hljs-attr">token</span>: vscode.<span class="hljs-property">CancellationToken</span>): vscode.<span class="hljs-property">CodeLens</span>[] | <span class="hljs-title class_">Thenable</span>&lt;vscode.<span class="hljs-property">CodeLens</span>[]&gt; {
+
+		<span class="hljs-keyword">if</span> (<span class="hljs-literal">true</span>) {
+			<span class="hljs-variable language_">this</span>.<span class="hljs-property">codeLenses</span> = [];
+			<span class="hljs-keyword">const</span> regex = <span class="hljs-keyword">new</span> <span class="hljs-title class_">RegExp</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">regex</span>);
+			<span class="hljs-keyword">const</span> text = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getText</span>();
+			<span class="hljs-keyword">let</span> matches;
+			<span class="hljs-keyword">while</span> ((matches = regex.<span class="hljs-title function_">exec</span>(text)) !== <span class="hljs-literal">null</span>) {
+				<span class="hljs-keyword">const</span> line = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">lineAt</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">positionAt</span>(matches.<span class="hljs-property">index</span>).<span class="hljs-property">line</span>);
+				<span class="hljs-keyword">const</span> indexOf = line.<span class="hljs-property">text</span>.<span class="hljs-title function_">indexOf</span>(matches[<span class="hljs-number">0</span>]);
+				<span class="hljs-keyword">const</span> position = <span class="hljs-keyword">new</span> vscode.<span class="hljs-title class_">Position</span>(line.<span class="hljs-property">lineNumber</span>, indexOf);
+				<span class="hljs-keyword">const</span> range = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getWordRangeAtPosition</span>(position, <span class="hljs-keyword">new</span> <span class="hljs-title class_">RegExp</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">regex</span>));
+				<span class="hljs-keyword">if</span> (range) {
+					<span class="hljs-variable language_">this</span>.<span class="hljs-property">codeLenses</span>.<span class="hljs-title function_">push</span>(<span class="hljs-keyword">new</span> vscode.<span class="hljs-title class_">CodeLens</span>(range));
+				}
+			}
+			<span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">codeLenses</span>;
+		}
+		<span class="hljs-keyword">return</span> [];
+	}
+
+	<span class="hljs-keyword">public</span> <span class="hljs-title function_">resolveCodeLens</span>(<span class="hljs-params">codeLens: vscode.CodeLens, token: vscode.CancellationToken</span>) {
+		<span class="hljs-keyword">if</span> (<span class="hljs-literal">true</span>) {
+			codeLens.<span class="hljs-property">command</span> = {
+				<span class="hljs-attr">title</span>: <span class="hljs-string">&quot;Codelens provided by Boost extension&quot;</span>,
+				<span class="hljs-attr">tooltip</span>: <span class="hljs-string">&quot;Tooltip provided by Boost extension&quot;</span>,
+				<span class="hljs-attr">command</span>: <span class="hljs-string">&quot;polyverse-boost-notebook.codelensAction&quot;</span>,
+				<span class="hljs-attr">arguments</span>: [<span class="hljs-string">&quot;Argument 1&quot;</span>, <span class="hljs-literal">false</span>]
+			};
+			<span class="hljs-keyword">return</span> codeLens;
+		}
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+	}
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:57:33 AM PDT</p>
+<p>This code is written in TypeScript and is a part of a Visual Studio Code (VSCode) extension. It defines a class <code>CodelensProvider</code> that implements the <code>vscode.CodeLensProvider</code> interface. CodeLens is a feature in VSCode that adds inline commands and information directly into your source code. These commands provide quick access to additional information and functionality.</p>
+<p>The <code>CodelensProvider</code> class has the following properties:</p>
+<ol>
+<li><code>codeLenses</code>: An array that holds all the CodeLens instances.</li>
+<li><code>regex</code>: A regular expression used to match the lines in the document.</li>
+<li><code>_onDidChangeCodeLenses</code>: An event emitter that triggers when the configuration changes.</li>
+<li><code>onDidChangeCodeLenses</code>: An event that is triggered when the <code>_onDidChangeCodeLenses</code> event is fired.</li>
+</ol>
+<p>In the constructor of the class, an event listener is set up to listen for changes in the workspace&#39;s configuration. When such a change occurs, the <code>_onDidChangeCodeLenses</code> event is fired.</p>
+<p>The <code>provideCodeLenses</code> method is a part of the <code>vscode.CodeLensProvider</code> interface. It is responsible for providing the CodeLens instances that are shown in the document. The method takes a <code>vscode.TextDocument</code> and a <code>vscode.CancellationToken</code> as parameters. It returns an array of <code>vscode.CodeLens</code> instances or a promise that resolves to an array of <code>vscode.CodeLens</code> instances.</p>
+<p>The <code>resolveCodeLens</code> method is also a part of the <code>vscode.CodeLensProvider</code> interface. It is responsible for resolving a CodeLens instance to a command that can be executed. The method takes a <code>vscode.CodeLens</code> and a <code>vscode.CancellationToken</code> as parameters. It returns a <code>vscode.CodeLens</code> instance or a promise that resolves to a <code>vscode.CodeLens</code> instance.</p>
+<p>The algorithm used in the <code>provideCodeLenses</code> method is a simple loop that iterates over the lines in the document and applies the regular expression to each line. If a match is found, a new <code>vscode.CodeLens</code> instance is created and added to the <code>codeLenses</code> array.</p>
+<p>For more information about CodeLens in VSCode, you can refer to this link: <a href="https://code.visualstudio.com/api/language-extensions/programmatic-language-features#codelens-show-actionable-context-information-within-source-code">VSCode CodeLens</a></p>
+<p>For more information about regular expressions in JavaScript, you can refer to this link: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">JavaScript RegExp</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:57:54 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;
+ExampleProcess-->End;
+ExampleErrorPath-->End;</pre>
+</code></pre><p>In the generated control flow graph, the <code>Start</code> node represents the entry point of the code, which is the <code>provideCodeLenses</code> function. The primary path is represented by the <code>ExampleProcess</code> style, and the error path is represented by the <code>ExampleErrorPath</code> style.</p>
+<p>The <code>provideCodeLenses</code> function checks a condition (<code>if (true)</code>) and if it evaluates to true, it initializes an empty array <code>this.codeLenses</code> and performs some operations on the <code>document</code> object. It then returns the <code>this.codeLenses</code> array.</p>
+<p>The <code>resolveCodeLens</code> function also checks a condition (<code>if (true)</code>) and if it evaluates to true, it sets the <code>command</code> property of the <code>codeLens</code> object and returns it.</p>
+<p>If the conditions in both functions evaluate to false, the functions return <code>null</code> or an empty array.</p>
+<p>Based on the provided code, there are no external library or non-standard function calls, so the control flow graph only includes the primary and error paths within the code itself.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:58:02 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:58:51 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 22</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The regular expression object is being created inside a loop. This can lead to high memory usage and GC pressure if the loop is executed many times.</p>
+<p><strong>Solution</strong>: Move the creation of the regular expression object outside the loop. If the regular expression does not change, it should be created once and reused. See: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Advanced_searching_with_flags_and_special_characters">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Advanced_searching_with_flags_and_special_characters</a></p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 24</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The &#39;exec&#39; method of RegExp is used inside a loop. This can lead to high CPU usage if the regular expression is complex and the text is long.</p>
+<p><strong>Solution</strong>: Consider using a more efficient algorithm for matching the regular expression against the text. For example, you could use the &#39;match&#39; method of String, which returns all matches at once. See: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match</a></p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 29</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: A new CodeLens object is created for each match. This can lead to high memory usage if there are many matches.</p>
+<p><strong>Solution</strong>: Consider using a more memory-efficient data structure to store the matches. For example, you could use a single object with properties for the start and end positions of each match, instead of creating a new CodeLens object for each match.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 35</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The &#39;resolveCodeLens&#39; method always returns a new object. This can lead to unnecessary CPU usage if the method is called frequently.</p>
+<p><strong>Solution</strong>: Consider caching the result of the &#39;resolveCodeLens&#39; method and returning the cached result on subsequent calls. This would reduce CPU usage by avoiding the creation of new objects. See: <a href="https://www.sitepoint.com/implementing-memoization-in-javascript/">https://www.sitepoint.com/implementing-memoization-in-javascript/</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:00:11 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 23</p>
+<p><strong>Bug Type</strong>: Data Exposure</p>
+<p><strong>Description</strong>: The entire document text is being copied into a string. This could potentially expose sensitive data if the document contains such information.</p>
+<p><strong>Solution</strong>: Ensure that sensitive data is not included in the document or appropriately masked or encrypted if it is. Consider implementing access controls to restrict who can access this data.</p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 31</p>
+<p><strong>Bug Type</strong>: Data Exposure</p>
+<p><strong>Description</strong>: The code lens range is being exposed. If the range contains sensitive data, this could potentially lead to data exposure.</p>
+<p><strong>Solution</strong>: Ensure that sensitive data is not included in the code lens range or appropriately masked or encrypted if it is. Consider implementing access controls to restrict who can access this data.</p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 38</p>
+<p><strong>Bug Type</strong>: Data Exposure</p>
+<p><strong>Description</strong>: The command arguments are hardcoded and exposed. If these arguments contain sensitive data, this could potentially lead to data exposure.</p>
+<p><strong>Solution</strong>: Ensure that sensitive data is not included in the command arguments or appropriately masked or encrypted if it is. Consider implementing access controls to restrict who can access this data.</p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>

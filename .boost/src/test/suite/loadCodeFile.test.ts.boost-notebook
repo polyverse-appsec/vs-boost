@@ -13,6 +13,54 @@
             "outputType": "explainCode",
             "details": []
           }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 8:14:42 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\n```\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 8:15:02 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 8:15:56 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 8:17:31 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
         }
       ],
       "languageId": "typescript",
@@ -36,6 +84,62 @@
           ],
           "metadata": {
             "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 8:14:47 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 8:15:06 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 8:16:07 PM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 10\n\n   **Bug Type**: Memory\n\n   **Description**: The 'sinon' library is imported but not used in the provided code snippet. This could lead to unnecessary memory usage if the library is large.\n\n   **Solution**: Remove unused imports to save memory. If 'sinon' is used in other parts of the code not shown in the snippet, ignore this advice.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 5,
+                "severity": 2,
+                "bugType": "Memory",
+                "description": "The 'sinon' library is imported but not used in the provided code snippet. This could lead to unnecessary memory usage if the library is large.",
+                "solution": "Remove unused imports to save memory. If 'sinon' is used in other parts of the code not shown in the snippet, ignore this advice."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 8:17:34 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
             "details": []
           }
         }
@@ -63,6 +167,63 @@
             "outputType": "explainCode",
             "details": []
           }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 8:14:50 PM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 8:15:09 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 8:16:11 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 8:17:45 PM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 12\n\n   **Bug Type**: GDPR\n\n   **Description**: The function 'getRandomTestSourceFile' could potentially access user data. If this data includes personal information, it may be a GDPR violation if not handled properly.\n\n   **Solution**: Ensure that any data accessed by 'getRandomTestSourceFile' is anonymized, encrypted, and that user consent has been obtained. Implement data minimization practices to only collect the necessary data.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 6,
+                "severity": 2,
+                "bugType": "GDPR",
+                "description": "The function 'getRandomTestSourceFile' could potentially access user data. If this data includes personal information, it may be a GDPR violation if not handled properly.",
+                "solution": "Ensure that any data accessed by 'getRandomTestSourceFile' is anonymized, encrypted, and that user consent has been obtained. Implement data minimization practices to only collect the necessary data.",
+                "webLink": "https://gdpr.eu/data-minimization/"
+              }
+            ]
+          }
         }
       ],
       "languageId": "typescript",
@@ -87,6 +248,141 @@
           "metadata": {
             "outputType": "explainCode",
             "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 8:14:55 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExampleErrorPath-->End;\n```\n\nThe code provided does not have any control flow."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 8:15:45 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 23\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The code uses a method 'executeCommand' that could potentially be exploited if an attacker can manipulate the 'NOTEBOOK_TYPE' and '.createJsonNotebook' inputs. This could lead to unauthorized access or manipulation of data.\n\n   **Solution**: Validate and sanitize the inputs before using them in the 'executeCommand' method. Consider using access controls to ensure that the user has the necessary permissions to perform the action. More information can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control\n\n\n2. **Severity**: 4/10\n\n   **Line Number**: 44\n\n   **Bug Type**: Path Traversal\n\n   **Description**: The code uses 'path.resolve' with a user-provided input ('testCodePath'). An attacker could potentially manipulate the path to access sensitive files or directories.\n\n   **Solution**: Validate and sanitize the 'testCodePath' input to ensure it does not contain any path traversal characters or sequences. Consider using a library that provides secure path resolution. More information can be found here: https://owasp.org/www-community/attacks/Path_Traversal\n\n\n3. **Severity**: 5/10\n\n   **Line Number**: 55\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The code uses a method 'executeCommand' that could potentially be exploited if an attacker can manipulate the 'NOTEBOOK_TYPE' and '.loadCodeFile' inputs. This could lead to unauthorized access or manipulation of data.\n\n   **Solution**: Validate and sanitize the inputs before using them in the 'executeCommand' method. Consider using access controls to ensure that the user has the necessary permissions to perform the action. More information can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 15,
+                "severity": 5,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The code uses a method 'executeCommand' that could potentially be exploited if an attacker can manipulate the 'NOTEBOOK_TYPE' and '.createJsonNotebook' inputs. This could lead to unauthorized access or manipulation of data.",
+                "solution": "Validate and sanitize the inputs before using them in the 'executeCommand' method. Consider using access controls to ensure that the user has the necessary permissions to perform the action. More information can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control"
+              },
+              {
+                "lineNumber": 36,
+                "severity": 4,
+                "bugType": "Path Traversal",
+                "description": "The code uses 'path.resolve' with a user-provided input ('testCodePath'). An attacker could potentially manipulate the path to access sensitive files or directories.",
+                "solution": "Validate and sanitize the 'testCodePath' input to ensure it does not contain any path traversal characters or sequences. Consider using a library that provides secure path resolution. More information can be found here: https://owasp.org/www-community/attacks/Path_Traversal"
+              },
+              {
+                "lineNumber": 47,
+                "severity": 5,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The code uses a method 'executeCommand' that could potentially be exploited if an attacker can manipulate the 'NOTEBOOK_TYPE' and '.loadCodeFile' inputs. This could lead to unauthorized access or manipulation of data.",
+                "solution": "Validate and sanitize the inputs before using them in the 'executeCommand' method. Consider using access controls to ensure that the user has the necessary permissions to perform the action. More information can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 8:16:47 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 21\n\n   **Bug Type**: Disk\n\n   **Description**: The 'files.hotExit' configuration is being updated globally which might cause unnecessary disk writes.\n\n   **Solution**: Consider using workspace or folder level configuration updates instead of global. Refer to the vscode API documentation for more information: https://code.visualstudio.com/api/references/vscode-api#WorkspaceConfiguration\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 38\n\n   **Bug Type**: Disk\n\n   **Description**: The 'fs.readdirSync' method is being used to read all files in a directory. This is a blocking operation and can slow down the application if the directory contains many files.\n\n   **Solution**: Consider using 'fs.readdir' instead, which is asynchronous and does not block the event loop. Refer to the Node.js documentation for more information: https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback\n\n\n3. **Severity**: 5/10\n\n   **Line Number**: 42\n\n   **Bug Type**: CPU\n\n   **Description**: The 'Array.filter' method is used to filter out unsupported files. This is an O(n) operation and can slow down the application if there are many files.\n\n   **Solution**: Consider using a Set for unsupportedExtensions to improve lookup time. Refer to the JavaScript documentation for more information: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set\n\n\n4. **Severity**: 7/10\n\n   **Line Number**: 65\n\n   **Bug Type**: CPU\n\n   **Description**: The 'setTimeout' method is used to wait for a file to be loaded. This is not an efficient way to handle asynchronous operations and can cause unnecessary CPU usage.\n\n   **Solution**: Consider using Promises or async/await to handle asynchronous operations. Refer to the JavaScript documentation for more information: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises\n\n\n5. **Severity**: 5/10\n\n   **Line Number**: 82\n\n   **Bug Type**: Memory\n\n   **Description**: The 'getCells' method is used to get all cells in a notebook. This can consume a lot of memory if the notebook contains many cells.\n\n   **Solution**: Consider using a streaming or pagination approach if possible, to fetch cells in chunks instead of all at once. Refer to the vscode API documentation for possible alternatives: https://code.visualstudio.com/api/references/vscode-api#NotebookDocument\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 13,
+                "severity": 7,
+                "bugType": "Disk",
+                "description": "The 'files.hotExit' configuration is being updated globally which might cause unnecessary disk writes.",
+                "solution": "Consider using workspace or folder level configuration updates instead of global. Refer to the vscode API documentation for more information: https://code.visualstudio.com/api/references/vscode-api#WorkspaceConfiguration"
+              },
+              {
+                "lineNumber": 30,
+                "severity": 7,
+                "bugType": "Disk",
+                "description": "The 'fs.readdirSync' method is being used to read all files in a directory. This is a blocking operation and can slow down the application if the directory contains many files.",
+                "solution": "Consider using 'fs.readdir' instead, which is asynchronous and does not block the event loop. Refer to the Node.js documentation for more information: https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback"
+              },
+              {
+                "lineNumber": 34,
+                "severity": 5,
+                "bugType": "CPU",
+                "description": "The 'Array.filter' method is used to filter out unsupported files. This is an O(n) operation and can slow down the application if there are many files.",
+                "solution": "Consider using a Set for unsupportedExtensions to improve lookup time. Refer to the JavaScript documentation for more information: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set"
+              },
+              {
+                "lineNumber": 57,
+                "severity": 7,
+                "bugType": "CPU",
+                "description": "The 'setTimeout' method is used to wait for a file to be loaded. This is not an efficient way to handle asynchronous operations and can cause unnecessary CPU usage.",
+                "solution": "Consider using Promises or async/await to handle asynchronous operations. Refer to the JavaScript documentation for more information: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises"
+              },
+              {
+                "lineNumber": 74,
+                "severity": 5,
+                "bugType": "Memory",
+                "description": "The 'getCells' method is used to get all cells in a notebook. This can consume a lot of memory if the notebook contains many cells.",
+                "solution": "Consider using a streaming or pagination approach if possible, to fetch cells in chunks instead of all at once. Refer to the vscode API documentation for possible alternatives: https://code.visualstudio.com/api/references/vscode-api#NotebookDocument"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 8:18:17 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 28\n\n   **Bug Type**: GDPR\n\n   **Description**: The configuration update 'files.hotExit' is set to 'off', which may result in unsaved data loss. This could potentially violate GDPR's principle of data integrity and confidentiality.\n\n   **Solution**: Ensure that data is saved and backed up appropriately to prevent loss of user data. Consider implementing a more robust data persistence strategy that includes regular backups and redundancies.\n\n\n2. **Severity**: 8/10\n\n   **Line Number**: 43\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The method 'readdirSync' is used to read all files in the directory. This could potentially expose sensitive information if the directory contains files with cardholder data, violating PCI DSS requirement 3.4 for protecting stored cardholder data.\n\n   **Solution**: Ensure that cardholder data, if any, is encrypted or tokenized before being stored. Implement access controls to restrict access to sensitive directories and files. Consider using asynchronous methods for file operations to avoid blocking the event loop.\n\n\n3. **Severity**: 9/10\n\n   **Line Number**: 69\n\n   **Bug Type**: HIPAA\n\n   **Description**: The 'loadCodeFile' command could potentially load files containing Protected Health Information (PHI). If such files are not handled properly, this could violate HIPAA's Privacy Rule.\n\n   **Solution**: Implement safeguards to ensure that PHI, if any, is handled in a HIPAA-compliant manner. This may include encrypting PHI at rest and in transit, implementing access controls, and maintaining audit logs of access to PHI.\n\n\n4. **Severity**: 6/10\n\n   **Line Number**: 90\n\n   **Bug Type**: GDPR\n\n   **Description**: The 'getText' method is used to read the content of each cell in the notebook. If the notebook contains personal data, this could potentially violate GDPR's principles of data minimization and purpose limitation.\n\n   **Solution**: Ensure that personal data, if any, is processed in a manner that is consistent with the purposes for which it was collected. Implement safeguards to limit the amount and type of personal data that is processed. Consider anonymizing or pseudonymizing personal data where possible.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 20,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The configuration update 'files.hotExit' is set to 'off', which may result in unsaved data loss. This could potentially violate GDPR's principle of data integrity and confidentiality.",
+                "solution": "Ensure that data is saved and backed up appropriately to prevent loss of user data. Consider implementing a more robust data persistence strategy that includes regular backups and redundancies."
+              },
+              {
+                "lineNumber": 35,
+                "severity": 8,
+                "bugType": "PCI DSS",
+                "description": "The method 'readdirSync' is used to read all files in the directory. This could potentially expose sensitive information if the directory contains files with cardholder data, violating PCI DSS requirement 3.4 for protecting stored cardholder data.",
+                "solution": "Ensure that cardholder data, if any, is encrypted or tokenized before being stored. Implement access controls to restrict access to sensitive directories and files. Consider using asynchronous methods for file operations to avoid blocking the event loop."
+              },
+              {
+                "lineNumber": 61,
+                "severity": 9,
+                "bugType": "HIPAA",
+                "description": "The 'loadCodeFile' command could potentially load files containing Protected Health Information (PHI). If such files are not handled properly, this could violate HIPAA's Privacy Rule.",
+                "solution": "Implement safeguards to ensure that PHI, if any, is handled in a HIPAA-compliant manner. This may include encrypting PHI at rest and in transit, implementing access controls, and maintaining audit logs of access to PHI."
+              },
+              {
+                "lineNumber": 82,
+                "severity": 6,
+                "bugType": "GDPR",
+                "description": "The 'getText' method is used to read the content of each cell in the notebook. If the notebook contains personal data, this could potentially violate GDPR's principles of data minimization and purpose limitation.",
+                "solution": "Ensure that personal data, if any, is processed in a manner that is consistent with the purposes for which it was collected. Implement safeguards to limit the amount and type of personal data that is processed. Consider anonymizing or pseudonymizing personal data where possible."
+              }
+            ]
           }
         }
       ],

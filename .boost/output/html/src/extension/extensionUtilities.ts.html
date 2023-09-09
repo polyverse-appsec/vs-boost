@@ -1,0 +1,386 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/extension/extensionUtilities.ts</h1>
+    <p>Date Generated: Saturday, September 9, 2023 at 6:50:56 AM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:49:14 AM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:49:54 AM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:51:00 AM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/extension/extensionUtilities.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">import</span> { getCurrentDateTime } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../utilities/datetime&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:46:36 AM PDT</p>
+<p>The line of code you&#39;ve provided is a single import statement in JavaScript, specifically in a format known as ES6 (ECMAScript 6) module syntax. There&#39;s not much to analyze architecturally or algorithmically from this single line, but I&#39;ll explain what it does and its role in a larger system.</p>
+<p><code>import { getCurrentDateTime } from &quot;../utilities/datetime&quot;;</code></p>
+<p>This line of code is importing a specific function, <code>getCurrentDateTime</code>, from a module located at <code>../utilities/datetime</code>. The <code>..</code> in the path indicates that the module is located in a directory one level up from the current file&#39;s directory. </p>
+<p>The <code>getCurrentDateTime</code> function is presumably a utility function that, when called, returns the current date and time. This function could be used throughout the rest of the codebase wherever the current date and time is needed.</p>
+<p>As for architectural guidelines, this line of code demonstrates good encapsulation and modularity practices. By keeping the <code>getCurrentDateTime</code> function in a separate module and importing it where needed, the code remains DRY (Don&#39;t Repeat Yourself), easier to maintain, and more readable. </p>
+<p>For more information on ES6 Modules, you can refer to this link: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">ES6 Modules</a></p>
+<p>As for algorithms, this line of code doesn&#39;t really involve any. It&#39;s merely importing a function for use. The algorithm, if any, would be contained within the <code>getCurrentDateTime</code> function itself, which is not shown here.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:48:28 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style getCurrentDateTime fill:#228B22, stroke:#000000, stroke-width:2px;
+
+    Start-->getCurrentDateTime;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:48:59 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:49:23 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:50:13 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 1</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code imports a function that gets the current date and time. This in itself does not violate any data compliance regulations. However, if this function is used to collect timestamps associated with user activities without their consent, it could potentially violate GDPR.</p>
+<p><strong>Solution</strong>: Ensure that any data collected with this function is done with user consent and is necessary for the operation of the software. Also, ensure that this data is properly protected and not shared without user consent.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/extension/extensionUtilities.ts line 3:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> getKernelName(kernelName: <span class="hljs-keyword">string</span>): <span class="hljs-keyword">string</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;polyverse-boost-&quot;</span> + kernelName + <span class="hljs-string">&quot;-kernel&quot;</span>;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:46:58 AM PDT</p>
+<p>This is a simple JavaScript function named <code>getKernelName</code> that is part of an ES6 module, as indicated by the <code>export</code> keyword. The function takes one argument, <code>kernelName</code>, which is expected to be a string.</p>
+<p>The function&#39;s purpose is to take the input <code>kernelName</code> and prepend it with the string <code>&quot;polyverse-boost-&quot;</code> and append it with the string <code>&quot;-kernel&quot;</code>. This is done using the <code>+</code> operator, which concatenates strings in JavaScript.</p>
+<p>There&#39;s no complex algorithm used here; it&#39;s a straightforward string concatenation operation.</p>
+<p>In terms of architectural analysis, this function is quite simple and would likely not have a significant impact on the overall architecture of the software project. It&#39;s a utility function that generates a specific format of a kernel name.</p>
+<p>The function follows general good coding practices: it is clearly named, takes an input, performs a specific task, and returns an output. It&#39;s a pure function, meaning it doesn&#39;t have any side effects or depend on any external state; the output is solely determined by the input.</p>
+<p>For more information about JavaScript functions, you can visit this link: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions">JavaScript Functions</a></p>
+<p>For more information about ES6 modules and export statement, you can visit this link: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">ES6 Modules</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:48:33 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->ExampleProcess;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:49:02 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:49:27 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:50:17 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/extension/extensionUtilities.ts line 7:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">cleanCellOutput</span>(<span class="hljs-params">input: <span class="hljs-built_in">string</span></span>): <span class="hljs-built_in">string</span> {
+    <span class="hljs-comment">// strip out timestamps from the input</span>
+    <span class="hljs-comment">// ### Boost Code Compliance Check Summary</span>
+    <span class="hljs-comment">// Last Updated: Friday, June 16, 2023 at 8:24:17 PM PDT</span>
+
+    <span class="hljs-comment">// use regex to remove the above info</span>
+    <span class="hljs-keyword">var</span> pattern = <span class="hljs-regexp">/\n\n---\n\n### Boost [^\n]*\n\nLast Updated: [^\n]*\n\n/g</span>;
+    <span class="hljs-keyword">const</span> cleanedInput = input.<span class="hljs-title function_">replace</span>(pattern, <span class="hljs-string">&quot;&quot;</span>);
+    <span class="hljs-keyword">return</span> cleanedInput;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:47:37 AM PDT</p>
+<p>The function <code>cleanCellOutput(input: string): string</code> is a TypeScript function that takes in a string as an input and returns a string. The purpose of this function is to clean up the cell output by removing certain parts of the string that match a specific pattern.</p>
+<p>The specific pattern it&#39;s looking for is a string that starts with two newline characters, followed by three hyphens, two more newline characters, the string &quot;### Boost&quot;, any characters that are not a newline, two newline characters, the string &quot;Last Updated:&quot;, any characters that are not a newline, and two more newline characters. This pattern is represented by the regular expression (<code>regex</code>) in the variable <code>pattern</code>.</p>
+<p>Here&#39;s how the pattern works:</p>
+<ul>
+<li><code>\n\n---\n\n### Boost</code>: Matches this exact string.</li>
+<li><code>[^\n]*</code>: Matches any number of characters that are not a newline. The <code>*</code> means &quot;zero or more of the preceding element&quot;.</li>
+<li><code>\n\nLast Updated:</code>: Matches this exact string.</li>
+<li><code>[^\n]*</code>: Matches any number of characters that are not a newline.</li>
+<li><code>\n\n</code>: Matches two newline characters.</li>
+</ul>
+<p>The <code>g</code> at the end of the regular expression means that this pattern should be matched globally in the input string, i.e., it should find all matches rather than stopping after the first match.</p>
+<p>The function then uses the <code>replace</code> method of the string to replace all occurrences of the pattern in the input with an empty string, effectively removing them. This cleaned up string is then returned by the function.</p>
+<p>In terms of algorithms, this function uses a basic string manipulation algorithm. It scans the input string from start to end, looking for matches to the pattern. When it finds a match, it removes it from the string. The time complexity of this algorithm is O(n), where n is the length of the input string, as it needs to scan the entire string.</p>
+<p>Here are some online resources for further learning:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">Regular Expressions (MDN)</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace">String.prototype.replace() (MDN)</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/functions.html">TypeScript Functions</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:48:39 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style CleanCellOutput fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->CleanCellOutput;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:49:06 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:49:46 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 14</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The use of regular expressions can be CPU-intensive, especially for large input strings.</p>
+<p><strong>Solution</strong>: Consider using a more efficient string processing method or optimizing the regular expression. If the pattern is static, precompile the regular expression outside the function scope for better efficiency. For more information, refer to this resource: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions</a></p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 14</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The replace method creates a new string, which could lead to increased memory usage for large input strings.</p>
+<p><strong>Solution</strong>: If memory usage is a concern, consider using a streaming or chunked processing approach. This can be more complex but can significantly reduce memory usage for large inputs. More information on this approach can be found here: <a href="https://nodejs.org/api/stream.html">https://nodejs.org/api/stream.html</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:50:28 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 12</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The function &#39;cleanCellOutput&#39; does not have any explicit data validation or sanitization. This could potentially lead to data privacy issues as it may process sensitive and/or personally identifiable information (PII).</p>
+<p><strong>Solution</strong>: Implement explicit data validation and sanitization mechanisms to ensure that the data being processed is safe and does not contain any sensitive or PII data. You may use libraries like &#39;validator.js&#39; for input validation and &#39;DOMPurify&#39; for sanitization.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/extension/extensionUtilities.ts line 18:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+export <span class="hljs-keyword">function</span> generateCellOutputWithHeader<span class="hljs-punctuation">(</span>
+    analysisType<span class="hljs-operator">:</span> string<span class="hljs-punctuation">,</span>
+    analysisResults<span class="hljs-operator">:</span> string
+<span class="hljs-punctuation">)</span><span class="hljs-operator">:</span> string <span class="hljs-punctuation">{</span>
+    <span class="hljs-built_in">return</span> `\n\n---\n\n### Boost ${analysisType}\n\nLast Updated: ${getCurrentDateTime()}\n\n${analysisResults}`;
+<span class="hljs-punctuation">}</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:48:13 AM PDT</p>
+<p>The provided code is a function written in TypeScript, which is a statically typed superset of JavaScript. The function is named <code>generateCellOutputWithHeader</code> and it&#39;s exported, meaning it can be used in other modules in the application.</p>
+<p>The function takes two parameters:</p>
+<ol>
+<li><code>analysisType</code>: a string that represents the type of analysis being performed.</li>
+<li><code>analysisResults</code>: a string that contains the results of the analysis.</li>
+</ol>
+<p>The function generates and returns a string that combines these parameters with some additional text to create a formatted output.</p>
+<p>Here is a detailed breakdown of what the function does:</p>
+<ol>
+<li><p>It begins with two newline characters (<code>\n\n</code>), which creates an empty line for formatting purposes.</p>
+</li>
+<li><p>It then adds a line of three hyphens (<code>---</code>), which in Markdown syntax (commonly used in documentation and text formatting in software projects) creates a horizontal line.</p>
+</li>
+<li><p>It adds another two newline characters for formatting.</p>
+</li>
+<li><p>It then includes a heading, starting with &quot;### Boost&quot;, which in Markdown syntax creates a level 3 heading. This heading is followed by the <code>analysisType</code> parameter value. </p>
+</li>
+<li><p>It adds another two newline characters for formatting.</p>
+</li>
+<li><p>It adds the text &quot;Last Updated: &quot;, followed by the return value of the <code>getCurrentDateTime()</code> function. This function is not defined in the provided code, but it presumably returns the current date and time as a string.</p>
+</li>
+<li><p>It adds another two newline characters for formatting.</p>
+</li>
+<li><p>Finally, it adds the <code>analysisResults</code> parameter value, which is the results of the analysis.</p>
+</li>
+</ol>
+<p>The function uses string interpolation to combine these elements into a single string. String interpolation is a feature of modern JavaScript (and thus TypeScript) that allows for easier concatenation of strings and variables.</p>
+<p>The function does not appear to use any complex algorithms. Its purpose is to format and present the results of some analysis in a readable way.</p>
+<p>Here are some resources for further learning:</p>
+<ul>
+<li><a href="https://www.typescriptlang.org/docs/">TypeScript Documentation</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">JavaScript String Interpolation</a></li>
+<li><a href="https://daringfireball.net/projects/markdown/syntax">Markdown Syntax</a></li>
+</ul>
+<p>Regarding the architectural guidelines, this function does not appear to conflict with any guidelines. It&#39;s a simple utility function for formatting output, and such functions are common in many software projects. However, without more context, it&#39;s hard to say how this function fits into the overall architecture of the project.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:48:44 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->ExampleProcess;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:49:10 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:49:50 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:50:56 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 37</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The function generateCellOutputWithHeader may potentially include personal data in the &#39;analysisResults&#39; parameter, which could be a violation of GDPR if the data is not properly anonymized or if user consent has not been obtained.</p>
+<p><strong>Solution</strong>: Ensure that any personal data included in &#39;analysisResults&#39; is properly anonymized or that user consent has been obtained before processing the data. Implement data minimization principles.</p>
+</li>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 37</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: If &#39;analysisResults&#39; contains cardholder data, it could lead to non-compliance with PCI DSS. PCI DSS requires that cardholder data be stored and transmitted securely.</p>
+<p><strong>Solution</strong>: Ensure that &#39;analysisResults&#39; does not contain cardholder data. If it does, make sure it is encrypted and stored securely according to PCI DSS guidelines.</p>
+</li>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 37</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: If &#39;analysisResults&#39; contains protected health information (PHI), it could lead to non-compliance with HIPAA. HIPAA requires that PHI be stored and transmitted securely.</p>
+<p><strong>Solution</strong>: Ensure that &#39;analysisResults&#39; does not contain PHI. If it does, make sure it is encrypted and stored securely according to HIPAA guidelines.</p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/controllers/controllerOutputTypes.ts</h1>
+    <p>Date Generated: Friday, September 8, 2023 at 9:40:11 PM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:39:34 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:39:48 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:40:15 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/controllers/controllerOutputTypes.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> functionOutputTypeExtension = <span class="hljs-string">&#x27;List&#x27;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">enum</span> ControllerOutputType {
+    analyze = <span class="hljs-string">&#x27;bugAnalysis&#x27;</span>,
+    analyzeFunction = analyze + functionOutputTypeExtension,
+    blueprint = <span class="hljs-string">&#x27;archblueprintCode&#x27;</span>,
+    testgen = <span class="hljs-string">&#x27;testGeneration&#x27;</span>,
+    compliance = <span class="hljs-string">&#x27;complianceCode&#x27;</span>,
+    complianceFunction = compliance + functionOutputTypeExtension,
+    performance = <span class="hljs-string">&#x27;performance&#x27;</span>,
+    performanceFunction = performance + functionOutputTypeExtension,
+    flowDiagram = <span class="hljs-string">&#x27;flowDiagram&#x27;</span>,
+    summary = <span class="hljs-string">&#x27;summary&#x27;</span>,
+    explain = <span class="hljs-string">&#x27;explainCode&#x27;</span>,
+    chat = <span class="hljs-string">&#x27;chat&#x27;</span>,
+    codeGuidelines = <span class="hljs-string">&#x27;guidelinesCode&#x27;</span>,
+    convert = <span class="hljs-string">&#x27;generatedCode&#x27;</span>,
+    customQuickScanFunction = <span class="hljs-string">&#x27;customQuickScanCode&#x27;</span> + functionOutputTypeExtension,
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:38:11 PM PDT</p>
+<p>This code is written in TypeScript, which is a statically typed superset of JavaScript that adds types to the language. It is defining an enumeration (enum) and a constant string. </p>
+<p>The constant string <code>functionOutputTypeExtension</code> is exported and is set to the value &#39;List&#39;. This constant is used to append to some of the enum members.</p>
+<p>Then, an enumeration <code>ControllerOutputType</code> is defined. In TypeScript, an enum is a way of giving more friendly names to sets of numeric values. In this case, the enum is being used to define a set of string values. Each member of the enum represents a different type of output that a controller in the software can produce. </p>
+<p>The enum members are:</p>
+<ul>
+<li><code>analyze</code>: This is set to the string &#39;bugAnalysis&#39;.</li>
+<li><code>analyzeFunction</code>: This is created by appending the <code>functionOutputTypeExtension</code> to <code>analyze</code>, resulting in &#39;bugAnalysisList&#39;.</li>
+<li><code>blueprint</code>: This is set to the string &#39;archblueprintCode&#39;.</li>
+<li><code>testgen</code>: This is set to the string &#39;testGeneration&#39;.</li>
+<li><code>compliance</code>: This is set to the string &#39;complianceCode&#39;.</li>
+<li><code>complianceFunction</code>: This is created by appending the <code>functionOutputTypeExtension</code> to <code>compliance</code>, resulting in &#39;complianceCodeList&#39;.</li>
+<li><code>performance</code>: This is set to the string &#39;performance&#39;.</li>
+<li><code>performanceFunction</code>: This is created by appending the <code>functionOutputTypeExtension</code> to <code>performance</code>, resulting in &#39;performanceList&#39;.</li>
+<li><code>flowDiagram</code>: This is set to the string &#39;flowDiagram&#39;.</li>
+<li><code>summary</code>: This is set to the string &#39;summary&#39;.</li>
+<li><code>explain</code>: This is set to the string &#39;explainCode&#39;.</li>
+<li><code>chat</code>: This is set to the string &#39;chat&#39;.</li>
+<li><code>codeGuidelines</code>: This is set to the string &#39;guidelinesCode&#39;.</li>
+<li><code>convert</code>: This is set to the string &#39;generatedCode&#39;.</li>
+<li><code>customQuickScanFunction</code>: This is created by appending the <code>functionOutputTypeExtension</code> to &#39;customQuickScanCode&#39;, resulting in &#39;customQuickScanCodeList&#39;.</li>
+</ul>
+<p>The enum <code>ControllerOutputType</code> is exported, which means it can be imported and used in other parts of the codebase. It provides a way to refer to these output types in a more readable and maintainable way than using the string values directly.</p>
+<p>This code does not appear to conflict with the provided architectural guidelines.</p>
+<p>For more information on TypeScript enums, you can refer to the official TypeScript documentation: <a href="https://www.typescriptlang.org/docs/handbook/enums.html">TypeScript Enums</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:39:06 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:39:27 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:39:41 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:39:56 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/controllerOutputTypes.ts line 20:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-comment">//compute the display summary of boostprojectdata</span>
+<span class="hljs-comment">//these are the sections supported currently. Be sure to update this list</span>
+<span class="hljs-comment">//if new analysis are done.</span>
+export const outputTypeToDisplayG<span class="hljs-attr">roup</span> <span class="hljs-operator">=</span> <span class="hljs-punctuation">{</span>
+<span class="hljs-symbol">    documentation:</span> [
+        ControllerOutputType.explain,
+        ControllerOutputType.flowDiagram,
+    ],
+<span class="hljs-symbol">    security:</span> [ControllerOutputType.analyzeFunction],
+<span class="hljs-symbol">    compliance:</span> [ControllerOutputType.complianceFunction],
+<span class="hljs-symbol">    deepcode:</span> [
+        ControllerOutputType.compliance,
+        ControllerOutputType.blueprint,
+        ControllerOutputType.analyze,
+        ControllerOutputType.codeGuidelines,
+    ],
+<span class="hljs-punctuation">};</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:38:51 PM PDT</p>
+<p>This code is written in JavaScript, specifically using the ES6 syntax. It exports an object called <code>outputTypeToDisplayGroup</code>. This object is a dictionary or a mapping between keys and values, where keys are strings representing different categories of output or analysis and values are arrays of different types of outputs or analysis that fit into that category.</p>
+<p>The purpose of this object is to categorize different types of outputs or analysis into groups for display purposes. This object is likely used elsewhere in the code to determine which types of output to display based on the category selected.</p>
+<p>The keys in the object are &#39;documentation&#39;, &#39;security&#39;, &#39;compliance&#39;, and &#39;deepcode&#39;. These likely represent different categories of analysis that can be performed on a project.</p>
+<p>The values in the object are arrays of <code>ControllerOutputType</code> values. <code>ControllerOutputType</code> is likely an enumeration or a set of constants that represent different types of outputs or analysis that can be performed. For example, &#39;explain&#39;, &#39;flowDiagram&#39;, &#39;analyzeFunction&#39;, &#39;complianceFunction&#39;, &#39;compliance&#39;, &#39;blueprint&#39;, &#39;analyze&#39;, and &#39;codeGuidelines&#39;.</p>
+<p>Here&#39;s a breakdown of what each category includes:</p>
+<ul>
+<li><p>&#39;documentation&#39;: This category includes &#39;explain&#39; and &#39;flowDiagram&#39;. This suggests that this category is for outputs that explain the code or provide a flow diagram of the code.</p>
+</li>
+<li><p>&#39;security&#39;: This category includes &#39;analyzeFunction&#39;. This suggests that this category is for outputs that analyze individual functions for security purposes.</p>
+</li>
+<li><p>&#39;compliance&#39;: This category includes &#39;complianceFunction&#39;. This suggests that this category is for outputs that check whether functions comply with certain standards or guidelines.</p>
+</li>
+<li><p>&#39;deepcode&#39;: This category includes &#39;compliance&#39;, &#39;blueprint&#39;, &#39;analyze&#39;, and &#39;codeGuidelines&#39;. This suggests that this category is for a deeper level of code analysis, including checking for compliance, providing a blueprint of the code, analyzing the code, and checking against code guidelines.</p>
+</li>
+</ul>
+<p>The algorithm used here is very simple. It&#39;s just defining an object. However, this object is likely used in a lookup operation, which is O(1) complexity.</p>
+<p>For more information on JavaScript objects, you can refer to this link: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects">JavaScript Objects</a></p>
+<p>For more information on ES6 syntax, you can refer to this link: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Introduction_to_Object-Oriented_JavaScript">ES6 Syntax</a></p>
+<p>This code adheres to the architectural guidelines provided in the project blueprint. It uses object-oriented design principles and is organized and structured. It&#39;s also clear and easy to understand, which is a key principle of good software design.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:39:13 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ComputeDisplaySummary fill:#228B22, stroke:#000000, stroke-width:4px;
+style Documentation fill:#228B22, stroke:#000000, stroke-width:4px;
+style Security fill:#228B22, stroke:#000000, stroke-width:4px;
+style Compliance fill:#228B22, stroke:#000000, stroke-width:4px;
+style Deepcode fill:#228B22, stroke:#000000, stroke-width:4px;
+style Error fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ComputeDisplaySummary;
+ComputeDisplaySummary-->Documentation;
+ComputeDisplaySummary-->Security;
+ComputeDisplaySummary-->Compliance;
+ComputeDisplaySummary-->Deepcode;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:39:31 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:39:44 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:40:11 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 42</p>
+<p><strong>Bug Type</strong>: Data Compliance</p>
+<p><strong>Description</strong>: The code does not appear to handle any personal, financial, or health-related data directly. However, it&#39;s unclear what data is being processed in the &#39;complianceFunction&#39; and &#39;analyzeFunction&#39;. If these functions process sensitive data, there could be potential GDPR, PCI DSS, or HIPAA compliance issues.</p>
+<p><strong>Solution</strong>: Ensure that any sensitive data processed in these functions is handled according to GDPR, PCI DSS, and HIPAA regulations. This includes obtaining necessary consents, anonymizing data where possible, and implementing appropriate security measures. Regular audits should be conducted to ensure ongoing compliance.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 43</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The &#39;deepcode&#39; group includes several functions, including &#39;compliance&#39;, &#39;blueprint&#39;, &#39;analyze&#39;, and &#39;codeGuidelines&#39;. It&#39;s unclear what data these functions process and whether they comply with data privacy regulations.</p>
+<p><strong>Solution</strong>: Review the data processed by these functions to ensure they comply with data privacy regulations. Implement data anonymization techniques and secure data handling practices as necessary. Regular audits should be conducted to ensure ongoing compliance.</p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>

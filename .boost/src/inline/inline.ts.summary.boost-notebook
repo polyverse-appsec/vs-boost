@@ -1,0 +1,80 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": ""
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysis"
+          }
+        }
+      ],
+      "languageId": "markdown",
+      "id": "e0a287e2-c009-44e7-b661-54d100b1eaf2",
+      "value": "\n\n---\n\n### Boost Architectural Quick Summary Security Report\n\nLast Updated: Saturday, September 9, 2023 at 5:33:58 AM PDT\n\n\nExecutive Report:\n\n1. **Architectural Impact**: The analysis of this file has not revealed any severe issues.\n2. **Risk Analysis**: The analysis of this file has not revealed any severe issues.\n3. **Potential Customer Impact**: Based on the analysis, there are no severe issues that could potentially impact customers.\n4. **Performance Issues**: Our analysis did not identify any explicit performance issues in the file.\n5. **Risk Assessment**: Based on the current analysis of this file, no severe issues have been found. However, this doesn't guarantee that the file is risk-free.\n\nHighlights:\n\n- No severe issues were identified in the current analysis of this file.\n",
+      "kind": 1,
+      "metadata": {
+        "id": "e0a287e2-c009-44e7-b661-54d100b1eaf2",
+        "outputType": "bugAnalysis",
+        "summaryType": "quick"
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": ""
+            }
+          ],
+          "metadata": {
+            "outputType": "performance"
+          }
+        }
+      ],
+      "languageId": "markdown",
+      "id": "2dd59c7a-ef0c-41b6-b509-57f0e66dcb06",
+      "value": "\n\n---\n\n### Boost Architectural Quick Summary Performance Report\n\nLast Updated: Saturday, September 9, 2023 at 5:34:23 AM PDT\n\n\nExecutive Report:\n\n1. **Architectural Impact**: The analysis of this file has not revealed any severe issues.\n2. **Risk Analysis**: The analysis of this file has not revealed any severe issues.\n3. **Potential Customer Impact**: Based on the analysis, there are no severe issues that could potentially impact customers.\n4. **Performance Issues**: Our analysis did not identify any explicit performance issues in the file.\n5. **Risk Assessment**: Based on the current analysis of this file, no severe issues have been found. However, this doesn't guarantee that the file is risk-free.\n\nHighlights:\n\n- No severe issues were identified in the current analysis of this file.\n",
+      "kind": 1,
+      "metadata": {
+        "id": "2dd59c7a-ef0c-41b6-b509-57f0e66dcb06",
+        "outputType": "performance",
+        "summaryType": "quick"
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": ""
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCode"
+          }
+        }
+      ],
+      "languageId": "markdown",
+      "id": "7b2ed8da-7089-4442-9eac-86e4c81bf22c",
+      "value": "\n\n---\n\n### Boost Architectural Quick Summary Compliance Report\n\nLast Updated: Saturday, September 9, 2023 at 5:34:47 AM PDT\n\n\nExecutive Report:\n\n1. **Architectural Impact**: The analysis of this file has not revealed any severe issues.\n2. **Risk Analysis**: The analysis of this file has not revealed any severe issues.\n3. **Potential Customer Impact**: Based on the analysis, there are no severe issues that could potentially impact customers.\n4. **Performance Issues**: Our analysis did not identify any explicit performance issues in the file.\n5. **Risk Assessment**: Based on the current analysis of this file, no severe issues have been found. However, this doesn't guarantee that the file is risk-free.\n\nHighlights:\n\n- No severe issues were identified in the current analysis of this file.\n",
+      "kind": 1,
+      "metadata": {
+        "id": "7b2ed8da-7089-4442-9eac-86e4c81bf22c",
+        "outputType": "complianceCode",
+        "summaryType": "quick"
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/inline/inline.ts"
+  }
+}

@@ -5,12 +5,60 @@
         {
           "items": [
             {
-              "mime": "application/vnd.code.notebook.error",
-              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:13:26 PM PDT\n\nThis is a simple piece of code, written in TypeScript, which is used in Visual Studio Code (VS Code) extensions. This code is importing modules from the vscode package and a constant from a jupyter_notebook module. \n\nLet's break it down:\n\n1. `import * as vscode from 'vscode';`: This line is importing all the exported modules from the 'vscode' package as an object named 'vscode'. The 'vscode' package is a library that provides the APIs necessary for interacting with VS Code. This allows the extension to use VS Code's built-in features and functionality.\n\n2. `import { NOTEBOOK_TYPE } from '../../jupyter_notebook';`: This line is importing a specific export, `NOTEBOOK_TYPE`, from a module located at '../../jupyter_notebook'. The '../..' in the path indicates that the module is located two directories up from the current file. The `NOTEBOOK_TYPE` is likely a constant that is used to identify the type of notebook being used, in this case, a Jupyter notebook.\n\nAs for the algorithms, there's not much to discuss in this code snippet as it's just importing modules and a constant. However, the use of these imports will likely involve algorithms related to the manipulation and analysis of Jupyter notebooks within the VS Code environment.\n\nAs for the architectural guidelines, this code seems to follow standard practices for a VS Code extension. It's making use of the VS Code API (via the 'vscode' package) and appears to be part of functionality related to Jupyter notebooks, which is a common tool used in data science and related fields.\n\nFor more information on how to work with modules in TypeScript, you can refer to the [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/modules.html). For more information on the 'vscode' package, you can refer to the [VS Code API](https://code.visualstudio.com/api/references/vscode-api)."
             }
           ],
           "metadata": {
             "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:16:31 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:18:13 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:19:14 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:20:59 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
             "details": []
           }
         }
@@ -30,13 +78,70 @@
         {
           "items": [
             {
-              "mime": "application/vnd.code.notebook.error",
-              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:13:51 PM PDT\n\nThe code provided is a very small snippet, but I will explain it to the best of my ability.\n\nThis code is written in TypeScript, a statically typed superset of JavaScript that adds types to the language. TypeScript is often used for large-scale application development due to its robustness and scalability.\n\nIn this particular code snippet, we have an import statement. Import statements are used to bring in functions, objects, or values from other modules or files into the current file. The items to be imported are enclosed in curly braces {}. The 'from' keyword is then used to specify the path to the module or file.\n\nThe code is importing three items: `getRandomTestSourceFile`, `seconds`, and `minutes` from the module at the path `'../suite/utils'`. \n\nThe `getRandomTestSourceFile` is likely a function that returns a random test source file from a set of files. This could be used for testing purposes, where you might want to pick a random file for each test run to ensure your code works with a variety of inputs.\n\n`seconds` and `minutes` are likely either functions or values related to time. Without more context, it's difficult to say exactly what they do, but their names suggest they might be used for converting time units or for setting time durations.\n\nAs for the algorithms used, this code snippet is too short to contain any algorithms. An algorithm is a step-by-step procedure for solving a problem or accomplishing a task. This code is simply importing items for use elsewhere in the code, and does not perform any operations itself.\n\nFor more information on import statements in TypeScript, you can visit the TypeScript Documentation: [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/modules.html)"
             }
           ],
           "metadata": {
             "outputType": "explainCode",
             "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:16:34 PM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:18:17 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:19:17 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:21:11 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 2\n\n   **Bug Type**: Data Privacy\n\n   **Description**: The method 'getRandomTestSourceFile' may potentially access random source files which could contain sensitive information, compromising GDPR, HIPAA, and PCI DSS data privacy compliance.\n\n   **Solution**: Ensure that the files accessed by the method are not containing sensitive data, or implement proper data anonymization techniques before accessing the data. Also, ensure the usage of this method is logged and monitored for any unusual activities.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 1,
+                "severity": 5,
+                "bugType": "Data Privacy",
+                "description": "The method 'getRandomTestSourceFile' may potentially access random source files which could contain sensitive information, compromising GDPR, HIPAA, and PCI DSS data privacy compliance.",
+                "solution": "Ensure that the files accessed by the method are not containing sensitive data, or implement proper data anonymization techniques before accessing the data. Also, ensure the usage of this method is logged and monitored for any unusual activities.",
+                "reference": "https://gdpr-info.eu/"
+              }
+            ]
           }
         }
       ],
@@ -55,13 +160,83 @@
         {
           "items": [
             {
-              "mime": "application/vnd.code.notebook.error",
-              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:14:14 PM PDT\n\nThis code snippet is written in TypeScript, a statically typed superset of JavaScript. It's a relatively simple snippet, but let's break it down:\n\n1. `import * as assert from 'assert';`: This line imports the built-in Node.js module `assert` which provides a set of assertion functions for verifying invariants. Assertion functions are used for testing, they will throw an error if the condition that they are checking is not met. \n\n2. `import { getBoostFile} from '../../extension';`: This line imports a specific function `getBoostFile` from a module located at `../../extension`. The relative path `../../extension` means that the module is located two directories up from the current file and in a file named `extension.ts` or `extension.js`. \n\nThe function `getBoostFile` is likely a function defined in your project that somehow retrieves a \"Boost\" file, but without more context or the actual implementation of `getBoostFile`, it's hard to say what it does exactly.\n\nAs for algorithms, this code snippet doesn't really contain any. It's just importing modules for use in the rest of the file. However, the `assert` module is often used in unit testing, so the rest of the file might contain some tests that make use of it.\n\nHere are some resources for further reading:\n\n- [Node.js assert module](https://nodejs.org/api/assert.html): This is the official documentation for the `assert` module in Node.js.\n- [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/modules.html): This is the official TypeScript documentation on modules.\n- [Unit Testing in JavaScript](https://javascript.info/testing-mocha): This is a tutorial on unit testing in JavaScript, which often makes use of the `assert` module."
             }
           ],
           "metadata": {
             "outputType": "explainCode",
             "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:16:41 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\n```\n\nThe control flow graph for the provided code is a simple graph with no control flow. The code imports the `assert` module and the `getBoostFile` function from the `../../extension` module. However, there are no further statements or function calls in the code, so there is no control flow to represent in the graph."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:18:20 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:19:21 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:21:36 PM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 6\n\n   **Bug Type**: GDPR\n\n   **Description**: The getBoostFile function might be accessing file data which could contain personal data. If personal data is being processed, it would need to comply with GDPR regulations.\n\n   **Solution**: Ensure that any personal data accessed by getBoostFile is processed in compliance with GDPR. This could involve anonymizing data, gaining user consent, or implementing appropriate security measures. For more information, refer to https://gdpr-info.eu/\n\n\n2. **Severity**: 2/10\n\n   **Line Number**: 6\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If getBoostFile is accessing files containing payment card data, it would need to comply with PCI DSS standards.\n\n   **Solution**: Ensure that any payment card data accessed by getBoostFile is processed in compliance with PCI DSS. This could involve encrypting data, limiting data access, or implementing appropriate security measures. For more information, refer to https://www.pcisecuritystandards.org/pci_security/\n\n\n3. **Severity**: 2/10\n\n   **Line Number**: 6\n\n   **Bug Type**: HIPAA\n\n   **Description**: If getBoostFile is accessing files containing protected health information (PHI), it would need to comply with HIPAA regulations.\n\n   **Solution**: Ensure that any PHI accessed by getBoostFile is processed in compliance with HIPAA. This could involve anonymizing data, implementing secure data transmission, or implementing appropriate security measures. For more information, refer to https://www.hhs.gov/hipaa/index.html\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 3,
+                "severity": 2,
+                "bugType": "GDPR",
+                "description": "The getBoostFile function might be accessing file data which could contain personal data. If personal data is being processed, it would need to comply with GDPR regulations.",
+                "solution": "Ensure that any personal data accessed by getBoostFile is processed in compliance with GDPR. This could involve anonymizing data, gaining user consent, or implementing appropriate security measures. For more information, refer to https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 3,
+                "severity": 2,
+                "bugType": "PCI DSS",
+                "description": "If getBoostFile is accessing files containing payment card data, it would need to comply with PCI DSS standards.",
+                "solution": "Ensure that any payment card data accessed by getBoostFile is processed in compliance with PCI DSS. This could involve encrypting data, limiting data access, or implementing appropriate security measures. For more information, refer to https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 3,
+                "severity": 2,
+                "bugType": "HIPAA",
+                "description": "If getBoostFile is accessing files containing protected health information (PHI), it would need to comply with HIPAA regulations.",
+                "solution": "Ensure that any PHI accessed by getBoostFile is processed in compliance with HIPAA. This could involve anonymizing data, implementing secure data transmission, or implementing appropriate security measures. For more information, refer to https://www.hhs.gov/hipaa/index.html"
+              }
+            ]
           }
         }
       ],
@@ -80,12 +255,60 @@
         {
           "items": [
             {
-              "mime": "application/vnd.code.notebook.error",
-              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:14:29 PM PDT\n\nThe provided code is a single line of JavaScript (or TypeScript) that imports the `debug` function from the `console` module in Node.js. This function is used to output debugging messages to the console.\n\n```javascript\nimport { debug } from 'console';\n```\n\nThis statement uses the ES6 import syntax to import a specific function (`debug`) from a module (`console`). The `console` module is a built-in Node.js module that provides a simple debugging console that is similar to the JavaScript console mechanism provided by web browsers.\n\nThe `debug` function is part of the `console` module's API. It is used to output debugging messages to the console. By default, these messages are sent to stderr and are only displayed if the `NODE_DEBUG` environment variable is set to a value that includes the name of the module that is outputting the debug message.\n\nThe `debug` function is not often used in production code, as there are more sophisticated debugging tools available (such as the debugger built into Node.js itself, or third-party tools like Visual Studio Code's debugger). However, it can be useful for quick-and-dirty debugging during development.\n\nFor more information on the `console` module and the `debug` function, you can refer to the [Node.js documentation](https://nodejs.org/api/console.html).\n\nAs for the architectural guidelines, this line of code does not appear to conflict with any common architectural guidelines. It is a standard import statement, which is a common practice in modular JavaScript and TypeScript codebases. It is also consistent with the event-driven programming principle, as it is used to output debug information about events occurring in the system."
             }
           ],
           "metadata": {
             "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:16:45 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:18:24 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:19:24 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:21:39 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
             "details": []
           }
         }
@@ -105,12 +328,60 @@
         {
           "items": [
             {
-              "mime": "application/vnd.code.notebook.error",
-              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:14:54 PM PDT\n\nThe line of code you provided is a single line import statement in JavaScript (or TypeScript), specifically using ES6 (ECMAScript 2015) module syntax. \n\nHere's a breakdown:\n\n`import { BoostConfiguration } from '../../boostConfiguration';`\n\n- `import`: This is a keyword in JavaScript that is used to import functions, objects or values from other modules (files) into the current file. This is part of the ES6 module system which allows for code to be split into smaller modules, each with their own scope, which can then be imported and used where needed.\n\n- `{ BoostConfiguration }`: This is the specific item being imported from the module. The `{}` syntax indicates that `BoostConfiguration` is a named export from the module. Named exports are one of two types of exports in ES6, the other being default exports. A module can have multiple named exports but only one default export.\n\n- `from`: This keyword is used to specify the path of the module from which the import is being done.\n\n- `'../../boostConfiguration'`: This is the relative path to the module file. The `..` syntax is used to navigate up one directory level. So `'../../boostConfiguration'` means the `boostConfiguration` file is two directory levels up from the current file.\n\nAs for the `BoostConfiguration`, without more code, it's hard to say exactly what it is. It could be a class, a function, an object, or even a simple value. It's something that has been exported from the `boostConfiguration` module.\n\nAbout algorithms used, this line of code does not implement any specific algorithm. It's part of the module system in JavaScript, which is more about code organization than about problem-solving algorithms.\n\nYou can learn more about ES6 modules and import/export syntax from these resources:\n- [MDN Web Docs: import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [MDN Web Docs: export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export)"
             }
           ],
           "metadata": {
             "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:16:48 PM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:18:28 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:19:27 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:21:42 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
             "details": []
           }
         }
@@ -130,13 +401,93 @@
         {
           "items": [
             {
-              "mime": "application/vnd.code.notebook.error",
-              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:15:20 PM PDT\n\nThe provided code is written in TypeScript, a statically typed superset of JavaScript. This particular code snippet is very minimal and only includes two import statements. \n\n```import * as fs from 'fs';```\n\nThe first line imports the built-in Node.js 'fs' (file system) module. This module provides an API for interacting with the file system in a manner closely modeled around standard POSIX functions. It allows for reading from, writing to, and modifying the file system. It can be used for tasks such as reading/writing files, creating directories, and more. More information about the 'fs' module can be found at the [Node.js 'fs' module documentation](https://nodejs.org/api/fs.html).\n\n```import { BoostNotebook } from '../../jupyter_notebook';```\n\nThe second line imports a specific export, `BoostNotebook`, from a module located at '../../jupyter_notebook'. The `BoostNotebook` is likely a class or a function that is exported from the 'jupyter_notebook' module. The exact location of this module depends on the location of the current file, but the '../..' indicates that it is two directories up from the current file.\n\nThe `BoostNotebook` import suggests that this file is part of a larger project that involves Jupyter notebooks. Jupyter notebooks are a popular tool in data science for creating and sharing documents that contain live code, equations, visualizations, and narrative text.\n\nWithout additional code, it's hard to provide a more detailed analysis. However, it's clear from this snippet that the file is intended to work with the file system and with a specific part of the software related to Jupyter notebooks. \n\nAs for the architectural guidelines, this code snippet doesn't seem to conflict with the provided architectural blueprint. It uses TypeScript, which is mentioned in the blueprint, and it's structured in a way that is typical of many Node.js and TypeScript projects."
             }
           ],
           "metadata": {
             "outputType": "explainCode",
             "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:16:53 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\n```\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:18:31 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:19:40 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 14\n\n   **Bug Type**: Disk\n\n   **Description**: The 'fs' module is imported but not used, which can lead to unnecessary disk usage.\n\n   **Solution**: Remove unused imports to save disk space. If 'fs' is used in later code, ensure it is used efficiently to minimize disk I/O operations.\n\n\n2. **Severity**: 2/10\n\n   **Line Number**: 15\n\n   **Bug Type**: Memory\n\n   **Description**: The BoostNotebook class is imported but not used, which can lead to unnecessary memory usage.\n\n   **Solution**: Remove unused imports to save memory. If BoostNotebook is used in later code, ensure objects are properly managed to prevent memory leaks.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 7,
+                "severity": 5,
+                "bugType": "Disk",
+                "description": "The 'fs' module is imported but not used, which can lead to unnecessary disk usage.",
+                "solution": "Remove unused imports to save disk space. If 'fs' is used in later code, ensure it is used efficiently to minimize disk I/O operations."
+              },
+              {
+                "lineNumber": 8,
+                "severity": 2,
+                "bugType": "Memory",
+                "description": "The BoostNotebook class is imported but not used, which can lead to unnecessary memory usage.",
+                "solution": "Remove unused imports to save memory. If BoostNotebook is used in later code, ensure objects are properly managed to prevent memory leaks."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:21:55 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 14\n\n   **Bug Type**: GDPR\n\n   **Description**: Use of 'fs' module for file system operations can lead to potential data breaches if not properly handled. This can allow unauthorized access to sensitive user data.\n\n   **Solution**: Ensure that access to files is controlled and that sensitive data is encrypted. Use secure methods for file operations and always validate user input to avoid path traversal vulnerabilities.\n\n\n2. **Severity**: 6/10\n\n   **Line Number**: 15\n\n   **Bug Type**: HIPAA\n\n   **Description**: The 'BoostNotebook' object might potentially handle sensitive health-related information. If not properly secured, this can lead to non-compliance with HIPAA regulations.\n\n   **Solution**: Ensure that any health-related data is encrypted in transit and at rest, and that access to this data is strictly controlled. Regular audits should be conducted to ensure compliance.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 7,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "Use of 'fs' module for file system operations can lead to potential data breaches if not properly handled. This can allow unauthorized access to sensitive user data.",
+                "solution": "Ensure that access to files is controlled and that sensitive data is encrypted. Use secure methods for file operations and always validate user input to avoid path traversal vulnerabilities.",
+                "reference": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 8,
+                "severity": 6,
+                "bugType": "HIPAA",
+                "description": "The 'BoostNotebook' object might potentially handle sensitive health-related information. If not properly secured, this can lead to non-compliance with HIPAA regulations.",
+                "solution": "Ensure that any health-related data is encrypted in transit and at rest, and that access to this data is strictly controlled. Regular audits should be conducted to ensure compliance.",
+                "reference": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
           }
         }
       ],
@@ -155,12 +506,60 @@
         {
           "items": [
             {
-              "mime": "application/vnd.code.notebook.error",
-              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:15:41 PM PDT\n\nThe provided code snippet is very small and doesn't contain any algorithms or complex operations, but I'll explain it as best as I can.\n\nIn this code, a specific function named `rightClickLoadFileCommandTest` is being imported from a module named `testCommandUtilities`. This is done using JavaScript's ES6 import syntax.\n\nLet's break it down:\n\n- `import`: This is a keyword in JavaScript that's used to import functions, objects or values from another module or file.\n\n- `{ rightClickLoadFileCommandTest }`: This is the function that's being imported. The curly braces are used for named exports. This means that `rightClickLoadFileCommandTest` is a function that's been exported from its module using the `export` keyword.\n\n- `from`: This is another keyword used in the import statement. It's used to specify the path to the module from which the function, object or value is being imported.\n\n- `'./testCommandUtilities'`: This is the path to the module that contains the `rightClickLoadFileCommandTest` function. The `./` at the start of the string means that the module is in the same directory as the current file.\n\nThe `rightClickLoadFileCommandTest` function itself is not defined in this code snippet, so I can't provide information on what it does or what algorithms it uses. But given its name, it's likely a test function for a command that loads a file when the user right-clicks.\n\nFor more information on JavaScript modules and import/export syntax, you can refer to this MDN web docs link: [JavaScript Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)"
             }
           ],
           "metadata": {
             "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:16:56 PM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:18:35 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:19:44 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:21:58 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
             "details": []
           }
         }
@@ -180,13 +579,134 @@
         {
           "items": [
             {
-              "mime": "application/vnd.code.notebook.error",
-              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:16:21 PM PDT\n\nThis code is a test suite for the \"Right Click Process File Command\" feature of a Visual Studio Code extension. It uses Mocha, a JavaScript test framework, for structuring and executing the tests. The suite contains two test cases: \"Right Click Load File Command Test (Pre-Step for Processing)\" and \"Right Click Process File Command Test\".\n\nHere's a breakdown of the code:\n\n1. `suite('Right Click Process File Command', function() {...});`: This line declares a test suite named \"Right Click Process File Command\".\n\n2. `this.timeout(5 * minutes);`: This sets the maximum time that Mocha will wait for each test in this suite to run before it times out. The timeout is set to 5 minutes.\n\n3. `const randomFile = getRandomTestSourceFile();`: This line gets a random source file for testing.\n\n4. `const fileUri = vscode.Uri.parse(randomFile);`: This line parses the path of the random file into a URI that can be used with the Visual Studio Code API.\n\n5. `const boostUri = getBoostFile(fileUri);`: This line gets the Boost file associated with the source file. The Boost file is likely a file that contains analysis results from the Boost service.\n\n6. `test('Right Click Load File Command Test (Pre-Step for Processing)', async function() {...});`: This is the first test case. It tests the functionality of loading a file through a right-click command. It asserts that the Boost file exists after the load command is executed.\n\n7. `test('Right Click Process File Command Test', async function() {...});`: This is the second test case. It tests the functionality of processing a file through a right-click command. It sets the Boost configuration, executes the process command, waits for the processing to finish, and then checks that the processed notebook has the expected properties.\n\n8. `await vscode.commands.executeCommand(NOTEBOOK_TYPE + '.processCurrentFile', fileUri, BoostConfiguration.currentKernelCommand);`: This line executes the command to process the current file. It's an asynchronous operation, so the test waits for it to finish before proceeding.\n\n9. `await new Promise((resolve) => setTimeout(resolve, 2.5 * minutes));`: This line causes the test to wait for 2.5 minutes. This is to ensure that the Boost service has enough time to finish processing the file.\n\n10. `processedNotebook.cells.forEach((cell : any) => {...});`: This section of code iterates over each cell in the processed notebook. It asserts that each cell has at least one output and that the first output is of the type 'explainCode'.\n\nThis code does not appear to conflict with the architectural guidelines provided. It uses asynchronous programming for potentially long-running tasks, and it includes error handling and logging, which aligns with the architectural blueprint summary.\n\nFor more information on Mocha and testing in JavaScript, you can visit these resources:\n\n- [Mocha - the fun, simple, flexible JavaScript test framework](https://mochajs.org/)\n- [Testing in JavaScript: An Overview](https://www.toptal.com/javascript/tdd-karma-mocha-chai)"
             }
           ],
           "metadata": {
             "outputType": "explainCode",
             "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:18:05 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleProcess2;\nExampleProcess-->ExampleProcess3;\nExampleProcess-->ExampleErrorPath;\nExampleProcess2-->ExampleProcess4;\nExampleProcess2-->ExampleErrorPath;\nExampleProcess3-->ExampleProcess5;\nExampleProcess3-->ExampleErrorPath;\nExampleProcess4-->ExampleProcess6;\nExampleProcess4-->ExampleErrorPath;\nExampleProcess5-->ExampleProcess7;\nExampleProcess5-->ExampleErrorPath;\nExampleProcess6-->ExampleProcess8;\nExampleProcess6-->ExampleErrorPath;\nExampleProcess7-->ExampleProcess9;\nExampleProcess7-->ExampleErrorPath;\nExampleProcess8-->ExampleProcess10;\nExampleProcess8-->ExampleErrorPath;\nExampleProcess9-->ExampleProcess11;\nExampleProcess9-->ExampleErrorPath;\nExampleProcess10-->ExampleProcess12;\nExampleProcess10-->ExampleErrorPath;\nExampleProcess11-->ExampleProcess13;\nExampleProcess11-->ExampleErrorPath;\nExampleProcess12-->ExampleProcess14;\nExampleProcess12-->ExampleErrorPath;\nExampleProcess13-->ExampleProcess15;\nExampleProcess13-->ExampleErrorPath;\nExampleProcess14-->ExampleProcess16;\nExampleProcess14-->ExampleErrorPath;\nExampleProcess15-->ExampleProcess17;\nExampleProcess15-->ExampleErrorPath;\nExampleProcess16-->ExampleProcess18;\nExampleProcess16-->ExampleErrorPath;\nExampleProcess17-->ExampleProcess19;\nExampleProcess17-->ExampleErrorPath;\nExampleProcess18-->ExampleProcess20;\nExampleProcess18-->ExampleErrorPath;\nExampleProcess19-->ExampleProcess21;\nExampleProcess19-->ExampleErrorPath;\nExampleProcess20-->ExampleProcess22;\nExampleProcess20-->ExampleErrorPath;\nExampleProcess21-->ExampleProcess23;\nExampleProcess21-->ExampleErrorPath;\nExampleProcess22-->ExampleProcess24;\nExampleProcess22-->ExampleErrorPath;\nExampleProcess23-->ExampleProcess25;\nExampleProcess23-->ExampleErrorPath;\nExampleProcess24-->ExampleProcess26;\nExampleProcess24-->ExampleErrorPath;\nExampleProcess25-->ExampleProcess27;\nExampleProcess25-->ExampleErrorPath;\nExampleProcess26-->ExampleProcess28;\nExampleProcess26-->ExampleErrorPath;\nExampleProcess27-->ExampleProcess29;\nExampleProcess27-->ExampleErrorPath;\nExampleProcess28-->ExampleProcess30;\nExampleProcess28-->ExampleErrorPath;\nExampleProcess29-->ExampleProcess31;\nExampleProcess29-->ExampleErrorPath;\nExampleProcess30-->ExampleProcess32;\nExampleProcess30-->ExampleErrorPath;\nExampleProcess31-->ExampleProcess33;\nExampleProcess31-->ExampleErrorPath;\nExampleProcess32-->ExampleProcess34;\nExampleProcess32-->ExampleErrorPath;\nExampleProcess33-->ExampleProcess35;\nExampleProcess33-->ExampleErrorPath;\nExampleProcess34-->ExampleProcess36;\nExampleProcess34-->ExampleErrorPath;\nExampleProcess35-->ExampleProcess37;\nExampleProcess35-->ExampleErrorPath;\nExampleProcess36-->ExampleProcess38;\nExampleProcess36-->ExampleErrorPath;\nExampleProcess37-->ExampleProcess39;\nExampleProcess37-->ExampleErrorPath;\nExampleProcess38-->ExampleProcess40;\nExampleProcess38-->ExampleErrorPath;\nExampleProcess39-->ExampleProcess41;\nExampleProcess39-->ExampleErrorPath;\nExampleProcess40-->ExampleProcess42;\nExampleProcess40-->ExampleErrorPath;\nExampleProcess41-->ExampleProcess43;\nExampleProcess41-->ExampleErrorPath;\nExampleProcess42-->ExampleProcess44;\nExampleProcess42-->ExampleErrorPath;\nExampleProcess43-->ExampleProcess45;\nExampleProcess43-->ExampleErrorPath;\nExampleProcess44-->ExampleProcess46;\nExampleProcess44-->ExampleErrorPath;\nExampleProcess45-->ExampleProcess47;\nExampleProcess45-->ExampleErrorPath;\nExampleProcess46-->ExampleProcess48;\nExampleProcess46-->ExampleErrorPath;\nExampleProcess47-->ExampleProcess49;\nExampleProcess47-->ExampleErrorPath;\nExampleProcess48-->ExampleProcess50;\nExampleProcess48-->ExampleErrorPath;\nExampleProcess49-->ExampleProcess51;\nExampleProcess49-->ExampleErrorPath;\nExampleProcess50-->ExampleProcess52;\nExampleProcess50-->ExampleErrorPath;\nExampleProcess51-->ExampleProcess53;\nExampleProcess51-->ExampleErrorPath;\nExampleProcess52-->ExampleProcess54;\nExampleProcess52-->ExampleErrorPath;\nExampleProcess53-->ExampleProcess55;\nExampleProcess53-->ExampleErrorPath;\nExampleProcess54-->ExampleProcess56;\nExampleProcess54-->ExampleErrorPath;\nExampleProcess55-->ExampleProcess57;\nExampleProcess55-->ExampleErrorPath;\nExampleProcess56-->ExampleProcess58;\nExampleProcess56-->ExampleErrorPath;\nExampleProcess57-->ExampleProcess59;\nExampleProcess57-->ExampleErrorPath;\nExampleProcess58-->ExampleProcess60;\nExampleProcess58-->ExampleErrorPath;\nExampleProcess59-->ExampleProcess61;\nExampleProcess59-->ExampleErrorPath;\nExampleProcess60-->ExampleProcess62;\nExampleProcess60-->ExampleErrorPath;\nExampleProcess61-->ExampleProcess63;\nExampleProcess61-->ExampleErrorPath;\nExampleProcess62-->ExampleProcess64;\nExampleProcess62-->ExampleErrorPath;\nExampleProcess63-->ExampleProcess65;\nExampleProcess63-->ExampleErrorPath;\nExampleProcess64-->ExampleProcess66;\nExampleProcess64-->ExampleErrorPath;\nExampleProcess65-->ExampleProcess67;\nExampleProcess65-->ExampleErrorPath;\nExampleProcess66-->ExampleProcess68;\nExampleProcess66-->ExampleErrorPath;\nExampleProcess67-->ExampleProcess69;\nExampleProcess67-->ExampleErrorPath;\nExampleProcess68-->ExampleProcess70;\nExampleProcess68-->ExampleErrorPath;\nExampleProcess69-->ExampleProcess71;\nExampleProcess69-->ExampleErrorPath;\nExampleProcess70-->ExampleProcess72;\nExampleProcess70-->ExampleErrorPath;\nExampleProcess71-->ExampleProcess73;\nExampleProcess71-->ExampleErrorPath;\nExampleProcess72-->ExampleProcess74;\nExampleProcess72-->ExampleErrorPath;\nExampleProcess73-->ExampleProcess75;\nExampleProcess73-->ExampleErrorPath;\nExampleProcess74-->ExampleProcess76;\nExampleProcess74-->ExampleErrorPath;\nExampleProcess75-->ExampleProcess77;\nExampleProcess75-->ExampleErrorPath;\nExampleProcess76-->ExampleProcess78;\nExampleProcess76-->ExampleErrorPath;\nExampleProcess77-->ExampleProcess79;\nExampleProcess77-->ExampleErrorPath;\nExampleProcess78-->ExampleProcess80;\nExampleProcess78-->ExampleErrorPath;\nExampleProcess79-->ExampleProcess81;\nExampleProcess79-->ExampleErrorPath;\nExampleProcess80-->ExampleProcess82;\nExampleProcess80-->ExampleErrorPath;\nExampleProcess81-->ExampleProcess83;\nExampleProcess81-->ExampleErrorPath;\nExampleProcess82-->ExampleProcess84;\nExampleProcess82-->ExampleErrorPath;\nExampleProcess83-->ExampleProcess85;\nExampleProcess83-->ExampleErrorPath;\nExampleProcess84-->ExampleProcess86;\nExampleProcess84-->ExampleErrorPath;\nExampleProcess85-->ExampleProcess87;\nExampleProcess85-->ExampleErrorPath;\nExampleProcess86-->ExampleProcess88;\nExampleProcess86-->ExampleErrorPath;\nExampleProcess87-->ExampleProcess89;\nExampleProcess87-->ExampleErrorPath;\nExampleProcess88-->ExampleProcess90;\nExampleProcess88-->ExampleErrorPath;\nExampleProcess89-->ExampleProcess91;\nExampleProcess89-->ExampleErrorPath;\nExampleProcess90-->ExampleProcess92;\nExampleProcess90-->ExampleErrorPath;\nExampleProcess91-->ExampleProcess93;\nExampleProcess91-->ExampleErrorPath;\nExampleProcess92-->ExampleProcess94;\nExampleProcess92-->ExampleErrorPath;\nExampleProcess93-->ExampleProcess95;\nExampleProcess93-->ExampleErrorPath;\nExampleProcess94-->ExampleProcess96;\nExampleProcess94-->ExampleErrorPath;\nExampleProcess95-->ExampleProcess97;\nExampleProcess95-->ExampleErrorPath;\nExampleProcess96-->ExampleProcess98;\nExampleProcess96-->ExampleErrorPath;\nExampleProcess97-->ExampleProcess99;\nExampleProcess97-->ExampleErrorPath;\nExampleProcess98-->ExampleProcess100;\nExampleProcess98-->ExampleErrorPath;\nExampleProcess99-->ExampleProcess101;\nExampleProcess99-->ExampleErrorPath;\nExampleProcess100-->ExampleProcess102;\nExampleProcess100-->ExampleErrorPath;\nExampleProcess101-->ExampleProcess103;\nExampleProcess101-->ExampleErrorPath;\nExampleProcess102-->ExampleProcess104;\nExampleProcess102-->ExampleErrorPath;\nExampleProcess103-->ExampleProcess105;\nExampleProcess103-->ExampleErrorPath;\nExampleProcess104-->ExampleProcess106;\nExampleProcess104-->ExampleErrorPath;\nExampleProcess105-->ExampleProcess107;\nExampleProcess105-->ExampleErrorPath;\nExampleProcess106-->ExampleProcess108;\nExampleProcess106-->ExampleErrorPath;\nExampleProcess107-->ExampleProcess109;\nExampleProcess107-->ExampleErrorPath;\nExampleProcess108-->ExampleProcess110;\nExampleProcess108-->ExampleErrorPath;\nExampleProcess109-->ExampleProcess111;\nExampleProcess109-->ExampleErrorPath;\nExampleProcess110-->ExampleProcess112;\nExampleProcess110-->ExampleErrorPath;\nExampleProcess111-->ExampleProcess113;\nExampleProcess111-->ExampleErrorPath;\nExampleProcess112-->ExampleProcess114;\nExampleProcess112-->ExampleErrorPath;\nExampleProcess113-->ExampleProcess115;\nExampleProcess113-->ExampleErrorPath;\nExampleProcess114-->ExampleProcess116;\nExampleProcess114-->ExampleErrorPath;\nExampleProcess115-->ExampleProcess117;\nExampleProcess115-->ExampleErrorPath;\nExampleProcess116-->ExampleProcess118;\nExampleProcess116-->ExampleErrorPath;\nExampleProcess117-->ExampleProcess119;\nExampleProcess117-->ExampleErrorPath;\nExampleProcess118-->ExampleProcess120;\nExampleProcess118-->ExampleErrorPath;\nExampleProcess119-->ExampleProcess121;\nExampleProcess119-->ExampleErrorPath;\nExampleProcess120-->ExampleProcess122;\nExampleProcess120-->ExampleErrorPath;\nExampleProcess121-->ExampleProcess123;\nExampleProcess121-->ExampleErrorPath;\nExampleProcess122-->ExampleProcess124;\nExampleProcess122-->ExampleErrorPath;\nExampleProcess123-->ExampleProcess125;\nExampleProcess123-->ExampleErrorPath;\nExampleProcess124-->ExampleProcess126;\nExampleProcess124-->ExampleErrorPath;\nExampleProcess125-->ExampleProcess127;\nExampleProcess125-->ExampleErrorPath;\nExampleProcess126-->ExampleProcess128;\nExampleProcess126-->ExampleErrorPath;\nExampleProcess127-->ExampleProcess129;\nExampleProcess127-->ExampleErrorPath;\nExampleProcess128-->ExampleProcess130;\nExampleProcess128-->ExampleErrorPath;\nExampleProcess129-->ExampleProcess131;\nExampleProcess129-->ExampleErrorPath;\nExampleProcess130-->ExampleProcess132;\nExampleProcess130-->ExampleErrorPath;\nExampleProcess131-->ExampleProcess133;\nExampleProcess131-->ExampleErrorPath;\nExampleProcess132-->ExampleProcess134;\nExampleProcess132-->ExampleErrorPath;\nExampleProcess133-->ExampleProcess135;\nExampleProcess133-->ExampleErrorPath;\nExampleProcess134-->ExampleProcess136;\nExampleProcess134-->ExampleErrorPath;\nExampleProcess135-->ExampleProcess137;\nExampleProcess135-->ExampleErrorPath;\nExampleProcess136-->ExampleProcess138;\nExampleProcess136-->ExampleErrorPath;\nExampleProcess137-->ExampleProcess139;\nExampleProcess137-->ExampleErrorPath;\nExampleProcess138-->ExampleProcess140;\nExampleProcess138-->ExampleErrorPath;\nExampleProcess139-->ExampleProcess141;\nExampleProcess139-->ExampleErrorPath;\nExampleProcess140-->ExampleProcess142;\nExampleProcess140-->ExampleErrorPath;\nExampleProcess141-->ExampleProcess143;\nExampleProcess141-->ExampleErrorPath;\nExampleProcess142-->ExampleProcess144;\nExampleProcess142-->ExampleErrorPath;\nExampleProcess143-->ExampleProcess145;\nExampleProcess143-->ExampleErrorPath;\nExampleProcess144-->ExampleProcess146;\nExampleProcess144-->ExampleErrorPath;\nExampleProcess145-->ExampleProcess147;\nExampleProcess145-->ExampleErrorPath;\nExampleProcess146-->ExampleProcess148;\nExampleProcess146-->ExampleErrorPath;\nExampleProcess147-->ExampleProcess149;\nExampleProcess147-->ExampleErrorPath;\nExampleProcess148-->ExampleProcess150;\nExampleProcess148-->ExampleErrorPath;\nExampleProcess149-->ExampleProcess151;\nExampleProcess149-->ExampleErrorPath;\nExampleProcess150-->ExampleProcess152;\nExampleProcess150-->ExampleErrorPath;\nExampleProcess151-->ExampleProcess153;\nExampleProcess151-->ExampleErrorPath;\nExampleProcess152-->ExampleProcess154;\nExampleProcess152-->ExampleErrorPath;\nExampleProcess153-->ExampleProcess155;\nExampleProcess153-->ExampleErrorPath;\nExampleProcess154-->ExampleProcess156;\nExampleProcess154-->ExampleErrorPath;\nExampleProcess155-->ExampleProcess157;\nExampleProcess155-->ExampleErrorPath;\nExampleProcess156-->ExampleProcess158;\nExampleProcess156-->ExampleErrorPath;\nExampleProcess157-->ExampleProcess159;\nExampleProcess157-->ExampleErrorPath;\nExampleProcess158-->ExampleProcess160;\nExampleProcess158-->ExampleErrorPath;\nExampleProcess159-->ExampleProcess161;\nExampleProcess159-->ExampleErrorPath;\nExampleProcess160-->ExampleProcess162;\nExampleProcess160-->ExampleErrorPath;\nExampleProcess161-->ExampleProcess163;\nExampleProcess161-->ExampleErrorPath;\nExampleProcess162-->ExampleProcess164;\nExampleProcess162-->ExampleErrorPath;\nExampleProcess163-->ExampleProcess165;\nExampleProcess163-->ExampleErrorPath;\nExampleProcess164-->Example"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:19:01 PM PDT\n\n1. **Severity**: 4/10\n\n   **Line Number**: 33\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The `rightClickLoadFileCommandTest` function is not validating the `fileUri` and `boostUri` it receives. If an attacker can manipulate these values, they may be able to access, modify, or delete files they shouldn't have access to.\n\n   **Solution**: Always validate and sanitize input, especially when it's used in file operations. Consider using a library or framework that makes this easier. More information can be found here: https://owasp.org/www-community/attacks/Insecure_Direct_Object_References\n\n\n2. **Severity**: 3/10\n\n   **Line Number**: 40\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The `BoostConfiguration.currentKernelCommand` is being set to a static value, which could be manipulated by an attacker. This could lead to arbitrary command execution.\n\n   **Solution**: Consider using a secure method for storing and retrieving configuration values, such as environment variables or a secure configuration management system. More information can be found here: https://owasp.org/www-community/attacks/Insecure_Direct_Object_References\n\n\n3. **Severity**: 3/10\n\n   **Line Number**: 48\n\n   **Bug Type**: Time of Check to Time of Use (TOCTOU) Race Condition\n\n   **Description**: The `fs.existsSync(boostUri.fsPath)` function is used to check if a file exists, but the file could be deleted between the check and the use of the file. This could lead to unexpected behavior or a security vulnerability.\n\n   **Solution**: Consider using a method that checks and uses the file in a single operation to avoid this race condition. More information can be found here: https://owasp.org/www-community/vulnerabilities/TOCTOU_Race_Condition\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 22,
+                "severity": 4,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The `rightClickLoadFileCommandTest` function is not validating the `fileUri` and `boostUri` it receives. If an attacker can manipulate these values, they may be able to access, modify, or delete files they shouldn't have access to.",
+                "solution": "Always validate and sanitize input, especially when it's used in file operations. Consider using a library or framework that makes this easier. More information can be found here: https://owasp.org/www-community/attacks/Insecure_Direct_Object_References"
+              },
+              {
+                "lineNumber": 29,
+                "severity": 3,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The `BoostConfiguration.currentKernelCommand` is being set to a static value, which could be manipulated by an attacker. This could lead to arbitrary command execution.",
+                "solution": "Consider using a secure method for storing and retrieving configuration values, such as environment variables or a secure configuration management system. More information can be found here: https://owasp.org/www-community/attacks/Insecure_Direct_Object_References"
+              },
+              {
+                "lineNumber": 37,
+                "severity": 3,
+                "bugType": "Time of Check to Time of Use (TOCTOU) Race Condition",
+                "description": "The `fs.existsSync(boostUri.fsPath)` function is used to check if a file exists, but the file could be deleted between the check and the use of the file. This could lead to unexpected behavior or a security vulnerability.",
+                "solution": "Consider using a method that checks and uses the file in a single operation to avoid this race condition. More information can be found here: https://owasp.org/www-community/vulnerabilities/TOCTOU_Race_Condition"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:20:01 PM PDT\n\n1. **Severity**: 8/10\n\n   **Line Number**: 31\n\n   **Bug Type**: Disk\n\n   **Description**: Frequent disk I/O operations using fs.existsSync() can slow down the application.\n\n   **Solution**: Consider reducing the frequency of disk operations or using asynchronous versions of disk operations to avoid blocking the main thread.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 39\n\n   **Bug Type**: CPU\n\n   **Description**: The use of a blocking operation like setTimeout() can cause the application to hang and consume CPU resources.\n\n   **Solution**: Consider using non-blocking alternatives or optimizing the algorithm to reduce the waiting time.\n\n\n3. **Severity**: 6/10\n\n   **Line Number**: 49\n\n   **Bug Type**: Memory\n\n   **Description**: Loading the entire notebook into memory with processedNotebook.load() can consume significant memory resources for large notebooks.\n\n   **Solution**: Consider loading the notebook in chunks or using a streaming API to reduce the memory footprint.\n\n\n4. **Severity**: 5/10\n\n   **Line Number**: 52\n\n   **Bug Type**: CPU\n\n   **Description**: The forEach loop over all cells can be CPU-intensive for large notebooks.\n\n   **Solution**: Consider using a more efficient data structure or algorithm to reduce the CPU usage.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 20,
+                "severity": 8,
+                "bugType": "Disk",
+                "description": "Frequent disk I/O operations using fs.existsSync() can slow down the application.",
+                "solution": "Consider reducing the frequency of disk operations or using asynchronous versions of disk operations to avoid blocking the main thread."
+              },
+              {
+                "lineNumber": 28,
+                "severity": 7,
+                "bugType": "CPU",
+                "description": "The use of a blocking operation like setTimeout() can cause the application to hang and consume CPU resources.",
+                "solution": "Consider using non-blocking alternatives or optimizing the algorithm to reduce the waiting time."
+              },
+              {
+                "lineNumber": 38,
+                "severity": 6,
+                "bugType": "Memory",
+                "description": "Loading the entire notebook into memory with processedNotebook.load() can consume significant memory resources for large notebooks.",
+                "solution": "Consider loading the notebook in chunks or using a streaming API to reduce the memory footprint."
+              },
+              {
+                "lineNumber": 41,
+                "severity": 5,
+                "bugType": "CPU",
+                "description": "The forEach loop over all cells can be CPU-intensive for large notebooks.",
+                "solution": "Consider using a more efficient data structure or algorithm to reduce the CPU usage."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:22:28 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 24\n\n   **Bug Type**: GDPR\n\n   **Description**: The code logs the file path of a randomly selected file. This could potentially contain sensitive user information, which would be a violation of GDPR if the logs are not properly secured and managed.\n\n   **Solution**: Ensure that any logs containing potentially sensitive information are securely stored and managed, with access restricted to authorized personnel only. Consider anonymizing or pseudonymizing the data where possible. More information can be found at: https://gdpr-info.eu/art-32-gdpr/\n\n\n2. **Severity**: 5/10\n\n   **Line Number**: 30\n\n   **Bug Type**: HIPAA\n\n   **Description**: The code asserts the existence of a file path without ensuring that the file contains no Protected Health Information (PHI). If the file contains PHI, this would be a violation of HIPAA.\n\n   **Solution**: Ensure that the application does not process, store, or transmit PHI unless it is designed to be HIPAA compliant. If the application does handle PHI, ensure that all necessary safeguards are in place, including encryption of data at rest and in transit, and access controls. More information can be found at: https://www.hhs.gov/hipaa/for-professionals/security/guidance/index.html\n\n\n3. **Severity**: 5/10\n\n   **Line Number**: 37\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The code sets the log level to 'debug'. If the application processes, stores, or transmits cardholder data, logging at this level could potentially capture sensitive cardholder data, which would be a violation of PCI DSS.\n\n   **Solution**: Ensure that the application does not log sensitive cardholder data. If the application does handle cardholder data, ensure that all necessary safeguards are in place, including encryption of data at rest and in transit, and access controls. More information can be found at: https://www.pcisecuritystandards.org/pci_security/\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 13,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The code logs the file path of a randomly selected file. This could potentially contain sensitive user information, which would be a violation of GDPR if the logs are not properly secured and managed.",
+                "solution": "Ensure that any logs containing potentially sensitive information are securely stored and managed, with access restricted to authorized personnel only. Consider anonymizing or pseudonymizing the data where possible. More information can be found at: https://gdpr-info.eu/art-32-gdpr/"
+              },
+              {
+                "lineNumber": 19,
+                "severity": 5,
+                "bugType": "HIPAA",
+                "description": "The code asserts the existence of a file path without ensuring that the file contains no Protected Health Information (PHI). If the file contains PHI, this would be a violation of HIPAA.",
+                "solution": "Ensure that the application does not process, store, or transmit PHI unless it is designed to be HIPAA compliant. If the application does handle PHI, ensure that all necessary safeguards are in place, including encryption of data at rest and in transit, and access controls. More information can be found at: https://www.hhs.gov/hipaa/for-professionals/security/guidance/index.html"
+              },
+              {
+                "lineNumber": 26,
+                "severity": 5,
+                "bugType": "PCI DSS",
+                "description": "The code sets the log level to 'debug'. If the application processes, stores, or transmits cardholder data, logging at this level could potentially capture sensitive cardholder data, which would be a violation of PCI DSS.",
+                "solution": "Ensure that the application does not log sensitive cardholder data. If the application does handle cardholder data, ensure that all necessary safeguards are in place, including encryption of data at rest and in transit, and access controls. More information can be found at: https://www.pcisecuritystandards.org/pci_security/"
+              }
+            ]
           }
         }
       ],

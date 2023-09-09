@@ -13,6 +13,77 @@
             "outputType": "explainCode",
             "details": []
           }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 10:29:58 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->ExampleProcess;\n```\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:30:06 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:30:34 PM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 1\n\n   **Bug Type**: CPU\n\n   **Description**: The timeout for the test suite is set to 20 seconds. This might cause unnecessary waiting time if the tests complete in less time, thus leading to inefficient CPU usage.\n\n   **Solution**: Consider reducing the timeout or make it dynamically adjust based on the complexity of the tests. You can use adaptive timeouts or implement a mechanism to terminate the test as soon as all assertions pass. Reference: https://mochajs.org/#timeouts\n\n\n2. **Severity**: 1/10\n\n   **Line Number**: 5\n\n   **Bug Type**: CPU\n\n   **Description**: The test case 'Testgen Code Command Test' does not perform any actual testing but just logs a warning message. This could lead to wastage of CPU resources if many such test cases are present.\n\n   **Solution**: Ensure that your test cases are meaningful and test actual functionality. Avoid writing test cases that do not perform any useful testing. Reference: https://martinfowler.com/bliki/TestCoverage.html\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 2,
+                "severity": 2,
+                "bugType": "CPU",
+                "description": "The timeout for the test suite is set to 20 seconds. This might cause unnecessary waiting time if the tests complete in less time, thus leading to inefficient CPU usage.",
+                "solution": "Consider reducing the timeout or make it dynamically adjust based on the complexity of the tests. You can use adaptive timeouts or implement a mechanism to terminate the test as soon as all assertions pass. Reference: https://mochajs.org/#timeouts"
+              },
+              {
+                "lineNumber": 6,
+                "severity": 1,
+                "bugType": "CPU",
+                "description": "The test case 'Testgen Code Command Test' does not perform any actual testing but just logs a warning message. This could lead to wastage of CPU resources if many such test cases are present.",
+                "solution": "Ensure that your test cases are meaningful and test actual functionality. Avoid writing test cases that do not perform any useful testing. Reference: https://martinfowler.com/bliki/TestCoverage.html"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:30:56 PM PDT\n\n1. **Severity**: 4/10\n\n   **Line Number**: 3\n\n   **Bug Type**: Logging Sensitive Information\n\n   **Description**: The console.warn() function is used to log information. However, this can potentially lead to sensitive information being logged and exposed, which violates GDPR, PCI DSS, and HIPAA compliance if the logged information includes personal data, payment card data, or protected health information respectively.\n\n   **Solution**: Remove the console.warn() function or replace it with a logging function that masks or omits sensitive data. Use a secure logging library that supports log sanitization. Also, ensure that all logs are properly protected and monitored. Implement a log retention policy in compliance with GDPR, PCI DSS, and HIPAA regulations.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 4,
+                "severity": 4,
+                "bugType": "Logging Sensitive Information",
+                "description": "The console.warn() function is used to log information. However, this can potentially lead to sensitive information being logged and exposed, which violates GDPR, PCI DSS, and HIPAA compliance if the logged information includes personal data, payment card data, or protected health information respectively.",
+                "solution": "Remove the console.warn() function or replace it with a logging function that masks or omits sensitive data. Use a secure logging library that supports log sanitization. Also, ensure that all logs are properly protected and monitored. Implement a log retention policy in compliance with GDPR, PCI DSS, and HIPAA regulations."
+              }
+            ]
+          }
         }
       ],
       "languageId": "typescript",

@@ -1,0 +1,1029 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/data/boostprojectdata_interface.ts</h1>
+    <p>Date Generated: Friday, September 8, 2023 at 6:14:38 PM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:09:50 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:11:44 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:15:16 PM PDT</p>
+<h2 id="executive-report-software-project-analysis">Executive Report: Software Project Analysis</h2>
+<p>Based on the analysis of the software project, the following key points have been identified:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The project is well-structured and follows best practices for a Visual Studio Code extension. It uses TypeScript features and the VS Code API, which provides static typing to catch many errors at compile time. However, the file <code>src/data/boostprojectdata_interface.ts</code> has been flagged with several high-severity issues related to GDPR, HIPAA, and PCI DSS compliance. This could potentially impact the overall architecture if significant changes are required to address these issues.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The identified issues pose a significant risk to the project. Non-compliance with GDPR, HIPAA, and PCI DSS regulations can result in severe penalties. The risk is further heightened by the fact that these issues are present in the same file, indicating a potential concentration of risk in this part of the project.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: If the identified issues are not addressed, customers could potentially have their personal and sensitive data mishandled. This could lead to a loss of customer trust, reputational damage, and potential legal consequences.</p>
+</li>
+<li><p><strong>Overall Issues</strong>: The project has a single file with multiple high-severity issues. This indicates a need for a thorough review of the project&#39;s data handling practices, particularly in relation to personal and sensitive data.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: Given that the project consists of a single file, the fact that this file has multiple high-severity issues is a cause for concern. This suggests that 100% of the project files have issues by severity, indicating a high risk level for the overall health of the project.</p>
+</li>
+</ol>
+<p>In conclusion, while the project follows best practices in terms of its architectural design, the presence of multiple high-severity data compliance issues in the project&#39;s only file poses a significant risk. Immediate action should be taken to address these issues and ensure the project&#39;s compliance with GDPR, HIPAA, and PCI DSS regulations.</p>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/data/boostprojectdata_interface.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>//<span class="hljs-type">IMPORTANT</span>!!  <span class="hljs-type">This</span> file <span class="hljs-keyword">is</span> <span class="hljs-keyword">shared</span> <span class="hljs-keyword">with</span> webviews, which are packaged separately.
+//<span class="hljs-keyword">do</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">import</span> <span class="hljs-type">any</span> depdencies <span class="hljs-keyword">or</span> use <span class="hljs-type">any</span> code that <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> available <span class="hljs-keyword">in</span> the webview
+
+<span class="hljs-keyword">import</span> { <span class="hljs-type">ControllerOutputType</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../controllers/controllerOutputTypes&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:01:09 PM PDT</p>
+<p>This code snippet is very short and doesn&#39;t contain any algorithms. However, I can explain what it does and what each part of it means.</p>
+<pre><code class="hljs language-js"><span class="hljs-comment">//IMPORTANT!!  This file is shared with webviews, which are packaged separately.</span>
+<span class="hljs-comment">//do not import any depdencies or use any code that is not available in the webview</span>
+</code></pre><p>These two lines are comments. They don&#39;t affect the functionality of the code, but they provide important information to developers who might be reading or modifying this code. The comments are warning that this file is shared with webviews, which are packaged separately. This means that any dependencies or code that are not available in the webview should not be imported or used in this file.</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ControllerOutputType</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../controllers/controllerOutputTypes&quot;</span>;
+</code></pre><p>This line is importing a specific export (<code>ControllerOutputType</code>) from another module (<code>../controllers/controllerOutputTypes</code>). This means that <code>ControllerOutputType</code> can now be used in this file. The <code>ControllerOutputType</code> is likely an enumerated type (enum) or a type alias that is used to specify the type of output that a controller can produce.</p>
+<p>The <code>../</code> in the path means that the module is located in a directory one level up from the current directory. The <code>controllers</code> directory is then within that directory, and <code>controllerOutputTypes</code> is a file within the <code>controllers</code> directory.</p>
+<p>As for the architectural guidelines, this code seems to be consistent with general good practices. It&#39;s modular (importing only what it needs from another module), and the comments provide useful information about how this module should be used.</p>
+<p>For more information about imports in JavaScript, you can refer to this link: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">JavaScript Modules: Importing and Exporting</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:07:39 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style Import fill:#228B22, stroke:#000000, stroke-width:2px;
+
+Start-->Import;</pre>
+</code></pre><p>The control flow graph for the provided source code is very simple. It consists of a single node representing the start of the code, which then imports the <code>ControllerOutputType</code> from the <code>../controllers/controllerOutputTypes</code> module.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:09:02 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:10:04 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:12:07 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 3</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The import statement may lead to data transfer between different systems or components which may not comply with GDPR data transfer rules.</p>
+<p><strong>Solution</strong>: Ensure that any data transferred as a result of this import statement is in compliance with GDPR. This may involve ensuring that any data transferred is necessary for the service being provided, that it is transferred securely, and that appropriate consent has been obtained if personal data is involved.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/data/boostprojectdata_interface.ts line 5:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+export const noProjectOpenMessage =
+    <span class="hljs-comment">&quot;Please open a project to chat with Sara, the Boost AI, about your project or analyze your project code.&quot;</span>;
+export const extensionNotFullyActivated =
+    <span class="hljs-comment">&quot;Boost has not fully initialized. Some features may not be fully available yet. Please wait before using Boost Chat AI and analyzing your project.&quot;</span>;
+export const extensionFailedToActivate =
+    <span class="hljs-comment">&quot;Boost encountered an error during startup. Please restart Visual Studio Code and try again. If the problem persists, please contact Polyverse Boost Support&quot;</span>;
+
+export enum <span class="hljs-type">AnalysisState</span> {
+    quiescent = <span class="hljs-comment">&quot;quiescent&quot;</span>,
+    preparing = <span class="hljs-comment">&quot;preparing&quot;</span>,
+    analyzing = <span class="hljs-comment">&quot;analyzing&quot;</span>
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:01:39 PM PDT</p>
+<p>This TypeScript code snippet is defining some constant messages and an enumeration. </p>
+<ol>
+<li><p><strong>Constant Messages:</strong> The first three exports are constant string messages that the system can use to inform the user about certain situations. </p>
+<ul>
+<li><code>noProjectOpenMessage</code>: This message is likely displayed when there is no project open in the Visual Studio Code editor but the user tries to interact with the Boost AI.</li>
+<li><code>extensionNotFullyActivated</code>: This message is likely displayed when the Boost extension is still initializing and not all features are available yet.</li>
+<li><code>extensionFailedToActivate</code>: This message is likely displayed when there is an error during the startup of the Boost extension.</li>
+</ul>
+</li>
+<li><p><strong>Enumeration (enum):</strong> The <code>AnalysisState</code> enum represents the different states that a code analysis process can be in. </p>
+<ul>
+<li><code>quiescent</code>: This state likely means that the analysis process is currently inactive.</li>
+<li><code>preparing</code>: This state likely means that the analysis process is preparing to start or is in the process of starting.</li>
+<li><code>analyzing</code>: This state likely means that the analysis process is currently analyzing code.</li>
+</ul>
+</li>
+</ol>
+<p>Enumerations are a way of creating a new type in TypeScript (and other languages with similar features) that can have one of a set of predefined values. They are used to make code more readable and less error-prone. </p>
+<p>No specific algorithms are used in this code snippet. It&#39;s just defining some constant values and an enumeration that will likely be used elsewhere in the program.</p>
+<p>As for the architectural guidelines, this code snippet seems to be consistent with the guidelines provided in the blueprint summary. It uses TypeScript, which is mentioned in the programming languages, and it appears to follow object-oriented design principles by using an enumeration to encapsulate a set of related values.</p>
+<p>For more information on TypeScript enums, you can visit this link: <a href="https://www.typescriptlang.org/docs/handbook/enums.html">TypeScript Enums</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:07:45 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style noProjectOpenMessage fill:#228B22, stroke:#000000, stroke-width:2px;
+style extensionNotFullyActivated fill:#228B22, stroke:#000000, stroke-width:2px;
+style extensionFailedToActivate fill:#228B22, stroke:#000000, stroke-width:2px;
+style AnalysisState fill:#228B22, stroke:#000000, stroke-width:2px;
+
+noProjectOpenMessage-->extensionNotFullyActivated;
+extensionNotFullyActivated-->extensionFailedToActivate;
+extensionNotFullyActivated-->AnalysisState;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:09:05 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:10:08 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:12:11 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/data/boostprojectdata_interface.ts line 18:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+export <span class="hljs-keyword">interface</span> <span class="hljs-symbol">SummaryViewState</span> {
+    analysisTypesState: AnalysisTypesState;
+    analysisMode: <span class="hljs-built_in">string</span>;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:01:55 PM PDT</p>
+<p>The provided code is written in TypeScript, a statically typed superset of JavaScript. It defines an interface named <code>SummaryViewState</code>. In TypeScript, an interface is a way to define a contract on a function or object to define the shape of the values. The interface also helps in getting the benefits of type-checking and autocompletion.</p>
+<p>Here&#39;s a breakdown of the code:</p>
+<ol>
+<li><p><code>export</code>: This keyword is used to expose this interface for other modules to import and use. Without this keyword, other modules won&#39;t be able to import this interface.</p>
+</li>
+<li><p><code>interface SummaryViewState</code>: This line is declaring an interface called <code>SummaryViewState</code>. The interface is a structure that defines the contract in your application. It defines the syntax for classes to follow, meaning a class that implements an interface must adhere to the structure the interface prescribes.</p>
+</li>
+<li><p><code>analysisTypesState: AnalysisTypesState;</code>: This line defines a property <code>analysisTypesState</code> of the <code>SummaryViewState</code> interface. The type of this property is <code>AnalysisTypesState</code>, which is likely another interface or type defined elsewhere in the code. This property represents the state of the analysis types.</p>
+</li>
+<li><p><code>analysisMode: string;</code>: This line defines a property <code>analysisMode</code> of the <code>SummaryViewState</code> interface. The type of this property is <code>string</code>. This property likely represents the mode of analysis (for example, &quot;full&quot;, &quot;incremental&quot;, etc.).</p>
+</li>
+</ol>
+<p>The code does not include any specific algorithms. It&#39;s a simple interface definition in TypeScript.</p>
+<p>This code seems to be consistent with the general architectural guidelines mentioned in the summary. It uses TypeScript and object-oriented design principles. However, without a broader context or specific architectural guidelines, it&#39;s hard to say if there are any conflicts.</p>
+<p>For more information about TypeScript interfaces, you can visit this link: <a href="https://www.typescriptlang.org/docs/handbook/interfaces.html">TypeScript Handbook: Interfaces</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:07:49 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style SummaryViewState fill:#228B22, stroke:#000000, stroke-width:2px;
+
+SummaryViewState-->analysisTypesState;
+SummaryViewState-->analysisMode;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:09:09 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:10:12 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:12:15 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/data/boostprojectdata_interface.ts line 23:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+export <span class="hljs-keyword">interface</span> <span class="hljs-symbol">AnalysisTypesState</span> {
+    security: <span class="hljs-built_in">bool</span>ean;
+    compliance: <span class="hljs-built_in">bool</span>ean;
+    documentation: <span class="hljs-built_in">bool</span>ean;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:02:20 PM PDT</p>
+<p>The code you provided is written in TypeScript, which is a statically typed superset of JavaScript that adds types to the language. This piece of code is defining an interface.</p>
+<p>An interface in TypeScript is a way of defining a contract for a certain structure of an object. This means that any object that claims to implement this interface must have properties that match the names and types specified in the interface.</p>
+<p>Here&#39;s a breakdown of the code:</p>
+<ul>
+<li><p><code>export</code>: This keyword is used to make the interface available to other modules in the application. By using <code>export</code>, other parts of the application can import and use the <code>AnalysisTypesState</code> interface.</p>
+</li>
+<li><p><code>interface</code>: This keyword is used to declare a TypeScript interface.</p>
+</li>
+<li><p><code>AnalysisTypesState</code>: This is the name of the interface.</p>
+</li>
+<li><p>Inside the curly braces <code>{}</code> are the properties that any object implementing this interface must have. In this case, there are three boolean properties: <code>security</code>, <code>compliance</code>, and <code>documentation</code>.</p>
+</li>
+</ul>
+<p>This interface might be used in an application that performs different types of analysis on code or documents. An object implementing this interface could be used to keep track of which types of analysis are currently enabled.</p>
+<p>In terms of algorithms, there are none present in this code snippet. It&#39;s simply a data structure definition.</p>
+<p>For more information on TypeScript and interfaces, you can refer to the official TypeScript documentation: <a href="https://www.typescriptlang.org/docs/handbook/interfaces.html">TypeScript Interfaces</a> </p>
+<p>Regarding the architectural guidelines you provided, this code snippet seems to be consistent with them. It&#39;s a simple, clean, and clear interface definition that doesn&#39;t appear to conflict with any architectural guidelines or constraints.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:07:53 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style AnalysisTypesState fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->AnalysisTypesState;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:09:13 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:10:15 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:12:19 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/data/boostprojectdata_interface.ts line 29:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-built_in">export</span><span class="hljs-built_in"> interface </span>ActivityBarState {
+    summaryViewState: SummaryViewState;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:02:41 PM PDT</p>
+<p>The given code is a simple TypeScript interface definition. TypeScript is a statically typed superset of JavaScript that adds types to the language. An interface in TypeScript is a way to define a contract for a certain structure of an object. It can be used to describe the shape of an object, ensuring that the object has certain properties.</p>
+<p>In the provided code, an interface named <code>ActivityBarState</code> is being defined. This interface has one property, <code>summaryViewState</code>, which is of the type <code>SummaryViewState</code>. The type <code>SummaryViewState</code> is not defined in the provided code, but it is likely another interface or type defined elsewhere in the codebase.</p>
+<p>This interface might be used as a type for an object that represents the state of an activity bar in a user interface, with the <code>summaryViewState</code> property representing the state of a summary view within that activity bar. This is a common pattern in state management in modern web development, particularly in frameworks and libraries such as React and Vue.js.</p>
+<p>The code doesn&#39;t contain any algorithms. It&#39;s a simple data structure definition. </p>
+<p>For more information on TypeScript interfaces, you can refer to the official TypeScript documentation here: <a href="https://www.typescriptlang.org/docs/handbook/interfaces.html">TypeScript Interfaces</a>.</p>
+<p>In terms of architectural guidelines, this code is consistent with common practices in TypeScript and in state management in modern web development. It doesn&#39;t appear to conflict with any general architectural guidelines. However, without specific guidelines or constraints for this software project, it&#39;s hard to say definitively.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:07:58 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;</pre>
+</code></pre><pre><code>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:09:17 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:10:19 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:12:22 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/data/boostprojectdata_interface.ts line 33:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+//this is where we should remember UI <span class="hljs-keyword">state</span> like which analysis were selected, etc. 
+export interface UIState {
+    analysisState: AnalysisState;
+    activityBarState: ActivityBarState;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:03:09 PM PDT</p>
+<p>The provided code is written in TypeScript, which is a statically typed superset of JavaScript that adds types to the language. This code defines an interface for an object that will be used to remember the state of the user interface (UI).</p>
+<p>Let&#39;s break it down:</p>
+<ol>
+<li><p><code>export interface UIState</code>: This line is declaring an interface named <code>UIState</code>. The <code>export</code> keyword means that this interface is not only defined here, but can also be used in other TypeScript files in the same project. An interface in TypeScript is a way to define a contract for a certain structure of an object. It specifies how an object should look like, in terms of the properties it should have and the type of those properties.</p>
+</li>
+<li><p><code>analysisState: AnalysisState;</code>: This line is declaring a property of the <code>UIState</code> interface named <code>analysisState</code>. The type of this property is <code>AnalysisState</code>, which is presumably another interface or type defined elsewhere in the project. The <code>analysisState</code> property is expected to hold the state of the analysis part of the user interface.</p>
+</li>
+<li><p><code>activityBarState: ActivityBarState;</code>: Similarly, this line is declaring a property of the <code>UIState</code> interface named <code>activityBarState</code>. The type of this property is <code>ActivityBarState</code>, which is presumably another interface or type defined elsewhere in the project. The <code>activityBarState</code> property is expected to hold the state of the activity bar part of the user interface.</p>
+</li>
+</ol>
+<p>The purpose of this <code>UIState</code> interface is to provide a structure for an object that will hold the state of the user interface. This state can then be used to remember and restore the state of the user interface as needed, such as after a page refresh or when navigating between different parts of the application. </p>
+<p>This is a common pattern in modern web development, especially in applications that use libraries or frameworks like React or Vue.js, which are based on the concept of maintaining and manipulating the state of the application.</p>
+<p>For more information on TypeScript interfaces, you can refer to the <a href="https://www.typescriptlang.org/docs/handbook/interfaces.html">official TypeScript documentation</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:08:02 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style UIState fill:#228B22, stroke:#000000, stroke-width:2px;
+
+UIState-->AnalysisState;
+UIState-->ActivityBarState;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:09:20 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:10:23 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:12:26 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/data/boostprojectdata_interface.ts line 39:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">AccountStatus</span> {
+    <span class="hljs-attr">refreshed</span>: <span class="hljs-built_in">boolean</span>;
+    <span class="hljs-attr">enabled</span>: <span class="hljs-built_in">boolean</span>;
+    <span class="hljs-attr">status</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-attr">trialRemaining</span>: <span class="hljs-built_in">number</span>;
+    <span class="hljs-attr">usageThisMonth</span>: <span class="hljs-built_in">number</span>;
+    <span class="hljs-attr">discountedUsage</span>: <span class="hljs-built_in">number</span>;
+    <span class="hljs-attr">balanceDue</span>: <span class="hljs-built_in">number</span>;
+    <span class="hljs-attr">couponType</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-attr">created</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-attr">creditCardLinked</span>: <span class="hljs-built_in">boolean</span>;
+    <span class="hljs-attr">org</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-attr">owner</span>: <span class="hljs-built_in">string</span>;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:03:40 PM PDT</p>
+<p>This code defines an interface in TypeScript named <code>AccountStatus</code>. An interface in TypeScript is a syntactical contract that an entity should conform to. They are used to define the shape of an object, ensuring that the object has certain properties with specific types.</p>
+<p>Here&#39;s a breakdown of what each property in the <code>AccountStatus</code> interface represents:</p>
+<ul>
+<li><code>refreshed</code>: A boolean indicating whether the account status has been recently updated or not.</li>
+<li><code>enabled</code>: A boolean indicating whether the account is enabled or not.</li>
+<li><code>status</code>: A string that holds the status of the account. This could be values like &#39;active&#39;, &#39;inactive&#39;, &#39;suspended&#39;, etc.</li>
+<li><code>trialRemaining</code>: A number that represents how many days are left in a trial account.</li>
+<li><code>usageThisMonth</code>: A number that represents the usage of the account for the current month.</li>
+<li><code>discountedUsage</code>: A number that represents the usage of the account that was discounted.</li>
+<li><code>balanceDue</code>: A number that represents the amount due on the account.</li>
+<li><code>couponType</code>: A string that represents the type of coupon applied to the account.</li>
+<li><code>created</code>: A string that represents the date when the account was created.</li>
+<li><code>creditCardLinked</code>: A boolean indicating whether a credit card is linked to the account or not.</li>
+<li><code>org</code>: A string that represents the organization associated with the account.</li>
+<li><code>owner</code>: A string that represents the owner of the account.</li>
+</ul>
+<p>This interface does not use any specific algorithms; it is a structure used to define objects in the codebase. </p>
+<p>The <code>AccountStatus</code> interface ensures that any object that claims to be of type <code>AccountStatus</code> has all these properties with the corresponding types. This is useful for maintaining consistency and integrity in the codebase, reducing the likelihood of bugs due to mismatched or missing properties.</p>
+<p>For more information about TypeScript interfaces, you can refer to the <a href="https://www.typescriptlang.org/docs/handbook/interfaces.html">TypeScript Handbook</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:08:06 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;</pre>
+</code></pre><p>The control flow starts at the beginning of the code.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:09:23 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:10:26 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:12:56 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 82</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;creditCardLinked&#39; field indicates whether a credit card is linked to the account. This can be considered as processing personal data.</p>
+<p><strong>Solution</strong>: Instead of directly indicating whether a credit card is linked, consider using a tokenization system where the actual card data is replaced with a non-sensitive equivalent, known as a token, that has no extrinsic or exploitable meaning or value.</p>
+</li>
+<li><p><strong>Severity</strong>: 9/10</p>
+<p><strong>Line Number</strong>: 85</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;owner&#39; field likely contains personal data and must be handled according to GDPR regulations.</p>
+<p><strong>Solution</strong>: Ensure this data is being processed lawfully, fairly, and in a transparent manner. It should be collected for specified, explicit, and legitimate purposes and not further processed in a manner that is incompatible with those purposes.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 84</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The &#39;org&#39; field may contain information about a healthcare organization, which could potentially be considered Protected Health Information (PHI) under HIPAA if it can be used to identify an individual.</p>
+<p><strong>Solution</strong>: Ensure that this data is de-identified according to HIPAA standards, or if it must be identifiable, ensure it is securely encrypted both at rest and in transit.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/data/boostprojectdata_interface.ts line 54:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Summary</span> {
+    <span class="hljs-attr">projectName</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-attr">summaryUrl</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-attr">filesToAnalyze</span>: <span class="hljs-built_in">number</span>;
+    <span class="hljs-attr">filesAnalyzed</span>: <span class="hljs-built_in">number</span>;
+    <span class="hljs-comment">//an optional issues arrary for *Boost* issues</span>
+    issues?: <span class="hljs-title class_">Array</span>&lt;<span class="hljs-built_in">any</span>&gt;;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:04:11 PM PDT</p>
+<p>This code is written in TypeScript, a statically typed superset of JavaScript that adds types to the language. The code defines an interface named <code>Summary</code>. In TypeScript, an interface is a way to define a contract for a certain structure of an object. It&#39;s a powerful way to define and ensure the shape of the objects in your code.</p>
+<p>The <code>Summary</code> interface contains five properties:</p>
+<ol>
+<li><p><code>projectName</code>: This is a string that presumably holds the name of the project that the summary pertains to.</p>
+</li>
+<li><p><code>summaryUrl</code>: Another string, this one presumably contains a URL where more detailed summary information can be found.</p>
+</li>
+<li><p><code>filesToAnalyze</code>: This is a number, likely representing the total number of files that are to be analyzed in the project.</p>
+</li>
+<li><p><code>filesAnalyzed</code>: Another number, this one likely representing the number of files that have already been analyzed.</p>
+</li>
+<li><p><code>issues</code>: This is an optional property (denoted by the <code>?</code> after the property name), which if present, will be an array of any type. This property is likely meant to hold a list of issues that were found during the analysis of the project. The <code>any</code> type in TypeScript is a flexible type that can hold a value of any type, providing maximum flexibility but also minimal type safety.</p>
+</li>
+</ol>
+<p>This code doesn&#39;t contain any algorithms, it&#39;s a simple data structure definition. But it&#39;s a crucial part of the software architecture, as it defines the shape of the data that will flow through the system.</p>
+<p>The code is consistent with general software architecture principles, as it uses TypeScript&#39;s static typing to enforce a certain structure on the data, which can help catch errors at compile time. It doesn&#39;t conflict with the provided architectural guidelines, as there are no special constraints or guidelines provided.</p>
+<p>For more information on TypeScript interfaces, you can refer to the TypeScript Handbook&#39;s section on interfaces: <a href="https://www.typescriptlang.org/docs/handbook/interfaces.html">TypeScript Handbook - Interfaces</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:08:11 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre><p>The code provided does not contain any control flow.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:09:27 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:10:29 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:13:06 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 114</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The &#39;issues&#39; field in the &#39;Summary&#39; interface could potentially contain sensitive data. If this data is not properly protected, it could lead to a violation of GDPR, PCI DSS, and HIPAA regulations.</p>
+<p><strong>Solution</strong>: Ensure that any sensitive data stored in the &#39;issues&#39; field is properly encrypted and that access to this data is controlled. Regularly audit the data stored in this field to ensure compliance with data protection regulations.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/data/boostprojectdata_interface.ts line 63:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">enum</span> <span class="hljs-title class_">BoostProcessingStatus</span> {
+    completed = <span class="hljs-string">&quot;completed&quot;</span>,
+    incomplete = <span class="hljs-string">&quot;incomplete&quot;</span>,
+    processing = <span class="hljs-string">&quot;processing&quot;</span>,
+    notStarted = <span class="hljs-string">&quot;not-started&quot;</span>,
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:04:39 PM PDT</p>
+<p>This code snippet is written in TypeScript, a statically typed superset of JavaScript. It defines an enumeration, which is a special kind of value type with a set of named constants. </p>
+<p>The enumeration is named <code>BoostProcessingStatus</code> and it has four members: <code>completed</code>, <code>incomplete</code>, <code>processing</code>, and <code>notStarted</code>. Each of these members is associated with a string value: &quot;completed&quot;, &quot;incomplete&quot;, &quot;processing&quot;, and &quot;not-started&quot; respectively.</p>
+<p>Enumerations in TypeScript are used to create user-defined types that help to manage and use sets of constants throughout the codebase. They can improve clarity and reduce errors by enforcing that variables and parameters are only assigned these specific enumerated values.</p>
+<p>In this case, the <code>BoostProcessingStatus</code> enumeration could be used to represent the status of a code analysis operation. The operation could be in one of four states: not started, processing, incomplete (perhaps due to an error), or completed. Using an enumeration instead of raw string values can make the code easier to understand and less prone to errors.</p>
+<p>Here&#39;s an example of how it might be used:</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">let</span> <span class="hljs-attr">currentStatus</span>: <span class="hljs-title class_">BoostProcessingStatus</span> = <span class="hljs-title class_">BoostProcessingStatus</span>.<span class="hljs-property">notStarted</span>;
+
+<span class="hljs-comment">// Later in the code...</span>
+<span class="hljs-keyword">if</span> (currentStatus === <span class="hljs-title class_">BoostProcessingStatus</span>.<span class="hljs-property">completed</span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Analysis is complete!&quot;</span>);
+}
+</code></pre><p>In the above example, <code>currentStatus</code> is a variable of type <code>BoostProcessingStatus</code>. It&#39;s initially set to <code>BoostProcessingStatus.notStarted</code>. Later, we check if <code>currentStatus</code> is <code>BoostProcessingStatus.completed</code> to determine if the analysis is complete.</p>
+<p>For more information on TypeScript enumerations, you can refer to the TypeScript handbook&#39;s page on Enums: <a href="https://www.typescriptlang.org/docs/handbook/enums.html">TypeScript Enums</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:08:16 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->completed;
+Start-->incomplete;
+Start-->processing;
+Start-->notStarted;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:09:30 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:11:23 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:13:10 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/data/boostprojectdata_interface.ts line 70:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">SectionSummary</span> {
+    <span class="hljs-attr">analysisType</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-attr">status</span>: <span class="hljs-title class_">BoostProcessingStatus</span>;
+    <span class="hljs-attr">errorCells</span>: <span class="hljs-built_in">number</span>;
+    <span class="hljs-attr">completedCells</span>: <span class="hljs-built_in">number</span>;
+    <span class="hljs-attr">totalCells</span>: <span class="hljs-built_in">number</span>;
+    <span class="hljs-attr">issueCells</span>: <span class="hljs-built_in">number</span>;
+    <span class="hljs-attr">filesAnalyzed</span>: <span class="hljs-built_in">number</span>;
+    details?: <span class="hljs-title class_">Array</span>&lt;<span class="hljs-built_in">any</span>&gt;; <span class="hljs-comment">// some sections, like security and compliance, will have a list of issues in the details section</span>
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:05:12 PM PDT</p>
+<p>This code is written in TypeScript, which is a statically typed superset of JavaScript. It defines an interface named <code>SectionSummary</code>. An interface in TypeScript is a way of defining a contract for a certain structure of an object. It&#39;s like a blueprint for the object and it defines the shape of the object.</p>
+<p>The <code>SectionSummary</code> interface has the following properties:</p>
+<ul>
+<li><p><code>analysisType</code>: This property is of type <code>string</code>. It represents the type of analysis that is being performed.</p>
+</li>
+<li><p><code>status</code>: This property is of type <code>BoostProcessingStatus</code>. <code>BoostProcessingStatus</code> is presumably another interface or type defined elsewhere in the code. It represents the current status of the processing.</p>
+</li>
+<li><p><code>errorCells</code>: This property is of type <code>number</code>. It represents the number of cells (a term generally used in spreadsheet-like data) that have encountered errors during the analysis.</p>
+</li>
+<li><p><code>completedCells</code>: This property is of type <code>number</code>. It represents the number of cells that have completed the analysis.</p>
+</li>
+<li><p><code>totalCells</code>: This property is of type <code>number</code>. It represents the total number of cells that are to be analyzed.</p>
+</li>
+<li><p><code>issueCells</code>: This property is of type <code>number</code>. It represents the number of cells that have issues found during the analysis.</p>
+</li>
+<li><p><code>filesAnalyzed</code>: This property is of type <code>number</code>. It represents the number of files that have been analyzed.</p>
+</li>
+<li><p><code>details</code>: This is an optional property (denoted by the <code>?</code>), which, if present, is an array of any type. This means that the array can contain elements of any type. The comment suggests that for some sections like security and compliance, this property will have a list of issues.</p>
+</li>
+</ul>
+<p>This interface doesn&#39;t include any algorithms, but it sets up a structure that can be used to hold data related to the summary of a section of analysis.</p>
+<p>As for architectural guidelines, this code seems to align well with the principles of object-oriented design, as it uses an interface to define a structure for objects. It doesn&#39;t directly relate to the other principles mentioned in the project blueprint, such as event-driven programming or asynchronous programming.</p>
+<p>For more information on TypeScript interfaces, you can check this link: <a href="https://www.typescriptlang.org/docs/handbook/interfaces.html">TypeScript Interfaces</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:08:22 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style SectionSummary fill:#228B22, stroke:#000000, stroke-width:4px;
+style SectionSummaryError fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->SectionSummary;
+SectionSummary-->End;</pre>
+</code></pre><p>The control flow graph for the provided code is a simple linear flow. The code starts at the <code>Start</code> node and then flows to the <code>SectionSummary</code> node. There are no alternate paths or error paths in this code.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:09:33 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:11:26 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:13:36 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 144</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;details&#39; field may contain personal data which could violate GDPR regulations if not properly handled.</p>
+<p><strong>Solution</strong>: Ensure that any personal data stored in the &#39;details&#39; field is anonymized or pseudonymized, and that explicit consent is obtained from the user for the collection and processing of this data.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 144</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: If the &#39;details&#39; field contains cardholder data, it could be in violation of PCI DSS standards.</p>
+<p><strong>Solution</strong>: Ensure that cardholder data is not stored in the &#39;details&#39; field or, if it is, that it is encrypted and properly secured according to PCI DSS standards.</p>
+</li>
+<li><p><strong>Severity</strong>: 9/10</p>
+<p><strong>Line Number</strong>: 144</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: If the &#39;details&#39; field contains Protected Health Information (PHI), it could be in violation of HIPAA regulations.</p>
+<p><strong>Solution</strong>: Ensure that PHI is not stored in the &#39;details&#39; field or, if it is, that it is encrypted and properly secured according to HIPAA regulations.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/data/boostprojectdata_interface.ts line 81:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+export interface FileSummaryItem {
+    sourceRelFile: string;
+    notebookRelFile: string;
+    totalCells: number;
+    completedCells: number;
+    errorCells: number;
+    issueCells: number;
+    sections: { <span class="hljs-selector-attr">[outputType: string]</span>: SectionSummary };
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:05:43 PM PDT</p>
+<p>The code you&#39;ve provided is a TypeScript interface definition. Interfaces in TypeScript are a powerful way to define contracts within your code and define custom types. They are not included in the JavaScript that is compiled from TypeScript, they exist purely for type-checking during development.</p>
+<p>This particular interface, <code>FileSummaryItem</code>, appears to be used to summarize the state of a file in a software project. It has the following properties:</p>
+<ol>
+<li><code>sourceRelFile</code>: This is a string that likely represents the path to the source file relative to the project root.</li>
+<li><code>notebookRelFile</code>: This is a string that likely represents the path to a notebook file (possibly a Jupyter notebook) relative to the project root.</li>
+<li><code>totalCells</code>: This is a number, likely representing the total number of cells in the notebook file. In a Jupyter notebook, a cell is a block of code or text.</li>
+<li><code>completedCells</code>: This is a number, likely representing the number of cells that have been completed or executed successfully.</li>
+<li><code>errorCells</code>: This is a number, likely representing the number of cells that have encountered an error during execution.</li>
+<li><code>issueCells</code>: This is a number, likely representing the number of cells that have some sort of issue, perhaps a warning or a non-critical error.</li>
+<li><code>sections</code>: This is an object where the keys are strings and the values are of type <code>SectionSummary</code>. The keys likely represent different output types, and the <code>SectionSummary</code> type would summarize the state of each section.</li>
+</ol>
+<p>The specific algorithm or algorithms used by this interface would depend on how it&#39;s used in the rest of the codebase, which is not provided here. However, the interface itself does not use any algorithms. It&#39;s a data structure that defines a type.</p>
+<p>This code is consistent with the architectural blueprint provided, which indicates that the project uses TypeScript and object-oriented design. The <code>FileSummaryItem</code> interface is a good example of both of these principles.</p>
+<p>For more information on TypeScript interfaces, you can refer to the <a href="https://www.typescriptlang.org/docs/handbook/interfaces.html">TypeScript Handbook</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:08:26 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style FileSummaryItem fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->FileSummaryItem;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:09:37 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:11:30 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:13:40 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/data/boostprojectdata_interface.ts line 91:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>export <span class="hljs-built_in">type</span> JobStatus = {
+    [relFile: <span class="hljs-built_in">string</span>]: {
+        <span class="hljs-built_in">status</span>: <span class="hljs-string">&quot;processing&quot;</span> | <span class="hljs-string">&quot;queued&quot;</span> | <span class="hljs-string">&quot;completed&quot;</span>;
+        jobs: <span class="hljs-built_in">string</span>[];
+    };
+};
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:06:10 PM PDT</p>
+<p>This code is written in TypeScript, which is a statically-typed superset of JavaScript. It defines a type alias called <code>JobStatus</code>. </p>
+<p><code>JobStatus</code> is an object type where the keys are strings (<code>relFile</code>) and the values are objects with a specific shape. These objects have two properties: <code>status</code> and <code>jobs</code>.</p>
+<p>The <code>status</code> property is a string that can only take one of three values: &quot;processing&quot;, &quot;queued&quot;, or &quot;completed&quot;. This is known as a string literal type, and it&#39;s a way of defining a type that can only take a specific set of string values. It&#39;s a way to represent a finite state machine in TypeScript, where the state of a job can only be one of the three defined states.</p>
+<p>The <code>jobs</code> property is an array of strings. The purpose of this array isn&#39;t clear from the provided code, but it might represent a list of jobs associated with a specific file, given the <code>relFile</code> key in the parent object.</p>
+<p>This code doesn&#39;t contain any algorithms, it&#39;s just a type definition. The structure of this type suggests that it might be used to track the status of some sort of jobs associated with specific files, but without more context, it&#39;s hard to say for sure.</p>
+<p>In terms of architectural guidelines, this type definition is consistent with common practices in TypeScript. It uses features of the language to define a precise type that can help catch errors at compile time. </p>
+<p>For more information about TypeScript&#39;s type system, you can refer to the <a href="https://www.typescriptlang.org/docs/handbook/2/everyday-types.html">TypeScript Handbook</a>. For more information about finite state machines, which this type seems to represent, you can refer to <a href="https://www.smashingmagazine.com/2018/01/rise-state-machines/">this article</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:08:30 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->End;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:09:40 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:11:33 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:13:43 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/data/boostprojectdata_interface.ts line 97:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+export interface IBoostProjectData {
+    dataFormatVersion: string;
+    <span class="hljs-selector-tag">summary</span>: Summary;
+    sectionSummary: {
+        <span class="hljs-selector-attr">[key: string]</span>: SectionSummary;
+    };
+    files: {
+        <span class="hljs-selector-attr">[key: string]</span>: FileSummaryItem;
+    };
+    jobStatus: JobStatus;
+    account: AccountStatus;
+    uiState: UIState;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:06:41 PM PDT</p>
+<p>This code defines an interface in TypeScript named <code>IBoostProjectData</code>. An interface in TypeScript is a way of defining a contract for a particular structure of an object. This interface is expected to be used as a data model for the Boost project.</p>
+<p>Here&#39;s a breakdown of the properties:</p>
+<ul>
+<li><code>dataFormatVersion</code>: This is a string that represents the version of the data format being used. This could be useful for handling backward compatibility or migrations.</li>
+<li><code>summary</code>: This is a property of type <code>Summary</code>, which is not defined in this snippet, but it&#39;s likely a different interface or type that encapsulates some summary information about the Boost project.</li>
+<li><code>sectionSummary</code>: This is an object where the keys are strings and the values are of type <code>SectionSummary</code>. This could be used to store a summary of different sections of the project.</li>
+<li><code>files</code>: This is an object where the keys are strings and the values are of type <code>FileSummaryItem</code>. This could be used to store a summary of different files in the project.</li>
+<li><code>jobStatus</code>: This is a property of type <code>JobStatus</code>, which likely represents the status of a job or task in the project.</li>
+<li><code>account</code>: This is a property of type <code>AccountStatus</code>, which likely represents the status of a user account.</li>
+<li><code>uiState</code>: This is a property of type <code>UIState</code>, which likely represents the state of the user interface.</li>
+</ul>
+<p>The types <code>Summary</code>, <code>SectionSummary</code>, <code>FileSummaryItem</code>, <code>JobStatus</code>, <code>AccountStatus</code>, and <code>UIState</code> are not defined in the provided code. These are likely defined elsewhere in the codebase.</p>
+<p>This interface does not use any specific algorithms. It&#39;s a data structure that provides a blueprint for objects that hold Boost project data. It&#39;s consistent with the architectural guidelines mentioned in the blueprint summary. It uses TypeScript&#39;s static typing for better error checking and autocompletion, and it&#39;s organized into an interface for better structure and readability.</p>
+<p>For more on TypeScript interfaces, you can refer to the TypeScript handbook: <a href="https://www.typescriptlang.org/docs/handbook/interfaces.html">TypeScript Handbook - Interfaces</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:08:40 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style IBoostProjectData fill:#228B22, stroke:#000000, stroke-width:4px;
+style Summary fill:#228B22, stroke:#000000, stroke-width:4px;
+style SectionSummary fill:#228B22, stroke:#000000, stroke-width:4px;
+style FileSummaryItem fill:#228B22, stroke:#000000, stroke-width:4px;
+style JobStatus fill:#228B22, stroke:#000000, stroke-width:4px;
+style AccountStatus fill:#228B22, stroke:#000000, stroke-width:4px;
+style UIState fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->IBoostProjectData;
+IBoostProjectData-->Summary;
+IBoostProjectData-->SectionSummary;
+IBoostProjectData-->FileSummaryItem;
+IBoostProjectData-->JobStatus;
+IBoostProjectData-->AccountStatus;
+IBoostProjectData-->UIState;</pre>
+</code></pre><p>The control flow graph for the provided code is a simple graph with the <code>IBoostProjectData</code> interface as the starting point. It has multiple outgoing edges to the <code>Summary</code>, <code>SectionSummary</code>, <code>FileSummaryItem</code>, <code>JobStatus</code>, <code>AccountStatus</code>, and <code>UIState</code> nodes. This represents the structure of the <code>IBoostProjectData</code> interface and its relationships with other interfaces or types in the code.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:09:43 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:11:37 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:14:09 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 198</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;account&#39; field could potentially contain personally identifiable information (PII) which could be a violation of GDPR if it&#39;s not handled properly.</p>
+<p><strong>Solution</strong>: Ensure that PII in the &#39;account&#39; field is anonymized or pseudonymized where possible, and that explicit consent is obtained for the processing of this data. Implement data encryption to protect sensitive data during transmission and storage.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 197</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The &#39;jobStatus&#39; field could potentially contain sensitive payment card data which would be a violation of PCI DSS if it&#39;s not properly protected.</p>
+<p><strong>Solution</strong>: Ensure that payment card data is never stored in plaintext and is encrypted during transmission and storage. Implement strong access controls and authentication mechanisms to protect this data.</p>
+</li>
+<li><p><strong>Severity</strong>: 9/10</p>
+<p><strong>Line Number</strong>: 198</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The &#39;account&#39; field could potentially contain protected health information (PHI) which would be a violation of HIPAA if it&#39;s not properly protected.</p>
+<p><strong>Solution</strong>: Ensure that PHI is never stored in plaintext and is encrypted during transmission and storage. Implement strong access controls and authentication mechanisms to protect this data. Ensure that users can request and obtain a copy of their PHI, and can request that their PHI be corrected or deleted.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/data/boostprojectdata_interface.ts line 111:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+export const emptyProjectData: IBoostProjectD<span class="hljs-attr">ata</span> <span class="hljs-operator">=</span> <span class="hljs-punctuation">{</span>
+<span class="hljs-symbol">    dataFormatVersion:</span> <span class="hljs-string">&quot;0.0.0&quot;</span>,
+<span class="hljs-symbol">    summary:</span> <span class="hljs-punctuation">{</span>
+<span class="hljs-symbol">        projectName:</span> <span class="hljs-string">&quot;&quot;</span>,
+<span class="hljs-symbol">        summaryUrl:</span> <span class="hljs-string">&quot;&quot;</span>,
+<span class="hljs-symbol">        filesToAnalyze:</span> <span class="hljs-number">0</span>,
+<span class="hljs-symbol">        filesAnalyzed:</span> <span class="hljs-number">0</span>,
+    <span class="hljs-punctuation">}</span>,
+<span class="hljs-symbol">    sectionSummary:</span> <span class="hljs-punctuation">{</span>
+<span class="hljs-symbol">        summary:</span> <span class="hljs-punctuation">{</span>
+<span class="hljs-symbol">            analysisType:</span> ControllerOutputType.summary,
+<span class="hljs-symbol">            status:</span> BoostProcessingStatus.notStarted,
+<span class="hljs-symbol">            completedCells:</span> <span class="hljs-number">0</span>,
+<span class="hljs-symbol">            errorCells:</span> <span class="hljs-number">0</span>,
+<span class="hljs-symbol">            issueCells:</span> <span class="hljs-number">0</span>,
+<span class="hljs-symbol">            totalCells:</span> <span class="hljs-number">0</span>,
+<span class="hljs-symbol">            filesAnalyzed:</span> <span class="hljs-number">0</span>,
+        <span class="hljs-punctuation">}</span>,
+    <span class="hljs-punctuation">}</span>,
+<span class="hljs-symbol">    files:</span> <span class="hljs-punctuation">{</span><span class="hljs-punctuation">}</span>,
+<span class="hljs-symbol">    jobStatus:</span> <span class="hljs-punctuation">{</span><span class="hljs-punctuation">}</span>,
+<span class="hljs-symbol">    account:</span> <span class="hljs-punctuation">{</span>
+<span class="hljs-symbol">        refreshed:</span> false,
+<span class="hljs-symbol">        enabled:</span> false,
+<span class="hljs-symbol">        status:</span> <span class="hljs-string">&quot;&quot;</span>,
+<span class="hljs-symbol">        trialRemaining:</span> <span class="hljs-number">0</span>,
+<span class="hljs-symbol">        usageThisMonth:</span> <span class="hljs-number">0</span>,
+<span class="hljs-symbol">        discountedUsage:</span> <span class="hljs-number">0</span>,
+<span class="hljs-symbol">        balanceDue:</span> <span class="hljs-number">0</span>,
+<span class="hljs-symbol">        couponType:</span> <span class="hljs-string">&quot;&quot;</span>,
+<span class="hljs-symbol">        org:</span> <span class="hljs-string">&quot;&quot;</span>,
+<span class="hljs-symbol">        owner:</span> <span class="hljs-string">&quot;&quot;</span>,
+<span class="hljs-symbol">        created:</span> <span class="hljs-string">&quot;&quot;</span>,
+<span class="hljs-symbol">        creditCardLinked:</span> false,
+    <span class="hljs-punctuation">}</span>,
+<span class="hljs-symbol">    uiState:</span> <span class="hljs-punctuation">{</span>
+<span class="hljs-symbol">        analysisState:</span> AnalysisState.quiescent,
+<span class="hljs-symbol">        activityBarState:</span> <span class="hljs-punctuation">{</span>
+<span class="hljs-symbol">            summaryViewState:</span> <span class="hljs-punctuation">{</span>
+<span class="hljs-symbol">                analysisMode:</span> <span class="hljs-string">&quot;analyze-all-mode&quot;</span>,
+<span class="hljs-symbol">                analysisTypesState:</span> <span class="hljs-punctuation">{</span>
+<span class="hljs-symbol">                    security:</span> true,
+<span class="hljs-symbol">                    compliance:</span> true,
+<span class="hljs-symbol">                    documentation:</span> true,
+                <span class="hljs-punctuation">}</span>
+            <span class="hljs-punctuation">}</span>,
+        <span class="hljs-punctuation">}</span>,
+    <span class="hljs-punctuation">}</span>,
+<span class="hljs-punctuation">};</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:07:21 PM PDT</p>
+<p>This code is written in TypeScript and it exports a constant object called <code>emptyProjectData</code> that implements the <code>IBoostProjectData</code> interface. This object serves as the initial state or the default values for a project data in the Boost application. Let&#39;s break down the various parts of this object:</p>
+<ol>
+<li><p><code>dataFormatVersion</code>: This property represents the version of the data format used. It is set to &quot;0.0.0&quot; by default, indicating that no version has been set yet.</p>
+</li>
+<li><p><code>summary</code>: This is an object that holds summary information about the project. It includes properties like <code>projectName</code>, <code>summaryUrl</code>, <code>filesToAnalyze</code> and <code>filesAnalyzed</code>, all of which are initialized with default values.</p>
+</li>
+<li><p><code>sectionSummary</code>: This object holds a summary of the analysis performed. It includes properties like <code>analysisType</code>, <code>status</code>, <code>completedCells</code>, <code>errorCells</code>, <code>issueCells</code>, <code>totalCells</code>, and <code>filesAnalyzed</code>. These are all initialized with default values.</p>
+</li>
+<li><p><code>files</code>: This is an empty object which will likely hold information about the files in the project.</p>
+</li>
+<li><p><code>jobStatus</code>: This is another empty object which will likely hold information about the status of jobs related to the project.</p>
+</li>
+<li><p><code>account</code>: This object holds account-related information such as <code>refreshed</code>, <code>enabled</code>, <code>status</code>, <code>trialRemaining</code>, <code>usageThisMonth</code>, <code>discountedUsage</code>, <code>balanceDue</code>, <code>couponType</code>, <code>org</code>, <code>owner</code>, <code>created</code>, <code>creditCardLinked</code>. All of these properties are initialized with either default values or empty strings.</p>
+</li>
+<li><p><code>uiState</code>: This object holds the state of the user interface. It includes properties like <code>analysisState</code> and <code>activityBarState</code>. The <code>activityBarState</code> itself is an object with properties <code>summaryViewState</code> and <code>analysisTypesState</code>.</p>
+</li>
+</ol>
+<p>In terms of algorithms, this code doesn&#39;t really include any. It&#39;s simply defining an object with a specific structure and default values.</p>
+<p>This code is consistent with the architectural guidelines provided. It is well-structured, making use of TypeScript&#39;s static typing to define the structure of the <code>emptyProjectData</code> object. This can help catch many errors at compile time.</p>
+<p>For more information, you may want to look into the following topics:</p>
+<ul>
+<li><a href="https://www.typescriptlang.org/docs/handbook/interfaces.html">TypeScript Interfaces</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects">JavaScript Objects</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:08:48 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style Controller fill:#228B22, stroke:#000000, stroke-width:4px;
+style RemoteService fill:#228B22, stroke:#000000, stroke-width:4px;
+style ErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->Controller;
+Controller-->RemoteService;
+RemoteService-->End;</pre>
+</code></pre><p>The control flow graph for the provided source code is as follows:</p>
+<ol>
+<li>The flow starts at the <code>Start</code> node.</li>
+<li>The flow then goes to the <code>Controller</code> node.</li>
+<li>From the <code>Controller</code> node, the flow goes to the <code>RemoteService</code> node.</li>
+<li>Finally, the flow ends at the <code>End</code> node.</li>
+</ol>
+<p>Note that there are no error paths in the provided code, so the graph does not include any error paths.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:09:47 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:11:40 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 6:14:38 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 240</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;account&#39; object contains sensitive user data, including payment and account status information. This data could be exposed if not properly handled and secured, violating GDPR regulations.</p>
+<p><strong>Solution</strong>: Ensure that all sensitive user data is encrypted both at rest and in transit, and only accessible by authorized individuals. Implement proper access controls and use secure methods for handling and storing sensitive data.</p>
+</li>
+<li><p><strong>Severity</strong>: 9/10</p>
+<p><strong>Line Number</strong>: 240</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The &#39;creditCardLinked&#39; field in the &#39;account&#39; object indicates that credit card information may be handled by the application. If this data is not properly secured, it could violate PCI DSS regulations.</p>
+<p><strong>Solution</strong>: Ensure that credit card data is properly encrypted and securely stored. Implement strong access controls and regularly audit your application for security vulnerabilities. Consider using a third-party payment processor to limit the amount of credit card data your application needs to handle.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 240</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: While there&#39;s no direct indication of handling medical data, if the &#39;account&#39; object is used to handle or store any health-related data, it could violate HIPAA regulations unless it&#39;s properly secured.</p>
+<p><strong>Solution</strong>: Ensure that any health-related data is properly encrypted and securely stored. Implement strong access controls and regularly audit your application for security vulnerabilities. Be aware that HIPAA regulations apply to any system that handles health-related data, not just those in the healthcare industry.</p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>

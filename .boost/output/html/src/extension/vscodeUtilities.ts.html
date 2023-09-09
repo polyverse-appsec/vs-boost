@@ -1,0 +1,2185 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/extension/vscodeUtilities.ts</h1>
+    <p>Date Generated: Saturday, September 9, 2023 at 6:32:17 AM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:25:04 AM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:28:07 AM PDT</p>
+<h2 id="executive-report-software-project-analysis">Executive Report: Software Project Analysis</h2>
+<p>Based on the analysis of the software project, the following key points have been identified:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The project is well-structured and follows best practices for a Visual Studio Code extension. It uses object-oriented design and event-driven programming, which aligns with the architectural guidelines. However, there is a potential issue with high memory usage in the <code>vscodeUtilities.ts</code> file due to splitting a potentially large string into an array. This could impact the performance of the extension, particularly for large codebases.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The risk associated with this project is moderate. The most severe issues found are warnings related to memory and CPU usage in the <code>vscodeUtilities.ts</code> file. These issues could potentially impact the performance and responsiveness of the extension, particularly when analyzing large codebases. However, the project uses asynchronous programming for potentially long-running tasks, which should help to mitigate these risks.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: Customers could potentially experience performance issues when using the extension to analyze large codebases. This could lead to a negative user experience and potentially impact the adoption and usage of the extension. However, the use of asynchronous programming and extensive error handling should help to minimize the impact on the user experience.</p>
+</li>
+<li><p><strong>Overall Issues</strong>: The overall health of the project is good, with only one file (<code>vscodeUtilities.ts</code>) having detected issues. This represents a small percentage of the total project files, indicating that the majority of the project is free of detected issues. However, the issues in the <code>vscodeUtilities.ts</code> file are of high severity and should be addressed to ensure the performance and reliability of the extension.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: The risk associated with the overall health of the project is low. The majority of the project files have no detected issues, and the issues that have been detected are in a single file. This suggests that the project is generally well-written and follows best practices. However, the high severity issues in the <code>vscodeUtilities.ts</code> file should be addressed to mitigate potential risks.</p>
+</li>
+</ol>
+<p>In conclusion, while the project is generally well-structured and follows best practices, there are potential performance issues that could impact the user experience. These issues should be addressed to ensure the performance and reliability of the extension.</p>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:33:05 AM PDT</p>
+<h2 id="executive-report">Executive Report</h2>
+<h3 id="architectural-impact-and-risk-analysis">Architectural Impact and Risk Analysis</h3>
+<p>The software project under review is a Visual Studio Code extension that provides code analysis functionality. It is written in JavaScript and TypeScript and follows the principles of object-oriented design and event-driven programming. The project communicates with a remote service for code analysis and does not appear to use any persistent data storage.</p>
+<p>The analysis of the project&#39;s source code has revealed several data compliance issues, particularly related to GDPR, HIPAA, and PCI DSS. These issues are concentrated in the file <code>src/extension/vscodeUtilities.ts</code>, which seems to be a critical part of the project as it handles data processing and communication with the remote service.</p>
+<h3 id="potential-customer-impact">Potential Customer Impact</h3>
+<p>The identified data compliance issues could have a significant impact on the customers. Non-compliance with GDPR, HIPAA, or PCI DSS could lead to legal penalties, loss of customer trust, and potential data breaches. It is crucial to address these issues promptly to mitigate these risks.</p>
+<h3 id="overall-issues">Overall Issues</h3>
+<p>The project has a total of 1 file, and all of them have been found to have issues. The issues are categorized into two severity levels: Information and Warning. The file <code>src/extension/vscodeUtilities.ts</code> has the highest number of issues, with 6 GDPR issues, 5 HIPAA issues, and 5 PCI DSS issues.</p>
+<h3 id="risk-assessment">Risk Assessment</h3>
+<p>Given that all the files in the project have issues, the overall health of the project source is concerning. The high concentration of issues in <code>src/extension/vscodeUtilities.ts</code> suggests that this file, in particular, may require significant refactoring or redesign to address the identified issues.</p>
+<h3 id="highlights">Highlights</h3>
+<ol>
+<li><p><strong>Data Compliance Issues</strong>: The project has several data compliance issues related to GDPR, HIPAA, and PCI DSS. These issues need to be addressed to avoid potential legal penalties and loss of customer trust.</p>
+</li>
+<li><p><strong>Concentration of Issues</strong>: All the identified issues are concentrated in the file <code>src/extension/vscodeUtilities.ts</code>. This file appears to be a critical part of the project, handling data processing and communication with the remote service.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: The data compliance issues could have a significant impact on the customers, potentially leading to legal penalties, loss of customer trust, and data breaches.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: The overall health of the project source is concerning, given that all the files have issues. The file <code>src/extension/vscodeUtilities.ts</code> may require significant refactoring or redesign to address the identified issues.</p>
+</li>
+<li><p><strong>Architectural Soundness</strong>: Despite the identified issues, the project follows best practices for a VS Code extension and makes good use of TypeScript features and the VS Code API. The code is well-structured and organized into classes, suggesting a sound architectural foundation.</p>
+</li>
+</ol>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/extension/vscodeUtilities.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> vscode <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vscode&#x27;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> boostnb <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../data/jupyter_notebook&#x27;</span>;
+
+<span class="hljs-keyword">import</span> { ControllerOutputType, functionOutputTypeExtension } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../controllers/controllerOutputTypes&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:12:22 AM PDT</p>
+<p>This code is written in TypeScript, a statically typed superset of JavaScript that adds types to the language. It&#39;s part of a larger project, likely a Visual Studio Code (VS Code) extension, based on the import of the <code>vscode</code> module. </p>
+<p>The code imports several modules and types for use within the file. Let&#39;s break down each line:</p>
+<ol>
+<li><p><code>import * as vscode from &#39;vscode&#39;;</code> - This line imports the entire <code>vscode</code> module for use within this file. The <code>vscode</code> module provides functions, classes, and types that allow extension developers to interact with VS Code&#39;s API.</p>
+</li>
+<li><p><code>import * as boostnb from &#39;../data/jupyter_notebook&#39;;</code> - This line imports the entire module located at the relative path &#39;../data/jupyter_notebook&#39;. The module is given the alias <code>boostnb</code> for use within this file. The exact contents and purpose of this module are not clear from this snippet, but it likely contains data or functions related to interacting with Jupyter notebooks, based on its name.</p>
+</li>
+<li><p><code>import { ControllerOutputType, functionOutputTypeExtension } from &#39;../controllers/controllerOutputTypes&#39;;</code> - This line imports two specific types, <code>ControllerOutputType</code> and <code>functionOutputTypeExtension</code>, from the module located at the relative path &#39;../controllers/controllerOutputTypes&#39;. These types are likely used to define the structure of data related to the output of certain controller functions.</p>
+</li>
+</ol>
+<p>The code does not contain any algorithms, it&#39;s simply importing modules and types for use within the file. </p>
+<p>As for architectural guidelines, this code appears to follow common best practices for structuring a VS Code extension. It&#39;s modular, with separate files for different pieces of functionality, and it makes use of TypeScript&#39;s static typing to catch errors at compile time.</p>
+<p>Here are some resources for further reading:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api">VS Code Extension API</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/intro.html">TypeScript Handbook</a></li>
+<li><a href="https://jupyter.org/">Jupyter Notebook</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:18:42 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:23:51 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:25:19 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:28:41 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 1</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code imports the &#39;vscode&#39; library which may access or store personal data such as user settings, workspace information, etc. If this data is processed or transferred, it may violate GDPR regulations.</p>
+<p><strong>Solution</strong>: Ensure that any personal data accessed through the &#39;vscode&#39; library is handled in accordance with GDPR regulations. This includes obtaining user consent before processing or transferring their data, and providing mechanisms for users to view, modify, or delete their data.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 2</p>
+<p><strong>Bug Type</strong>: GDPR/HIPAA</p>
+<p><strong>Description</strong>: The code imports the &#39;jupyter_notebook&#39; module which may process or store sensitive data such as personal or health-related information. If this data is not properly protected, it could lead to violations of GDPR and HIPAA regulations.</p>
+<p><strong>Solution</strong>: Ensure that any sensitive data processed by the &#39;jupyter_notebook&#39; module is properly protected. This includes encrypting the data at rest and in transit, and implementing access controls to prevent unauthorized access to the data.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/extension/vscodeUtilities.ts line 5:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { KernelControllerBase, errorMimeType } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../controllers/base_controller&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:12:56 AM PDT</p>
+<p>The given code is very short and doesn&#39;t contain any specific algorithms or data manipulations, but I&#39;ll explain what it does.</p>
+<p><code>import { KernelControllerBase, errorMimeType } from &#39;../controllers/base_controller&#39;;</code></p>
+<p>This is an import statement in JavaScript, specifically using the ES6 (ECMAScript 2015) module syntax. It is importing two specific exports, <code>KernelControllerBase</code> and <code>errorMimeType</code>, from another module located at &#39;../controllers/base_controller&#39;.</p>
+<p>Here is a more detailed breakdown:</p>
+<ul>
+<li><p><code>import</code>: This is the keyword that starts the import statement. It tells JavaScript that we want to bring in some functionality from another module.</p>
+</li>
+<li><p><code>{ KernelControllerBase, errorMimeType }</code>: This is a list of specific named exports that we want to import from the target module. In this case, we are importing <code>KernelControllerBase</code> and <code>errorMimeType</code>. These could be any type of JavaScript entities, such as functions, classes, or variables.</p>
+</li>
+<li><p><code>from</code>: This keyword is used to specify the location of the module from which we want to import. The location is always a string.</p>
+</li>
+<li><p><code>&#39;../controllers/base_controller&#39;</code>: This is the location of the module we are importing from. The string is a relative file path pointing to the module. The <code>..</code> at the beginning means to go up one directory level from the current file&#39;s location. Then, <code>controllers</code> is a directory at that level, and <code>base_controller</code> is the module file in that directory. The file extension is typically <code>.js</code> or <code>.ts</code> for TypeScript, but it is omitted here because JavaScript and TypeScript both allow it to be left off in import statements.</p>
+</li>
+</ul>
+<p>We don&#39;t know the exact details of what <code>KernelControllerBase</code> and <code>errorMimeType</code> are doing here because that would depend on their definitions in the <code>base_controller</code> module. But based on their names, we can guess that <code>KernelControllerBase</code> might be a base class for controllers that handle kernels (a common term for computational engines in software), and <code>errorMimeType</code> might be a string that represents the MIME type for error messages.</p>
+<p>For more information on JavaScript ES6 modules, you can check this link: <a href="https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/">JavaScript Modules: A Beginner’s Guide</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:18:47 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style KernelControllerBase fill:#228B22, stroke:#000000, stroke-width:2px;
+
+KernelControllerBase-->errorMimeType;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:23:56 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:25:23 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:29:20 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 8</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The import statement does not directly indicate a data compliance issue. However, it&#39;s important to ensure that the imported modules (&#39;KernelControllerBase&#39;, &#39;errorMimeType&#39;) are compliant with data protection regulations. Specifically, any data processed by these modules should be anonymized, encrypted, and subject to access controls to comply with GDPR.</p>
+<p><strong>Solution</strong>: Review and, if necessary, refactor the code in the imported modules to ensure GDPR compliance. This may involve implementing data anonymization, encryption, and access controls.</p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 8</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The import statement does not directly indicate a data compliance issue. However, it&#39;s important to ensure that the imported modules (&#39;KernelControllerBase&#39;, &#39;errorMimeType&#39;) are compliant with data protection regulations. Specifically, any data processed by these modules should be encrypted and subject to access controls to comply with PCI DSS.</p>
+<p><strong>Solution</strong>: Review and, if necessary, refactor the code in the imported modules to ensure PCI DSS compliance. This may involve implementing data encryption and access controls.</p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 8</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The import statement does not directly indicate a data compliance issue. However, it&#39;s important to ensure that the imported modules (&#39;KernelControllerBase&#39;, &#39;errorMimeType&#39;) are compliant with data protection regulations. Specifically, any data processed by these modules should be encrypted, anonymized, and subject to access controls to comply with HIPAA.</p>
+<p><strong>Solution</strong>: Review and, if necessary, refactor the code in the imported modules to ensure HIPAA compliance. This may involve implementing data encryption, anonymization, and access controls.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/extension/vscodeUtilities.ts line 6:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { fullPathFromSourceFile } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../utilities/files&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:13:11 AM PDT</p>
+<p>The line of code you provided is an import statement in JavaScript, specifically in the context of a Node.js or similar environment that supports the ES6 module system.</p>
+<p><code>import { fullPathFromSourceFile } from &#39;../utilities/files&#39;;</code></p>
+<p>This line of code is importing a specific function <code>fullPathFromSourceFile</code> from a module located at &#39;../utilities/files&#39;. </p>
+<p>The <code>fullPathFromSourceFile</code> function is not defined in the current file, but is instead located in another file and is being imported for use in the current file. This is a common practice in JavaScript and many other programming languages to organize code into separate files (often called modules) and then import the functions, objects, or values needed from those modules. This can help to keep code organized and manageable, particularly in larger projects.</p>
+<p>The &#39;../utilities/files&#39; is a relative path to the module that contains the <code>fullPathFromSourceFile</code> function. The &#39;..&#39; means to go up one directory level from the current file&#39;s location, and then &#39;utilities/files&#39; is the path from there to the module. The &#39;.js&#39; extension is typically omitted in import statements.</p>
+<p>As for the <code>fullPathFromSourceFile</code> function itself, without the function definition, I can only infer from the name that it likely takes a source file and returns its full path. This could involve some form of string manipulation or use of file system APIs to resolve the full path from a relative or absolute path.</p>
+<p>In terms of architectural guidelines, this line of code appears to follow common best practices for structuring JavaScript projects, with utility functions like <code>fullPathFromSourceFile</code> organized into a separate module and imported where needed.</p>
+<p>For more information on ES6 modules and import statements, you can refer to the following resources:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">MDN Web Docs: import</a></li>
+<li><a href="https://nodejs.org/api/modules.html">Node.js Docs: Modules</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:18:50 AM PDT</p>
+<p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:24:00 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:25:27 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:29:33 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 10</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The method &#39;fullPathFromSourceFile&#39; might be processing file paths, which could potentially include sensitive information. If any personal data is involved, it could lead to GDPR non-compliance.</p>
+<p><strong>Solution</strong>: Ensure that any personal data processed by the &#39;fullPathFromSourceFile&#39; method is handled in accordance with GDPR principles. This includes obtaining necessary consents, implementing appropriate security measures, and ensuring the right to erasure is respected.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/extension/vscodeUtilities.ts line 7:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { BoostExtension } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./BoostExtension&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:13:29 AM PDT</p>
+<p>This is a single line of code that is used to import a module in JavaScript. It&#39;s a part of the ES6 (ECMAScript 2015) module system. The code is importing the <code>BoostExtension</code> from the <code>BoostExtension</code> module which is located in the same directory as the current file. </p>
+<p>The <code>BoostExtension</code> module could contain functions, objects or values that have been exported and can now be used in the file where this import statement is written.</p>
+<p>There isn&#39;t any algorithm involved in this line of code. It&#39;s purely a feature of the JavaScript language to include and use code from different files. This is a way to organize code into different modules, each responsible for a distinct feature or functionality of the application. It also helps in managing and maintaining large codebases.</p>
+<p>The architectural analysis of this code is that it follows the common modular design pattern which promotes separation of concerns and reusability. </p>
+<p>For more about ES6 modules, you can refer to this link: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">ES6 Modules</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:18:55 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style BoostExtension fill:#228B22, stroke:#000000, stroke-width:2px;
+
+BoostExtension-->NO CONTROL FLOW FOUND;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:24:03 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:25:31 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:29:37 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/extension/vscodeUtilities.ts line 8:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { FunctionKernelControllerBase } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../controllers/function_base_controller&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:13:57 AM PDT</p>
+<p>The provided code is a single line of code written in TypeScript, which is a statically typed superset of JavaScript that adds types to the language. It&#39;s importing a module named <code>FunctionKernelControllerBase</code> from a relative path <code>../controllers/function_base_controller</code>.</p>
+<p>This line of code is using the <code>import</code> statement, which is part of the ES6 (ECMAScript 2015) module system. The <code>import</code> statement is used to import functions, objects, or values that have been exported from an external module, another script, etc.</p>
+<p>In this case, it&#39;s importing <code>FunctionKernelControllerBase</code> from the module located at <code>../controllers/function_base_controller</code>. The <code>../</code> in the path indicates that the module is located in the parent directory of the current file, in a subdirectory called <code>controllers</code>.</p>
+<p><code>FunctionKernelControllerBase</code> is likely to be a class or a function that&#39;s being exported by the <code>function_base_controller</code> module. Without more code, it&#39;s hard to say exactly what <code>FunctionKernelControllerBase</code> is or what it does. However, from its name, it seems like it might be a base controller for a function kernel, perhaps providing some basic functionality that other, more specific controllers can extend.</p>
+<p>For more information about ES6 modules and the <code>import</code> statement, you can visit the following links:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">MDN Web Docs: import</a></li>
+<li><a href="https://www.sitepoint.com/understanding-es6-modules/">Understanding ES6 Modules</a></li>
+</ul>
+<p>As for architectural guidelines, this line of code seems to follow good practices. It&#39;s modular, making use of the ES6 module system to import functionality from another file. This can help to keep the codebase organized and maintainable, as related code can be grouped together into modules. It&#39;s also potentially more efficient, as modules can be loaded on demand rather than all at once.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:19:00 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style FunctionKernelControllerBase fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->FunctionKernelControllerBase;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:24:07 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:25:34 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:29:40 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/extension/vscodeUtilities.ts line 9:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { <span class="hljs-built_in">string</span>ify } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;querystring&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:14:22 AM PDT</p>
+<p>The line of code you provided is an import statement in JavaScript. It is importing the <code>stringify</code> function from the <code>querystring</code> module. </p>
+<p>The <code>querystring</code> module provides utilities for parsing and formatting URL query strings. It can be used to create a query string from a JavaScript object or parse a query string into a JavaScript object.</p>
+<p>The <code>stringify</code> function is used to convert a JavaScript object into a query string. It takes an object as input and returns a string. The keys and values of the object are encoded using URL percent encoding and are separated by the equal sign (=). Pairs of keys and values are separated by the ampersand (&amp;).</p>
+<p>Here&#39;s an example of how the <code>stringify</code> function can be used:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> query = { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;John Doe&#x27;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">30</span> };
+<span class="hljs-keyword">const</span> queryString = <span class="hljs-title function_">stringify</span>(query);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(queryString);  <span class="hljs-comment">// Outputs: &#x27;name=John%20Doe&amp;age=30&#x27;</span>
+</code></pre><p>In this example, the <code>query</code> object is converted into the string &#39;name=John%20Doe&amp;age=30&#39;. The space in &#39;John Doe&#39; is URL encoded as &#39;%20&#39;.</p>
+<p>This line of code is consistent with the architectural blueprint you provided earlier. It&#39;s a common practice to use the <code>querystring</code> module in JavaScript and TypeScript projects for handling URL query strings.</p>
+<p>For more information about the <code>querystring</code> module and the <code>stringify</code> function, you can refer to the Node.js documentation: <a href="https://nodejs.org/api/querystring.html#querystring_querystring_stringify_obj_sep_eq_options">querystring.stringify()</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:19:06 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;</pre>
+</code></pre><pre><code>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:24:11 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:25:37 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:29:51 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 16</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;querystring&#39; module is used to parse and format URL query strings. If sensitive user data is included in the query string, it can lead to data exposure and GDPR violation.</p>
+<p><strong>Solution</strong>: Avoid sending sensitive data in the URL. If it is necessary, ensure that it is encrypted and that the connection is secure (HTTPS).</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/extension/vscodeUtilities.ts line 10:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { <span class="hljs-keyword">any</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;micromatch&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:14:32 AM PDT</p>
+<p>The code you provided is a single line of JavaScript code that imports a function called <code>any</code> from the <code>micromatch</code> library. </p>
+<p>Micromatch is a highly optimized library used for matching patterns against file paths or strings using glob patterns, which are a type of string text patterns. The <code>any</code> function is one of the methods provided by the <code>micromatch</code> library.</p>
+<p>The <code>any</code> function takes a list of strings and a glob pattern as arguments. It returns a boolean value indicating whether any of the strings match the given glob pattern. </p>
+<p>In terms of algorithms, micromatch uses a variety of string matching and pattern recognition algorithms to efficiently match glob patterns against strings. The specific algorithms used are not clear from this single line of code, as they would be implemented within the <code>micromatch</code> library itself.</p>
+<p>The architectural guidelines provided do not mention any specific constraints or guidelines regarding the use of external libraries or glob pattern matching, so this line of code does not appear to conflict with the provided guidelines.</p>
+<p>For more information on the <code>micromatch</code> library and glob patterns, you can refer to the following resources:</p>
+<ul>
+<li><a href="https://www.npmjs.com/package/micromatch">Micromatch library on npm</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Glob_(programming)">Glob (programming) on Wikipedia</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:19:12 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre><p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:24:15 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:25:48 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 18</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The &#39;any&#39; function from &#39;micromatch&#39; library is imported but not used in the provided code snippet. This could lead to unnecessary memory usage if the function is imported in a larger codebase but never used.</p>
+<p><strong>Solution</strong>: Remove the import statement if the &#39;any&#39; function is not used in the code. Ensure to only import the necessary functions or modules to optimize memory usage.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:30:02 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 18</p>
+<p><strong>Bug Type</strong>: Data Compliance</p>
+<p><strong>Description</strong>: The &#39;any&#39; function from &#39;micromatch&#39; library can potentially lead to privacy issues if used improperly. It can match any input, which could include sensitive data.</p>
+<p><strong>Solution</strong>: Ensure that any data passed to the &#39;any&#39; function is properly sanitized and does not include sensitive data. Consider using more specific matching functions that only match the expected input.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/extension/vscodeUtilities.ts line 11:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">lineNumberBaseFromCell</span>(<span class="hljs-params">cell: vscode.NotebookCell | boostnb.BoostNotebookCell</span>): <span class="hljs-built_in">number</span> {
+    <span class="hljs-keyword">let</span> <span class="hljs-attr">lineNumberBase</span>: <span class="hljs-built_in">any</span>;
+
+    <span class="hljs-keyword">if</span> (cell <span class="hljs-keyword">instanceof</span> boostnb.<span class="hljs-property">BoostNotebookCell</span>) {
+        lineNumberBase = cell.<span class="hljs-property">metadata</span> ? cell.<span class="hljs-property">metadata</span>.<span class="hljs-property">lineNumberBase</span> : <span class="hljs-literal">undefined</span>;
+    } <span class="hljs-keyword">else</span> {
+        lineNumberBase = cell.<span class="hljs-property">metadata</span> ? cell.<span class="hljs-property">metadata</span>.<span class="hljs-property">lineNumberBase</span> : <span class="hljs-literal">undefined</span>;
+    }
+
+    <span class="hljs-comment">// Check if lineNumberBase is a number, if not, return 0</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">typeof</span> lineNumberBase === <span class="hljs-string">&#x27;number&#x27;</span> ? lineNumberBase : <span class="hljs-number">0</span>;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:15:09 AM PDT</p>
+<p>This piece of code is a function in TypeScript, which is a statically typed superset of JavaScript. The function is named <code>lineNumberBaseFromCell</code> and it&#39;s exported, meaning it can be imported and used in other modules. This function is used to extract the <code>lineNumberBase</code> from a given cell.</p>
+<p>The function takes a single argument <code>cell</code> which can be an instance of either <code>vscode.NotebookCell</code> or <code>boostnb.BoostNotebookCell</code>. These are likely classes or interfaces representing a cell in a notebook in the Visual Studio Code extension or in Boost Notebook, respectively.</p>
+<p>The function first declares a variable <code>lineNumberBase</code> without assigning a specific type to it (<code>any</code> keyword is used, which means it can hold a value of any type).</p>
+<p>Then, it checks if the <code>cell</code> argument is an instance of <code>boostnb.BoostNotebookCell</code>. If it is, the function tries to access the <code>lineNumberBase</code> property of the <code>metadata</code> property of the cell. If <code>metadata</code> is not defined, <code>lineNumberBase</code> will be <code>undefined</code>.</p>
+<p>If <code>cell</code> is not an instance of <code>boostnb.BoostNotebookCell</code>, it means it should be an instance of <code>vscode.NotebookCell</code>. The function does the same operation as before: it tries to access the <code>lineNumberBase</code> property of the <code>metadata</code> property of the cell. If <code>metadata</code> is not defined, <code>lineNumberBase</code> will be <code>undefined</code>.</p>
+<p>Finally, the function checks if <code>lineNumberBase</code> is a number (<code>typeof lineNumberBase === &#39;number&#39;</code>). If it is, it returns the <code>lineNumberBase</code>. If it&#39;s not a number, it returns 0.</p>
+<p>This function is an example of polymorphism, a fundamental concept in object-oriented programming. Polymorphism allows objects of different types to be processed in the same way. Here, both <code>vscode.NotebookCell</code> and <code>boostnb.BoostNotebookCell</code> are processed in the same way to retrieve the <code>lineNumberBase</code>.</p>
+<p>For more information on TypeScript, you can refer to the <a href="https://www.typescriptlang.org/docs/">official TypeScript documentation</a>. For more information on polymorphism, you can refer to this <a href="https://en.wikipedia.org/wiki/Polymorphism_(computer_science)">Wikipedia article</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:19:21 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;
+ExampleProcess-->End;
+ExampleErrorPath-->End;</pre>
+</code></pre><p>In the provided code, there is no control flow. The code consists of a single function definition without any conditional statements or loops. Therefore, the control flow graph is simply a single node representing the function <code>lineNumberBaseFromCell</code>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:24:18 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:25:52 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:30:06 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/extension/vscodeUtilities.ts line 24:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">getAnalysisForSourceTarget</span>(<span class="hljs-params">
+    analysisNotebook : boostnb.BoostNotebook,
+    outputType?: ControllerOutputType,
+    selection? : vscode.Selection,
+    excludedOutputTypes? : ControllerOutputType[]</span>) : <span class="hljs-built_in">string</span>[] {
+
+    <span class="hljs-keyword">const</span> analysisLines : <span class="hljs-built_in">string</span>[] = [];
+
+    <span class="hljs-keyword">const</span> targetStartLine : <span class="hljs-built_in">number</span> = selection ? selection.<span class="hljs-property">start</span>.<span class="hljs-property">line</span> : <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">const</span> targetEndLine : <span class="hljs-built_in">number</span> = selection ? selection.<span class="hljs-property">end</span>.<span class="hljs-property">line</span> : <span class="hljs-title class_">Number</span>.<span class="hljs-property">MAX_SAFE_INTEGER</span>;
+
+    <span class="hljs-keyword">let</span> done = <span class="hljs-literal">false</span>;
+    analysisNotebook.<span class="hljs-property">cells</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">cell : boostnb.BoostNotebookCell</span>) =&gt;</span> {
+        <span class="hljs-comment">// break early if done</span>
+        <span class="hljs-keyword">if</span> (done) {
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-keyword">const</span> cellReportedStartLine : <span class="hljs-built_in">number</span> = <span class="hljs-title function_">lineNumberBaseFromCell</span>(cell);
+        <span class="hljs-keyword">const</span> adjustedCellStartLine : <span class="hljs-built_in">number</span> = cellReportedStartLine &gt; <span class="hljs-number">0</span> ? <span class="hljs-attr">cellReportedStartLine</span>: <span class="hljs-number">1</span>;
+
+        <span class="hljs-comment">// we only use source lines to determine which cells to capture</span>
+        <span class="hljs-keyword">const</span> cellSourceLines = cell.<span class="hljs-property">value</span>? cell.<span class="hljs-property">value</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">&quot;\n&quot;</span>).<span class="hljs-property">length</span> : <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">const</span> cellSpanEnd = cellSourceLines + adjustedCellStartLine - <span class="hljs-number">1</span>;
+
+        <span class="hljs-comment">// if the cell is before the start line, skip it</span>
+        <span class="hljs-keyword">if</span> (cellSpanEnd &lt; targetStartLine) {
+            <span class="hljs-keyword">return</span>;
+        <span class="hljs-comment">// if the cell is after the end line, we&#x27;re done</span>
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (adjustedCellStartLine &gt; targetEndLine) {
+            done = <span class="hljs-literal">true</span>;
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-comment">// grab all the analysis</span>
+        cell.<span class="hljs-property">outputs</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">output : boostnb.SerializedNotebookCellOutput</span>) =&gt;</span> {
+            <span class="hljs-comment">// ignore outputs that aren&#x27;t our output type</span>
+            <span class="hljs-comment">// an undefined outputType (e.g. all types) will always be included </span>
+            <span class="hljs-keyword">if</span> (outputType &amp;&amp; output.<span class="hljs-property">metadata</span>?.<span class="hljs-property">outputType</span> !== outputType) {
+                <span class="hljs-keyword">return</span>;
+            }
+
+            <span class="hljs-comment">// skip excluded types</span>
+            <span class="hljs-keyword">if</span> (excludedOutputTypes &amp;&amp; excludedOutputTypes.<span class="hljs-title function_">includes</span>(output.<span class="hljs-property">metadata</span>?.<span class="hljs-property">outputType</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">ControllerOutputType</span>)) {
+                <span class="hljs-keyword">return</span>;
+            }
+
+            <span class="hljs-comment">// if we are looking at a function output, and there is no details (e.g. no diagnostic issues), skip it</span>
+            <span class="hljs-keyword">if</span> (output.<span class="hljs-property">metadata</span>?.<span class="hljs-property">outputType</span>?.<span class="hljs-title function_">endsWith</span>(functionOutputTypeExtension)) {
+                <span class="hljs-keyword">if</span> (!output.<span class="hljs-property">metadata</span>?.<span class="hljs-property">details</span>?.<span class="hljs-property">length</span>) {
+                    <span class="hljs-keyword">return</span>;
+                }
+            }
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> item <span class="hljs-keyword">of</span> output.<span class="hljs-property">items</span>) {
+                <span class="hljs-keyword">if</span> (item.<span class="hljs-property">mime</span> === errorMimeType) {
+                    <span class="hljs-keyword">return</span>;
+                }
+
+                analysisLines.<span class="hljs-title function_">push</span>(item.<span class="hljs-property">data</span>);
+            }
+        });
+    });
+    <span class="hljs-keyword">return</span> analysisLines;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:15:48 AM PDT</p>
+<p>This function <code>getAnalysisForSourceTarget</code> is written in TypeScript and is used to analyze the cells of a BoostNotebook, which is a type of notebook in Visual Studio Code. It returns an array of strings (<code>analysisLines</code>) that contain the analysis results.</p>
+<p>The function takes four parameters:</p>
+<ul>
+<li><code>analysisNotebook</code>: The BoostNotebook to be analyzed.</li>
+<li><code>outputType</code>: An optional parameter that specifies the type of output to be included in the analysis. If not provided, all output types will be included.</li>
+<li><code>selection</code>: An optional parameter that represents a selected range of lines in the notebook. If not provided, the entire notebook will be analyzed.</li>
+<li><code>excludedOutputTypes</code>: An optional array of output types that should be excluded from the analysis.</li>
+</ul>
+<p>The function first initializes an empty array <code>analysisLines</code> to store the analysis results and two variables <code>targetStartLine</code> and <code>targetEndLine</code> to represent the range of lines to be analyzed. If a selection is provided, these variables are set to the start and end lines of the selection; otherwise, they are set to cover the entire range of line numbers.</p>
+<p>The function then loops over each cell in the notebook. For each cell, it calculates the start and end lines of the cell&#39;s content. If the cell&#39;s content is outside the target range, the cell is skipped. If the start line of the cell is beyond the target end line, the loop is terminated early.</p>
+<p>For each cell within the target range, the function loops over each output of the cell. It checks the output type against the specified <code>outputType</code> and <code>excludedOutputTypes</code>, and skips the output if it does not match the criteria. If the output type is a function output and it does not contain any details, the output is also skipped.</p>
+<p>For each valid output, the function loops over each item in the output. If the item&#39;s MIME type is an error, the item is skipped. Otherwise, the item&#39;s data is added to the <code>analysisLines</code> array.</p>
+<p>Finally, the function returns the <code>analysisLines</code> array, which contains the analysis results for the target range of lines in the notebook.</p>
+<p>The algorithm used in this function is essentially a nested loop (also known as a loop within a loop). It iterates over the cells of the notebook and for each cell, it iterates over the outputs and for each output, it iterates over the items. This is a common pattern in programming when dealing with nested data structures.</p>
+<p>Here are some links for further reading:</p>
+<ul>
+<li><a href="https://www.typescriptlang.org/docs/">TypeScript</a></li>
+<li><a href="https://code.visualstudio.com/api">Visual Studio Code Extension API</a></li>
+<li><a href="https://www.w3schools.com/js/js_loop_for.asp">Nested Loops</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:21:12 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style Cell fill:#228B22, stroke:#000000, stroke-width:2px;
+style Output fill:#228B22, stroke:#000000, stroke-width:2px;
+style Error fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output-->Cell;
+Cell-->Output;
+Output--></pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:24:45 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 61</p>
+<p><strong>Bug Type</strong>: Insecure Direct Object References (IDOR)</p>
+<p><strong>Description</strong>: The function <code>getAnalysisForSourceTarget</code> uses direct references to array elements (<code>output.items</code>). This could potentially lead to Insecure Direct Object References, where an attacker could manipulate the references to access unauthorized data.</p>
+<p><strong>Solution</strong>: To mitigate this risk, consider implementing access control checks before accessing data from the <code>output.items</code> array. Make sure the user or process has the correct permissions to access the data. More information on IDOR can be found here: <a href="https://owasp.org/www-community/attacks/Insecure_Direct_Object_References">https://owasp.org/www-community/attacks/Insecure_Direct_Object_References</a></p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 61</p>
+<p><strong>Bug Type</strong>: Denial of Service (DoS)</p>
+<p><strong>Description</strong>: The function <code>getAnalysisForSourceTarget</code> could potentially lead to a Denial of Service (DoS) attack. If an attacker is able to manipulate the <code>output.items</code> array to contain a large number of items, the <code>for</code> loop could cause the application to consume excessive resources and become unresponsive.</p>
+<p><strong>Solution</strong>: To mitigate this risk, consider implementing a limit on the number of items that can be processed in the <code>for</code> loop. More information on DoS attacks can be found here: <a href="https://owasp.org/www-community/attacks/Denial_of_Service">https://owasp.org/www-community/attacks/Denial_of_Service</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:26:16 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 57</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: Splitting a potentially large string into an array using the split method could lead to high memory usage.</p>
+<p><strong>Solution</strong>: To avoid splitting the entire string at once, consider using a streaming or chunking approach to process the string line by line. For example, you could use the &#39;readline&#39; module in Node.js or a third-party library like &#39;line-reader&#39;.</p>
+</li>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 75</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: Using the &#39;includes&#39; method in a loop could lead to quadratic time complexity (O(n^2)) if the &#39;excludedOutputTypes&#39; array is large.</p>
+<p><strong>Solution</strong>: Consider using a Set for &#39;excludedOutputTypes&#39; to achieve constant time complexity (O(1)) for the &#39;includes&#39; operation.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 92</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: Pushing items into an array in a loop could potentially lead to high memory usage if the number of items is very large.</p>
+<p><strong>Solution</strong>: If the number of items is expected to be large, consider using a streaming or chunking approach to process the items and write the output to a file or send it over the network in chunks instead of storing everything in memory.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:30:42 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 47</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The function &#39;getAnalysisForSourceTarget&#39; processes the data contained in &#39;analysisNotebook&#39; but there is no clear indication that the data is anonymized or that user consent has been obtained for this processing.</p>
+<p><strong>Solution</strong>: Ensure that the data is anonymized before processing, or that user consent is obtained. Implement a data processing agreement if necessary.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 47</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The function &#39;getAnalysisForSourceTarget&#39; processes data but it&#39;s not clear whether this data is encrypted in transit and at rest, which is a requirement for HIPAA compliance.</p>
+<p><strong>Solution</strong>: Ensure that all data is encrypted in transit and at rest. Use a secure protocol such as HTTPS for data transmission, and use strong encryption methods for data storage.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 47</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The function &#39;getAnalysisForSourceTarget&#39; processes data but there is no indication that this data is protected according to PCI DSS standards. If the data includes cardholder data, this could be a serious compliance issue.</p>
+<p><strong>Solution</strong>: Ensure that all cardholder data is protected according to PCI DSS standards. This includes encrypting the data, restricting access to it, and regularly monitoring and testing security systems and processes.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/extension/vscodeUtilities.ts line 89:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-comment">// retrieves a list of all output types that have analysis data in a notebook</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">getAnalysisMetaDataForSourceTarget</span>(<span class="hljs-params">
+    analysisNotebook : boostnb.BoostNotebook,
+    selection? : vscode.Selection</span>) : <span class="hljs-title class_">ControllerOutputType</span>[] {
+
+    <span class="hljs-keyword">const</span> analysisMetaDataFound : <span class="hljs-built_in">any</span> = {};
+
+    <span class="hljs-keyword">const</span> targetStartLine : <span class="hljs-built_in">number</span> = selection ? selection.<span class="hljs-property">start</span>.<span class="hljs-property">line</span> : <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">const</span> targetEndLine : <span class="hljs-built_in">number</span> = selection ? selection.<span class="hljs-property">end</span>.<span class="hljs-property">line</span> : <span class="hljs-title class_">Number</span>.<span class="hljs-property">MAX_SAFE_INTEGER</span>;
+
+    <span class="hljs-keyword">let</span> done = <span class="hljs-literal">false</span>;
+    analysisNotebook.<span class="hljs-property">cells</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">cell : boostnb.BoostNotebookCell</span>) =&gt;</span> {
+        <span class="hljs-comment">// break early if done</span>
+        <span class="hljs-keyword">if</span> (done) {
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-keyword">const</span> cellReportedStartLine : <span class="hljs-built_in">number</span> = <span class="hljs-title function_">lineNumberBaseFromCell</span>(cell);
+        <span class="hljs-keyword">const</span> adjustedCellStartLine : <span class="hljs-built_in">number</span> = cellReportedStartLine &gt; <span class="hljs-number">0</span> ? <span class="hljs-attr">cellReportedStartLine</span>: <span class="hljs-number">1</span>;
+
+        <span class="hljs-comment">// we only use source lines to determine which cells to capture</span>
+        <span class="hljs-keyword">const</span> cellSourceLines = cell.<span class="hljs-property">value</span>? cell.<span class="hljs-property">value</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">&quot;\n&quot;</span>).<span class="hljs-property">length</span> : <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">const</span> cellSpanEnd = cellSourceLines + adjustedCellStartLine - <span class="hljs-number">1</span>;
+
+        <span class="hljs-comment">// if the cell is before the start line, skip it</span>
+        <span class="hljs-keyword">if</span> (cellSpanEnd &lt; targetStartLine) {
+            <span class="hljs-keyword">return</span>;
+        <span class="hljs-comment">// if the cell is after the end line, we&#x27;re done</span>
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (adjustedCellStartLine &gt; targetEndLine) {
+            done = <span class="hljs-literal">true</span>;
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-comment">// grab all the analysis</span>
+        cell.<span class="hljs-property">outputs</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">output : boostnb.SerializedNotebookCellOutput</span>) =&gt;</span> {
+            <span class="hljs-keyword">if</span> (output.<span class="hljs-property">items</span>.<span class="hljs-title function_">some</span>(<span class="hljs-function">(<span class="hljs-params">item : <span class="hljs-built_in">any</span></span>) =&gt;</span> {
+                <span class="hljs-keyword">if</span> (item.<span class="hljs-property">mime</span> === errorMimeType) {
+                    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+                }
+
+                <span class="hljs-keyword">if</span> (item.<span class="hljs-property">data</span>.<span class="hljs-property">length</span> === <span class="hljs-number">0</span>) {
+                    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+                }
+
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+            })) {
+                analysisMetaDataFound[output.<span class="hljs-property">metadata</span>?.<span class="hljs-property">outputType</span>] = <span class="hljs-literal">true</span>;
+            }
+        });
+    });
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">keys</span>(analysisMetaDataFound) <span class="hljs-keyword">as</span> <span class="hljs-title class_">ControllerOutputType</span>[];
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:16:32 AM PDT</p>
+<p>The provided code is a JavaScript function named <code>getAnalysisMetaDataForSourceTarget</code>. This function is designed to retrieve a list of all output types that have analysis data in a notebook. </p>
+<p>The function takes two parameters: </p>
+<ol>
+<li><code>analysisNotebook</code>: This is an object of type <code>BoostNotebook</code> which presumably represents a notebook that contains analysis data.</li>
+<li><code>selection</code>: This is an optional parameter of type <code>Selection</code> from the <code>vscode</code> library. If provided, it specifies a range of lines in the notebook to consider for the analysis.</li>
+</ol>
+<p>The function follows these steps:</p>
+<ol>
+<li>It initializes an empty object <code>analysisMetaDataFound</code> to keep track of the different types of analysis data found in the notebook.</li>
+<li>It determines the start and end lines for the analysis. If a <code>Selection</code> object was provided, it uses the start and end lines from the selection; otherwise, it uses the first line and the maximum safe integer value for the end line.</li>
+<li>It then iterates over each cell in the notebook. For each cell, it does the following:<ul>
+<li>It calculates the cell&#39;s start line and adjusts it to be at least 1.</li>
+<li>It calculates the number of lines in the cell&#39;s source code and the end line of the cell&#39;s span.</li>
+<li>If the cell&#39;s span is before the target start line or after the target end line, it skips the cell.</li>
+<li>It then iterates over each output in the cell. For each output, it checks if there is a non-error item with non-empty data. If such an item is found, it records the output type in the <code>analysisMetaDataFound</code> object.</li>
+</ul>
+</li>
+<li>Finally, it returns a list of the keys in the <code>analysisMetaDataFound</code> object, which represent the different types of analysis data found in the notebook.</li>
+</ol>
+<p>The algorithm used in the function is a simple iteration over the cells and outputs in the notebook, with some conditions to skip irrelevant cells and outputs. It uses JavaScript&#39;s built-in <code>Array.prototype.forEach</code> method for the iterations and <code>Array.prototype.some</code> method to check if there is a relevant item in the output.</p>
+<p>This function is presumably part of a larger system for analyzing source code in a notebook environment, and it follows general good practices for JavaScript and TypeScript programming, such as using <code>const</code> for variables that don&#39;t change, using optional parameters, and using the <code>Array.prototype.forEach</code> and <code>Array.prototype.some</code> methods for iterating over arrays.</p>
+<p>For more information about these topics, you can visit the following links:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">JavaScript Arrays</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/functions.html#optional-and-default-parameters">TypeScript Optional Parameters</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER">JavaScript Number.MAX_SAFE_INTEGER</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:21:20 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;
+ExampleProcess-->End;
+ExamplErrorPath-->End;</pre>
+</code></pre><p>The code provided does not contain any control flow.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:24:49 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:26:31 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 183</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The code splits the cell values into an array of lines using the <code>split</code> function, which can consume a significant amount of memory if the cell values are large.</p>
+<p><strong>Solution</strong>: Consider processing the cell values line by line using a streaming approach instead of splitting them into an array.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 191</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The code uses a <code>forEach</code> loop to iterate over the cell outputs and then another <code>some</code> function to iterate over the output items. This nested iteration can be CPU-intensive if there are many cells and outputs.</p>
+<p><strong>Solution</strong>: Consider using a more efficient data structure or algorithm to reduce the time complexity of this operation. For example, you could use a <code>Set</code> to store the output types and check for duplicates in constant time.</p>
+</li>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 194</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The code checks the length of the item data, which could consume a significant amount of memory if the data is large.</p>
+<p><strong>Solution</strong>: Consider using a streaming approach or a more efficient data structure to handle large data.</p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 202</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The code uses an object to store the analysis metadata found, which could consume a significant amount of memory if there are many unique output types.</p>
+<p><strong>Solution</strong>: Consider using a more memory-efficient data structure to store the analysis metadata, like a <code>Map</code> or a <code>Set</code>.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:31:10 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 176</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: No explicit user consent is obtained before processing user data. GDPR requires explicit user consent before data processing.</p>
+<p><strong>Solution</strong>: Implement a mechanism to obtain explicit user consent before processing user data. This can be done through a pop-up or a clear notice in the user interface.</p>
+</li>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 184</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The code does not seem to implement any encryption or secure handling of sensitive data. This might be a violation of PCI DSS, which requires secure handling of cardholder data.</p>
+<p><strong>Solution</strong>: Implement secure data handling practices, such as encryption, when dealing with sensitive data. This could be done by encrypting the data before sending it for analysis.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 190</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The code does not seem to implement any mechanism to ensure the confidentiality, integrity, and availability of all electronic protected health information (ePHI) it creates, receives, maintains, or transmits. This might be a violation of HIPAA.</p>
+<p><strong>Solution</strong>: Implement a mechanism to ensure the confidentiality, integrity, and availability of all ePHI. This could be done by encrypting the data before sending it for analysis and implementing access controls.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/extension/vscodeUtilities.ts line 142:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-comment">// retrieves a list of all output types that have analysis data in a notebook</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">getAnalysisProblemMetaDataForSourceTarget</span>(<span class="hljs-params">
+    problemCollection : vscode.DiagnosticCollection,
+    filenameTarget : <span class="hljs-built_in">string</span>,
+    selection? : vscode.Selection</span>) : vscode.<span class="hljs-property">Diagnostic</span>[] {
+
+    <span class="hljs-keyword">const</span> analysisMetaDataFound : <span class="hljs-built_in">any</span> = {};
+
+    <span class="hljs-keyword">let</span> targetStartLine : <span class="hljs-built_in">number</span> = selection ? selection.<span class="hljs-property">start</span>.<span class="hljs-property">line</span> : <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">let</span> targetEndLine : <span class="hljs-built_in">number</span> = selection ? selection.<span class="hljs-property">end</span>.<span class="hljs-property">line</span> : <span class="hljs-title class_">Number</span>.<span class="hljs-property">MAX_SAFE_INTEGER</span>;
+
+    <span class="hljs-comment">//expand the startline and endline to three before and three after</span>
+    targetStartLine = targetStartLine &gt; <span class="hljs-number">3</span> ? targetStartLine - <span class="hljs-number">3</span> : <span class="hljs-number">0</span>;
+    targetEndLine= targetEndLine &lt; <span class="hljs-title class_">Number</span>.<span class="hljs-property">MAX_SAFE_INTEGER</span> -<span class="hljs-number">3</span> ? targetEndLine + <span class="hljs-number">3</span>: <span class="hljs-title class_">Number</span>.<span class="hljs-property">MAX_SAFE_INTEGER</span>;
+
+    <span class="hljs-keyword">const</span> sourceUri = <span class="hljs-title function_">fullPathFromSourceFile</span>(filenameTarget);
+
+    <span class="hljs-keyword">const</span> existingDiagnostics = problemCollection.<span class="hljs-title function_">get</span>(sourceUri);
+    <span class="hljs-keyword">if</span> (!existingDiagnostics || existingDiagnostics.<span class="hljs-property">length</span> === <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">return</span> [];
+    }
+
+    <span class="hljs-keyword">const</span> scopedDiagnostics = existingDiagnostics.<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">diagnostic : vscode.Diagnostic</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> diagnostic.<span class="hljs-property">range</span>.<span class="hljs-property">start</span>.<span class="hljs-property">line</span> &gt;= targetStartLine &amp;&amp; diagnostic.<span class="hljs-property">range</span>.<span class="hljs-property">end</span>.<span class="hljs-property">line</span> &lt;= targetEndLine;
+    });
+    <span class="hljs-keyword">return</span> scopedDiagnostics;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:17:07 AM PDT</p>
+<p>The provided code is written in TypeScript, a statically typed superset of JavaScript, and is a part of a Visual Studio Code (VS Code) extension. </p>
+<p>The function <code>getAnalysisProblemMetaDataForSourceTarget</code> retrieves a list of all output types that have analysis data in a notebook. It takes three parameters: <code>problemCollection</code>, <code>filenameTarget</code>, and an optional <code>selection</code>.</p>
+<ul>
+<li><code>problemCollection</code> is a collection of VS Code diagnostics. Diagnostics in VS Code are used to represent issues in source files, such as compiler errors or warnings, linter warnings, etc.</li>
+<li><code>filenameTarget</code> is a string representing the filename for which the analysis is to be done.</li>
+<li><code>selection</code> is an optional parameter representing a selected range in the source file. If provided, the analysis will be limited to this range.</li>
+</ul>
+<p>The function first initializes <code>targetStartLine</code> and <code>targetEndLine</code> to represent the range of lines to be analyzed. If a <code>selection</code> is provided, the range is set to the selected lines, otherwise, it is set to the entire file.</p>
+<p>Next, the function expands the range by three lines on either side. This is done to include some context around the selected lines or the entire file. The code ensures that the range does not go below 0 or above the maximum safe integer value in JavaScript.</p>
+<p>The function then converts the <code>filenameTarget</code> to a full path URI and retrieves any existing diagnostics for this file from the <code>problemCollection</code>. If no diagnostics exist, the function returns an empty array.</p>
+<p>If diagnostics do exist, the function filters them to include only those that fall within the expanded range of lines. These filtered diagnostics are then returned by the function.</p>
+<p>This function does not appear to use any specific algorithms. It uses basic control flow constructs and the built-in features of the VS Code API.</p>
+<p>Here are some useful links for further reading:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api#Diagnostic">VS Code API - Diagnostics</a></li>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api#DiagnosticCollection">VS Code API - DiagnosticCollection</a></li>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api#Selection">VS Code API - Selection</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER">JavaScript - Number.MAX_SAFE_INTEGER</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/2/functions.html#optional-parameters">TypeScript - Optional parameters and properties</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:21:32 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start  ;
+Start-->ExampleErrorPath;
+
+ExampleProcess-->End;
+ExampleErrorPath-->End;</pre>
+</code></pre><p>In the above code, the control flow starts at the function <code>getAnalysisProblemMetaDataForSourceTarget</code>. The function has two possible paths: <code>ExampleProcess</code> and <code>ExampleErrorPath</code>. The <code>ExampleProcess</code> path represents the successful execution of the function, where the <code>get sourceUri</code> operation is performed. The <code>ExampleErrorPath</code> path represents the case where there are no existing diagnostics or the scoped diagnostics are empty. Both paths lead to the end of the control flow.</p>
+<p>Note: The code provided does not contain any external library or non-standard function calls.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:24:53 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:26:46 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 288</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The use of <code>Number.MAX_SAFE_INTEGER</code> in the calculation of <code>targetEndLine</code> may lead to high memory usage if the selection end line is near this value.</p>
+<p><strong>Solution</strong>: Consider using a more reasonable maximum value based on the actual number of lines in the file.</p>
+</li>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 296</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The use of <code>Array.prototype.filter</code> to generate <code>scopedDiagnostics</code> may lead to inefficient CPU usage for large diagnostic collections.</p>
+<p><strong>Solution</strong>: Consider using a more efficient data structure for storing diagnostics, such as a binary search tree, or use a more efficient algorithm to find the relevant diagnostics.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:31:32 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 290</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: Potential exposure of user data through diagnostic logs. GDPR requires explicit user consent for data collection and usage.</p>
+<p><strong>Solution</strong>: Ensure that diagnostic logs do not contain user-specific data or obtain explicit user consent before logging such data.</p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 290</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: Potential exposure of sensitive data through diagnostic logs. PCI DSS requires protection of cardholder data environment.</p>
+<p><strong>Solution</strong>: Ensure that diagnostic logs do not contain sensitive cardholder data or encrypt such data before logging.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 290</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: Potential exposure of protected health information (PHI) through diagnostic logs. HIPAA requires protection of PHI.</p>
+<p><strong>Solution</strong>: Ensure that diagnostic logs do not contain PHI or encrypt such data before logging.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/extension/vscodeUtilities.ts line 170:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">interface</span> <span class="hljs-symbol">AnalysisInfo</span> {
+    count: number;
+    displayName: <span class="hljs-built_in">string</span>;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:17:37 AM PDT</p>
+<p>The code you&#39;ve provided is a TypeScript interface declaration. An interface in TypeScript is a way of defining a contract for a certain structure of an object. It&#39;s a powerful way to define custom types, and it&#39;s used extensively in TypeScript to enforce type safety and consistency throughout your codebase.</p>
+<p>Here&#39;s a breakdown of the code:</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">AnalysisInfo</span> {
+    <span class="hljs-attr">count</span>: <span class="hljs-built_in">number</span>;
+    <span class="hljs-attr">displayName</span>: <span class="hljs-built_in">string</span>;
+}
+</code></pre><ul>
+<li><p><code>interface AnalysisInfo</code>: This line is declaring an interface named <code>AnalysisInfo</code>. This name can then be used as a type elsewhere in your code.</p>
+</li>
+<li><p><code>count: number;</code>: This line is declaring a property named <code>count</code> on the <code>AnalysisInfo</code> interface. This property is expected to be of type <code>number</code>. Any object of type <code>AnalysisInfo</code> must have a <code>count</code> property that is a number.</p>
+</li>
+<li><p><code>displayName: string;</code>: This line is declaring a property named <code>displayName</code> on the <code>AnalysisInfo</code> interface. This property is expected to be of type <code>string</code>. Any object of type <code>AnalysisInfo</code> must have a <code>displayName</code> property that is a string.</p>
+</li>
+</ul>
+<p>This interface could be used to ensure that objects containing analysis information have a consistent structure throughout the codebase. For instance, you might have a function that takes an object of type <code>AnalysisInfo</code> as an argument, and you can be confident that the object will have the required properties.</p>
+<p>Here is an example of how you might use this interface:</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">displayAnalysisInfo</span>(<span class="hljs-params">info: AnalysisInfo</span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Analysis count: <span class="hljs-subst">${info.count}</span>`</span>);
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Display name: <span class="hljs-subst">${info.displayName}</span>`</span>);
+}
+
+<span class="hljs-keyword">let</span> <span class="hljs-attr">info</span>: <span class="hljs-title class_">AnalysisInfo</span> = {
+    <span class="hljs-attr">count</span>: <span class="hljs-number">10</span>,
+    <span class="hljs-attr">displayName</span>: <span class="hljs-string">&#x27;My Analysis&#x27;</span>
+};
+
+<span class="hljs-title function_">displayAnalysisInfo</span>(info);
+</code></pre><p>In this example, the <code>displayAnalysisInfo</code> function expects an argument of type <code>AnalysisInfo</code>. The <code>info</code> object is of type <code>AnalysisInfo</code>, so it can be passed to the <code>displayAnalysisInfo</code> function.</p>
+<p>For more information about interfaces in TypeScript, you can visit the official TypeScript documentation: <a href="https://www.typescriptlang.org/docs/handbook/interfaces.html">TypeScript - Interfaces</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:21:48 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style analyzeCode fill:#228B22, stroke:#000000, stroke-width:4px;
+style displayResults fill:#228B22, stroke:#000000, stroke-width:4px;
+style handleError fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->analyzeCode;
+analyzeCode-->displayResults;
+analyzeCode-->handleError;
+handleError-->displayResults;</pre>
+</code></pre><p>The control flow graph for the provided source code is as follows:</p>
+<ol>
+<li>The flow starts at the &quot;Start&quot; node.</li>
+<li>From the &quot;Start&quot; node, the flow goes to the &quot;analyzeCode&quot; node.</li>
+<li>From the &quot;analyzeCode&quot; node, the flow branches into two paths:<ul>
+<li>One path goes to the &quot;displayResults&quot; node.</li>
+<li>The other path goes to the &quot;handleError&quot; node.</li>
+</ul>
+</li>
+<li>From the &quot;handleError&quot; node, the flow goes to the &quot;displayResults&quot; node.</li>
+<li>The flow ends at the &quot;displayResults&quot; node.</li>
+</ol>
+<p>The primary path through the code is the path from the &quot;analyzeCode&quot; node to the &quot;displayResults&quot; node. This path represents the successful analysis of the code and the display of the results.</p>
+<p>The &quot;handleError&quot; node represents the error handling path, where errors encountered during the analysis are handled before displaying the results.</p>
+<p>Note: The function name being analyzed is not available in the provided code, so the flow starts at the &quot;Start&quot; node.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:24:57 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:26:50 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:31:45 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 338</p>
+<p><strong>Bug Type</strong>: Data Compliance</p>
+<p><strong>Description</strong>: The code does not seem to handle any sensitive or personal data, hence does not appear to directly violate GDPR, PCI DSS, or HIPAA compliance. However, it&#39;s important to ensure that &#39;displayName&#39; is not used to store sensitive information in the future.</p>
+<p><strong>Solution</strong>: Ensure that &#39;displayName&#39; does not store sensitive data. If it does, implement necessary encryption and anonymization techniques to protect the data. Also, ensure proper data handling measures are in place throughout the software.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/extension/vscodeUtilities.ts line 175:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">generateSingleLineSummaryForAnalysisData</span>(<span class="hljs-params">
+    extension : BoostExtension,
+    analysisNotebook : boostnb.BoostNotebook,
+    selection? : vscode.Selection</span>) : <span class="hljs-built_in">string</span> {
+    
+    <span class="hljs-keyword">const</span> analysisTypes = <span class="hljs-title function_">getAnalysisMetaDataForSourceTarget</span>(analysisNotebook, selection);
+    <span class="hljs-keyword">const</span> <span class="hljs-attr">analysisFound</span>: <span class="hljs-title class_">Record</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-title class_">AnalysisInfo</span>&gt; = {};
+    analysisTypes.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">outputType : ControllerOutputType</span>) =&gt;</span> {
+        analysisFound[outputType] = { 
+            <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-attr">displayName</span>: <span class="hljs-string">&quot;&quot;</span>
+        };
+    });
+
+    extension.<span class="hljs-property">kernels</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">kernel : KernelControllerBase</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span>( analysisFound[kernel.<span class="hljs-property">outputType</span>] !== <span class="hljs-literal">undefined</span> ) {
+            <span class="hljs-comment">//if we have one of these in our output, set the display name.</span>
+            analysisFound[kernel.<span class="hljs-property">outputType</span>].<span class="hljs-property">displayName</span> = kernel.<span class="hljs-property">displayCategory</span>;
+        } 
+        <span class="hljs-keyword">if</span> (!(kernel <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">FunctionKernelControllerBase</span>)) {
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-keyword">const</span> functionController = kernel <span class="hljs-keyword">as</span> <span class="hljs-title class_">FunctionKernelControllerBase</span>;
+
+        <span class="hljs-keyword">const</span> problemsIdentified = <span class="hljs-title function_">getAnalysisProblemMetaDataForSourceTarget</span>(
+            functionController.<span class="hljs-property">sourceLevelIssueCollection</span>, analysisNotebook.<span class="hljs-property">metadata</span>.<span class="hljs-property">sourceFile</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">string</span>, selection);
+
+        <span class="hljs-keyword">if</span> (problemsIdentified.<span class="hljs-property">length</span> === <span class="hljs-number">0</span>) {
+            <span class="hljs-keyword">delete</span> analysisFound[functionController.<span class="hljs-property">outputType</span>];
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (analysisFound[functionController.<span class="hljs-property">outputType</span>] !== <span class="hljs-literal">undefined</span>) {
+            analysisFound[functionController.<span class="hljs-property">outputType</span>].<span class="hljs-property">count</span> += problemsIdentified.<span class="hljs-property">length</span>;
+            analysisFound[functionController.<span class="hljs-property">outputType</span>].<span class="hljs-property">displayName</span> = functionController.<span class="hljs-property">displayCategory</span>;
+        }
+    });
+
+    <span class="hljs-keyword">const</span> <span class="hljs-attr">displayNameMap</span>: <span class="hljs-title class_">Map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">number</span>&gt; = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>();
+
+    <span class="hljs-comment">// Create a map with unique displayNames and their counts</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> [<span class="hljs-keyword">type</span>, info] <span class="hljs-keyword">of</span> <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">entries</span>(analysisFound) <span class="hljs-keyword">as</span> [<span class="hljs-built_in">string</span>, <span class="hljs-title class_">AnalysisInfo</span>][]) {
+        <span class="hljs-keyword">if</span> (displayNameMap.<span class="hljs-title function_">has</span>(info.<span class="hljs-property">displayName</span>)) {
+            <span class="hljs-keyword">if</span> (info.<span class="hljs-property">count</span> &gt; <span class="hljs-number">0</span>) {
+                <span class="hljs-keyword">const</span> existingCount = displayNameMap.<span class="hljs-title function_">get</span>(info.<span class="hljs-property">displayName</span>) || <span class="hljs-number">0</span>;
+                displayNameMap.<span class="hljs-title function_">set</span>(info.<span class="hljs-property">displayName</span>, existingCount + info.<span class="hljs-property">count</span>);
+            }
+        } <span class="hljs-keyword">else</span> {
+            displayNameMap.<span class="hljs-title function_">set</span>(info.<span class="hljs-property">displayName</span>, info.<span class="hljs-property">count</span>);
+        }
+    }
+    
+    <span class="hljs-comment">// Create the analysisItems based on the unique displayNames and their counts</span>
+    <span class="hljs-keyword">const</span> <span class="hljs-attr">analysisItems</span>: <span class="hljs-built_in">string</span>[] = [];
+    
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> [displayName, count] <span class="hljs-keyword">of</span> displayNameMap.<span class="hljs-title function_">entries</span>()) {
+        <span class="hljs-keyword">if</span> (count &gt; <span class="hljs-number">0</span>) {
+            analysisItems.<span class="hljs-title function_">push</span>(<span class="hljs-string">`<span class="hljs-subst">${displayName}</span>(<span class="hljs-subst">${count}</span>)`</span>);
+        } <span class="hljs-keyword">else</span> {
+            analysisItems.<span class="hljs-title function_">push</span>(displayName);
+        }
+    }
+    
+    <span class="hljs-keyword">const</span> analysisReport = analysisItems.<span class="hljs-title function_">join</span>(<span class="hljs-string">&quot;, &quot;</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${analysisReport}</span>`</span>;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:18:24 AM PDT</p>
+<p>This is a TypeScript function named <code>generateSingleLineSummaryForAnalysisData</code>. It is designed to generate a single line summary for the analysis data of a given code file. It takes three parameters:</p>
+<ol>
+<li><code>extension</code>: An instance of <code>BoostExtension</code> which represents the extension context.</li>
+<li><code>analysisNotebook</code>: An instance of <code>BoostNotebook</code> which represents the notebook where the analysis data is stored.</li>
+<li><code>selection</code>: An optional parameter representing a selected portion of the code file. If provided, the analysis will be limited to this selection.</li>
+</ol>
+<p>The function uses a mixture of functional and object-oriented programming paradigms. Below is a step-by-step explanation of the function:</p>
+<ol>
+<li><p>It calls the function <code>getAnalysisMetaDataForSourceTarget</code> to retrieve the metadata of the analysis for the given source target (either the whole file or the selected portion). This metadata includes the types of analysis performed.</p>
+</li>
+<li><p>It initializes an empty object <code>analysisFound</code> to store the count and display name for each type of analysis.</p>
+</li>
+<li><p>It iterates over each kernel in the extension. Kernels are the core computational units in a notebook and for this extension, each kernel represents a type of analysis.</p>
+</li>
+<li><p>If the kernel output type matches one of the analysis types, it updates the display name in <code>analysisFound</code>.</p>
+</li>
+<li><p>It checks if the kernel is an instance of <code>FunctionKernelControllerBase</code>. If it&#39;s not, it skips the remaining steps in the loop. If it is, it casts the kernel to <code>FunctionKernelControllerBase</code> to access its specific methods and properties.</p>
+</li>
+<li><p>It calls the function <code>getAnalysisProblemMetaDataForSourceTarget</code> to get the problems identified by the current kernel.</p>
+</li>
+<li><p>If no problems were identified, it removes the corresponding entry from <code>analysisFound</code>. If there were problems, it increments the count in <code>analysisFound</code> and sets the display name.</p>
+</li>
+<li><p>It creates a <code>Map</code> named <code>displayNameMap</code> to store unique display names and their counts.</p>
+</li>
+<li><p>It iterates over the entries in <code>analysisFound</code>, updating the counts in <code>displayNameMap</code>.</p>
+</li>
+<li><p>It creates an array <code>analysisItems</code> to store the final analysis items.</p>
+</li>
+<li><p>It iterates over the entries in <code>displayNameMap</code>, pushing each display name and count into <code>analysisItems</code>.</p>
+</li>
+<li><p>It joins the items in <code>analysisItems</code> into a string <code>analysisReport</code>, separated by commas.</p>
+</li>
+<li><p>Finally, it returns <code>analysisReport</code>.</p>
+</li>
+</ol>
+<p>The algorithm used in this function is a combination of iteration and condition checking. It iterates over the kernels and the analysis types, checking conditions to update the analysis counts and display names.</p>
+<p>For more information on TypeScript, refer to the <a href="https://www.typescriptlang.org/docs/handbook/intro.html">TypeScript Handbook</a>. For more information on Visual Studio Code Extensions, refer to the <a href="https://code.visualstudio.com/api">VS Code Extension API</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:23:36 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style FunctionKernelControllerBase fill:#228B22, stroke:#000000, stroke-width:4px;
+style AnalysisProblemMetaDataForSourceTarget fill:#228B22, stroke:#000000, stroke-width:4px;
+style AnalysisInfo fill:#228B22, stroke:#000000, stroke-width:4px;
+style AnalysisMetaDataForSourceTarget fill:#228B22, stroke:#000000, stroke-width:4px;
+style AnalysisNotebook fill:#228B22, stroke:#000000, stroke-width:4px;
+style BoostExtension fill:#228B22, stroke:#000000, stroke-width:4px;
+style ControllerOutputType fill:#228B22, stroke:#000000, stroke-width:4px;
+style KernelControllerBase fill:#228B22, stroke:#000000, stroke-width:4px;
+style FunctionKernelControllerBase fill:#228B22, stroke:#000000, stroke-width:4px;
+style Selection fill:#228B22, stroke:#000000, stroke-width:4px;
+style vscode.Selection fill:#228B22, stroke:#000000, stroke-width:4px;
+style getAnalysisMetaDataForSourceTarget fill:#228B22, stroke:#000000, stroke-width:4px;
+style getAnalysisProblemMetaDataForSourceTarget fill:#228B22, stroke:#000000, stroke-width:4px;
+style delete fill:#228B22, stroke:#000000, stroke-width:4px;
+style Map fill:#228B22, stroke:#000000, stroke-width:4px;
+style entries fill:#228B22, stroke:#000000, stroke-width:4px;
+style displayNameMap fill:#228B22, stroke:#000000, stroke-width:4px;
+style analysisItems fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->getAnalysisMetaDataForSourceTarget;
+Start-->getAnalysisProblemMetaDataForSourceTarget;
+getAnalysisMetaDataForSourceTarget-->AnalysisMetaDataForSourceTarget;
+getAnalysisProblemMetaDataForSourceTarget-->AnalysisProblemMetaDataForSourceTarget;
+AnalysisMetaDataForSourceTarget-->AnalysisNotebook;
+AnalysisProblemMetaDataForSourceTarget-->AnalysisNotebook;
+AnalysisNotebook-->BoostExtension;
+getAnalysisProblemMetaDataForSourceTarget-->FunctionKernelControllerBase;
+FunctionKernelControllerBase-->KernelControllerBase;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+FunctionKernelControllerBase-->AnalysisInfo;
+Function</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:25:00 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:27:21 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 355</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The use of &#39;forEach&#39; loop can lead to higher memory usage, especially when the dataset is large.</p>
+<p><strong>Solution</strong>: Consider using a &#39;for&#39; loop or &#39;for...of&#39; loop instead. These loops are generally faster and more efficient in terms of memory usage.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 365</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The &#39;instanceof&#39; operator is used inside a loop. This can be CPU-intensive if the loop iterates over a large number of elements.</p>
+<p><strong>Solution</strong>: If possible, try to avoid using &#39;instanceof&#39; inside loops. Consider using other methods to check the type of an object.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 380</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The &#39;Object.entries&#39; function is used inside a loop. This can be CPU-intensive if the object has a large number of properties.</p>
+<p><strong>Solution</strong>: Consider using a &#39;for...in&#39; loop to iterate over the object&#39;s properties. This can be more efficient in terms of CPU usage.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 391</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The use of &#39;push&#39; method in a loop can lead to high memory usage, especially when the dataset is large.</p>
+<p><strong>Solution</strong>: Consider using a different method to add elements to the array. For example, you could use the &#39;concat&#39; method, which can be more efficient in terms of memory usage.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 6:32:17 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 362</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The function &#39;generateSingleLineSummaryForAnalysisData&#39; processes analysis data which could include personal data, but it does not appear to have any data protection mechanisms in place. This could lead to a violation of the GDPR if personal data is mishandled.</p>
+<p><strong>Solution</strong>: Implement data protection mechanisms such as data anonymization or pseudonymization to protect personal data during processing. Also, ensure that personal data is only processed when necessary and that appropriate consent has been obtained if required.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 362</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The function &#39;generateSingleLineSummaryForAnalysisData&#39; could potentially process payment card data as part of its analysis data. However, it does not appear to have any controls in place to protect this data, which could lead to a violation of the PCI DSS.</p>
+<p><strong>Solution</strong>: Implement controls to protect payment card data. This could include encryption, tokenization, or other methods of data protection. Also, ensure that payment card data is only processed in a secure environment and that access to this data is strictly controlled.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 362</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The function &#39;generateSingleLineSummaryForAnalysisData&#39; could potentially process health information as part of its analysis data. However, it does not appear to have any controls in place to protect this data, which could lead to a violation of the HIPAA.</p>
+<p><strong>Solution</strong>: Implement controls to protect health information. This could include encryption, anonymization, or other methods of data protection. Also, ensure that health information is only processed in a secure environment and that access to this data is strictly controlled.</p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>

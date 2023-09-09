@@ -13,6 +13,54 @@
             "outputType": "explainCode",
             "details": []
           }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 5:54:29 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\n```\n\nThe code provided does not contain any control flow."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:54:44 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:54:59 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:55:36 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
         }
       ],
       "languageId": "shellscript",
@@ -36,6 +84,69 @@
           ],
           "metadata": {
             "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 5:54:35 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExampleErrorPath-->End;\n```\n\nIn this code, there is no control flow. It consists of a shell script that runs a test command in a loop for a specified number of iterations. If any test run fails, the script exits with an error. If all test runs pass, it prints \"All test runs passed.\""
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:54:47 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:55:09 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 6\n\n   **Bug Type**: Disk\n\n   **Description**: The 'npm run test' command is run in a loop. This command can be resource-intensive, as it might involve disk I/O operations such as reading and writing files.\n\n   **Solution**: Consider running tests in parallel if possible, or batch the tests to reduce disk I/O operations. You can use libraries like 'jest' or 'mocha' that supports running tests in parallel. Also consider using '--silent' flag to reduce unnecessary logging.\n\n\n2. **Severity**: 5/10\n\n   **Line Number**: 8\n\n   **Bug Type**: CPU\n\n   **Description**: The script checks for the exit status of 'npm run test' command after each iteration. This can cause unnecessary CPU usage.\n\n   **Solution**: Consider checking for the exit status only once after all iterations are done. This would reduce the CPU usage significantly. Alternatively, you can use a continuous integration (CI) system to run tests automatically and efficiently.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 5,
+                "severity": 7,
+                "bugType": "Disk",
+                "description": "The 'npm run test' command is run in a loop. This command can be resource-intensive, as it might involve disk I/O operations such as reading and writing files.",
+                "solution": "Consider running tests in parallel if possible, or batch the tests to reduce disk I/O operations. You can use libraries like 'jest' or 'mocha' that supports running tests in parallel. Also consider using '--silent' flag to reduce unnecessary logging."
+              },
+              {
+                "lineNumber": 7,
+                "severity": 5,
+                "bugType": "CPU",
+                "description": "The script checks for the exit status of 'npm run test' command after each iteration. This can cause unnecessary CPU usage.",
+                "solution": "Consider checking for the exit status only once after all iterations are done. This would reduce the CPU usage significantly. Alternatively, you can use a continuous integration (CI) system to run tests automatically and efficiently."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:55:39 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
             "details": []
           }
         }

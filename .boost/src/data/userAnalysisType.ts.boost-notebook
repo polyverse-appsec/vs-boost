@@ -1,0 +1,154 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 6:16:00 PM PDT\n\nThis code snippet is written in TypeScript, a statically typed superset of JavaScript. It defines an enumeration (enum) named `BoostUserAnalysisType`.\n\nAn enum is a special \"class\" that represents a group of constants (unchangeable/read-only variables). In TypeScript, enums are used to define a type that can have one of several predefined string or numeric values. \n\nHere's a breakdown of the code:\n\n1. `export`: This keyword is used to make the enum available for import in other modules or files in the project. This means that `BoostUserAnalysisType` can be used in other parts of the application outside of the file it is defined in.\n\n2. `enum`: This keyword is used to declare an enumeration.\n\n3. `BoostUserAnalysisType`: This is the name of the enum. By convention, the name of the enum is usually in PascalCase (i.e., the first letter of each word is capitalized).\n\n4. Inside the curly braces `{...}` are the enum members. Each member is associated with a string value. The members are:\n    - `blueprint`: Represents a blueprint analysis type.\n    - `security`: Represents a security analysis type.\n    - `documentation`: Represents a documentation analysis type.\n    - `compliance`: Represents a compliance analysis type.\n    - `performance`: Represents a performance analysis type.\n    - `deepCode`: Represents a deep code analysis type.\n\nThese enum members represent different types of code analysis that can be performed. By using an enum, the code becomes more readable and less error-prone as the TypeScript compiler can check that any value assigned to a `BoostUserAnalysisType` is one of the valid members.\n\nThis code doesn't contain any specific algorithms but uses the enum data structure provided by TypeScript. It's a simple yet effective way to group and manage a collection of related constants.\n\nFor more information on TypeScript enums, you can check out the official TypeScript documentation here: [TypeScript Enums](https://www.typescriptlang.org/docs/handbook/enums.html)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 6:16:43 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\n```\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:17:02 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:17:16 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:17:31 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "\nexport enum BoostUserAnalysisType {\n    blueprint = \"blueprint\",\n    security = \"security\",\n    documentation = \"documentation\",\n    compliance = \"compliance\",\n    performance = \"performance\",\n    deepCode = 'deepcode',\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 6:16:27 PM PDT\n\nThe provided code is a TypeScript enumeration, or `enum` for short. An `enum` is a special type of value in TypeScript that allows for a variable to be one of a set of predefined constants. The name of the `enum` is `DisplayGroupFriendlyName` and it has four members: `documentation`, `security`, `compliance`, and `deepcode`.\n\nEach member of the `enum` is associated with a string value. For example, `DisplayGroupFriendlyName.documentation` is associated with the string \"Documentation\". These string values are not necessary in TypeScript `enum`s, but they can be useful for display purposes or for serialization/deserialization.\n\nThis `enum` is likely used in the context of the Visual Studio Code extension to categorize different types of code analysis. For example, when the extension performs a code analysis, it could categorize the results into these four groups: Documentation, Security, Compliance, and Deep Code Analysis. The exact use of this `enum` would depend on the rest of the codebase, but this is a likely scenario based on the names of the `enum` members and the context provided.\n\nThis `enum` is exported, which means it can be imported and used in other parts of the codebase.\n\nAs for the architectural guidelines, this code is in line with standard TypeScript practices. It's a good practice to use `enum`s to represent a fixed set of values, which seems to be the case here. This makes the code more readable and maintainable, as it's clear what the possible values are for a `DisplayGroupFriendlyName`.\n\nFor more information about TypeScript `enum`s, you can visit the official TypeScript documentation: [TypeScript Enums](https://www.typescriptlang.org/docs/handbook/enums.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 6:16:48 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle EnumDeclaration fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle EnumMember fill:#228B22, stroke:#000000, stroke-width:2px;\n\nStart-->EnumDeclaration;\nEnumDeclaration-->EnumMember;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:17:05 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:17:20 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:17:34 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\nexport enum DisplayGroupFriendlyName {\n    documentation = \"Documentation\",\n    security = \"Security\",\n    compliance = \"Compliance\",\n    deepcode = \"Deep Code Analysis\",\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 9
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/data/userAnalysisType.ts"
+  }
+}

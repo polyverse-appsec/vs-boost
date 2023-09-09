@@ -1,0 +1,1154 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:31:45 PM PDT\n\nThis code is written in TypeScript, which is a statically typed superset of JavaScript. It is importing several libraries for use within this module.\n\nLet's break down each line:\n\n1. `import * as vscode from \"vscode\";` - This line is importing the entire module \"vscode\" which is a library for building extensions for Visual Studio Code. This library provides a set of APIs that allow you to interact with the Visual Studio Code editor.\n\n2. `import * as fs from \"fs\";` - This line is importing the \"fs\" module, which stands for \"File System\". This is a built-in Node.js module that provides an API for interacting with the file system in a manner closely modeled around standard POSIX functions.\n\n3. `import axios from \"axios\";` - This line is importing the \"axios\" library, which is a promise-based HTTP client for the browser and Node.js. It is used to make HTTP requests from Node.js to a server.\n\n4. `import axiosRetry from \"axios-retry\";` - This line is importing the \"axios-retry\" library, which is a plugin for axios that automatically retries failed requests.\n\n5. `import PQueue from \"p-queue\";` - This line is importing the \"p-queue\" library, which is a promise queue with concurrency control. It can be used to limit the number of promises that are concurrently executed.\n\n6. `import { mapError } from \"../utilities/error\";` - This line is importing a function named \"mapError\" from a module located at \"../utilities/error\". This function is likely used to handle or transform errors in a specific way.\n\nIn terms of algorithms, this code doesn't contain any. It is simply importing libraries and functions for use within this module. \n\nHere are some resources for further reading:\n\n- [VS Code API](https://code.visualstudio.com/api/references/vscode-api)\n- [Node.js fs module](https://nodejs.org/api/fs.html)\n- [Axios](https://github.com/axios/axios)\n- [Axios Retry](https://github.com/softonic/axios-retry)\n- [P-Queue](https://github.com/sindresorhus/p-queue)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:36:13 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExamplErrorPath-->End;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:38:05 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 3\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The 'fs' module is imported but not used in the provided code. If used improperly, it could lead to Insecure Direct Object References (IDOR) vulnerabilities, where an attacker can bypass authorization and access resources directly by modifying the value of a reference to an object.\n\n   **Solution**: If the 'fs' module is used, ensure that access controls are properly implemented to prevent unauthorized access to files. More information on IDOR can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control\n\n\n2. **Severity**: 8/10\n\n   **Line Number**: 3\n\n   **Bug Type**: Unvalidated Redirects and Forwards\n\n   **Description**: The 'axios' module is used for making HTTP requests. If not properly validated, it could lead to Unvalidated Redirects and Forwards vulnerabilities, where an attacker can redirect users to malicious websites.\n\n   **Solution**: Ensure that all redirects and forwards are validated and do not allow user-controllable data to dictate the destination. More information can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html\n\n\n3. **Severity**: 7/10\n\n   **Line Number**: 4\n\n   **Bug Type**: Cross-Site Request Forgery (CSRF)\n\n   **Description**: The 'axios-retry' module is used to retry failed HTTP requests. If not properly implemented, it could lead to Cross-Site Request Forgery (CSRF) vulnerabilities, where an attacker can trick a victim into performing actions on their behalf.\n\n   **Solution**: Ensure that CSRF tokens are used and validated for all state-changing requests. More information can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html\n\n\n4. **Severity**: 6/10\n\n   **Line Number**: 5\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The 'p-queue' module is used for managing promises. If not properly secured, it could lead to Insecure Direct Object References (IDOR) vulnerabilities, where an attacker can manipulate the queue and execute promises out of order.\n\n   **Solution**: Ensure that the promise queue is properly secured and cannot be manipulated by an attacker. More information on IDOR can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control\n\n\n5. **Severity**: 4/10\n\n   **Line Number**: 6\n\n   **Bug Type**: Improper Error Handling\n\n   **Description**: The 'mapError' function is used to map errors. If not properly implemented, it could lead to Improper Error Handling vulnerabilities, where an attacker can gain information about the system through error messages.\n\n   **Solution**: Ensure that error messages do not reveal sensitive information about the system. More information can be found here: https://owasp.org/www-community/Improper_Error_Handling\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 3,
+                "severity": 5,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The 'fs' module is imported but not used in the provided code. If used improperly, it could lead to Insecure Direct Object References (IDOR) vulnerabilities, where an attacker can bypass authorization and access resources directly by modifying the value of a reference to an object.",
+                "solution": "If the 'fs' module is used, ensure that access controls are properly implemented to prevent unauthorized access to files. More information on IDOR can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control"
+              },
+              {
+                "lineNumber": 3,
+                "severity": 8,
+                "bugType": "Unvalidated Redirects and Forwards",
+                "description": "The 'axios' module is used for making HTTP requests. If not properly validated, it could lead to Unvalidated Redirects and Forwards vulnerabilities, where an attacker can redirect users to malicious websites.",
+                "solution": "Ensure that all redirects and forwards are validated and do not allow user-controllable data to dictate the destination. More information can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html"
+              },
+              {
+                "lineNumber": 4,
+                "severity": 7,
+                "bugType": "Cross-Site Request Forgery (CSRF)",
+                "description": "The 'axios-retry' module is used to retry failed HTTP requests. If not properly implemented, it could lead to Cross-Site Request Forgery (CSRF) vulnerabilities, where an attacker can trick a victim into performing actions on their behalf.",
+                "solution": "Ensure that CSRF tokens are used and validated for all state-changing requests. More information can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html"
+              },
+              {
+                "lineNumber": 5,
+                "severity": 6,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The 'p-queue' module is used for managing promises. If not properly secured, it could lead to Insecure Direct Object References (IDOR) vulnerabilities, where an attacker can manipulate the queue and execute promises out of order.",
+                "solution": "Ensure that the promise queue is properly secured and cannot be manipulated by an attacker. More information on IDOR can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control"
+              },
+              {
+                "lineNumber": 6,
+                "severity": 4,
+                "bugType": "Improper Error Handling",
+                "description": "The 'mapError' function is used to map errors. If not properly implemented, it could lead to Improper Error Handling vulnerabilities, where an attacker can gain information about the system through error messages.",
+                "solution": "Ensure that error messages do not reveal sensitive information about the system. More information can be found here: https://owasp.org/www-community/Improper_Error_Handling"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:41:09 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 1\n\n   **Bug Type**: Memory\n\n   **Description**: The 'vscode', 'fs', 'axios', 'axios-retry', and 'p-queue' modules are all loaded at the start, regardless of whether they're used immediately. This could lead to unnecessary memory usage.\n\n   **Solution**: Consider using dynamic imports for modules that aren't immediately needed. This can help reduce initial memory usage. Refer to the dynamic import() function in JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#dynamic_imports\n\n\n2. **Severity**: 6/10\n\n   **Line Number**: 3\n\n   **Bug Type**: Network\n\n   **Description**: The 'axios' and 'axios-retry' libraries are used for making HTTP requests. If not properly configured, this could lead to performance issues such as retrying requests too quickly or too frequently.\n\n   **Solution**: Ensure that 'axios-retry' is correctly configured to avoid unnecessary network usage. Consider using an exponential backoff strategy for retrying requests. More details can be found here: https://github.com/softonic/axios-retry#options\n\n\n3. **Severity**: 4/10\n\n   **Line Number**: 4\n\n   **Bug Type**: CPU\n\n   **Description**: The 'p-queue' library is used for managing promise-based tasks. If not properly configured, this could lead to CPU performance issues, such as running too many tasks concurrently.\n\n   **Solution**: Ensure that 'p-queue' is correctly configured to avoid unnecessary CPU usage. Consider limiting the concurrency based on the system's capabilities. More details can be found here: https://www.npmjs.com/package/p-queue#options\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 1,
+                "severity": 5,
+                "bugType": "Memory",
+                "description": "The 'vscode', 'fs', 'axios', 'axios-retry', and 'p-queue' modules are all loaded at the start, regardless of whether they're used immediately. This could lead to unnecessary memory usage.",
+                "solution": "Consider using dynamic imports for modules that aren't immediately needed. This can help reduce initial memory usage. Refer to the dynamic import() function in JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#dynamic_imports"
+              },
+              {
+                "lineNumber": 3,
+                "severity": 6,
+                "bugType": "Network",
+                "description": "The 'axios' and 'axios-retry' libraries are used for making HTTP requests. If not properly configured, this could lead to performance issues such as retrying requests too quickly or too frequently.",
+                "solution": "Ensure that 'axios-retry' is correctly configured to avoid unnecessary network usage. Consider using an exponential backoff strategy for retrying requests. More details can be found here: https://github.com/softonic/axios-retry#options"
+              },
+              {
+                "lineNumber": 4,
+                "severity": 4,
+                "bugType": "CPU",
+                "description": "The 'p-queue' library is used for managing promise-based tasks. If not properly configured, this could lead to CPU performance issues, such as running too many tasks concurrently.",
+                "solution": "Ensure that 'p-queue' is correctly configured to avoid unnecessary CPU usage. Consider limiting the concurrency based on the system's capabilities. More details can be found here: https://www.npmjs.com/package/p-queue#options"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:44:00 PM PDT\n\n1. **Severity**: 8/10\n\n   **Line Number**: 2\n\n   **Bug Type**: Data Compliance\n\n   **Description**: The 'fs' module can be used to read and write files, which could include sensitive information. Without proper access controls and encryption, this could lead to violations of GDPR, PCI DSS, and HIPAA.\n\n   **Solution**: Ensure that proper access controls are in place when reading and writing files, and that sensitive data is encrypted at rest. Use of a secure file system module or library that automatically handles these concerns is recommended.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 3\n\n   **Bug Type**: Data Compliance\n\n   **Description**: Axios is used for HTTP requests, which could include sending sensitive data. If data is sent over an insecure connection or without proper access controls, this could violate GDPR, PCI DSS, and HIPAA.\n\n   **Solution**: Ensure that all data sent over HTTP is done over a secure connection (HTTPS), and that proper access controls and authentication are in place. Use of a secure HTTP library that automatically handles these concerns is recommended.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 2,
+                "severity": 8,
+                "bugType": "Data Compliance",
+                "description": "The 'fs' module can be used to read and write files, which could include sensitive information. Without proper access controls and encryption, this could lead to violations of GDPR, PCI DSS, and HIPAA.",
+                "solution": "Ensure that proper access controls are in place when reading and writing files, and that sensitive data is encrypted at rest. Use of a secure file system module or library that automatically handles these concerns is recommended.",
+                "webLink": "https://www.npmjs.com/package/fs-extra"
+              },
+              {
+                "lineNumber": 3,
+                "severity": 7,
+                "bugType": "Data Compliance",
+                "description": "Axios is used for HTTP requests, which could include sending sensitive data. If data is sent over an insecure connection or without proper access controls, this could violate GDPR, PCI DSS, and HIPAA.",
+                "solution": "Ensure that all data sent over HTTP is done over a secure connection (HTTPS), and that proper access controls and authentication are in place. Use of a secure HTTP library that automatically handles these concerns is recommended.",
+                "webLink": "https://www.npmjs.com/package/axios"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as vscode from \"vscode\";\nimport * as fs from \"fs\";\nimport axios from \"axios\";\nimport axiosRetry from \"axios-retry\";\nimport PQueue from \"p-queue\";\nimport { mapError } from \"../utilities/error\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:32:15 PM PDT\n\nThis code is a simple import statement in JavaScript (or TypeScript, given the context). It imports three entities - `BoostNotebook`, `BoostNotebookCell`, and `NOTEBOOK_GUIDELINES_PRE_EXTENSION` - from a module located at `../data/jupyter_notebook`.\n\nThe `import` statement is a part of ES6 (ECMAScript 2015) modules syntax and is used to import bindings which are exported by another module (i.e., another JavaScript file). \n\nHere's a breakdown of what's being imported:\n\n1. `BoostNotebook`: This is likely a class or a function that encapsulates the functionality related to a BoostNotebook. \n\n2. `BoostNotebookCell`: This is likely a class or a function that deals with a cell in a BoostNotebook. In Jupyter notebooks, a cell is a container for text to be displayed in the notebook or code to be executed by the notebook’s kernel.\n\n3. `NOTEBOOK_GUIDELINES_PRE_EXTENSION`: This is likely a constant that holds a value related to the notebook guidelines. The naming convention suggests that it is a constant, as it is all in upper case with words separated by underscores.\n\nThe path `../data/jupyter_notebook` is a relative path that points to the `jupyter_notebook` JavaScript file in the `data` directory one level up from the current directory.\n\nThere are no algorithms used in this code, as it's just an import statement. However, it's important to note that the imported entities might be used in algorithms in the rest of the code.\n\nAs for architectural guidelines, this code seems to be in line with common JavaScript and TypeScript practices. The imports are grouped together at the top of the file, which is a common practice for better organization and readability of the code. \n\nFor more information about ES6 modules and import/export statements, you can refer to this resource: [MDN Web Docs: import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:36:20 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle BoostNotebook fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle BoostNotebookCell fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle NOTEBOOK_GUIDELINES_PRE_EXTENSION fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->BoostNotebook;\nBoostNotebook-->BoostNotebookCell;\nBoostNotebookCell-->NOTEBOOK_GUIDELINES_PRE_EXTENSION;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:38:08 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:41:18 PM PDT\n\n1. **Severity**: 1/10\n\n   **Line Number**: 12\n\n   **Bug Type**: Memory\n\n   **Description**: The code imports several modules but does not use them. This could lead to unnecessary memory usage.\n\n   **Solution**: Remove unused imports to save memory. Only import the modules that are necessary for the code to function.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 6,
+                "severity": 1,
+                "bugType": "Memory",
+                "description": "The code imports several modules but does not use them. This could lead to unnecessary memory usage.",
+                "solution": "Remove unused imports to save memory. Only import the modules that are necessary for the code to function."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:44:40 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 12\n\n   **Bug Type**: GDPR\n\n   **Description**: The import of BoostNotebook, BoostNotebookCell, and NOTEBOOK_GUIDELINES_PRE_EXTENSION from '../data/jupyter_notebook' could potentially lead to GDPR compliance issues if these objects are used to process or store personal data of EU citizens without proper consent or security measures.\n\n   **Solution**: Ensure that any personal data processed or stored using these objects is done so in compliance with GDPR regulations. This includes obtaining proper consent from the data subject and implementing appropriate security measures to protect the data. Also, consider anonymizing or pseudonymizing personal data where possible to further reduce the risk of non-compliance.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 12\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If BoostNotebook or BoostNotebookCell are used to process, store, or transmit cardholder data, this could lead to PCI DSS compliance issues. PCI DSS requires that cardholder data be protected with strong encryption and access controls.\n\n   **Solution**: Ensure that any cardholder data processed, stored, or transmitted using these objects is done so in compliance with PCI DSS requirements. This includes encrypting the data and implementing strong access controls. Additionally, avoid storing sensitive authentication data, such as full magnetic stripe data, card verification codes or values, and PINs or PIN blocks.\n\n\n3. **Severity**: 8/10\n\n   **Line Number**: 12\n\n   **Bug Type**: HIPAA\n\n   **Description**: If BoostNotebook or BoostNotebookCell are used to process, store, or transmit protected health information (PHI), this could lead to HIPAA compliance issues. HIPAA requires that PHI be protected with strong encryption and access controls, and that it be shared only with authorized individuals.\n\n   **Solution**: Ensure that any PHI processed, stored, or transmitted using these objects is done so in compliance with HIPAA regulations. This includes encrypting the data, implementing strong access controls, and sharing the data only with authorized individuals. Also, consider de-identifying PHI where possible to further reduce the risk of non-compliance.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 6,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "The import of BoostNotebook, BoostNotebookCell, and NOTEBOOK_GUIDELINES_PRE_EXTENSION from '../data/jupyter_notebook' could potentially lead to GDPR compliance issues if these objects are used to process or store personal data of EU citizens without proper consent or security measures.",
+                "solution": "Ensure that any personal data processed or stored using these objects is done so in compliance with GDPR regulations. This includes obtaining proper consent from the data subject and implementing appropriate security measures to protect the data. Also, consider anonymizing or pseudonymizing personal data where possible to further reduce the risk of non-compliance.",
+                "webLink": "https://gdpr.eu/what-is-gdpr/"
+              },
+              {
+                "lineNumber": 6,
+                "severity": 7,
+                "bugType": "PCI DSS",
+                "description": "If BoostNotebook or BoostNotebookCell are used to process, store, or transmit cardholder data, this could lead to PCI DSS compliance issues. PCI DSS requires that cardholder data be protected with strong encryption and access controls.",
+                "solution": "Ensure that any cardholder data processed, stored, or transmitted using these objects is done so in compliance with PCI DSS requirements. This includes encrypting the data and implementing strong access controls. Additionally, avoid storing sensitive authentication data, such as full magnetic stripe data, card verification codes or values, and PINs or PIN blocks.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 6,
+                "severity": 8,
+                "bugType": "HIPAA",
+                "description": "If BoostNotebook or BoostNotebookCell are used to process, store, or transmit protected health information (PHI), this could lead to HIPAA compliance issues. HIPAA requires that PHI be protected with strong encryption and access controls, and that it be shared only with authorized individuals.",
+                "solution": "Ensure that any PHI processed, stored, or transmitted using these objects is done so in compliance with HIPAA regulations. This includes encrypting the data, implementing strong access controls, and sharing the data only with authorized individuals. Also, consider de-identifying PHI where possible to further reduce the risk of non-compliance.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\nimport {\n    BoostNotebook,\n    BoostNotebookCell,\n    NOTEBOOK_GUIDELINES_PRE_EXTENSION,\n} from \"../data/jupyter_notebook\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 6
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:32:46 PM PDT\n\nThe code snippet provided is very short and part of a larger context, but I'll explain what I can.\n\nThis line of code is written in TypeScript, which is a statically typed superset of JavaScript. TypeScript adds static types, classes, and modules to JavaScript, providing better tooling and helping with large-scale application development.\n\nThe line of code is an import statement, which is used to import bindings that are exported by another module. Here, it imports two items: `getBoostFile` and `BoostFileType` from the module located at `../extension/extension`.\n\n1. `getBoostFile`: This is likely a function that retrieves a file related to the \"Boost\" functionality of the software. Without more context, it's hard to say exactly what this function does. But based on its name, it probably takes some arguments that specify which file to get and returns that file or information about that file.\n\n2. `BoostFileType`: This is likely a data type or an enumeration that represents different types of \"Boost\" files. Enumerations (enums) are a feature added by TypeScript that's not present in regular JavaScript. They allow a developer to define a type that has a limited set of predefined values. In this case, `BoostFileType` might have values like `CONFIG`, `DATA`, `CACHE`, etc., representing different types of files that the \"Boost\" functionality might work with.\n\nRegarding the architectural guidelines, this line of code seems to be consistent with the general principles mentioned in the architectural blueprint summary. It uses TypeScript and object-oriented design, as the imported items could be a function and an enum, which are typical constructs in object-oriented programming. The code is also well-structured, as it organizes related functionality into modules and uses import statements to access that functionality where needed.\n\nFor more information on TypeScript and its features, you can refer to the TypeScript documentation: https://www.typescriptlang.org/docs/\n\nFor more information on modules in JavaScript/TypeScript, you can refer to the MDN Web Docs: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:36:24 PM PDT\n\n```mermaid\ngraph TD;\nstyle getBoostFile fill:#228B22, stroke:#000000, stroke-width:2px;\n\ngetBoostFile-->BoostFileType;\n```\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:38:12 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:41:22 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:44:53 PM PDT\n\n1. **Severity**: 3/10\n\n   **Line Number**: 24\n\n   **Bug Type**: Data Compliance\n\n   **Description**: The function 'getBoostFile' is potentially accessing file data, but there are no visible safeguards or checks in place to ensure that the data accessed is compliant with GDPR, PCI DSS, and HIPAA standards. This could potentially expose sensitive user data.\n\n   **Solution**: Implement access controls and data anonymization techniques to ensure that any data accessed is compliant with GDPR, PCI DSS, and HIPAA. Additionally, ensure that any data accessed is necessary for the function to perform its task to adhere to the principle of data minimization.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 12,
+                "severity": 3,
+                "bugType": "Data Compliance",
+                "description": "The function 'getBoostFile' is potentially accessing file data, but there are no visible safeguards or checks in place to ensure that the data accessed is compliant with GDPR, PCI DSS, and HIPAA standards. This could potentially expose sensitive user data.",
+                "solution": "Implement access controls and data anonymization techniques to ensure that any data accessed is compliant with GDPR, PCI DSS, and HIPAA. Additionally, ensure that any data accessed is necessary for the function to perform its task to adhere to the principle of data minimization."
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import { getBoostFile, BoostFileType } from \"../extension/extension\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 12
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:33:10 PM PDT\n\nThe line of code you provided is an import statement in TypeScript. This line is importing the `BoostConfiguration` class from the `boostConfiguration` module located in the `extension` directory relative to the file where this import statement is used.\n\nHere's a detailed explanation:\n\n- `import`: This is a keyword in JavaScript and TypeScript that is used to import bindings which are exported by another module. \n\n- `{ BoostConfiguration }`: This is a named import. It means that we're importing a specific export, named `BoostConfiguration`, from the module. `BoostConfiguration` is expected to be a class, function, or variable that has been exported from the `boostConfiguration` module.\n\n- `from`: This is another keyword used in the import statement. It is used to specify the path to the module from which we want to import.\n\n- `\"../extension/boostConfiguration\"`: This is the path to the module we're importing from. The `\"../\"` part of the path means we're going up one directory from the current file. Then we're going into the `extension` directory and importing from the `boostConfiguration` module. The `.ts` or `.js` extension is omitted as per standard practice.\n\nIt's important to note that the code snippet you provided doesn't contain any algorithms. It is simply a statement to include a specific class from another module to be used in the current module.\n\nFor more information about modules and import/export in TypeScript, you can refer to the [official TypeScript documentation](https://www.typescriptlang.org/docs/handbook/modules.html)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:36:27 PM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:38:15 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:41:25 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:45:23 PM PDT\n\n1. **Severity**: 4/10\n\n   **Line Number**: 26\n\n   **Bug Type**: GDPR\n\n   **Description**: The BoostConfiguration file may contain sensitive user data that if not properly protected could be a violation of GDPR compliance. GDPR requires that personal data is processed in a way that ensures appropriate security, including protection against unauthorized or unlawful processing, accidental loss, destruction or damage.\n\n   **Solution**: Ensure that any personal data stored in the BoostConfiguration file is encrypted and access to it is restricted. Additionally, implement a mechanism for users to request their data be deleted.\n\n\n2. **Severity**: 5/10\n\n   **Line Number**: 26\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If the BoostConfiguration file contains cardholder data and is not properly secured, this could be a violation of PCI DSS compliance. PCI DSS requires that cardholder data is stored securely and that access to it is restricted.\n\n   **Solution**: Ensure that any cardholder data stored in the BoostConfiguration file is encrypted and access to it is restricted. Additionally, do not store sensitive authentication data after authorization.\n\n\n3. **Severity**: 6/10\n\n   **Line Number**: 26\n\n   **Bug Type**: HIPAA\n\n   **Description**: If the BoostConfiguration file contains protected health information (PHI) and is not properly secured, this could be a violation of HIPAA compliance. HIPAA requires that PHI is stored securely and that access to it is restricted.\n\n   **Solution**: Ensure that any PHI stored in the BoostConfiguration file is encrypted and access to it is restricted. Additionally, implement a mechanism for users to request their data be deleted.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 13,
+                "severity": 4,
+                "bugType": "GDPR",
+                "description": "The BoostConfiguration file may contain sensitive user data that if not properly protected could be a violation of GDPR compliance. GDPR requires that personal data is processed in a way that ensures appropriate security, including protection against unauthorized or unlawful processing, accidental loss, destruction or damage.",
+                "solution": "Ensure that any personal data stored in the BoostConfiguration file is encrypted and access to it is restricted. Additionally, implement a mechanism for users to request their data be deleted.",
+                "webLink": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 13,
+                "severity": 5,
+                "bugType": "PCI DSS",
+                "description": "If the BoostConfiguration file contains cardholder data and is not properly secured, this could be a violation of PCI DSS compliance. PCI DSS requires that cardholder data is stored securely and that access to it is restricted.",
+                "solution": "Ensure that any cardholder data stored in the BoostConfiguration file is encrypted and access to it is restricted. Additionally, do not store sensitive authentication data after authorization.",
+                "webLink": "https://www.pcisecuritystandards.org/document_library"
+              },
+              {
+                "lineNumber": 13,
+                "severity": 6,
+                "bugType": "HIPAA",
+                "description": "If the BoostConfiguration file contains protected health information (PHI) and is not properly secured, this could be a violation of HIPAA compliance. HIPAA requires that PHI is stored securely and that access to it is restricted.",
+                "solution": "Ensure that any PHI stored in the BoostConfiguration file is encrypted and access to it is restricted. Additionally, implement a mechanism for users to request their data be deleted.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "import { BoostConfiguration } from \"../extension/boostConfiguration\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 13
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:33:40 PM PDT\n\nThe line of code you've provided is an import statement in JavaScript, specifically for a module that is part of the ECMAScript 2015 (ES6) specification. This line of code is used to import functionality from another JavaScript file into the current file.\n\nLet's break down the components of this import statement:\n\n- `import`: This is the keyword that begins the statement. It tells the JavaScript interpreter that we want to bring in some functionality from another module.\n\n- `{ boostLogging }`: This is the specific function or object that we want to import from the module. The use of curly braces `{}` indicates that we are using named imports, which means we are importing specific exports from the module. In this case, we are importing the `boostLogging` function or object.\n\n- `from \"../utilities/boostLogging\"`: This part of the statement tells us where the module is that we want to import from. The string `../utilities/boostLogging` is a relative file path to the module. The `..` means to go up one directory level, `utilities` is a directory at that level, and `boostLogging` is the file we want to import from (presumably `boostLogging.js` or `boostLogging.ts` since the extensions are typically omitted in import statements).\n\nThe purpose of this line of code is to make the `boostLogging` function or object available for use in the current file. The `boostLogging` function or object is likely used for logging operations within the Boost VS Code extension, based on the naming convention.\n\nAs for the architectural guidelines, this line of code appears to be in line with standard practices for a Visual Studio Code extension written in JavaScript/TypeScript. It's organized and makes use of modules, which are a fundamental part of structuring large JavaScript/TypeScript applications.\n\nFor more information on JavaScript modules and import statements, you can refer to the following resources:\n\n- [MDN Web Docs: import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [JavaScript Modules: A Beginner’s Guide](https://medium.com/@timoxley/named-exports-as-the-default-export-api-670b1b554f65)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:36:30 PM PDT\n\n```mermaid\ngraph TD;\nstyle boostLogging fill:#228B22, stroke:#000000, stroke-width:2px;\n\nboostLogging\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:38:18 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:41:28 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:45:27 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "import { boostLogging } from \"../utilities/boostLogging\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 14
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:33:57 PM PDT\n\nThe given code snippet is quite short and simple. It's written in JavaScript or TypeScript, and it's using ES6 import syntax to import two functions from another module located at \"../utilities/authorization\".\n\n1. `fetchGithubSession`: This function is likely used to initiate or retrieve a session with GitHub. The specifics of what it does would depend on the implementation in the \"authorization\" module, but it might involve making a request to the GitHub API to authenticate a user and start a session, or it could retrieve an existing session if one is already active.\n\n2. `getCurrentOrganization`: This function probably retrieves information about the current GitHub organization that the user is interacting with. Again, the specifics would depend on the implementation in the \"authorization\" module, but it might involve making a request to the GitHub API to get information about the organization.\n\nThese functions are likely part of a larger system that interacts with GitHub, perhaps to fetch, analyze, or modify code repositories. They are part of the authorization utility, which suggests that they are related to user authentication and permissions.\n\nAs for algorithms, given the limited context, it's hard to say. These functions could use any number of algorithms to do their job, depending on the specifics of what they need to do. For example, `fetchGithubSession` might use an algorithm to securely transmit user credentials to GitHub, while `getCurrentOrganization` might use an algorithm to parse the response from the GitHub API.\n\nHere are some resources for further reading:\n\n- [JavaScript Modules: An Introduction](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules): This is a guide to JavaScript modules, which are a way to share code between different parts of a JavaScript program.\n- [GitHub API documentation](https://docs.github.com/en/rest): This is the documentation for the GitHub API, which these functions are likely interacting with.\n- [Understanding the GitHub flow](https://guides.github.com/introduction/flow/): This guide explains how GitHub is typically used to manage software projects, which might provide some context for what these functions are doing."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:36:35 PM PDT\n\n```mermaid\ngraph TD;\nstyle fetchGithubSession fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle getCurrentOrganization fill:#228B22, stroke:#000000, stroke-width:2px;\n\n    Start-->fetchGithubSession;\n    Start-->getCurrentOrganization;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:38:22 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:41:31 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:45:58 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 30\n\n   **Bug Type**: GDPR\n\n   **Description**: The code imports a function that fetches a Github session, which may involve processing personal data without explicit consent. This could violate GDPR rules.\n\n   **Solution**: Ensure that the user has given explicit consent before processing their personal data. Use a clear and easily accessible form for the user to provide their consent. Always provide an option for the user to withdraw their consent.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 30\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The code imports a function that fetches a Github session, which may involve processing payment card data without proper security measures. This could violate PCI DSS rules.\n\n   **Solution**: Ensure that all payment card data is encrypted during transmission and storage. Implement a secure coding policy to prevent common security vulnerabilities. Regularly test and update your systems to maintain a high level of security.\n\n\n3. **Severity**: 6/10\n\n   **Line Number**: 30\n\n   **Bug Type**: HIPAA\n\n   **Description**: The code imports a function that fetches a Github session, which may involve processing protected health information without proper security measures. This could violate HIPAA rules.\n\n   **Solution**: Ensure that all protected health information is encrypted during transmission and storage. Implement a secure coding policy to prevent common security vulnerabilities. Regularly test and update your systems to maintain a high level of security.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 15,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The code imports a function that fetches a Github session, which may involve processing personal data without explicit consent. This could violate GDPR rules.",
+                "solution": "Ensure that the user has given explicit consent before processing their personal data. Use a clear and easily accessible form for the user to provide their consent. Always provide an option for the user to withdraw their consent.",
+                "webLink": "https://gdpr-info.eu/art-6-gdpr/"
+              },
+              {
+                "lineNumber": 15,
+                "severity": 7,
+                "bugType": "PCI DSS",
+                "description": "The code imports a function that fetches a Github session, which may involve processing payment card data without proper security measures. This could violate PCI DSS rules.",
+                "solution": "Ensure that all payment card data is encrypted during transmission and storage. Implement a secure coding policy to prevent common security vulnerabilities. Regularly test and update your systems to maintain a high level of security.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/maintaining_payment_security"
+              },
+              {
+                "lineNumber": 15,
+                "severity": 6,
+                "bugType": "HIPAA",
+                "description": "The code imports a function that fetches a Github session, which may involve processing protected health information without proper security measures. This could violate HIPAA rules.",
+                "solution": "Ensure that all protected health information is encrypted during transmission and storage. Implement a secure coding policy to prevent common security vulnerabilities. Regularly test and update your systems to maintain a high level of security.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "import { fetchGithubSession, getCurrentOrganization } from \"../utilities/authorization\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 15
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:34:26 PM PDT\n\nThe line of code you've provided is an import statement written in TypeScript, a statically typed superset of JavaScript. This statement is used to import a specific component from another module in the project. \n\nThe component being imported is `BoostAuthenticationException`, which is presumably a class or function that handles a specific type of exception related to authentication in the Boost application. The exception handling could be used to catch and handle errors that occur during user authentication, such as incorrect login credentials or a server error during the authentication process.\n\nThe module from which this component is being imported is located at `../controllers/customerPortal`. The `../` part of the path indicates that the module is located in a directory one level up from the current file. The `controllers/customerPortal` part of the path indicates that the module is in a file named `customerPortal` in a directory named `controllers`.\n\nThe exception handling mechanism used in this code is a fundamental part of error handling in many programming languages, including TypeScript and JavaScript. When an error occurs during the execution of a program, an exception is thrown. This exception can be caught and handled using try-catch blocks. If the exception is not caught, it will propagate up the call stack, potentially causing the program to terminate.\n\nFor more information on exception handling in TypeScript, you can refer to the [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#non-null-assertion-operator) and the [MDN Web Docs on JavaScript error handling](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling#exception_handling_statements). \n\nAs for the architectural guidelines given, since no specific guidelines or constraints are provided, the import statement appears to be in line with common best practices for modular programming. It promotes separation of concerns by importing only the necessary component from the module, rather than the entire module. It also appears to follow a logical file structure, with related files grouped into directories. However, without more context or guidelines, it's difficult to provide a more detailed analysis."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:36:39 PM PDT\n\n```mermaid\ngraph TD;\nstyle BoostAuthenticationException fill:#B22222, stroke:#000000, stroke-width:2px;\n\n    BoostAuthenticationException\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:38:25 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:41:35 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:46:30 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 32\n\n   **Bug Type**: GDPR\n\n   **Description**: The import statement for 'BoostAuthenticationException' may imply that the application is handling user authentication data, which could potentially contain sensitive personal data. If not handled correctly, this could lead to GDPR compliance issues.\n\n   **Solution**: Ensure that any authentication data, especially personal data, is processed in compliance with GDPR principles. This includes data minimization, purpose limitation, and ensuring proper security measures. For instance, never store passwords in plain text, always use secure methods like hashing and salting.\n\n\n2. **Severity**: 3/10\n\n   **Line Number**: 32\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If the application processes, stores or transmits cardholder data, it must comply with the Payment Card Industry Data Security Standard (PCI DSS). The import of 'BoostAuthenticationException' does not directly indicate a PCI DSS issue, but the application's handling of authentication data could potentially impact PCI DSS compliance if cardholder data is involved.\n\n   **Solution**: Ensure that any cardholder data is securely handled according to the PCI DSS requirements. This includes encryption of cardholder data, secure systems and networks, and regular testing of security systems.\n\n\n3. **Severity**: 4/10\n\n   **Line Number**: 32\n\n   **Bug Type**: HIPAA\n\n   **Description**: The import statement for 'BoostAuthenticationException' may imply that the application is handling user authentication data. If this data includes Protected Health Information (PHI), it could potentially lead to HIPAA compliance issues.\n\n   **Solution**: Ensure that any PHI is processed in compliance with HIPAA regulations. This includes implementing necessary safeguards to protect the confidentiality, integrity, and availability of PHI, and ensuring that PHI is not disclosed without the individual's authorization.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 16,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "The import statement for 'BoostAuthenticationException' may imply that the application is handling user authentication data, which could potentially contain sensitive personal data. If not handled correctly, this could lead to GDPR compliance issues.",
+                "solution": "Ensure that any authentication data, especially personal data, is processed in compliance with GDPR principles. This includes data minimization, purpose limitation, and ensuring proper security measures. For instance, never store passwords in plain text, always use secure methods like hashing and salting.",
+                "webLink": "https://gdpr.eu/data-processing-principles/"
+              },
+              {
+                "lineNumber": 16,
+                "severity": 3,
+                "bugType": "PCI DSS",
+                "description": "If the application processes, stores or transmits cardholder data, it must comply with the Payment Card Industry Data Security Standard (PCI DSS). The import of 'BoostAuthenticationException' does not directly indicate a PCI DSS issue, but the application's handling of authentication data could potentially impact PCI DSS compliance if cardholder data is involved.",
+                "solution": "Ensure that any cardholder data is securely handled according to the PCI DSS requirements. This includes encryption of cardholder data, secure systems and networks, and regular testing of security systems.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 16,
+                "severity": 4,
+                "bugType": "HIPAA",
+                "description": "The import statement for 'BoostAuthenticationException' may imply that the application is handling user authentication data. If this data includes Protected Health Information (PHI), it could potentially lead to HIPAA compliance issues.",
+                "solution": "Ensure that any PHI is processed in compliance with HIPAA regulations. This includes implementing necessary safeguards to protect the confidentiality, integrity, and availability of PHI, and ensuring that PHI is not disclosed without the individual's authorization.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "import { BoostAuthenticationException } from \"../controllers/customerPortal\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 16
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:34:51 PM PDT\n\nThe provided code snippet is very brief and straightforward. It's written in TypeScript, a statically typed superset of JavaScript that adds types to the language. TypeScript helps with catching errors at compile time rather than at runtime, making it easier to write robust code.\n\nThis line of code is an import statement. It's used to include external modules or dependencies into the current file or module. In this case, it's importing an interface named `IAnalysisContextData` from a module located at `../data/IAnalysisContextData`.\n\nThe interface `IAnalysisContextData` is a custom type definition, which is used to specify the shape of an object. While the specific details of this interface are not provided in the snippet, it can be inferred that the interface is used to define the data structure for analysis context data in the application.\n\nLet's break it down:\n\n- `import`: This is a keyword in JavaScript and TypeScript used to import functionality from another module or file.\n\n- `{ IAnalysisContextData }`: This is the specific item being imported. The curly braces are used for named exports. In this case, `IAnalysisContextData` is a named export from the module we are importing from.\n\n- `from \"../data/IAnalysisContextData\"`: This is the relative path to the file or module that contains the export we are importing. The `..` at the beginning of the path indicates that we are going up one level in the directory structure.\n\nThe architectural guidelines provided do not specify any constraints or guidelines that would directly impact this line of code.\n\nFor more information on TypeScript interfaces and import statements, you can refer to the following resources:\n\n- [TypeScript Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html)\n- [JavaScript `import` statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:36:44 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:38:28 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:41:38 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:47:03 PM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 34\n\n   **Bug Type**: GDPR\n\n   **Description**: The code imports a module that deals with Analysis Context Data. If this data includes personal data of EU citizens, it might be subject to GDPR. However, from this single line of code, it's not clear if any personal data is processed and if it is processed in a GDPR-compliant way.\n\n   **Solution**: Ensure that any personal data processed by IAnalysisContextData is handled in a GDPR compliant way. This includes obtaining explicit consent for data processing, implementing data minimization principles, and providing a way for users to request data deletion.\n\n\n2. **Severity**: 2/10\n\n   **Line Number**: 34\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If IAnalysisContextData processes or stores cardholder data, it must comply with PCI DSS standards. This line of code does not show how cardholder data is protected.\n\n   **Solution**: Ensure that any cardholder data processed by IAnalysisContextData is handled in a PCI DSS compliant way. This includes protecting stored cardholder data, encrypting transmission of cardholder data across open, public networks, and maintaining a vulnerability management program.\n\n\n3. **Severity**: 2/10\n\n   **Line Number**: 34\n\n   **Bug Type**: HIPAA\n\n   **Description**: If IAnalysisContextData processes or stores Protected Health Information (PHI), it must comply with HIPAA standards. This line of code does not show how PHI is protected.\n\n   **Solution**: Ensure that any PHI processed by IAnalysisContextData is handled in a HIPAA compliant way. This includes implementing technical safeguards like access control, audit controls, integrity controls, and transmission security.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 17,
+                "severity": 2,
+                "bugType": "GDPR",
+                "description": "The code imports a module that deals with Analysis Context Data. If this data includes personal data of EU citizens, it might be subject to GDPR. However, from this single line of code, it's not clear if any personal data is processed and if it is processed in a GDPR-compliant way.",
+                "solution": "Ensure that any personal data processed by IAnalysisContextData is handled in a GDPR compliant way. This includes obtaining explicit consent for data processing, implementing data minimization principles, and providing a way for users to request data deletion.",
+                "webLink": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 17,
+                "severity": 2,
+                "bugType": "PCI DSS",
+                "description": "If IAnalysisContextData processes or stores cardholder data, it must comply with PCI DSS standards. This line of code does not show how cardholder data is protected.",
+                "solution": "Ensure that any cardholder data processed by IAnalysisContextData is handled in a PCI DSS compliant way. This includes protecting stored cardholder data, encrypting transmission of cardholder data across open, public networks, and maintaining a vulnerability management program.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 17,
+                "severity": 2,
+                "bugType": "HIPAA",
+                "description": "If IAnalysisContextData processes or stores Protected Health Information (PHI), it must comply with HIPAA standards. This line of code does not show how PHI is protected.",
+                "solution": "Ensure that any PHI processed by IAnalysisContextData is handled in a HIPAA compliant way. This includes implementing technical safeguards like access control, audit controls, integrity controls, and transmission security.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "7",
+      "value": "import { IAnalysisContextData } from \"../data/IAnalysisContextData\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 17
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:35:09 PM PDT\n\nThe code snippet provided is utilizing the `axiosRetry` library to add retry functionality to the `axios` HTTP client. This is a common pattern used in distributed systems to increase the reliability of HTTP requests. \n\nThe `axiosRetry` function takes two arguments: the `axios` instance and an options object. In this case, the options object specifies that `axios` should retry failed requests 3 times (`retries: 3`) and that the delay between retries should increase exponentially (`retryDelay: axiosRetry.exponentialDelay`).\n\nThe exponential backoff algorithm is a standard error-handling strategy for network applications in which the client periodically retries a failed request over an increasing amount of time. If a request fails, the client waits before retrying the request, and if the request fails again, the client waits even longer, and so on, up to a maximum number of retries.\n\nHere is a brief explanation of the options:\n\n- `retries`: This option sets the maximum number of retry attempts when a request fails. In this case, it is set to 3.\n\n- `retryDelay`: This option is a function that returns the delay in milliseconds (ms) before the next retry attempt. The `axiosRetry.exponentialDelay` function is used here, which provides an exponential backoff delay.\n\nThis code is consistent with the architectural analysis provided, as it demonstrates the use of error handling and asynchronous programming. It is a good practice to implement retries for network requests, as it can make your application more resilient to temporary issues.\n\nFor more information on Axios and the retry pattern, you can refer to the following resources:\n\n- [Axios GitHub](https://github.com/axios/axios)\n- [axios-retry GitHub](https://github.com/softonic/axios-retry)\n- [Exponential Backoff Wikipedia](https://en.wikipedia.org/wiki/Exponential_backoff)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:36:48 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle RetryHandler fill:#228B22, stroke:#000000, stroke-width:2px;\n\nStart-->RetryHandler;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:38:42 PM PDT\n\n1. **Severity**: 4/10\n\n   **Line Number**: 41\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The code is using axios for HTTP requests and has a retry mechanism in place. However, it does not verify the validity of the response before retrying. This can potentially lead to Insecure Direct Object References (IDOR) if an attacker can manipulate the response to reference objects that they should not have access to.\n\n   **Solution**: To prevent this, it is recommended to implement a check for the validity of the response before retrying the request. This can be done by checking the status code of the response and only retrying the request if it indicates a temporary issue (e.g., 503 Service Unavailable). You can refer to the axios documentation for more information on how to do this: https://axios-http.com/docs/handling_errors\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 23,
+                "severity": 4,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The code is using axios for HTTP requests and has a retry mechanism in place. However, it does not verify the validity of the response before retrying. This can potentially lead to Insecure Direct Object References (IDOR) if an attacker can manipulate the response to reference objects that they should not have access to.",
+                "solution": "To prevent this, it is recommended to implement a check for the validity of the response before retrying the request. This can be done by checking the status code of the response and only retrying the request if it indicates a temporary issue (e.g., 503 Service Unavailable). You can refer to the axios documentation for more information on how to do this: https://axios-http.com/docs/handling_errors"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:41:50 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 40\n\n   **Bug Type**: Network\n\n   **Description**: The retry strategy used here can potentially lead to network congestion and increased latency. If the network request fails, it will be retried three times, which could overload the network if many requests fail simultaneously.\n\n   **Solution**: Consider implementing a more sophisticated retry strategy, such as exponential backoff with jitter, which can reduce the load on the network by spreading out the retries over a longer period of time. This can be achieved by customizing the retryDelay function. You can refer to this guide on how to implement it: https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 22,
+                "severity": 5,
+                "bugType": "Network",
+                "description": "The retry strategy used here can potentially lead to network congestion and increased latency. If the network request fails, it will be retried three times, which could overload the network if many requests fail simultaneously.",
+                "solution": "Consider implementing a more sophisticated retry strategy, such as exponential backoff with jitter, which can reduce the load on the network by spreading out the retries over a longer period of time. This can be achieved by customizing the retryDelay function. You can refer to this guide on how to implement it: https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:47:15 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 39\n\n   **Bug Type**: Data Compliance - GDPR, PCI DSS, HIPAA\n\n   **Description**: The use of axios with retries can potentially lead to multiple transmissions of sensitive data in case of retries. If the data being sent includes personally identifiable information (PII) or other sensitive data, this could be a violation of GDPR, PCI DSS, or HIPAA.\n\n   **Solution**: Ensure that any sensitive data being sent is properly encrypted and that retries are only attempted when necessary. Consider implementing a backoff strategy for retries and limit the number of retry attempts. Also, ensure that any errors are properly handled and logged, but without including sensitive data in the logs.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 21,
+                "severity": 7,
+                "bugType": "Data Compliance - GDPR, PCI DSS, HIPAA",
+                "description": "The use of axios with retries can potentially lead to multiple transmissions of sensitive data in case of retries. If the data being sent includes personally identifiable information (PII) or other sensitive data, this could be a violation of GDPR, PCI DSS, or HIPAA.",
+                "solution": "Ensure that any sensitive data being sent is properly encrypted and that retries are only attempted when necessary. Consider implementing a backoff strategy for retries and limit the number of retry attempts. Also, ensure that any errors are properly handled and logged, but without including sensitive data in the logs."
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "8",
+      "value": "\n// we can get timeouts and other errors from both openai and lambda. This is a generic handler for those\n// conditions to attempt a retry.\naxiosRetry(axios, {\n    retries: 3,\n    retryDelay: axiosRetry.exponentialDelay,\n});\n",
+      "kind": 2,
+      "metadata": {
+        "id": 8,
+        "type": "originalCode",
+        "lineNumberBase": 18
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:35:34 PM PDT\n\nThis line of code is creating a new instance of a `PQueue` object with a concurrency level of 1.\n\n`PQueue` is a priority queue data structure for managing a set of tasks with different priorities. A priority queue is an abstract data type similar to a queue, and every element has some priority. The priority of the elements in a priority queue determines the deletion order.\n\nIn this case, the `PQueue` is being created with a concurrency of 1, which means that only one task will be executed at a time. This is effectively turning the priority queue into a serial queue.\n\nThis is a very simple piece of code, but it's using a powerful concept. By controlling the concurrency level, you can ensure that tasks are executed in a controlled manner, which can be very important in scenarios where resources are limited or tasks can interfere with each other.\n\nThe `PQueue` is part of the `p-queue` library in Javascript. This library uses a binary heap as its underlying data structure and provides methods to add tasks to the queue, execute them according to their priority, and more.\n\nIn terms of architectural guidelines, this code snippet is quite flexible. It doesn't impose any particular architectural style or constraints. It can be used in a variety of contexts, from single-threaded environments to multi-threaded ones, and it doesn't rely on any particular programming paradigm (such as object-oriented or functional programming).\n\nFor more information about priority queues and the `p-queue` library, you can refer to the following resources:\n\n- [Priority Queue](https://en.wikipedia.org/wiki/Priority_queue)\n- [p-queue library](https://www.npmjs.com/package/p-queue)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:36:56 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExamplErrorPath-->End;\n```\n\nThe code you provided does not have any control flow."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:38:46 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:42:01 PM PDT\n\n1. **Severity**: 3/10\n\n   **Line Number**: 50\n\n   **Bug Type**: CPU\n\n   **Description**: The PQueue is initialized with a concurrency of 1, which means that only one promise will be executed at a time. This could lead to inefficient CPU usage as it doesn't allow for parallel processing of tasks.\n\n   **Solution**: Increase the concurrency level to allow for more parallel processing of tasks. The optimal level depends on the nature of the tasks and the resources available. Here is a link to the PQueue documentation for more detail: https://www.npmjs.com/package/p-queue\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 25,
+                "severity": 3,
+                "bugType": "CPU",
+                "description": "The PQueue is initialized with a concurrency of 1, which means that only one promise will be executed at a time. This could lead to inefficient CPU usage as it doesn't allow for parallel processing of tasks.",
+                "solution": "Increase the concurrency level to allow for more parallel processing of tasks. The optimal level depends on the nature of the tasks and the resources available. Here is a link to the PQueue documentation for more detail: https://www.npmjs.com/package/p-queue"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:47:26 PM PDT\n\n1. **Severity**: 3/10\n\n   **Line Number**: 50\n\n   **Bug Type**: Data Compliance\n\n   **Description**: The code is using a priority queue for handling tasks, but there's no explicit mechanism to ensure the secure deletion of processed tasks. This could potentially lead to data retention issues, which could violate GDPR, PCI DSS, and HIPAA regulations if sensitive data is involved.\n\n   **Solution**: Ensure that tasks containing sensitive data are securely deleted from the queue after processing. Use secure deletion methods provided by your programming language or library.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 25,
+                "severity": 3,
+                "bugType": "Data Compliance",
+                "description": "The code is using a priority queue for handling tasks, but there's no explicit mechanism to ensure the secure deletion of processed tasks. This could potentially lead to data retention issues, which could violate GDPR, PCI DSS, and HIPAA regulations if sensitive data is involved.",
+                "solution": "Ensure that tasks containing sensitive data are securely deleted from the queue after processing. Use secure deletion methods provided by your programming language or library."
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "9",
+      "value": "\nconst queue = new PQueue({ concurrency: 1 });\n",
+      "kind": 2,
+      "metadata": {
+        "id": 9,
+        "type": "originalCode",
+        "lineNumberBase": 25
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:35:55 PM PDT\n\nThe provided code is a TypeScript class named `BoostServiceHelper` which is responsible for handling interactions with a remote service. This class is part of a Visual Studio Code extension, which is likely used for analyzing source code.\n\nHere is a detailed explanation of the class and its methods:\n\n1. `constructor`: The constructor function initializes the class with several parameters, including command, outputType, hostExtension, dynamicInputKey, and an optional onServiceError callback function.\n\n2. `serviceEndpoint`: This is a getter function that throws an error if not implemented. It is likely meant to be overridden in a subclass.\n\n3. `outputType`: This is a getter function that returns the output type.\n\n4. `doKernelExecution`: This is an asynchronous function that takes several parameters, including a notebook, a cell, execution, extra payload, and an optional service endpoint. It constructs a payload based on the parameters and other factors, and then calls `onProcessServiceRequest` function.\n\n5. `onProcessServiceRequest`: This is an asynchronous function that takes several parameters, including execution, notebook, a cell, payload, and an optional service endpoint. It makes a POST request to a remote service using the `makeBoostServiceRequest` function, and handles any errors that occur.\n\n6. `getGuidelines`: This function retrieves guidelines from a file and returns them as an array of strings.\n\n7. `makeBoostServiceRequest`: This is an asynchronous function that makes a POST request to a remote service and returns the response. It also handles any errors that occur.\n\n8. `onBoostServiceRequest`: This is an asynchronous function that adds a request to a queue to be sent to a remote service. It returns the data from the response.\n\nThe algorithm used in this code is primarily based on asynchronous programming and event-driven architecture, which is common in JavaScript and TypeScript. The `doKernelExecution` function is the main function that drives the execution flow. It constructs a payload based on the parameters and other factors, then calls the `onProcessServiceRequest` function to send a request to a remote service.\n\nFor more information on TypeScript, you can visit this link: [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html).\n\nFor more information on asynchronous programming in JavaScript, you can visit this link: [Asynchronous Programming in JavaScript](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:37:09 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->doKernelExecution;\ndoKernelExecution-->getGuidelines;\ngetGuidelines-->makeBoostServiceRequest;\nmakeBoostServiceRequest-->onBoostServiceRequest;\nonBoostServiceRequest-->End;\ndoKernelExecution-->onProcessServiceRequest;\nonProcessServiceRequest-->makeBoostServiceRequest;\nmakeBoostServiceRequest-->onBoostServiceRequest;\nonBoostServiceRequest-->End;\n```\n\nIn the above control flow graph, the primary path is shown in green, and the error path is shown in red. The `doKernelExecution` function is the starting point of the control flow. It calls the `getGuidelines` function, which then calls the `makeBoostServiceRequest` function. The `makeBoostServiceRequest` function calls the `onBoostServiceRequest` function, which is the end of the primary path.\n\nThe `doKernelExecution` function also calls the `onProcessServiceRequest` function, which then calls the `makeBoostServiceRequest` function and the `onBoostServiceRequest` function, which is the end of the error path.\n\nNote that there are no calls to external libraries or non-standard functions in the provided code."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:39:40 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 152\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The function 'makeBoostServiceRequest' is making a service request using a payload that is constructed from user inputs and metadata without sufficient validation checks. This could potentially lead to Insecure Direct Object References (IDOR) vulnerabilities if an attacker can manipulate the payload to reference objects they do not have access to. More information about this type of vulnerability can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control\n\n   **Solution**: Implement proper access control checks and validate all user inputs and metadata before using them in service requests. More guidelines on how to prevent IDOR vulnerabilities can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html\n\n\n2. **Severity**: 8/10\n\n   **Line Number**: 89\n\n   **Bug Type**: Sensitive Data Exposure\n\n   **Description**: The function 'doKernelExecution' is inserting an auth token (session.accessToken) into the payload if it does not exist. This could potentially expose sensitive data if the payload is intercepted or logged somewhere. More information about this type of vulnerability can be found here: https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure\n\n   **Solution**: Ensure that the auth token is securely transmitted and not logged anywhere. Also, consider using a secure method for inserting the auth token into the payload. More guidelines on how to protect sensitive data can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.html\n\n\n3. **Severity**: 6/10\n\n   **Line Number**: 247\n\n   **Bug Type**: Improper Error Handling\n\n   **Description**: The function 'makeBoostServiceRequest' is catching an error and passing it to the 'onServiceError' handler. However, if the handler is not defined, the error is simply mapped and returned, potentially exposing sensitive information about the system. More information about this type of vulnerability can be found here: https://owasp.org/www-project-top-ten/2017/A10_2017-Insufficient_Logging%2526Monitoring\n\n   **Solution**: Ensure that all errors are properly handled and do not expose sensitive information. Also, consider implementing a default error handler if 'onServiceError' is not defined. More guidelines on how to handle errors can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Error_Handling_Cheat_Sheet.html\n\n\n4. **Severity**: 5/10\n\n   **Line Number**: 176\n\n   **Bug Type**: Insecure Deserialization\n\n   **Description**: The function 'getGuidelines' is loading a notebook file from the file system and deserializing its content without any validation checks. This could potentially lead to Insecure Deserialization vulnerabilities if an attacker can manipulate the notebook file. More information about this type of vulnerability can be found here: https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization\n\n   **Solution**: Validate and sanitize the content of the notebook file before deserializing it. More guidelines on how to prevent Insecure Deserialization vulnerabilities can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 125,
+                "severity": 7,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The function 'makeBoostServiceRequest' is making a service request using a payload that is constructed from user inputs and metadata without sufficient validation checks. This could potentially lead to Insecure Direct Object References (IDOR) vulnerabilities if an attacker can manipulate the payload to reference objects they do not have access to. More information about this type of vulnerability can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control",
+                "solution": "Implement proper access control checks and validate all user inputs and metadata before using them in service requests. More guidelines on how to prevent IDOR vulnerabilities can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+              },
+              {
+                "lineNumber": 62,
+                "severity": 8,
+                "bugType": "Sensitive Data Exposure",
+                "description": "The function 'doKernelExecution' is inserting an auth token (session.accessToken) into the payload if it does not exist. This could potentially expose sensitive data if the payload is intercepted or logged somewhere. More information about this type of vulnerability can be found here: https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure",
+                "solution": "Ensure that the auth token is securely transmitted and not logged anywhere. Also, consider using a secure method for inserting the auth token into the payload. More guidelines on how to protect sensitive data can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.html"
+              },
+              {
+                "lineNumber": 220,
+                "severity": 6,
+                "bugType": "Improper Error Handling",
+                "description": "The function 'makeBoostServiceRequest' is catching an error and passing it to the 'onServiceError' handler. However, if the handler is not defined, the error is simply mapped and returned, potentially exposing sensitive information about the system. More information about this type of vulnerability can be found here: https://owasp.org/www-project-top-ten/2017/A10_2017-Insufficient_Logging%2526Monitoring",
+                "solution": "Ensure that all errors are properly handled and do not expose sensitive information. Also, consider implementing a default error handler if 'onServiceError' is not defined. More guidelines on how to handle errors can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Error_Handling_Cheat_Sheet.html"
+              },
+              {
+                "lineNumber": 149,
+                "severity": 5,
+                "bugType": "Insecure Deserialization",
+                "description": "The function 'getGuidelines' is loading a notebook file from the file system and deserializing its content without any validation checks. This could potentially lead to Insecure Deserialization vulnerabilities if an attacker can manipulate the notebook file. More information about this type of vulnerability can be found here: https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization",
+                "solution": "Validate and sanitize the content of the notebook file before deserializing it. More guidelines on how to prevent Insecure Deserialization vulnerabilities can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:42:38 PM PDT\n\n1. **Severity**: 6/10\n\n   **Line Number**: 88\n\n   **Bug Type**: Memory\n\n   **Description**: Repeated use of spread operator to add properties to the payload object. This can lead to increased memory usage as a new object is created each time.\n\n   **Solution**: Consider using the Object.assign() method or directly assigning properties to the object instead of creating new objects.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 164\n\n   **Bug Type**: Disk\n\n   **Description**: The function 'fs.existsSync()' is used to check if a file exists before reading it. This is a blocking operation and can lead to performance issues if the file system is slow or the file is large.\n\n   **Solution**: Consider using the asynchronous version 'fs.promises.access()' or handle the error thrown by 'fs.promises.readFile()' when the file does not exist.\n\n\n3. **Severity**: 5/10\n\n   **Line Number**: 210\n\n   **Bug Type**: Network\n\n   **Description**: The function 'axios.get()' is used to make a network request. This is a blocking operation and can lead to performance issues if the network is slow or the response is large.\n\n   **Solution**: Consider using a timeout to limit the amount of time spent waiting for the request to complete. Also, consider handling network errors gracefully to improve user experience.\n\n\n4. **Severity**: 7/10\n\n   **Line Number**: 237\n\n   **Bug Type**: Network\n\n   **Description**: The function 'axios.post()' is used to make a network request. This is a blocking operation and can lead to performance issues if the network is slow or the response is large.\n\n   **Solution**: Consider using a timeout to limit the amount of time spent waiting for the request to complete. Also, consider handling network errors gracefully to improve user experience.\n\n\n5. **Severity**: 4/10\n\n   **Line Number**: 237\n\n   **Bug Type**: CPU\n\n   **Description**: The function 'queue.add()' is used to add a task to a queue. If the queue is long, this can lead to performance issues as the CPU has to process each task in the queue.\n\n   **Solution**: Consider using a priority queue or a different data structure that can handle large amounts of data more efficiently.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 61,
+                "severity": 6,
+                "bugType": "Memory",
+                "description": "Repeated use of spread operator to add properties to the payload object. This can lead to increased memory usage as a new object is created each time.",
+                "solution": "Consider using the Object.assign() method or directly assigning properties to the object instead of creating new objects."
+              },
+              {
+                "lineNumber": 137,
+                "severity": 7,
+                "bugType": "Disk",
+                "description": "The function 'fs.existsSync()' is used to check if a file exists before reading it. This is a blocking operation and can lead to performance issues if the file system is slow or the file is large.",
+                "solution": "Consider using the asynchronous version 'fs.promises.access()' or handle the error thrown by 'fs.promises.readFile()' when the file does not exist."
+              },
+              {
+                "lineNumber": 183,
+                "severity": 5,
+                "bugType": "Network",
+                "description": "The function 'axios.get()' is used to make a network request. This is a blocking operation and can lead to performance issues if the network is slow or the response is large.",
+                "solution": "Consider using a timeout to limit the amount of time spent waiting for the request to complete. Also, consider handling network errors gracefully to improve user experience."
+              },
+              {
+                "lineNumber": 210,
+                "severity": 7,
+                "bugType": "Network",
+                "description": "The function 'axios.post()' is used to make a network request. This is a blocking operation and can lead to performance issues if the network is slow or the response is large.",
+                "solution": "Consider using a timeout to limit the amount of time spent waiting for the request to complete. Also, consider handling network errors gracefully to improve user experience."
+              },
+              {
+                "lineNumber": 210,
+                "severity": 4,
+                "bugType": "CPU",
+                "description": "The function 'queue.add()' is used to add a task to a queue. If the queue is long, this can lead to performance issues as the CPU has to process each task in the queue.",
+                "solution": "Consider using a priority queue or a different data structure that can handle large amounts of data more efficiently."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:47:41 PM PDT\n\n1. **Severity**: 8/10\n\n   **Line Number**: 85\n\n   **Bug Type**: GDPR\n\n   **Description**: The code is storing notebook metadata and cell metadata into the payload without any apparent data sanitization or anonymization. This could potentially expose sensitive user data.\n\n   **Solution**: Ensure that any sensitive data is properly anonymized or sanitized before being stored. Additionally, consider implementing stricter access controls and data handling procedures to minimize the risk of data exposure.\n\n\n2. **Severity**: 9/10\n\n   **Line Number**: 95\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The code is directly storing an access token into the payload. This could expose sensitive authentication data if the payload is intercepted or improperly handled.\n\n   **Solution**: Avoid directly storing sensitive authentication data like access tokens in payloads. Instead, use secure methods of transmitting this data, such as HTTPS or secure cookies. Additionally, ensure that access tokens are properly encrypted and have a limited lifespan.\n\n\n3. **Severity**: 9/10\n\n   **Line Number**: 199\n\n   **Bug Type**: HIPAA\n\n   **Description**: The code is making a web POST call to a Boost Service with potentially sensitive data. If this data includes any protected health information (PHI), this could be a HIPAA violation.\n\n   **Solution**: Ensure that any PHI is securely encrypted before being transmitted. Additionally, ensure that the Boost Service is compliant with HIPAA's security rule, which requires certain administrative, physical, and technical safeguards to protect PHI.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 58,
+                "severity": 8,
+                "bugType": "GDPR",
+                "description": "The code is storing notebook metadata and cell metadata into the payload without any apparent data sanitization or anonymization. This could potentially expose sensitive user data.",
+                "solution": "Ensure that any sensitive data is properly anonymized or sanitized before being stored. Additionally, consider implementing stricter access controls and data handling procedures to minimize the risk of data exposure."
+              },
+              {
+                "lineNumber": 68,
+                "severity": 9,
+                "bugType": "PCI DSS",
+                "description": "The code is directly storing an access token into the payload. This could expose sensitive authentication data if the payload is intercepted or improperly handled.",
+                "solution": "Avoid directly storing sensitive authentication data like access tokens in payloads. Instead, use secure methods of transmitting this data, such as HTTPS or secure cookies. Additionally, ensure that access tokens are properly encrypted and have a limited lifespan."
+              },
+              {
+                "lineNumber": 172,
+                "severity": 9,
+                "bugType": "HIPAA",
+                "description": "The code is making a web POST call to a Boost Service with potentially sensitive data. If this data includes any protected health information (PHI), this could be a HIPAA violation.",
+                "solution": "Ensure that any PHI is securely encrypted before being transmitted. Additionally, ensure that the Boost Service is compliant with HIPAA's security rule, which requires certain administrative, physical, and technical safeguards to protect PHI."
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "10",
+      "value": "\nexport class BoostServiceHelper {\n    private dynamicInputKey: string; // name of the input parameter\n    command: string;\n    _outputType: string;\n\n    hostExtension: any;\n\n    onServiceError: any;\n\n    constructor(\n        command: string,\n        outputType: string,\n        hostExtension: any,\n        dynamicInputKey: string = \"\",\n        onServiceError: any = undefined\n    ) {\n        this.dynamicInputKey = dynamicInputKey;\n        this.command = command;\n        this._outputType = outputType;\n        this.hostExtension = hostExtension;\n        this.onServiceError = onServiceError;\n    }\n\n    get serviceEndpoint(): string {\n        throw new Error(\"serviceEndpoint not implemented\");\n    }\n\n    get outputType(): string {\n        return this._outputType;\n    }\n\n    async doKernelExecution(\n        notebook: vscode.NotebookDocument | BoostNotebook | undefined,\n        cell: vscode.NotebookCell | BoostNotebookCell | undefined,\n        execution: vscode.NotebookCellExecution | undefined,\n        extraPayload: any,\n        serviceEndpoint: string = this.serviceEndpoint\n    ): Promise<any> {\n        const usingBoostNotebook = cell ? \"value\" in cell : true; // look for the value property to see if its a BoostNotebookCell\n\n        // get the code from the cell\n        const input = usingBoostNotebook\n            ? cell\n                ? (cell as BoostNotebookCell).value\n                : undefined\n            : (cell as vscode.NotebookCell).document.getText();\n\n        let payload = {\n            ...extraPayload,\n        };\n        if (input) {\n            payload = {\n                ...payload,\n                [this.dynamicInputKey]: input,\n            };\n        }\n        if (notebook) {\n            payload = {\n                ...payload,\n                contextMetadata: JSON.stringify(notebook.metadata),\n            };\n        }\n        if (cell) {\n            payload = {\n                ...payload,\n                inputMetadata: JSON.stringify(cell.metadata),\n            };\n        }\n        // insert auth token if needed\n        if (!payload.session) {\n            const session = await fetchGithubSession();\n            payload = {\n                ...payload,\n                session: session.accessToken,\n            };\n        }\n        // insert auth token if needed\n        if (!payload.organization) {\n            payload = {\n                ...payload,\n                organization: await getCurrentOrganization(),\n            };\n        }\n\n        // inject guidelines into the payload to guide analysis with user input\n        const guidelines = this.getGuidelines();\n        // Add guidelines to the payload only if it's not undefined or an empty array\n        if (guidelines && guidelines.length > 0) {\n            // we mark it as the system role since it may be used as hints\n            payload.guidelines = [\"system\", guidelines];\n        }\n\n        // collect background context and inject into the payload for analysis context\n        const analysisContext : IAnalysisContextData[] = this.hostExtension.getBackgroundContext(this.command);\n        if (analysisContext && analysisContext.length > 0) {\n            payload.context = analysisContext;\n        }\n\n        // read any cell-specific temperature or top_p settings\n        if (cell?.metadata?.analysisRankedProbability) {\n            payload = {\n                ...payload,\n                // eslint-disable-next-line @typescript-eslint/naming-convention\n                top_p: cell.metadata.analysisRankedProbability,\n            };\n        } else if (cell?.metadata?.temperature) {\n            payload = { ...payload, temperature: cell.metadata.temperature };\n        } else if (\n            BoostConfiguration.analysisRankedProbabilityByKernel(this.command)\n        ) {\n            payload = {\n                ...payload,\n                // eslint-disable-next-line @typescript-eslint/naming-convention\n                top_p: BoostConfiguration.analysisRankedProbabilityByKernel(\n                    this.command\n                ),\n            };\n        } else if (BoostConfiguration.analysisRankedProbability) {\n            payload = {\n                ...payload,\n                // eslint-disable-next-line @typescript-eslint/naming-convention\n                top_p: BoostConfiguration.analysisRankedProbability,\n            };\n        } else if (\n            BoostConfiguration.analysisTemperatureByKernel(this.command)\n        ) {\n            payload = {\n                ...payload,\n                temperature: BoostConfiguration.analysisTemperatureByKernel(\n                    this.command\n                ),\n            };\n        } else if (BoostConfiguration.analysisTemperature) {\n            payload = {\n                ...payload,\n                temperature: BoostConfiguration.analysisTemperature,\n            };\n        } else {\n            payload = payload;\n        }\n\n        // model pass through\n        if (cell?.metadata?.model) {\n            payload = { ...payload, model: cell.metadata.model };\n        } else if (BoostConfiguration.analysisModelByKernel(this.command)) {\n            payload = {\n                ...payload,\n                // eslint-disable-next-line @typescript-eslint/naming-convention\n                model: BoostConfiguration.analysisModelByKernel(this.command),\n            };\n        } else if (BoostConfiguration.analysisModel) {\n            payload = {\n                ...payload,\n                // eslint-disable-next-line @typescript-eslint/naming-convention\n                model: BoostConfiguration.analysisModel,\n            };\n        }\n\n        return await this.onProcessServiceRequest(\n            execution,\n            notebook,\n            cell,\n            payload,\n            serviceEndpoint\n        );\n    }\n\n    async onProcessServiceRequest(\n        _: vscode.NotebookCellExecution | undefined,\n        __: vscode.NotebookDocument | BoostNotebook | undefined,\n        cell: vscode.NotebookCell | BoostNotebookCell | undefined,\n        payload: any,\n        serviceEndpoint: string = this.serviceEndpoint\n    ): Promise<any> {\n        let successfullyCompleted = true;\n\n        // using axios, make a web POST call to Boost Service with the code as in a json object code=code\n        let response;\n        let serviceError: Error = new Error();\n        try {\n            response = await this.makeBoostServiceRequest(\n                cell,\n                serviceEndpoint,\n                payload\n            );\n        } catch (err: any) {\n            successfullyCompleted = false;\n            serviceError = err;\n        }\n        if (successfullyCompleted) {\n            if (response instanceof Error) {\n                successfullyCompleted = false;\n                serviceError = response as Error;\n            } else if (response === undefined) {\n                throw new Error(\"Unexpected empty result from Boost Service\");\n            } else if (response.data instanceof Error) {\n                successfullyCompleted = false;\n                serviceError = response.data as Error;\n            }\n        }\n        if (successfullyCompleted) {\n            return response;\n        } else {\n            throw serviceError;\n        }\n    }\n\n    getGuidelines(): string[] {\n        const guidelines: string[] = [];\n        const projectGuidelinesFile = getBoostFile(\n            undefined,\n            { format: BoostFileType.guidelines,\n              showUI: false }\n        );\n        if (\n            projectGuidelinesFile &&\n            fs.existsSync(projectGuidelinesFile.fsPath)\n        ) {\n            const projectGuidelines = new BoostNotebook();\n            projectGuidelines.load(projectGuidelinesFile.fsPath);\n            projectGuidelines.cells.forEach((cell) => {\n                if (this.hostExtension.sampleGuidelineRegEx.test(cell.value)) {\n                    // ignore sample text\n                    return;\n                }\n                guidelines.push(cell.value);\n            });\n        }\n\n        // this kernel guideline file\n        const kernelGuidelinesFile = projectGuidelinesFile.fsPath.replace(\n            NOTEBOOK_GUIDELINES_PRE_EXTENSION,\n            `.${this.hostExtension.getUserAnalysisType(\n                this.command\n            )}${NOTEBOOK_GUIDELINES_PRE_EXTENSION}`\n        );\n        if (fs.existsSync(kernelGuidelinesFile)) {\n            const projectGuidelines = new BoostNotebook();\n            projectGuidelines.load(kernelGuidelinesFile);\n            projectGuidelines.cells.forEach((cell) => {\n                if (this.hostExtension.sampleGuidelineRegEx.test(cell.value)) {\n                    // ignore sample text\n                    return;\n                }\n                guidelines.push(cell.value);\n            });\n        }\n\n        return guidelines;\n    }\n\n    async makeBoostServiceRequest(\n        cell: vscode.NotebookCell | BoostNotebookCell | undefined,\n        serviceEndpoint: string,\n        payload: any\n    ): Promise<any> {\n        try {\n            if (\n                BoostConfiguration.serviceFaultInjection > 0 &&\n                Math.floor(Math.random() * 100) <\n                    BoostConfiguration.serviceFaultInjection\n            ) {\n                const cellId = cell\n                    ? cell instanceof BoostNotebookCell\n                        ? cell.id\n                        : cell.document.uri.toString()\n                    : \"undefined\";\n                boostLogging.debug(\n                    `Injecting fault into service request for cell ${cellId} to ${serviceEndpoint}`\n                );\n                await axios.get(\n                    \"https://serviceFaultInjection/synthetic/error/\"\n                );\n            }\n            let result: any = await this.onBoostServiceRequest(\n                cell,\n                serviceEndpoint,\n                payload\n            );\n            if (result.account && !result.account['enabled']) {\n                // the account is in error - we'll assume that's the cause\n                return new BoostAuthenticationException(\n                    `Unable to use the Boost Service. Your account is ${result.account['status']} and is not currently enabled.` +\n                    ` Please use the Account portal to update your account.`);\n            } else if (result.error) {\n                // if we have an error, throw it - this is generally happens with the local service shim\n                return new Error(\n                    `Boost Service failed with a network error: ${result.error}`\n                );\n            }\n            return result;\n        } catch (err: any) {\n            if (this.onServiceError) {\n                const result = this.onServiceError(err);\n\n                // if the handler is asynchronous, wait for it to complete before continuing\n                if (result instanceof Promise) {\n                    await result;\n                }\n            }\n            return mapError(err);\n        }\n    }\n\n    async onBoostServiceRequest(\n        _: vscode.NotebookCell | BoostNotebookCell | undefined,\n        serviceEndpoint: string,\n        payload: any\n    ): Promise<string> {\n        const headers = {\n            // eslint-disable-next-line @typescript-eslint/naming-convention\n            \"User-Agent\": `Boost-VSCE/${BoostConfiguration.version}`,\n        };\n\n        // Add the request to the queue\n        return queue.add(() =>\n            axios\n                .post(serviceEndpoint, payload, { headers })\n                .then((response) => {\n                    return response.data;\n                })\n                .catch((error) => {\n                    throw error;\n                })\n        );\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 10,
+        "type": "originalCode",
+        "lineNumberBase": 27
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/controllers/boostServiceHelper.ts"
+  }
+}

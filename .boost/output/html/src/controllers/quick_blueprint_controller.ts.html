@@ -1,0 +1,1135 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/controllers/quick_blueprint_controller.ts</h1>
+    <p>Date Generated: Friday, September 8, 2023 at 9:35:48 PM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:30:50 PM PDT</p>
+<h2 id="executive-report-software-project-analysis">Executive Report: Software Project Analysis</h2>
+<h3 id="architectural-impact-and-risk-analysis">Architectural Impact and Risk Analysis</h3>
+<ol>
+<li><p><strong>Insecure Direct Object References (IDOR) in <code>quick_blueprint_controller.ts</code>:</strong> This issue is of high severity and could potentially lead to unauthorized access. The function <code>getCurrentOrganization(this.context)</code> is used without proper validation, which could allow an attacker to manipulate &#39;this.context&#39; to reference an object they should not have access to. This issue could have a significant architectural impact, as it may require changes to the way data is accessed and validated in the application. </p>
+</li>
+<li><p><strong>Cross-Site Scripting (XSS) in <code>quick_blueprint_controller.ts</code>:</strong> This issue is of lower severity but could still have a significant impact on the project. XSS vulnerabilities can lead to data theft, site defacement, and other malicious activities. This issue could require changes to the way user input is handled and sanitized in the application.</p>
+</li>
+<li><p><strong>Overall Project Health:</strong> Based on the analysis, only one file out of the entire project has been found to have issues. This represents a small percentage of the total project files, indicating that the overall health of the project is good. However, the severity of the issues found in this file is high, which could have a significant impact on the project.</p>
+</li>
+<li><p><strong>Potential Customer Impact:</strong> The issues found could potentially impact the security and reliability of the software, affecting customer trust and satisfaction. The IDOR issue could lead to unauthorized access to sensitive data, while the XSS issue could lead to malicious activities that affect the user experience.</p>
+</li>
+<li><p><strong>Risk Assessment:</strong> The risk associated with these issues is high due to their potential impact on security and customer trust. It is recommended to address these issues as soon as possible to mitigate these risks.</p>
+</li>
+</ol>
+<h3 id="highlights-of-the-analysis">Highlights of the Analysis</h3>
+<ul>
+<li>The project follows best practices for a VS Code extension and makes use of TypeScript features and the VS Code API.</li>
+<li>The project uses asynchronous programming for potentially long-running tasks, which should keep the VS Code UI responsive.</li>
+<li>The project includes extensive error handling and logging, which is a good practice for software resiliency.</li>
+<li>No major architectural problems were identified in the provided code. However, the issues found in <code>quick_blueprint_controller.ts</code> could have a significant impact on the project and should be addressed promptly.</li>
+<li>The project does not appear to use any persistent data storage and communicates with a remote service for code analysis. This could have implications for data security and should be considered in the architectural design.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:32:38 PM PDT</p>
+<h2 id="executive-report-software-project-analysis">Executive Report: Software Project Analysis</h2>
+<p>Based on the analysis of the software project, the following key points have been identified:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The project is well-structured and follows best practices for a Visual Studio Code extension. However, there is a warning related to the use of a switch statement in the <code>quick_blueprint_controller.ts</code> file. This could potentially impact the performance of the software if the number of cases is large. It is recommended to use a map or object literal for constant time lookup.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The project appears to be in good health with only one file having detected issues. However, the issues detected are of &#39;Warning&#39; severity, which indicates potential risks that could impact the performance and reliability of the software. The issues are related to CPU, Disk, and Network usage, which could potentially lead to inefficiencies in the software.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: The issues detected could potentially impact the user experience by causing delays or inefficiencies in the software. However, the project uses asynchronous programming for potentially long-running tasks, which should keep the user interface responsive.</p>
+</li>
+<li><p><strong>Overall Issues</strong>: The project has issues related to CPU, Disk, Network, Memory, and Database/Datastore usage. These issues could potentially impact the performance and reliability of the software. However, the project includes extensive error handling and logging, which should help in identifying and resolving these issues.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: The overall health of the project source appears to be good with only one file having detected issues. However, the issues detected are of &#39;Warning&#39; severity, which indicates potential risks. It is recommended to address these issues to ensure the reliability and performance of the software.</p>
+</li>
+</ol>
+<p>In conclusion, while the project appears to be in good health, there are potential risks that need to be addressed. The project follows best practices and has a well-structured architecture, but the issues detected could potentially impact the performance and reliability of the software. It is recommended to address these issues to ensure the best possible user experience.</p>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:36:24 PM PDT</p>
+<h2 id="executive-report">Executive Report</h2>
+<h3 id="architectural-impact-and-risk-analysis">Architectural Impact and Risk Analysis</h3>
+<p>The software project under review is a Visual Studio Code extension that provides code analysis functionality. The project is well-structured and follows best practices for a VS Code extension. However, there are some significant issues that need to be addressed.</p>
+<ol>
+<li><p><strong>Data Compliance Issues</strong>: The most severe issues found in the project relate to data compliance. The file <code>src/controllers/quick_blueprint_controller.ts</code> has warnings related to GDPR, HIPAA, and PCI DSS compliance. These issues could have a significant impact on the project, as non-compliance with these regulations could lead to legal and financial penalties.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: The data compliance issues could also have a significant impact on customers. If personal data is not properly anonymized, encrypted, or protected, it could be exposed to unauthorized access. This could lead to a loss of trust from customers and potential damage to the company&#39;s reputation.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: The project consists of a single file, <code>src/controllers/quick_blueprint_controller.ts</code>, which has several issues. This means that 100% of the project files have issues. The severity of these issues is high, with warnings related to GDPR, HIPAA, and PCI DSS compliance.</p>
+</li>
+<li><p><strong>Overall Health of the Project</strong>: Despite the issues found, the project follows best practices for a VS Code extension and makes good use of TypeScript features and the VS Code API. However, the data compliance issues need to be addressed to ensure the overall health of the project.</p>
+</li>
+</ol>
+<h3 id="highlights-of-the-analysis">Highlights of the Analysis</h3>
+<ul>
+<li>The project has severe data compliance issues related to GDPR, HIPAA, and PCI DSS. These issues are found in the <code>src/controllers/quick_blueprint_controller.ts</code> file.</li>
+<li>The potential customer impact of these issues is high, as they could lead to unauthorized access to personal data.</li>
+<li>The risk assessment shows that 100% of the project files have issues, with the most severe being warnings related to data compliance.</li>
+<li>Despite these issues, the project follows best practices for a VS Code extension and makes good use of TypeScript features and the VS Code API.</li>
+</ul>
+<p>In conclusion, while the project has a solid architectural foundation, the data compliance issues present a significant risk. These issues need to be addressed to ensure the project&#39;s overall health and to prevent potential legal and financial penalties.</p>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/controllers/quick_blueprint_controller.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-type">path</span> <span class="hljs-keyword">from</span> &quot;path&quot;;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> fs <span class="hljs-keyword">from</span> &quot;fs&quot;;
+
+<span class="hljs-keyword">import</span> { KernelControllerBase, markdownMimeType } <span class="hljs-keyword">from</span> &quot;./base_controller&quot;;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:23:55 PM PDT</p>
+<p>This code is written in TypeScript, a statically typed superset of JavaScript. This code snippet appears to be the start of a file where a few modules are imported for use in the file.</p>
+<p>The first two lines import the built-in &#39;path&#39; and &#39;fs&#39; modules from Node.js:</p>
+<ul>
+<li><p><code>path</code>: This module provides utilities for working with file and directory paths. It can be used for tasks such as joining, normalizing, and resolving paths, finding the relative path between two paths, and more. <a href="https://nodejs.org/api/path.html">Path module documentation</a></p>
+</li>
+<li><p><code>fs</code>: This stands for &quot;file system&quot;, and it provides an API for interacting with the file system in a manner closely modeled around standard POSIX functions. It allows you to work with files and directories on your server. <a href="https://nodejs.org/api/fs.html">Fs module documentation</a></p>
+</li>
+</ul>
+<p>The third line imports two specific exports from a local module file named &#39;base_controller&#39;:</p>
+<ul>
+<li><p><code>KernelControllerBase</code>: This appears to be a class or a function that is exported from the &#39;base_controller&#39; module. Without more context, it is not clear what this does, but given the name, it is likely some base class or function for controlling a kernel, possibly in a Jupyter notebook or similar environment.</p>
+</li>
+<li><p><code>markdownMimeType</code>: This is likely a string constant that holds the MIME type for Markdown files, which is typically &#39;text/markdown&#39;. MIME types are used in HTTP headers to inform the client about the type of data sent in the body of the HTTP message. <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">MIME Types</a></p>
+</li>
+</ul>
+<p>This code follows standard TypeScript import syntax and conventions. It also seems to follow good architectural practices by separating concerns into different modules and importing only what&#39;s needed from each module. However, without more context or the rest of the code, it&#39;s hard to provide a more detailed analysis.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:28:07 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style KernelControllerBase fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->KernelControllerBase;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:29:01 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:31:04 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:32:46 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/quick_blueprint_controller.ts line 5:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { BoostConfiguration } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../extension/boostConfiguration&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:24:17 PM PDT</p>
+<p>The line of code you provided is a single import statement in JavaScript (or TypeScript), part of a larger file. This line doesn&#39;t contain an algorithm, but it&#39;s a fundamental part of structuring and organizing code in JavaScript and TypeScript projects. Let&#39;s break it down:</p>
+<p><code>import { BoostConfiguration } from &quot;../extension/boostConfiguration&quot;;</code></p>
+<p>This line is using the <code>import</code> statement in JavaScript, which is used to import functions, objects, or values from other files or modules into the current file.</p>
+<p>Here&#39;s what each part of the statement does:</p>
+<ul>
+<li><p><code>import</code>: This is the keyword that starts the import statement.</p>
+</li>
+<li><p><code>{ BoostConfiguration }</code>: This is the object, function, or value that is being imported. The curly braces are used for &quot;named imports&quot; - when you want to import specific things from the module. In this case, <code>BoostConfiguration</code> is likely a class or a function that has been exported from the <code>boostConfiguration</code> module.</p>
+</li>
+<li><p><code>from</code>: This keyword is used to specify the path to the module that contains the exported value.</p>
+</li>
+<li><p><code>&quot;../extension/boostConfiguration&quot;</code>: This is the relative path to the module that contains the exported value. The <code>..</code> means &quot;go up one directory level&quot;, <code>extension</code> is a directory at that level, and <code>boostConfiguration</code> is the module (file) that contains the exported value.</p>
+</li>
+</ul>
+<p>In terms of architectural guidelines, this import statement is a common and recommended practice in JavaScript and TypeScript projects. It helps keep code organized by separating concerns into different modules, and then importing only the necessary parts where they&#39;re needed.</p>
+<p>For more information on the <code>import</code> statement in JavaScript, you can check out this resource: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">MDN Web Docs: import</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:28:10 PM PDT</p>
+<p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:29:05 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:31:07 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:33:13 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 8</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The import statement indicates that the application may be using a configuration file for storing data. If this configuration file includes personal data, it may be in violation of GDPR which requires explicit consent for data collection, storage, and processing.</p>
+<p><strong>Solution</strong>: Ensure that any personal data stored in configuration files is anonymized or pseudonymized. Additionally, implement explicit user consent for data collection and processing.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 8</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: If the configuration file stores cardholder data, it might violate PCI DSS, which requires that cardholder data be stored securely and only when necessary.</p>
+<p><strong>Solution</strong>: Cardholder data should not be stored in configuration files. If necessary, store it in a secure, encrypted database and limit access to it.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 8</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: If the configuration file stores Protected Health Information (PHI), it could violate HIPAA, which requires that PHI be stored securely and only when necessary.</p>
+<p><strong>Solution</strong>: PHI should not be stored in configuration files. If necessary, store it in a secure, encrypted database and limit access to it.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/quick_blueprint_controller.ts line 6:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> vscode <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vscode&quot;</span>;
+<span class="hljs-keyword">import</span> {
+    BoostNotebookCell,
+    BoostNotebook,
+    NotebookCellKind,
+    SerializedNotebookCellOutput,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../data/jupyter_notebook&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:24:34 PM PDT</p>
+<p>The given code is a part of a larger TypeScript codebase, likely in a Visual Studio Code extension, as indicated by the import of the &quot;vscode&quot; module. TypeScript is a statically typed superset of JavaScript that compiles to plain JavaScript.</p>
+<p>The code is importing several modules or dependencies that the program will use:</p>
+<ol>
+<li><p><code>import * as vscode from &quot;vscode&quot;;</code>: This line imports the entire vscode module. The &quot;vscode&quot; module provides functionalities to interact with the Visual Studio Code editor, and to extend its capabilities.</p>
+</li>
+<li><p><code>import { BoostNotebookCell, BoostNotebook, NotebookCellKind, SerializedNotebookCellOutput } from &quot;../data/jupyter_notebook&quot;;</code>: This line imports specific exports from a module located at &quot;../data/jupyter_notebook&quot;. The imported entities are:</p>
+<ul>
+<li><code>BoostNotebookCell</code>: This could be a class or interface that represents a cell in a BoostNotebook, which might be a data structure representing a notebook in the Boost extension.</li>
+<li><code>BoostNotebook</code>: This could be a class or interface that represents a notebook in the Boost extension.</li>
+<li><code>NotebookCellKind</code>: This could be an enumeration or type that represents the different kinds of cells a notebook can have, such as code cells or markdown cells.</li>
+<li><code>SerializedNotebookCellOutput</code>: This could be a class or interface that represents the serialized output of a notebook cell. Serialization is the process of converting complex data structures into a format that can be easily stored or transmitted and then reconstructed later.</li>
+</ul>
+</li>
+</ol>
+<p>This code does not contain any algorithms but is setting up the necessary dependencies for the rest of the program. It follows standard practices in TypeScript and VS Code extension development.</p>
+<p>For more information on the topics mentioned above, you can refer to the following resources:</p>
+<ul>
+<li><a href="https://www.typescriptlang.org/docs/">TypeScript Documentation</a></li>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api">VS Code Extension API</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/modules.html">Understanding Modules in TypeScript</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/js-json-parse-stringify">Understanding Serialization in JavaScript</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:28:14 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->ExampleProcess;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:29:08 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:31:11 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:33:42 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 10</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code imports modules that handle data, but there&#39;s no visible mechanism to ensure the data is anonymized or pseudonymized, which is a requirement under GDPR.</p>
+<p><strong>Solution</strong>: Implement data anonymization or pseudonymization techniques when processing personal data. You could use libraries that provide these features or add code to handle this in your application.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 10</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The code imports modules that handle data, but there&#39;s no visible mechanism to ensure the data is encrypted during storage or transmission, which is a requirement under HIPAA.</p>
+<p><strong>Solution</strong>: Ensure that any health information is encrypted when stored or transmitted. You could use libraries that provide these features or add code to handle this in your application.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 10</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The code imports modules that handle data, but there&#39;s no visible mechanism to ensure the data is protected during storage or transmission, which is a requirement under PCI DSS.</p>
+<p><strong>Solution</strong>: Ensure that any cardholder data is protected when stored or transmitted. You could use libraries that provide these features or add code to handle this in your application.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/quick_blueprint_controller.ts line 13:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { boostLogging } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../utilities/boostLogging&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:24:52 PM PDT</p>
+<p>The line of code you&#39;ve provided is a single import statement from a JavaScript module. </p>
+<p><code>import { boostLogging } from &quot;../utilities/boostLogging&quot;;</code></p>
+<p>This line is importing a specific export, <code>boostLogging</code>, from a module located at <code>../utilities/boostLogging</code>. The <code>../</code> in the path indicates that the module is located in a directory one level up from the current file&#39;s directory. The <code>utilities</code> directory is then accessed, and the <code>boostLogging</code> module within it is imported.</p>
+<p>The <code>boostLogging</code> function or object that is being imported is likely a utility function or object for logging information in the application. This could be used for debugging, error reporting, or tracking application usage. The specifics of its implementation and usage would depend on the code within the <code>boostLogging</code> module itself.</p>
+<p>As for the architectural guidelines, since there are no special architectural guidelines or constraints provided for this software project, we would default to general good practices. The import statement is a common practice in JavaScript and TypeScript projects, allowing for code modularization and reuse. It helps in maintaining clean, maintainable code, which is a key principle in software architecture.</p>
+<p>For more information on JavaScript modules and import statements, here is an educational resource: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">MDN Web Docs: JavaScript Modules</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:28:18 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style boostLogging fill:#228B22, stroke:#000000, stroke-width:2px;
+
+boostLogging</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:29:11 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:31:14 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:33:46 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/quick_blueprint_controller.ts line 14:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>import {
+<span class="hljs-built_in">    findCellByKernel,</span>
+<span class="hljs-built_in">    getProjectName,</span>
+} from <span class="hljs-string">&quot;../extension/extension&quot;</span><span class="hljs-comment">;</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:25:15 PM PDT</p>
+<p>This is a simple piece of code written in JavaScript, specifically in the ES6 (ECMAScript 2015) version.</p>
+<p>The code is using the <code>import</code> statement to import specific functions from a module, which is a fundamental part of modular programming. Modular programming is a design technique that separates the functionality of a program into independent, interchangeable modules.</p>
+<p>Here, the <code>findCellByKernel</code> and <code>getProjectName</code> functions are being imported from the module located at <code>../extension/extension</code>. The path <code>../</code> means that the module is located in the parent directory of the current file, in a folder called <code>extension</code>, and the file itself is named <code>extension</code> (with an assumed <code>.js</code> or <code>.ts</code> extension).</p>
+<p>The <code>findCellByKernel</code> function, as the name suggests, is likely used to find a specific cell within a kernel. A kernel in this context could refer to a kernel in a Jupyter notebook, which is a program responsible for running notebook documents.</p>
+<p>The <code>getProjectName</code> function is likely used to retrieve the name of the current project. The specifics of how these functions work and what they return would be found in their definitions within the <code>extension</code> module.</p>
+<p>There are no algorithms being used in this code snippet. An algorithm is a step-by-step procedure for solving a problem or accomplishing a goal. Here, we&#39;re simply importing functions for use elsewhere in the code.</p>
+<p>For more information on the <code>import</code> statement and modules in JavaScript, you can refer to the following resources:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">import - JavaScript | MDN</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">Modules - JavaScript | MDN</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:28:22 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style findCellByKernel fill:#228B22, stroke:#000000, stroke-width:2px;
+style getProjectName fill:#228B22, stroke:#000000, stroke-width:2px;
+
+findCellByKernel-->getProjectName;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:29:14 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:31:18 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:34:10 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 26</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The method &#39;getProjectName&#39; could potentially access sensitive personal data without explicit user consent. Under GDPR, explicit user consent is required before processing personal data.</p>
+<p><strong>Solution</strong>: Ensure that the &#39;getProjectName&#39; method only accesses data for which explicit user consent has been obtained. Implement a consent mechanism if one does not already exist.</p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 26</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The method &#39;findCellByKernel&#39; could potentially access or process cardholder data. PCI DSS requires that cardholder data is adequately protected.</p>
+<p><strong>Solution</strong>: Ensure that the &#39;findCellByKernel&#39; method does not access or process cardholder data, or if it does, that it complies with PCI DSS requirements for protecting such data.</p>
+</li>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 26</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The methods &#39;findCellByKernel&#39; and &#39;getProjectName&#39; could potentially access or process protected health information (PHI). HIPAA requires that PHI is adequately protected.</p>
+<p><strong>Solution</strong>: Ensure that the methods &#39;findCellByKernel&#39; and &#39;getProjectName&#39; do not access or process PHI, or if they do, that they comply with HIPAA requirements for protecting such information.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/quick_blueprint_controller.ts line 18:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { generateCellOutputWithHeader } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../extension/extensionUtilities&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:25:41 PM PDT</p>
+<p>The code you&#39;ve provided is a single line of code, specifically an import statement in JavaScript (or TypeScript). Here&#39;s a breakdown of this line:</p>
+<p><code>import { generateCellOutputWithHeader } from &quot;../extension/extensionUtilities&quot;;</code></p>
+<p>This statement imports a specific function, <code>generateCellOutputWithHeader</code>, from a module located at <code>../extension/extensionUtilities</code>. </p>
+<p>The <code>generateCellOutputWithHeader</code> function is likely a utility function that&#39;s used elsewhere in the codebase. Without more context, it&#39;s hard to say exactly what this function does, but based on the name, it probably generates some sort of output for a &quot;cell&quot; (possibly a grid or table cell in a user interface), and this output includes a header of some sort.</p>
+<p>The path <code>&quot;../extension/extensionUtilities&quot;</code> indicates where the module is located relative to the current file. The <code>..</code> means &quot;go up one directory level&quot;, <code>extension</code> is a directory at that level, and <code>extensionUtilities</code> is the name of the file (without the .js or .ts extension).</p>
+<p>This import statement uses the ES6 (ECMAScript 2015) module syntax, which is the standard in modern JavaScript and TypeScript development. It&#39;s part of a larger system of modules and imports/exports that allows for the organization of code into separate files and modules, each of which can have its own scope and can export functions, objects, or values to be used in other modules.</p>
+<p>The architectural guidelines provided do not give specific constraints or guidelines regarding the organization or modularization of code. However, using modules and imports/exports as demonstrated in this line of code is a common best practice in JavaScript and TypeScript development, as it promotes code organization, reusability, and separation of concerns.</p>
+<p>You can read more about ES6 modules and import/export syntax at <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">MDN Web Docs</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:28:25 PM PDT</p>
+<p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:29:18 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:31:21 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:34:23 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 34</p>
+<p><strong>Bug Type</strong>: Imported module</p>
+<p><strong>Description</strong>: The imported module &#39;generateCellOutputWithHeader&#39; from &#39;../extension/extensionUtilities&#39; might be processing or transmitting data. Without knowing what&#39;s inside this module, it&#39;s impossible to assess if there&#39;s any data compliance or privacy issue.</p>
+<p><strong>Solution</strong>: Review the module &#39;generateCellOutputWithHeader&#39; for any data handling and ensure it complies with GDPR, PCI DSS, and HIPAA regulations. Apply encryption, anonymization, and other necessary data protection measures if sensitive data is involved.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/quick_blueprint_controller.ts line 19:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> {
+    getAllProjectFiles
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../utilities/files&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:26:08 PM PDT</p>
+<p>The provided code is a simple import statement in JavaScript. It&#39;s importing a function named <code>getAllProjectFiles</code> from a module located at <code>../utilities/files</code>. </p>
+<p>Let&#39;s break it down:</p>
+<p><code>import</code>: This is a keyword in JavaScript that is used to import functions, objects or values from other modules or files.</p>
+<p><code>{getAllProjectFiles}</code>: This is the specific function that we are importing from the module. The curly braces are used when we want to import specific exports from the module, as opposed to importing the entire module.</p>
+<p><code>from &quot;../utilities/files&quot;</code>: This is the path to the module that we are importing from. The <code>..</code> means we are going up one directory level from the current file, then we are going into the <code>utilities</code> directory and importing from the <code>files</code> module.</p>
+<p>The <code>getAllProjectFiles</code> function is not defined in this code snippet, but based on the name, we can infer that it&#39;s a function that retrieves all files in a project. The actual implementation of this function could involve various algorithms or methods, depending on how it&#39;s designed. For example, it could use a depth-first search (DFS) or breadth-first search (BFS) algorithm to traverse the project&#39;s directory structure.</p>
+<p>Here are some resources for further reading:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">JavaScript import statement</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Depth-first_search">Depth-First Search (DFS)</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Breadth-first_search">Breadth-First Search (BFS)</a></li>
+</ul>
+<p>As for the architectural guidelines, since no specific guidelines or constraints are provided, we can only say that this code is consistent with common practices for modular JavaScript development. It helps in maintaining separation of concerns by importing only the required function from a module, rather than the entire module.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:28:29 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style getAllProjectFiles fill:#228B22, stroke:#000000, stroke-width:2px;
+
+    getAllProjectFiles-->End;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:29:22 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:31:24 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:34:34 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 36</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The function <code>getAllProjectFiles</code> could potentially access and process personal data as it retrieves all files in a project. Under GDPR, processing personal data requires explicit consent.</p>
+<p><strong>Solution</strong>: Ensure that the function does not process personal data, or if it does, obtain explicit consent from the user. Implement a data protection impact assessment (DPIA) to identify and minimize the data protection risks.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/quick_blueprint_controller.ts line 22:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { getCurrentOrganization } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../utilities/authorization&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:26:28 PM PDT</p>
+<p>The code you&#39;ve provided is a single line of JavaScript or TypeScript code that imports a function called <code>getCurrentOrganization</code> from a module located at <code>../utilities/authorization</code>.</p>
+<p>The <code>import</code> statement is used to import functions, objects, or values that have been exported from an external module, in this case, the module at <code>../utilities/authorization</code>. This is a relative path, so the module is located in a directory called <code>utilities</code> that is a sibling of the current directory.</p>
+<p>The function <code>getCurrentOrganization</code> is likely a utility function that retrieves the current organization for the user. This might involve checking some form of authorization token or user session data to determine which organization the user belongs to.</p>
+<p>The algorithm used in this function would depend on the specific implementation in the <code>authorization</code> module. It might involve parsing a JWT (JSON Web Token) or making a request to an authentication service.</p>
+<p>Although this code snippet is brief, it adheres to good software design principles by separating concerns. Authorization logic is kept in a separate utility module, keeping the code modular and easier to maintain and test.</p>
+<p>For more information on <code>import</code> and modules in JavaScript, you can refer to the following resources:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">MDN Web Docs: import</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">MDN Web Docs: JavaScript Modules</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:28:33 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre><p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:29:25 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:31:29 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:34:45 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 42</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The function &#39;getCurrentOrganization&#39; could potentially be accessing and returning user-specific data without explicit user consent, which is a violation of GDPR.</p>
+<p><strong>Solution</strong>: Ensure that the user has given explicit consent for their data to be accessed and used. If not, implement a mechanism to obtain this consent. Also, consider anonymizing the data if possible.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/quick_blueprint_controller.ts line 23:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { ControllerOutputType } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./controllerOutputTypes&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:26:54 PM PDT</p>
+<p>The code provided is a single line of code, which is an import statement in JavaScript or TypeScript.</p>
+<p><code>import { ControllerOutputType } from &quot;./controllerOutputTypes&quot;;</code></p>
+<p>This line of code is importing a specific export, <code>ControllerOutputType</code>, from another module named <code>controllerOutputTypes</code>. This module is located in the same directory as the file where this import statement is used, as indicated by the <code>./</code> at the beginning of the module path.</p>
+<p><code>ControllerOutputType</code> could be a type, an interface, a class, a function, or a variable that is exported from the <code>controllerOutputTypes</code> module. Without more context, it&#39;s hard to say what exactly it is, but given the naming convention, it&#39;s likely a type or an interface.</p>
+<p>This import statement allows the current module to use the <code>ControllerOutputType</code> in its code, which could be for type checking, instantiating a new object, calling a function, or accessing a variable, depending on what <code>ControllerOutputType</code> actually is.</p>
+<p>The import/export system in JavaScript (also used in TypeScript) is part of the ES6 (ECMAScript 2015) module system. It&#39;s a way to share code between different files or modules. You can export things from one module and then import them in another module. This helps to organize code into logical and manageable chunks, and it can also help to avoid naming conflicts, because each module has its own scope.</p>
+<p>Here are some educational resources for further reading:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">Mozilla Developer Network (MDN) Guide on import statement</a></li>
+<li><a href="https://www.sitepoint.com/understanding-es6-modules/">Understanding ES6 Modules</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/modules.html">TypeScript Modules Documentation</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:28:38 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ControllerOutputType fill:#228B22, stroke:#000000, stroke-width:2px;
+
+Start-->ControllerOutputType;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:29:28 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:31:32 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:34:49 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/quick_blueprint_controller.ts line 24:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { DisplayGroupFriendlyName } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../data/userAnalysisType&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:27:16 PM PDT</p>
+<p>The code provided is a single line of code in JavaScript (or TypeScript) that imports a specific exported element, <code>DisplayGroupFriendlyName</code>, from another module located at <code>../data/userAnalysisType</code>.</p>
+<p>The <code>import</code> statement is part of ES6 (ECMAScript 2015) modules syntax, and it allows you to include functionality from other JavaScript files in your code. The path <code>../data/userAnalysisType</code> is a relative path to the module file. The <code>..</code> means it&#39;s looking in the parent directory of the current module, in a subdirectory named <code>data</code>, for a JavaScript file named <code>userAnalysisType</code>.</p>
+<p>The <code>{ DisplayGroupFriendlyName }</code> syntax is used to import a specific export from the module. It&#39;s known as named import. The <code>DisplayGroupFriendlyName</code> must be an exported constant, function, or class in the <code>userAnalysisType</code> module.</p>
+<p>As for the algorithm used, there&#39;s not really an algorithm in this line of code. It&#39;s just a directive to the JavaScript interpreter to include a specific piece of functionality from another module. The actual loading of the module is handled by the JavaScript runtime environment, and the specifics of how that works can depend on the environment.</p>
+<p>This line of code is consistent with the architectural blueprint summary provided earlier. It shows that the project is using ES6 modules, which is a common practice in modern JavaScript and TypeScript development. It&#39;s also consistent with the object-oriented design principle, as it&#39;s importing a specific piece of functionality (likely a class, function, or constant) to be used in an object-oriented manner.</p>
+<p>For more details on ES6 modules and import statement, you can refer to this link: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">MDN Web Docs: import</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:28:41 PM PDT</p>
+<p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:29:31 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:31:35 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:35:00 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 46</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The code imports a module that seems to handle user data. If this data includes any personal information, it might be a violation of GDPR, PCI DSS, and HIPAA if not properly handled.</p>
+<p><strong>Solution</strong>: Ensure that all personal data is encrypted, not stored longer than necessary, and that users have given consent for their data to be used. Also, ensure that the data is only used for the purpose it was collected for.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/quick_blueprint_controller.ts line 25:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> quickBlueprintKernelName = <span class="hljs-string">&quot;quickblueprint&quot;</span>;
+<span class="hljs-keyword">const</span> quickBlueprintOutputHeader = <span class="hljs-string">`Architectural Quick Blueprint`</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BoostQuickBlueprintKernel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">KernelControllerBase</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">
+        context: vscode.ExtensionContext,
+        onServiceErrorHandler: <span class="hljs-built_in">any</span>,
+        otherThis: <span class="hljs-built_in">any</span>,
+        collection: vscode.DiagnosticCollection
+    </span>) {
+        <span class="hljs-variable language_">super</span>(
+            collection,
+            quickBlueprintKernelName,
+            <span class="hljs-string">&quot;Quick Architectural Blueprint Code&quot;</span>,
+            <span class="hljs-string">&quot;Quickly builds an Archiectural Blueprint from hints about project and source code.&quot;</span>,
+            <span class="hljs-title class_">ControllerOutputType</span>.<span class="hljs-property">blueprint</span>,
+            <span class="hljs-title class_">DisplayGroupFriendlyName</span>.<span class="hljs-property">documentation</span>,
+            quickBlueprintOutputHeader,
+            <span class="hljs-literal">false</span>,
+            <span class="hljs-literal">false</span>,
+            context,
+            otherThis,
+            onServiceErrorHandler
+        );
+    }
+
+    <span class="hljs-title function_">dispose</span>(): <span class="hljs-built_in">void</span> {
+        <span class="hljs-variable language_">super</span>.<span class="hljs-title function_">dispose</span>();
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">get</span> <span class="hljs-title function_">serviceEndpoint</span>(): <span class="hljs-built_in">string</span> {
+        <span class="hljs-keyword">switch</span> (<span class="hljs-title class_">BoostConfiguration</span>.<span class="hljs-property">cloudServiceStage</span>) {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;local&quot;</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;http://127.0.0.1:8000/draft-blueprint&quot;</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;dev&quot;</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;https://b7zk2dm2haygvcluz4jx2by3vm0ypljn.lambda-url.us-west-2.on.aws/&quot;</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;test&quot;</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;https://7hcsi442ct5fty7tkw3syxjhka0ehlds.lambda-url.us-west-2.on.aws/&quot;</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;staging&quot;</span>:
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;prod&quot;</span>:
+            <span class="hljs-attr">default</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;https://7qpij3jplvcmdaojfumgj32e7e0vcchc.lambda-url.us-west-2.on.aws/&quot;</span>;
+        }
+    }
+
+    <span class="hljs-comment">// for internal readability, we use a more explicit name to know which endpoint is being used</span>
+    <span class="hljs-keyword">get</span> <span class="hljs-title function_">draftServiceEndpoint</span>(): <span class="hljs-built_in">string</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">serviceEndpoint</span>;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">get</span> <span class="hljs-title function_">quickServiceEndpoint</span>(): <span class="hljs-built_in">string</span> {
+        <span class="hljs-keyword">switch</span> (<span class="hljs-title class_">BoostConfiguration</span>.<span class="hljs-property">cloudServiceStage</span>) {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;local&quot;</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;http://127.0.0.1:8000/quick-blueprint&quot;</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;dev&quot;</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;https://c2m6d7mgrgypx3mzktbxoawfpa0acsja.lambda-url.us-west-2.on.aws/&quot;</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;test&quot;</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;https://nvw7caoex6ipyisd7matillvci0eclws.lambda-url.us-west-2.on.aws/&quot;</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;staging&quot;</span>:
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;prod&quot;</span>:
+            <span class="hljs-attr">default</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;https://vryv4jotc6rghitxmwaz5whrqm0obehc.lambda-url.us-west-2.on.aws/&quot;</span>;
+        }
+    }
+
+    <span class="hljs-keyword">async</span> <span class="hljs-title function_">executeAll</span>(
+        <span class="hljs-attr">_</span>: (vscode.<span class="hljs-property">NotebookCell</span> | <span class="hljs-title class_">BoostNotebookCell</span>)[],
+        <span class="hljs-attr">notebook</span>: vscode.<span class="hljs-property">NotebookDocument</span> | <span class="hljs-title class_">BoostNotebook</span>,
+        <span class="hljs-attr">session</span>: vscode.<span class="hljs-property">AuthenticationSession</span>,
+        <span class="hljs-attr">forceAnalysisRefresh</span>: <span class="hljs-built_in">boolean</span> = <span class="hljs-literal">false</span>
+    ): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">boolean</span>&gt; {
+        <span class="hljs-keyword">const</span> usingBoostNotebook = notebook <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">BoostNotebook</span>;
+
+        <span class="hljs-comment">// for now, we ignore forceAnalysisRefresh - and always re-analyze</span>
+        forceAnalysisRefresh = <span class="hljs-literal">true</span>;
+
+        <span class="hljs-keyword">if</span> (!usingBoostNotebook) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(
+                <span class="hljs-string">&quot;Quick Blueprint can only be run on offline Notebooks&quot;</span>
+            );
+        }
+
+        <span class="hljs-comment">// are we analyzing a source file or a project?</span>
+        <span class="hljs-keyword">let</span> projectWideAnalysis =
+            (notebook.<span class="hljs-property">metadata</span>[<span class="hljs-string">&quot;sourceFile&quot;</span>] <span class="hljs-keyword">as</span> <span class="hljs-built_in">string</span>) === <span class="hljs-string">&quot;./&quot;</span>;
+        <span class="hljs-keyword">if</span> (!projectWideAnalysis) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(
+                <span class="hljs-string">&quot;Quick Blueprint can only be run at the Project level&quot;</span>
+            );
+        }
+
+        <span class="hljs-comment">// now get the current organization</span>
+        <span class="hljs-keyword">let</span> organization = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getCurrentOrganization</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">context</span>);
+        <span class="hljs-keyword">if</span> (!organization) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;Organization not found&quot;</span>);
+        }
+
+        <span class="hljs-keyword">const</span> authPayload = {
+            <span class="hljs-attr">session</span>: session.<span class="hljs-property">accessToken</span>,
+            <span class="hljs-attr">organization</span>: organization,
+        };
+
+        boostLogging.<span class="hljs-title function_">info</span>(
+            <span class="hljs-string">`Starting <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.command}</span> of Notebook <span class="hljs-subst">${notebook.fsPath}</span>`</span>,
+            <span class="hljs-literal">false</span>
+        );
+
+        <span class="hljs-keyword">let</span> successfullyCompleted = <span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_runQuickBlueprintStages</span>(notebook, authPayload);
+        } <span class="hljs-keyword">catch</span> (rethrow) {
+            successfullyCompleted = <span class="hljs-literal">false</span>;
+            boostLogging.<span class="hljs-title function_">error</span>(
+                <span class="hljs-string">`Error during <span class="hljs-subst">${
+                    <span class="hljs-variable language_">this</span>.command
+                }</span> of Project-level Notebook at <span class="hljs-subst">${<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().toLocaleTimeString()}</span>`</span>,
+                <span class="hljs-literal">false</span>
+            );
+            <span class="hljs-keyword">throw</span> rethrow;
+        } <span class="hljs-keyword">finally</span> {
+            boostLogging.<span class="hljs-title function_">info</span>(
+                <span class="hljs-string">`Finished <span class="hljs-subst">${
+                    <span class="hljs-variable language_">this</span>.command
+                }</span> of Project-level Notebook at <span class="hljs-subst">${<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().toLocaleTimeString()}</span>`</span>,
+                !usingBoostNotebook
+            );
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">async</span> <span class="hljs-title function_">_runQuickBlueprintStages</span>(<span class="hljs-params">
+        notebook: BoostNotebook,
+        authPayload: <span class="hljs-built_in">any</span>
+    </span>) {
+        <span class="hljs-comment">// we don&#x27;t want to overwrite summary blueprints, which are far more detailed and useful in general</span>
+        <span class="hljs-keyword">let</span> existingBlueprintCell = <span class="hljs-title function_">findCellByKernel</span>(
+            notebook,
+            <span class="hljs-title class_">ControllerOutputType</span>.<span class="hljs-property">blueprint</span>
+        ) <span class="hljs-keyword">as</span> <span class="hljs-title class_">BoostNotebookCell</span>;
+        <span class="hljs-keyword">if</span> (
+            existingBlueprintCell &amp;&amp;
+            existingBlueprintCell.<span class="hljs-property">value</span> &amp;&amp;
+            existingBlueprintCell.<span class="hljs-property">metadata</span>?.<span class="hljs-property">blueprintType</span>
+        ) {
+            <span class="hljs-comment">// overwriting deep summaries for now - since quick summaries are more reliable</span>
+            <span class="hljs-keyword">if</span> (existingBlueprintCell.<span class="hljs-property">metadata</span>.<span class="hljs-property">blueprintType</span> === <span class="hljs-string">&quot;summary&quot;</span>) {
+                boostLogging.<span class="hljs-title function_">info</span>(
+                    <span class="hljs-string">`Overwriting deep summary <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.command}</span> of Project-level Notebook with blueprint`</span>,
+                    <span class="hljs-literal">false</span>
+                );
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (
+                existingBlueprintCell.<span class="hljs-property">metadata</span>.<span class="hljs-property">blueprintType</span> === <span class="hljs-string">&quot;quick&quot;</span>
+            ) {
+                boostLogging.<span class="hljs-title function_">info</span>(
+                    <span class="hljs-string">`Rebuilding <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.command}</span> of Project-level Notebook `</span> +
+                        <span class="hljs-string">`from last quick blueprint`</span>,
+                    <span class="hljs-literal">false</span>
+                );
+            }
+        }
+
+        <span class="hljs-comment">// do the core multi-stage processing of Draft first, then Quick blueprint</span>
+
+        <span class="hljs-comment">// we create a placeholder cell for the input, so we can do processing on the input</span>
+        <span class="hljs-comment">// then we&#x27;ll take the resulting data and run a 2nd pass with updated cell metadata</span>
+        <span class="hljs-comment">// note: we need to pass an empty string for cell contents, so it isn&#x27;t injected into the payload</span>
+        <span class="hljs-comment">//    automatically</span>
+        <span class="hljs-keyword">const</span> tempProcessingCell = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BoostNotebookCell</span>(
+            <span class="hljs-title class_">NotebookCellKind</span>.<span class="hljs-property">Markup</span>,
+            <span class="hljs-string">&quot;&quot;</span>,
+            <span class="hljs-string">&quot;markdown&quot;</span>
+        );
+
+        <span class="hljs-keyword">const</span> files = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getAllProjectFiles</span>(<span class="hljs-literal">true</span>);
+        <span class="hljs-keyword">const</span> projectName = <span class="hljs-title function_">getProjectName</span>();
+
+        <span class="hljs-keyword">const</span> payloadDraft = {
+            <span class="hljs-attr">filelist</span>: files,
+            <span class="hljs-attr">projectName</span>: projectName,
+            ...authPayload,
+        };
+
+        <span class="hljs-comment">// execute the draft blueprint service</span>
+        <span class="hljs-keyword">const</span> draftResponse = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">doKernelExecution</span>(
+            notebook,
+            tempProcessingCell,
+            <span class="hljs-literal">undefined</span>,
+            payloadDraft,
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">draftServiceEndpoint</span>
+        );
+        <span class="hljs-comment">// assert response.payload[&#x27;statusCode&#x27;] == 200</span>
+        <span class="hljs-keyword">if</span> (draftResponse <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Error</span>) {
+            <span class="hljs-keyword">let</span> throwErr = draftResponse <span class="hljs-keyword">as</span> <span class="hljs-title class_">Error</span>;
+            <span class="hljs-keyword">throw</span> throwErr;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (draftResponse.<span class="hljs-property">data</span> <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Error</span>) {
+            <span class="hljs-keyword">let</span> throwErr = draftResponse.<span class="hljs-property">data</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Error</span>;
+            <span class="hljs-keyword">throw</span> throwErr;
+        }
+
+        <span class="hljs-keyword">if</span> (draftResponse.<span class="hljs-property">status</span> !== <span class="hljs-number">1</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(
+                <span class="hljs-string">&quot;Unable to create a draft blueprint - please check your project files and try again&quot;</span>
+            );
+        }
+
+        <span class="hljs-keyword">const</span> fullSourcePath = path.<span class="hljs-title function_">join</span>(
+            vscode.<span class="hljs-property">workspace</span>.<span class="hljs-property">workspaceFolders</span>![<span class="hljs-number">0</span>].<span class="hljs-property">uri</span>.<span class="hljs-property">fsPath</span>,
+            draftResponse.<span class="hljs-property">details</span>.<span class="hljs-property">recommendedSampleSourceFile</span>
+        );
+        <span class="hljs-keyword">const</span> normalizedFullSourcePath = path.<span class="hljs-title function_">normalize</span>(fullSourcePath);
+
+        <span class="hljs-keyword">const</span> sampleCode = !(
+            draftResponse.<span class="hljs-property">details</span>.<span class="hljs-property">recommendedSampleSourceFile</span> &amp;&amp;
+            fs.<span class="hljs-title function_">existsSync</span>(fullSourcePath)
+        )
+            ? <span class="hljs-string">&quot;&quot;</span>
+            : fs.<span class="hljs-title function_">readFileSync</span>(normalizedFullSourcePath, <span class="hljs-string">&quot;utf8&quot;</span>);
+
+        <span class="hljs-keyword">const</span> fullProjectFilePath = path.<span class="hljs-title function_">join</span>(
+            vscode.<span class="hljs-property">workspace</span>.<span class="hljs-property">workspaceFolders</span>![<span class="hljs-number">0</span>].<span class="hljs-property">uri</span>.<span class="hljs-property">fsPath</span>,
+            draftResponse.<span class="hljs-property">details</span>.<span class="hljs-property">recommendedProjectDeploymentFile</span>
+        );
+        <span class="hljs-keyword">const</span> extraDetails = {
+            <span class="hljs-attr">recommendedProjectDeploymentFile</span>:
+                draftResponse.<span class="hljs-property">details</span>.<span class="hljs-property">recommendedProjectDeploymentFile</span>,
+            <span class="hljs-attr">recommendedListOfFilesToExcludeFromAnalysis</span>:
+                draftResponse.<span class="hljs-property">details</span>
+                    .<span class="hljs-property">recommendedListOfFilesToExcludeFromAnalysis</span>,
+            <span class="hljs-attr">prioritizedListOfSourceFilesToAnalyze</span>:
+                draftResponse.<span class="hljs-property">details</span>
+                    .<span class="hljs-property">prioritizedListOfSourceFilesToAnalyze</span>,
+        };
+        <span class="hljs-keyword">const</span> normalizedFullProjectFilePath =
+            path.<span class="hljs-title function_">normalize</span>(fullProjectFilePath);
+        <span class="hljs-keyword">const</span> projectFileContents = !(
+            draftResponse.<span class="hljs-property">details</span>.<span class="hljs-property">recommendedProjectDeploymentFile</span> &amp;&amp;
+            fs.<span class="hljs-title function_">existsSync</span>(fullProjectFilePath)
+        )
+            ? <span class="hljs-string">&quot;&quot;</span>
+            : fs.<span class="hljs-title function_">readFileSync</span>(normalizedFullProjectFilePath, <span class="hljs-string">&quot;utf8&quot;</span>);
+
+        <span class="hljs-keyword">const</span> filteredFiles = files.<span class="hljs-title function_">filter</span>(
+            <span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span>
+                !draftResponse.<span class="hljs-property">details</span>.<span class="hljs-property">recommendedListOfFilesToExcludeFromAnalysis</span>?.<span class="hljs-title function_">includes</span>(
+                    item
+                )
+        );
+
+        <span class="hljs-keyword">const</span> payloadQuick = {
+            <span class="hljs-attr">filelist</span>: filteredFiles,
+            <span class="hljs-attr">projectName</span>: projectName,
+            <span class="hljs-attr">projectFile</span>: projectFileContents,
+            <span class="hljs-attr">draftBlueprint</span>: draftResponse.<span class="hljs-property">details</span>.<span class="hljs-property">draftBlueprint</span>,
+            <span class="hljs-attr">code</span>: sampleCode,
+            ...authPayload,
+        };
+
+        <span class="hljs-comment">// execute the quick blueprint service</span>
+        <span class="hljs-keyword">const</span> quickResponse = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">doKernelExecution</span>(
+            notebook,
+            tempProcessingCell,
+            <span class="hljs-literal">undefined</span>,
+            payloadQuick,
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">quickServiceEndpoint</span>
+        );
+        <span class="hljs-comment">// assert response.payload[&#x27;statusCode&#x27;] == 200</span>
+        <span class="hljs-keyword">if</span> (quickResponse <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Error</span>) {
+            <span class="hljs-keyword">let</span> throwErr = quickResponse <span class="hljs-keyword">as</span> <span class="hljs-title class_">Error</span>;
+            <span class="hljs-keyword">throw</span> throwErr;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (quickResponse.<span class="hljs-property">data</span> <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Error</span>) {
+            <span class="hljs-keyword">let</span> throwErr = quickResponse.<span class="hljs-property">data</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">Error</span>;
+            <span class="hljs-keyword">throw</span> throwErr;
+        }
+
+        <span class="hljs-keyword">let</span> <span class="hljs-attr">originalDetails</span>: <span class="hljs-built_in">any</span> =
+            tempProcessingCell.<span class="hljs-property">outputs</span>[<span class="hljs-number">0</span>].<span class="hljs-property">metadata</span>?.<span class="hljs-property">details</span>;
+        <span class="hljs-keyword">if</span> (originalDetails) {
+            originalDetails = {
+                ...originalDetails,
+                ...extraDetails,
+            };
+        } <span class="hljs-keyword">else</span> {
+            originalDetails = {};
+        }
+
+        <span class="hljs-keyword">let</span> targetCell = <span class="hljs-title function_">findCellByKernel</span>(
+            notebook,
+            <span class="hljs-title class_">ControllerOutputType</span>.<span class="hljs-property">blueprint</span>
+        ) <span class="hljs-keyword">as</span> <span class="hljs-title class_">BoostNotebookCell</span>;
+
+        <span class="hljs-keyword">if</span> (!targetCell) {
+            targetCell = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BoostNotebookCell</span>(
+                <span class="hljs-title class_">NotebookCellKind</span>.<span class="hljs-property">Markup</span>,
+                <span class="hljs-string">&quot;&quot;</span>,
+                <span class="hljs-string">&quot;markdown&quot;</span>
+            );
+            targetCell.<span class="hljs-title function_">initializeMetadata</span>({
+                <span class="hljs-attr">id</span>: targetCell.<span class="hljs-property">id</span>,
+                <span class="hljs-attr">outputType</span>: <span class="hljs-title class_">ControllerOutputType</span>.<span class="hljs-property">blueprint</span>,
+                <span class="hljs-attr">blueprintType</span>: <span class="hljs-string">&quot;quick&quot;</span>,
+            });
+            notebook.<span class="hljs-title function_">addCell</span>(targetCell);
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// store quick as the blueprint type</span>
+            targetCell.<span class="hljs-title function_">initializeMetadata</span>({
+                ...targetCell.<span class="hljs-property">metadata</span>,
+                <span class="hljs-attr">blueprintType</span>: <span class="hljs-string">&quot;quick&quot;</span>,
+            });
+        }
+        <span class="hljs-comment">// snap the processed quick blueprint from the temp cell and store it in real notebook</span>
+        targetCell.<span class="hljs-property">value</span> = tempProcessingCell.<span class="hljs-property">outputs</span>[<span class="hljs-number">0</span>].<span class="hljs-property">items</span>[<span class="hljs-number">0</span>].<span class="hljs-property">data</span>;
+        <span class="hljs-comment">// we&#x27;re also going to store the details in the usual output section</span>
+        <span class="hljs-comment">//    for the synthesized cell</span>
+        <span class="hljs-keyword">const</span> <span class="hljs-attr">analysisOutput</span>: <span class="hljs-title class_">SerializedNotebookCellOutput</span> = {
+            <span class="hljs-attr">items</span>: [{ <span class="hljs-attr">mime</span>: markdownMimeType, <span class="hljs-attr">data</span>: <span class="hljs-string">&quot;&quot;</span> }],
+            <span class="hljs-attr">metadata</span>: { <span class="hljs-attr">outputType</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">outputType</span>, <span class="hljs-attr">details</span>: originalDetails },
+        };
+
+        targetCell.<span class="hljs-title function_">updateOutputItem</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">outputType</span>, analysisOutput);
+
+        notebook.<span class="hljs-title function_">flushToFS</span>();
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+
+    <span class="hljs-title function_">onKernelOutputItem</span>(
+        <span class="hljs-attr">response</span>: <span class="hljs-built_in">any</span>,
+        <span class="hljs-attr">cell</span>: vscode.<span class="hljs-property">NotebookCell</span> | <span class="hljs-title class_">BoostNotebookCell</span>,
+        <span class="hljs-attr">mimetype</span>: <span class="hljs-built_in">any</span>
+    ): <span class="hljs-built_in">string</span> {
+        <span class="hljs-keyword">if</span> (
+            response.<span class="hljs-property">blueprint</span> === <span class="hljs-literal">undefined</span> &amp;&amp;
+            response.<span class="hljs-property">details</span> === <span class="hljs-literal">undefined</span>
+        ) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;Unexpected missing data from Boost Service&quot;</span>);
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_">generateCellOutputWithHeader</span>(
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">outputHeader</span>,
+            response.<span class="hljs-property">blueprint</span>
+        );
+    }
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:27:51 PM PDT</p>
+<p>The above code is written in TypeScript and is part of a Visual Studio Code (VS Code) extension that provides functionality to analyze source code and generate an architectural blueprint of a project. The code uses object-oriented design (a design pattern where software is organized around objects rather than functions and data rather than logic) and asynchronous programming (a means of parallel programming in which a unit of work runs separately from the main application thread and notifies the calling thread of its completion, failure, or progress).</p>
+<p>Here is a detailed breakdown of the code:</p>
+<ul>
+<li><p>The code exports a class named <code>BoostQuickBlueprintKernel</code> which extends the base class <code>KernelControllerBase</code>. This class is responsible for generating an architectural blueprint of a project.</p>
+</li>
+<li><p>The constructor of the class initializes the base class with the necessary parameters such as the name of the kernel, its description, output type, and other necessary parameters.</p>
+</li>
+<li><p>The class has two getter methods <code>serviceEndpoint</code> and <code>quickServiceEndpoint</code> that return the endpoint of the service based on the stage of the cloud service. The endpoints are different for local, dev, test, staging, and prod stages.</p>
+</li>
+<li><p>The <code>executeAll</code> method is an asynchronous method that executes all the cells of a notebook. It checks if the notebook is an instance of <code>BoostNotebook</code> and if the analysis is project-wide. If not, it throws an error. It then gets the current organization and starts the execution of the notebook. It finally calls the <code>_runQuickBlueprintStages</code> method to run the stages of the quick blueprint.</p>
+</li>
+<li><p>The <code>_runQuickBlueprintStages</code> method is a private asynchronous method that performs the core processing of the blueprint. It checks if there are any existing blueprint cells and if yes, it overwrites them. It then gets all the project files and the project name and prepares the payload for the draft blueprint service. It then calls the <code>doKernelExecution</code> method to execute the draft blueprint service. If the draft response is successful, it prepares the payload for the quick blueprint service and executes it. It then updates the output of the target cell with the response from the quick blueprint service and flushes the notebook to the file system.</p>
+</li>
+<li><p>The <code>onKernelOutputItem</code> method is called when there is an output from the kernel. It checks if the response from the Boost Service contains the blueprint and details. If not, it throws an error. It then generates the cell output with the blueprint.</p>
+</li>
+</ul>
+<p>For more information on object-oriented design, refer to this <a href="https://en.wikipedia.org/wiki/Object-oriented_design">link</a>. For more information on asynchronous programming, refer to this <a href="https://en.wikipedia.org/wiki/Asynchronous_programming">link</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:28:47 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;
+ExampleProcess-->End;
+ExampleErrorPath-->End;</pre>
+</code></pre><p>In the mermaid code syntax, do not use parenthesis, invalid or special characters. If no control flow is present in the code (for example, the code is just comments), return the string &quot;NO CONTROL FLOW FOUND&quot;.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:30:09 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 93</p>
+<p><strong>Bug Type</strong>: Insecure Direct Object References (IDOR)</p>
+<p><strong>Description</strong>: The function <code>getCurrentOrganization(this.context)</code> is used without proper validation. This could lead to unauthorized access if an attacker can manipulate &#39;this.context&#39; to reference an object that they should not have access to.</p>
+<p><strong>Solution</strong>: Implement proper access controls to ensure that the user has the necessary permissions to access the object. Also, validate the input to ensure it is of the expected format. Refer to this link for more details: <a href="https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control">https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control</a></p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 131</p>
+<p><strong>Bug Type</strong>: Insecure Direct Object References (IDOR)</p>
+<p><strong>Description</strong>: The function <code>fs.readFileSync(normalizedFullSourcePath, &#39;utf8&#39;)</code> is used without proper validation. This could lead to unauthorized file access if an attacker can manipulate &#39;normalizedFullSourcePath&#39; to reference a file that they should not have access to.</p>
+<p><strong>Solution</strong>: Implement proper access controls to ensure that the user has the necessary permissions to access the file. Also, validate the input to ensure it is of the expected format. Refer to this link for more details: <a href="https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control">https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control</a></p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 161</p>
+<p><strong>Bug Type</strong>: Insecure Direct Object References (IDOR)</p>
+<p><strong>Description</strong>: The function <code>fs.readFileSync(normalizedFullProjectFilePath, &#39;utf8&#39;)</code> is used without proper validation. This could lead to unauthorized file access if an attacker can manipulate &#39;normalizedFullProjectFilePath&#39; to reference a file that they should not have access to.</p>
+<p><strong>Solution</strong>: Implement proper access controls to ensure that the user has the necessary permissions to access the file. Also, validate the input to ensure it is of the expected format. Refer to this link for more details: <a href="https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control">https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control</a></p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 184</p>
+<p><strong>Bug Type</strong>: Cross-Site Scripting (XSS)</p>
+<p><strong>Description</strong>: The function <code>generateCellOutputWithHeader(this.outputHeader, response.blueprint)</code> uses unescaped user input in the response. This could lead to Cross-Site Scripting (XSS) attacks if an attacker can manipulate &#39;response.blueprint&#39; to include malicious script.</p>
+<p><strong>Solution</strong>: Always escape user input that is included in the output. This will ensure that any script included in the input is not executed. Refer to this link for more details: <a href="https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)">https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:32:15 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 98</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The use of a switch statement to determine the service endpoint can be inefficient if the number of cases is large. Each case is evaluated sequentially until a match is found.</p>
+<p><strong>Solution</strong>: Consider using a map or object literal to store the service endpoints. This will allow for constant time lookup of the endpoint.</p>
+</li>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 121</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The use of the &#39;forceAnalysisRefresh&#39; variable is inefficient. It is always set to true, which may unnecessarily consume memory.</p>
+<p><strong>Solution</strong>: Remove the &#39;forceAnalysisRefresh&#39; variable if it is not needed. If it is needed, consider using it in a way that does not always set it to true.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 210</p>
+<p><strong>Bug Type</strong>: Disk</p>
+<p><strong>Description</strong>: The use of &#39;fs.readFileSync&#39; can be inefficient and potentially block the event loop if the file being read is large. This can lead to poor performance.</p>
+<p><strong>Solution</strong>: Consider using &#39;fs.readFile&#39; instead, which is asynchronous and will not block the event loop. Alternatively, consider reading the file in chunks to avoid blocking the event loop.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 240</p>
+<p><strong>Bug Type</strong>: Network</p>
+<p><strong>Description</strong>: The use of &#39;await&#39; in a loop can lead to poor performance. Each iteration of the loop will wait for the previous one to complete before starting, which can slow down the overall execution of the loop.</p>
+<p><strong>Solution</strong>: Consider using &#39;Promise.all&#39; to execute all the promises at once. This will allow for concurrent execution of the promises, which can lead to better performance.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 281</p>
+<p><strong>Bug Type</strong>: Database/Datastore</p>
+<p><strong>Description</strong>: The &#39;flushToFS&#39; method is called without any error handling. If an error occurs during this operation, it may go unnoticed and lead to data loss or corruption.</p>
+<p><strong>Solution</strong>: Add error handling to the &#39;flushToFS&#39; method. This can be done by wrapping the method call in a try-catch block, or by using a promise-based approach with &#39;.catch&#39; to handle any errors.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:35:48 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 75</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;session.accessToken&#39; is potentially sensitive information and should not be included in logs, error messages, or other forms of output. This could lead to unauthorized access and a violation of GDPR principles.</p>
+<p><strong>Solution</strong>: Remove &#39;session.accessToken&#39; from logs or use token masking/obfuscation techniques to prevent exposure. Always ensure sensitive data is encrypted in transit and at rest.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 75</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The &#39;session.accessToken&#39; might contain sensitive health information. Its exposure could lead to unauthorized access and a violation of HIPAA rules.</p>
+<p><strong>Solution</strong>: Remove &#39;session.accessToken&#39; from logs or use token masking/obfuscation techniques to prevent exposure. Always ensure sensitive data is encrypted in transit and at rest.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 75</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The &#39;session.accessToken&#39; might contain sensitive payment information. Its exposure could lead to unauthorized access and a violation of PCI DSS rules.</p>
+<p><strong>Solution</strong>: Remove &#39;session.accessToken&#39; from logs or use token masking/obfuscation techniques to prevent exposure. Always ensure sensitive data is encrypted in transit and at rest.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 93</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;organization&#39; data might contain personal data. If it&#39;s not properly protected, it could lead to unauthorized access and a violation of GDPR principles.</p>
+<p><strong>Solution</strong>: Ensure &#39;organization&#39; data is encrypted and properly protected during storage and transmission. Implement access controls to limit who can access this data.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 93</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The &#39;organization&#39; data might contain sensitive health information. If it&#39;s not properly protected, it could lead to unauthorized access and a violation of HIPAA rules.</p>
+<p><strong>Solution</strong>: Ensure &#39;organization&#39; data is encrypted and properly protected during storage and transmission. Implement access controls to limit who can access this data.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 93</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The &#39;organization&#39; data might contain sensitive payment information. If it&#39;s not properly protected, it could lead to unauthorized access and a violation of PCI DSS rules.</p>
+<p><strong>Solution</strong>: Ensure &#39;organization&#39; data is encrypted and properly protected during storage and transmission. Implement access controls to limit who can access this data.</p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>

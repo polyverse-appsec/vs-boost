@@ -1,0 +1,140 @@
+{
+  "cells": [
+    {
+      "outputs": [],
+      "languageId": "perl",
+      "id": "0",
+      "value": "package Dancer2::Core::Role::SessionFactory::File;\n# ABSTRACT: Role for file-based session factories\n\nuse Moo::Role;\nwith 'Dancer2::Core::Role::SessionFactory';\n\nuse Carp 'croak';\nuse Dancer2::Core::Types;\nuse Dancer2::FileUtils qw(path set_file_mode escape_filename);\nuse Fcntl ':flock';\nuse File::Copy ();\n\n#--------------------------------------------------------------------------#\n# Required by classes consuming this role\n#--------------------------------------------------------------------------#\n\nrequires '_suffix';              # '.yml', '.json', etc.\nrequires '_thaw_from_handle';    # given handle, return session 'data' field\nrequires '_freeze_to_handle';    # given handle and data, serialize it\n\n\n#--------------------------------------------------------------------------#\n# Attributes and methods\n#--------------------------------------------------------------------------#\n\nhas session_dir => (\n    is      => 'ro',\n    isa     => Str,\n    default => sub { path( '.', 'sessions' ) },\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "perl",
+      "id": "1",
+      "value": ");\n\nsub BUILD {\n    my $self = shift;\n\n    if ( !-d $self->session_dir ) {\n        mkdir $self->session_dir\n          or croak \"Unable to create session dir : \"\n          . $self->session_dir . ' : '\n          . $!;\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 29
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "perl",
+      "id": "2",
+      "value": "\nsub _sessions {\n    my ($self) = @_;\n    my $sessions = [];\n\n    opendir( my $dh, $self->session_dir )\n      or croak \"Unable to open directory \" . $self->session_dir . \" : $!\";\n\n    my $suffix = $self->_suffix;\n\n    while ( my $file = readdir($dh) ) {\n        next if $file eq '.' || $file eq '..';\n        if ( $file =~ /(\\w+)\\Q$suffix\\E/ ) {\n            push @{$sessions}, $1;\n        }\n    }\n    closedir($dh);\n\n    return $sessions;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 41
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "perl",
+      "id": "3",
+      "value": "\nsub _retrieve {\n    my ( $self, $id ) = @_;\n    my $session_file = path( $self->session_dir, escape_filename($id) . $self->_suffix );\n\n    croak \"Invalid session ID: $id\" unless -f $session_file;\n\n    open my $fh, '+<', $session_file or die \"Can't open '$session_file': $!\\n\";\n    flock $fh, LOCK_SH or die \"Can't lock file '$session_file': $!\\n\";\n    my $data = $self->_thaw_from_handle($fh);\n    close $fh or die \"Can't close '$session_file': $!\\n\";\n\n    return $data;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 61
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "perl",
+      "id": "4",
+      "value": "\nsub _change_id {\n    my ($self, $old_id, $new_id) = @_;\n\n    my $old_path =\n      path($self->session_dir, escape_filename($old_id) . $self->_suffix);\n\n    return if !-f $old_path;\n\n    my $new_path =\n      path($self->session_dir, escape_filename($new_id) . $self->_suffix);\n\n    File::Copy::move($old_path, $new_path);\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 75
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "perl",
+      "id": "5",
+      "value": "\nsub _destroy {\n    my ( $self, $id ) = @_;\n    my $session_file = path( $self->session_dir, escape_filename($id) . $self->_suffix );\n    return if !-f $session_file;\n\n    unlink $session_file;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 89
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "perl",
+      "id": "6",
+      "value": "\nsub _flush {\n    my ( $self, $id, $data ) = @_;\n    my $session_file = path( $self->session_dir, escape_filename($id) . $self->_suffix );\n\n    open my $fh, '>', $session_file or die \"Can't open '$session_file': $!\\n\";\n    flock $fh, LOCK_EX or die \"Can't lock file '$session_file': $!\\n\";\n    seek $fh, 0, 0 or die \"Can't seek in file '$session_file': $!\\n\";\n    truncate $fh, 0 or die \"Can't truncate file '$session_file': $!\\n\";\n    set_file_mode($fh);\n    $self->_freeze_to_handle( $fh, $data );\n    close $fh or die \"Can't close '$session_file': $!\\n\";\n\n    return $data;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 97
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "perl",
+      "id": "7",
+      "value": "\n1;\n\n__END__\n\n=head1 DESCRIPTION\n\nThis is a specialized SessionFactory role for storing session\ndata in files.\n\nThis role manages the files.  Classes consuming it only need to handle\nserialization and deserialization.\n\nClasses consuming this must satisfy three requirements: C<_suffix>,\nC<_freeze_to_handle> and C<_thaw_from_handle>.\n\n\n    package Dancer2::Session::XYX;\n\n    use Dancer2::Core::Types;\n    use Moo;\n\n    has _suffix => (\n        is      => 'ro',\n        isa     => Str,\n        default => sub { '.xyz' },\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 112
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "perl",
+      "id": "8",
+      "value": "    );\n\n    with 'Dancer2::Core::Role::SessionFactory::File';\n\n    sub _freeze_to_handle {\n        my ($self, $fh, $data) = @_;\n\n        # ... do whatever to get data into $fh\n\n        return;\n    }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 8,
+        "type": "originalCode",
+        "lineNumberBase": 138
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "perl",
+      "id": "9",
+      "value": "\n    sub _thaw_from_handle {\n        my ($self, $fh) = @_;\n        my $data;\n\n        # ... do whatever to get data from $fh\n\n        return $data;\n    }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 9,
+        "type": "originalCode",
+        "lineNumberBase": 149
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "perl",
+      "id": "10",
+      "value": "\n    1;\n\n=attr session_dir\n\nWhere to store the session files.  Defaults to \"./sessions\".\n\n=cut\n",
+      "kind": 2,
+      "metadata": {
+        "id": 10,
+        "type": "originalCode",
+        "lineNumberBase": 158
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/unit/data/dancer2_file.pm"
+  }
+}

@@ -1,0 +1,282 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 1:41:11 AM PDT\n\nThe line of code you provided is a single import statement in JavaScript (or TypeScript). It's not enough to provide a detailed analysis or identify algorithms, as it's just a part of a larger codebase. However, I can explain what this line does.\n\n```javascript\nimport { BoostConfiguration } from \"../extension/boostConfiguration\";\n```\n\nThis line is importing the `BoostConfiguration` object from a module located at `../extension/boostConfiguration`. \n\nIn JavaScript and TypeScript, `import` and `export` statements are used to share code between different files (modules). In this case, the `BoostConfiguration` object is likely a class, function, or variable that's being exported from the `boostConfiguration` module.\n\nThe `../` in the module path indicates that the `boostConfiguration` file is in a directory one level up from the current file. The `extension` part of the path indicates that inside that directory, there's another directory named `extension` where the `boostConfiguration` file is located.\n\nThe `BoostConfiguration` object imported here would be used in the code that follows this import statement. Without seeing that code, it's hard to say exactly how it's being used.\n\nFor more information on JavaScript modules and import/export syntax, you can refer to these resources:\n\n- [JavaScript Modules: A Beginner’s Guide](https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/)\n- [MDN Web Docs: import statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [TypeScript Module Documentation](https://www.typescriptlang.org/docs/handbook/modules.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 1:42:21 AM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:42:56 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:43:17 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:43:42 AM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 1\n\n   **Bug Type**: GDPR\n\n   **Description**: The import statement is importing a configuration file which might contain sensitive data. If this data is not properly handled, it could lead to GDPR compliance issues.\n\n   **Solution**: Ensure that sensitive data in the configuration file is encrypted and securely stored. Implement access controls to limit who can access this data. Also, consider anonymizing or pseudonymizing personal data where possible.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 1,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "The import statement is importing a configuration file which might contain sensitive data. If this data is not properly handled, it could lead to GDPR compliance issues.",
+                "solution": "Ensure that sensitive data in the configuration file is encrypted and securely stored. Implement access controls to limit who can access this data. Also, consider anonymizing or pseudonymizing personal data where possible."
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import { BoostConfiguration } from \"../extension/boostConfiguration\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 1:41:34 AM PDT\n\nThis JavaScript code defines a function `mapError` that takes an error object as an argument and returns a new error object with a more descriptive message. This function is likely used to handle errors that occur when making requests to a remote service, such as the Boost Cloud Service mentioned in the error messages. \n\nThe function first checks if the error object has a `response` property, which would be present if the error was returned from an HTTP request. If `response` is present, the function checks the HTTP status code of the response and returns a new error with a message that describes the potential cause of the error. The switch statement is used to handle different status codes separately.\n\nHere is a breakdown of the status codes and the corresponding error messages:\n\n- 400: Bad request. This could be caused by invalid input from the Boost extension or invalid source code.\n- 500: Internal server error. This could be caused by a temporary issue with the Boost Cloud Service or an issue in the source input.\n- 401: Authorization error. This could be caused by an issue with the user's GitHub account or billing settings.\n- 404 and 405: The Boost code analysis service is unavailable. This could be because the server API is missing.\n- 501: The user's account usage limit has been exceeded.\n- 502: The Boost code analysis service is unavailable, possibly due to a timeout.\n\nIf the error object does not have a `response` property, the function checks if it has a `code` property. If `code` is present, the function assumes that the error is a network error and returns a new error with a message that describes the potential cause of the error. The switch statement is used to handle different error codes separately.\n\nHere is a breakdown of the error codes and the corresponding error messages:\n\n- 'ECONNREFUSED': The connection to the Boost Cloud Service was refused.\n- 'ENOTFOUND': The Boost Cloud Service could not be resolved.\n- 'ECONNRESET': The connection to the Boost Cloud Service was reset.\n- 'ETIMEOUT': The connection to the Boost Cloud Service timed out.\n\nIf the error object does not have a `response` or a `code` property, the function simply rethrows the original error.\n\nThis function is an example of a common error handling pattern in JavaScript. It provides a way to map low-level, technical errors to higher-level, user-friendly error messages.\n\nFor more information on HTTP status codes, you can refer to this link: [HTTP status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)\n\nFor more information on network error codes in Node.js, you can refer to this link: [Node.js Error Codes](https://nodejs.org/api/errors.html#errors_common_system_errors)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 1:42:32 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExampleErrorPath-->End;\n```\n\nThe control flow graph for the provided code is as follows:\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExampleErrorPath-->End;\n```\n\nThis code does not have any control flow."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:43:00 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:43:21 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:44:08 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 4\n\n   **Bug Type**: GDPR\n\n   **Description**: The function mapError logs error messages that could potentially include sensitive user data. Under GDPR, personal data should be protected and not exposed in logs.\n\n   **Solution**: Ensure that no personal data is included in log data. If necessary, sanitize or anonymize data before logging. Consider using a secure logging mechanism that can redact sensitive information.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 4\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The function mapError logs error messages that could potentially include sensitive cardholder data. Under PCI DSS, cardholder data should be protected and not exposed in logs.\n\n   **Solution**: Ensure that no cardholder data is included in log data. If necessary, sanitize or anonymize data before logging. Consider using a secure logging mechanism that can redact sensitive information.\n\n\n3. **Severity**: 7/10\n\n   **Line Number**: 4\n\n   **Bug Type**: HIPAA\n\n   **Description**: The function mapError logs error messages that could potentially include protected health information (PHI). Under HIPAA, PHI should be protected and not exposed in logs.\n\n   **Solution**: Ensure that no PHI is included in log data. If necessary, sanitize or anonymize data before logging. Consider using a secure logging mechanism that can redact sensitive information.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 3,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The function mapError logs error messages that could potentially include sensitive user data. Under GDPR, personal data should be protected and not exposed in logs.",
+                "solution": "Ensure that no personal data is included in log data. If necessary, sanitize or anonymize data before logging. Consider using a secure logging mechanism that can redact sensitive information.",
+                "link": "https://gdpr-info.eu/issues/log-data/"
+              },
+              {
+                "lineNumber": 3,
+                "severity": 7,
+                "bugType": "PCI DSS",
+                "description": "The function mapError logs error messages that could potentially include sensitive cardholder data. Under PCI DSS, cardholder data should be protected and not exposed in logs.",
+                "solution": "Ensure that no cardholder data is included in log data. If necessary, sanitize or anonymize data before logging. Consider using a secure logging mechanism that can redact sensitive information.",
+                "link": "https://www.pcisecuritystandards.org/pci_security/maintaining_payment_security"
+              },
+              {
+                "lineNumber": 3,
+                "severity": 7,
+                "bugType": "HIPAA",
+                "description": "The function mapError logs error messages that could potentially include protected health information (PHI). Under HIPAA, PHI should be protected and not exposed in logs.",
+                "solution": "Ensure that no PHI is included in log data. If necessary, sanitize or anonymize data before logging. Consider using a secure logging mechanism that can redact sensitive information.",
+                "link": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\nexport function mapError(err: any) : Error {\n    if (err.response) {\n        switch (err.response.status) {\n            case 400: // bad request - potential bad input from Boost extension or invalid source\n            case 500: // internal server error, likely OpenAI timeout/issue\n                return new Error(\n                    \"Unable to process this source code. This can be caused by a temporary issue with the \" +\n                    \"Boost Cloud Service, or by an issue in the source input. Please try again, and if the \" +\n                    \"problem persists, please contact Boost Support.\");\n            case 401: // authorization error - likely GitHub or Billing issue\n                if (err.response.data && err.response.data.error) {\n                    return new Error(err.response.data.error);\n                } else {\n                    return new Error(\n                        \"Unable to use your GitHub authorized account to access the Boost Cloud Service. \" +\n                        \"Please check your GitHub account and Billing settings, and try again. Also note that your Polyverse \" +\n                        \"license must use the same email address as your GitHub account.\");\n                }\n            case 404: // not found - server API is missing\n            case 405: // method not allowed - server API is missing\n                return new Error(\n                    \"Boost code analysis service is currently unavailable. \" +\n                    \"Please try your request again. If the problem persists please contact Boost Support.\");\n            case 501: // account usage limit exceeded - need credit card or access upgraded\n                return new Error(\n                    \"Current account usage/billing limit reached. \" +\n                    \"Please visit your Customer Account portal to update your account.\");\n            case 502: // bad gateway, possible timeout\n                return new Error(\n                    \"Boost code analysis service is currently unavailable. \" +\n                    \"Please try your request again.\");\n            default:\n                throw err;\n        }\n    } else if (err.code) {\n        switch (err.code) {\n            case 'ECONNREFUSED': // connection refused\n                return new Error(\n                    \"Unable to connect to the Boost Cloud Service. \" +\n                    \"Please check your internet connection, and try again.\");\n            case 'ENOTFOUND': // service domain/endpoint not found\n                return new Error(\n                    \"Boost Cloud Service could not be resolved. \" +\n                    \"Please check your internet connection, and try again.\");\n            case 'ECONNRESET': // connection reset\n                return new Error(\n                    \"Boost code analysis service is currently unavailable. \" +\n                    \"Please try your request again.\");\n            case 'ETIMEOUT': // connection timeout\n                return new Error(\n                    \"Boost code analysis service is currently unavailable due to network timeout. \" +\n                    \"Please try your request again.\");\n            default:\n                throw err;\n        }\n    } else {\n        throw err;\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 1:42:06 AM PDT\n\nThis is a TypeScript function `errorToString` that is exported from the module it resides in. The function accepts one argument `err` of type `any`. The function's purpose is to convert an error object into a string that can be logged or displayed. \n\nThe function checks if the `err` argument is an instance of the `Error` class. If it is, the function further checks if the `BoostConfiguration.cloudServiceStage` is set to \"local\" or if `BoostConfiguration.logLevel` is set to \"debug\". \n\n`BoostConfiguration` is a class or object (not defined in the provided code) that holds configuration settings for the application, specifically settings related to the cloud service stage and log level. `cloudServiceStage` and `logLevel` are properties of this configuration object. `cloudServiceStage` is likely to define the environment in which the application is running (e.g., local, development, production), and `logLevel` probably defines the level of detail of the logs (e.g., debug, info, error).\n\nIf either of these conditions is true, the function returns a string that includes both the error message and the error stack trace. The stack trace can provide detailed information about the sequence of function calls that led to the error, which can be very helpful for debugging. \n\nIf neither of these conditions is true, the function simply returns the error message. This might be the case in a production environment, where detailed error information could potentially expose sensitive details or vulnerabilities.\n\nIf the `err` argument is not an instance of the `Error` class, the function converts it to a string using the `String` constructor and returns it. This is a catch-all case that handles any other types that might be passed as `err`.\n\nThis function doesn't appear to use any specific algorithm. It's more of a utility function using conditional logic to format error information based on application's configuration settings.\n\nFor more information about Error handling in JavaScript/TypeScript, you can read this [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) page. \n\nThis function appears to align with the architectural blueprint provided earlier. It uses TypeScript, handles errors, and uses the application's configuration settings to determine the level of detail to include in the error messages, which can be considered a good practice."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 1:42:41 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExampleErrorPath-->End;\n```\n\nIn the provided code, there is no control flow. The function `errorToString` is a simple function that takes an input `err` and returns a string representation of the error. There are no conditional statements or loops in the code, so there is no control flow to diagram."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:43:04 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:43:24 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:44:22 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 124\n\n   **Bug Type**: GDPR\n\n   **Description**: The error stack trace may contain sensitive information which could be a violation of GDPR if the data is personal and not properly protected.\n\n   **Solution**: Avoid logging sensitive data. If necessary, sanitize or anonymize sensitive data before logging. Implement a comprehensive logging policy.\n\n\n2. **Severity**: 8/10\n\n   **Line Number**: 124\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If the application handles cardholder data, the stack trace could potentially contain this information. Logging such data is a violation of PCI DSS.\n\n   **Solution**: Ensure that cardholder data is never written into logs. Implement a comprehensive logging policy.\n\n\n3. **Severity**: 7/10\n\n   **Line Number**: 124\n\n   **Bug Type**: HIPAA\n\n   **Description**: If the application handles Protected Health Information (PHI), the stack trace could potentially contain this information. Logging such data is a violation of HIPAA.\n\n   **Solution**: Ensure that PHI is never written into logs. Implement a comprehensive logging policy.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 63,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The error stack trace may contain sensitive information which could be a violation of GDPR if the data is personal and not properly protected.",
+                "solution": "Avoid logging sensitive data. If necessary, sanitize or anonymize sensitive data before logging. Implement a comprehensive logging policy."
+              },
+              {
+                "lineNumber": 63,
+                "severity": 8,
+                "bugType": "PCI DSS",
+                "description": "If the application handles cardholder data, the stack trace could potentially contain this information. Logging such data is a violation of PCI DSS.",
+                "solution": "Ensure that cardholder data is never written into logs. Implement a comprehensive logging policy."
+              },
+              {
+                "lineNumber": 63,
+                "severity": 7,
+                "bugType": "HIPAA",
+                "description": "If the application handles Protected Health Information (PHI), the stack trace could potentially contain this information. Logging such data is a violation of HIPAA.",
+                "solution": "Ensure that PHI is never written into logs. Implement a comprehensive logging policy."
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "\nexport function errorToString(err: any): string {\n    if (err instanceof Error) {\n        if (BoostConfiguration.cloudServiceStage === \"local\" || BoostConfiguration.logLevel === \"debug\") {\n            return `${err.message}\\n${err.stack}`;\n        } else {\n            return err.message;\n        }\n    } else {\n        return String(err);\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 61
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/utilities/error.ts"
+  }
+}

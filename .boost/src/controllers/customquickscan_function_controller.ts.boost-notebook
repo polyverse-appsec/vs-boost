@@ -1,0 +1,754 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:00:37 PM PDT\n\nThis piece of code is written in TypeScript, a statically-typed superset of JavaScript, and it's used to develop extensions for Visual Studio Code (VS Code). The code is importing two specific items from the 'vscode' module, which is a Node.js module provided by the VS Code Extension API.\n\nHere are the details of the imported items:\n\n1. `DiagnosticCollection`: This is an interface provided by the VS Code Extension API. A DiagnosticCollection is a set of diagnostics, which are issues in the code that VS Code can detect and show to the user. Diagnostics can represent things like syntax errors, unused variables, or other potential problems. Collections allow for grouping of related diagnostics, and they can be associated with a specific source or owner for better organization.\n\n2. `ExtensionContext`: This is another interface provided by the VS Code Extension API. An ExtensionContext is passed to the `activate` function of an extension when it is activated. It provides properties and methods that give information about the context in which the extension is running, and it allows for interacting with the VS Code environment. For example, it can be used to get the absolute file path of a resource contained in the extension, or to create output channels for logging.\n\nThe code doesn't contain any algorithms per se, it's just importing these two interfaces for use in the rest of the source code.\n\nFor more information about developing VS Code extensions and the Extension API, you can refer to the following resources:\n\n- [VS Code Extension API](https://code.visualstudio.com/api/references/vscode-api)\n- [VS Code Extension Examples](https://code.visualstudio.com/api/get-started/your-first-extension)\n- [TypeScript Documentation](https://www.typescriptlang.org/docs/)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:03:46 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\n```\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:04:29 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:06:14 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:07:27 PM PDT\n\n1. **Severity**: 3/10\n\n   **Line Number**: 1\n\n   **Bug Type**: Data Compliance\n\n   **Description**: The code imports a module from 'vscode' which could potentially access sensitive user data. If this data is not properly handled, it could lead to GDPR, PCI DSS, and HIPAA compliance issues.\n\n   **Solution**: Ensure that any data accessed through this module is handled in a secure and compliant manner. This includes not storing sensitive data unless necessary, encrypting sensitive data at rest and in transit, and obtaining user consent before collecting or processing their data.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 1,
+                "severity": 3,
+                "bugType": "Data Compliance",
+                "description": "The code imports a module from 'vscode' which could potentially access sensitive user data. If this data is not properly handled, it could lead to GDPR, PCI DSS, and HIPAA compliance issues.",
+                "solution": "Ensure that any data accessed through this module is handled in a secure and compliant manner. This includes not storing sensitive data unless necessary, encrypting sensitive data at rest and in transit, and obtaining user consent before collecting or processing their data."
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import { DiagnosticCollection, ExtensionContext } from 'vscode';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:01:02 PM PDT\n\nThe code you provided is a single line of code, and it's an import statement in JavaScript (or TypeScript, given the context). It's importing a module named `BoostConfiguration` from a relative path `../extension/boostConfiguration`.\n\nHere's a detailed explanation:\n\n- The `import` keyword is used to import bindings that are exported by another module. Imported modules are in strict mode whether you declare them as such or not. The `import` statement cannot be used in embedded scripts unless such a script has a `type=\"module\"`.\n\n- `{ BoostConfiguration }`: This is a named import. The BoostConfiguration module is being imported into the current file. The curly braces are used for importing specific functions or objects from the module. \n\n- `'../extension/boostConfiguration'`: This is a relative path to the module that you want to import. The `..` means it's going up one level in the directory structure, and then going into the `extension` directory to import the `boostConfiguration` module.\n\nThe `BoostConfiguration` module is likely to be a part of the configuration setup for the Boost extension in the VS Code project. It might contain settings, constants, and configuration-related functions that are needed for the Boost extension to operate correctly.\n\nThis line of code doesn't really involve any algorithm. It's more about the organization and structure of the code. The use of modules helps in separating concerns and making the code more maintainable and reusable.\n\nFor more information on JavaScript modules and import statement, you can check the following resources:\n\n- [Mozilla Developer Network (MDN) documentation on JavaScript Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)\n- [MDN documentation on import statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:03:49 PM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:04:32 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:06:18 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:07:43 PM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 2\n\n   **Bug Type**: Data Compliance\n\n   **Description**: The code imports a module that may handle sensitive data. If this module does not comply with GDPR, PCI DSS, and HIPAA, it could lead to data compliance issues.\n\n   **Solution**: Review the 'BoostConfiguration' module to ensure it handles data in a manner compliant with GDPR, PCI DSS, and HIPAA. This includes ensuring data is encrypted, access is controlled, and data is not unnecessarily stored or transferred. If the module is not compliant, it should be updated or replaced with a compliant one.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 1,
+                "severity": 2,
+                "bugType": "Data Compliance",
+                "description": "The code imports a module that may handle sensitive data. If this module does not comply with GDPR, PCI DSS, and HIPAA, it could lead to data compliance issues.",
+                "solution": "Review the 'BoostConfiguration' module to ensure it handles data in a manner compliant with GDPR, PCI DSS, and HIPAA. This includes ensuring data is encrypted, access is controlled, and data is not unnecessarily stored or transferred. If the module is not compliant, it should be updated or replaced with a compliant one.",
+                "reference": "https://www.eugdpr.org/, https://www.pcisecuritystandards.org/pci_security/, https://www.hhs.gov/hipaa/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import { BoostConfiguration } from '../extension/boostConfiguration';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 1
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:01:26 PM PDT\n\nThe code you provided is a single line of JavaScript, specifically an import statement. It's not enough to provide a detailed analysis or identify the algorithms used. However, I can explain what this line does and its role in a larger codebase.\n\n```javascript\nimport { FunctionKernelControllerBase } from './function_base_controller';\n```\n\nThis line is using ES6 (ECMAScript 6) module syntax to import a specific export (in this case, `FunctionKernelControllerBase`) from another module. The path to the module is `'./function_base_controller'`, which suggests that the module is in a file named `function_base_controller.js` or `function_base_controller.ts` in the same directory as the file containing this import statement.\n\n`FunctionKernelControllerBase` is likely a class, function, or object that's been exported from the `function_base_controller` module. The exact nature of `FunctionKernelControllerBase` would be determined by looking at the `function_base_controller` file.\n\nThe purpose of this import is to use `FunctionKernelControllerBase` in the current file. The specific use would be apparent in the rest of the code which is not provided in your question.\n\nAs for architectural guidelines, this line follows common practices for structuring JavaScript or TypeScript projects. It's modular, which is a key principle in software architecture. Each file/module should have a specific purpose and should expose only the parts that need to be used by other modules.\n\nHere is a link for further reading on ES6 modules: [MDN Web Docs: import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:03:54 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle FunctionKernelControllerBase fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->FunctionKernelControllerBase;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:04:35 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:06:22 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:07:46 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import { FunctionKernelControllerBase } from './function_base_controller';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 2
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:01:50 PM PDT\n\nThe line of code you provided is a simple import statement in TypeScript, a statically typed superset of JavaScript. This line is importing a specific export from another module. The syntax used is part of the ES6 (ECMAScript 6) module system.\n\nLet's break it down:\n\n- `import`: This is a keyword in JavaScript that is used to import bindings which are exported by another module.\n\n- `{ ControllerOutputType }`: These curly braces are used to import a specific export from the module. In this case, `ControllerOutputType` is likely an object, function, or class that was exported from the './controllerOutputTypes' module.\n\n- `from`: This is another keyword used in the import statement. It is used to specify the path to the module from which to import.\n\n- `'./controllerOutputType'`: This is the path to the module that contains the `ControllerOutputType` export. The `./` at the beginning of the path indicates that the module is in the same directory as the current file.\n\nIt's important to note that this line of code does not perform any operations or algorithms, it simply makes the `ControllerOutputType` available to be used in the current module. \n\nThe `ControllerOutputType` is likely used to enforce type safety in the code, a key feature of TypeScript. It might be an enum, interface, type alias, class, function, or variable.\n\nFor more information on TypeScript modules and import/export syntax, the official TypeScript documentation is a great resource: [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/modules.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:03:58 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ControllerOutputType fill:#228B22, stroke:#000000, stroke-width:2px;\n\nStart-->ControllerOutputType;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:04:39 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:06:25 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:07:49 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "import { ControllerOutputType } from './controllerOutputTypes';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 3
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:02:16 PM PDT\n\nThis is a simple line of code in JavaScript (or TypeScript), which is used for importing specific elements from a module. In this case, the elements `BoostNotebookCell` and `BoostNotebook` are being imported from the module located at '../data/jupyter_notebook'. \n\nHere's a detailed breakdown:\n\n1. `import`: This is the import keyword in JavaScript (or TypeScript), used to import functions, objects, or values from another module or file.\n\n2. `{ BoostNotebookCell, BoostNotebook }`: These are the specific elements that are being imported from the module. In this case, `BoostNotebookCell` and `BoostNotebook` are likely either classes, functions, or constants that have been exported from the module at '../data/jupyter_notebook'.\n\n3. `from '../data/jupyter_notebook'`: This specifies the relative path to the module that contains the elements to be imported. The '../' means that the module is located in a directory one level up from the current file. The 'data' directory is then within that parent directory, and 'jupyter_notebook' is the specific module within the 'data' directory.\n\nThere are no algorithms used in this code. It is a simple import statement which is a part of ES6 (ECMAScript 2015) module syntax. This syntax allows developers to include and manage dependencies between JavaScript files and modules.\n\nFor more information on JavaScript modules and the import statement, you can refer to the following resources:\n\n- [JavaScript Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)\n- [import statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n\nAs per the architectural guidelines provided, this code does not appear to conflict with any guidelines or constraints. It is a standard practice to import necessary elements from different modules in a large-scale software project."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:04:01 PM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:04:43 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:06:29 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:08:22 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 8\n\n   **Bug Type**: GDPR\n\n   **Description**: The code imports 'BoostNotebookCell' and 'BoostNotebook' from 'jupyter_notebook'. If these modules process personal data of EU citizens, it could potentially violate GDPR if not done correctly. The GDPR requires that personal data be processed lawfully, fairly, and in a transparent manner.\n\n   **Solution**: Ensure that any personal data processed by 'BoostNotebookCell' and 'BoostNotebook' is done so in compliance with GDPR. This includes obtaining consent from the data subject, protecting the data from unauthorized access, and deleting the data when it is no longer necessary. Consider using encryption and anonymization techniques to protect the data.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 8\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If 'BoostNotebookCell' or 'BoostNotebook' handle cardholder data, it could potentially violate PCI DSS. PCI DSS requires that cardholder data be stored, processed, and transmitted securely.\n\n   **Solution**: Ensure that any cardholder data processed by 'BoostNotebookCell' and 'BoostNotebook' is done so in compliance with PCI DSS. This includes encrypting the data during transmission, restricting access to the data, and regularly testing security systems and processes.\n\n\n3. **Severity**: 8/10\n\n   **Line Number**: 8\n\n   **Bug Type**: HIPAA\n\n   **Description**: If 'BoostNotebookCell' or 'BoostNotebook' handle protected health information (PHI), it could potentially violate HIPAA. HIPAA requires that PHI be protected from unauthorized access, use, or disclosure.\n\n   **Solution**: Ensure that any PHI processed by 'BoostNotebookCell' and 'BoostNotebook' is done so in compliance with HIPAA. This includes implementing access controls, audit controls, integrity controls, and transmission security.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 4,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "The code imports 'BoostNotebookCell' and 'BoostNotebook' from 'jupyter_notebook'. If these modules process personal data of EU citizens, it could potentially violate GDPR if not done correctly. The GDPR requires that personal data be processed lawfully, fairly, and in a transparent manner.",
+                "solution": "Ensure that any personal data processed by 'BoostNotebookCell' and 'BoostNotebook' is done so in compliance with GDPR. This includes obtaining consent from the data subject, protecting the data from unauthorized access, and deleting the data when it is no longer necessary. Consider using encryption and anonymization techniques to protect the data.",
+                "webLink": "https://gdpr.eu/what-is-gdpr/"
+              },
+              {
+                "lineNumber": 4,
+                "severity": 7,
+                "bugType": "PCI DSS",
+                "description": "If 'BoostNotebookCell' or 'BoostNotebook' handle cardholder data, it could potentially violate PCI DSS. PCI DSS requires that cardholder data be stored, processed, and transmitted securely.",
+                "solution": "Ensure that any cardholder data processed by 'BoostNotebookCell' and 'BoostNotebook' is done so in compliance with PCI DSS. This includes encrypting the data during transmission, restricting access to the data, and regularly testing security systems and processes.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 4,
+                "severity": 8,
+                "bugType": "HIPAA",
+                "description": "If 'BoostNotebookCell' or 'BoostNotebook' handle protected health information (PHI), it could potentially violate HIPAA. HIPAA requires that PHI be protected from unauthorized access, use, or disclosure.",
+                "solution": "Ensure that any PHI processed by 'BoostNotebookCell' and 'BoostNotebook' is done so in compliance with HIPAA. This includes implementing access controls, audit controls, integrity controls, and transmission security.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "import { BoostNotebookCell, BoostNotebook } from '../data/jupyter_notebook';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 4
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:02:41 PM PDT\n\nThe code snippet provided is a very small portion of a larger codebase, but I can explain what it does.\n\n```javascript\nimport * as vscode from 'vscode';\n```\n\nThis line of code is importing the `vscode` module, which is the API for interacting with Visual Studio Code. The `*` means it's importing everything that the `vscode` module exports, and it's being imported under the namespace `vscode`. This allows the code in this file to call functions and use objects defined in the `vscode` API.\n\n```javascript\nimport { boostLogging } from '../utilities/boostLogging';\n```\n\nThis line of code is importing a specific export, `boostLogging`, from a module located at `../utilities/boostLogging`. The `{ boostLogging }` syntax is called named import, which means it's importing a specific export from the module, rather than the whole module. The `boostLogging` is likely a function or an object that is used for logging in the Boost extension.\n\nAs for the architectural guidelines, these lines of code are consistent with common practices in JavaScript and TypeScript projects. The use of imports allows for code to be modular and reusable. The `vscode` module is necessary for any VS Code extension, and the `boostLogging` module is likely a utility module used throughout the project.\n\nAs for algorithms, there are no specific algorithms being used in these lines of code. They are simply setting up the necessary modules for the rest of the code in this file.\n\nFor more information on JavaScript modules and import/export syntax, you can refer to the following resources:\n- [JavaScript Modules: A Beginner’s Guide](https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/)\n- [JavaScript import statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [Visual Studio Code Extension API](https://code.visualstudio.com/api)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:04:06 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle boostLogging fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->boostLogging;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:04:46 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:06:32 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:08:47 PM PDT\n\n1. **Severity**: 1/10\n\n   **Line Number**: 10\n\n   **Bug Type**: GDPR\n\n   **Description**: The import of 'vscode' library doesn't directly violate GDPR, PCI DSS, or HIPAA, but it's important to ensure that any data processed or transmitted using this library complies with these regulations. If the library is used to process or store personal data, it could potentially lead to compliance issues.\n\n   **Solution**: Ensure that any personal data processed or transmitted using the 'vscode' library is done so in a manner that complies with GDPR. This could include implementing appropriate security measures, obtaining necessary consents, and providing transparency about data processing activities. For more information, see: https://gdpr-info.eu/\n\n\n2. **Severity**: 1/10\n\n   **Line Number**: 11\n\n   **Bug Type**: GDPR\n\n   **Description**: The import of 'boostLogging' utility doesn't directly violate GDPR, PCI DSS, or HIPAA, but it's important to ensure that any data processed or transmitted using this utility complies with these regulations. If the utility is used to log personal data, it could potentially lead to compliance issues.\n\n   **Solution**: Ensure that any personal data logged using the 'boostLogging' utility is done so in a manner that complies with GDPR. This could include implementing appropriate security measures, obtaining necessary consents, and providing transparency about data processing activities. For more information, see: https://gdpr-info.eu/\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 5,
+                "severity": 1,
+                "bugType": "GDPR",
+                "description": "The import of 'vscode' library doesn't directly violate GDPR, PCI DSS, or HIPAA, but it's important to ensure that any data processed or transmitted using this library complies with these regulations. If the library is used to process or store personal data, it could potentially lead to compliance issues.",
+                "solution": "Ensure that any personal data processed or transmitted using the 'vscode' library is done so in a manner that complies with GDPR. This could include implementing appropriate security measures, obtaining necessary consents, and providing transparency about data processing activities. For more information, see: https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 6,
+                "severity": 1,
+                "bugType": "GDPR",
+                "description": "The import of 'boostLogging' utility doesn't directly violate GDPR, PCI DSS, or HIPAA, but it's important to ensure that any data processed or transmitted using this utility complies with these regulations. If the utility is used to log personal data, it could potentially lead to compliance issues.",
+                "solution": "Ensure that any personal data logged using the 'boostLogging' utility is done so in a manner that complies with GDPR. This could include implementing appropriate security measures, obtaining necessary consents, and providing transparency about data processing activities. For more information, see: https://gdpr-info.eu/"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "import * as vscode from 'vscode';\nimport { boostLogging } from '../utilities/boostLogging';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 5
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:02:58 PM PDT\n\nThe line of code you provided is an import statement in JavaScript (or TypeScript). It's importing a specific exported entity, in this case a variable or function named `DisplayGroupFriendlyName`, from a module located at '../data/userAnalysisType'. \n\nThis code doesn't really have any algorithms or complex logic, it's simply a way to include code from another file in the current file. This is a common practice in modular programming, which is a design technique that separates the functionality of a program into independent, interchangeable modules, each of which contains everything necessary to execute only one aspect of the desired functionality.\n\nThe `DisplayGroupFriendlyName` suggests that it's a user-friendly name for some kind of display group, probably used somewhere else in the code to reference or label these groups in a way that's meaningful to the user. The exact use would depend on the rest of the codebase.\n\nThe location of the imported module, `../data/userAnalysisType`, suggests that it's in a directory called 'data' that is one level up from the current directory, and the file is named 'userAnalysisType'. Again, the exact implications would depend on the structure and functionality of the rest of the project.\n\nHere are some resources for further reading:\n- [JavaScript Modules: An Introduction](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)\n- [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/modules.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:04:08 PM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:04:49 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:06:35 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:09:05 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 14\n\n   **Bug Type**: GDPR\n\n   **Description**: The code imports a module that deals with user data. If this data includes personal data of EU citizens, it needs to be handled in compliance with GDPR. Non-compliance can lead to heavy fines.\n\n   **Solution**: Ensure that the 'DisplayGroupFriendlyName' module includes mechanisms to obtain user consent before collecting personal data, provides users with the ability to access, correct, and delete their data, and implements appropriate security measures to protect the data. If these mechanisms are not present, they need to be added.\n\n\n2. **Severity**: 6/10\n\n   **Line Number**: 14\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If the 'DisplayGroupFriendlyName' module handles payment card data, it needs to comply with PCI DSS. Non-compliance can result in penalties from payment card brands.\n\n   **Solution**: Ensure that the module does not store sensitive authentication data after authorization, encrypts cardholder data when transmitted across open, public networks, and restricts access to cardholder data by business need to know. If these controls are not in place, they need to be implemented.\n\n\n3. **Severity**: 7/10\n\n   **Line Number**: 14\n\n   **Bug Type**: HIPAA\n\n   **Description**: If the 'DisplayGroupFriendlyName' module processes, stores, or transmits protected health information (PHI), it must comply with HIPAA. Non-compliance can result in civil and criminal penalties.\n\n   **Solution**: Ensure that the module implements access controls, audit controls, person or entity authentication, and transmission security. It should also include mechanisms for data backup, disaster recovery, and emergency mode operation. If these controls are not present, they need to be added.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 7,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "The code imports a module that deals with user data. If this data includes personal data of EU citizens, it needs to be handled in compliance with GDPR. Non-compliance can lead to heavy fines.",
+                "solution": "Ensure that the 'DisplayGroupFriendlyName' module includes mechanisms to obtain user consent before collecting personal data, provides users with the ability to access, correct, and delete their data, and implements appropriate security measures to protect the data. If these mechanisms are not present, they need to be added.",
+                "webLink": "https://gdpr.eu/what-is-gdpr/"
+              },
+              {
+                "lineNumber": 7,
+                "severity": 6,
+                "bugType": "PCI DSS",
+                "description": "If the 'DisplayGroupFriendlyName' module handles payment card data, it needs to comply with PCI DSS. Non-compliance can result in penalties from payment card brands.",
+                "solution": "Ensure that the module does not store sensitive authentication data after authorization, encrypts cardholder data when transmitted across open, public networks, and restricts access to cardholder data by business need to know. If these controls are not in place, they need to be implemented.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/maintaining_payment_security"
+              },
+              {
+                "lineNumber": 7,
+                "severity": 7,
+                "bugType": "HIPAA",
+                "description": "If the 'DisplayGroupFriendlyName' module processes, stores, or transmits protected health information (PHI), it must comply with HIPAA. Non-compliance can result in civil and criminal penalties.",
+                "solution": "Ensure that the module implements access controls, audit controls, person or entity authentication, and transmission security. It should also include mechanisms for data backup, disaster recovery, and emergency mode operation. If these controls are not present, they need to be added.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "import { DisplayGroupFriendlyName } from '../data/userAnalysisType';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 7
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:03:31 PM PDT\n\nThis TypeScript code defines a class `BoostCustomQuickScanFunctionKernel` that extends a base class `FunctionKernelControllerBase`. This class is likely used as a controller for a specific type of function kernel in a Visual Studio Code (VS Code) extension. \n\nThe class includes several properties and methods for managing the function kernel, including a set of default guidance and categories for a custom scan, a constructor, a getter for the service endpoint, a dispose method, an executeAll method, and a method for making a request to the Boost service.\n\nHere is a detailed explanation of each part:\n\n- `customQuickScanFunctionKernelName`: This is a constant string that holds the name of the function kernel.\n\n- `BoostCustomQuickScanFunctionKernel`: This is the class that extends `FunctionKernelControllerBase`. It includes several properties and methods.\n\n- `customScanGuidance` and `customScanCategories`: These are default guidance and categories for a custom scan. The guidance provides general advice on what to look for during a scan, while the categories likely define the types of issues the scan should focus on.\n\n- `_customScanGuidance` and `_customScanCategories`: These are the actual guidance and categories that will be used for a custom scan. They are initially set to the default values but can be changed by the user.\n\n- `constructor`: This is the constructor for the class. It calls the base class constructor and passes in a number of parameters.\n\n- `serviceEndpoint`: This is a getter that returns the service endpoint based on the current configuration stage. It throws an error if the stage is \"test\" or \"prod\".\n\n- `dispose`: This method calls the base class's dispose method.\n\n- `executeAll`: This method prompts the user to enter guidance and categories for a custom scan. If the user cancels the prompt or leaves it blank, it uses the default values. It then calls the base class's executeAll method.\n\n- `makeBoostServiceRequest`: This method injects the current guidance and categories into the payload and then calls the base class's makeBoostServiceRequest method.\n\nThe algorithm used in this code is straightforward. It primarily involves prompting the user for input, handling that input, and then calling methods from the base class.\n\nFor more information on TypeScript classes, you may refer to the following link: [TypeScript Classes](https://www.typescriptlang.org/docs/handbook/2/classes.html). For more information on Visual Studio Code extensions, you may refer to the following link: [VS Code Extension API](https://code.visualstudio.com/api)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:04:15 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExamplErrorPath-->End;\n```\n\nThe code provided does not have any control flow."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:05:18 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 65\n\n   **Bug Type**: Information Disclosure\n\n   **Description**: The application is directly passing user input into a function that makes a service request. This could potentially expose sensitive information in the event of a logging error or a debugging session.\n\n   **Solution**: Ensure that user input is properly sanitized and that sensitive information is not logged or exposed in any way. Consider using a secure way to handle user data, such as parameterized queries or prepared statements. More details can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 74\n\n   **Bug Type**: Information Disclosure\n\n   **Description**: The application is directly passing user input into a function that makes a service request. This could potentially expose sensitive information in the event of a logging error or a debugging session.\n\n   **Solution**: Ensure that user input is properly sanitized and that sensitive information is not logged or exposed in any way. Consider using a secure way to handle user data, such as parameterized queries or prepared statements. More details can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html\n\n\n3. **Severity**: 5/10\n\n   **Line Number**: 41\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The application is using a switch case statement to determine the service endpoint based on the configuration stage. This could potentially expose internal endpoints if the configuration is misconfigured or if an attacker is able to manipulate the configuration stage.\n\n   **Solution**: Ensure that internal endpoints are not exposed to the public. Consider using environment variables or a secure configuration management system to manage your service endpoints. More details can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 57,
+                "severity": 7,
+                "bugType": "Information Disclosure",
+                "description": "The application is directly passing user input into a function that makes a service request. This could potentially expose sensitive information in the event of a logging error or a debugging session.",
+                "solution": "Ensure that user input is properly sanitized and that sensitive information is not logged or exposed in any way. Consider using a secure way to handle user data, such as parameterized queries or prepared statements. More details can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html"
+              },
+              {
+                "lineNumber": 66,
+                "severity": 7,
+                "bugType": "Information Disclosure",
+                "description": "The application is directly passing user input into a function that makes a service request. This could potentially expose sensitive information in the event of a logging error or a debugging session.",
+                "solution": "Ensure that user input is properly sanitized and that sensitive information is not logged or exposed in any way. Consider using a secure way to handle user data, such as parameterized queries or prepared statements. More details can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html"
+              },
+              {
+                "lineNumber": 33,
+                "severity": 5,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The application is using a switch case statement to determine the service endpoint based on the configuration stage. This could potentially expose internal endpoints if the configuration is misconfigured or if an attacker is able to manipulate the configuration stage.",
+                "solution": "Ensure that internal endpoints are not exposed to the public. Consider using environment variables or a secure configuration management system to manage your service endpoints. More details can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:07:02 PM PDT\n\n1. **Severity**: 4/10\n\n   **Line Number**: 62\n\n   **Bug Type**: Memory\n\n   **Description**: Potential memory leak when user cancels the operation. The thrown error isn't caught, which may lead to memory leaks if not handled properly.\n\n   **Solution**: Ensure the error is caught and handled in the caller function. Use try-catch blocks to handle the error and release any resources if necessary.\n\n\n2. **Severity**: 4/10\n\n   **Line Number**: 81\n\n   **Bug Type**: Memory\n\n   **Description**: Potential memory leak when user cancels the operation. The thrown error isn't caught, which may lead to memory leaks if not handled properly.\n\n   **Solution**: Ensure the error is caught and handled in the caller function. Use try-catch blocks to handle the error and release any resources if necessary.\n\n\n3. **Severity**: 2/10\n\n   **Line Number**: 66\n\n   **Bug Type**: CPU\n\n   **Description**: Inefficient use of string trimming and comparison. This could lead to unnecessary CPU cycles.\n\n   **Solution**: Instead of using trim() and === '', consider using a regular expression to check if the string is empty or contains only whitespace.\n\n\n4. **Severity**: 2/10\n\n   **Line Number**: 85\n\n   **Bug Type**: CPU\n\n   **Description**: Inefficient use of string trimming and comparison. This could lead to unnecessary CPU cycles.\n\n   **Solution**: Instead of using trim() and === '', consider using a regular expression to check if the string is empty or contains only whitespace.\n\n\n5. **Severity**: 3/10\n\n   **Line Number**: 93\n\n   **Bug Type**: Network\n\n   **Description**: The function makeBoostServiceRequest makes a network request for each cell. This could lead to a large number of network requests when there are many cells.\n\n   **Solution**: Consider batching the requests or using a worker pool to limit the number of concurrent requests.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 54,
+                "severity": 4,
+                "bugType": "Memory",
+                "description": "Potential memory leak when user cancels the operation. The thrown error isn't caught, which may lead to memory leaks if not handled properly.",
+                "solution": "Ensure the error is caught and handled in the caller function. Use try-catch blocks to handle the error and release any resources if necessary."
+              },
+              {
+                "lineNumber": 73,
+                "severity": 4,
+                "bugType": "Memory",
+                "description": "Potential memory leak when user cancels the operation. The thrown error isn't caught, which may lead to memory leaks if not handled properly.",
+                "solution": "Ensure the error is caught and handled in the caller function. Use try-catch blocks to handle the error and release any resources if necessary."
+              },
+              {
+                "lineNumber": 58,
+                "severity": 2,
+                "bugType": "CPU",
+                "description": "Inefficient use of string trimming and comparison. This could lead to unnecessary CPU cycles.",
+                "solution": "Instead of using trim() and === '', consider using a regular expression to check if the string is empty or contains only whitespace."
+              },
+              {
+                "lineNumber": 77,
+                "severity": 2,
+                "bugType": "CPU",
+                "description": "Inefficient use of string trimming and comparison. This could lead to unnecessary CPU cycles.",
+                "solution": "Instead of using trim() and === '', consider using a regular expression to check if the string is empty or contains only whitespace."
+              },
+              {
+                "lineNumber": 85,
+                "severity": 3,
+                "bugType": "Network",
+                "description": "The function makeBoostServiceRequest makes a network request for each cell. This could lead to a large number of network requests when there are many cells.",
+                "solution": "Consider batching the requests or using a worker pool to limit the number of concurrent requests."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:09:27 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 44\n\n   **Bug Type**: GDPR\n\n   **Description**: The software is potentially collecting user input without clearly informing the user about the purpose of the collection and where it will be used. This can be a violation of the GDPR's principle of transparency.\n\n   **Solution**: Clearly inform the user about the purpose of the data collection and where it will be used. This can be done via a privacy notice or consent form that the user must agree to before using the software.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 66\n\n   **Bug Type**: GDPR\n\n   **Description**: The software is potentially collecting user input without clearly informing the user about the purpose of the collection and where it will be used. This can be a violation of the GDPR's principle of transparency.\n\n   **Solution**: Clearly inform the user about the purpose of the data collection and where it will be used. This can be done via a privacy notice or consent form that the user must agree to before using the software.\n\n\n3. **Severity**: 8/10\n\n   **Line Number**: 90\n\n   **Bug Type**: GDPR\n\n   **Description**: The software is sending user data to a remote service without clearly informing the user or obtaining their consent. This can be a violation of the GDPR's principle of transparency and requirement for consent.\n\n   **Solution**: Clearly inform the user about the data that will be sent to the remote service and obtain their consent. This can be done via a privacy notice or consent form that the user must agree to before using the software. Also, ensure that the remote service complies with the GDPR.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 36,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The software is potentially collecting user input without clearly informing the user about the purpose of the collection and where it will be used. This can be a violation of the GDPR's principle of transparency.",
+                "solution": "Clearly inform the user about the purpose of the data collection and where it will be used. This can be done via a privacy notice or consent form that the user must agree to before using the software."
+              },
+              {
+                "lineNumber": 58,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The software is potentially collecting user input without clearly informing the user about the purpose of the collection and where it will be used. This can be a violation of the GDPR's principle of transparency.",
+                "solution": "Clearly inform the user about the purpose of the data collection and where it will be used. This can be done via a privacy notice or consent form that the user must agree to before using the software."
+              },
+              {
+                "lineNumber": 82,
+                "severity": 8,
+                "bugType": "GDPR",
+                "description": "The software is sending user data to a remote service without clearly informing the user or obtaining their consent. This can be a violation of the GDPR's principle of transparency and requirement for consent.",
+                "solution": "Clearly inform the user about the data that will be sent to the remote service and obtain their consent. This can be done via a privacy notice or consent form that the user must agree to before using the software. Also, ensure that the remote service complies with the GDPR."
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "7",
+      "value": "\nconst customQuickScanFunctionKernelName = \"customQuickScan\";\n\nexport class BoostCustomQuickScanFunctionKernel extends FunctionKernelControllerBase {\n\n    // use a default scan for async or multi-threading issues\n    customScanGuidance : string =\n        'broken or incorrect handling of asynchronous code. \\n' +\n        'Look for any of following issues:\\n' +\n        '* code that leaks threads, wasting memory or thread pool resources\\n' +\n        '* uses multiple threads to operate on unsafe or shared resources without locking\\n' +\n        '* incorrect synchronization, including missing joins or waits\\n' +\n        '* misuse of locks that can lead to livelocks and deadlocks ' +\n        'including lock order inversions or race conditions.\\n' +\n        '* code that might exit prematurely without resolving or ' +\n        'rejecting a promise or its language-specific equivalent\\n';\n    _customScanGuidance : string = this.customScanGuidance;\n\n    customScanCategories : string = 'ResourceLeak, UnsafeResource, Deadlock, Livelock, MissingSync';\n    _customScanCategories : string = this.customScanCategories;\n\n\tconstructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis: any, collection: DiagnosticCollection) {\n        super(\n            collection,\n            customQuickScanFunctionKernelName,\n            'Quick source scan for code issues',\n            'Quickly analyzes all targeted source code for custom set of issues',\n            ControllerOutputType.customQuickScanFunction,\n            DisplayGroupFriendlyName.deepcode,\n            \"customScan\",\n            \"Custom Quick Scan\", \n            context,\n            otherThis,\n            onServiceErrorHandler);\n\t}\n\n    public get serviceEndpoint(): string {\n        switch (BoostConfiguration.cloudServiceStage)\n        {\n            case \"local\":\n                return 'http://127.0.0.1:8000/customscan_function';\n            case 'dev':\n                return 'https://pko6t3libouikzl6o3f2ur4fji0czvcm.lambda-url.us-west-2.on.aws/';\n            case \"test\":\n                throw new Error('Custom Quick Scan Function not available in test stage');\n            case 'staging':\n            case 'prod':\n            default:\n                throw new Error('Custom Quick Scan Function not available in production stage');\n        }\n    }\n\n\tdispose(): void {\n\t\tsuper.dispose();\n\t}\n\n    async executeAll(\n        cells: vscode.NotebookCell[] | BoostNotebookCell[],\n        notebook: vscode.NotebookDocument | BoostNotebook,\n        session : vscode.AuthenticationSession,\n        forceAnalysisRefresh : boolean = false) : Promise<boolean> {\n\n        const userInputGuidance = await vscode.window.showInputBox({\n            value: this._customScanGuidance,\n            prompt: 'Enter your analysis guidance',\n            placeHolder: this._customScanGuidance,\n        });\n    \n        if (userInputGuidance === undefined) {\n            // write user canceled warning to output, without UI\n            boostLogging.warn(`Boost ${this.outputHeader} cancelled by user`, false);\n            throw new Error(`Boost ${this.outputHeader} cancelled by user`);\n        }\n        // if user blanked out the prompt, use the default\n        if (userInputGuidance.trim() === '') {\n            this._customScanGuidance = this.customScanGuidance;\n        } else {\n            this._customScanGuidance = userInputGuidance;\n        }\n\n        const userInputCategories = await vscode.window.showInputBox({\n            value: this._customScanCategories,\n            prompt: 'Enter your analysis issue categories',\n            placeHolder: this._customScanCategories,\n        });\n    \n        if (userInputCategories === undefined) {\n            // write user canceled warning to output, without UI\n            boostLogging.warn(`Boost ${this.outputHeader} cancelled by user`, false);\n            throw new Error(`Boost ${this.outputHeader} cancelled by user`);\n        }\n        // if user blanked out the prompt, use the default\n        if (userInputCategories.trim() === '') {\n            this._customScanCategories = this.customScanCategories;\n        } else {\n            this._customScanCategories = userInputCategories;\n        }\n        \n        return super.executeAll(cells, notebook, session, forceAnalysisRefresh);\n    }\n\n    async makeBoostServiceRequest(cell: vscode.NotebookCell | BoostNotebookCell, serviceEndpoint: string, payload: any): Promise<any> {\n        // inject the current custom prompt into the payload\n        payload = { ...payload,\n            customScanGuidance: this._customScanGuidance,\n            customScanCategories: this._customScanCategories\n        };\n\n        return super.makeBoostServiceRequest(cell, serviceEndpoint, payload);\n    }}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 8
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/controllers/customquickscan_function_controller.ts"
+  }
+}

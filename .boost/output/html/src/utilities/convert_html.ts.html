@@ -1,0 +1,1342 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/utilities/convert_html.ts</h1>
+    <p>Date Generated: Saturday, September 9, 2023 at 4:11:10 AM PDT</p>
+    
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/utilities/convert_html.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { marked } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;marked&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 3:59:19 AM PDT</p>
+<p>The provided code is a single line of JavaScript code that imports a function named <code>marked</code> from a module named <code>marked</code>.</p>
+<p>The <code>marked</code> module is a markdown parser and compiler built for speed. It&#39;s written in JavaScript and can be used to convert markdown into HTML. This module is widely used in projects where markdown needs to be converted into HTML, such as in content management systems, documentation websites, note-taking apps, forums, and so on.</p>
+<p>The <code>import</code> statement is used to import functions, objects or values from other modules or packages into the current file. The syntax of the <code>import</code> statement in JavaScript is as follows:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> { <span class="hljs-keyword">function</span> or object name } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;module name&quot;</span>;
+</code></pre><p>In the provided code, <code>{ marked }</code> is the function that is being imported and <code>&quot;marked&quot;</code> is the name of the module from which the function is being imported. The braces <code>{}</code> are used to import specific exports from the module. If the module had multiple exports, you could import multiple functions or objects at the same time by separating them with commas inside the braces, like so:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> { function1, function2, object1 } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;module name&quot;</span>;
+</code></pre><p>Here are some resources for further reading:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">Import statement on MDN (Mozilla Developer Network)</a></li>
+<li><a href="https://www.npmjs.com/package/marked">Marked - a markdown parser on npm (Node Package Manager)</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Markdown">Markdown on Wikipedia</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:06:00 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre><p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:09:04 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 1</p>
+<p><strong>Bug Type</strong>: Cross-Site Scripting (XSS)</p>
+<p><strong>Description</strong>: The &#39;marked&#39; library is used to convert Markdown into HTML. It is known to be susceptible to Cross-Site Scripting (XSS) attacks if not properly configured. An attacker can inject malicious scripts in the Markdown content, which get executed when the HTML is rendered in a browser.</p>
+<p><strong>Solution</strong>: To mitigate this risk, you should sanitize the HTML output by the &#39;marked&#39; library. This can be done by setting the &#39;sanitize&#39; option to true, or better yet, by using a dedicated library like DOMPurify to sanitize the output. Here are some resources:</p>
+</li>
+</ol>
+<ul>
+<li><a href="https://github.com/markedjs/marked/blob/main/docs/USING_ADVANCED.md#security">marked GitHub - Security</a></li>
+<li><a href="https://github.com/cure53/DOMPurify">DOMPurify</a></li>
+</ul>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/convert_html.ts line 2:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> hljs <span class="hljs-keyword">from</span> &quot;highlight.js&quot;;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> fs <span class="hljs-keyword">from</span> &quot;fs&quot;;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> _ <span class="hljs-keyword">from</span> &quot;lodash&quot;;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> vscode <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vscode&#x27;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-type">path</span> <span class="hljs-keyword">from</span> &quot;path&quot;;
+<span class="hljs-keyword">import</span> { markedHighlight } <span class="hljs-keyword">from</span> &quot;marked-highlight&quot;;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 3:59:56 AM PDT</p>
+<p>The code you&#39;ve provided is the beginning part of a JavaScript or TypeScript file where several modules are being imported. These modules provide various functionalities that will be used in the rest of the code file. </p>
+<p>Here&#39;s a brief explanation of each line:</p>
+<ol>
+<li><p><code>import hljs from &quot;highlight.js&quot;;</code>: This line imports the <code>highlight.js</code> library, which is used for syntax highlighting of code. It&#39;s a very popular library that can highlight over 190 languages. It&#39;s often used in projects that need to display code in a readable way. You can learn more about it <a href="https://highlightjs.org/">here</a>.</p>
+</li>
+<li><p><code>import * as fs from &quot;fs&quot;;</code>: This line imports the built-in Node.js <code>fs</code> module. <code>fs</code> stands for &quot;file system&quot;, and this module provides an API for interacting with the file system in a manner closely modeled around standard POSIX functions. It allows you to read, write, and manipulate files and directories. You can learn more about it <a href="https://nodejs.org/api/fs.html">here</a>.</p>
+</li>
+<li><p><code>import * as _ from &quot;lodash&quot;;</code>: This line imports the <code>lodash</code> library, a modern JavaScript utility library delivering modularity, performance, and extras. It provides utility functions for common programming tasks using the functional programming paradigm, like manipulation of arrays, numbers, objects, strings, etc. You can learn more about it <a href="https://lodash.com/">here</a>.</p>
+</li>
+<li><p><code>import * as vscode from &#39;vscode&#39;;</code>: This line imports the <code>vscode</code> module, which provides the vscode API for extensions. This enables the extension to interact with the Visual Studio Code editor, providing functionalities such as commands, windows, messages, and all other editor features. You can learn more about it <a href="https://code.visualstudio.com/api/references/vscode-api">here</a>.</p>
+</li>
+<li><p><code>import * as path from &quot;path&quot;;</code>: This line imports the built-in Node.js <code>path</code> module. This module provides utilities for working with file and directory paths. It&#39;s used for handling and transforming file paths. You can learn more about it <a href="https://nodejs.org/api/path.html">here</a>.</p>
+</li>
+<li><p><code>import { markedHighlight } from &quot;marked-highlight&quot;;</code>: This line imports a specific function <code>markedHighlight</code> from the <code>marked-highlight</code> module. The <code>marked-highlight</code> module is not a standard module, and it&#39;s likely to be a custom or less known module. Without additional context, it&#39;s hard to provide more details about its functionality.</p>
+</li>
+</ol>
+<p>The <code>import * as name from &quot;module&quot;</code> syntax is used to import the entire module, giving it a name that you can refer to, while <code>import {function} from &quot;module&quot;</code> syntax is used to import a specific function or feature from a module.</p>
+<p>In terms of architectural guidelines, this code is fairly standard for a Node.js or a Visual Studio Code extension project. It&#39;s importing necessary modules at the beginning of a file, which is a common practice.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:06:06 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style Import fill:#228B22, stroke:#000000, stroke-width:2px;
+
+Start-->Import;</pre>
+</code></pre><p>The control flow graph for the provided source code is very simple. It starts with the import statements, which import various libraries and modules.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:09:08 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/convert_html.ts line 8:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+import {
+<span class="hljs-built_in">    BoostFileType,</span>
+<span class="hljs-built_in">    OutputType,</span>
+<span class="hljs-built_in">    getBoostFile,</span>
+    findCellByKernel
+} from <span class="hljs-string">&quot;../extension/extension&quot;</span><span class="hljs-comment">;</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:00:12 AM PDT</p>
+<p>This code snippet is written in TypeScript, which is a statically typed superset of JavaScript that adds types to the language. TypeScript is designed for the development of large applications and transcompiles to JavaScript.</p>
+<p>The code snippet is an import statement that is importing several items from a module located at <code>../extension/extension</code>. Import statements are a part of ES6 modules, which are a standard feature in modern JavaScript and TypeScript. They allow you to separate your code into multiple files and import or export functions, objects, or values from one module to another.</p>
+<p>Here&#39;s a breakdown of the imported items:</p>
+<ol>
+<li><p><code>BoostFileType</code>: This could be a type or an interface that defines the structure for a Boost file. It&#39;s not clear from this code snippet alone what exactly a Boost file is, but it&#39;s likely related to the functionality of the VS Code extension.</p>
+</li>
+<li><p><code>OutputType</code>: Similar to <code>BoostFileType</code>, <code>OutputType</code> could be a type or an interface that defines the structure for some kind of output. Given the name, it&#39;s likely used to specify the format or structure of data that the extension outputs.</p>
+</li>
+<li><p><code>getBoostFile</code>: This is likely a function that retrieves a Boost file. Without more context, it&#39;s unclear how exactly this function works, but it might involve reading a file from the file system or fetching it from a remote source.</p>
+</li>
+<li><p><code>findCellByKernel</code>: This is also likely a function. Given the name, it probably searches for a cell (possibly a unit of code or data) that matches a specified kernel (possibly a computation engine or a set of rules).</p>
+</li>
+</ol>
+<p>Unfortunately, without more context, it&#39;s difficult to provide more detailed information about these items. They are likely specific to the VS Code extension that this code is part of.</p>
+<p>For more information on TypeScript and ES6 modules, you can refer to the following links:</p>
+<ul>
+<li>TypeScript: <a href="https://www.typescriptlang.org/">https://www.typescriptlang.org/</a></li>
+<li>ES6 Modules: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules</a></li>
+</ul>
+<p>In terms of the architectural guidelines provided, this code snippet seems to be in line with the principles of object-oriented design (as it uses TypeScript, which supports object-oriented programming) and event-driven programming (as the functions that are being imported could be used as event handlers). However, without more context, it&#39;s difficult to make a definitive assessment.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:06:11 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style getBoostFile fill:#228B22, stroke:#000000, stroke-width:2px;
+style findCellByKernel fill:#228B22, stroke:#000000, stroke-width:2px;
+
+getBoostFile-->findCellByKernel;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:09:12 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/convert_html.ts line 15:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { formatDateTime } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./datetime&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:00:46 AM PDT</p>
+<p>The code you&#39;ve provided is very minimal. It is an import statement in JavaScript, specifically importing a function named <code>formatDateTime</code> from a module named <code>datetime</code>.</p>
+<p>Here&#39;s a detailed breakdown:</p>
+<ul>
+<li><p><code>import</code>: This is a keyword in JavaScript that is part of the ES6 module system. It allows you to include functions, objects or values from other files (modules) into the current file. This is a way to split code into separate files to make it more manageable and avoid variable name conflicts.</p>
+</li>
+<li><p><code>{ formatDateTime }</code>: This is the specific function that is being imported from the module. The curly braces are used for named exports, meaning the function is exported with the <code>export</code> keyword in the <code>datetime</code> module.</p>
+</li>
+<li><p><code>from &quot;./datetime&quot;</code>: This specifies the module where the <code>formatDateTime</code> function is imported from. The <code>./</code> indicates that the <code>datetime</code> module is in the same directory as the current file. If it was in a subdirectory, you might see something like <code>from &quot;./subdirectory/datetime&quot;</code>.</p>
+</li>
+</ul>
+<p>The <code>formatDateTime</code> function is likely used to format date and time data in a specific way, but without the function definition, it&#39;s impossible to say for sure what it does.</p>
+<p>As for algorithms, this code snippet is too small to contain any algorithms. An algorithm is a step-by-step procedure for solving a problem or accomplishing a task. Importing a function from another module is just a single operation, not a procedure or task.</p>
+<p>For more information on JavaScript modules and import/export statements, you can refer to the following resources:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">MDN Web Docs: import statement</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export">MDN Web Docs: export statement</a></li>
+<li><a href="https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/">JavaScript Modules: A Beginner’s Guide</a></li>
+</ul>
+<p>As for the architectural guidelines, this code seems to follow common practices for structuring JavaScript code by using modules and importing functions as needed. This helps keep the code organized and manageable. But without more context or additional guidelines, it&#39;s hard to say more about how well this code fits into the overall architecture.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:06:16 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style formatDateTime fill:#228B22, stroke:#000000, stroke-width:2px;
+
+formatDateTime-->End;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:09:15 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/convert_html.ts line 16:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>import {
+<span class="hljs-built_in">    BoostNotebook,</span>
+<span class="hljs-built_in">    NotebookCellKind,</span>
+<span class="hljs-built_in">    BoostNotebookCell,</span>
+    NOTEBOOK_SUMMARY_EXTENSION
+} from <span class="hljs-string">&quot;../data/jupyter_notebook&quot;</span><span class="hljs-comment">;</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:01:13 AM PDT</p>
+<p>The provided code snippet is written in TypeScript, a statically typed superset of JavaScript. It&#39;s a simple import statement that brings in certain entities from a module located at &quot;../data/jupyter_notebook&quot;. </p>
+<p>Let&#39;s break down the entities being imported:</p>
+<ol>
+<li><p><code>BoostNotebook</code>: This could be a class or type that represents a BoostNotebook. Without more context, it&#39;s hard to say what exactly this is, but it&#39;s likely to be a data structure or a class that encapsulates the functionality of a BoostNotebook.</p>
+</li>
+<li><p><code>NotebookCellKind</code>: This could be an enumeration (enum) or a type that represents the different kinds of cells that a notebook can have. In Jupyter notebooks, for example, there are primarily two kinds of cells: code cells and markdown cells.</p>
+</li>
+<li><p><code>BoostNotebookCell</code>: This is likely a class or type that represents a cell in a BoostNotebook. It&#39;s probable that it carries information about the cell type (using <code>NotebookCellKind</code>), the cell content, and possibly other metadata.</p>
+</li>
+<li><p><code>NOTEBOOK_SUMMARY_EXTENSION</code>: This is likely a constant that holds the file extension for a notebook summary. It&#39;s written in uppercase with underscores, which is a common convention for constants in many programming languages.</p>
+</li>
+</ol>
+<p>The exact details of these entities would be found in the file at &quot;../data/jupyter_notebook&quot;, which is not provided in the question.</p>
+<p>As for the architectural guidelines, the code snippet seems to follow good practices. It&#39;s modular, as it imports entities from another module, which suggests that the codebase is organized and that responsibilities are likely well-separated. However, without additional context or the rest of the codebase, it&#39;s hard to make a definitive judgment.</p>
+<p>For more information on TypeScript modules, you can refer to the official TypeScript documentation: <a href="https://www.typescriptlang.org/docs/handbook/modules.html">TypeScript Modules</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:06:21 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style BoostNotebook fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->BoostNotebook;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:09:19 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/convert_html.ts line 22:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { ControllerOutputType } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../controllers/controllerOutputTypes&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:01:36 AM PDT</p>
+<p>This line of code is an import statement in JavaScript, specifically using ES6 syntax. This code is typically found at the beginning of a JavaScript or TypeScript file.</p>
+<p>The <code>import</code> keyword is used to import functions, objects, or values from another module or file in your project. This allows for code to be organized into separate modules, each with a specific purpose, and then combined as needed.</p>
+<p>In this case, the code is importing <code>ControllerOutputType</code> from the module located at &quot;../controllers/controllerOutputTypes&quot;. The path &quot;../controllers/controllerOutputTypes&quot; is a relative path to the file where <code>ControllerOutputType</code> is defined. The <code>..</code> at the beginning of the path means to go up one directory level.</p>
+<p>The <code>ControllerOutputType</code> is likely an enumeration (enum), a special type used in TypeScript. Enums allow for a collection of related values that can be numeric or string values. They are used to create a new type with a set of predefined constants, which makes the code more readable and less error-prone.</p>
+<p>Unfortunately, without more context or the actual content of the <code>controllerOutputTypes</code> file, it&#39;s hard to provide more specific details about what <code>ControllerOutputType</code> is or how it&#39;s used.</p>
+<p>Here are some resources for further reading:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">JavaScript Modules</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/enums.html">TypeScript Enums</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:06:26 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ControllerOutputType fill:#228B22, stroke:#000000, stroke-width:2px;
+
+Start-->ControllerOutputType;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:09:22 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/convert_html.ts line 23:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">const</span> cellStyleSheet =
+    <span class="hljs-string">&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css&quot;</span>;
+<span class="hljs-keyword">const</span> mermaidScript =
+    <span class="hljs-string">&quot;https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs&quot;</span>;
+
+<span class="hljs-keyword">const</span> renderer = {
+    <span class="hljs-title function_">link</span>(<span class="hljs-params">href: <span class="hljs-built_in">string</span>, title: <span class="hljs-built_in">string</span>, text: <span class="hljs-built_in">string</span></span>) {
+        <span class="hljs-keyword">if</span> (title === <span class="hljs-string">&quot;polyverse_boost_dashboard&quot;</span>) {
+            <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;a href=&quot;<span class="hljs-subst">${href}</span>&quot; class=&quot;show_dashboard&quot;&gt;<span class="hljs-subst">${text}</span>&lt;/a&gt;`</span>;
+        }
+        <span class="hljs-comment">// Return false to fall back to the default link rendering behavior</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    },
+};
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:02:13 AM PDT</p>
+<p>The code you provided is written in TypeScript, which is a statically-typed superset of JavaScript. This particular code snippet appears to be part of a custom renderer for a markdown parser, likely used to render markdown content in a specific way.</p>
+<p>Here&#39;s a detailed breakdown of the code:</p>
+<ol>
+<li><p>Two constants <code>cellStyleSheet</code> and <code>mermaidScript</code> are defined. These constants hold URLs to external stylesheets and scripts. The <code>cellStyleSheet</code> URL points to a CSS file from the Highlight.js library, which is used for syntax highlighting of code. The <code>mermaidScript</code> URL points to a JavaScript module file from the Mermaid library, which is used for creating diagrams and flowcharts with a markdown-like syntax.</p>
+</li>
+<li><p>An object named <code>renderer</code> is defined. This object has a single method <code>link</code> which takes three parameters: <code>href</code>, <code>title</code>, and <code>text</code>. This method is likely meant to be used as a custom link rendering function in a markdown parser.</p>
+</li>
+<li><p>Inside the <code>link</code> method, there&#39;s a conditional statement checking if the <code>title</code> parameter equals the string &quot;polyverse_boost_dashboard&quot;. If this condition is met, the method returns a string of HTML that creates a link (<code>&lt;a&gt;</code> element) with the <code>href</code> and <code>text</code> provided. The link also has a class &quot;show_dashboard&quot; applied to it. This could be used for applying specific styles or behavior to these links.</p>
+</li>
+<li><p>If the <code>title</code> does not match &quot;polyverse_boost_dashboard&quot;, the <code>link</code> method returns <code>false</code>. This likely signals to the markdown parser to fall back to its default link rendering behavior.</p>
+</li>
+</ol>
+<p>The algorithm used here is quite simple: it checks if the <code>title</code> of a link matches a specific string, and if so, it renders the link in a specific way. Otherwise, it falls back to the default rendering behavior.</p>
+<p>This approach is consistent with the architectural blueprint you provided earlier. It uses object-oriented design (the <code>renderer</code> object), and the code is organized and structured.</p>
+<p>For more information on custom renderers in markdown parsers, you can refer to the following resources:</p>
+<ul>
+<li>Markdown-it, a popular markdown parser that supports custom renderers: <a href="https://markdown-it.github.io/">https://markdown-it.github.io/</a></li>
+<li>The documentation for creating custom renderers in marked, another markdown parser: <a href="https://marked.js.org/using_pro#renderer">https://marked.js.org/using_pro#renderer</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:06:31 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style External fill:#FFA500, stroke:#000000, stroke-width:2px;
+style Error fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->External;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:09:41 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 50</p>
+<p><strong>Bug Type</strong>: Insecure Direct Object References (IDOR)</p>
+<p><strong>Description</strong>: The function &#39;link&#39; directly uses the &#39;href&#39; parameter to create a hyperlink without validating or sanitizing it. This can lead to Insecure Direct Object References (IDOR), where an attacker can manipulate the &#39;href&#39; to point to unauthorized resources. For more information, refer to: <a href="https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control">https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control</a></p>
+<p><strong>Solution</strong>: To mitigate this, validate the &#39;href&#39; parameter to ensure it points to a valid and authorized resource. Consider using a whitelist of authorized URLs or URL patterns. Additionally, sanitize the &#39;href&#39; parameter to prevent injection attacks. For more information on input validation and sanitization, refer to: <a href="https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html</a></p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/convert_html.ts line 38:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+marked.use({ renderer })<span class="hljs-comment">;</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:02:44 AM PDT</p>
+<p>The code you provided is a single line of code from a JavaScript library called Marked.js. </p>
+<p>Marked.js is a markdown parser and compiler that is built for speed. It is used to convert markdown into HTML. Markdown is a lightweight markup language for creating formatted text using a plain-text editor.</p>
+<p>The function <code>marked.use()</code> is a method provided by Marked.js library to customize the default behavior of the markdown parser and compiler. It accepts an object as an argument, which can contain various options to customize the behavior of the markdown parser and compiler.</p>
+<p>In your code, <code>marked.use({ renderer });</code> is passing an object with a <code>renderer</code> property to the <code>marked.use()</code> method. The <code>renderer</code> property is expected to be an instance of a custom renderer. A renderer in Marked.js is an object that defines how to turn markdown tokens into HTML. </p>
+<p>By passing a custom renderer to <code>marked.use()</code>, you can customize how markdown is converted into HTML. For example, you might want to add custom classes to certain HTML elements, or you might want to change how certain markdown elements are rendered.</p>
+<p>The algorithm used in this code is essentially the markdown parsing and compiling algorithm provided by the Marked.js library, which is customized by the provided renderer. </p>
+<p>Unfortunately, without more context, it&#39;s hard to provide more details about what this custom renderer does. The custom renderer could potentially override any part of the HTML generation process, depending on its methods.</p>
+<p>Here is a link to the Marked.js documentation for more information: <a href="https://marked.js.org/using_pro/">Marked.js Documentation</a></p>
+<p>In terms of architectural guidelines, this line of code is likely part of a larger system that makes use of the Marked.js library for rendering markdown. It follows standard practices for using the Marked.js library and doesn&#39;t seem to conflict with any general architectural guidelines. However, whether it is consistent with the specific architecture of the rest of the system would depend on the context in which it is used.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:06:36 AM PDT</p>
+<p>I apologize, but I am unable to generate a control flow graph for the source code without the actual source code. Could you please provide the source code that you would like me to analyze and generate a control flow graph for?</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:09:58 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 74</p>
+<p><strong>Bug Type</strong>: Cross-Site Scripting (XSS)</p>
+<p><strong>Description</strong>: The use of the &#39;marked&#39; library without proper sanitization or escaping can lead to Cross-Site Scripting (XSS) vulnerabilities. An attacker could potentially inject malicious scripts into the rendered markdown, which would then be executed when the content is displayed in the browser.</p>
+<p><strong>Solution</strong>: To mitigate this risk, it is recommended to enable the &#39;sanitize&#39; option in the marked library, which will automatically sanitize the input using a simple HTML sanitizer. Alternatively, consider using a more secure markdown parser or adding an additional layer of security by using a Content Security Policy (CSP).</p>
+</li>
+</ol>
+<p>References: </p>
+<ul>
+<li>OWASP XSS Guide: <a href="https://owasp.org/www-community/attacks/xss/">https://owasp.org/www-community/attacks/xss/</a> </li>
+<li>Marked.js Documentation: <a href="https://marked.js.org/">https://marked.js.org/</a></li>
+</ul>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/convert_html.ts line 40:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>marked.use(
+    markedHighlight({
+        langPrefix: <span class="hljs-string">&quot;hljs language-&quot;</span>,
+        highlight(code:<span class="hljs-built_in"> string</span>,<span class="hljs-built_in"> lang</span>:<span class="hljs-built_in"> string</span>) {
+            <span class="hljs-keyword">if</span> <span class="hljs-built_in">(lang</span> === <span class="hljs-string">&quot;mermaid&quot;</span>) {
+                <span class="hljs-keyword">return</span> `<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">pre</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;mermaid&quot;</span>&gt;</span>$</span><span class="language-xquery">{code}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">pre</span>&gt;</span></span>`;
+            }
+            const language = hljs.getLanguage<span class="hljs-built_in">(lang</span>) ?<span class="hljs-built_in"> lang</span> : <span class="hljs-string">&quot;plaintext&quot;</span>;
+            <span class="hljs-keyword">return</span> hljs.highlight(code, { language }).<span class="hljs-keyword">value</span>;
+        },
+    })
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:03:24 AM PDT</p>
+<p>This code is using the <code>marked</code> library, which is a markdown parser and compiler built for speed. It&#39;s written in JavaScript and can be used to convert markdown into HTML. This particular code is configuring <code>marked</code> to use syntax highlighting with the <code>highlight.js</code> library when rendering code blocks in the markdown.</p>
+<p>Here is a breakdown of the code:</p>
+<ul>
+<li><p><code>marked.use()</code> is a function that allows you to extend the functionality of <code>marked</code> with plugins. In this case, it&#39;s being used to add syntax highlighting to code blocks.</p>
+</li>
+<li><p><code>markedHighlight</code> is a plugin for <code>marked</code> that integrates <code>highlight.js</code> for syntax highlighting. It&#39;s being configured with an options object.</p>
+</li>
+<li><p><code>langPrefix</code> is an option that sets the CSS class prefix for code blocks. This is used by <code>highlight.js</code> to apply syntax highlighting styles.</p>
+</li>
+<li><p><code>highlight</code> is a function that takes a block of code and a language identifier, and returns HTML with syntax highlighting. This function is called by <code>marked</code> whenever it encounters a code block in the markdown.</p>
+</li>
+<li><p>If the language is &quot;mermaid&quot;, which is a markup language for generating diagrams, the code block is wrapped in a <code>&lt;pre&gt;</code> tag with the class &quot;mermaid&quot;. This is likely because <code>highlight.js</code> does not support syntax highlighting for Mermaid, so it&#39;s treated differently.</p>
+</li>
+<li><p>If the language is not &quot;mermaid&quot;, <code>highlight.js</code> is used to apply syntax highlighting. The <code>getLanguage</code> function is called to check if <code>highlight.js</code> supports the specified language. If it does, that language is used; otherwise, &quot;plaintext&quot; is used, meaning no syntax highlighting will be applied.</p>
+</li>
+<li><p>The <code>highlight</code> function of <code>highlight.js</code> is then called with the code and the language. This function returns an object with a <code>value</code> property, which is the HTML string with syntax highlighting.</p>
+</li>
+</ul>
+<p>Here are some resources for learning more about the libraries and concepts used in this code:</p>
+<ul>
+<li><a href="https://marked.js.org/">Marked documentation</a></li>
+<li><a href="https://highlightjs.org/">Highlight.js documentation</a></li>
+<li><a href="https://mermaid-js.github.io/mermaid/#/">Mermaid documentation</a></li>
+<li><a href="https://daringfireball.net/projects/markdown/">Markdown specification</a></li>
+</ul>
+<p>In terms of architectural guidelines, this code is consistent with common practices for extending the functionality of libraries with plugins, and for using third-party libraries to handle complex tasks like syntax highlighting. There don&#39;t appear to be any conflicts with the provided architectural guidelines.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:06:44 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style AnalyzeCode fill:#228B22, stroke:#000000, stroke-width:4px;
+style CallRemoteService fill:#228B22, stroke:#000000, stroke-width:4px;
+style DisplayResults fill:#228B22, stroke:#000000, stroke-width:4px;
+style LogError fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->AnalyzeCode;
+AnalyzeCode-->CallRemoteService;
+CallRemoteService-->DisplayResults;
+CallRemoteService-->LogError;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:10:02 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/convert_html.ts line 51:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>);
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">generateHTMLforNotebook</span>(<span class="hljs-params">
+    boostNotebookPath: <span class="hljs-built_in">string</span>,
+    baseFolderPath: <span class="hljs-built_in">string</span>,
+    context: vscode.ExtensionContext
+</span>): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">string</span>&gt; {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">string</span>&gt;(<span class="hljs-keyword">async</span> (resolve, reject) =&gt; {
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">const</span> htmlFileUri = <span class="hljs-title function_">getBoostFile</span>(vscode.<span class="hljs-property">Uri</span>.<span class="hljs-title function_">parse</span>(boostNotebookPath),
+                { <span class="hljs-attr">format</span>: <span class="hljs-title class_">BoostFileType</span>.<span class="hljs-property">output</span>, <span class="hljs-attr">outputType</span>: <span class="hljs-title class_">OutputType</span>.<span class="hljs-property">html</span> }).<span class="hljs-property">fsPath</span>;
+
+            <span class="hljs-keyword">const</span> boostNotebook = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BoostNotebook</span>();
+            boostNotebook.<span class="hljs-title function_">load</span>(boostNotebookPath);
+            <span class="hljs-keyword">await</span> <span class="hljs-title function_">convertNotebookToHTML</span>(
+                boostNotebook,
+                boostNotebookPath,
+                baseFolderPath,
+                htmlFileUri,
+                context
+            );
+            <span class="hljs-title function_">resolve</span>(htmlFileUri);
+        } <span class="hljs-keyword">catch</span> (error) {
+            <span class="hljs-title function_">reject</span>(error);
+        }
+    });
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:04:10 AM PDT</p>
+<p>This code is written in TypeScript, which is a statically typed superset of JavaScript that is used in a variety of applications, including Visual Studio Code extensions like this one. </p>
+<p>The code exports an asynchronous function named <code>generateHTMLforNotebook</code>. This function takes three parameters: <code>boostNotebookPath</code>, <code>baseFolderPath</code>, and <code>context</code>. The function returns a Promise that resolves to a string.</p>
+<p>Here&#39;s a breakdown of what the function does:</p>
+<ol>
+<li><p>The function is wrapped in a <code>new Promise</code> block. This is a common pattern for asynchronous functions in JavaScript and TypeScript. The Promise constructor takes an executor function that has two parameters: <code>resolve</code> and <code>reject</code>. The <code>resolve</code> function is called when the Promise is fulfilled (i.e., when the asynchronous operation is successful), and <code>reject</code> is called when the Promise is rejected (i.e., when an error occurs).</p>
+</li>
+<li><p>Inside the Promise block, a <code>try</code>/<code>catch</code> block is used to handle any errors that might occur during the execution of the code.</p>
+</li>
+<li><p>The function first calls <code>getBoostFile</code> with the parsed URI of the <code>boostNotebookPath</code>, and an options object specifying the format as <code>BoostFileType.output</code> and the output type as <code>OutputType.html</code>. The <code>fsPath</code> property of the returned object is then stored in the <code>htmlFileUri</code> variable.</p>
+</li>
+<li><p>A new instance of <code>BoostNotebook</code> is created and stored in the <code>boostNotebook</code> variable. The <code>load</code> method is then called on this instance with the <code>boostNotebookPath</code> as the argument.</p>
+</li>
+<li><p>The <code>convertNotebookToHTML</code> function is called with the <code>boostNotebook</code>, <code>boostNotebookPath</code>, <code>baseFolderPath</code>, <code>htmlFileUri</code>, and <code>context</code> as arguments. This function is awaited, meaning the Promise returned by <code>generateHTMLforNotebook</code> won&#39;t resolve until <code>convertNotebookToHTML</code> has completed.</p>
+</li>
+<li><p>If all these operations are successful, the Promise is resolved with the <code>htmlFileUri</code> as the value. If any errors occur during these operations, the Promise is rejected with the error as the value.</p>
+</li>
+</ol>
+<p>Without more context, it&#39;s hard to say exactly what each function and class does, but based on their names, it seems like this code is part of a system that loads a notebook file, converts it to HTML, and then saves the resulting HTML to a file.</p>
+<p>In terms of architectural guidelines, this code seems to be in line with common practices for asynchronous programming in JavaScript and TypeScript. It uses Promises and the <code>async</code>/<code>await</code> syntax to handle asynchronous operations, and it uses a <code>try</code>/<code>catch</code> block to handle any errors that might occur.</p>
+<p>For more information on Promises and asynchronous programming in JavaScript, you can refer to the following resources:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise - JavaScript | MDN</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous">Asynchronous programming - JavaScript | MDN</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:07:01 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;
+ExampleProcess-->End;
+ExampleErrorPath-->End;</pre>
+</code></pre><p>In the above code, the control flow starts at the function <code>generateHTMLforNotebook</code>. The function takes four parameters: <code>boostNotebookPath</code>, <code>baseFolderPath</code>, <code>context</code>, and returns a <code>Promise</code> that resolves to a string.</p>
+<p>The control flow then enters a <code>try</code> block where it attempts to execute the code inside. If an error occurs, the control flow jumps to the <code>catch</code> block.</p>
+<p>Inside the <code>try</code> block, the code creates a <code>htmlFileUri</code> variable by calling the <code>getBoostFile</code> function with the <code>boostNotebookPath</code> parameter and an object with <code>format</code> and <code>outputType</code> properties.</p>
+<p>Next, a <code>boostNotebook</code> object is created and the <code>load</code> method is called with the <code>boostNotebookPath</code> parameter.</p>
+<p>The code then calls the <code>convertNotebookToHTML</code> function with several parameters, including the <code>boostNotebook</code> object, <code>boostNotebookPath</code>, <code>baseFolderPath</code>, <code>htmlFileUri</code>, and <code>context</code>.</p>
+<p>Finally, the <code>resolve</code> function is called with the <code>htmlFileUri</code> parameter to fulfill the promise and return the result.</p>
+<p>If an error occurs at any point in the code, the control flow jumps to the <code>catch</code> block where the error is rejected.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:10:05 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/convert_html.ts line 78:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">convertNotebookToHTML</span>(<span class="hljs-params">
+    notebook: BoostNotebook,
+    notebookPath: <span class="hljs-built_in">string</span>,
+    baseFolderPath: <span class="hljs-built_in">string</span>,
+    outputPath: <span class="hljs-built_in">string</span>,
+    context: vscode.ExtensionContext
+</span>): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt;(<span class="hljs-keyword">async</span> (resolve, reject) =&gt; {
+        <span class="hljs-title function_">convertNotebookToHTMLinMemory</span>(notebook, notebookPath, baseFolderPath, context)
+            .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">html: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
+                <span class="hljs-keyword">const</span> dir = path.<span class="hljs-title function_">dirname</span>(outputPath);
+
+                <span class="hljs-keyword">if</span> (!fs.<span class="hljs-title function_">existsSync</span>(dir)) {
+                    fs.<span class="hljs-title function_">mkdirSync</span>(dir, { <span class="hljs-attr">recursive</span>: <span class="hljs-literal">true</span> });
+                }
+                
+                fs.<span class="hljs-title function_">writeFileSync</span>(outputPath, html);
+                <span class="hljs-title function_">resolve</span>();
+            })
+            .<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">error: <span class="hljs-built_in">any</span></span>) =&gt;</span> {
+                <span class="hljs-title function_">reject</span>(error);
+            });
+    });
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:04:46 AM PDT</p>
+<p>This JavaScript function, <code>convertNotebookToHTML</code>, is an asynchronous function that is part of a Visual Studio Code (VSCode) extension, likely for the BoostNotebook application. It is used to convert a notebook into HTML format and save it to a specified output path. </p>
+<p>The function takes five parameters:</p>
+<ul>
+<li><code>notebook</code>: This is the BoostNotebook object that needs to be converted to HTML.</li>
+<li><code>notebookPath</code>: This is the path where the notebook file is located.</li>
+<li><code>baseFolderPath</code>: This is the path to the base folder where the notebook is located.</li>
+<li><code>outputPath</code>: This is the path where the converted HTML file should be saved.</li>
+<li><code>context</code>: This is the extension context of the VSCode extension.</li>
+</ul>
+<p>The function returns a Promise that resolves to <code>void</code>, meaning it does not return a value upon completion. </p>
+<p>In the body of the function, it first calls the <code>convertNotebookToHTMLinMemory</code> function, which is assumed to convert the notebook to HTML in memory and return a Promise that resolves to the HTML string. The <code>convertNotebookToHTMLinMemory</code> function is passed the <code>notebook</code>, <code>notebookPath</code>, <code>baseFolderPath</code>, and <code>context</code> parameters.</p>
+<p>Once the Promise from <code>convertNotebookToHTMLinMemory</code> resolves, the function then writes the resulting HTML string to the specified <code>outputPath</code> using the <code>fs.writeFileSync</code> function from Node.js&#39;s file system (fs) module. Before writing the file, it checks if the directory for the output path exists and if not, it creates it using <code>fs.mkdirSync</code>.</p>
+<p>If any errors occur during this process, the Promise is rejected with the error.</p>
+<p>The algorithm used in this function is a straightforward application of asynchronous programming in JavaScript using Promises. It does not appear to use any complex data structures or algorithms.</p>
+<p>If you&#39;re interested in learning more about the concepts used in this function, here are some resources:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promises in JavaScript</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous">Asynchronous programming in JavaScript</a></li>
+<li><a href="https://nodejs.org/api/fs.html">File system operations in Node.js</a></li>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api#ExtensionContext">VSCode Extension Context</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:07:14 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;
+ExampleProcess-->End;
+ExampleErrorPath-->End;</pre>
+</code></pre><p>The control flow graph for the provided source code is as follows:</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;
+ExampleProcess-->End;
+ExampleErrorPath-->End;</pre>
+</code></pre><p>This code has a simple control flow. It starts at the <code>Start</code> node and then branches into two paths: <code>ExampleProcess</code> and <code>ExampleErrorPath</code>. Both paths eventually lead to the <code>End</code> node. The <code>ExampleProcess</code> path represents the normal flow of the code, while the <code>ExampleErrorPath</code> path represents the error flow.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:10:26 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 165</p>
+<p><strong>Bug Type</strong>: Insecure File Permissions (STRIDE: Tampering)</p>
+<p><strong>Description</strong>: The directory is created with default file permissions, potentially allowing unauthorized access. This could lead to information disclosure or unauthorized changes to the files.</p>
+<p><strong>Solution</strong>: Specify more secure file permissions when creating the directory. For example, &#39;0o700&#39; would only allow access for the owner of the file. More details can be found here: <a href="https://nodejs.org/api/fs.html#fsmkdirsyncpath-options">https://nodejs.org/api/fs.html#fsmkdirsyncpath-options</a></p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 168</p>
+<p><strong>Bug Type</strong>: Insecure Temporary File (OWASP: Insecure File I/O)</p>
+<p><strong>Description</strong>: The &#39;fs.writeFileSync&#39; function is used to write the converted HTML to a file. This function is synchronous and blocks the event loop, potentially leading to a denial of service if the file is large. It also does not check for file collisions, potentially leading to overwriting of existing files.</p>
+<p><strong>Solution</strong>: Use &#39;fs.writeFile&#39; instead, which is asynchronous and does not block the event loop. Also, consider using a unique filename to prevent file collisions. More details can be found here: <a href="https://nodejs.org/api/fs.html#fswritefilefile-data-options-callback">https://nodejs.org/api/fs.html#fswritefilefile-data-options-callback</a></p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/convert_html.ts line 103:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">convertNotebookToHTMLinMemory</span>(<span class="hljs-params">
+    notebook: BoostNotebook,
+    notebookPath: <span class="hljs-built_in">string</span>,
+    baseFolderPath: <span class="hljs-built_in">string</span>,
+    context: vscode.ExtensionContext
+</span>): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">string</span>&gt; {
+    <span class="hljs-keyword">const</span> cells = notebook.<span class="hljs-property">cells</span>;
+    <span class="hljs-keyword">const</span> htmlPathOnDisk = vscode.<span class="hljs-property">Uri</span>.<span class="hljs-title function_">joinPath</span>(context.<span class="hljs-property">extensionUri</span>, <span class="hljs-string">&#x27;resources&#x27;</span>, <span class="hljs-string">&#x27;export&#x27;</span>, <span class="hljs-string">&#x27;notebook_html.html&#x27;</span>);
+    <span class="hljs-keyword">const</span> rawHtmlContent = fs.<span class="hljs-title function_">readFileSync</span>(htmlPathOnDisk.<span class="hljs-property">fsPath</span>, <span class="hljs-string">&#x27;utf8&#x27;</span>);
+
+    <span class="hljs-keyword">const</span> template = _.<span class="hljs-title function_">template</span>(rawHtmlContent);
+
+    <span class="hljs-keyword">const</span> stats = fs.<span class="hljs-title function_">statSync</span>(notebookPath);
+    <span class="hljs-keyword">const</span> timestamp = stats.<span class="hljs-property">mtime</span>;
+    <span class="hljs-keyword">const</span> fileStamp = <span class="hljs-title function_">formatDateTime</span>(timestamp);
+
+    <span class="hljs-comment">// Retrieve metadata from the notebook</span>
+    <span class="hljs-comment">// convert the file path to a URL</span>
+    <span class="hljs-keyword">const</span> sourceFile = notebook.<span class="hljs-property">metadata</span>[<span class="hljs-string">&quot;sourceFile&quot;</span>] <span class="hljs-keyword">as</span> <span class="hljs-built_in">string</span>;
+    <span class="hljs-keyword">const</span> prettySourceFile = (sourceFile === <span class="hljs-string">&quot;./&quot;</span>)?
+        <span class="hljs-string">`<span class="hljs-subst">${path.basename(baseFolderPath)}</span>`</span>:
+        <span class="hljs-string">`<span class="hljs-subst">${sourceFile}</span>`</span>;
+
+    <span class="hljs-keyword">const</span> projectLevel = sourceFile === <span class="hljs-string">&quot;./&quot;</span>;
+    <span class="hljs-keyword">const</span> analysisType = projectLevel ? <span class="hljs-string">&quot;Project&quot;</span> : <span class="hljs-string">&quot;Source&quot;</span>;
+    <span class="hljs-keyword">const</span> buildingSummary = notebookPath.<span class="hljs-title function_">endsWith</span>(<span class="hljs-variable constant_">NOTEBOOK_SUMMARY_EXTENSION</span>);
+    <span class="hljs-keyword">const</span> pageTitle = <span class="hljs-string">`Polyverse Boost <span class="hljs-subst">${analysisType}</span> Analysis <span class="hljs-subst">${buildingSummary?<span class="hljs-string">&quot;Summary&quot;</span>:projectLevel?<span class="hljs-string">&quot;&quot;</span>:<span class="hljs-string">&quot;Details&quot;</span>}</span>: <span class="hljs-subst">${prettySourceFile}</span>`</span>;
+
+    <span class="hljs-keyword">let</span> <span class="hljs-attr">summaryNotebook</span>: <span class="hljs-title class_">BoostNotebook</span> | <span class="hljs-literal">undefined</span> = <span class="hljs-literal">undefined</span>;
+    <span class="hljs-keyword">if</span> (projectLevel || buildingSummary) {
+        summaryNotebook = notebook;
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">const</span> summaryBoostFile = <span class="hljs-title function_">getBoostFile</span>(vscode.<span class="hljs-property">Uri</span>.<span class="hljs-title function_">parse</span>(path.<span class="hljs-title function_">join</span>(baseFolderPath,sourceFile)), {
+            <span class="hljs-attr">format</span>: <span class="hljs-title class_">BoostFileType</span>.<span class="hljs-property">summary</span>
+        });
+        <span class="hljs-comment">// if summary exists, then print that </span>
+        <span class="hljs-keyword">if</span> (fs.<span class="hljs-title function_">existsSync</span>(summaryBoostFile.<span class="hljs-property">fsPath</span>)) {
+            summaryNotebook = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BoostNotebook</span>();
+            summaryNotebook.<span class="hljs-title function_">load</span>(summaryBoostFile.<span class="hljs-property">fsPath</span>);
+        }
+    }
+
+    <span class="hljs-keyword">const</span> summaryContent : <span class="hljs-built_in">string</span>[] = [];
+    <span class="hljs-keyword">if</span> (summaryNotebook) {
+        <span class="hljs-comment">// print the blueprint first in the summary</span>
+        <span class="hljs-keyword">const</span> blueprintCell = <span class="hljs-title function_">findCellByKernel</span>(summaryNotebook, <span class="hljs-title class_">ControllerOutputType</span>.<span class="hljs-property">blueprint</span>) <span class="hljs-keyword">as</span> <span class="hljs-title class_">BoostNotebookCell</span>;
+
+        <span class="hljs-keyword">if</span> (blueprintCell) {
+            <span class="hljs-keyword">const</span> convertedMarkdown : <span class="hljs-built_in">string</span> = marked.<span class="hljs-title function_">parse</span>(blueprintCell.<span class="hljs-property">value</span>, {
+                <span class="hljs-attr">highlight</span>: <span class="hljs-function">(<span class="hljs-params">code, lang</span>) =&gt;</span> hljs.<span class="hljs-title function_">highlightAuto</span>(code, [lang]).<span class="hljs-property">value</span>,
+            });
+
+            summaryContent.<span class="hljs-title function_">push</span>(<span class="hljs-string">`&lt;div class=&quot;blueprint-section&quot;&gt;<span class="hljs-subst">${convertedMarkdown}</span>&lt;/div&gt;&lt;p&gt;&lt;/p&gt;`</span>);
+        }
+
+        <span class="hljs-comment">// then print the other summaries</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> boostCell <span class="hljs-keyword">of</span> summaryNotebook.<span class="hljs-property">cells</span>) {
+            <span class="hljs-keyword">if</span> (boostCell.<span class="hljs-property">id</span> === blueprintCell?.<span class="hljs-property">id</span>) {
+                <span class="hljs-keyword">continue</span>;
+            }
+            <span class="hljs-keyword">const</span> convertedMarkdown : <span class="hljs-built_in">string</span> = marked.<span class="hljs-title function_">parse</span>(boostCell.<span class="hljs-property">value</span>, {
+                <span class="hljs-attr">highlight</span>: <span class="hljs-function">(<span class="hljs-params">code, lang</span>) =&gt;</span> hljs.<span class="hljs-title function_">highlightAuto</span>(code, [lang]).<span class="hljs-property">value</span>,
+            });
+            summaryContent.<span class="hljs-title function_">push</span>(<span class="hljs-string">`&lt;div class=&quot;<span class="hljs-subst">${summaryContent.length &gt; <span class="hljs-number">0</span>?<span class="hljs-string">&quot;new-page-section&quot;</span>:<span class="hljs-string">&quot;&quot;</span>}</span>&gt;<span class="hljs-subst">${convertedMarkdown}</span>&lt;/div&gt;&lt;p&gt;&lt;/p&gt;`</span>);
+        }
+    }
+
+    <span class="hljs-keyword">const</span> <span class="hljs-attr">cellHtmls</span>: <span class="hljs-built_in">string</span>[] = [];
+
+    <span class="hljs-comment">// if we are printing details for a file, keep displaying - otherwise summary only</span>
+    <span class="hljs-keyword">if</span> (!projectLevel &amp;&amp; !buildingSummary) {
+        <span class="hljs-keyword">if</span> (summaryNotebook) {
+            cellHtmls.<span class="hljs-title function_">push</span>(<span class="hljs-string">`&lt;h1&gt;Detailed Analysis&lt;/h1&gt;`</span>);
+        }
+
+        <span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> cell <span class="hljs-keyword">of</span> cells) {
+            count++;
+            <span class="hljs-keyword">let</span> cellHtml = <span class="hljs-string">&quot;&quot;</span>;
+            <span class="hljs-keyword">if</span> (cell.<span class="hljs-property">kind</span> === <span class="hljs-title class_">NotebookCellKind</span>.<span class="hljs-property">Markup</span>) {
+                cellHtml += marked.<span class="hljs-title function_">parse</span>(cell.<span class="hljs-property">value</span>, {
+                    <span class="hljs-attr">highlight</span>: <span class="hljs-function">(<span class="hljs-params">code, lang</span>) =&gt;</span> hljs.<span class="hljs-title function_">highlightAuto</span>(code, [lang]).<span class="hljs-property">value</span>,
+                });
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (cell.<span class="hljs-property">kind</span> === <span class="hljs-title class_">NotebookCellKind</span>.<span class="hljs-property">Code</span>) {
+
+                <span class="hljs-comment">// if there is a lineNumberBase, then add 1 to it to get the original line number and </span>
+                <span class="hljs-comment">// add that info</span>
+                <span class="hljs-keyword">const</span> line = cell.<span class="hljs-property">metadata</span>?.<span class="hljs-property">lineNumberBase</span> ? cell.<span class="hljs-property">metadata</span>?.<span class="hljs-property">lineNumberBase</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">number</span> + <span class="hljs-number">1</span> : <span class="hljs-number">1</span>;
+                <span class="hljs-keyword">const</span> lineText = cell.<span class="hljs-property">metadata</span>?.<span class="hljs-property">lineNumberBase</span> ? <span class="hljs-string">`line <span class="hljs-subst">${line}</span>:`</span> : <span class="hljs-string">&quot;:&quot;</span>;
+
+                <span class="hljs-keyword">if</span>( count &gt; <span class="hljs-number">1</span> ){
+                    cellHtml += <span class="hljs-string">`&lt;div class=&quot;new-page-section&quot;&gt;`</span>;
+                } <span class="hljs-keyword">else</span> {
+                    cellHtml += <span class="hljs-string">`&lt;div&gt;`</span>;
+                }
+
+                cellHtml += <span class="hljs-string">`
+                    &lt;h2&gt;<span class="hljs-subst">${sourceFile}</span> <span class="hljs-subst">${lineText}</span>&lt;/h2&gt;
+                    &lt;p&gt;Programming Language: <span class="hljs-subst">${cell.languageId}</span>&lt;/p&gt;
+                    &lt;pre&gt;&lt;code&gt;<span class="hljs-subst">${hljs.highlightAuto(cell.value).value}</span>&lt;/code&gt;&lt;/pre&gt;
+                `</span>;
+                cellHtml += <span class="hljs-string">&quot;&lt;/div&gt;&quot;</span>;
+            }
+            <span class="hljs-keyword">if</span> (cell.<span class="hljs-property">outputs</span>) {
+                cellHtml += <span class="hljs-string">&quot;&lt;div class=&#x27;analysis-section&#x27;&gt;&quot;</span>;
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> output <span class="hljs-keyword">of</span> cell.<span class="hljs-property">outputs</span>) {
+                    output.<span class="hljs-property">items</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> {
+                        cellHtml += <span class="hljs-string">&quot;&lt;div class=&#x27;output-item&#x27;&gt;&quot;</span>;
+                        <span class="hljs-keyword">if</span> (item.<span class="hljs-property">mime</span>.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">&quot;text/x-&quot;</span>)) {
+                            cellHtml += <span class="hljs-string">`&lt;p&gt;Converted Programming Language: <span class="hljs-subst">${item.mime.replace(<span class="hljs-string">&quot;text/x-&quot;</span>, <span class="hljs-string">&quot;&quot;</span>)}</span>&lt;/p&gt;`</span>;
+                        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!item.<span class="hljs-property">mime</span>.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">&quot;text/markdown&quot;</span>)) {
+                            cellHtml += <span class="hljs-string">`&lt;p&gt;Output Type: <span class="hljs-subst">${item.mime}</span>&lt;/p&gt;`</span>;
+                        }
+                        cellHtml += marked.<span class="hljs-title function_">parse</span>(item.<span class="hljs-property">data</span>, {
+                            <span class="hljs-attr">highlight</span>: <span class="hljs-function">(<span class="hljs-params">code, lang</span>) =&gt;</span> hljs.<span class="hljs-title function_">highlightAuto</span>(code, [lang]).<span class="hljs-property">value</span>,
+                        });
+                        cellHtml += <span class="hljs-string">&quot;&lt;/div&#x27;&gt;&quot;</span>;
+                    });
+                }
+                cellHtml += <span class="hljs-string">&quot;&lt;/div&gt;&quot;</span>;
+            }
+            cellHtmls.<span class="hljs-title function_">push</span>(cellHtml);
+        }
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_">template</span>({
+        <span class="hljs-attr">cellStyleSheet</span>: cellStyleSheet,
+        <span class="hljs-attr">mermaidScript</span>: mermaidScript,
+        <span class="hljs-attr">pageTitle</span>: pageTitle,
+        <span class="hljs-attr">sourceFile</span>: sourceFile,
+        <span class="hljs-attr">fileStamp</span>: fileStamp,
+        <span class="hljs-attr">summaryContent</span>: summaryContent,
+        <span class="hljs-attr">cellsHtml</span>: cellHtmls
+    });
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:05:36 AM PDT</p>
+<p>This code is an asynchronous function named <code>convertNotebookToHTMLinMemory()</code>, which takes four parameters: <code>notebook</code>, <code>notebookPath</code>, <code>baseFolderPath</code>, and <code>context</code>. This function converts a notebook into HTML and returns the HTML as a string. The function is written in TypeScript and uses the async/await syntax for handling promises.</p>
+<p>Here&#39;s a detailed breakdown of the function:</p>
+<ol>
+<li><p><strong>Reading the HTML Template</strong>: The function reads an HTML template from a file called &#39;notebook_html.html&#39; located in the &#39;resources/export&#39; directory of the extension.</p>
+</li>
+<li><p><strong>Extracting Metadata</strong>: The function extracts the metadata from the notebook, including the source file, the project level, the analysis type, and whether the notebook is a summary.</p>
+</li>
+<li><p><strong>Loading the Summary Notebook</strong>: If the notebook is a project level or a summary, it is assigned to <code>summaryNotebook</code>. Otherwise, the function checks if a summary file exists for the source file. If it exists, it loads the summary file into <code>summaryNotebook</code>.</p>
+</li>
+<li><p><strong>Generating the Summary Content</strong>: If <code>summaryNotebook</code> is not undefined, the function generates the summary content by parsing the cells of the notebook into HTML. It uses the <code>marked</code> library to convert markdown into HTML and the <code>highlight.js</code> library to highlight code blocks.</p>
+</li>
+<li><p><strong>Generating the Detailed Analysis</strong>: If the notebook is not a project level or a summary, the function generates the detailed analysis by parsing the cells of the notebook into HTML. It handles both markup cells (which contain markdown) and code cells. For code cells, it adds information about the source file and line number, and it highlights the code using <code>highlight.js</code>.</p>
+</li>
+<li><p><strong>Generating the Final HTML</strong>: The function generates the final HTML by applying the HTML template to the generated data. The data includes the summary content, the detailed analysis, and some additional metadata.</p>
+</li>
+</ol>
+<p>The function uses several libraries and APIs:</p>
+<ul>
+<li><code>vscode</code>: This is the Visual Studio Code API, which provides functionality for interacting with the VS Code editor.</li>
+<li><code>fs</code>: This is the Node.js file system module, which provides functionality for interacting with the file system.</li>
+<li><code>path</code>: This is the Node.js path module, which provides functionality for manipulating file and directory paths.</li>
+<li><code>_</code>: This is the Lodash library, which provides utility functions for working with arrays, objects, and other JavaScript data types.</li>
+<li><code>marked</code>: This is a markdown parser and compiler, which is used to convert markdown into HTML.</li>
+<li><code>highlight.js</code>: This is a syntax highlighter for web and Node.js, which is used to highlight code blocks in the HTML.</li>
+</ul>
+<p>For more information on these libraries and APIs, you can refer to their respective documentation:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api">Visual Studio Code API</a></li>
+<li><a href="https://nodejs.org/api/fs.html">Node.js file system module</a></li>
+<li><a href="https://nodejs.org/api/path.html">Node.js path module</a></li>
+<li><a href="https://lodash.com/">Lodash</a></li>
+<li><a href="https://marked.js.org/">marked</a></li>
+<li><a href="https://highlightjs.org/">highlight.js</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:08:36 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style External fill:#FFA500, stroke:#000000, stroke-width:2px;
+style Error fill:#B22222, stroke:#000000, stroke-width:2px;
+style Process fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->A;
+A-->B;
+B-->C;
+C-->D;
+D-->E;
+E-->F;
+F-->G;
+G-->H;
+H-->I;
+I-->J;
+J-->K;
+K-->L;
+L-->M;
+M-->N;
+N-->O;
+O-->P;
+P-->Q;
+Q-->R;
+R-->S;
+S-->T;
+T-->U;
+U-->V;
+V-->W;
+W-->X;
+X-->Y;
+Y-->Z;
+Z-->AA;
+AA-->AB;
+AB-->AC;
+AC-->AD;
+AD-->AE;
+AE-->AF;
+AF-->AG;
+AG-->AH;
+AH-->AI;
+AI-->AJ;
+AJ-->AK;
+AK-->AL;
+AL-->AM;
+AM-->AN;
+AN-->AO;
+AO-->AP;
+AP-->AQ;
+AQ-->AR;
+AR-->AS;
+AS-->AT;
+AT-->AU;
+AU-->AV;
+AV-->AW;
+AW-->AX;
+AX-->AY;
+AY-->AZ;
+AZ-->BA;
+BA-->BB;
+BB-->BC;
+BC-->BD;
+BD-->BE;
+BE-->BF;
+BF-->BG;
+BG-->BH;
+BH-->BI;
+BI-->BJ;
+BJ-->BK;
+BK-->BL;
+BL-->BM;
+BM-->BN;
+BN-->BO;
+BO-->BP;
+BP-->BQ;
+BQ-->BR;
+BR-->BS;
+BS-->BT;
+BT-->BU;
+BU-->BV;
+BV-->BW;
+BW-->BX;
+BX-->BY;
+BY-->BZ;
+BZ-->CA;
+CA-->CB;
+CB-->CC;
+CC-->CD;
+CD-->CE;
+CE-->CF;
+CF-->CG;
+CG-->CH;
+CH-->CI;
+CI-->CJ;
+CJ-->CK;
+CK-->CL;
+CL-->CM;
+CM-->CN;
+CN-->CO;
+CO-->CP;
+CP-->CQ;
+CQ-->CR;
+CR-->CS;
+CS-->CT;
+CT-->CU;
+CU-->CV;
+CV-->CW;
+CW-->CX;
+CX-->CY;
+CY-->CZ;
+CZ-->DA;
+DA-->DB;
+DB-->DC;
+DC-->DD;
+DD-->DE;
+DE-->DF;
+DF-->DG;
+DG-->DH;
+DH-->DI;
+DI-->DJ;
+DJ-->DK;
+DK-->DL;
+DL-->DM;
+DM-->DN;
+DN-->DO;
+DO-->DP;
+DP-->DQ;
+DQ-->DR;
+DR-->DS;
+DS-->DT;
+DT-->DU;
+DU-->DV;
+DV-->DW;
+DW-->DX;
+DX-->DY;
+DY-->DZ;
+DZ-->EA;
+EA-->EB;
+EB-->EC;
+EC-->ED;
+ED-->EE;
+EE-->EF;
+EF-->EG;
+EG-->EH;
+EH-->EI;
+EI-->EJ;
+EJ-->EK;
+EK-->EL;
+EL-->EM;
+EM-->EN;
+EN-->EO;
+EO-->EP;
+EP-->EQ;
+EQ-->ER;
+ER-->ES;
+ES-->ET;
+ET-->EU;
+EU-->EV;
+EV-->EW;
+EW-->EX;
+EX-->EY;
+EY-->EZ;
+EZ-->FA;
+FA-->FB;
+FB-->FC;
+FC-->FD;
+FD-->FE;
+FE-->FF;
+FF-->FG;
+FG-->FH;
+FH-->FI;
+FI-->FJ;
+FJ-->FK;
+FK-->FL;
+FL-->FM;
+FM-->FN;
+FN-->FO;
+FO-->FP;
+FP-->FQ;
+FQ-->FR;
+FR-->FS;
+FS-->FT;
+FT-->FU;
+FU-->FV;
+FV-->FW;
+FW-->FX;
+FX-->FY;
+FY-->FZ;
+FZ-->GA;
+GA-->GB;
+GB-->GC;
+GC-->GD;
+GD-->GE;
+GE-->GF;
+GF-->GG;
+GG-->GH;
+GH-->GI;
+GI-->GJ;
+GJ-->GK;
+GK-->GL;
+GL-->GM;
+GM-->GN;
+GN-->GO;
+GO-->GP;
+GP-->GQ;
+GQ-->GR;
+GR-->GS;
+GS-->GT;
+GT-->GU;
+GU-->GV;
+GV-->GW;
+GW-->GX;
+GX-->GY;
+GY-->GZ;
+GZ-->HA;
+HA-->HB;
+HB-->HC;
+HC-->HD;
+HD-->HE;
+HE-->HF;
+HF-->HG;
+HG-->HH;
+HH-->HI;
+HI-->HJ;
+HJ-->HK;
+HK-->HL;
+HL-->HM;
+HM-->HN;
+HN-->HO;
+HO-->HP;
+HP-->HQ;
+HQ-->HR;
+HR-->HS;
+HS-->HT;
+HT-->HU;
+HU-->HV;
+HV-->HW;
+HW-->HX;
+HX-->HY;
+HY-->HZ;
+HZ-->IA;
+IA-->IB;
+IB-->IC;
+IC-->ID;
+ID-->IE;
+IE-->IF;
+IF-->IG;
+IG-->IH;
+IH-->II;
+II-->IJ;
+IJ-->IK;
+IK-->IL;
+IL-->IM;
+IM-->IN;
+IN-->IO;
+IO-->IP;
+IP-->IQ;
+IQ-->IR;
+IR-->IS;
+IS-->IT;
+IT-->IU;
+IU-->IV;
+IV-->IW;
+IW-->IX;
+IX-->IY;
+IY-->IZ;
+IZ-->JA;
+JA-->JB;
+JB-->JC;
+JC-->JD;
+JD-->JE;
+JE-->JF;
+JF-->JG;
+JG-->JH;
+JH-->JI;
+JI-->JJ;
+JJ-->JK;
+JK-->JL;
+JL-->JM;
+JM-->JN;
+JN-->JO;
+JO-->JP;
+JP-->JQ;
+JQ-->JR;
+JR-->JS;
+JS-->JT;
+JT-->JU;
+JU-->JV;
+JV-->JW;
+JW-->JX;
+JX-->JY;
+JY-->JZ;
+JZ-->KA;
+KA-->KB;
+KB-->KC;
+KC-->KD;
+KD-->KE;
+KE-->KF;
+KF-->KG;
+KG-->KH;
+KH-->KI;
+KI-->KJ;
+KJ-->KK;
+KK-->KL;
+KL-->KM;
+KM-->KN;
+KN-->KO;
+KO-->KP;
+KP-->KQ;
+KQ-->KR;
+KR-->KS;
+KS-->KT;
+KT-->KU;
+KU-->KV;
+KV-->KW;
+KW-->KX;
+KX-->KY;
+KY-->KZ;
+KZ-->LA;
+LA-->LB;
+LB-->LC;
+LC-->LD;
+LD-->LE;
+LE-->LF;
+LF-->LG;
+LG-->LH;
+LH-->LI;
+LI-->LJ;
+LJ-->LK;
+LK-->LL;
+LL-->LM;
+LM-->LN;
+LN-->LO;
+LO-->LP;
+LP-->LQ;
+LQ-->LR;
+LR-->LS;
+LS-->LT;
+LT-->LU;
+LU-->LV;
+LV-->LW;
+LW-->LX;
+LX-->LY;
+LY-->LZ;
+LZ-->MA;
+MA-->MB;
+MB-->MC;
+MC-->MD;
+MD-->ME;
+ME-->MF;
+MF-->MG;
+MG-->MH;
+MH-->MI;
+MI-->MJ;
+MJ-->MK;
+MK-->ML;
+ML-->MM;
+MM-->MN;
+MN-->MO;
+MO-->MP;
+MP-->MQ;
+MQ-->MR;
+MR-->MS;
+MS-->MT;
+MT-->MU;
+MU-->MV;
+MV-->MW;
+MW-->MX;
+MX-->MY;
+MY-->MZ;
+MZ-->NA;
+NA-->NB;
+NB-->NC;
+NC-->ND;
+ND-->NE;
+NE-->NF;
+NF-->NG;
+NG-->NH;
+NH-->NI;
+NI-->NJ;
+NJ-->NK;
+NK-->NL;
+NL-->NM;
+NM-->NN;
+NN-->NO;
+NO-->NP;
+NP-->NQ;
+NQ-->NR;
+NR-->NS;
+NS-->NT;
+NT-->NU;
+NU-->NV;
+NV-->NW;
+NW-->NX;
+NX-->NY;
+NY-->NZ;
+NZ-->OA;
+OA-->OB;
+OB-->OC;
+OC-->OD;
+OD-->OE;
+OE-->OF;
+OF-->OG;
+OG-->OH;
+OH-->OI;
+OI-->OJ;
+OJ-->OK;
+OK-->OL;
+OL-->OM;
+OM-->ON;
+ON-->OO;
+OO-->OP;
+OP-->OQ;
+OQ-->OR;
+OR-->OS;
+OS-->OT;
+OT-->OU;
+OU-->OV;
+OV-->OW;
+OW-->OX;
+OX-->OY;
+OY-->OZ;
+OZ-->PA;
+PA-->PB;
+PB-->PC;
+PC-->PD;
+PD-->PE;
+PE-->PF;
+PF-->PG;
+PG-->PH;
+PH-->PI;
+PI-->PJ;
+PJ-->PK;
+PK-->PL;
+PL-->PM;
+PM-->PN;
+PN-->PO;
+PO-->PP;
+PP-->PQ;
+PQ-->PR;
+PR-->PS;
+PS-->PT;
+PT-->PU;
+PU-->PV;
+PV-->PW;
+PW-->PX;
+PX-->PY;
+PY-->PZ;
+PZ-->QA;
+QA-->QB;
+QB-->QC;
+QC-->QD;
+QD-->QE;
+QE-->QF;
+QF-->QG;
+QG-->QH;
+QH-->QI;
+QI</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 4:11:10 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 209</p>
+<p><strong>Bug Type</strong>: Insecure File Handling</p>
+<p><strong>Description</strong>: The function <code>fs.readFileSync</code> is used to read file content. This is a blocking operation that can lead to denial of service if an attacker can influence the path of the file to be read. More details can be found here: <a href="https://nodejs.org/en/knowledge/file-system/security/introduction/">https://nodejs.org/en/knowledge/file-system/security/introduction/</a></p>
+<p><strong>Solution</strong>: Use the asynchronous version of <code>fs.readFile</code> instead, which is non-blocking. Also, validate and sanitize the file path to ensure it&#39;s within the expected directory.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 222</p>
+<p><strong>Bug Type</strong>: Insecure File Handling</p>
+<p><strong>Description</strong>: The function <code>fs.statSync</code> is used to retrieve file stats. This is a blocking operation that can lead to denial of service if an attacker can influence the path of the file. More details can be found here: <a href="https://nodejs.org/en/knowledge/file-system/security/introduction/">https://nodejs.org/en/knowledge/file-system/security/introduction/</a></p>
+<p><strong>Solution</strong>: Use the asynchronous version of <code>fs.stat</code> instead, which is non-blocking. Also, validate and sanitize the file path to ensure it&#39;s within the expected directory.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 242</p>
+<p><strong>Bug Type</strong>: Insecure File Handling</p>
+<p><strong>Description</strong>: The function <code>fs.existsSync</code> is used to check if a file exists. This function can be vulnerable to race conditions, as the file might be deleted or modified after the check but before the file is used. More details can be found here: <a href="https://nodejs.org/en/knowledge/file-system/security/introduction/">https://nodejs.org/en/knowledge/file-system/security/introduction/</a></p>
+<p><strong>Solution</strong>: Instead of checking if a file exists and then opening it, open the file directly and handle the error if it does not exist.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 258</p>
+<p><strong>Bug Type</strong>: Cross-Site Scripting (XSS)</p>
+<p><strong>Description</strong>: The function <code>marked.parse</code> is used to parse markdown content which may include user-supplied data. If the user-supplied data is not properly sanitized, it could lead to Cross-Site Scripting (XSS) attacks. More details can be found here: <a href="https://owasp.org/www-community/attacks/xss/">https://owasp.org/www-community/attacks/xss/</a></p>
+<p><strong>Solution</strong>: Ensure that user-supplied data is properly sanitized before it is passed to the <code>marked.parse</code> function. Use a library like DOMPurify to sanitize HTML content.</p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>

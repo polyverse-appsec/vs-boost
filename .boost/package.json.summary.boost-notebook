@@ -1,5 +1,79 @@
 {
-  "cells": [],
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": ""
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysis"
+          }
+        }
+      ],
+      "languageId": "markdown",
+      "id": "2f8e8dbd-0ecc-4ab2-8fb2-2821f1718f04",
+      "value": "\n\n---\n\n### Boost Architectural Quick Summary Security Report\n\nLast Updated: Friday, September 8, 2023 at 5:11:12 PM PDT\n\n\nExecutive Report:\n\n1. **Architectural Impact**: The analysis of this file has not revealed any severe issues.\n2. **Risk Analysis**: The analysis of this file has not revealed any severe issues.\n3. **Potential Customer Impact**: Based on the analysis, there are no severe issues that could potentially impact customers.\n4. **Performance Issues**: Our analysis did not identify any explicit performance issues in the file.\n5. **Risk Assessment**: Based on the current analysis of this file, no severe issues have been found. However, this doesn't guarantee that the file is risk-free.\n\nHighlights:\n\n- No severe issues were identified in the current analysis of this file.\n",
+      "kind": 1,
+      "metadata": {
+        "id": "2f8e8dbd-0ecc-4ab2-8fb2-2821f1718f04",
+        "outputType": "bugAnalysis",
+        "summaryType": "quick"
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": ""
+            }
+          ],
+          "metadata": {
+            "outputType": "performance"
+          }
+        }
+      ],
+      "languageId": "markdown",
+      "id": "3e62fc90-f622-425d-9294-ed540bd04980",
+      "value": "\n\n---\n\n### Boost Architectural Quick Summary Performance Report\n\nLast Updated: Friday, September 8, 2023 at 5:11:32 PM PDT\n\n\nExecutive Report:\n\n1. **Architectural Impact**: The analysis of this file has not revealed any severe issues.\n2. **Risk Analysis**: The analysis of this file has not revealed any severe issues.\n3. **Potential Customer Impact**: Based on the analysis, there are no severe issues that could potentially impact customers.\n4. **Performance Issues**: Our analysis did not identify any explicit performance issues in the file.\n5. **Risk Assessment**: Based on the current analysis of this file, no severe issues have been found. However, this doesn't guarantee that the file is risk-free.\n\nHighlights:\n\n- No severe issues were identified in the current analysis of this file.\n",
+      "kind": 1,
+      "metadata": {
+        "id": "3e62fc90-f622-425d-9294-ed540bd04980",
+        "outputType": "performance",
+        "summaryType": "quick"
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": ""
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCode",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "markdown",
+      "id": "8fd3e2b7-335d-4f42-a797-5be6e5447ace",
+      "value": "\n\n---\n\n### Boost Architectural Quick Summary Compliance Report\n\nLast Updated: Friday, September 8, 2023 at 5:12:40 PM PDT\n\nExecutive Level Report:\n\n1. **Architectural Impact**: The software project is a Visual Studio Code extension that provides code analysis functionality. It is well-structured and follows best practices for a VS Code extension. However, the project has a configuration for the default organization for billing, which could potentially impact the architecture if credit card or other sensitive authentication data is processed, transmitted, or stored. This could require additional layers of security and encryption to be added to the architecture.\n\n2. **Risk Analysis**: The project has a warning related to PCI DSS compliance requirements in the package.json file. This indicates a potential risk if the application handles credit card data. The risk is that the application may not be fully compliant with PCI DSS requirements, which could lead to potential security vulnerabilities and legal issues. \n\n3. **Potential Customer Impact**: If the application is not fully compliant with PCI DSS requirements, it could potentially expose customers' sensitive data, leading to a breach of trust and potential legal implications. This could negatively impact the reputation of the company and result in loss of customers.\n\n4. **Overall Issues**: The project has one file, package.json, with issues related to GDPR, PCI DSS, and HIPAA. This is a significant concern as these regulations are critical for protecting user data and ensuring secure transactions. Non-compliance could lead to severe penalties and damage to the company's reputation.\n\n5. **Risk Assessment**: Given that the project has only one file and that file has issues of varying severity, the overall health of the project source could be considered at risk. It is crucial to address these issues to ensure the project's compliance with data protection and security regulations.\n\nHighlights:\n\n- The project is well-structured and follows best practices for a VS Code extension, indicating a sound architectural foundation.\n- The package.json file has issues related to GDPR, PCI DSS, and HIPAA, indicating potential compliance risks.\n- The potential customer impact of these issues could be significant, as non-compliance could lead to a breach of trust and potential legal implications.\n- The overall health of the project source is at risk due to the issues identified in the package.json file.\n- There are no additional special architectural guidelines or constraints for this project, allowing for flexibility in addressing the identified issues.",
+      "kind": 1,
+      "metadata": {
+        "id": "8fd3e2b7-335d-4f42-a797-5be6e5447ace",
+        "outputType": "complianceCode",
+        "summaryType": "quick"
+      }
+    }
+  ],
   "metadata": {
     "defaultDir": ".boost",
     "sourceFile": "./package.json"

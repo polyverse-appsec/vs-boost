@@ -1,0 +1,604 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/inline/decorator_provider.ts</h1>
+    <p>Date Generated: Saturday, September 9, 2023 at 5:56:19 AM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:53:10 AM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:54:51 AM PDT</p>
+<h2 id="executive-report-software-project-analysis">Executive Report: Software Project Analysis</h2>
+<p>Based on the analysis of the software project, the following key points have been identified:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The project is well-structured and follows best practices for a Visual Studio Code extension. However, there is a potential architectural risk in the <code>decorator_provider.ts</code> file. The function <code>getAnalysisForSourceTarget</code> is called within a loop, which could lead to high CPU usage if there are many selections in the active editor. This could impact the performance of the software and the user experience.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The risk associated with this issue is moderate. While high CPU usage could degrade performance, it is not a security risk or a risk to data integrity. However, it could lead to a poor user experience if the software becomes slow or unresponsive. The risk could be mitigated by optimizing the function or reducing the number of times it is called.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: Customers could experience slow performance or unresponsiveness when using the software, particularly when making many selections in the active editor. This could lead to frustration and a negative perception of the software.</p>
+</li>
+<li><p><strong>Overall Issues</strong>: The <code>decorator_provider.ts</code> file has the most severe issues, with warnings for CPU, Disk, and Memory. This suggests that this file could be a hotspot for performance issues. However, it is the only file in the project with detected issues, which suggests that the overall health of the project source is good.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: Given that only one file out of the entire project has detected issues, the overall risk to the project is low. However, the issues in the <code>decorator_provider.ts</code> file should be addressed to prevent potential performance issues.</p>
+</li>
+</ol>
+<p>In conclusion, while the project is generally well-structured and follows best practices, there are potential performance issues in the <code>decorator_provider.ts</code> file that should be addressed. The overall risk to the project is low, but addressing these issues could improve the user experience and the perception of the software.</p>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:56:47 AM PDT</p>
+<h2 id="executive-report-architectural-impact-and-risk-analysis">Executive Report: Architectural Impact and Risk Analysis</h2>
+<p>Based on the analysis of the software project, the following key points have been identified:</p>
+<ol>
+<li><p><strong>Severity of Issues</strong>: The most severe issues found in the project are related to GDPR and Data Privacy, both of which are found in the <code>decorator_provider.ts</code> file. These issues are of high importance as they can potentially lead to legal and compliance problems if not addressed. The PCI DSS warning in the same file also indicates potential risks related to payment data handling.</p>
+</li>
+<li><p><strong>Percentage of Files with Issues</strong>: Out of the total project files analyzed, 100% have some form of issue detected. This is a significant concern as it indicates potential systemic issues with the project&#39;s codebase.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: The issues related to GDPR and Data Privacy could potentially impact customers&#39; trust and the company&#39;s reputation. If not addressed, these issues could lead to data breaches, resulting in financial and reputational damage.</p>
+</li>
+<li><p><strong>Overall Health of the Project</strong>: Given that all analyzed files have detected issues, the overall health of the project is concerning. The project requires immediate attention to address these issues and mitigate potential risks.</p>
+</li>
+<li><p><strong>Architectural Consistency</strong>: The project appears to follow best practices for a Visual Studio Code extension and makes use of TypeScript features and the VS Code API. However, the issues identified indicate potential conflicts with the principles of secure and compliant data handling.</p>
+</li>
+</ol>
+<p>In conclusion, while the project follows good architectural practices, the identified issues pose significant risks. Immediate action is required to address these issues and ensure the project&#39;s compliance with GDPR, Data Privacy, and PCI DSS regulations.</p>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/inline/decorator_provider.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> vscode <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vscode&#x27;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
+
+<span class="hljs-keyword">import</span> {
+    getAnalysisForSourceTarget,
+    generateSingleLineSummaryForAnalysisData
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../extension/vscodeUtilities&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:49:52 AM PDT</p>
+<p>This is a very short piece of code that does not contain any algorithms, but I can certainly explain what it does.</p>
+<p>The code is written in TypeScript, a statically typed superset of JavaScript. It imports modules for use in the rest of the script.</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> vscode <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vscode&#x27;</span>;
+</code></pre><p>This line imports the entire <code>vscode</code> module, which is a library provided by Visual Studio Code for writing extensions. This module provides functions and objects that allow you to interact with the VS Code editor, such as opening files, displaying messages, and so on. You can learn more about it <a href="https://code.visualstudio.com/api/references/vscode-api">here</a>.</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
+</code></pre><p>This line imports the entire <code>fs</code> module, which is a core Node.js module for working with the file system. It provides functions for reading and writing files, creating directories, and so on. You can learn more about it <a href="https://nodejs.org/api/fs.html">here</a>.</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> {
+    getAnalysisForSourceTarget,
+    generateSingleLineSummaryForAnalysisData
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../extension/vscodeUtilities&#x27;</span>;
+</code></pre><p>This line imports two specific functions from the <code>vscodeUtilities</code> module, which is located in the <code>extension</code> directory one level up from the current file. The <code>getAnalysisForSourceTarget</code> function presumably performs some sort of analysis on a source target, and the <code>generateSingleLineSummaryForAnalysisData</code> function presumably generates a single line summary from some analysis data. Without seeing these functions, I can&#39;t provide more detail on what they do.</p>
+<p>Overall, this code is consistent with the architectural blueprint summary you provided. It uses TypeScript and imports modules, which are common practices in Node.js and VS Code extension development. It also appears to be part of a larger project that provides code analysis functionality, as indicated by the imported functions.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:52:05 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre><p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:52:51 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:53:35 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 1</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The &#39;vscode&#39; and &#39;fs&#39; modules are imported in their entirety which can lead to unnecessary memory consumption if only a few functionalities are used.</p>
+<p><strong>Solution</strong>: Consider importing only the required functions or objects from the modules. This can be achieved by using destructuring assignment. For example, instead of &#39;import * as vscode from &#39;vscode&#39;;&#39; use &#39;import { window, workspace } from &#39;vscode&#39;;&#39; if only &#39;window&#39; and &#39;workspace&#39; are used from &#39;vscode&#39;.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 5</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The functions &#39;getAnalysisForSourceTarget&#39; and &#39;generateSingleLineSummaryForAnalysisData&#39; are imported but not used in the provided code snippet. This could potentially lead to unnecessary CPU usage if these functions are complex and are executed elsewhere in the code.</p>
+<p><strong>Solution</strong>: Ensure that only necessary functions are imported and executed. Remove unused imports to reduce unnecessary CPU usage.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:55:00 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/inline/decorator_provider.ts line 8:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> boostnb <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../data/jupyter_notebook&#x27;</span>;
+<span class="hljs-keyword">import</span> {
+    getBoostFile,
+    BoostCommands
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../extension/extension&#x27;</span>; 
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:50:23 AM PDT</p>
+<p>This small snippet of code is written in TypeScript, a statically typed superset of JavaScript, and it&#39;s part of a larger module in a Visual Studio Code extension. It&#39;s responsible for importing modules and functions from other files in the project. </p>
+<p>Here&#39;s a breakdown of what each line does:</p>
+<ol>
+<li><p><code>import * as boostnb from &#39;../data/jupyter_notebook&#39;;</code> - This line imports everything from the module located at &#39;../data/jupyter_notebook&#39;. The <code>* as boostnb</code> syntax means that all exported members of the module are imported and can be accessed via the <code>boostnb</code> prefix. This is likely a module related to handling or interacting with Jupyter notebooks in some way.</p>
+</li>
+<li><p><code>import { getBoostFile, BoostCommands } from &#39;../extension/extension&#39;;</code> - This line imports two specific exports from the module located at &#39;../extension/extension&#39;. The <code>getBoostFile</code> is likely a function that retrieves a file related to the Boost extension, while <code>BoostCommands</code> might be a collection or enumeration of commands that the extension can perform. By using the curly braces <code>{}</code>, we&#39;re using named imports to only import these two specific exports from the module.</p>
+</li>
+</ol>
+<p>As for algorithms, this snippet does not contain any. It&#39;s simply importing modules and functions to be used elsewhere in the code. </p>
+<p>For more information about modules and import/export syntax in TypeScript, you can refer to the TypeScript documentation:</p>
+<ul>
+<li><a href="https://www.typescriptlang.org/docs/handbook/modules.html">TypeScript Modules</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/2/modules.html">TypeScript Handbook: Modules</a></li>
+</ul>
+<p>Regarding the architectural guidelines, as this code snippet is part of a larger module, it&#39;s hard to say definitively whether it&#39;s consistent with or conflicts with any architectural guidelines without seeing the rest of the module. However, importing modules and functions is a common practice in many software architectures, and is especially prevalent in JavaScript and TypeScript projects. It&#39;s a way to organize code into separate modules, each with a specific purpose, which can then be imported and used where needed. This helps to keep code organized and maintainable.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:52:11 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style getBoostFile fill:#228B22, stroke:#000000, stroke-width:2px;
+style BoostCommands fill:#228B22, stroke:#000000, stroke-width:2px;
+
+getBoostFile-->BoostCommands;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:52:55 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:53:39 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:55:24 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 14</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code imports a module &#39;jupyter_notebook&#39; which might handle user data. If user data is processed or stored without explicit consent, it could lead to GDPR non-compliance.</p>
+<p><strong>Solution</strong>: Ensure that user consent is obtained before processing personal data, and that personal data is processed in a transparent manner. Also, implement appropriate security measures to protect personal data.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 18</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The code imports a module &#39;extension&#39; which might handle payment data. If payment data is processed or stored without proper security measures, it could lead to PCI DSS non-compliance.</p>
+<p><strong>Solution</strong>: Ensure that payment data is processed and stored securely, and that access to payment data is restricted to authorized individuals only. Implement strong encryption for payment data during transmission and storage.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/inline/decorator_provider.ts line 13:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> {
+    BoostExtension
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../extension/BoostExtension&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:50:50 AM PDT</p>
+<p>The line of code you&#39;ve shared is an import statement in JavaScript (or TypeScript, as both languages use the same syntax for imports). This line of code doesn&#39;t contain any algorithms, but it&#39;s a fundamental part of the module system in JavaScript.</p>
+<p>Here&#39;s a detailed explanation:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> {
+    <span class="hljs-title class_">BoostExtension</span>
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../extension/BoostExtension&#x27;</span>;
+</code></pre><p>In this line of code, the <code>import</code> keyword is used to import a module into the current file. The module being imported is <code>BoostExtension</code>, which is located in the <code>extension</code> directory one level up from the current file (as indicated by the <code>../</code> in the path).</p>
+<p>The <code>{ BoostExtension }</code> syntax is known as named import syntax. This means that the <code>BoostExtension</code> module exports an object, function, or value under the name <code>BoostExtension</code>, and the current file wants to import specifically that export. If the <code>BoostExtension</code> module exported multiple things, this syntax would allow the current file to import only what it needs.</p>
+<p>It&#39;s important to note that the file path in the <code>from</code> clause is relative to the current file. The <code>../</code> at the beginning of the path means to go up one directory level, and the <code>/extension/BoostExtension</code> part of the path indicates to look in the <code>extension</code> directory for a file named <code>BoostExtension</code>.</p>
+<p>This import statement doesn&#39;t conflict with any architectural guidelines, as it&#39;s a standard practice in JavaScript and TypeScript to organize code into modules and import them where needed. It&#39;s a fundamental part of the language&#39;s architecture.</p>
+<p>For more information on JavaScript&#39;s module system, you can refer to the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">MDN Web Docs</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:52:16 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style BoostExtension fill:#228B22, stroke:#000000, stroke-width:2px;
+
+BoostExtension-->NO CONTROL FLOW FOUND;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:52:59 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:53:42 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:55:28 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/inline/decorator_provider.ts line 16:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { ControllerOutputType } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../controllers/controllerOutputTypes&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:51:16 AM PDT</p>
+<p>This line of code is a JavaScript import statement that is used to import a specific export from another module. The module being imported here is named &#39;controllerOutputTypes&#39; and it is located in the &#39;controllers&#39; directory relative to the current file. The specific export being imported is &#39;ControllerOutputType&#39;.</p>
+<p>The &#39;ControllerOutputType&#39; is likely an enumeration, a class, a type, an interface, or a function that is exported from the &#39;controllerOutputTypes&#39; module. The exact nature of &#39;ControllerOutputType&#39; would depend on its definition in the &#39;controllerOutputTypes&#39; module.</p>
+<p>This import statement allows the current module to use &#39;ControllerOutputType&#39; in its code. For example, it might be used to type a variable or a function parameter, as a constructor for creating new objects, or to call a function, depending on what &#39;ControllerOutputType&#39; is.</p>
+<p>This code is consistent with the architectural blueprint provided. It uses TypeScript (a superset of JavaScript), and the import statement is a common feature of both TypeScript and modern JavaScript. The use of modules helps to organize code into separate files, each with a specific purpose, which is a good practice in software development.</p>
+<p>Here are some resources for further reading:</p>
+<ul>
+<li><a href="https://www.typescriptlang.org/docs/handbook/modules.html">TypeScript Modules</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">JavaScript import statement</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">JavaScript Modules</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:52:21 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ControllerOutputType fill:#228B22, stroke:#000000, stroke-width:2px;
+
+Start-->ControllerOutputType;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:53:02 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:53:46 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:55:36 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 30</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code imports a module but does not use it, which might lead to unnecessary data processing.</p>
+<p><strong>Solution</strong>: Remove unused imports to minimize data processing.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/inline/decorator_provider.ts line 17:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+export <span class="hljs-keyword">class</span> <span class="hljs-title class_">DecoratorProvider</span> {
+    <span class="hljs-keyword">private</span> boostLineSelectDecoration: vscode.TextEditorDecorationType;
+    <span class="hljs-keyword">private</span> timeout: NodeJS.Timer | undefined = undefined;
+    <span class="hljs-keyword">private</span> activeEditor: vscode.TextEditor | undefined;
+    <span class="hljs-keyword">private</span> _activeEditorBoostNotebookShadow: boostnb.BoostNotebook | undefined;
+    <span class="hljs-keyword">private</span> _context: vscode.ExtensionContext;
+    <span class="hljs-keyword">private</span> _extension: BoostExtension;
+
+    <span class="hljs-keyword">constructor</span>(context: vscode.ExtensionContext, extension: BoostExtension) {
+        <span class="hljs-keyword">this</span>._context = context;
+        <span class="hljs-keyword">this</span>._extension = extension;
+
+        <span class="hljs-keyword">this</span>.boostLineSelectDecoration = vscode.window.createTextEditorDecorationType({
+            borderWidth: <span class="hljs-string">&#x27;1px&#x27;</span>,
+            borderStyle: <span class="hljs-string">&#x27;solid&#x27;</span>,
+            overviewRulerColor: <span class="hljs-string">&#x27;blue&#x27;</span>,
+            overviewRulerLane: vscode.OverviewRulerLane.Right,
+            light: {
+                borderColor: <span class="hljs-string">&#x27;darkblue&#x27;</span>
+            },
+            dark: {
+                borderColor: <span class="hljs-string">&#x27;lightblue&#x27;</span>
+            },
+            opacity: <span class="hljs-string">&#x27;0.5&#x27;</span>
+        });
+
+        <span class="hljs-keyword">this</span>.activeEditor = vscode.window.activeTextEditor;
+
+        <span class="hljs-keyword">this</span>.updateShadowNotebook();
+        <span class="hljs-keyword">this</span>.updateDecorations();
+
+        vscode.window.onDidChangeActiveTextEditor(editor =&gt; {
+            <span class="hljs-keyword">this</span>.activeEditor = editor;
+            <span class="hljs-keyword">if</span> (editor) {
+                <span class="hljs-keyword">this</span>.updateShadowNotebook();
+                <span class="hljs-keyword">this</span>.triggerUpdateDecorations();
+            }
+        }, <span class="hljs-literal">null</span>, context.subscriptions);
+
+        vscode.workspace.onDidChangeTextDocument(event =&gt; {
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.activeEditor &amp;&amp; event.document === <span class="hljs-keyword">this</span>.activeEditor.document) {
+                <span class="hljs-keyword">this</span>.updateShadowNotebook();
+                <span class="hljs-keyword">this</span>.triggerUpdateDecorations(<span class="hljs-literal">true</span>);
+            }
+        }, <span class="hljs-literal">null</span>, context.subscriptions);
+
+        vscode.window.onDidChangeTextEditorSelection(
+            (event) =&gt; {
+                <span class="hljs-keyword">if</span> (event.textEditor === <span class="hljs-keyword">this</span>.activeEditor) {
+                    <span class="hljs-keyword">this</span>.updateDecorations();
+                }
+            },
+            <span class="hljs-literal">null</span>,
+            context.subscriptions
+        );
+    }
+
+    <span class="hljs-keyword">private</span> updateDecorations() {
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.activeEditor || !<span class="hljs-keyword">this</span>._activeEditorBoostNotebookShadow) {
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-keyword">const</span> decorations: vscode.DecorationOptions[] = [];
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> selection of <span class="hljs-keyword">this</span>.activeEditor.selections) {
+            <span class="hljs-keyword">const</span> startLine = selection.start.line;
+            <span class="hljs-keyword">const</span> endLine = selection.end.line;
+            <span class="hljs-keyword">const</span> results = getAnalysisForSourceTarget(<span class="hljs-keyword">this</span>._activeEditorBoostNotebookShadow, undefined, selection, [ ControllerOutputType.flowDiagram]);
+            <span class="hljs-keyword">const</span> lineSummary = generateSingleLineSummaryForAnalysisData(<span class="hljs-keyword">this</span>._extension, <span class="hljs-keyword">this</span>._activeEditorBoostNotebookShadow, selection);
+    
+            <span class="hljs-keyword">if</span>( !results || results.length === <span class="hljs-number">0</span> ) {
+                <span class="hljs-keyword">continue</span>;
+            }
+            <span class="hljs-keyword">for</span> (let lineNum = startLine; lineNum &lt;= endLine; lineNum++) {
+                <span class="hljs-keyword">const</span> line = <span class="hljs-keyword">this</span>.activeEditor.document.lineAt(lineNum);
+                <span class="hljs-keyword">const</span> startPos = new vscode.Position(lineNum, line.text.length);
+                <span class="hljs-keyword">const</span> endPos = new vscode.Position(lineNum, line.text.length);
+
+                <span class="hljs-keyword">const</span> md = new vscode.MarkdownString(
+                    `[Run command](command:${boostnb.NOTEBOOK_TYPE + <span class="hljs-string">&quot;.&quot;</span> + BoostCommands.showGuidelines}) *Hello* from Boost!`
+                );
+                md.isTrusted = <span class="hljs-literal">true</span>;
+                <span class="hljs-keyword">const</span> decoration = {
+                    range: new vscode.Range(startPos, endPos),
+                    hoverMessage: new vscode.MarkdownString(results.join(<span class="hljs-string">&#x27;\n&#x27;</span>)),
+                    renderOptions: {
+                        after: {
+                            contentText: `   Boost Analysis: ${lineSummary}`,
+                            color: <span class="hljs-string">&#x27;rgba(150, 150, 150, 0.5)&#x27;</span>  <span class="hljs-comment">// grayed out with 50% transparency</span>
+                        }
+                    }
+                };
+
+                decorations.push(decoration);
+            }
+        }
+    
+        <span class="hljs-keyword">this</span>.activeEditor.setDecorations(<span class="hljs-keyword">this</span>.boostLineSelectDecoration, decorations);
+    }
+
+    <span class="hljs-keyword">private</span> triggerUpdateDecorations(throttle = <span class="hljs-literal">false</span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.timeout) {
+            clearTimeout(<span class="hljs-keyword">this</span>.timeout);
+            <span class="hljs-keyword">this</span>.timeout = undefined;
+        }
+        <span class="hljs-keyword">if</span> (throttle) {
+            <span class="hljs-keyword">this</span>.timeout = setTimeout(() =&gt; <span class="hljs-keyword">this</span>.updateDecorations(), <span class="hljs-number">500</span>);
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">this</span>.updateDecorations();
+        }
+    }
+
+    <span class="hljs-keyword">private</span> updateShadowNotebook() {
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.activeEditor) {
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-keyword">const</span> boostUri = getBoostFile(<span class="hljs-keyword">this</span>.activeEditor.document.uri);
+        <span class="hljs-keyword">if</span> (!boostUri) {
+            <span class="hljs-keyword">return</span>;
+        }
+        <span class="hljs-comment">//now load the notebook</span>
+        <span class="hljs-keyword">const</span> boostNotebook = new boostnb.BoostNotebook();
+        <span class="hljs-keyword">if</span> (fs.existsSync(boostUri.fsPath)) {
+            boostNotebook.load(boostUri.fsPath);
+            <span class="hljs-keyword">this</span>._activeEditorBoostNotebookShadow = boostNotebook;
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">this</span>._activeEditorBoostNotebookShadow = undefined;
+        }
+    }
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:51:47 AM PDT</p>
+<p>This code defines a class called <code>DecoratorProvider</code> which is used in a Visual Studio Code extension to provide functionality for decorating text in the editor, such as highlighting, adding border styles, and creating hover messages. </p>
+<p>The class includes several private properties:</p>
+<ul>
+<li><code>boostLineSelectDecoration</code> is a decoration type object that defines the style of the decoration.</li>
+<li><code>timeout</code> is a timer that can be used to delay the update of decorations.</li>
+<li><code>activeEditor</code> is the currently active text editor.</li>
+<li><code>_activeEditorBoostNotebookShadow</code> is an instance of <code>BoostNotebook</code>, which is used to manage the notebook data.</li>
+<li><code>_context</code> and <code>_extension</code> are the extension context and the instance of the BoostExtension respectively.</li>
+</ul>
+<p>In the constructor, several initializations are done, including creating the decoration type, setting the active editor, and setting up event listeners for changes in the active text editor, changes in the text document, and changes in the text editor selection.</p>
+<p>The <code>updateDecorations</code> method is used to update the decorations in the active editor. It loops through each selection in the active editor, gets the analysis results for each selection, generates a single line summary for the analysis data, and creates a decoration for each line in the selection. The decorations are then set in the active editor.</p>
+<p>The <code>triggerUpdateDecorations</code> method is used to trigger the update of decorations. It clears any existing timeout and sets a new timeout if <code>throttle</code> is true. Otherwise, it immediately updates the decorations.</p>
+<p>The <code>updateShadowNotebook</code> method is used to update the shadow notebook. It gets the Boost file for the active editor document, and if the file exists, it loads the notebook data into <code>_activeEditorBoostNotebookShadow</code>.</p>
+<p>The class uses the VS Code API extensively and follows the event-driven programming paradigm. It also uses the filesystem module (<code>fs</code>) to check if the Boost file exists.</p>
+<p>For more information on the VS Code API, see the <a href="https://code.visualstudio.com/api/references/vscode-api">VS Code API documentation</a>. For more information on event-driven programming, see the <a href="https://en.wikipedia.org/wiki/Event-driven_programming">Wikipedia article on event-driven programming</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:52:37 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style UpdateDecorations fill:#228B22, stroke:#000000, stroke-width:2px;
+style UpdateShadowNotebook fill:#228B22, stroke:#000000, stroke-width:2px;
+style UpdateDecorationsThrottle fill:#228B22, stroke:#000000, stroke-width:2px;
+style UpdateDecorationsNoThrottle fill:#228B22, stroke:#000000, stroke-width:2px;
+style UpdateDecorationsError fill:#B22222, stroke:#000000, stroke-width:2px;
+style UpdateShadowNotebookError fill:#B22222, stroke:#000000, stroke-width:2px;
+style UpdateDecorationsThrottleError fill:#B22222, stroke:#000000, stroke-width:2px;
+style UpdateDecorationsNoThrottleError fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->UpdateDecorations;
+Start-->UpdateShadowNotebook;
+UpdateDecorations-->UpdateDecorationsThrottle;
+UpdateDecorations-->UpdateDecorationsNoThrottle;
+UpdateDecorationsThrottle-->UpdateDecorationsError;
+UpdateDecorationsNoThrottle-->UpdateDecorationsError;
+UpdateShadowNotebook-->UpdateShadowNotebookError;
+UpdateDecorationsThrottle-->UpdateDecorationsThrottleError;
+UpdateDecorationsNoThrottle-->UpdateDecorationsNoThrottleError;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:53:06 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:54:24 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 80</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The function <code>getAnalysisForSourceTarget</code> is called within a loop. This could lead to high CPU usage if there are many selections in the active editor.</p>
+<p><strong>Solution</strong>: Consider using a more efficient algorithm for this function, or reducing the number of times it is called. If the function is expensive, consider debouncing or throttling it.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 81</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The function <code>generateSingleLineSummaryForAnalysisData</code> is called within a loop. This could lead to high CPU usage if there are many selections in the active editor.</p>
+<p><strong>Solution</strong>: Consider using a more efficient algorithm for this function, or reducing the number of times it is called. If the function is expensive, consider debouncing or throttling it.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 96</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The function <code>setDecorations</code> is called frequently which could lead to high CPU usage.</p>
+<p><strong>Solution</strong>: Consider using a more efficient algorithm for this function, or reducing the number of times it is called. If the function is expensive, consider debouncing or throttling it.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 112</p>
+<p><strong>Bug Type</strong>: Disk</p>
+<p><strong>Description</strong>: The function <code>fs.existsSync</code> is called in <code>updateShadowNotebook</code> method. This could lead to high disk usage if the file system has to be queried frequently.</p>
+<p><strong>Solution</strong>: Consider caching the result of <code>fs.existsSync</code> if the file system state does not change frequently. Alternatively, consider using asynchronous file system operations to avoid blocking the event loop.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 114</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: A new <code>BoostNotebook</code> object is created every time <code>updateShadowNotebook</code> is called. This could lead to high memory usage if there are many active editors.</p>
+<p><strong>Solution</strong>: Consider reusing <code>BoostNotebook</code> objects, or using a pool of objects, to reduce memory usage.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:56:19 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 32</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The class DecoratorProvider is storing the active editor instance. This instance may contain sensitive user data.</p>
+<p><strong>Solution</strong>: Ensure that the active editor instance is not storing any sensitive data. If it is, ensure that it is properly encrypted and secured. Also, consider using a secure method for storing and retrieving this data.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 45</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The class DecoratorProvider is storing the context instance. The context may contain sensitive user data.</p>
+<p><strong>Solution</strong>: Ensure that the context instance is not storing any sensitive data. If it is, ensure that it is properly encrypted and secured. Also, consider using a secure method for storing and retrieving this data.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 46</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The class DecoratorProvider is storing the extension instance. The extension may contain sensitive user data.</p>
+<p><strong>Solution</strong>: Ensure that the extension instance is not storing any sensitive data. If it is, ensure that it is properly encrypted and secured. Also, consider using a secure method for storing and retrieving this data.</p>
+</li>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 74</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The class DecoratorProvider is storing the active editor&#39;s selections. These selections may contain sensitive user data.</p>
+<p><strong>Solution</strong>: Ensure that the selections are not storing any sensitive data. If they are, ensure that they are properly encrypted and secured. Also, consider using a secure method for storing and retrieving this data.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 106</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The class DecoratorProvider is storing the active editor&#39;s document URI. This URI may contain sensitive user data.</p>
+<p><strong>Solution</strong>: Ensure that the URI is not storing any sensitive data. If it is, ensure that it is properly encrypted and secured. Also, consider using a secure method for storing and retrieving this data.</p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>

@@ -1,0 +1,152 @@
+{
+  "cells": [
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as vscode from \"vscode\";\nimport * as fs from \"fs\";\nimport * as path from \"path\";\nimport * as _ from \"lodash\";\nimport * as os from \"os\";\nimport { BoostExtension } from \"../extension/BoostExtension\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import { marked } from \"marked\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 6
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import { cleanCellOutput } from \"../extension/extensionUtilities\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 7
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "import { BoostServiceHelper } from \"../controllers/boostServiceHelper\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 8
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "import { boostLogging } from \"../utilities/boostLogging\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 9
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "import {\n    BoostNotebook,\n    BoostNotebookCell,\n    NotebookCellKind\n} from \"../data/jupyter_notebook\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 10
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "import { ControllerOutputType } from \"../controllers/controllerOutputTypes\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 15
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "7",
+      "value": "import { chatKernelName } from \"../controllers/chat_controller\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 16
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "8",
+      "value": "import {\n    noProjectOpenMessage,\n    extensionNotFullyActivated,\n    extensionFailedToActivate,\n} from \"../data/boostprojectdata_interface\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 8,
+        "type": "originalCode",
+        "lineNumberBase": 17
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "9",
+      "value": "import sanitizeHtml from \"sanitize-html\";\nimport { ICellMetadata } from \"@jupyterlab/nbformat\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 9,
+        "type": "originalCode",
+        "lineNumberBase": 22
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "10",
+      "value": "\nexport const aiName = \"Sara\";\n\n/*\nDO NOT USE THIS.  it's a global variable and will setup a second instance of the highlighter\nthe original one is setup in convert_html.ts\n\nmarked.use(markedHighlight({\n    langPrefix: 'hljs language-',\n    highlight(code: string, lang: string) {\n      if( lang === \"mermaid\") {\n        return `<pre class=\"mermaid\">${code}</pre>`;\n      }\n      const language = hljs.getLanguage(lang) ? lang : 'plaintext';\n      const result = hljs.highlight(code, { language }).value;\n      console.log(\"original input is: \" + code);\n      //console.log(\"highlighted output is: \" + result);\n      return result;\n    }\n    }));\t\t\n",
+      "kind": 2,
+      "metadata": {
+        "id": 10,
+        "type": "originalCode",
+        "lineNumberBase": 24
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "11",
+      "value": "*/\nexport class BoostChatViewProvider implements vscode.WebviewViewProvider {\n    public static readonly viewType = \"polyverse-boost-chat-view\";\n\n    private _view?: vscode.WebviewView;\n    private _chats?: any;\n    private _tempFilename?: string;\n    private _context: vscode.ExtensionContext;\n    private _activeid = 0;\n    private _boostExtension: BoostExtension;\n    private chatService: BoostServiceHelper;\n\n    constructor(\n        private readonly context: vscode.ExtensionContext,\n        private boostExtension: BoostExtension\n    ) {\n        this._context = context;\n        this._boostExtension = boostExtension;\n        this.chatService = new BoostServiceHelper(\n            \"chatService\",\n            \"chat\",\n            boostExtension\n        );\n    }\n\n    public async resolveWebviewView(\n        webviewView: vscode.WebviewView,\n        context: vscode.WebviewViewResolveContext,\n        _token: vscode.CancellationToken\n    ) {\n        try {\n            this._resolveWebviewView(webviewView, context, _token);\n        } catch (e) {\n            boostLogging.error(\n                `Could not refresh ${aiName} Chat View due to ${e}`,\n                false\n            );\n        }\n    }\n\n    async _resolveWebviewView(\n        webviewView: vscode.WebviewView,\n        context: vscode.WebviewViewResolveContext,\n        _token: vscode.CancellationToken\n    ) {\n        this._view = webviewView;\n\n        this._chats = await this._initializeChats();\n\n        webviewView.webview.options = {\n            // Allow scripts in the webview\n            enableScripts: true,\n\n            localResourceRoots: [this.context.extensionUri],\n        };\n\n        webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);\n\n        webviewView.webview.onDidReceiveMessage((data) => {\n            switch (data.command) {\n                case \"newprompt\": {\n                    this._activeid = data.chatindex;\n                    this.updatePrompt(data.prompt, data.chatindex, data.showUI);\n                    break;\n                }\n                case \"add-chat\": {\n                    this._addChat();\n                    break;\n                }\n                case \"close-chat\": {\n                    this._closeChat(data.chatindex);\n                    break;\n                }\n            }\n        });\n    }\n\n    public refresh() {\n        try {\n            this._refresh();\n        } catch (e) {\n            boostLogging.error(\n                `Could not refresh ${aiName} Chat View due to ${e}`,\n                false\n            );\n        }\n    }\n    _refresh() {\n        if (this._view) {\n            this._view.webview.html = this._getHtmlForWebview(\n                this._view.webview\n            );\n            this._view.show?.(true);\n        }\n    }\n\n    private _getHtmlForWebview(webview: vscode.Webview) {\n        const codiconsUri = webview.asWebviewUri(\n            vscode.Uri.joinPath(\n                this._context.extensionUri,\n                \"node_modules\",\n                \"@vscode/codicons\",\n                \"dist\",\n                \"codicon.css\"\n            )\n        );\n        const htmlPathOnDisk = vscode.Uri.joinPath(\n            this.context.extensionUri,\n            \"resources\",\n            \"dashboard\",\n            \"chat.html\"\n        );\n        const jsPathOnDisk = vscode.Uri.joinPath(\n            this.context.extensionUri,\n            \"out\",\n            \"dashboard\",\n            \"chat\",\n            \"main.js\"\n        );\n        const jsSrc = webview.asWebviewUri(jsPathOnDisk);\n        const nonce = \"nonce-123456\"; // TODO: add a real nonce here\n        const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, \"utf8\");\n        const chats = this._chats;\n\n        const workspaceFolder = vscode.workspace.workspaceFolders\n            ? vscode.workspace.workspaceFolders[0]\n            : \"\"; // Get the first workspace folder\n\n        let message;\n\n        if (!this._boostExtension.finishedActivation) {\n            if (!vscode.workspace.workspaceFolders) {\n                message = noProjectOpenMessage;\n            } else {\n                message = extensionNotFullyActivated;\n            }\n        } else if (!this._boostExtension.successfullyActivated) {\n            message = extensionFailedToActivate;\n        } else if (!vscode.workspace.workspaceFolders) {\n            message = noProjectOpenMessage;\n        }\n\n        if (message) {\n            return `<html><body><h3>Boost ${aiName} Chat</h3><p>${message}</p></body></html>`;\n        }\n\n        const projectName = workspaceFolder\n            ? path.basename(workspaceFolder.uri.fsPath)\n            : \"your workspace\";\n\n        const template = _.template(rawHtmlContent);\n        const convert = (text: string) => {\n            const escapedText = _.escape(text);\n            const rawHtml = marked.parse(escapedText);\n            const cleanHTML = sanitizeHtml(rawHtml);\n            return cleanHTML;\n        };\n        const activeid = this._activeid;\n        const htmlContent = template({\n            jsSrc,\n            nonce,\n            chats,\n            convert,\n            codiconsUri,\n            activeid,\n            projectName,\n            aiName,\n        });\n\n        return htmlContent;\n    }\n\n    public async updatePrompt(\n        prompt: string,\n        index: number,\n        showUI: boolean = true\n    ) {\n        //make a call to the service endpoint with the prompt plus existing context\n        //update the chat view with the response\n\n        // we don't save the initial prompts - so we can refresh them each time we send... we only save chat history (persisted)\n        try {\n            const chatNotebook = new BoostNotebook();\n            const tempProcessingCell = new BoostNotebookCell(\n                NotebookCellKind.Markup,\n                prompt,\n                \"markdown\",\n                undefined,\n                { // eslint-disable-next-line @typescript-eslint/naming-convention\n                    \"analysis_type\": ControllerOutputType.chat,\n                } as unknown as ICellMetadata\n            );\n            chatNotebook.addCell(tempProcessingCell);\n\n            const chatKernel = (this._boostExtension as BoostExtension).kernels.get(chatKernelName)!;\n            const success = await chatKernel.executeAllWithAuthorization(chatNotebook.cells, chatNotebook, true);\n            const chatOutput = success?cleanCellOutput(tempProcessingCell.outputs[0]?.items[0]?.data):\"\";\n\n            this._addResponse(prompt, chatOutput);\n        } catch (error) {\n            boostLogging.error(\n                `Chat requested could not complete due to ${error}`,\n                showUI\n            );\n            this._addResponse(prompt, \"\");\n        } finally {\n            this._saveJsonData(this._chats);\n            this.refresh();\n        }\n    }\n\n    private _addResponse(prompt: string, response: string) {\n        this._chats[this._activeid].messages.push({\n            role: \"user\",\n            content: prompt,\n        });\n\n        if (!response) {\n            return;\n        }\n        this._chats[this._activeid].messages.push({\n            role: \"assistant\",\n            content: response,\n        });\n    }\n\n    readonly _chatTitle = `${aiName} AI Chat`;\n\n    private async _initializeChats(): Promise<any> {\n        this._chats = this._loadJsonData();\n\n        if (this._chats === undefined) {\n            this._chats = [\n                {\n                    title: this._chatTitle,\n                    messages: [],\n                },\n            ];\n        } else {\n            // we need to delete the original system prompts, since these should never be persisted\n            //   they duplicate the state in the blueprint file and provide no benefit persisted separately\n            this._chats.forEach((chat: any) => {\n                for (let i = chat.messages.length - 1; i >= 0; i--) {\n                    if (chat.messages[i].role === \"system\") {\n                        chat.messages.splice(i, 1);\n                    }\n                }\n            });\n        }\n        return this._chats;\n    }\n\n    private async _addChat() {\n        this._chats.push({\n            title: this._chatTitle,\n            messages: [],\n        });\n        this._saveJsonData(this._chats);\n        this._activeid = this._chats.length - 1;\n        this.refresh();\n    }\n\n    private _closeChat(chatindex: number) {\n        this._chats.splice(chatindex, 1);\n        this._saveJsonData(this._chats);\n        this.refresh();\n    }\n\n    private _getTempFilename(): string {\n        if (this._tempFilename) {\n            return this._tempFilename;\n        }\n        const editor = vscode.window.activeTextEditor;\n        let filenamePrefix = \"temp_\";\n\n        if (editor) {\n            const workspaceFolder = vscode.workspace.getWorkspaceFolder(\n                editor.document.uri\n            );\n            if (workspaceFolder) {\n                filenamePrefix += workspaceFolder.name;\n            } else {\n                filenamePrefix += \"boost_ai_chat\";\n            }\n        } else {\n            filenamePrefix += \"boost_ai_chat\";\n        }\n\n        const tempFilePath = path.join(os.tmpdir(), `${filenamePrefix}.json`);\n        const normalizedTempPath = path.normalize(tempFilePath);\n        this._tempFilename = normalizedTempPath;\n        return normalizedTempPath;\n    }\n\n    private _saveJsonData(data: any): void {\n        const tempFilename = this._getTempFilename();\n\n        fs.writeFile(tempFilename, JSON.stringify(data, null, 2), (err) => {\n            if (err) {\n                vscode.window.showErrorMessage(\n                    `Failed to save data: ${err.message}`\n                );\n            }\n        });\n    }\n\n    private _loadJsonData(): any | undefined {\n        const tempFilename = this._getTempFilename();\n\n        //check if file exists\n        if (!fs.existsSync(tempFilename)) {\n            return undefined;\n        }\n\n        try {\n            const data = fs.readFileSync(tempFilename, \"utf-8\");\n            return JSON.parse(data);\n        } catch (err) {\n            boostLogging.error(\n                `Boost failed to load Chat history: ${(err as Error).message}`,\n                true\n            );\n            return undefined;\n        }\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 11,
+        "type": "originalCode",
+        "lineNumberBase": 44
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/dashboard/chat_view.ts"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "cells": [
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import { parseFunctions } from '../../utilities/split';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import { expect } from 'chai';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 1
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import path from 'path';\nimport fs from 'fs';\nimport * as assert from 'assert';\n\ndescribe('parseFunctions Unit', () => {\n\n    const dataFolder = __dirname + \"/data/\";\n\n    it('should work in normal case', () => {\n        const code = fs.readFileSync(path.join(dataFolder, 'dancer2_file.pm'), 'utf8');\n\n        const expectedOutput: [string[], number[]] = [\n            [\n                \"placeholder\",\n                \"placeholder\"\n            ],\n            [\n                1,\n                30,\n                42,\n                62,\n                76,\n                90,\n                98,\n                113,\n                139,\n                150,\n                159,\n              ]\n        ];\n\n        const result = parseFunctions(\"dancer2_file.pm\", code);\n        assert.equal(result[0], 'perl');\n        result[1].forEach((str, i) => {\n            assert.ok(str.length > 0, \"non-empty string\");\n        });\n        result[2].forEach((num, i) => {\n            expect(num).to.equal(expectedOutput[1][i]);\n        });        \n    });\n\n});\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 2
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/unit/parseFunctionsFromFile.test.ts"
+  }
+}

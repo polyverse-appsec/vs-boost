@@ -1,0 +1,1273 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/utilities/authorization.ts</h1>
+    <p>Date Generated: Saturday, September 9, 2023 at 2:34:26 AM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:27:06 AM PDT</p>
+<h2 id="executive-report">Executive Report</h2>
+<h3 id="architectural-impact-and-risk-analysis">Architectural Impact and Risk Analysis</h3>
+<p>The software project under review is a Visual Studio Code extension that provides code analysis functionality. The project is primarily written in JavaScript and TypeScript and follows the principles of object-oriented design and event-driven programming. </p>
+<p>Based on the analysis of the project&#39;s source code, several issues of varying severity have been identified. The most severe issues are found in the <code>src/utilities/authorization.ts</code> file, which includes potential command injection vulnerabilities and information disclosure risks. </p>
+<h4 id="key-highlights">Key Highlights:</h4>
+<ol>
+<li><p><strong>Command Injection Vulnerability</strong>: The use of the &#39;exec&#39; function from the &#39;child_process&#39; module in Node.js in the <code>src/utilities/authorization.ts</code> file can lead to command injection vulnerabilities if not used properly. This can potentially allow an attacker to execute arbitrary commands on the system, leading to serious security issues such as data leakage, data manipulation, or even system takeover.</p>
+</li>
+<li><p><strong>Information Disclosure Risk</strong>: The command &#39;gh auth status --show-token&#39; used in the <code>src/utilities/authorization.ts</code> file can expose the GitHub token in logs or console output. This is a security risk as tokens are sensitive information that can be used to gain unauthorized access to resources.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: The identified issues can potentially impact the customers by compromising their data and system security. The command injection vulnerability can allow unauthorized access to the customer&#39;s system, while the information disclosure risk can expose sensitive information.</p>
+</li>
+<li><p><strong>Overall Health of the Project</strong>: The project consists of one file, <code>src/utilities/authorization.ts</code>, which has been found to have issues. This means 100% of the project files have been flagged with issues of varying severity. This indicates a need for immediate attention to address these issues to improve the overall health of the project.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: Given the severity of the issues identified and the potential impact on the customers, the risk associated with this project is high. Immediate action is required to address these issues and mitigate the associated risks.</p>
+</li>
+</ol>
+<p>In conclusion, while the project follows best practices for a VS Code extension and makes good use of TypeScript features and the VS Code API, the identified security issues pose a significant risk. It is recommended to address these issues promptly to ensure the security and integrity of the project and its users.</p>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:30:18 AM PDT</p>
+<p>Executive Level Report:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The project&#39;s architecture appears to be sound, with no major architectural problems identified. The project follows best practices for a Visual Studio Code extension, making use of TypeScript features and the VS Code API. The code is well-structured and organized into classes. However, there is a performance issue identified in the &#39;src/utilities/authorization.ts&#39; file related to CPU usage. This could potentially impact the overall performance of the software, especially if the child process takes a significant amount of time to complete.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The risk associated with this project is moderate. The identified issue is of &#39;Warning&#39; severity, which indicates a potential problem that could lead to performance degradation. However, this issue is present in only one file out of the total project files, which suggests that the overall risk to the project is relatively low.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: If left unaddressed, the performance issue could lead to a slower response time for the software, which could negatively impact the user experience. However, since the issue is confined to a single file, its impact on the overall software functionality might be limited.</p>
+</li>
+<li><p><strong>Overall Issues</strong>: The project has one file with issues of &#39;Warning&#39; severity related to CPU usage. The other metrics such as &#39;Information&#39;, &#39;Memory&#39;, and &#39;Network&#39; have lower severity levels. This suggests that while there are areas for improvement, the overall health of the project is good.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: Based on the analysis, the overall health of the project source is good. Only one file has been detected with issues, which is a small percentage of the total project files. This suggests that the majority of the project files are well-structured and free of major issues.</p>
+</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>The project follows best practices for a Visual Studio Code extension and makes use of TypeScript features and the VS Code API.</li>
+<li>A performance issue related to CPU usage has been identified in the &#39;src/utilities/authorization.ts&#39; file. This issue is of &#39;Warning&#39; severity and could potentially impact the overall performance of the software.</li>
+<li>The risk associated with this project is moderate, with the identified issue present in only one file out of the total project files.</li>
+<li>The potential customer impact of the identified issue could be a slower response time for the software, which could negatively impact the user experience.</li>
+<li>The overall health of the project source is good, with the majority of the project files free of major issues.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:34:59 AM PDT</p>
+<h2 id="executive-report">Executive Report</h2>
+<h3 id="architectural-impact-and-risk-analysis">Architectural Impact and Risk Analysis</h3>
+<p>The software project under review is a Visual Studio Code extension that provides code analysis functionality. The project is primarily written in JavaScript and TypeScript, following principles of object-oriented design and event-driven programming. </p>
+<p>Based on the analysis of the project&#39;s source code, the following key points are highlighted:</p>
+<ol>
+<li><p><strong>Severity of Issues</strong>: The most severe issues found in the project are related to data compliance, specifically GDPR, PCI DSS, and HIPAA. These issues are concentrated in the <code>src/utilities/authorization.ts</code> file. The most severe issue is an error related to GDPR compliance, where a GitHub token is being extracted and returned without any encryption. This could potentially expose sensitive user data.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: The issues identified could have significant impact on customers, particularly those in regions or industries where data compliance regulations are strictly enforced. Non-compliance with GDPR, PCI DSS, or HIPAA could lead to legal penalties, loss of customer trust, and potential data breaches.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: The overall health of the project source is concerning due to the severity of the issues identified. While only one file was analyzed, it contained multiple high-severity issues. This suggests that there may be systemic issues with data handling and compliance in the project.</p>
+</li>
+<li><p><strong>Architectural Consistency</strong>: The project appears to follow the architectural guidelines provided, with no additional special architectural constraints. However, the issues identified suggest that the implementation may not be fully aligned with best practices for secure data handling.</p>
+</li>
+</ol>
+<p>In conclusion, while the project follows the architectural guidelines and principles, there are significant risks related to data compliance. These risks could have serious implications for customers and the overall health of the project. It is recommended that the project team address these issues as a priority, and consider a more thorough review of the project&#39;s data handling practices.</p>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/utilities/authorization.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> vscode <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vscode&quot;</span>;
+<span class="hljs-keyword">import</span> { Remote } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./git&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:16:25 AM PDT</p>
+<p>This code snippet is written in TypeScript, a statically typed superset of JavaScript that adds types to the language. It&#39;s part of a larger project which appears to be a Visual Studio Code (VS Code) extension, based on the import of the <code>vscode</code> module.</p>
+<p>The code contains two import statements, which are part of the ES6 (ECMAScript 2015) module system. This system allows for the importation of specific portions of code from other files or modules to be used in the current file.</p>
+<p>Let&#39;s break down the two lines of code:</p>
+<ol>
+<li><code>import * as vscode from &quot;vscode&quot;;</code></li>
+</ol>
+<p>This line is importing the entire <code>vscode</code> module. The <code>* as vscode</code> syntax is importing all exported members from the <code>vscode</code> module and creating a new variable <code>vscode</code> that serves as a namespace for all those members. </p>
+<p>The <code>vscode</code> module is the API for interacting with VS Code itself. This means the code in this file will likely be interacting with the VS Code editor in some way, such as creating or manipulating editor windows, reading or modifying the user&#39;s settings, or responding to events in the editor.</p>
+<ol start="2">
+<li><code>import { Remote } from &quot;./git&quot;;</code></li>
+</ol>
+<p>This line is importing only the <code>Remote</code> member from the module at the relative path <code>./git</code>. The curly braces <code>{}</code> are used for named imports in ES6. </p>
+<p>The <code>./git</code> module is likely a local file in the same directory as this file, named <code>git.ts</code> (or <code>git.js</code>). The <code>Remote</code> member could be a class, function, or variable that&#39;s been exported from this <code>git</code> module. Without more context, it&#39;s hard to say exactly what <code>Remote</code> is, but given the name of the module, it might be a class or function related to interacting with a Git remote repository.</p>
+<p>In terms of architectural guidelines, this code is consistent with common practices for structuring a VS Code extension. The use of the <code>vscode</code> module is standard, and separating out functionality related to Git into its own module helps keep the codebase organized and maintainable.</p>
+<p>For more information on the topics discussed, you can refer to these resources:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api">VS Code API</a></li>
+<li><a href="https://www.typescriptlang.org/docs/">TypeScript Documentation</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">ES6 Modules</a></li>
+<li><a href="https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes">Git Remote</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:22:14 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style Remote fill:#228B22, stroke:#000000, stroke-width:2px;
+
+Start-->Remote;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:24:16 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:27:22 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:30:43 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 1</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The import of vscode could potentially lead to violations of GDPR if any personal data is processed or stored without explicit consent of the user.</p>
+<p><strong>Solution</strong>: Ensure that any personal data processed or stored by vscode is done so with the explicit consent of the user. You may also want to consider anonymizing or pseudonymizing personal data to further protect user privacy.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 2</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The import of the Remote module from git could potentially lead to violations of PCI DSS if any cardholder data is processed, stored, or transmitted insecurely.</p>
+<p><strong>Solution</strong>: Ensure that any cardholder data processed, stored, or transmitted by the Remote module from git is done so securely, in accordance with PCI DSS requirements. This could include encrypting data in transit and at rest, and implementing strong access controls.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/authorization.ts line 3:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { BoostConfiguration } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../extension/boostConfiguration&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:16:44 AM PDT</p>
+<p>This line of code is an import statement in JavaScript (or TypeScript, which is a typed superset of JavaScript). It&#39;s used to include external modules or libraries into the current file. In this case, it&#39;s importing the <code>BoostConfiguration</code> module from the relative path <code>&quot;../extension/boostConfiguration&quot;</code>.</p>
+<p>The <code>BoostConfiguration</code> is likely to be a class or function that&#39;s been exported from the <code>boostConfiguration</code> module. The exact nature and purpose of <code>BoostConfiguration</code> would depend on its implementation in the <code>boostConfiguration</code> module, but given its name, it&#39;s reasonable to assume that it&#39;s related to the configuration of the Boost extension.</p>
+<p>This code doesn&#39;t involve any complex algorithms. It&#39;s a standard part of JavaScript and TypeScript programming, and it&#39;s consistent with the architectural guidelines provided.</p>
+<p>For more information about modules and import statements in JavaScript, you can refer to the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">Mozilla Developer Network documentation</a>. For TypeScript-specific information, you can refer to the <a href="https://www.typescriptlang.org/docs/handbook/modules.html">TypeScript handbook</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:22:17 AM PDT</p>
+<p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:24:20 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:27:25 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:30:56 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 4</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The import of &#39;BoostConfiguration&#39; might potentially involve personal data processing, which needs to be in compliance with GDPR rules. However, without knowing what &#39;BoostConfiguration&#39; does, it&#39;s hard to say with certainty.</p>
+<p><strong>Solution</strong>: Ensure that any personal data processing is done in compliance with GDPR rules. This includes obtaining valid consent, providing clear information about data processing, and implementing appropriate security measures. Review the &#39;BoostConfiguration&#39; to ensure it complies with these rules.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/authorization.ts line 4:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { boostLogging } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../utilities/boostLogging&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:17:10 AM PDT</p>
+<p>The line of code you&#39;ve given is a single import statement in JavaScript (or TypeScript). This code is importing a module named <code>boostLogging</code> from a relative path <code>../utilities/boostLogging</code>.</p>
+<p>Here&#39;s a breakdown of what this line of code does:</p>
+<ul>
+<li><p><code>import</code>: This is a keyword in JavaScript (and TypeScript) that is used to import functions, objects, or values from another module or file. This is part of the ES6 (ECMAScript 2015) module system.</p>
+</li>
+<li><p><code>{ boostLogging }</code>: This is the name of the specific export from the module that we want to import. The curly braces <code>{}</code> are used for named exports. This means that the <code>boostLogging</code> module exports a named export called <code>boostLogging</code>.</p>
+</li>
+<li><p><code>from &quot;../utilities/boostLogging&quot;</code>: This specifies the path to the module that we are importing from. The <code>..</code> means to go up one directory level, and <code>/utilities/boostLogging</code> is the path from there to the module. The <code>.js</code> or <code>.ts</code> extension is typically omitted in import statements.</p>
+</li>
+</ul>
+<p>As for the <code>boostLogging</code> module itself, without the specific code for it, I can only infer from the name that it likely contains functionality related to logging for the &#39;boost&#39; application. Logging is a common practice in software development, used to record the flow and state of a program which can be extremely useful for debugging and monitoring purposes.</p>
+<p>Based on the architectural blueprint summary, this fits well with the project as it&#39;s mentioned that the project includes extensive error handling and logging. The <code>boostLogging</code> module is likely a part of this logging infrastructure.</p>
+<p>For more information on JavaScript modules and the import statement, you can refer to the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">MDN Web Docs</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:22:22 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style boostLogging fill:#228B22, stroke:#000000, stroke-width:2px;
+
+    boostLogging-->NO_CONTROL_FLOW_FOUND;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:24:23 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:27:29 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:31:00 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/authorization.ts line 5:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { fetchUserOrganizationsServiceRequest } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../controllers/user_organizations&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:17:39 AM PDT</p>
+<p>The line of code you&#39;ve provided is a single import statement in JavaScript, specifically using ES6 syntax. It doesn&#39;t contain any algorithm or complex logic, but it&#39;s an important part of how modules and dependencies are managed in JavaScript applications.</p>
+<p>Let&#39;s break it down:</p>
+<ul>
+<li><p><code>import</code>: This is a keyword in ES6 (ECMAScript 6, also known as ES2015) that is used to import functions, objects or values from other modules or files. This is part of the module system in JavaScript, which allows code to be organized into smaller, reusable chunks.</p>
+</li>
+<li><p><code>{ fetchUserOrganizationsServiceRequest }</code>: This is the specific item being imported from the module. The curly braces are used for named exports. That means <code>fetchUserOrganizationsServiceRequest</code> is a named export from the module we are importing from. It could be a function, an object, a class, etc.</p>
+</li>
+<li><p><code>from &quot;../controllers/user_organizations&quot;</code>: This specifies the path to the module from which we are importing. The <code>..</code> means we&#39;re going up one level in the directory structure. So this code is importing from a file named <code>user_organizations.js</code> (or <code>user_organizations.ts</code> if it&#39;s a TypeScript project) in the <code>controllers</code> directory.</p>
+</li>
+</ul>
+<p>Based on the name, <code>fetchUserOrganizationsServiceRequest</code> is likely a function that handles some kind of HTTP request to fetch data related to user organizations, and it&#39;s part of the application&#39;s controller layer. However, without seeing the actual content of the <code>user_organizations</code> module, we can&#39;t say for sure what it does.</p>
+<p>Here&#39;s a resource for more information about ES6 modules: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">Mozilla Developer Network (MDN) - import statement</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:22:27 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->fetchUserOrganizationsServiceRequest;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:24:27 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:27:33 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:31:25 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 8</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code fetches user organizations which might include personal data. If the data is not anonymized or if explicit user consent is not obtained, this could violate GDPR.</p>
+<p><strong>Solution</strong>: Ensure that personal data is anonymized or pseudonymized where possible. Also, obtain explicit user consent before processing personal data. Implement a system to record this consent.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 8</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: If the user organizations include payment card data and it is not handled securely, it could violate PCI DSS.</p>
+<p><strong>Solution</strong>: Ensure that payment card data is encrypted and securely stored. Implement access controls and monitoring systems to prevent unauthorized access.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 8</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: If the user organizations include health information and it is not handled securely, it could violate HIPAA.</p>
+<p><strong>Solution</strong>: Ensure that health information is encrypted and securely stored. Implement access controls and monitoring systems to prevent unauthorized access.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/authorization.ts line 6:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { getExtensionMode } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../extension/extension_state&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:18:07 AM PDT</p>
+<p>This code snippet is quite small and straightforward. It&#39;s written in TypeScript, a statically typed superset of JavaScript that adds types and other features to the language. Here&#39;s a breakdown of what this line of code is doing:</p>
+<p><code>import { getExtensionMode } from &quot;../extension/extension_state&quot;;</code></p>
+<p>This line is using the ES6 (ECMAScript 6) module system to import a specific function, <code>getExtensionMode</code>, from another module. The module is located in the file <code>extension_state.ts</code> in the <code>extension</code> directory one level up from the current file. </p>
+<p>The <code>getExtensionMode</code> function is not defined in this code snippet, but based on its name, it likely returns the current mode of a Visual Studio Code extension. This could be something like &#39;development&#39;, &#39;test&#39;, or &#39;production&#39;, but without more context, it&#39;s hard to say exactly what this function does.</p>
+<p>ES6 modules are a way of organizing code into separate files and namespaces. They allow you to export and import functions, objects, or values from one module to another. This makes it easier to organize and manage code, especially in large codebases.</p>
+<p>As for the architectural guidelines, this code snippet is too small to make a definitive statement, but it appears to be consistent with good practices. It&#39;s using ES6 modules, which are a standard feature in modern JavaScript and TypeScript development. The code is also clear and easy to understand, which is always a good thing.</p>
+<p>For more information on ES6 modules, you can refer to this <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">MDN Web Docs</a> link.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:22:31 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style getExtensionMode fill:#228B22, stroke:#000000, stroke-width:2px;
+
+getExtensionMode-->getExtensionMode;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:24:30 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:27:37 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:31:38 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 10</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code imports a function that retrieves the extension mode. If this mode includes personal data, it could potentially be a GDPR issue. However, without further context, it&#39;s hard to determine the exact impact.</p>
+<p><strong>Solution</strong>: Ensure that any data retrieved by getExtensionMode does not include personal data, or if it does, that it&#39;s handled in a GDPR-compliant way. This could involve anonymizing the data, obtaining user consent, or implementing appropriate security measures.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/authorization.ts line 7:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">import</span> { <span class="hljs-built_in">exec</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;child_process&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:18:34 AM PDT</p>
+<p>This line of code is written in JavaScript, a high-level, interpreted scripting language that conforms to the ECMAScript specification. It&#39;s used to make webpages interactive and provide online programs, including video games.</p>
+<p>The <code>import</code> keyword is part of ES6 (ECMAScript 2015) module syntax, and it allows you to import functions, objects, or values from other modules into the current module. This is a part of making JavaScript more modular, which is a key aspect of good programming and software design.</p>
+<p><code>{ exec }</code> is the specific function being imported. This is known as named import syntax because you are importing a specific part of the module, not the entire module itself. The <code>exec</code> function is part of the <code>child_process</code> module in Node.js.</p>
+<p>The <code>child_process</code> module enables the execution of shell commands within Node.js scripts, and it provides the ability to spawn child processes. These child processes are independent of the parent process and can run concurrently, which can be useful for performing tasks in parallel or for isolating CPU-intensive tasks from the main event loop.</p>
+<p>The <code>exec</code> function is one of the methods provided by the <code>child_process</code> module. It spawns a shell and runs a command within that shell, buffering any generated output. This is useful for executing shell commands from within a Node.js script, but it should be used with care due to potential security risks. If you&#39;re executing shell commands that include user input, you should sanitize the input to prevent shell injection attacks.</p>
+<p>Here is a link to the official Node.js documentation for the <code>child_process</code> module, which includes more detailed information about the <code>exec</code> function: <a href="https://nodejs.org/api/child_process.html">Node.js child_process module</a></p>
+<p>In terms of architectural guidelines, this line of code appears to be consistent with the guidelines provided. It&#39;s making use of the capabilities provided by Node.js and the <code>child_process</code> module, and it&#39;s using ES6 module syntax for importing the required function. However, as always, care should be taken to use the <code>exec</code> function securely.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:22:40 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style exec fill:#FFA500, stroke:#000000, stroke-width:2px;
+style End fill:#228B22, stroke:#000000, stroke-width:2px;
+
+Start-->exec;
+exec-->End;</pre>
+</code></pre><p>The control flow graph for the provided source code is a simple linear flow. The code starts at the &quot;Start&quot; node and then proceeds to the &quot;exec&quot; node, which represents the call to the external library function <code>exec</code>. Finally, the flow reaches the &quot;End&quot; node, indicating the end of the code execution.</p>
+<p>Note that the &quot;exec&quot; node is highlighted with a different style to indicate that it represents a call to an external library or non-standard function.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:24:51 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 12</p>
+<p><strong>Bug Type</strong>: Command Injection</p>
+<p><strong>Description</strong>: The &#39;exec&#39; function from the &#39;child_process&#39; module in Node.js can lead to command injection vulnerabilities if not used properly. If user input is directly passed to this function without proper validation and sanitization, it can allow an attacker to execute arbitrary commands on the system. This can lead to serious security issues, such as data leakage, data manipulation, or even system takeover.</p>
+<p><strong>Solution</strong>: Use safer alternatives like &#39;execFile&#39; or &#39;spawn&#39;, which do not allow shell parameter expansion. If &#39;exec&#39; must be used, ensure that user input is properly validated and sanitized before it is passed to &#39;exec&#39;. Consider using libraries for input validation and sanitization, such as &#39;validator.js&#39; or &#39;joi&#39;.</p>
+</li>
+</ol>
+<p>Resources:</p>
+<ul>
+<li><a href="https://owasp.org/www-community/attacks/Command_Injection">OWASP Command Injection</a></li>
+<li><a href="https://nodejs.org/api/child_process.html">Node.js child_process documentation</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:27:52 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 12</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The &#39;exec&#39; function from the &#39;child_process&#39; module can lead to performance issues as it is a blocking operation that waits for the child process to end before it continues. This can lead to poor CPU usage especially if the child process takes a significant amount of time to complete.</p>
+<p><strong>Solution</strong>: Consider using the &#39;spawn&#39; or &#39;execFile&#39; functions instead. These functions are asynchronous and do not block the Node.js event loop. &#39;spawn&#39; is best used when the child process returns large amounts of data. &#39;execFile&#39; is best used when the input to the child process is small. Here is a link for more information: <a href="https://nodejs.org/api/child_process.html">https://nodejs.org/api/child_process.html</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:31:53 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 12</p>
+<p><strong>Bug Type</strong>: GDPR/PCI DSS/HIPAA</p>
+<p><strong>Description</strong>: The &#39;child_process&#39; module&#39;s &#39;exec&#39; function can potentially execute any command that the server&#39;s operating system can handle. If it&#39;s not properly sanitized, it could lead to a command injection vulnerability, compromising the data&#39;s integrity and confidentiality.</p>
+<p><strong>Solution</strong>: Avoid using &#39;exec&#39; when possible. If you must use it, ensure that user input is properly sanitized. Alternatively, use &#39;execFile&#39; or &#39;spawn&#39;, which are safer as they do not spawn shell by default.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/authorization.ts line 9:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">getGithubToken</span>(<span class="hljs-params"></span>): <span class="hljs-title class_">Promise</span>&lt;string&gt; {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+        <span class="hljs-title function_">exec</span>(<span class="hljs-string">&#x27;command -v gh&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">error, stdout, stderr</span>) =&gt;</span> {
+            <span class="hljs-keyword">if</span> (error) {
+                boostLogging.<span class="hljs-title function_">error</span>(<span class="hljs-string">&#x27;GitHub CLI (gh) is NOT installed&#x27;</span>);
+            } <span class="hljs-keyword">else</span> {
+                boostLogging.<span class="hljs-title function_">info</span>(<span class="hljs-string">&#x27;GitHub CLI (gh) is installed&#x27;</span>);
+            }
+        });
+        
+        <span class="hljs-comment">// Execute the command to get the token status.</span>
+        <span class="hljs-title function_">exec</span>(<span class="hljs-string">&quot;gh auth status --show-token&quot;</span>, <span class="hljs-function">(<span class="hljs-params">error, stdout, stderr</span>) =&gt;</span> {
+            <span class="hljs-keyword">if</span> (error) {
+                boostLogging.<span class="hljs-title function_">error</span>(<span class="hljs-string">`GitHub CLI (gh) failed authorization: <span class="hljs-subst">${error}</span>`</span>);
+                <span class="hljs-title function_">reject</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;GitHub CLI (gh) failed authorization: ${error}&quot;</span>));
+                <span class="hljs-keyword">return</span>;
+            }
+
+            <span class="hljs-comment">// Parse the output to extract the token.</span>
+            <span class="hljs-keyword">const</span> tokenMatch = stdout.<span class="hljs-title function_">match</span>(<span class="hljs-regexp">/✓ Token: (\S+)/</span>);
+            <span class="hljs-keyword">if</span> (tokenMatch &amp;&amp; tokenMatch[<span class="hljs-number">1</span>]) {
+                <span class="hljs-keyword">const</span> token = tokenMatch[<span class="hljs-number">1</span>];
+                <span class="hljs-title function_">resolve</span>(token);
+            } <span class="hljs-keyword">else</span> {
+                boostLogging.<span class="hljs-title function_">error</span>(<span class="hljs-string">&quot;Failed to parse GitHub token.&quot;</span>);
+                <span class="hljs-title function_">reject</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;Failed to parse GitHub token.&quot;</span>));
+            }
+        });
+    });
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:19:08 AM PDT</p>
+<p>This code defines a function <code>getGithubToken()</code> that returns a Promise. A Promise in JavaScript is an object representing the eventual completion or failure of an asynchronous operation, and it&#39;s used for asynchronous computations. This function is designed to interact with the GitHub Command Line Interface (CLI) to retrieve the user&#39;s GitHub token.</p>
+<p>The function works as follows:</p>
+<ol>
+<li><p>It first checks if the GitHub CLI tool (<code>gh</code>) is installed on the system by executing the command <code>command -v gh</code>. This is done using the <code>exec</code> function from Node.js, which is used to execute shell commands from within a Node.js application. If the <code>gh</code> command is not found, it logs an error message using <code>boostLogging.error()</code>. If the <code>gh</code> command is found, it logs an informational message using <code>boostLogging.info()</code>.</p>
+</li>
+<li><p>Next, it attempts to retrieve the GitHub token by executing the command <code>gh auth status --show-token</code>. This command checks the authorization status of the GitHub CLI and shows the token if it&#39;s authorized.</p>
+</li>
+<li><p>If there is an error executing the command (for example, if the GitHub CLI is not authorized), it logs an error message and rejects the Promise with a new Error object.</p>
+</li>
+<li><p>If the command executes successfully, it attempts to parse the output to extract the token. It does this using the <code>match()</code> method with a regular expression (<code>/✓ Token: (\S+)/</code>). The regular expression matches the line that starts with &quot;✓ Token: &quot; followed by one or more non-whitespace characters. If a match is found, it resolves the Promise with the token. If no match is found, it logs an error message and rejects the Promise with a new Error object.</p>
+</li>
+</ol>
+<p>This function uses the concept of Promises for asynchronous operations and regular expressions for parsing strings. </p>
+<p>Here are some resources for further reading:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promises in JavaScript</a></li>
+<li><a href="https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback">Node.js exec function</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">Regular expressions in JavaScript</a></li>
+<li><a href="https://cli.github.com/">GitHub CLI</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:23:04 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;
+ExampleProcess-->End;
+ExampleErrorPath-->End;</pre>
+</code></pre><p>The control flow graph for the provided code is as follows:</p>
+<pre><code>getGithubToken  
+exec  
+exec  
+getGithubToken  
+exec  
+exec  
+exec  
+const tokenMatch = stdout.match  
+const tokenMatch = stdout.match  
+const tokenMatch = stdout.match  
+</code></pre><p>The primary path through the code is as follows:</p>
+<pre><code>getGithubToken  
+exec  
+getGithubToken  
+exec  
+const tokenMatch = stdout.match  
+</code></pre><p>The error path through the code is as follows:</p>
+<pre><code>getGithubToken  
+exec  
+getGithubToken  
+exec  
+exec  
+exec  
+exec  
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:25:05 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 23</p>
+<p><strong>Bug Type</strong>: Information Disclosure</p>
+<p><strong>Description</strong>: The command &#39;gh auth status --show-token&#39; can expose the GitHub token in logs or console output. This is a security risk as tokens are sensitive information that can be used to gain unauthorized access to resources.</p>
+<p><strong>Solution</strong>: Remove the &#39;--show-token&#39; flag from the command. If the token is required, consider securely storing it in an environment variable or using a secure method to retrieve it. Refer to GitHub&#39;s documentation on authenticating with the GitHub CLI: <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:28:12 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 18</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The exec function is a blocking operation which can lead to poor CPU usage and slow performance. This can be particularly problematic for long-running tasks.</p>
+<p><strong>Solution</strong>: Replace exec with non-blocking alternatives such as execFile, spawn, or using async/await with util.promisify. More info here: <a href="https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback">https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback</a></p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 24</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The exec function is a blocking operation which can lead to poor CPU usage and slow performance. This can be particularly problematic for long-running tasks.</p>
+<p><strong>Solution</strong>: Replace exec with non-blocking alternatives such as execFile, spawn, or using async/await with util.promisify. More info here: <a href="https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback">https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:32:14 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 9/10</p>
+<p><strong>Line Number</strong>: 26</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The GitHub token is being extracted and returned without any encryption. This token can provide access to sensitive user data.</p>
+<p><strong>Solution</strong>: Encrypt the token before returning it. This can be done using libraries like crypto-js. Also, ensure that the token is securely stored and not logged anywhere.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 26</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: If the GitHub account is associated with any payment or card information, the token can provide access to this information. The token is being handled in plaintext.</p>
+<p><strong>Solution</strong>: Encrypt the token before returning it. Ensure that the token is securely stored and not logged anywhere.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 26</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: If the GitHub account is associated with any health information, the token can provide access to this information. The token is being handled in plaintext.</p>
+<p><strong>Solution</strong>: Encrypt the token before returning it. Ensure that the token is securely stored and not logged anywhere.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/authorization.ts line 40:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-comment">// create a mock class for the vscode.AuthenticationSession interface for testing</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MockAuthenticationSession</span> <span class="hljs-keyword">implements</span> vscode.<span class="hljs-property">AuthenticationSession</span> {
+    <span class="hljs-attr">accessToken</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-attr">account</span>: <span class="hljs-built_in">any</span>;
+    <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-attr">scopes</span>: <span class="hljs-built_in">string</span>[];
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">accessToken: <span class="hljs-built_in">string</span></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">accessToken</span> = accessToken;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">account</span> = <span class="hljs-string">&quot;&quot;</span>;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">id</span> = <span class="hljs-string">&quot;&quot;</span>;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">scopes</span> = [];
+    }
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:19:39 AM PDT</p>
+<p>This code is written in TypeScript, which is a statically typed superset of JavaScript. It creates a mock class <code>MockAuthenticationSession</code> for testing purposes. The class implements the <code>vscode.AuthenticationSession</code> interface, which is a part of the Visual Studio Code API.</p>
+<p>The <code>vscode.AuthenticationSession</code> interface provides a way to interact with the authentication sessions in Visual Studio Code. This interface includes properties such as <code>accessToken</code>, <code>account</code>, <code>id</code>, and <code>scopes</code>.</p>
+<p>Here is a breakdown of the code:</p>
+<ol>
+<li><p><code>export class MockAuthenticationSession implements vscode.AuthenticationSession</code>: This line is declaring a new class <code>MockAuthenticationSession</code> that implements the <code>vscode.AuthenticationSession</code> interface. The <code>export</code> keyword allows this class to be imported and used in other modules.</p>
+</li>
+<li><p><code>accessToken: string; account: any; id: string; scopes: string[];</code>: These lines are defining properties of the class. Each property corresponds to a property in the <code>vscode.AuthenticationSession</code> interface. The types of the properties are also specified here.</p>
+</li>
+<li><p><code>constructor(accessToken: string)</code>: This is the constructor of the class, which is a special method that is automatically called when a new object is created from the class. The constructor takes one argument, <code>accessToken</code>, which is a string.</p>
+</li>
+<li><p><code>this.accessToken = accessToken; this.account = &quot;&quot;; this.id = &quot;&quot;; this.scopes = [];</code>: Inside the constructor, the properties of the class are initialized. The <code>accessToken</code> property is set to the value passed to the constructor. The <code>account</code>, <code>id</code>, and <code>scopes</code> properties are initialized with empty values.</p>
+</li>
+</ol>
+<p>The purpose of this mock class is to provide a controlled environment for testing. Instead of interacting with the actual <code>vscode.AuthenticationSession</code>, tests can use this mock class, which behaves in a predictable way. This makes it easier to test the parts of the code that depend on the <code>vscode.AuthenticationSession</code>.</p>
+<p>For more information on TypeScript classes, you can refer to the <a href="https://www.typescriptlang.org/docs/handbook/classes.html">TypeScript Handbook</a>. For more information on the <code>vscode.AuthenticationSession</code> interface, you can refer to the <a href="https://code.visualstudio.com/api/references/vscode-api#AuthenticationSession">VS Code API</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:23:10 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style MockAuthenticationSession fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->MockAuthenticationSession;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:25:40 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 81</p>
+<p><strong>Bug Type</strong>: Insecure Direct Object References (IDOR)</p>
+<p><strong>Description</strong>: The &#39;account&#39; and &#39;id&#39; properties are set to an empty string by default, which could potentially lead to insecure direct object references. If these properties are used to control access to user-specific resources, an attacker may be able to manipulate these references to gain unauthorized access to data.</p>
+<p><strong>Solution</strong>: Ensure that user-specific properties like &#39;account&#39; and &#39;id&#39; are properly initialized and protected. Avoid using direct references to user-specific resources whenever possible. Use indirect references instead. OWASP provides a good guide on preventing IDOR: <a href="https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html</a></p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 82</p>
+<p><strong>Bug Type</strong>: Improper Initialization</p>
+<p><strong>Description</strong>: The &#39;scopes&#39; property is initialized as an empty array. If this property is used to control access to certain scopes or permissions, an attacker could potentially manipulate this array to gain additional permissions.</p>
+<p><strong>Solution</strong>: Ensure that the &#39;scopes&#39; property is properly initialized and that its manipulation is properly controlled. Consider using a default value that is least privileged. OWASP provides a good guide on access control: <a href="https://cheatsheetseries.owasp.org/cheatsheets/Access_Control_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/Access_Control_Cheat_Sheet.html</a></p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 80</p>
+<p><strong>Bug Type</strong>: Sensitive Data Exposure</p>
+<p><strong>Description</strong>: The &#39;accessToken&#39; property is stored in plain text. If an attacker gains access to this token, they could potentially use it to impersonate the user and perform unauthorized actions.</p>
+<p><strong>Solution</strong>: Store sensitive information like access tokens in a secure manner. Consider encrypting the token before storing it, and decrypt it only when needed. OWASP provides a good guide on secure data storage: <a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:28:16 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:32:51 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 81</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The accessToken is stored in plain text, which is a violation of GDPR&#39;s data protection principles. Personal data must be processed in a manner that ensures appropriate security, including protection against unauthorized or unlawful processing and against accidental loss, destruction or damage, using appropriate technical or organizational measures.</p>
+<p><strong>Solution</strong>: Encrypt the accessToken before storing it. Consider using a secure method like bcrypt or scrypt for encryption. Also, consider implementing access controls and audit logs to track who accesses this data and when.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 82</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The account information is stored in plain text, which is a violation of GDPR&#39;s data protection principles. Personal data must be processed in a manner that ensures appropriate security, including protection against unauthorized or unlawful processing and against accidental loss, destruction or damage, using appropriate technical or organizational measures.</p>
+<p><strong>Solution</strong>: Encrypt the account information before storing it. Consider using a secure method like bcrypt or scrypt for encryption. Also, consider implementing access controls and audit logs to track who accesses this data and when.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 83</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The id is stored in plain text, which could potentially be a violation of PCI DSS if it is related to cardholder data. PCI DSS requires that cardholder data be stored securely, with strong encryption and access controls.</p>
+<p><strong>Solution</strong>: If the id is related to cardholder data, it should be encrypted before storing it. Consider using a secure method like bcrypt or scrypt for encryption. Also, consider implementing access controls and audit logs to track who accesses this data and when.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 84</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The scopes are stored in plain text, which could potentially be a violation of HIPAA if they include protected health information (PHI). HIPAA requires that PHI be stored securely, with strong encryption and access controls.</p>
+<p><strong>Solution</strong>: If the scopes include PHI, they should be encrypted before storing them. Consider using a secure method like bcrypt or scrypt for encryption. Also, consider implementing access controls and audit logs to track who accesses this data and when.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/authorization.ts line 54:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">fetchMockGithubSession</span>(<span class="hljs-params"></span>): <span class="hljs-title class_">Promise</span>&lt;vscode.<span class="hljs-property">AuthenticationSession</span>&gt; {
+    <span class="hljs-comment">// first see if we have the session passed to us, and if so, use it</span>
+    <span class="hljs-keyword">let</span> token = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getGithubToken</span>();
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MockAuthenticationSession</span>(token);
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:20:08 AM PDT</p>
+<p>The code snippet provided is written in TypeScript, a statically typed superset of JavaScript that adds types and other features to the language. This snippet exports an asynchronous function named <code>fetchMockGithubSession</code>. The function is declared as asynchronous, meaning it returns a Promise that resolves to a <code>vscode.AuthenticationSession</code> object.</p>
+<p>The <code>vscode.AuthenticationSession</code> is a part of the Visual Studio Code (VS Code) API. It represents an authentication session, which can be used to authenticate requests to services that require it. In this case, the function is mocking an authentication session for GitHub, likely for testing purposes.</p>
+<p>Here&#39;s a detailed breakdown of the code:</p>
+<ol>
+<li><p>The function <code>fetchMockGithubSession</code> is declared. It&#39;s an asynchronous function, meaning it returns a Promise. The Promise will resolve to a <code>vscode.AuthenticationSession</code> object.</p>
+</li>
+<li><p>Inside the function, the <code>getGithubToken</code> function is called with the <code>await</code> keyword. This function presumably retrieves a GitHub token, which is used for authenticating with the GitHub API. The <code>await</code> keyword is used to pause the execution of the function until the Promise returned by <code>getGithubToken</code> is resolved. The resolved value is then assigned to the <code>token</code> variable.</p>
+</li>
+<li><p>A new <code>MockAuthenticationSession</code> object is created with the <code>token</code> as a parameter and returned. The <code>MockAuthenticationSession</code> is likely a mock or dummy implementation of <code>vscode.AuthenticationSession</code>, used for testing or development purposes.</p>
+</li>
+</ol>
+<p>The code does not appear to use any specific algorithms, but it does make use of the Promise-based asynchronous programming model provided by JavaScript and TypeScript.</p>
+<p>For more information, you can check the following resources:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api#AuthenticationSession">VS Code API - AuthenticationSession</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await">JavaScript Promises and Async/Await</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-1-7.html#async-functions">TypeScript - Async/Await</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:23:16 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;
+ExampleProcess-->End;
+ExampleErrorPath-->End;</pre>
+</code></pre><p>In this code, there is no control flow present.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:25:43 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:28:20 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:33:14 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 108</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The function fetches a Github token possibly linked to a user&#39;s personal information, which could lead to a GDPR violation if the user&#39;s consent was not properly obtained or if the data is not properly protected.</p>
+<p><strong>Solution</strong>: Ensure that user consent is obtained before fetching the token and that the token is securely handled and stored. Consider using OAuth for secure token handling.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 108</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: If the Github token is used to access repositories containing cardholder data, it could lead to PCI DSS compliance issues.</p>
+<p><strong>Solution</strong>: Ensure that the token is not used to access sensitive cardholder data, or if it is, that it is done in a secure and compliant manner.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 108</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: If the Github token is used to access repositories containing protected health information (PHI), it could lead to HIPAA compliance issues.</p>
+<p><strong>Solution</strong>: Ensure that the token is not used to access PHI, or if it is, that it is done in a secure and compliant manner.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/authorization.ts line 61:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">fetchGithubSession</span>(<span class="hljs-params">
+    forceNewSession: <span class="hljs-built_in">boolean</span> = <span class="hljs-literal">false</span>
+</span>): <span class="hljs-title class_">Promise</span>&lt;vscode.<span class="hljs-property">AuthenticationSession</span>&gt; {
+    <span class="hljs-comment">//if context is set, and the extensionMode is Test, then use the mock session</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-title function_">getExtensionMode</span>() === vscode.<span class="hljs-property">ExtensionMode</span>.<span class="hljs-property">Test</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_">fetchMockGithubSession</span>();
+    }
+    <span class="hljs-keyword">const</span> <span class="hljs-variable constant_">GITHUB_AUTH_PROVIDER_ID</span> = <span class="hljs-string">&quot;github&quot;</span>;
+    <span class="hljs-comment">// The GitHub Authentication Provider accepts the scopes described here:</span>
+    <span class="hljs-comment">// https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/</span>
+    <span class="hljs-keyword">const</span> <span class="hljs-variable constant_">SCOPES</span> = [<span class="hljs-string">&quot;user:email&quot;</span>, <span class="hljs-string">&quot;read:org&quot;</span>];
+
+    <span class="hljs-keyword">let</span> session = <span class="hljs-literal">undefined</span>;
+    <span class="hljs-keyword">let</span> errorMessage = <span class="hljs-literal">undefined</span>;
+    <span class="hljs-keyword">try</span> {
+        session = <span class="hljs-keyword">await</span> vscode.<span class="hljs-property">authentication</span>.<span class="hljs-title function_">getSession</span>(
+            <span class="hljs-variable constant_">GITHUB_AUTH_PROVIDER_ID</span>,
+            <span class="hljs-variable constant_">SCOPES</span>,
+            { <span class="hljs-attr">createIfNone</span>: !forceNewSession, <span class="hljs-attr">forceNewSession</span>: forceNewSession }
+        );
+    } <span class="hljs-keyword">catch</span> (<span class="hljs-attr">err</span>: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">if</span> ((err.<span class="hljs-property">message</span> <span class="hljs-keyword">as</span> <span class="hljs-built_in">string</span>).<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;Git model not found&quot;</span>)) {
+            <span class="hljs-comment">// don&#x27;t show error UI popup since we may running in an API, batch mode operation</span>
+            <span class="hljs-keyword">const</span> errorMessage =
+                <span class="hljs-string">&quot;Please verify local installation of Git software. Git is required for Visual Studio Code to access GitHub.&quot;</span>;
+            boostLogging.<span class="hljs-title function_">error</span>(errorMessage, <span class="hljs-literal">false</span>);
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(errorMessage);
+        }
+        <span class="hljs-comment">// otherwise rethrow the error</span>
+        boostLogging.<span class="hljs-title function_">warn</span>(
+            <span class="hljs-string">`Error fetching GitHub session from Visual StudioCode: <span class="hljs-subst">${
+                boostLogging.shouldLog(<span class="hljs-string">&quot;debug&quot;</span>) ? (err <span class="hljs-keyword">as</span> <span class="hljs-built_in">Error</span>).stack : err
+            }</span>`</span>,
+            <span class="hljs-literal">false</span>
+        );
+        errorMessage = err.<span class="hljs-property">message</span>;
+    }
+    <span class="hljs-keyword">if</span> (!session || errorMessage) {
+        <span class="hljs-keyword">const</span> userError =
+            <span class="hljs-string">&quot;Unable to retrieve GitHub session token from Visual Studio Code - please re-authorize GitHub and try again.&quot;</span>;
+        <span class="hljs-keyword">if</span> (errorMessage) {
+            errorMessage = <span class="hljs-string">`<span class="hljs-subst">${userError}</span> <span class="hljs-subst">${errorMessage}</span>`</span>;
+        }
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(userError);
+    }
+    <span class="hljs-keyword">return</span> session;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:20:50 AM PDT</p>
+<p>This code is a TypeScript function that fetches a GitHub session token from Visual Studio Code&#39;s (VSCode) built-in authentication provider. </p>
+<p>The function is asynchronous, meaning it returns a Promise which resolves with a value of type <code>vscode.AuthenticationSession</code>. This object represents the authentication session and includes properties like the access token and the account associated with the session.</p>
+<p>Here&#39;s a step-by-step explanation of what the function does:</p>
+<ol>
+<li><p>The function takes an optional boolean parameter <code>forceNewSession</code>. If this parameter is true, the function will force a new session to be created. If it&#39;s false or not provided, the function will reuse an existing session if one is available.</p>
+</li>
+<li><p>It first checks if the extension is running in Test mode. If it is, it returns a mock session for testing purposes. This is done using the <code>getExtensionMode()</code> function and comparing the result to <code>vscode.ExtensionMode.Test</code>.</p>
+</li>
+<li><p>It sets the <code>GITHUB_AUTH_PROVIDER_ID</code> to &quot;github&quot; and the <code>SCOPES</code> to an array containing &quot;user:email&quot; and &quot;read:org&quot;. These are the scopes for the GitHub OAuth app, which determine what information the app can access. See <a href="https://docs.github.com/en/developers/apps/building-oauth-apps/scopes-for-oauth-apps">GitHub OAuth Scopes</a> for more details.</p>
+</li>
+<li><p>It then tries to get a session from VSCode&#39;s authentication provider using the <code>vscode.authentication.getSession()</code> method. This method takes three parameters: the authentication provider ID, the scopes, and an options object. The options object has two properties: <code>createIfNone</code> and <code>forceNewSession</code>. <code>createIfNone</code> is the inverse of <code>forceNewSession</code>, meaning if <code>forceNewSession</code> is true, <code>createIfNone</code> will be false and vice versa.</p>
+</li>
+<li><p>If an error occurs during this process, it&#39;s caught and handled. If the error message includes &quot;Git model not found&quot;, a specific error message is logged and thrown. This error indicates that Git is not installed on the user&#39;s machine, which is required for VSCode to access GitHub. If the error is of another type, it&#39;s logged as a warning and the error message is stored in <code>errorMessage</code>.</p>
+</li>
+<li><p>If no session was retrieved or an error occurred, a user-friendly error message is thrown. If an error message was stored earlier, it&#39;s appended to the user-friendly error message.</p>
+</li>
+<li><p>If a session was successfully retrieved and no error occurred, the session is returned.</p>
+</li>
+</ol>
+<p>The function uses the async/await pattern, which is a way of handling Promises in a more synchronous-looking manner. It also uses try/catch for error handling. The code is well-structured and follows best practices for error handling and logging.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:23:28 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start  ;
+Start  ;
+ExampleProcess  -->End;
+ExampleProcess  -->End;</pre>
+</code></pre><p>The control flow graph for the provided source code is as follows:</p>
+<ul>
+<li>The start of the graph is the <code>fetchGithubSession</code> function.</li>
+<li>There are two possible paths from the start:<ul>
+<li>The primary path is represented by the <code>ExampleProcess(fetchMockGithubSession)</code> block, which calls the <code>fetchMockGithubSession</code> function.</li>
+<li>The alternate path is represented by the <code>ExampleProcess(fetchGithubSession)</code> block, which continues with the code execution.</li>
+</ul>
+</li>
+<li>Both paths lead to the end of the graph represented by the <code>End</code> block.</li>
+</ul>
+<p>Note: The error handling paths are not shown in the control flow graph as they are not explicitly defined in the provided code.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:26:11 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 125</p>
+<p><strong>Bug Type</strong>: Insecure Direct Object References (IDOR)</p>
+<p><strong>Description</strong>: The function <code>fetchGithubSession</code> does not perform any checks to ensure that the user is authorized to fetch the Github session. This could potentially allow an attacker to fetch the Github session of another user, leading to unauthorized access.</p>
+<p><strong>Solution</strong>: Implement access controls to prevent unauthorized users from fetching the Github session of another user. This could be done using role-based access control (RBAC) or access control lists (ACLs). More information can be found here: <a href="https://owasp.org/www-community/Insecure_Direct_Object_Reference">https://owasp.org/www-community/Insecure_Direct_Object_Reference</a></p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 129</p>
+<p><strong>Bug Type</strong>: Sensitive Data Exposure</p>
+<p><strong>Description</strong>: The scopes for the Github Authentication Provider are hard-coded as <code>user:email</code> and <code>read:org</code>. This could potentially expose sensitive user data if the application is compromised.</p>
+<p><strong>Solution</strong>: Consider using a more secure method for storing and retrieving these scopes, such as environment variables or a secure configuration file. More information can be found here: <a href="https://owasp.org/www-community/attacks/Information_exposure_through_query_strings_in_url">https://owasp.org/www-community/attacks/Information_exposure_through_query_strings_in_url</a></p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 137</p>
+<p><strong>Bug Type</strong>: Error Handling and Logging</p>
+<p><strong>Description</strong>: When an error occurs, the error message is logged and rethrown. This could potentially expose sensitive information about the internal workings of the application if the error messages are detailed.</p>
+<p><strong>Solution</strong>: Ensure that error messages do not contain sensitive information. Additionally, consider using a centralized logging system to securely store and monitor logs. More information can be found here: <a href="https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:28:56 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 132</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The getSession method from the vscode authentication API is being called without any checks if a session already exists, which can lead to unnecessary API calls and CPU usage.</p>
+<p><strong>Solution</strong>: Before calling the getSession method, check if a session already exists. If it does, return the existing session instead of creating a new one. This will reduce unnecessary API calls and CPU usage.</p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 138</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The error message is being checked for the string &#39;Git model not found&#39; using a string includes method, which can be CPU intensive if the error message is large.</p>
+<p><strong>Solution</strong>: Consider using a more efficient method for checking the error message, such as a regular expression or a faster string search algorithm. This will reduce CPU usage.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 143</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The error stack trace is being logged only if the logging level is set to &#39;debug&#39;. This can lead to unnecessary CPU usage if the logging level is not &#39;debug&#39;.</p>
+<p><strong>Solution</strong>: Consider checking the logging level before generating the stack trace. This will reduce unnecessary CPU usage.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:33:45 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 130</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The function fetchGithubSession is fetching user&#39;s GitHub session data which may include personal data. Under GDPR, data subjects have the right to know what personal data is being processed, and for what purpose.</p>
+<p><strong>Solution</strong>: Ensure that the user is informed about what personal data is being processed, the purpose for processing, and is given the option to consent or decline. Use clear and plain language when informing the user about data processing activities.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 140</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The function fetchGithubSession is fetching GitHub session data without explicitly handling potential errors in a secure manner. This could potentially expose sensitive data in error messages.</p>
+<p><strong>Solution</strong>: Ensure that error handling does not expose any sensitive data. Implement proper logging and monitoring to identify and alert on failed authentication attempts or errors.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 149</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: While this code does not directly handle health information, if the application is used in a healthcare context, or if the GitHub accounts in question are used to store or process health information, it could potentially be in violation of HIPAA.</p>
+<p><strong>Solution</strong>: Ensure that any health information is properly protected, and that any third-party services or APIs used are HIPAA-compliant. Regularly review and update security measures to protect health information.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/authorization.ts line 109:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">getCurrentOrganization</span>(<span class="hljs-params">
+    organizationCache: vscode.ExtensionContext | <span class="hljs-literal">undefined</span> = <span class="hljs-literal">undefined</span>
+</span>): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">string</span>&gt; {
+    <span class="hljs-comment">// if we have a cached value, return it</span>
+    <span class="hljs-keyword">let</span> <span class="hljs-attr">org</span>: <span class="hljs-built_in">string</span> = organizationCache?.<span class="hljs-property">globalState</span>?.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;organization&quot;</span>) ?? <span class="hljs-string">&quot;&quot;</span>;
+    <span class="hljs-keyword">if</span> (org) {
+        <span class="hljs-comment">// if we have an extension cache org, then update the default boost config org as well to keep in sync</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-title class_">BoostConfiguration</span>.<span class="hljs-property">defaultOrganization</span> !== org) {
+            <span class="hljs-title class_">BoostConfiguration</span>.<span class="hljs-property">defaultOrganization</span> = org;
+        }
+        <span class="hljs-keyword">return</span> org;
+    }
+
+    <span class="hljs-comment">// otherwise, look in the config file</span>
+    org = <span class="hljs-title class_">BoostConfiguration</span>.<span class="hljs-property">defaultOrganization</span>;
+    <span class="hljs-keyword">if</span> (org) {
+        boostLogging.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Using User Settings Configured Organization: <span class="hljs-subst">${org}</span>`</span>);
+        <span class="hljs-keyword">return</span> org;
+    }
+
+    <span class="hljs-comment">// if we still don&#x27;t have a value, try looking in the environment and getting the organization</span>
+    <span class="hljs-comment">// of the current repository</span>
+    org = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getCurrentGithubOrganizationFromWorkspace</span>();
+    <span class="hljs-keyword">if</span> (org) {
+        boostLogging.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Using Workspace Organization: <span class="hljs-subst">${org}</span>`</span>);
+        <span class="hljs-keyword">return</span> org;
+    }
+
+    <span class="hljs-keyword">let</span> orgs = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetchUserOrganizationsServiceRequest</span>();
+    <span class="hljs-keyword">if</span> (orgs &amp;&amp; orgs.<span class="hljs-property">organizations</span> &amp;&amp; orgs.<span class="hljs-property">organizations</span>.<span class="hljs-property">length</span> &gt; <span class="hljs-number">0</span>) {
+        org = orgs.<span class="hljs-property">organizations</span>[<span class="hljs-number">0</span>];
+        boostLogging.<span class="hljs-title function_">debug</span>(<span class="hljs-string">`Using GitHub.com Organization: <span class="hljs-subst">${org}</span>`</span>);
+        <span class="hljs-keyword">return</span> org;
+    }
+
+    org = orgs[<span class="hljs-string">&quot;personal&quot;</span>];
+    <span class="hljs-keyword">if</span> (!org) {
+        boostLogging.<span class="hljs-title function_">error</span>(<span class="hljs-string">`No GitHub Organization or Personal Id found`</span>);
+    }
+    <span class="hljs-keyword">return</span> org;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:21:33 AM PDT</p>
+<p>The provided code is a TypeScript function named <code>getCurrentOrganization</code> that is exported for use in other parts of the application. It&#39;s an asynchronous function that returns a Promise which resolves to a string. This string represents the current organization which is fetched from various sources in a certain order of priority.</p>
+<p>Here&#39;s a detailed explanation of the code:</p>
+<ol>
+<li><p>The function accepts an optional parameter <code>organizationCache</code> which defaults to <code>undefined</code>. This parameter is of type <code>vscode.ExtensionContext</code>, which is a type provided by the Visual Studio Code (VSCode) API for sharing global state across different parts of a VSCode extension.</p>
+</li>
+<li><p>The function first attempts to get the current organization from the <code>organizationCache</code> if it exists. If the cache is not <code>undefined</code> and it has a <code>globalState</code> property, the function tries to get the &quot;organization&quot; property from the <code>globalState</code>. If the &quot;organization&quot; property does not exist or is falsy (like <code>null</code>, <code>undefined</code>, <code>0</code>, <code>false</code>, <code>NaN</code>, or an empty string), it defaults to an empty string.</p>
+</li>
+<li><p>If the organization was successfully retrieved from the cache, the function checks if it&#39;s different from the <code>defaultOrganization</code> property of the <code>BoostConfiguration</code> object. If they are different, it updates <code>BoostConfiguration.defaultOrganization</code> to keep it in sync with the cached value. The function then returns the organization.</p>
+</li>
+<li><p>If the organization was not in the cache, the function tries to get it from the <code>BoostConfiguration</code> object. If it exists, it logs a message and returns the organization.</p>
+</li>
+<li><p>If the organization is still not found, the function tries to get it from the current GitHub organization associated with the workspace by calling the <code>getCurrentGithubOrganizationFromWorkspace</code> function. If an organization is found, it logs a message and returns the organization.</p>
+</li>
+<li><p>If the organization is still not found, the function calls <code>fetchUserOrganizationsServiceRequest</code> to get a list of organizations associated with the user. If the list is not empty, it selects the first organization, logs a message, and returns it.</p>
+</li>
+<li><p>If the organization is still not found, it tries to get a &quot;personal&quot; organization from the list. If it doesn&#39;t exist, it logs an error message. Finally, it returns the organization, which could be <code>undefined</code> if no organization was found.</p>
+</li>
+</ol>
+<p>The algorithm used here is a simple sequential search through different sources until a valid organization is found.</p>
+<p>For more information, you can refer to the following resources:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api">VSCode Extension API</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/intro.html">TypeScript Handbook</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function">Async Functions in JavaScript</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator">Nullish Coalescing Operator (??)</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:23:50 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->CheckCache;
+CheckCache-->CheckExtensionCache;
+CheckCache-->CheckConfigFile;
+CheckCache-->CheckEnvironment;
+CheckExtensionCache-->ReturnCachedValue;
+CheckConfigFile-->ReturnConfiguredValue;
+CheckEnvironment-->CheckWorkspace;
+ReturnCachedValue-->End;
+ReturnConfiguredValue-->End;
+CheckWorkspace-->ReturnWorkspaceValue;
+ReturnWorkspaceValue-->End;
+CheckEnvironment-->FetchUserOrganizations;
+FetchUserOrganizations-->CheckOrganizations;
+CheckOrganizations-->ReturnFirstOrganization;
+ReturnFirstOrganization-->End;
+CheckOrganizations-->CheckPersonalOrganization;
+CheckPersonalOrganization-->ReturnPersonalOrganization;
+ReturnPersonalOrganization-->End;
+CheckOrganizations-->NoOrganizationFound;
+NoOrganizationFound-->End;
+
+style CheckCache fill:#228B22, stroke:#000000, stroke-width:4px;
+style CheckExtensionCache fill:#228B22, stroke:#000000, stroke-width:4px;
+style CheckConfigFile fill:#228B22, stroke:#000000, stroke-width:4px;
+style CheckEnvironment fill:#228B22, stroke:#000000, stroke-width:4px;
+style CheckWorkspace fill:#228B22, stroke:#000000, stroke-width:4px;
+style FetchUserOrganizations fill:#228B22, stroke:#000000, stroke-width:4px;
+style CheckOrganizations fill:#228B22, stroke:#000000, stroke-width:4px;
+style CheckPersonalOrganization fill:#228B22, stroke:#000000, stroke-width:4px;
+style NoOrganizationFound fill:#B22222, stroke:#000000, stroke-width:2px;
+style ReturnCachedValue fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnConfiguredValue fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnWorkspaceValue fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnFirstOrganization fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnPersonalOrganization fill:#228B22, stroke:#000000, stroke-width:4px;
+style End fill:#228B22, stroke:#000000, stroke-width:2px;
+</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:26:14 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:29:19 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 216</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The function getCurrentOrganization uses a cache to store the organization name. However, the cache is only used once and then discarded. This could lead to unnecessary memory usage if the function is called frequently.</p>
+<p><strong>Solution</strong>: Consider using a more efficient caching strategy, such as a Least Recently Used (LRU) cache, to store the organization name. This would allow the cache to be reused across multiple function calls, reducing memory usage. You can refer to this guide for implementing an LRU cache in JavaScript: <a href="https://www.npmjs.com/package/lru-cache">https://www.npmjs.com/package/lru-cache</a></p>
+</li>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 236</p>
+<p><strong>Bug Type</strong>: Network</p>
+<p><strong>Description</strong>: The function fetchUserOrganizationsServiceRequest is called each time the function getCurrentOrganization is run and no cached or configured organization is found. This could lead to unnecessary network requests, slowing down the function.</p>
+<p><strong>Solution</strong>: Consider caching the result of the fetchUserOrganizationsServiceRequest function to reduce the number of network requests. If the organization data changes infrequently, you could also consider using a longer cache expiry time to further reduce network requests.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:34:07 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 217</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The function &#39;getCurrentOrganization&#39; retrieves and stores the user&#39;s organization information without explicit consent, which could be considered personal data under GDPR.</p>
+<p><strong>Solution</strong>: Ensure you obtain explicit consent from the user before collecting and storing their organization information. Inform the user about how their data will be used and provide an option for them to opt out.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 231</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The function &#39;getCurrentOrganization&#39; potentially retrieves and stores organization information which could be considered Protected Health Information (PHI) under HIPAA if the organization is a healthcare provider.</p>
+<p><strong>Solution</strong>: Ensure that any PHI data is encrypted in transit and at rest, and that access is strictly controlled. Consider implementing data anonymization or pseudonymization where possible.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 216</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: This function retrieves and stores organization information which could potentially be related to cardholder data environment (CDE) if the organization is a merchant or service provider.</p>
+<p><strong>Solution</strong>: Ensure that cardholder data is protected in accordance with PCI DSS requirements. This includes encrypting data in transit and at rest, maintaining a secure network, and restricting access to cardholder data.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/authorization.ts line 151:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">getCurrentGithubOrganizationFromWorkspace</span>(<span class="hljs-params"></span>): <span class="hljs-title class_">Promise</span>&lt;string&gt; {
+    <span class="hljs-comment">// Get the Git extension API.</span>
+    <span class="hljs-keyword">const</span> gitExtension = vscode.<span class="hljs-property">extensions</span>.<span class="hljs-title function_">getExtension</span>(<span class="hljs-string">&quot;vscode.git&quot;</span>)?.<span class="hljs-property">exports</span>;
+    <span class="hljs-keyword">if</span> (!gitExtension) {
+        <span class="hljs-comment">// Git extension is not available.</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>;
+    }
+
+    <span class="hljs-comment">// Get the Git API from the Git extension.</span>
+    <span class="hljs-keyword">const</span> gitApi = gitExtension.<span class="hljs-title function_">getAPI</span>(<span class="hljs-number">1</span>);
+    <span class="hljs-keyword">if</span> (!gitApi) {
+        <span class="hljs-comment">// Git API is not available.</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>;
+    }
+
+    <span class="hljs-comment">// Get the active repository.</span>
+    <span class="hljs-keyword">const</span> activeRepo = gitApi.<span class="hljs-property">repositories</span>[<span class="hljs-number">0</span>];
+    <span class="hljs-comment">//if there is no remote set, getRemotes will no be available</span>
+    <span class="hljs-keyword">if</span> (!activeRepo || !activeRepo.<span class="hljs-property">getRemotes</span>) {
+        <span class="hljs-comment">// No active repository.</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>;
+    }
+
+    <span class="hljs-comment">// Get the remote URL of the active repository.</span>
+    <span class="hljs-keyword">const</span> remotes = <span class="hljs-keyword">await</span> activeRepo.<span class="hljs-title function_">getRemotes</span>();
+    <span class="hljs-keyword">const</span> originRemote = remotes.<span class="hljs-title function_">find</span>(
+        <span class="hljs-function">(<span class="hljs-params">remote: Remote</span>) =&gt;</span> remote.<span class="hljs-property">name</span> === <span class="hljs-string">&quot;origin&quot;</span>
+    );
+    <span class="hljs-keyword">if</span> (!originRemote) {
+        <span class="hljs-comment">// No &#x27;origin&#x27; remote found.</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>;
+    }
+
+    <span class="hljs-comment">// Extract the GitHub organization from the remote URL.</span>
+    <span class="hljs-keyword">const</span> remoteUrl = originRemote.<span class="hljs-property">fetchUrl</span>;
+    <span class="hljs-keyword">if</span> (!remoteUrl) {
+        <span class="hljs-comment">// Remote URL is not available.</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>;
+    }
+
+    <span class="hljs-comment">// Use a regular expression to match the GitHub organization from the remote URL.</span>
+    <span class="hljs-keyword">const</span> match = remoteUrl.<span class="hljs-title function_">match</span>(<span class="hljs-regexp">/github\.com[/:](\w+)/</span>);
+    <span class="hljs-keyword">if</span> (!match || match.<span class="hljs-property">length</span> &lt; <span class="hljs-number">2</span>) {
+        <span class="hljs-comment">// GitHub organization not found in the remote URL.</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>;
+    }
+
+    <span class="hljs-comment">// Return the GitHub organization.</span>
+    <span class="hljs-keyword">return</span> match[<span class="hljs-number">1</span>];
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:22:03 AM PDT</p>
+<p>This TypeScript function, <code>getCurrentGithubOrganizationFromWorkspace()</code>, is a part of a Visual Studio Code (VSCode) extension. It is designed to extract and return the GitHub organization name from the workspace&#39;s active Git repository&#39;s remote URL. </p>
+<p>The function follows this sequence of steps:</p>
+<ol>
+<li><p>It checks if the Git extension for VSCode is available. If not, it returns an empty string.</p>
+</li>
+<li><p>If the Git extension is available, it retrieves the Git API from the extension. If the Git API is unavailable, it returns an empty string.</p>
+</li>
+<li><p>It then retrieves the active Git repository from the Git API. If there is no active repository or if the <code>getRemotes</code> function is not available on the active repository, it returns an empty string.</p>
+</li>
+<li><p>If the active repository is available, it retrieves the list of remote repositories. It then searches for the remote repository named &quot;origin&quot;. If it cannot find the &quot;origin&quot; remote repository, it returns an empty string.</p>
+</li>
+<li><p>If the &quot;origin&quot; remote repository is found, it extracts the fetch URL of the remote repository. If the fetch URL is not available, it returns an empty string.</p>
+</li>
+<li><p>If the fetch URL is available, it uses a regular expression to extract the GitHub organization name from the URL. If the GitHub organization name cannot be extracted from the URL, it returns an empty string.</p>
+</li>
+<li><p>If the GitHub organization name is successfully extracted, it is returned as the result of the function.</p>
+</li>
+</ol>
+<p>The algorithm used in this function is essentially a sequence of checks and data retrievals. It uses the <code>Array.prototype.find</code> method to search for the &quot;origin&quot; remote, which is a linear search algorithm.</p>
+<p>Here are some resources for further reading:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api#extensions">Git Extension for Visual Studio Code</a></li>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api#Git">Git API</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">Regular Expressions in JavaScript</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find">Array.prototype.find</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:24:02 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->GetGitExtensionAPI;
+GetGitExtensionAPI-->CheckGitExtensionAvailability;
+CheckGitExtensionAvailability-->GetGitAPI;
+GetGitAPI-->CheckGitAPIAvailability;
+CheckGitAPIAvailability-->GetActiveRepository;
+GetActiveRepository-->CheckActiveRepository;
+CheckActiveRepository-->GetRemotes;
+GetRemotes-->CheckRemotesAvailability;
+CheckRemotesAvailability-->FindOriginRemote;
+FindOriginRemote-->CheckOriginRemote;
+CheckOriginRemote-->ExtractGitHubOrganization;
+ExtractGitHubOrganization-->CheckRemoteUrl;
+CheckRemoteUrl-->MatchGitHubOrganization;
+MatchGitHubOrganization-->ReturnGitHubOrganization;
+ReturnGitHubOrganization-->End;
+
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:26:18 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:29:32 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 303</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The Git extension API is being retrieved every time this function is called. This could lead to unnecessary overhead if the function is called frequently.</p>
+<p><strong>Solution</strong>: Consider caching the Git extension API if this function is called frequently. This would prevent the unnecessary overhead of retrieving the extension API every time.</p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 322</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The regular expression used to extract the GitHub organization from the remote URL is being compiled every time this function is called. This could lead to unnecessary CPU usage if the function is called frequently.</p>
+<p><strong>Solution</strong>: Consider caching the regular expression if this function is called frequently. This would prevent the unnecessary CPU usage of compiling the regular expression every time.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 314</p>
+<p><strong>Bug Type</strong>: Network</p>
+<p><strong>Description</strong>: The remote URLs of the active repository are being retrieved every time this function is called. This could lead to unnecessary network traffic if the function is called frequently.</p>
+<p><strong>Solution</strong>: Consider caching the remote URLs if this function is called frequently. This would prevent the unnecessary network traffic of retrieving the URLs every time.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:34:26 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 306</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code retrieves the active Git repository&#39;s remote URL which might contain sensitive user data. If this data is processed, stored, or transmitted without proper consent and security measures, it could violate GDPR.</p>
+<p><strong>Solution</strong>: Ensure user consent is obtained before processing the Git repository data. Also, ensure that the data is encrypted during transmission and storage, and only necessary data is processed. Anonymize or pseudonymize the data where possible.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 311</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code extracts the GitHub organization from the remote URL. This could potentially involve processing of personal data which, if done without proper consent and security measures, could violate GDPR.</p>
+<p><strong>Solution</strong>: Ensure user consent is obtained before processing this data. Also, ensure that the data is encrypted during transmission and storage, and only necessary data is processed. Anonymize or pseudonymize the data where possible.</p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>

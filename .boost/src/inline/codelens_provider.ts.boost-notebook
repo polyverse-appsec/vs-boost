@@ -1,0 +1,135 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 5:57:33 AM PDT\n\nThis code is written in TypeScript and is a part of a Visual Studio Code (VSCode) extension. It defines a class `CodelensProvider` that implements the `vscode.CodeLensProvider` interface. CodeLens is a feature in VSCode that adds inline commands and information directly into your source code. These commands provide quick access to additional information and functionality.\n\nThe `CodelensProvider` class has the following properties:\n\n1. `codeLenses`: An array that holds all the CodeLens instances.\n2. `regex`: A regular expression used to match the lines in the document.\n3. `_onDidChangeCodeLenses`: An event emitter that triggers when the configuration changes.\n4. `onDidChangeCodeLenses`: An event that is triggered when the `_onDidChangeCodeLenses` event is fired.\n\nIn the constructor of the class, an event listener is set up to listen for changes in the workspace's configuration. When such a change occurs, the `_onDidChangeCodeLenses` event is fired.\n\nThe `provideCodeLenses` method is a part of the `vscode.CodeLensProvider` interface. It is responsible for providing the CodeLens instances that are shown in the document. The method takes a `vscode.TextDocument` and a `vscode.CancellationToken` as parameters. It returns an array of `vscode.CodeLens` instances or a promise that resolves to an array of `vscode.CodeLens` instances.\n\nThe `resolveCodeLens` method is also a part of the `vscode.CodeLensProvider` interface. It is responsible for resolving a CodeLens instance to a command that can be executed. The method takes a `vscode.CodeLens` and a `vscode.CancellationToken` as parameters. It returns a `vscode.CodeLens` instance or a promise that resolves to a `vscode.CodeLens` instance.\n\nThe algorithm used in the `provideCodeLenses` method is a simple loop that iterates over the lines in the document and applies the regular expression to each line. If a match is found, a new `vscode.CodeLens` instance is created and added to the `codeLenses` array.\n\nFor more information about CodeLens in VSCode, you can refer to this link: [VSCode CodeLens](https://code.visualstudio.com/api/language-extensions/programmatic-language-features#codelens-show-actionable-context-information-within-source-code)\n\nFor more information about regular expressions in JavaScript, you can refer to this link: [JavaScript RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:57:54 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExampleErrorPath-->End;\n```\n\nIn the generated control flow graph, the `Start` node represents the entry point of the code, which is the `provideCodeLenses` function. The primary path is represented by the `ExampleProcess` style, and the error path is represented by the `ExampleErrorPath` style.\n\nThe `provideCodeLenses` function checks a condition (`if (true)`) and if it evaluates to true, it initializes an empty array `this.codeLenses` and performs some operations on the `document` object. It then returns the `this.codeLenses` array.\n\nThe `resolveCodeLens` function also checks a condition (`if (true)`) and if it evaluates to true, it sets the `command` property of the `codeLens` object and returns it.\n\nIf the conditions in both functions evaluate to false, the functions return `null` or an empty array.\n\nBased on the provided code, there are no external library or non-standard function calls, so the control flow graph only includes the primary and error paths within the code itself."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:58:02 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:58:51 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 22\n\n   **Bug Type**: Memory\n\n   **Description**: The regular expression object is being created inside a loop. This can lead to high memory usage and GC pressure if the loop is executed many times.\n\n   **Solution**: Move the creation of the regular expression object outside the loop. If the regular expression does not change, it should be created once and reused. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Advanced_searching_with_flags_and_special_characters\n\n\n2. **Severity**: 8/10\n\n   **Line Number**: 24\n\n   **Bug Type**: CPU\n\n   **Description**: The 'exec' method of RegExp is used inside a loop. This can lead to high CPU usage if the regular expression is complex and the text is long.\n\n   **Solution**: Consider using a more efficient algorithm for matching the regular expression against the text. For example, you could use the 'match' method of String, which returns all matches at once. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match\n\n\n3. **Severity**: 6/10\n\n   **Line Number**: 29\n\n   **Bug Type**: Memory\n\n   **Description**: A new CodeLens object is created for each match. This can lead to high memory usage if there are many matches.\n\n   **Solution**: Consider using a more memory-efficient data structure to store the matches. For example, you could use a single object with properties for the start and end positions of each match, instead of creating a new CodeLens object for each match.\n\n\n4. **Severity**: 5/10\n\n   **Line Number**: 35\n\n   **Bug Type**: CPU\n\n   **Description**: The 'resolveCodeLens' method always returns a new object. This can lead to unnecessary CPU usage if the method is called frequently.\n\n   **Solution**: Consider caching the result of the 'resolveCodeLens' method and returning the cached result on subsequent calls. This would reduce CPU usage by avoiding the creation of new objects. See: https://www.sitepoint.com/implementing-memoization-in-javascript/\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 22,
+                "severity": 7,
+                "bugType": "Memory",
+                "description": "The regular expression object is being created inside a loop. This can lead to high memory usage and GC pressure if the loop is executed many times.",
+                "solution": "Move the creation of the regular expression object outside the loop. If the regular expression does not change, it should be created once and reused. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Advanced_searching_with_flags_and_special_characters"
+              },
+              {
+                "lineNumber": 24,
+                "severity": 8,
+                "bugType": "CPU",
+                "description": "The 'exec' method of RegExp is used inside a loop. This can lead to high CPU usage if the regular expression is complex and the text is long.",
+                "solution": "Consider using a more efficient algorithm for matching the regular expression against the text. For example, you could use the 'match' method of String, which returns all matches at once. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match"
+              },
+              {
+                "lineNumber": 29,
+                "severity": 6,
+                "bugType": "Memory",
+                "description": "A new CodeLens object is created for each match. This can lead to high memory usage if there are many matches.",
+                "solution": "Consider using a more memory-efficient data structure to store the matches. For example, you could use a single object with properties for the start and end positions of each match, instead of creating a new CodeLens object for each match."
+              },
+              {
+                "lineNumber": 35,
+                "severity": 5,
+                "bugType": "CPU",
+                "description": "The 'resolveCodeLens' method always returns a new object. This can lead to unnecessary CPU usage if the method is called frequently.",
+                "solution": "Consider caching the result of the 'resolveCodeLens' method and returning the cached result on subsequent calls. This would reduce CPU usage by avoiding the creation of new objects. See: https://www.sitepoint.com/implementing-memoization-in-javascript/"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 6:00:11 AM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 23\n\n   **Bug Type**: Data Exposure\n\n   **Description**: The entire document text is being copied into a string. This could potentially expose sensitive data if the document contains such information.\n\n   **Solution**: Ensure that sensitive data is not included in the document or appropriately masked or encrypted if it is. Consider implementing access controls to restrict who can access this data.\n\n\n2. **Severity**: 3/10\n\n   **Line Number**: 31\n\n   **Bug Type**: Data Exposure\n\n   **Description**: The code lens range is being exposed. If the range contains sensitive data, this could potentially lead to data exposure.\n\n   **Solution**: Ensure that sensitive data is not included in the code lens range or appropriately masked or encrypted if it is. Consider implementing access controls to restrict who can access this data.\n\n\n3. **Severity**: 3/10\n\n   **Line Number**: 38\n\n   **Bug Type**: Data Exposure\n\n   **Description**: The command arguments are hardcoded and exposed. If these arguments contain sensitive data, this could potentially lead to data exposure.\n\n   **Solution**: Ensure that sensitive data is not included in the command arguments or appropriately masked or encrypted if it is. Consider implementing access controls to restrict who can access this data.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 23,
+                "severity": 5,
+                "bugType": "Data Exposure",
+                "description": "The entire document text is being copied into a string. This could potentially expose sensitive data if the document contains such information.",
+                "solution": "Ensure that sensitive data is not included in the document or appropriately masked or encrypted if it is. Consider implementing access controls to restrict who can access this data.",
+                "webLink": "https://gdpr-info.eu/art-32-gdpr/"
+              },
+              {
+                "lineNumber": 31,
+                "severity": 3,
+                "bugType": "Data Exposure",
+                "description": "The code lens range is being exposed. If the range contains sensitive data, this could potentially lead to data exposure.",
+                "solution": "Ensure that sensitive data is not included in the code lens range or appropriately masked or encrypted if it is. Consider implementing access controls to restrict who can access this data.",
+                "webLink": "https://www.hipaajournal.com/hipaa-compliance-checklist/"
+              },
+              {
+                "lineNumber": 38,
+                "severity": 3,
+                "bugType": "Data Exposure",
+                "description": "The command arguments are hardcoded and exposed. If these arguments contain sensitive data, this could potentially lead to data exposure.",
+                "solution": "Ensure that sensitive data is not included in the command arguments or appropriately masked or encrypted if it is. Consider implementing access controls to restrict who can access this data.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/why_security_matters"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as vscode from 'vscode';\r\n\r\n/**\r\n * CodelensProvider\r\n */\r\nexport class CodelensProvider implements vscode.CodeLensProvider {\r\n\r\n\tprivate codeLenses: vscode.CodeLens[] = [];\r\n\tprivate regex: RegExp;\r\n\tprivate _onDidChangeCodeLenses: vscode.EventEmitter<void> = new vscode.EventEmitter<void>();\r\n\tpublic readonly onDidChangeCodeLenses: vscode.Event<void> = this._onDidChangeCodeLenses.event;\r\n\r\n\tconstructor() {\r\n\t\tthis.regex = /(.+)/g;\r\n\r\n\t\tvscode.workspace.onDidChangeConfiguration((_) => {\r\n\t\t\tthis._onDidChangeCodeLenses.fire();\r\n\t\t});\r\n\t}\r\n\r\n\tpublic provideCodeLenses(document: vscode.TextDocument, token: vscode.CancellationToken): vscode.CodeLens[] | Thenable<vscode.CodeLens[]> {\r\n\r\n\t\tif (true) {\r\n\t\t\tthis.codeLenses = [];\r\n\t\t\tconst regex = new RegExp(this.regex);\r\n\t\t\tconst text = document.getText();\r\n\t\t\tlet matches;\r\n\t\t\twhile ((matches = regex.exec(text)) !== null) {\r\n\t\t\t\tconst line = document.lineAt(document.positionAt(matches.index).line);\r\n\t\t\t\tconst indexOf = line.text.indexOf(matches[0]);\r\n\t\t\t\tconst position = new vscode.Position(line.lineNumber, indexOf);\r\n\t\t\t\tconst range = document.getWordRangeAtPosition(position, new RegExp(this.regex));\r\n\t\t\t\tif (range) {\r\n\t\t\t\t\tthis.codeLenses.push(new vscode.CodeLens(range));\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t\treturn this.codeLenses;\r\n\t\t}\r\n\t\treturn [];\r\n\t}\r\n\r\n\tpublic resolveCodeLens(codeLens: vscode.CodeLens, token: vscode.CancellationToken) {\r\n\t\tif (true) {\r\n\t\t\tcodeLens.command = {\r\n\t\t\t\ttitle: \"Codelens provided by Boost extension\",\r\n\t\t\t\ttooltip: \"Tooltip provided by Boost extension\",\r\n\t\t\t\tcommand: \"polyverse-boost-notebook.codelensAction\",\r\n\t\t\t\targuments: [\"Argument 1\", false]\r\n\t\t\t};\r\n\t\t\treturn codeLens;\r\n\t\t}\r\n\t\treturn null;\r\n\t}\r\n}\r\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/inline/codelens_provider.ts"
+  }
+}

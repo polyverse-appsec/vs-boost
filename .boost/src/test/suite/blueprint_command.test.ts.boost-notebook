@@ -13,6 +13,63 @@
             "outputType": "explainCode",
             "details": []
           }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 7:33:00 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->ExampleProcess;\n```\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 7:33:14 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 7:33:25 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 7:33:44 PM PDT\n\n1. **Severity**: 3/10\n\n   **Line Number**: 4\n\n   **Bug Type**: GDPR\n\n   **Description**: The use of 'console.warn' could potentially lead to the logging of sensitive data. GDPR requires that personal data is handled with care and not unnecessarily exposed.\n\n   **Solution**: Ensure that no sensitive data is being logged. If data must be logged, ensure it is anonymized or pseudonymized to protect the identity of individuals. Also, consider using a logging library that supports redaction of sensitive information.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 5,
+                "severity": 3,
+                "bugType": "GDPR",
+                "description": "The use of 'console.warn' could potentially lead to the logging of sensitive data. GDPR requires that personal data is handled with care and not unnecessarily exposed.",
+                "solution": "Ensure that no sensitive data is being logged. If data must be logged, ensure it is anonymized or pseudonymized to protect the identity of individuals. Also, consider using a logging library that supports redaction of sensitive information.",
+                "webLink": "https://gdpr-info.eu/"
+              }
+            ]
+          }
         }
       ],
       "languageId": "typescript",

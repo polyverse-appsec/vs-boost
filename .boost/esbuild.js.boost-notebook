@@ -13,6 +13,76 @@
             "outputType": "explainCode",
             "details": []
           }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 5:31:54 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:33:11 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:34:01 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:35:54 PM PDT\n\n1. **Severity**: 1/10\n\n   **Line Number**: 1\n\n   **Bug Type**: GDPR\n\n   **Description**: The code does not appear to handle personal data, so there are no GDPR compliance issues in this snippet.\n\n   **Solution**: No action needed.\n\n\n2. **Severity**: 1/10\n\n   **Line Number**: 1\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The code does not appear to handle payment card data, so there are no PCI DSS compliance issues in this snippet.\n\n   **Solution**: No action needed.\n\n\n3. **Severity**: 1/10\n\n   **Line Number**: 1\n\n   **Bug Type**: HIPAA\n\n   **Description**: The code does not appear to handle health information, so there are no HIPAA compliance issues in this snippet.\n\n   **Solution**: No action needed.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 1,
+                "severity": 1,
+                "bugType": "GDPR",
+                "description": "The code does not appear to handle personal data, so there are no GDPR compliance issues in this snippet.",
+                "solution": "No action needed."
+              },
+              {
+                "lineNumber": 1,
+                "severity": 1,
+                "bugType": "PCI DSS",
+                "description": "The code does not appear to handle payment card data, so there are no PCI DSS compliance issues in this snippet.",
+                "solution": "No action needed."
+              },
+              {
+                "lineNumber": 1,
+                "severity": 1,
+                "bugType": "HIPAA",
+                "description": "The code does not appear to handle health information, so there are no HIPAA compliance issues in this snippet.",
+                "solution": "No action needed."
+              }
+            ]
+          }
         }
       ],
       "languageId": "javascript",
@@ -36,6 +106,54 @@
           ],
           "metadata": {
             "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 5:32:03 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle KernelController fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle RemoteService fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle DisplayResults fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ErrorHandling fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->KernelController;\nKernelController-->RemoteService;\nRemoteService-->DisplayResults;\nRemoteService-->ErrorHandling;\n```\n\nThe control flow graph for the provided source code is as follows:\n\n- The starting point is the `Start` node.\n- The `Start` node leads to the `KernelController` node.\n- The `KernelController` node leads to the `RemoteService` node.\n- The `RemoteService` node has two outgoing edges:\n  - One edge leads to the `DisplayResults` node.\n  - The other edge leads to the `ErrorHandling` node.\n\nPlease note that this is a simplified control flow graph based on the provided code. It does not include all possible paths or details of the code implementation."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:33:15 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:34:05 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:35:58 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
             "details": []
           }
         }
@@ -63,6 +181,79 @@
             "outputType": "explainCode",
             "details": []
           }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 5:32:08 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->ExampleProcess;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:33:19 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:34:08 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:36:30 PM PDT\n\n1. **Severity**: 4/10\n\n   **Line Number**: 14\n\n   **Bug Type**: GDPR\n\n   **Description**: The code does not seem to handle personal data, but it is still essential to ensure that any data processed, even if it's non-personal like environment variables, is handled securely. Insecure handling of environment variables can lead to data leaks.\n\n   **Solution**: Ensure that environment variables are not exposed inappropriately, especially in a production environment. If any sensitive data is to be handled, consider using secure methods like encryption or tokenization. Also, consider implementing a way to track and control how your data is processed, to comply with GDPR's accountability principle.\n\n\n2. **Severity**: 3/10\n\n   **Line Number**: 14\n\n   **Bug Type**: PCI DSS\n\n   **Description**: While the code snippet does not directly handle cardholder data, PCI DSS requires that all systems involved in payment processing be secure. If environment variables are mishandled, it could potentially impact the security of the system.\n\n   **Solution**: Ensure that environment variables are securely handled and that production code is not unnecessarily exposed. Regularly test security systems and processes, as required by PCI DSS.\n\n\n3. **Severity**: 2/10\n\n   **Line Number**: 14\n\n   **Bug Type**: HIPAA\n\n   **Description**: The code does not process, store, or transmit any Protected Health Information (PHI), so it does not directly fall under HIPAA regulations. However, it's crucial to ensure that all parts of a system that handles PHI are secure.\n\n   **Solution**: If the system this code is part of processes, stores, or transmits PHI, ensure that all parts of the system, including environment variables, are securely handled.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 8,
+                "severity": 4,
+                "bugType": "GDPR",
+                "description": "The code does not seem to handle personal data, but it is still essential to ensure that any data processed, even if it's non-personal like environment variables, is handled securely. Insecure handling of environment variables can lead to data leaks.",
+                "solution": "Ensure that environment variables are not exposed inappropriately, especially in a production environment. If any sensitive data is to be handled, consider using secure methods like encryption or tokenization. Also, consider implementing a way to track and control how your data is processed, to comply with GDPR's accountability principle.",
+                "link": "https://gdpr-info.eu/issues/data-protection/"
+              },
+              {
+                "lineNumber": 8,
+                "severity": 3,
+                "bugType": "PCI DSS",
+                "description": "While the code snippet does not directly handle cardholder data, PCI DSS requires that all systems involved in payment processing be secure. If environment variables are mishandled, it could potentially impact the security of the system.",
+                "solution": "Ensure that environment variables are securely handled and that production code is not unnecessarily exposed. Regularly test security systems and processes, as required by PCI DSS.",
+                "link": "https://www.pcisecuritystandards.org/pci_security/maintaining_payment_security"
+              },
+              {
+                "lineNumber": 8,
+                "severity": 2,
+                "bugType": "HIPAA",
+                "description": "The code does not process, store, or transmit any Protected Health Information (PHI), so it does not directly fall under HIPAA regulations. However, it's crucial to ensure that all parts of a system that handles PHI are secure.",
+                "solution": "If the system this code is part of processes, stores, or transmits PHI, ensure that all parts of the system, including environment variables, are securely handled.",
+                "link": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
         }
       ],
       "languageId": "javascript",
@@ -86,6 +277,54 @@
           ],
           "metadata": {
             "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 5:32:13 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\n```\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:33:23 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:34:11 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:36:34 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
             "details": []
           }
         }
@@ -113,6 +352,54 @@
             "outputType": "explainCode",
             "details": []
           }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 5:32:17 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->ExampleProcess;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:33:26 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:34:15 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:36:37 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
         }
       ],
       "languageId": "javascript",
@@ -138,6 +425,69 @@
             "outputType": "explainCode",
             "details": []
           }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 5:32:21 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->ExampleProcess;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:33:29 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:34:18 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:36:56 PM PDT\n\n1. **Severity**: 8/10\n\n   **Line Number**: 79\n\n   **Bug Type**: Data Privacy\n\n   **Description**: The code does not provide any encryption or hashing for data in transit which could be a violation of GDPR, PCI DSS, and HIPAA compliance. This could potentially expose sensitive data during transmission.\n\n   **Solution**: Implement data encryption during transmission. You can use Secure Sockets Layer (SSL) or Transport Layer Security (TLS) for data transmission. Also, consider using hashing algorithms like SHA-256 for data integrity.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 79\n\n   **Bug Type**: Data Privacy\n\n   **Description**: The code does not appear to have any mechanism for access control. This could lead to unauthorized access to sensitive data, violating GDPR, PCI DSS, and HIPAA compliance.\n\n   **Solution**: Implement an access control mechanism. This could be role-based access control (RBAC) or access control lists (ACLs).\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 43,
+                "severity": 8,
+                "bugType": "Data Privacy",
+                "description": "The code does not provide any encryption or hashing for data in transit which could be a violation of GDPR, PCI DSS, and HIPAA compliance. This could potentially expose sensitive data during transmission.",
+                "solution": "Implement data encryption during transmission. You can use Secure Sockets Layer (SSL) or Transport Layer Security (TLS) for data transmission. Also, consider using hashing algorithms like SHA-256 for data integrity."
+              },
+              {
+                "lineNumber": 43,
+                "severity": 7,
+                "bugType": "Data Privacy",
+                "description": "The code does not appear to have any mechanism for access control. This could lead to unauthorized access to sensitive data, violating GDPR, PCI DSS, and HIPAA compliance.",
+                "solution": "Implement an access control mechanism. This could be role-based access control (RBAC) or access control lists (ACLs)."
+              }
+            ]
+          }
         }
       ],
       "languageId": "javascript",
@@ -161,6 +511,54 @@
           ],
           "metadata": {
             "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 5:32:27 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart \u0001 -->ExampleProcess;\n```\n\nThe control flow graph for the given source code is a simple linear flow. The start of the graph is the function \"Config for webview source code\". There are no external library calls or non-standard function calls in the code."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:33:33 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:34:22 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:36:59 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
             "details": []
           }
         }
@@ -188,6 +586,79 @@
             "outputType": "explainCode",
             "details": []
           }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 5:32:31 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->ExampleProcess;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:33:36 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:34:25 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:37:28 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 115\n\n   **Bug Type**: GDPR Compliance\n\n   **Description**: The code does not seem to implement any measures to ensure the privacy and protection of user data, which is a requirement under GDPR. The 'markdownConfig' object could potentially process user data without proper consent or safeguards.\n\n   **Solution**: Consider implementing data protection measures such as encryption, anonymization, or pseudonymization. Ensure that user consent is obtained before processing data, and that users can easily withdraw their consent. Implement measures to ensure data minimization and purpose limitation.\n\n\n2. **Severity**: 6/10\n\n   **Line Number**: 115\n\n   **Bug Type**: PCI DSS Compliance\n\n   **Description**: If the application processes, stores, or transmits cardholder data, it must comply with PCI DSS. The current code does not seem to include any measures to ensure the protection of cardholder data.\n\n   **Solution**: Consider implementing measures such as encryption, tokenization, or other methods to ensure the protection of cardholder data. Regularly test and monitor the system and networks for vulnerabilities.\n\n\n3. **Severity**: 6/10\n\n   **Line Number**: 115\n\n   **Bug Type**: HIPAA Compliance\n\n   **Description**: If the application processes, stores, or transmits Protected Health Information (PHI), it must comply with HIPAA. The current code does not seem to include any measures to ensure the protection of PHI.\n\n   **Solution**: Consider implementing measures such as encryption, access controls, or other methods to ensure the protection of PHI. Regularly conduct risk assessments and implement security measures to mitigate identified risks.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 59,
+                "severity": 7,
+                "bugType": "GDPR Compliance",
+                "description": "The code does not seem to implement any measures to ensure the privacy and protection of user data, which is a requirement under GDPR. The 'markdownConfig' object could potentially process user data without proper consent or safeguards.",
+                "solution": "Consider implementing data protection measures such as encryption, anonymization, or pseudonymization. Ensure that user consent is obtained before processing data, and that users can easily withdraw their consent. Implement measures to ensure data minimization and purpose limitation.",
+                "reference": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 59,
+                "severity": 6,
+                "bugType": "PCI DSS Compliance",
+                "description": "If the application processes, stores, or transmits cardholder data, it must comply with PCI DSS. The current code does not seem to include any measures to ensure the protection of cardholder data.",
+                "solution": "Consider implementing measures such as encryption, tokenization, or other methods to ensure the protection of cardholder data. Regularly test and monitor the system and networks for vulnerabilities.",
+                "reference": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 59,
+                "severity": 6,
+                "bugType": "HIPAA Compliance",
+                "description": "If the application processes, stores, or transmits Protected Health Information (PHI), it must comply with HIPAA. The current code does not seem to include any measures to ensure the protection of PHI.",
+                "solution": "Consider implementing measures such as encryption, access controls, or other methods to ensure the protection of PHI. Regularly conduct risk assessments and implement security measures to mitigate identified risks.",
+                "reference": "https://www.hhs.gov/hipaa/for-professionals/security/index.html"
+              }
+            ]
+          }
         }
       ],
       "languageId": "javascript",
@@ -213,6 +684,54 @@
             "outputType": "explainCode",
             "details": []
           }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 5:32:37 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExamplErrorPath-->End;\n```\n\nThe provided code does not contain any control flow."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:33:40 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:35:07 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:37:32 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
         }
       ],
       "languageId": "javascript",
@@ -236,6 +755,62 @@
           ],
           "metadata": {
             "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 5:32:57 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle BuildScript fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle BuildAndWatch fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle BuildExtension fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle BuildSummary fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle BuildChat fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle BuildStart fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle BuildMarkdown fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->BuildScript;\nBuildScript-->BuildAndWatch;\nBuildScript-->BuildExtension;\nBuildScript-->BuildSummary;\nBuildScript-->BuildChat;\nBuildScript-->BuildStart;\nBuildScript-->BuildMarkdown;\nBuildAndWatch-->BuildExtension;\nBuildAndWatch-->BuildSummary;\nBuildAndWatch-->BuildChat;\nBuildAndWatch-->BuildStart;\nBuildAndWatch-->BuildMarkdown;\nBuildExtension-->BuildSummary;\nBuildExtension-->BuildChat;\nBuildExtension-->BuildStart;\nBuildExtension-->BuildMarkdown;\nBuildSummary-->BuildChat;\nBuildSummary-->BuildStart;\nBuildSummary-->BuildMarkdown;\nBuildChat-->BuildStart;\nBuildChat-->BuildMarkdown;\nBuildStart-->BuildMarkdown;\nBuildScript-->ErrorPath;\nErrorPath-->End;\n```\n\nThe control flow graph for the given source code is as follows:\n\n```\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle BuildScript fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle BuildAndWatch fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle BuildExtension fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle BuildSummary fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle BuildChat fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle BuildStart fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle BuildMarkdown fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->BuildScript;\nBuildScript-->BuildAndWatch;\nBuildScript-->BuildExtension;\nBuildScript-->BuildSummary;\nBuildScript-->BuildChat;\nBuildScript-->BuildStart;\nBuildScript-->BuildMarkdown;\nBuildAndWatch-->BuildExtension;\nBuildAndWatch-->BuildSummary;\nBuildAndWatch-->BuildChat;\nBuildAndWatch-->BuildStart;\nBuildAndWatch-->BuildMarkdown;\nBuildExtension-->BuildSummary;\nBuildExtension-->BuildChat;\nBuildExtension-->BuildStart;\nBuildExtension-->BuildMarkdown;\nBuildSummary-->BuildChat;\nBuildSummary-->BuildStart;\nBuildSummary-->BuildMarkdown;\nBuildChat-->BuildStart;\nBuildChat-->BuildMarkdown;\nBuildStart-->BuildMarkdown;\nBuildScript-->ErrorPath;\nErrorPath-->End;\n```\n\nThe primary path through the code is as follows:\n\n1. Start\n2. BuildScript\n3. BuildAndWatch\n4. BuildExtension\n5. BuildSummary\n6. BuildChat\n7. BuildStart\n8. BuildMarkdown\n9. End\n\nThe primary path is shown with the primary style. Alternate non-error paths are shown with the default non-colored style. Error paths are shown with the ErrorPath style."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:33:43 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:35:31 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 171\n\n   **Bug Type**: CPU\n\n   **Description**: The build function calls are made sequentially, which could lead to inefficient use of CPU if the build tasks can be run in parallel.\n\n   **Solution**: Use Promise.all to run the build tasks in parallel. This can potentially speed up the build process by making better use of CPU resources. Here is an example of how it can be done:\n\n```javascript\nif (args.includes(\"--watch\")) {\n  console.log(\"[watch] build started\");\n  await Promise.all([\n    build({...extensionConfig, ...watchConfig}),\n    build({...summaryConfig, ...watchConfig}),\n    build({...chatConfig, ...watchConfig}),\n    build({...startConfig, ...watchConfig}),\n    build({...markdownConfig, ...watchConfig})\n  ]);\n  console.log(\"[watch] build finished\");\n} else {\n  await Promise.all([\n    build(extensionConfig),\n    build(summaryConfig),\n    build(chatConfig),\n    build(startConfig),\n    build(markdownConfig)\n  ]);\n  console.log(\"build complete\");\n}\n```\n\nReference: [JavaScript Promise.all](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 86,
+                "severity": 5,
+                "bugType": "CPU",
+                "description": "The build function calls are made sequentially, which could lead to inefficient use of CPU if the build tasks can be run in parallel.",
+                "solution": "Use Promise.all to run the build tasks in parallel. This can potentially speed up the build process by making better use of CPU resources. Here is an example of how it can be done:\n\n```javascript\nif (args.includes(\"--watch\")) {\n  console.log(\"[watch] build started\");\n  await Promise.all([\n    build({...extensionConfig, ...watchConfig}),\n    build({...summaryConfig, ...watchConfig}),\n    build({...chatConfig, ...watchConfig}),\n    build({...startConfig, ...watchConfig}),\n    build({...markdownConfig, ...watchConfig})\n  ]);\n  console.log(\"[watch] build finished\");\n} else {\n  await Promise.all([\n    build(extensionConfig),\n    build(summaryConfig),\n    build(chatConfig),\n    build(startConfig),\n    build(markdownConfig)\n  ]);\n  console.log(\"build complete\");\n}\n```\n\nReference: [JavaScript Promise.all](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 5:37:35 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
             "details": []
           }
         }

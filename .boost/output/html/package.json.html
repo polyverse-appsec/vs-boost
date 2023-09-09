@@ -1,0 +1,688 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./package.json</h1>
+    <p>Date Generated: Friday, September 8, 2023 at 5:12:13 PM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:11:12 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:11:32 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:12:40 PM PDT</p>
+<p>Executive Level Report:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The software project is a Visual Studio Code extension that provides code analysis functionality. It is well-structured and follows best practices for a VS Code extension. However, the project has a configuration for the default organization for billing, which could potentially impact the architecture if credit card or other sensitive authentication data is processed, transmitted, or stored. This could require additional layers of security and encryption to be added to the architecture.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The project has a warning related to PCI DSS compliance requirements in the package.json file. This indicates a potential risk if the application handles credit card data. The risk is that the application may not be fully compliant with PCI DSS requirements, which could lead to potential security vulnerabilities and legal issues. </p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: If the application is not fully compliant with PCI DSS requirements, it could potentially expose customers&#39; sensitive data, leading to a breach of trust and potential legal implications. This could negatively impact the reputation of the company and result in loss of customers.</p>
+</li>
+<li><p><strong>Overall Issues</strong>: The project has one file, package.json, with issues related to GDPR, PCI DSS, and HIPAA. This is a significant concern as these regulations are critical for protecting user data and ensuring secure transactions. Non-compliance could lead to severe penalties and damage to the company&#39;s reputation.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: Given that the project has only one file and that file has issues of varying severity, the overall health of the project source could be considered at risk. It is crucial to address these issues to ensure the project&#39;s compliance with data protection and security regulations.</p>
+</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>The project is well-structured and follows best practices for a VS Code extension, indicating a sound architectural foundation.</li>
+<li>The package.json file has issues related to GDPR, PCI DSS, and HIPAA, indicating potential compliance risks.</li>
+<li>The potential customer impact of these issues could be significant, as non-compliance could lead to a breach of trust and potential legal implications.</li>
+<li>The overall health of the project source is at risk due to the issues identified in the package.json file.</li>
+<li>There are no additional special architectural guidelines or constraints for this project, allowing for flexibility in addressing the identified issues.</li>
+</ul>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./package.json line 0:</h2>
+                    <p>Programming Language: json</p>
+                    <pre><code>{
+    <span class="hljs-comment">&quot;name&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook&quot;</span>,
+    <span class="hljs-comment">&quot;displayName&quot;</span>: <span class="hljs-comment">&quot;Polyverse Boost: Automatic Application Modernization&quot;</span>,
+    <span class="hljs-comment">&quot;description&quot;</span>: <span class="hljs-comment">&quot;Polyverse Boost Application Modernization tool uses AI and source code analysis to find code bugs, security defects, generation documentation and convert to modern programming languages.&quot;</span>,
+    <span class="hljs-comment">&quot;publisher&quot;</span>: <span class="hljs-comment">&quot;polyversecorporation&quot;</span>,
+    <span class="hljs-comment">&quot;license&quot;</span>: <span class="hljs-comment">&quot;SEE LICENSE IN LICENSE&quot;</span>,
+    <span class="hljs-comment">&quot;homepage&quot;</span>: <span class="hljs-comment">&quot;https://www.polyverse.com/boost/&quot;</span>,
+    <span class="hljs-comment">&quot;bugs&quot;</span>: {
+        <span class="hljs-comment">&quot;email&quot;</span>: <span class="hljs-comment">&quot;support@polyverse.com&quot;</span>
+    },
+    <span class="hljs-comment">&quot;version&quot;</span>: <span class="hljs-comment">&quot;1.1.0&quot;</span>,
+    <span class="hljs-comment">&quot;engines&quot;</span>: {
+        <span class="hljs-comment">&quot;vscode&quot;</span>: <span class="hljs-comment">&quot;^1.77.0&quot;</span>
+    },
+    <span class="hljs-comment">&quot;categories&quot;</span>: [
+        <span class="hljs-comment">&quot;Machine Learning&quot;</span>,
+        <span class="hljs-comment">&quot;Testing&quot;</span>,
+        <span class="hljs-comment">&quot;Notebooks&quot;</span>,
+        <span class="hljs-comment">&quot;Programming Languages&quot;</span>
+    ],
+    <span class="hljs-comment">&quot;galleryBanner.color&quot;</span>: <span class="hljs-comment">&quot;#F5F5F5&quot;</span>,
+    <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;resources/polyverse_vs_boost_logo.jpg&quot;</span>,
+    <span class="hljs-comment">&quot;activationEvents&quot;</span>: [
+        <span class="hljs-comment">&quot;onNotebook:polyverse-boost-notebook&quot;</span>,
+        <span class="hljs-comment">&quot;workspaceContains:*.boost-notebook&quot;</span>,
+        <span class="hljs-comment">&quot;onStartupFinished&quot;</span>
+    ],
+    <span class="hljs-comment">&quot;main&quot;</span>: <span class="hljs-comment">&quot;./out/extension.js&quot;</span>,
+    <span class="hljs-comment">&quot;contributes&quot;</span>: {
+        <span class="hljs-comment">&quot;viewsContainers&quot;</span>: {
+            <span class="hljs-comment">&quot;activitybar&quot;</span>: [
+                {
+                    <span class="hljs-comment">&quot;id&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-explorer&quot;</span>,
+                    <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Polyverse Boost Dashboard&quot;</span>,
+                    <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;resources/boost_icon_plain.svg&quot;</span>,
+                    <span class="hljs-comment">&quot;defaultViewSize&quot;</span>: <span class="hljs-comment">&quot;200px&quot;</span>
+                }
+            ]
+        },
+        <span class="hljs-comment">&quot;views&quot;</span>: {
+            <span class="hljs-comment">&quot;polyverse-boost-explorer&quot;</span>: [
+                {
+                    <span class="hljs-comment">&quot;type&quot;</span>: <span class="hljs-comment">&quot;webview&quot;</span>,
+                    <span class="hljs-comment">&quot;id&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-start-view&quot;</span>,
+                    <span class="hljs-comment">&quot;name&quot;</span>: <span class="hljs-comment">&quot;Start&quot;</span>,
+                    <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;resources/boost_icon_plain.svg&quot;</span>
+                },
+                {
+                    <span class="hljs-comment">&quot;type&quot;</span>: <span class="hljs-comment">&quot;webview&quot;</span>,
+                    <span class="hljs-comment">&quot;id&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-summary-view&quot;</span>,
+                    <span class="hljs-comment">&quot;name&quot;</span>: <span class="hljs-comment">&quot;Analysis Summary&quot;</span>,
+                    <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;resources/boost_icon_plain.svg&quot;</span>
+                },
+                {
+                    <span class="hljs-comment">&quot;type&quot;</span>: <span class="hljs-comment">&quot;webview&quot;</span>,
+                    <span class="hljs-comment">&quot;id&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-chat-view&quot;</span>,
+                    <span class="hljs-comment">&quot;name&quot;</span>: <span class="hljs-comment">&quot;Sara AI Chat&quot;</span>,
+                    <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;resources/boost_icon_plain.svg&quot;</span>
+                },
+                {
+                    <span class="hljs-comment">&quot;type&quot;</span>: <span class="hljs-comment">&quot;webview&quot;</span>,
+                    <span class="hljs-comment">&quot;id&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-blueprint-view&quot;</span>,
+                    <span class="hljs-comment">&quot;name&quot;</span>: <span class="hljs-comment">&quot;Blueprint Summary&quot;</span>,
+                    <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;resources/boost_icon_plain.svg&quot;</span>
+                }
+            ]
+        },
+        <span class="hljs-comment">&quot;configuration&quot;</span>: {
+            <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Polyverse Boost&quot;</span>,
+            <span class="hljs-comment">&quot;properties&quot;</span>: {
+                <span class="hljs-comment">&quot;polyverse-boost-notebook.defaultDir&quot;</span>: {
+                    <span class="hljs-comment">&quot;type&quot;</span>: <span class="hljs-comment">&quot;string&quot;</span>,
+                    <span class="hljs-comment">&quot;default&quot;</span>: <span class="hljs-comment">&quot;.boost&quot;</span>,
+                    <span class="hljs-comment">&quot;description&quot;</span>: <span class="hljs-comment">&quot;Default directory for Polyverse Boost notebook save files&quot;</span>
+                },
+                <span class="hljs-comment">&quot;polyverse-boost-notebook.outputLanguage&quot;</span>: {
+                    <span class="hljs-comment">&quot;type&quot;</span>: <span class="hljs-comment">&quot;string&quot;</span>,
+                    <span class="hljs-comment">&quot;default&quot;</span>: <span class="hljs-comment">&quot;python&quot;</span>,
+                    <span class="hljs-comment">&quot;description&quot;</span>: <span class="hljs-comment">&quot;Default output language for Polyverse Boost automatic code conversion&quot;</span>
+                },
+                <span class="hljs-comment">&quot;polyverse-boost-notebook.testFramework&quot;</span>: {
+                    <span class="hljs-comment">&quot;type&quot;</span>: <span class="hljs-comment">&quot;string&quot;</span>,
+                    <span class="hljs-comment">&quot;default&quot;</span>: <span class="hljs-comment">&quot;pytest&quot;</span>,
+                    <span class="hljs-comment">&quot;description&quot;</span>: <span class="hljs-comment">&quot;Default test framework for Polyverse Boost automatic test code generation&quot;</span>
+                },
+                <span class="hljs-comment">&quot;polyverse-boost-notebook.defaultOrganization&quot;</span>: {
+                    <span class="hljs-comment">&quot;type&quot;</span>: <span class="hljs-comment">&quot;string&quot;</span>,
+                    <span class="hljs-comment">&quot;default&quot;</span>: <span class="hljs-comment">&quot;&quot;</span>,
+                    <span class="hljs-comment">&quot;description&quot;</span>: <span class="hljs-comment">&quot;Default organization for Polyverse Boost billing&quot;</span>
+                },
+                <span class="hljs-comment">&quot;polyverse-boost-notebook.currentKernelCommand&quot;</span>: {
+                    <span class="hljs-comment">&quot;type&quot;</span>: <span class="hljs-comment">&quot;string&quot;</span>,
+                    <span class="hljs-comment">&quot;default&quot;</span>: <span class="hljs-comment">&quot;&quot;</span>,
+                    <span class="hljs-comment">&quot;description&quot;</span>: <span class="hljs-comment">&quot;Boost Kernel to use for Automated Processing&quot;</span>
+                },
+                <span class="hljs-comment">&quot;polyverse-boost-notebook.refreshAnalysisAlways&quot;</span>: {
+                    <span class="hljs-comment">&quot;type&quot;</span>: <span class="hljs-comment">&quot;boolean&quot;</span>,
+                    <span class="hljs-comment">&quot;default&quot;</span>: <span class="hljs-keyword">false</span>,
+                    <span class="hljs-comment">&quot;description&quot;</span>: <span class="hljs-comment">&quot;Force analysis refresh when existing Cell analysis is available&quot;</span>
+                },
+                <span class="hljs-comment">&quot;polyverse-boost-notebook.defaultOutputFormat&quot;</span>: {
+                    <span class="hljs-comment">&quot;type&quot;</span>: <span class="hljs-comment">&quot;string&quot;</span>,
+                    <span class="hljs-comment">&quot;default&quot;</span>: <span class="hljs-comment">&quot;markdown&quot;</span>,
+                    <span class="hljs-comment">&quot;enum&quot;</span>: [
+                        <span class="hljs-comment">&quot;html&quot;</span>,
+                        <span class="hljs-comment">&quot;markdown&quot;</span>,
+                        <span class="hljs-comment">&quot;pdf&quot;</span>
+                    ],
+                    <span class="hljs-comment">&quot;enumDescriptions&quot;</span>: [
+                        <span class="hljs-comment">&quot;HTML webpage format&quot;</span>,
+                        <span class="hljs-comment">&quot;Markdown format (default)&quot;</span>,
+                        <span class="hljs-comment">&quot;PDF binary format&quot;</span>
+                    ],
+                    <span class="hljs-comment">&quot;markdownDescription&quot;</span>: <span class="hljs-comment">&quot;Select your preferred *output format* for exporting analysis results.&quot;</span>
+                },
+                <span class="hljs-comment">&quot;polyverse-boost-notebook.logLevel&quot;</span>: {
+                    <span class="hljs-comment">&quot;type&quot;</span>: <span class="hljs-comment">&quot;string&quot;</span>,
+                    <span class="hljs-comment">&quot;default&quot;</span>: <span class="hljs-comment">&quot;error&quot;</span>,
+                    <span class="hljs-comment">&quot;enum&quot;</span>: [
+                        <span class="hljs-comment">&quot;debug&quot;</span>,
+                        <span class="hljs-comment">&quot;info&quot;</span>,
+                        <span class="hljs-comment">&quot;warn&quot;</span>,
+                        <span class="hljs-comment">&quot;error&quot;</span>
+                    ],
+                    <span class="hljs-comment">&quot;enumDescriptions&quot;</span>: [
+                        <span class="hljs-comment">&quot;All logging for debugging&quot;</span>,
+                        <span class="hljs-comment">&quot;Error, Warning, and Information logging&quot;</span>,
+                        <span class="hljs-comment">&quot;Error and Warning logging&quot;</span>,
+                        <span class="hljs-comment">&quot;Error logging only&quot;</span>
+                    ],
+                    <span class="hljs-comment">&quot;markdownDescription&quot;</span>: <span class="hljs-comment">&quot;Select the logging level for Polyverse Boost Notebook extension.&quot;</span>
+                }
+            }
+        },
+        <span class="hljs-comment">&quot;commands&quot;</span>: [
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.customerPortal&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Open Account Dashboard&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.boostStatus&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Show Account Status&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.createJsonNotebook&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Create Empty Notebook&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.loadCodeFile&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Load Source File (using File Dialog)&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(file-code)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.selectOutputLanguage&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Code Conversion Output Language&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(code)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.selectTestFramework&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Select Test Framework&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(checklist)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.loadCurrentFile&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Open Detailed Analysis Notebook&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(file)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.loadSummaryFile&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Open Summary Analysis Notebook&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(file)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.loadCurrentFolder&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Batch Build Notebook from Selected Folder (via File Explorer)&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(folder)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.processCurrentFile&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Process Current File with Selected Kernel Automatically (Offline)&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(file)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.processCurrentFolder&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Batch Process Folder with Selected Kernel Automatically (Offline)&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(folder)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.processProject&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Analyze Project with Selected Kernel Automatically (Offline)&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(folder)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.buildCurrentFileOutput&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Build Analysis as Output File&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(file)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.buildCurrentFileSummaryOutput&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Build Analysis Summary as Output File&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(file)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.buildCurrentFolderOutput&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Build All Analysis Output Files in Folder&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(folder)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.buildCurrentFolderSummaryOutput&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Build Folder or Project Analysis Summary as Output&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(folder)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.showCurrentFileAnalysisOutput&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Show File Details&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(file)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.showCurrentFileAnalysisSummaryOutput&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Show File Summary&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(file)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.showCurrentFolderAnalysisSummaryOutput&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Show Project Summary&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(folder)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.refreshProjectData&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Refresh Project Data&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(sync)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.analyzeSourceCode&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Analyze Source Code&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(search)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.showGuidelines&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Show Project Guidelines&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(gear)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.showGuidelines.blueprint&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Show Blueprint Guidelines&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(gear)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.showGuidelines.documentation&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Show Documentation Guidelines&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(gear)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.showGuidelines.security&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Show Security Guidelines&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(gear)&quot;</span>
+            },
+            {
+                <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.showGuidelines.compliance&quot;</span>,
+                <span class="hljs-comment">&quot;title&quot;</span>: <span class="hljs-comment">&quot;Boost: Show Compliance Guidelines&quot;</span>,
+                <span class="hljs-comment">&quot;icon&quot;</span>: <span class="hljs-comment">&quot;$(gear)&quot;</span>
+            }
+        ],
+        <span class="hljs-comment">&quot;notebooks&quot;</span>: [
+            {
+                <span class="hljs-comment">&quot;type&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook&quot;</span>,
+                <span class="hljs-comment">&quot;displayName&quot;</span>: <span class="hljs-comment">&quot;Boost Notebook&quot;</span>,
+                <span class="hljs-comment">&quot;selector&quot;</span>: [
+                    {
+                        <span class="hljs-comment">&quot;filenamePattern&quot;</span>: <span class="hljs-comment">&quot;*.boost-notebook&quot;</span>
+                    }
+                ]
+            }
+        ],
+        <span class="hljs-comment">&quot;menus&quot;</span>: {
+            <span class="hljs-comment">&quot;view/title&quot;</span>: [
+                {
+                    <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.showGuidelines&quot;</span>,
+                    <span class="hljs-comment">&quot;group&quot;</span>: <span class="hljs-comment">&quot;navigation&quot;</span>,
+                    <span class="hljs-comment">&quot;when&quot;</span>: <span class="hljs-comment">&quot;view == polyverse-boost-summary-view&quot;</span>
+                },
+                {
+                    <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.showGuidelines.blueprint&quot;</span>,
+                    <span class="hljs-comment">&quot;group&quot;</span>: <span class="hljs-comment">&quot;navigation&quot;</span>,
+                    <span class="hljs-comment">&quot;when&quot;</span>: <span class="hljs-comment">&quot;view == polyverse-boost-blueprint-view&quot;</span>
+                },
+                {
+                    <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.showGuidelines.documentation&quot;</span>,
+                    <span class="hljs-comment">&quot;group&quot;</span>: <span class="hljs-comment">&quot;navigation&quot;</span>,
+                    <span class="hljs-comment">&quot;when&quot;</span>: <span class="hljs-comment">&quot;view == polyverse-boost-doc-view&quot;</span>
+                },
+                {
+                    <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.showGuidelines.security&quot;</span>,
+                    <span class="hljs-comment">&quot;group&quot;</span>: <span class="hljs-comment">&quot;navigation&quot;</span>,
+                    <span class="hljs-comment">&quot;when&quot;</span>: <span class="hljs-comment">&quot;view == polyverse-boost-security-view&quot;</span>
+                },
+                {
+                    <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.showGuidelines.compliance&quot;</span>,
+                    <span class="hljs-comment">&quot;group&quot;</span>: <span class="hljs-comment">&quot;navigation&quot;</span>,
+                    <span class="hljs-comment">&quot;when&quot;</span>: <span class="hljs-comment">&quot;view == polyverse-boost-compliance-view&quot;</span>
+                }
+            ],
+            <span class="hljs-comment">&quot;editor/context&quot;</span>: [
+                {
+                    <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.analyzeSourceCode&quot;</span>,
+                    <span class="hljs-comment">&quot;group&quot;</span>: <span class="hljs-comment">&quot;polyverseBoost&quot;</span>
+                }
+            ],
+            <span class="hljs-comment">&quot;notebook/toolbar&quot;</span>: [
+                {
+                    <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.loadCodeFile&quot;</span>,
+                    <span class="hljs-comment">&quot;when&quot;</span>: <span class="hljs-comment">&quot;notebookType == &#x27;polyverse-boost-notebook&#x27;&quot;</span>,
+                    <span class="hljs-comment">&quot;group&quot;</span>: <span class="hljs-comment">&quot;navigation@1&quot;</span>
+                },
+                {
+                    <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.selectOutputLanguage&quot;</span>,
+                    <span class="hljs-comment">&quot;when&quot;</span>: <span class="hljs-comment">&quot;notebookType == &#x27;polyverse-boost-notebook&#x27;&quot;</span>,
+                    <span class="hljs-comment">&quot;group&quot;</span>: <span class="hljs-comment">&quot;navigation@2&quot;</span>
+                },
+                {
+                    <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.selectTestFramework&quot;</span>,
+                    <span class="hljs-comment">&quot;when&quot;</span>: <span class="hljs-comment">&quot;notebookType == &#x27;polyverse-boost-notebook&#x27;&quot;</span>,
+                    <span class="hljs-comment">&quot;group&quot;</span>: <span class="hljs-comment">&quot;navigation@3&quot;</span>
+                }
+            ],
+            <span class="hljs-comment">&quot;explorer/context&quot;</span>: [
+                {
+                    <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.loadCurrentFile&quot;</span>,
+                    <span class="hljs-comment">&quot;when&quot;</span>: <span class="hljs-comment">&quot;resourceExtname == .toml || resourceExtname == .csproj || resourceExtname == .xcodeproj || resourceExtname == .sln || resourceExtname == .vbproj || resourceExtname == .fsproj || resourceExtname == .gradle || resourceExtname == .xslt || resourceExtname == .coffee || resourceExtname == .pm || resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb&quot;</span>,
+                    <span class="hljs-comment">&quot;group&quot;</span>: <span class="hljs-comment">&quot;polyverseBoost&quot;</span>
+                },
+                {
+                    <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.loadSummaryFile&quot;</span>,
+                    <span class="hljs-comment">&quot;when&quot;</span>: <span class="hljs-comment">&quot;resourceExtname == .toml || resourceExtname == .csproj || resourceExtname == .xcodeproj || resourceExtname == .sln || resourceExtname == .vbproj || resourceExtname == .fsproj || resourceExtname == .gradle || resourceExtname == .xslt || resourceExtname == .coffee || resourceExtname == .pm || resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb&quot;</span>,
+                    <span class="hljs-comment">&quot;group&quot;</span>: <span class="hljs-comment">&quot;polyverseBoost&quot;</span>
+                },
+                {
+                    <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.loadCurrentFolder&quot;</span>,
+                    <span class="hljs-comment">&quot;when&quot;</span>: <span class="hljs-comment">&quot;(resourceScheme == &#x27;file&#x27; &amp;&amp; resourceLangId == &#x27;unknown&#x27; &amp;&amp; resourceExtname == &#x27;&#x27;)&quot;</span>,
+                    <span class="hljs-comment">&quot;group&quot;</span>: <span class="hljs-comment">&quot;polyverseBoost&quot;</span>
+                },
+                {
+                    <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.processCurrentFile&quot;</span>,
+                    <span class="hljs-comment">&quot;when&quot;</span>: <span class="hljs-comment">&quot;resourceExtname == .toml || resourceExtname == .csproj || resourceExtname == .xcodeproj || resourceExtname == .sln || resourceExtname == .vbproj || resourceExtname == .fsproj || resourceExtname == .gradle || resourceExtname == .xslt || resourceExtname == .coffee || resourceExtname == .pm || resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb&quot;</span>,
+                    <span class="hljs-comment">&quot;group&quot;</span>: <span class="hljs-comment">&quot;polyverseBoost&quot;</span>
+                },
+                {
+                    <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.processCurrentFolder&quot;</span>,
+                    <span class="hljs-comment">&quot;when&quot;</span>: <span class="hljs-comment">&quot;(resourceScheme == &#x27;file&#x27; &amp;&amp; resourceLangId == &#x27;unknown&#x27; &amp;&amp; resourceExtname == &#x27;&#x27;)&quot;</span>,
+                    <span class="hljs-comment">&quot;group&quot;</span>: <span class="hljs-comment">&quot;polyverseBoost&quot;</span>
+                },
+                {
+                    <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.showCurrentFileAnalysisOutput&quot;</span>,
+                    <span class="hljs-comment">&quot;when&quot;</span>: <span class="hljs-comment">&quot;resourceExtname == .toml || resourceExtname == .csproj || resourceExtname == .xcodeproj || resourceExtname == .sln || resourceExtname == .vbproj || resourceExtname == .fsproj || resourceExtname == .gradle || resourceExtname == .xslt || resourceExtname == .coffee || resourceExtname == .pm || resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb&quot;</span>,
+                    <span class="hljs-comment">&quot;group&quot;</span>: <span class="hljs-comment">&quot;polyverseBoost&quot;</span>
+                },
+                {
+                    <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.showCurrentFileAnalysisSummaryOutput&quot;</span>,
+                    <span class="hljs-comment">&quot;when&quot;</span>: <span class="hljs-comment">&quot;resourceExtname == .toml || resourceExtname == .csproj || resourceExtname == .xcodeproj || resourceExtname == .sln || resourceExtname == .vbproj || resourceExtname == .fsproj || resourceExtname == .gradle || resourceExtname == .xslt || resourceExtname == .coffee || resourceExtname == .pm || resourceExtname == .ts || resourceExtname == .js || resourceExtname == .c || resourceExtname == .cpp || resourceExtname == .ts || resourceExtname == .html || resourceExtname == .css || resourceExtname == .json || resourceExtname == .xml || resourceExtname == .md || resourceExtname == .py || resourceExtname == .h || resourceExtname == .hpp || resourceExtname == .cs || resourceExtname == .java || resourceExtname == .go || resourceExtname == .rb || resourceExtname == .php || resourceExtname == .swift || resourceExtname == .kt || resourceExtname == .m || resourceExtname == .ps1 || resourceExtname == .pl || resourceExtname == .groovy || resourceExtname == .lua || resourceExtname == .rs || resourceExtname == .sh || resourceExtname == .bash || resourceExtname == .r || resourceExtname == .yml || resourceExtname == .yaml || resourceExtname == .fs || resourceExtname == .fsx || resourceExtname == .vb&quot;</span>,
+                    <span class="hljs-comment">&quot;group&quot;</span>: <span class="hljs-comment">&quot;polyverseBoost&quot;</span>
+                },
+                {
+                    <span class="hljs-comment">&quot;command&quot;</span>: <span class="hljs-comment">&quot;polyverse-boost-notebook.showCurrentFolderAnalysisSummaryOutput&quot;</span>,
+                    <span class="hljs-comment">&quot;when&quot;</span>: <span class="hljs-comment">&quot;(resourceScheme == &#x27;file&#x27; &amp;&amp; resourceLangId == &#x27;unknown&#x27; &amp;&amp; resourceExtname == &#x27;&#x27;)&quot;</span>,
+                    <span class="hljs-comment">&quot;group&quot;</span>: <span class="hljs-comment">&quot;polyverseBoost&quot;</span>
+                }
+            ]
+        }
+    },
+    <span class="hljs-comment">&quot;scripts&quot;</span>: {
+        <span class="hljs-comment">&quot;clean&quot;</span>: <span class="hljs-comment">&quot;rm -rf out&quot;</span>,
+        <span class="hljs-comment">&quot;build-instructions&quot;</span>: <span class="hljs-comment">&quot;bash ./build_instructions.sh raw_instructions.md &gt;./src/instructions.json&quot;</span>,
+        <span class="hljs-comment">&quot;compile&quot;</span>: <span class="hljs-comment">&quot;tsc -p ./ &amp;&amp; npm run build-instructions &amp;&amp; node ./esbuild.js&quot;</span>,
+        <span class="hljs-comment">&quot;watch&quot;</span>: <span class="hljs-comment">&quot;node ./esbuild.js --watch &amp; tsc -watch -p ./&quot;</span>,
+        <span class="hljs-comment">&quot;lint&quot;</span>: <span class="hljs-comment">&quot;eslint src --ext ts&quot;</span>,
+        <span class="hljs-comment">&quot;copy:test-data&quot;</span>: <span class="hljs-comment">&quot;mkdir -p out/test &amp;&amp; cp -R src/test/resources/ out/test/resources/&quot;</span>,
+        <span class="hljs-comment">&quot;pretest&quot;</span>: <span class="hljs-comment">&quot;npm run clean &amp;&amp; npm run compile &amp;&amp; npm run lint &amp;&amp; npm run copy:test-data&quot;</span>,
+        <span class="hljs-comment">&quot;esbuild-base&quot;</span>: <span class="hljs-comment">&quot;npm run build-instructions &amp;&amp; node ./esbuild.js&quot;</span>,
+        <span class="hljs-comment">&quot;esbuild&quot;</span>: <span class="hljs-comment">&quot;npm run esbuild-base --sourcemap&quot;</span>,
+        <span class="hljs-comment">&quot;esbuild-watch&quot;</span>: <span class="hljs-comment">&quot;npm run esbuild-base -- --sourcemap --watch&quot;</span>,
+        <span class="hljs-comment">&quot;esbuild-pretest&quot;</span>: <span class="hljs-comment">&quot;npm run clean &amp;&amp; npm run esbuild &amp;&amp; npm run lint &amp;&amp; npm run copy:test-data&quot;</span>,
+        <span class="hljs-comment">&quot;test&quot;</span>: <span class="hljs-comment">&quot;node ./out/test/runTest.js&quot;</span>,
+        <span class="hljs-comment">&quot;prepublish:build&quot;</span>: <span class="hljs-comment">&quot;NODE_ENV=production &amp;&amp; npm run esbuild-base -- --minify&quot;</span>,
+        <span class="hljs-comment">&quot;prepublish:pretest&quot;</span>: <span class="hljs-comment">&quot;npm run clean &amp;&amp; npm run prepublish:build &amp;&amp; npm run copy:test-data&quot;</span>,
+        <span class="hljs-comment">&quot;prepublish:test&quot;</span>: <span class="hljs-comment">&quot;npm run test&quot;</span>,
+        <span class="hljs-comment">&quot;prepublish:login&quot;</span>: <span class="hljs-comment">&quot;vsce login polyversecorporation&quot;</span>,
+        <span class="hljs-comment">&quot;package&quot;</span>: <span class="hljs-comment">&quot;vsce package --allow-missing-repository --baseContentUrl \&quot;</span>https://polyverse.com\<span class="hljs-comment">&quot; --baseImagesUrl \&quot;</span>https://polyverse.com/images\<span class="hljs-comment">&quot; --out ./out/&quot;</span>,
+        <span class="hljs-comment">&quot;publish&quot;</span>: <span class="hljs-comment">&quot;vsce publish --allow-missing-repository --baseContentUrl \&quot;</span>https://polyverse.com\<span class="hljs-comment">&quot; --baseImagesUrl \&quot;</span>https://polyverse.com/images\<span class="hljs-comment">&quot;&quot;</span>
+    },
+    <span class="hljs-comment">&quot;devDependencies&quot;</span>: {
+        <span class="hljs-comment">&quot;@types/glob&quot;</span>: <span class="hljs-comment">&quot;^8.1.0&quot;</span>,
+        <span class="hljs-comment">&quot;@types/lodash&quot;</span>: <span class="hljs-comment">&quot;4.14.192&quot;</span>,
+        <span class="hljs-comment">&quot;@types/marked&quot;</span>: <span class="hljs-comment">&quot;^4.3.0&quot;</span>,
+        <span class="hljs-comment">&quot;@types/mocha&quot;</span>: <span class="hljs-comment">&quot;^10.0.1&quot;</span>,
+        <span class="hljs-comment">&quot;@types/node&quot;</span>: <span class="hljs-comment">&quot;16.x&quot;</span>,
+        <span class="hljs-comment">&quot;@types/sinon&quot;</span>: <span class="hljs-comment">&quot;10.0.13&quot;</span>,
+        <span class="hljs-comment">&quot;@types/vscode&quot;</span>: <span class="hljs-comment">&quot;^1.77.0&quot;</span>,
+        <span class="hljs-comment">&quot;@types/vscode-webview&quot;</span>: <span class="hljs-comment">&quot;^1.57.1&quot;</span>,
+        <span class="hljs-comment">&quot;@typescript-eslint/eslint-plugin&quot;</span>: <span class="hljs-comment">&quot;^5.56.0&quot;</span>,
+        <span class="hljs-comment">&quot;@typescript-eslint/parser&quot;</span>: <span class="hljs-comment">&quot;^5.56.0&quot;</span>,
+        <span class="hljs-comment">&quot;@vscode/test-electron&quot;</span>: <span class="hljs-comment">&quot;^2.3.0&quot;</span>,
+        <span class="hljs-comment">&quot;chai&quot;</span>: <span class="hljs-comment">&quot;^4.3.7&quot;</span>,
+        <span class="hljs-comment">&quot;esbuild&quot;</span>: <span class="hljs-comment">&quot;^0.16.17&quot;</span>,
+        <span class="hljs-comment">&quot;eslint&quot;</span>: <span class="hljs-comment">&quot;^8.36.0&quot;</span>,
+        <span class="hljs-comment">&quot;glob&quot;</span>: <span class="hljs-comment">&quot;^8.1.0&quot;</span>,
+        <span class="hljs-comment">&quot;lodash&quot;</span>: <span class="hljs-comment">&quot;^4.17.21&quot;</span>,
+        <span class="hljs-comment">&quot;mocha&quot;</span>: <span class="hljs-comment">&quot;^10.2.0&quot;</span>,
+        <span class="hljs-comment">&quot;sinon&quot;</span>: <span class="hljs-comment">&quot;^15.0.3&quot;</span>,
+        <span class="hljs-comment">&quot;ts-node&quot;</span>: <span class="hljs-comment">&quot;^10.9.1&quot;</span>,
+        <span class="hljs-comment">&quot;typescript&quot;</span>: <span class="hljs-comment">&quot;^5.1.6&quot;</span>,
+        <span class="hljs-comment">&quot;vscode-extension-tester&quot;</span>: <span class="hljs-comment">&quot;^5.5.1&quot;</span>
+    },
+    <span class="hljs-comment">&quot;dependencies&quot;</span>: {
+        <span class="hljs-comment">&quot;@jupyterlab/nbformat&quot;</span>: <span class="hljs-comment">&quot;^3.6.3&quot;</span>,
+        <span class="hljs-comment">&quot;@types/countup.js&quot;</span>: <span class="hljs-comment">&quot;^2.0.4&quot;</span>,
+        <span class="hljs-comment">&quot;@vscode/codicons&quot;</span>: <span class="hljs-comment">&quot;^0.0.33&quot;</span>,
+        <span class="hljs-comment">&quot;@vscode/webview-ui-toolkit&quot;</span>: <span class="hljs-comment">&quot;^1.2.2&quot;</span>,
+        <span class="hljs-comment">&quot;axios&quot;</span>: <span class="hljs-comment">&quot;^1.3.4&quot;</span>,
+        <span class="hljs-comment">&quot;axios-retry&quot;</span>: <span class="hljs-comment">&quot;^3.5.1&quot;</span>,
+        <span class="hljs-comment">&quot;countup.js&quot;</span>: <span class="hljs-comment">&quot;^2.6.2&quot;</span>,
+        <span class="hljs-comment">&quot;d3&quot;</span>: <span class="hljs-comment">&quot;^7.8.5&quot;</span>,
+        <span class="hljs-comment">&quot;highlight.js&quot;</span>: <span class="hljs-comment">&quot;^11.8.0&quot;</span>,
+        <span class="hljs-comment">&quot;marked&quot;</span>: <span class="hljs-comment">&quot;^5.0.2&quot;</span>,
+        <span class="hljs-comment">&quot;marked-highlight&quot;</span>: <span class="hljs-comment">&quot;^1.0.2&quot;</span>,
+        <span class="hljs-comment">&quot;nodejs&quot;</span>: <span class="hljs-comment">&quot;^0.0.0&quot;</span>,
+        <span class="hljs-comment">&quot;p-queue&quot;</span>: <span class="hljs-comment">&quot;v6.6.2&quot;</span>,
+        <span class="hljs-comment">&quot;puppeteer&quot;</span>: <span class="hljs-comment">&quot;^20.2.1&quot;</span>,
+        <span class="hljs-comment">&quot;typewriter-effect&quot;</span>: <span class="hljs-comment">&quot;^2.20.1&quot;</span>,
+        <span class="hljs-comment">&quot;uuid&quot;</span>: <span class="hljs-comment">&quot;^9.0.0&quot;</span>
+    }
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Wednesday, July 12, 2023 at 6:40:07 PM PDT</p>
+<p>The provided code is a package.json file for a Visual Studio Code (VS Code) extension called &quot;Polyverse Boost: Automatic Application Modernization&quot;. This extension uses AI and source code analysis to find code bugs, security defects, generate documentation, and convert to modern programming languages.</p>
+<p>Let&#39;s break down the main sections of the code:</p>
+<ul>
+<li><p><strong>Basic Information</strong>: This includes the <code>name</code>, <code>displayName</code>, <code>description</code>, <code>publisher</code>, <code>license</code>, <code>homepage</code>, <code>bugs</code>, <code>version</code>, and <code>engines</code> fields. These provide basic information about the extension, its publisher, licensing details, and the minimum version of VS Code required to run it.</p>
+</li>
+<li><p><strong>Categories</strong>: This field lists the categories that the extension belongs to in the VS Code Marketplace.</p>
+</li>
+<li><p><strong>Activation Events</strong>: These are the events that will activate the extension. In this case, the extension is activated when a notebook of type &#39;polyverse-boost-notebook&#39; is opened, when a file with the <code>.boost-notebook</code> extension is present in the workspace, or when the VS Code startup process is finished.</p>
+</li>
+<li><p><strong>Main</strong>: This field points to the main JavaScript file that will be executed when the extension is activated.</p>
+</li>
+<li><p><strong>Contributes</strong>: This section defines the contributions of the extension to VS Code. It includes:</p>
+<ul>
+<li><strong>ViewsContainers</strong>: This defines a new activity bar view container with the ID &#39;polyverse-boost-explorer&#39;.</li>
+<li><strong>Views</strong>: This defines the views that will be shown in the &#39;polyverse-boost-explorer&#39; view container.</li>
+<li><strong>Configuration</strong>: This defines the configuration options for the extension that users can set in their settings.</li>
+<li><strong>Commands</strong>: This defines the commands that the extension provides. Each command has an ID and a title.</li>
+<li><strong>Notebooks</strong>: This defines the custom notebook type that the extension provides.</li>
+<li><strong>Menus</strong>: This defines the menus that the extension contributes to. It includes menus for the view title area, the editor context menu, the notebook toolbar, and the explorer context menu.</li>
+</ul>
+</li>
+<li><p><strong>Algorithms</strong>: This code does not contain any specific algorithms. It is a JSON configuration file that describes the properties of the VS Code extension.</p>
+</li>
+</ul>
+<p>For more information on developing VS Code extensions, you can refer to the VS Code Extension API documentation at <a href="https://code.visualstudio.com/api">VS Code API</a>.</p>
+<p>This code is a part of a <code>package.json</code> file for a Node.js project. <code>package.json</code> is a core element of any Node.js project as it holds various metadata relevant to the project. This file is used to give information to <code>npm</code> that allows it to identify the project as well as handle the project&#39;s dependencies. </p>
+<p>Here&#39;s a breakdown of the main sections in the code:</p>
+<ol>
+<li><p><strong>Commands</strong>: The code defines several commands related to a feature or extension called <code>polyverse-boost-notebook</code>. These commands seem to be related to processing and analyzing files and folders. Each command is associated with a condition (<code>when</code>) that determines when the command should be available. For instance, the <code>polyverse-boost-notebook.processCurrentFile</code> command is available when the current file has one of the listed extensions (like .toml, .csproj, .xcodeproj, etc.).</p>
+</li>
+<li><p><strong>Scripts</strong>: This section defines a series of npm scripts that can be run to perform various tasks in the development process. For instance, the <code>clean</code> script removes the <code>out</code> directory, the <code>compile</code> script compiles the TypeScript files in the project, and the <code>test</code> script runs the tests. There are also scripts for building, watching for changes, linting, and packaging the project.</p>
+</li>
+<li><p><strong>devDependencies</strong>: This section lists the packages that are only needed for development and testing. These packages will not be installed when the project is installed as a dependency in another project. Packages in this section include various types, testing utilities, linters, and build tools.</p>
+</li>
+<li><p><strong>dependencies</strong>: This section lists the packages that the project depends on to run. These packages will be installed whenever the project is installed as a dependency in another project. Packages in this section include libraries for handling HTTP requests, generating UUIDs, creating animations, and more.</p>
+</li>
+</ol>
+<p>The &quot;polyverse-boost-notebook&quot; commands seem to be related to a Visual Studio Code extension, based on the <code>vsce</code> commands in the scripts section. The <code>vsce</code> tool is a command-line tool for packaging, publishing and managing VS Code extensions.</p>
+<p>For more information:</p>
+<ul>
+<li><a href="https://nodejs.dev/learn/the-package-json-guide">Node.js Guide on package.json</a></li>
+<li><a href="https://docs.npmjs.com/cli/v7/configuring-npm/package-json">Npm documentation on package.json</a></li>
+<li><a href="https://code.visualstudio.com/api">VS Code Extension API</a></li>
+<li><a href="https://code.visualstudio.com/api/working-with-extensions/publishing-extension">VSCE - Visual Studio Code Extension Manager</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:10:48 PM PDT</p>
+<p>NO CONTROL FLOW FOUND</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre><p>The code provided does not contain any control flow.</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;
+ExampleProcess-->End;
+ExamplErrorPath-->End;</pre>
+</code></pre><p>The code provided does not contain any control flow.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:11:02 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:11:28 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:12:13 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 22</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The application collects user email for bug reporting. This could potentially lead to a violation of the user&#39;s privacy rights under GDPR if not handled correctly.</p>
+<p><strong>Solution</strong>: Ensure that the email collection is compliant with GDPR requirements. This includes obtaining user consent before collecting email, providing a clear and easily accessible privacy policy, and implementing proper security measures to protect user data. Anonymize or pseudonymize user data where possible.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 142</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The application has a configuration for the default organization for billing. If credit card or other sensitive authentication data is processed, transmitted, or stored, PCI DSS compliance requirements apply.</p>
+<p><strong>Solution</strong>: Ensure that the application complies with all PCI DSS requirements when handling credit card data. This includes, but is not limited to, using strong encryption for transmission of cardholder data, limiting cardholder data storage, and maintaining a vulnerability management program.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 366</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The application uses axios for HTTP requests. If any Protected Health Information (PHI) is transmitted using axios, it needs to be secure to comply with HIPAA regulations.</p>
+<p><strong>Solution</strong>: Ensure that all PHI transmitted over the network is encrypted using a secure method such as SSL/TLS. If PHI is stored, it must be encrypted at rest and only accessible to authorized individuals.</p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>

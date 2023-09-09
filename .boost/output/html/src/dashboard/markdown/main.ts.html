@@ -1,0 +1,309 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/dashboard/markdown/main.ts</h1>
+    <p>Date Generated: Saturday, September 9, 2023 at 5:24:19 AM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:23:07 AM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:23:51 AM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:24:23 AM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/dashboard/markdown/main.ts line 0:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> {
+    provideVSCodeDesignSystem,
+    vsCodeButton
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@vscode/webview-ui-toolkit&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Wednesday, July 12, 2023 at 1:43:44 PM PDT</p>
+<p>This code is written in JavaScript, more specifically ECMAScript 6 (ES6) module syntax. It imports specific functions from a module named <code>@vscode/webview-ui-toolkit</code>.</p>
+<p>The <code>@vscode/webview-ui-toolkit</code> is a toolkit that provides a set of web components and utilities for building webview-based extensions for Visual Studio Code. This toolkit is designed to help developers create consistent and high-quality user interfaces for their extensions.</p>
+<p>Here is a breakdown of the code:</p>
+<ul>
+<li><p><code>import {...} from &quot;@vscode/webview-ui-toolkit&quot;;</code> - This line is using the ES6 <code>import</code> statement to import specific exports from the <code>@vscode/webview-ui-toolkit</code> module. The items to import are specified in the curly braces <code>{...}</code>.</p>
+</li>
+<li><p><code>provideVSCodeDesignSystem,</code> - This is a function that is being imported from the <code>@vscode/webview-ui-toolkit</code> module. This function provides a design system that can be used to style and layout your webview content. The design system includes a set of predefined styles and behavior that help you create a consistent user interface.</p>
+</li>
+<li><p><code>vsCodeButton</code> - This is a custom HTML element that is being imported from the <code>@vscode/webview-ui-toolkit</code> module. This element represents a button in the Visual Studio Code style. You can use this element in your HTML to create buttons that look and behave like the ones in Visual Studio Code.</p>
+</li>
+</ul>
+<p>This code does not contain any specific algorithms, it is simply importing functions and elements from a module.</p>
+<p>For more information about the <code>@vscode/webview-ui-toolkit</code> module, you can visit the GitHub repository: <a href="https://github.com/microsoft/vscode-webview-ui-toolkit">VSCode Webview UI Toolkit</a></p>
+<p>For more information about the ES6 <code>import</code> statement, you can visit the Mozilla Developer Network (MDN) web docs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">import - JavaScript | MDN</a></p>
+<p>As for the architectural guidelines, since there are no specific guidelines or constraints given for this software project, the code seems to be consistent with general good practices - it is modular (imports specific functions from a module), which can help with code organization and maintenance.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:22:31 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->provideVSCodeDesignSystem;
+provideVSCodeDesignSystem-->vsCodeButton;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:22:59 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:23:16 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:24:05 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 1</p>
+<p><strong>Bug Type</strong>: GDPR, PCI DSS, HIPAA</p>
+<p><strong>Description</strong>: This code snippet is importing modules from &#39;@vscode/webview-ui-toolkit&#39;, but there&#39;s no direct handling of personal data, financial data, or health-related data in the given code. Therefore, it&#39;s hard to identify any specific GDPR, PCI DSS, or HIPAA compliance issues based on this snippet alone.</p>
+<p><strong>Solution</strong>: Ensure any data processed or transmitted in the larger codebase complies with data protection and privacy regulations. If the imported modules are used to collect, process, or transmit personal, financial, or health-related data, ensure appropriate security measures are in place.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/dashboard/markdown/main.ts line 15:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-title function_">provideVSCodeDesignSystem</span>().<span class="hljs-title function_">register</span>(<span class="hljs-title function_">vsCodeButton</span>());
+
+<span class="hljs-keyword">const</span> vscode = <span class="hljs-title function_">acquireVsCodeApi</span>();
+
+<span class="hljs-comment">// Just like a regular webpage we need to wait for the webview</span>
+<span class="hljs-comment">// DOM to load before we can reference any of the HTML elements</span>
+<span class="hljs-comment">// or toolkit components</span>
+<span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;load&quot;</span>, main);
+
+<span class="hljs-comment">// Main function that gets executed once the webview DOM loads</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+    vscode.<span class="hljs-title function_">postMessage</span>({
+        <span class="hljs-attr">command</span>: <span class="hljs-string">&quot;initialize-visibility&quot;</span>,
+    });
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Wednesday, July 12, 2023 at 1:44:20 PM PDT</p>
+<p>This code is a part of a Visual Studio Code (VS Code) extension that interacts with a webview. VS Code extensions are written in JavaScript or TypeScript and they extend the capabilities of the VS Code editor. </p>
+<p>The code uses the VS Code API to interact with the editor and send messages to it. Here&#39;s a detailed breakdown of the code:</p>
+<ol>
+<li><p><code>provideVSCodeDesignSystem().register(vsCodeButton());</code> </p>
+<p>This line of code seems to be registering a button component to the VS Code Design System. The <code>vsCodeButton()</code> function is likely a factory function that creates a button component, and <code>provideVSCodeDesignSystem().register</code> is a method that registers this component to the design system. However, this is not a part of the standard VS Code API, it might be a part of a specific extension&#39;s API.</p>
+</li>
+<li><p><code>const vscode = acquireVsCodeApi();</code> </p>
+<p>This line acquires the VS Code API and assigns it to the <code>vscode</code> constant. The <code>acquireVsCodeApi</code> function is provided by VS Code in the context of a webview and it returns an API surface to interact with the editor.</p>
+</li>
+<li><p><code>window.addEventListener(&quot;load&quot;, main);</code> </p>
+<p>This line adds an event listener to the window object. The event listener waits for the &#39;load&#39; event, which is fired when the entire webview content has been loaded. When this event is fired, the <code>main</code> function is invoked.</p>
+</li>
+<li><p><code>function main() { ... }</code> </p>
+<p>This is the definition of the <code>main</code> function. This function is executed when the &#39;load&#39; event is fired. The function sends a message to the VS Code editor using the <code>vscode.postMessage</code> method. The message has a <code>command</code> field with the value <code>&quot;initialize-visibility&quot;</code>. The VS Code editor or the extension should have a message handler that processes this command.</p>
+</li>
+</ol>
+<p>The algorithm used here is pretty straightforward - it&#39;s event-driven programming. The code waits for an event (the &#39;load&#39; event) and when that event is fired, it executes a function (the <code>main</code> function).</p>
+<p>Here are some resources for further reading:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api">VS Code Extension API</a></li>
+<li><a href="https://code.visualstudio.com/api/extension-guides/webview">VS Code Webview API</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Event-driven_programming">Event-driven programming</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:22:44 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;
+ExampleProcess-->End;
+ExampleErrorPath-->End;</pre>
+</code></pre><p>The control flow graph for the provided source code is as follows:</p>
+<ul>
+<li>The start of the graph is the <code>provideVSCodeDesignSystem().register(vsCodeButton());</code> line.</li>
+<li>There are two paths from the start:<ul>
+<li>The primary path is represented by the <code>ExampleProcess</code> style and goes to the <code>End</code> node.</li>
+<li>The error path is represented by the <code>ExampleErrorPath</code> style and also goes to the <code>End</code> node.</li>
+</ul>
+</li>
+<li>The <code>main()</code> function is not shown in the control flow graph as it is called after the webview DOM loads.</li>
+</ul>
+<p>Please note that the control flow graph does not include any external library or non-standard function calls as there are none in the provided code.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:23:03 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:23:47 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 28</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The registration of the VS Code button component is done at the top level of the script. This means it&#39;s executed every time the script is loaded, even if the button is not used. This can lead to unnecessary CPU usage.</p>
+<p><strong>Solution</strong>: Consider moving the registration of components to a function that is only called when necessary. This can reduce unnecessary CPU usage.</p>
+</li>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 30</p>
+<p><strong>Bug Type</strong>: Network</p>
+<p><strong>Description</strong>: The acquireVsCodeApi() function is called at the top level of the script. This function communicates with the VS Code API and can be slow due to network latency. If the API is not used, this can lead to unnecessary network usage.</p>
+<p><strong>Solution</strong>: Consider moving the acquireVsCodeApi() call to a function that is only called when necessary. This can reduce unnecessary network usage.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 34</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The &#39;load&#39; event listener is added at the top level of the script. This means it&#39;s executed every time the script is loaded, even if the event is not used. This can lead to unnecessary CPU usage.</p>
+<p><strong>Solution</strong>: Consider moving the addition of event listeners to a function that is only called when necessary. This can reduce unnecessary CPU usage.</p>
+</li>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 38</p>
+<p><strong>Bug Type</strong>: Network</p>
+<p><strong>Description</strong>: The vscode.postMessage() function is called every time the &#39;load&#39; event is triggered. This function communicates with the VS Code API and can be slow due to network latency. If the message is not necessary, this can lead to unnecessary network usage.</p>
+<p><strong>Solution</strong>: Consider only sending the postMessage when necessary. This can reduce unnecessary network usage.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:24:19 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 33</p>
+<p><strong>Bug Type</strong>: Data Compliance</p>
+<p><strong>Description</strong>: The code uses the postMessage method to send data to the parent frame without validating or sanitizing the data. This may lead to Cross-Site Scripting (XSS) attacks which is a violation of GDPR, PCI DSS, and HIPAA.</p>
+<p><strong>Solution</strong>: Implement input validation and sanitization before sending data using postMessage. Consider using allowlist input validation, where only certain types of input are allowed. Also, use output encoding when the data is output to a HTTP response.</p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>

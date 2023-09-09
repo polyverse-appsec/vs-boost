@@ -1,0 +1,1010 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 5:35:29 AM PDT\n\nThis code is written in TypeScript, a statically-typed superset of JavaScript, and is for a Visual Studio Code (VS Code) extension. VS Code extensions are tools that add new features to the Visual Studio Code editor. They can be written in JavaScript or TypeScript and use the VS Code API.\n\nLet's break down the code:\n\n1. `import * as vscode from 'vscode';`\nThis line is importing all exports from the 'vscode' module into an object named 'vscode'. The 'vscode' module is the API for interacting with VS Code. It provides classes and functions that allow you to manipulate the editor, handle events, and interact with the user.\n\n2. `import * as fs from 'fs';`\nThis line is importing all exports from the 'fs' module into an object named 'fs'. The 'fs' module is the Node.js file system module, which provides an API for interacting with the file system. This could be used for reading and writing files, among other things.\n\n3. `import * as _ from 'lodash';`\nThis line is importing all exports from the 'lodash' module into an object named '_'. Lodash is a JavaScript utility library that provides helpful methods for manipulating arrays, objects, and other types of data.\n\n4. `import { BoostExtension } from '../extension/BoostExtension';`\nThis line is importing a specific export, 'BoostExtension', from the module at '../extension/BoostExtension'. This could be a class, function, or other value that is exported from that module. The path '../extension/BoostExtension' is a relative path, meaning it's based on the location of the current file.\n\nThe code does not include any algorithms, it's simply importing modules that will be used in the rest of the file. The imported modules will provide functionality for interacting with VS Code, the file system, and data manipulation.\n\nHere are some resources for further reading:\n- VS Code Extensions: https://code.visualstudio.com/api\n- Node.js 'fs' module: https://nodejs.org/api/fs.html\n- Lodash: https://lodash.com/\n- TypeScript modules: https://www.typescriptlang.org/docs/handbook/modules.html\n\nAs far as architectural guidelines go, this code is fairly standard for a VS Code extension. It imports the necessary modules at the top of the file, which is a common practice in JavaScript and TypeScript. The use of relative paths for imports is also standard."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:39:45 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart \u0001 -->ExampleProcess[BoostExtension];\nStart-->ExternalLibrary[fs];\nStart-->ExternalLibrary[_];\nExampleProcess-->End \u0001 ;\nExternalLibrary-->End;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:40:51 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:42:56 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:45:44 AM PDT\n\n1. **Severity**: 3/10\n\n   **Line Number**: 1\n\n   **Bug Type**: GDPR\n\n   **Description**: The vscode module can access user's workspace and settings, which may contain personal data. If this data is not handled properly, it could lead to GDPR non-compliance.\n\n   **Solution**: Ensure that any data accessed through the vscode module is handled in accordance with GDPR regulations. This includes obtaining user consent before accessing their data, and ensuring that the data is stored and processed securely.\n\n\n2. **Severity**: 5/10\n\n   **Line Number**: 2\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The fs module is used for file system operations, which could potentially be used to access or store sensitive data, including payment card data. If this data is not protected, it could lead to PCI DSS non-compliance.\n\n   **Solution**: Ensure that any sensitive data accessed or stored using the fs module is protected in accordance with PCI DSS requirements. This includes encrypting the data at rest and in transit, and regularly testing security systems and processes.\n\n\n3. **Severity**: 2/10\n\n   **Line Number**: 3\n\n   **Bug Type**: HIPAA\n\n   **Description**: The lodash module is a utility library that can manipulate and examine data. If this data includes health information, improper use of lodash could lead to HIPAA non-compliance.\n\n   **Solution**: Ensure that any health information accessed or manipulated using lodash is handled in accordance with HIPAA regulations. This includes implementing safeguards to protect the privacy of health information, and ensuring that the data is only used for permitted purposes.\n\n\n4. **Severity**: 3/10\n\n   **Line Number**: 4\n\n   **Bug Type**: GDPR\n\n   **Description**: The BoostExtension module could potentially access or store personal data. If this data is not handled properly, it could lead to GDPR non-compliance.\n\n   **Solution**: Ensure that any personal data accessed or stored through the BoostExtension module is handled in accordance with GDPR regulations. This includes obtaining user consent before accessing their data, and ensuring that the data is stored and processed securely.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 1,
+                "severity": 3,
+                "bugType": "GDPR",
+                "description": "The vscode module can access user's workspace and settings, which may contain personal data. If this data is not handled properly, it could lead to GDPR non-compliance.",
+                "solution": "Ensure that any data accessed through the vscode module is handled in accordance with GDPR regulations. This includes obtaining user consent before accessing their data, and ensuring that the data is stored and processed securely.",
+                "webLink": "https://gdpr.eu/"
+              },
+              {
+                "lineNumber": 2,
+                "severity": 5,
+                "bugType": "PCI DSS",
+                "description": "The fs module is used for file system operations, which could potentially be used to access or store sensitive data, including payment card data. If this data is not protected, it could lead to PCI DSS non-compliance.",
+                "solution": "Ensure that any sensitive data accessed or stored using the fs module is protected in accordance with PCI DSS requirements. This includes encrypting the data at rest and in transit, and regularly testing security systems and processes.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 3,
+                "severity": 2,
+                "bugType": "HIPAA",
+                "description": "The lodash module is a utility library that can manipulate and examine data. If this data includes health information, improper use of lodash could lead to HIPAA non-compliance.",
+                "solution": "Ensure that any health information accessed or manipulated using lodash is handled in accordance with HIPAA regulations. This includes implementing safeguards to protect the privacy of health information, and ensuring that the data is only used for permitted purposes.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/index.html"
+              },
+              {
+                "lineNumber": 4,
+                "severity": 3,
+                "bugType": "GDPR",
+                "description": "The BoostExtension module could potentially access or store personal data. If this data is not handled properly, it could lead to GDPR non-compliance.",
+                "solution": "Ensure that any personal data accessed or stored through the BoostExtension module is handled in accordance with GDPR regulations. This includes obtaining user consent before accessing their data, and ensuring that the data is stored and processed securely.",
+                "webLink": "https://gdpr.eu/"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as vscode from 'vscode';\nimport * as fs from 'fs';\nimport * as _ from 'lodash';\nimport { BoostExtension } from '../extension/BoostExtension';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 5:35:57 AM PDT\n\nThe code you provided is a single line of code in JavaScript (or TypeScript) that imports a module named `marked` from a package also named `marked`.\n\n```javascript\nimport {marked} from 'marked';\n```\n\nThis line is using the ES6 (ECMAScript 2015) module import syntax to import a specific export (in this case, `marked`) from the `marked` package. This `marked` object is then available in the scope of the file for use.\n\nThe `marked` package is a popular markdown parser and compiler built for speed. It is often used to convert Markdown into HTML. Markdown is a lightweight markup language with plain-text-formatting syntax. Its design allows it to be converted to many output formats, but the original tool by the same name only supports HTML.\n\nThe `marked` function takes a Markdown string and converts it into HTML. It can be used in the following way:\n\n```javascript\nlet markdownString = '## Hello, world!';\nlet htmlString = marked(markdownString);\nconsole.log(htmlString);  // Outputs: <h2>Hello, world!</h2>\n```\n\nThe algorithm used by `marked` to convert Markdown to HTML is a type of parser algorithm. It reads the input Markdown text, identifies the syntax and semantics based on the Markdown language rules, and generates equivalent HTML.\n\nYou can find more information about the `marked` package [here](https://www.npmjs.com/package/marked) and about Markdown syntax [here](https://daringfireball.net/projects/markdown/syntax).\n\nAs regards to the architectural guidelines, since no specific guidelines or constraints were provided, this line of code seems to be in line with general good practices of modular design, where functionality is encapsulated in modules and imported where needed. However, the full context of the code and its use would be needed to make a definitive analysis."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:39:48 AM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:41:10 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 8\n\n   **Bug Type**: Cross-Site Scripting (XSS)\n\n   **Description**: The 'marked' library is used to convert Markdown into HTML. If untrusted user input is passed to the 'marked' function, it could lead to Cross-Site Scripting (XSS) attacks as the library does not sanitize the input by default. This can compromise the security of the app by allowing an attacker to inject malicious scripts.\n\n   **Solution**: To mitigate this, you should sanitize the input before passing it to the 'marked' function. Alternatively, you can use the 'sanitize' option provided by the 'marked' library to sanitize the input automatically. Refer to the library's documentation for more details: https://marked.js.org/using_advanced#options. Another recommended approach is to use Content Security Policy (CSP) to mitigate the impact of XSS. More about CSP: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 4,
+                "severity": 7,
+                "bugType": "Cross-Site Scripting (XSS)",
+                "description": "The 'marked' library is used to convert Markdown into HTML. If untrusted user input is passed to the 'marked' function, it could lead to Cross-Site Scripting (XSS) attacks as the library does not sanitize the input by default. This can compromise the security of the app by allowing an attacker to inject malicious scripts.",
+                "solution": "To mitigate this, you should sanitize the input before passing it to the 'marked' function. Alternatively, you can use the 'sanitize' option provided by the 'marked' library to sanitize the input automatically. Refer to the library's documentation for more details: https://marked.js.org/using_advanced#options. Another recommended approach is to use Content Security Policy (CSP) to mitigate the impact of XSS. More about CSP: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:42:59 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:45:48 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import {marked} from 'marked';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 4
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 5:36:31 AM PDT\n\nThis line of code is a module import statement written in TypeScript, a statically typed superset of JavaScript. It's used to import specific functionalities from another module into the current module.\n\nLet's break down the components of this import statement:\n\n- `import`: This keyword is used to import bindings which are exported by another module.\n\n- `{ BoostFileType, findCellByKernel, getBoostFile }`: These are the specific bindings that are being imported from the other module. In this case, `BoostFileType` is likely an enumeration or a type definition, `findCellByKernel` is likely a function, and `getBoostFile` is also likely a function.\n\n- `from '../extension//extension'`: This is the path to the module that contains the exported bindings. The `..` at the start of the path indicates that the module is located in the parent directory of the current module. `extension//extension` is the directory and file name of the module (without the file extension). The double slash `//` seems to be a typo, in standard syntax it should be a single slash `/`.\n\nAs for the algorithms used, it's hard to say without seeing the implementations of `BoostFileType`, `findCellByKernel`, and `getBoostFile`. However, based on their names, we can make some educated guesses:\n\n- `BoostFileType`: This might be used to define the types of files that the Boost extension can handle.\n\n- `findCellByKernel`: This might be a function that searches for a specific cell in a Jupyter notebook based on a given kernel.\n\n- `getBoostFile`: This might be a function that retrieves a specific file that is relevant to the Boost extension.\n\nHere are some resources for further reading:\n\n- [TypeScript Handbook: Modules](https://www.typescriptlang.org/docs/handbook/modules.html)\n- [MDN Web Docs: import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [TypeScript Handbook: Enums](https://www.typescriptlang.org/docs/handbook/enums.html)\n- [Jupyter Notebook: Working with Kernels](https://jupyter.readthedocs.io/en/latest/running.html#running)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:39:53 AM PDT\n\n```mermaid\ngraph TD;\nstyle findCellByKernel fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle getBoostFile fill:#228B22, stroke:#000000, stroke-width:2px;\n\nfindCellByKernel-->getBoostFile;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:41:14 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:43:19 AM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 10\n\n   **Bug Type**: Disk\n\n   **Description**: The 'getBoostFile' function might be reading a file from the disk. If the file is large, it could lead to high disk I/O and slow down the application.\n\n   **Solution**: Consider using a streaming approach or reading the file in chunks to reduce disk I/O. [Node.js Streams](https://nodejs.dev/learn/nodejs-streams) can be a good alternative.\n\n\n2. **Severity**: 4/10\n\n   **Line Number**: 10\n\n   **Bug Type**: CPU\n\n   **Description**: The 'findCellByKernel' function might be performing a search operation. If the data set is large, it could lead to high CPU usage.\n\n   **Solution**: Consider using a more efficient search algorithm or data structure. For example, if the data set is sorted, binary search can be a good option. [Binary Search in JavaScript](https://www.geeksforgeeks.org/binary-search-in-javascript/) can be a useful resource.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 5,
+                "severity": 5,
+                "bugType": "Disk",
+                "description": "The 'getBoostFile' function might be reading a file from the disk. If the file is large, it could lead to high disk I/O and slow down the application.",
+                "solution": "Consider using a streaming approach or reading the file in chunks to reduce disk I/O. [Node.js Streams](https://nodejs.dev/learn/nodejs-streams) can be a good alternative."
+              },
+              {
+                "lineNumber": 5,
+                "severity": 4,
+                "bugType": "CPU",
+                "description": "The 'findCellByKernel' function might be performing a search operation. If the data set is large, it could lead to high CPU usage.",
+                "solution": "Consider using a more efficient search algorithm or data structure. For example, if the data set is sorted, binary search can be a good option. [Binary Search in JavaScript](https://www.geeksforgeeks.org/binary-search-in-javascript/) can be a useful resource."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:46:13 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 10\n\n   **Bug Type**: GDPR\n\n   **Description**: The code imports a function that accesses files which could potentially contain user data. If the data is not anonymized or encrypted, it could lead to a GDPR violation.\n\n   **Solution**: Ensure that any data accessed by 'getBoostFile' is anonymized or encrypted, and that user consent is obtained before accessing user data.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 10\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The code imports a function that accesses files which could potentially contain cardholder data. If the data is not properly protected, it could lead to a PCI DSS violation.\n\n   **Solution**: Ensure that any cardholder data accessed by 'getBoostFile' is properly protected according to PCI DSS standards.\n\n\n3. **Severity**: 7/10\n\n   **Line Number**: 10\n\n   **Bug Type**: HIPAA\n\n   **Description**: The code imports a function that accesses files which could potentially contain protected health information (PHI). If the PHI is not properly protected, it could lead to a HIPAA violation.\n\n   **Solution**: Ensure that any PHI accessed by 'getBoostFile' is properly protected according to HIPAA standards.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 5,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The code imports a function that accesses files which could potentially contain user data. If the data is not anonymized or encrypted, it could lead to a GDPR violation.",
+                "solution": "Ensure that any data accessed by 'getBoostFile' is anonymized or encrypted, and that user consent is obtained before accessing user data.",
+                "reference": "https://gdpr.eu/data-encryption/"
+              },
+              {
+                "lineNumber": 5,
+                "severity": 7,
+                "bugType": "PCI DSS",
+                "description": "The code imports a function that accesses files which could potentially contain cardholder data. If the data is not properly protected, it could lead to a PCI DSS violation.",
+                "solution": "Ensure that any cardholder data accessed by 'getBoostFile' is properly protected according to PCI DSS standards.",
+                "reference": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 5,
+                "severity": 7,
+                "bugType": "HIPAA",
+                "description": "The code imports a function that accesses files which could potentially contain protected health information (PHI). If the PHI is not properly protected, it could lead to a HIPAA violation.",
+                "solution": "Ensure that any PHI accessed by 'getBoostFile' is properly protected according to HIPAA standards.",
+                "reference": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import { BoostFileType, findCellByKernel, getBoostFile } from '../extension//extension';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 5
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 5:36:59 AM PDT\n\nThis line of code is written in TypeScript, which is a statically typed superset of JavaScript. This line is importing a specific export from another module.\n\nIn detail:\n\n- `import`: This keyword is used to import bindings that are exported by another module.\n\n- `{ BoostUserAnalysisType }`: These curly braces are used to import a specific export from the module. In this case, `BoostUserAnalysisType` is being imported. This is likely an enumerated type (enum), a special kind of value that is defined by developers and can be used to create a collection of related values. \n\n- `from`: This keyword is used to specify the path of the module from which to import the specified bindings.\n\n- `'../data/userAnalysisType'`: This is the relative path to the module that contains the `BoostUserAnalysisType` export. The `..` means to go up one level in the directory structure. So, this is saying to go up one level, then down into the `data` directory, and import from the `userAnalysisType` module.\n\nThis line of code doesn't use any specific algorithms; it's just a standard import statement in TypeScript/JavaScript. The `BoostUserAnalysisType` enum is likely used elsewhere in the code to represent different types of user analyses that can be performed by the software.\n\nIf you want to learn more about `import` and `export` in JavaScript/TypeScript, here are some resources:\n\n- [MDN Web Docs: import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [TypeScript: Modules](https://www.typescriptlang.org/docs/handbook/modules.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:39:59 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle BoostUserAnalysisType fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->BoostUserAnalysisType;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:41:17 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:43:22 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:46:26 AM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 12\n\n   **Bug Type**: GDPR\n\n   **Description**: The code imports a user analysis type, which might involve processing of personal data. Under GDPR, processing of personal data should be minimized and only performed with explicit user consent.\n\n   **Solution**: Ensure that any processing of personal data complies with GDPR principles. This includes obtaining explicit user consent, providing clear information about how the data will be used, and implementing appropriate security measures. Consider anonymizing or pseudonymizing personal data where possible.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 6,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "The code imports a user analysis type, which might involve processing of personal data. Under GDPR, processing of personal data should be minimized and only performed with explicit user consent.",
+                "solution": "Ensure that any processing of personal data complies with GDPR principles. This includes obtaining explicit user consent, providing clear information about how the data will be used, and implementing appropriate security measures. Consider anonymizing or pseudonymizing personal data where possible.",
+                "link": "https://gdpr-info.eu/"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "import { BoostUserAnalysisType } from '../data/userAnalysisType';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 6
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 5:37:12 AM PDT\n\nThe provided code is a simple import statement written in TypeScript, which is a statically typed superset of JavaScript that adds types to the language.\n\nThis line of code is importing two objects, `BoostNotebook` and `BoostNotebookCell`, from a module located at `'../data/jupyter_notebook'`. These objects could be classes, interfaces, types, functions, constants, or any other JavaScript/TypeScript entities.\n\nThe `'../data/jupyter_notebook'` path indicates that the `jupyter_notebook` module is located in a `data` directory one level up from the current file. The file extension is not specified, but it's likely to be either `.js` for JavaScript or `.ts` for TypeScript.\n\nWithout more context, it's hard to say exactly what `BoostNotebook` and `BoostNotebookCell` are, but given their names and the fact that they're being imported from a module named `jupyter_notebook`, it's reasonable to assume that they're related to the Jupyter Notebook data structure. Jupyter Notebooks are an open-source web application that allows the creation and sharing of documents that contain live code, equations, visualizations, and narrative text.\n\n`BoostNotebook` could be a class or interface that represents a Jupyter Notebook, and `BoostNotebookCell` could be a class or interface that represents a cell within a Jupyter Notebook. A cell is a container for text to be displayed in the notebook or code to be executed by the notebook’s kernel.\n\nHere are some useful links for further reading:\n\n- [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/modules.html)\n- [Jupyter Notebook](https://jupyter.org/)\n- [Jupyter Notebook Cells](https://jupyter-notebook.readthedocs.io/en/stable/notebook.html#structure-of-a-notebook-document)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:40:01 AM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:41:21 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:43:26 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:46:43 AM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 14\n\n   **Bug Type**: GDPR\n\n   **Description**: The code imports a module that seems to handle data related to Jupyter notebooks. If this data includes personal data of EU citizens, it may be subject to GDPR. However, without more specific details about what data is being processed and how, it is difficult to provide a more precise analysis.\n\n   **Solution**: Ensure that the data being processed is anonymized or pseudonymized where possible. If personal data must be processed, ensure that appropriate consent is obtained, that data is processed only as necessary, and that it is securely stored and transmitted. Regularly review and update data handling processes as necessary to maintain compliance.\n\n\n2. **Severity**: 5/10\n\n   **Line Number**: 14\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The code imports a module that seems to handle data related to Jupyter notebooks. If this data includes payment card information, it may be subject to PCI DSS. However, without more specific details about what data is being processed and how, it is difficult to provide a more precise analysis.\n\n   **Solution**: Ensure that payment card data is securely stored, transmitted, and disposed of, and that it is not unnecessarily stored. Regularly review and update data handling processes as necessary to maintain compliance.\n\n\n3. **Severity**: 5/10\n\n   **Line Number**: 14\n\n   **Bug Type**: HIPAA\n\n   **Description**: The code imports a module that seems to handle data related to Jupyter notebooks. If this data includes protected health information (PHI), it may be subject to HIPAA. However, without more specific details about what data is being processed and how, it is difficult to provide a more precise analysis.\n\n   **Solution**: Ensure that PHI is securely stored, transmitted, and disposed of, and that it is not unnecessarily stored. Regularly review and update data handling processes as necessary to maintain compliance.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 7,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "The code imports a module that seems to handle data related to Jupyter notebooks. If this data includes personal data of EU citizens, it may be subject to GDPR. However, without more specific details about what data is being processed and how, it is difficult to provide a more precise analysis.",
+                "solution": "Ensure that the data being processed is anonymized or pseudonymized where possible. If personal data must be processed, ensure that appropriate consent is obtained, that data is processed only as necessary, and that it is securely stored and transmitted. Regularly review and update data handling processes as necessary to maintain compliance.",
+                "webLink": "https://gdpr.eu/what-is-gdpr/"
+              },
+              {
+                "lineNumber": 7,
+                "severity": 5,
+                "bugType": "PCI DSS",
+                "description": "The code imports a module that seems to handle data related to Jupyter notebooks. If this data includes payment card information, it may be subject to PCI DSS. However, without more specific details about what data is being processed and how, it is difficult to provide a more precise analysis.",
+                "solution": "Ensure that payment card data is securely stored, transmitted, and disposed of, and that it is not unnecessarily stored. Regularly review and update data handling processes as necessary to maintain compliance.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 7,
+                "severity": 5,
+                "bugType": "HIPAA",
+                "description": "The code imports a module that seems to handle data related to Jupyter notebooks. If this data includes protected health information (PHI), it may be subject to HIPAA. However, without more specific details about what data is being processed and how, it is difficult to provide a more precise analysis.",
+                "solution": "Ensure that PHI is securely stored, transmitted, and disposed of, and that it is not unnecessarily stored. Regularly review and update data handling processes as necessary to maintain compliance.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "import { BoostNotebook, BoostNotebookCell } from '../data/jupyter_notebook';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 7
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 5:37:39 AM PDT\n\nThe line of code you provided is a single import statement from a JavaScript or TypeScript module. This statement is importing a named export, `boostLogging`, from another module located at `'../utilities/boostLogging'`.\n\nThis `boostLogging` is likely a function or an object that contains methods for logging within the application. The exact details of what `boostLogging` is and does would be found within the file at the path `'../utilities/boostLogging'`.\n\nThe `../` at the start of the path indicates that the `boostLogging` module is located in a directory one level up from the current file. From there, it's in a directory named `utilities`. The `.js` or `.ts` extension is typically omitted in import statements, as the JavaScript or TypeScript runtime will automatically add it when resolving the module.\n\nThe purpose of this import statement is to make the `boostLogging` functionality available in the current file, so it can be used for logging operations. This is a common practice in modular programming, where different parts of the application are split into separate modules that can be imported where needed.\n\nThe import/export system in JavaScript and TypeScript is not an algorithm, but rather a feature of the language. It allows for the organization of code into separate modules, each with its own scope, that can export functionality to be imported and used in other modules.\n\nFor more information about import/export in JavaScript and TypeScript, you can refer to these resources:\n- [MDN Web Docs: import statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [TypeScript Handbook: Modules](https://www.typescriptlang.org/docs/handbook/modules.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:40:06 AM PDT\n\n```mermaid\ngraph TD;\nstyle boostLogging fill:#228B22, stroke:#000000, stroke-width:2px;\n\nboostLogging-->NO CONTROL FLOW FOUND;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:41:24 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:43:29 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:46:48 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "import { boostLogging } from '../utilities/boostLogging';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 8
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 5:38:04 AM PDT\n\nThe provided code is a single line of code in TypeScript, a statically typed superset of JavaScript. It's an import statement that is bringing in a specific export from another module.\n\nLet's break it down:\n\n`import { ControllerOutputType } from '../controllers/controllerOutputTypes';`\n\n- `import`: This is a keyword in JavaScript (and therefore TypeScript) that is used to import functions, objects or values from another module or file.\n\n- `{ ControllerOutputType }`: This is the specific item that is being imported. In this case, it's `ControllerOutputType`. The curly braces `{}` are used when you want to import a specific export from a module, as opposed to importing the entire module.\n\n- `from '../controllers/controllerOutputTypes'`: This is the path to the module that contains the export you're importing. The `..` means to go up one directory level. So this is saying, \"Go up one directory level, then go into the `controllers` directory, and import from the `controllerOutputTypes` file.\" \n\nWithout more context, it's hard to say exactly what `ControllerOutputType` is, but given the naming and the architectural blueprint you provided, it's likely that it's a type used in the project's controller classes. This might be an enumeration or a TypeScript interface that defines the shape of the data that the controllers output.\n\nThis type of architecture is consistent with the object-oriented design and event-driven programming principles mentioned in the project blueprint. The `ControllerOutputType` would be used to ensure consistent data structures across the project, which is a common practice in statically typed languages like TypeScript.\n\nFor more information on TypeScript's module system, you can refer to the [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/modules.html)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:40:09 AM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:41:28 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:43:32 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:46:52 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "import { ControllerOutputType } from '../controllers/controllerOutputTypes';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 9
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 5:38:33 AM PDT\n\nThis code is written in TypeScript, a statically typed superset of JavaScript that adds types to the language. The code is importing three constants from a module located at '../data/boostprojectdata_interface'. These constants are likely to be string messages used in the application.\n\nLet's break it down:\n\n1. `import`: This is a keyword in JavaScript and TypeScript that is used to import functions, objects or values from other modules or files. \n\n2. `{ noProjectOpenMessage, extensionNotFullyActivated, extensionFailedToActivate }`: These are the specific items being imported from the module. In this case, they are likely to be constant string messages. The curly braces `{}` are used to import specific exports from a module, not the entire module itself. This is known as named imports.\n\n3. `from '../data/boostprojectdata_interface'`: This is the relative path to the module that contains the items being imported. The '../' means the module is located in a directory one level up from the current file. The 'data' is a subdirectory, and 'boostprojectdata_interface' is the name of the module (without the file extension).\n\nThe algorithms used in this code are not complex. It's simply importing constants from another module. The complexity would come in how these constants are used in the rest of the application.\n\nThis code adheres to the architectural guidelines provided in the blueprint. The use of TypeScript and modules aligns with the object-oriented design and event-driven programming principles. The code is well-structured and makes use of TypeScript features, which is consistent with the best practices for a Visual Studio Code extension.\n\nFor more information on imports in JavaScript and TypeScript, you can check out these resources:\n- [JavaScript Modules: A Beginner’s Guide](https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/)\n- [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/modules.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:40:15 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\n```\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:41:31 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:43:35 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:47:26 AM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 20\n\n   **Bug Type**: GDPR\n\n   **Description**: While the code snippet does not directly deal with user data, it imports modules from 'boostprojectdata_interface' which might be handling user data. If the imported modules are not properly managing user data, it could lead to GDPR compliance issues.\n\n   **Solution**: Ensure that all modules in 'boostprojectdata_interface' are handling user data in compliance with GDPR. This includes obtaining user consent before collecting personal data, encrypting personal data, and providing users with the option to delete their data.\n\n\n2. **Severity**: 2/10\n\n   **Line Number**: 20\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The code snippet does not directly handle payment card data, but it imports modules from 'boostprojectdata_interface' which might be handling such data. If the imported modules are not properly securing payment card data, it could lead to PCI DSS compliance issues.\n\n   **Solution**: Ensure that all modules in 'boostprojectdata_interface' are handling payment card data in compliance with PCI DSS. This includes encrypting cardholder data, maintaining a secure network, and regularly monitoring and testing networks.\n\n\n3. **Severity**: 2/10\n\n   **Line Number**: 20\n\n   **Bug Type**: HIPAA\n\n   **Description**: The code snippet does not directly handle protected health information (PHI), but it imports modules from 'boostprojectdata_interface' which might be handling such data. If the imported modules are not properly securing PHI, it could lead to HIPAA compliance issues.\n\n   **Solution**: Ensure that all modules in 'boostprojectdata_interface' are handling PHI in compliance with HIPAA. This includes implementing physical, network, and process security measures.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 10,
+                "severity": 2,
+                "bugType": "GDPR",
+                "description": "While the code snippet does not directly deal with user data, it imports modules from 'boostprojectdata_interface' which might be handling user data. If the imported modules are not properly managing user data, it could lead to GDPR compliance issues.",
+                "solution": "Ensure that all modules in 'boostprojectdata_interface' are handling user data in compliance with GDPR. This includes obtaining user consent before collecting personal data, encrypting personal data, and providing users with the option to delete their data.",
+                "reference": "https://gdpr.eu/what-is-gdpr/"
+              },
+              {
+                "lineNumber": 10,
+                "severity": 2,
+                "bugType": "PCI DSS",
+                "description": "The code snippet does not directly handle payment card data, but it imports modules from 'boostprojectdata_interface' which might be handling such data. If the imported modules are not properly securing payment card data, it could lead to PCI DSS compliance issues.",
+                "solution": "Ensure that all modules in 'boostprojectdata_interface' are handling payment card data in compliance with PCI DSS. This includes encrypting cardholder data, maintaining a secure network, and regularly monitoring and testing networks.",
+                "reference": "https://www.pcicomplianceguide.org/faq/"
+              },
+              {
+                "lineNumber": 10,
+                "severity": 2,
+                "bugType": "HIPAA",
+                "description": "The code snippet does not directly handle protected health information (PHI), but it imports modules from 'boostprojectdata_interface' which might be handling such data. If the imported modules are not properly securing PHI, it could lead to HIPAA compliance issues.",
+                "solution": "Ensure that all modules in 'boostprojectdata_interface' are handling PHI in compliance with HIPAA. This includes implementing physical, network, and process security measures.",
+                "reference": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "7",
+      "value": "import {\n    noProjectOpenMessage,\n    extensionNotFullyActivated,\n    extensionFailedToActivate\n} from '../data/boostprojectdata_interface';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 10
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 5:38:55 AM PDT\n\nThis code is written in TypeScript, a statically typed superset of JavaScript, and it's part of a Visual Studio Code (VS Code) extension.\n\nLet's break down the code:\n\n1. `const commands = await vscode.commands.getCommands(false);`\n\n   This line uses the `vscode.commands.getCommands` function to retrieve all the commands available in the VS Code environment. This function returns a Promise that resolves to an array of strings, where each string is the identifier of a command. The `await` keyword is used to pause the execution of the function until the Promise resolves. The `false` argument means that it will not return internal commands (those starting with an underscore).\n\n2. `const myCommands = commands.filter((command) => { return command.startsWith(`polyverse-boost-${this._type}`); });`\n\n   This line filters the retrieved commands to only include those that start with a specific prefix. The `Array.prototype.filter` function is used to create a new array with all elements that pass the test implemented by the provided function. In this case, the test is whether the command starts with the string `polyverse-boost-` followed by the value of `this._type`. The `String.prototype.startsWith` function is used to perform this test.\n\nThe algorithm used here is a simple filtering algorithm, where each element in the array is tested against a condition, and a new array is created with only the elements that pass the test.\n\nFor more information on the concepts used in this code, you can refer to the following links:\n\n- [VS Code API - `vscode.commands.getCommands`](https://code.visualstudio.com/api/references/vscode-api#commands.getCommands)\n- [JavaScript/TypeScript - `Array.prototype.filter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)\n- [JavaScript/TypeScript - `String.prototype.startsWith`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith)\n- [JavaScript/TypeScript - `await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await)\n\nRegarding the architectural guidelines, this code seems to follow common practices for a VS Code extension, using the VS Code API to interact with the environment and TypeScript features for static typing and string interpolation. There are no conflicts with the provided guidelines."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:40:23 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExampleErrorPath-->End;\n```\n\nIn the provided code snippet, there is no control flow present. The code is just a comment. Therefore, the string \"NO CONTROL FLOW FOUND\" is returned."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:41:45 AM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 35\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The code is directly referencing objects without verifying the user's authorization to access them. This could potentially allow an attacker to access sensitive data or functionality. More about this type of issue can be found at OWASP: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control\n\n   **Solution**: Ensure proper access control checks are in place before accessing objects. This can be achieved by implementing authorization checks in the application. More about secure coding practices can be found at OWASP: https://owasp.org/www-project-secure-coding-practices-quick-reference-guide\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 20,
+                "severity": 5,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The code is directly referencing objects without verifying the user's authorization to access them. This could potentially allow an attacker to access sensitive data or functionality. More about this type of issue can be found at OWASP: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control",
+                "solution": "Ensure proper access control checks are in place before accessing objects. This can be achieved by implementing authorization checks in the application. More about secure coding practices can be found at OWASP: https://owasp.org/www-project-secure-coding-practices-quick-reference-guide"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:43:54 AM PDT\n\n1. **Severity**: 4/10\n\n   **Line Number**: 34\n\n   **Bug Type**: Memory\n\n   **Description**: The getCommands function is called with an argument of false, which means it will return all commands, including those not visible to the user. This could potentially consume a lot of memory if there are many commands.\n\n   **Solution**: If only visible commands are needed, consider calling getCommands with an argument of true to reduce memory usage.\n\n\n2. **Severity**: 3/10\n\n   **Line Number**: 35\n\n   **Bug Type**: CPU\n\n   **Description**: The filter function is used to iterate over all commands and check if they start with a specific prefix. This could be CPU-intensive if there are many commands.\n\n   **Solution**: Consider using a more efficient data structure or algorithm to store and retrieve commands. For example, commands could be stored in a map with their prefixes as keys for faster retrieval. Here is a resource for understanding Map data structure in JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 19,
+                "severity": 4,
+                "bugType": "Memory",
+                "description": "The getCommands function is called with an argument of false, which means it will return all commands, including those not visible to the user. This could potentially consume a lot of memory if there are many commands.",
+                "solution": "If only visible commands are needed, consider calling getCommands with an argument of true to reduce memory usage."
+              },
+              {
+                "lineNumber": 20,
+                "severity": 3,
+                "bugType": "CPU",
+                "description": "The filter function is used to iterate over all commands and check if they start with a specific prefix. This could be CPU-intensive if there are many commands.",
+                "solution": "Consider using a more efficient data structure or algorithm to store and retrieve commands. For example, commands could be stored in a map with their prefixes as keys for faster retrieval. Here is a resource for understanding Map data structure in JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:47:54 AM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 33\n\n   **Bug Type**: GDPR\n\n   **Description**: The code retrieves all VS commands without checking for user consent. This could potentially lead to the processing of personal data without the user's knowledge or consent, which is a violation of GDPR.\n\n   **Solution**: Ensure that user consent is obtained before processing personal data. This could be achieved through a user prompt or settings option that allows users to opt-in to data processing.\n\n\n2. **Severity**: 3/10\n\n   **Line Number**: 35\n\n   **Bug Type**: PCI DSS\n\n   **Description**: While the code does not directly handle cardholder data, it could potentially be used in an environment where such data is processed. The lack of explicit user consent could potentially lead to a violation of PCI DSS if cardholder data is processed without the user's knowledge or consent.\n\n   **Solution**: Implement a robust user consent mechanism to ensure that any processing of cardholder data is done with the user's knowledge and consent.\n\n\n3. **Severity**: 2/10\n\n   **Line Number**: 35\n\n   **Bug Type**: HIPAA\n\n   **Description**: The code does not appear to handle health information, so the risk of violating HIPAA is low. However, if the code is used in an environment where health information is processed, there could potentially be a risk.\n\n   **Solution**: Ensure that any processing of health information is done in accordance with HIPAA regulations. This includes implementing proper security measures and obtaining user consent before processing health information.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 18,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "The code retrieves all VS commands without checking for user consent. This could potentially lead to the processing of personal data without the user's knowledge or consent, which is a violation of GDPR.",
+                "solution": "Ensure that user consent is obtained before processing personal data. This could be achieved through a user prompt or settings option that allows users to opt-in to data processing.",
+                "webLink": "https://gdpr-info.eu/art-6-gdpr/"
+              },
+              {
+                "lineNumber": 20,
+                "severity": 3,
+                "bugType": "PCI DSS",
+                "description": "While the code does not directly handle cardholder data, it could potentially be used in an environment where such data is processed. The lack of explicit user consent could potentially lead to a violation of PCI DSS if cardholder data is processed without the user's knowledge or consent.",
+                "solution": "Implement a robust user consent mechanism to ensure that any processing of cardholder data is done with the user's knowledge and consent.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/why_security_matters"
+              },
+              {
+                "lineNumber": 20,
+                "severity": 2,
+                "bugType": "HIPAA",
+                "description": "The code does not appear to handle health information, so the risk of violating HIPAA is low. However, if the code is used in an environment where health information is processed, there could potentially be a risk.",
+                "solution": "Ensure that any processing of health information is done in accordance with HIPAA regulations. This includes implementing proper security measures and obtaining user consent before processing health information.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "8",
+      "value": "\n/*\n    // ability to get all VS commands - whether internal or not, filtered by prefix\n    const commands = await vscode.commands.getCommands(false);\n    const myCommands = commands.filter((command) => {\n        return command.startsWith(`polyverse-boost-${this._type}`);\n    });\n",
+      "kind": 2,
+      "metadata": {
+        "id": 8,
+        "type": "originalCode",
+        "lineNumberBase": 15
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 5:39:26 AM PDT\n\nThis code defines a class `BoostMarkdownViewProvider` that implements the `vscode.WebviewViewProvider` interface from Visual Studio Code's API. The class is used to create and manage a webview in VS Code that displays Markdown content. \n\nHere's a breakdown of the class:\n\n### Class Properties\nThe class has several properties:\n- `viewType`: a static readonly property that specifies the type of view this provider is for.\n- `_view`: a private property that holds the current webview view.\n- `_context`: a private property that holds the extension context.\n- `_boostExtension`: a private property that holds an instance of the BoostExtension class.\n- `_type`: a private property that holds the type of the webview view.\n- `_initialized`: a private property that indicates whether the webview view has been initialized.\n- `usefulContent`: a private property that indicates whether the webview view has useful content.\n\n### Constructor\nThe constructor takes four parameters: `context`, `boostExtension`, `type`, and `usefulContent`. It initializes the `_context`, `_boostExtension`, `_type`, and `usefulContent` properties with the provided arguments.\n\n### `resolveWebviewView` Method\nThis is an async method that is used to resolve the webview view. It takes three parameters: `webviewView`, `context`, and `_token`. It uses a try-catch block to handle any errors that may occur while resolving the webview view.\n\n### `_resolveWebviewView` Method\nThis is an async method that is used to resolve the webview view. It sets the `_view` property to the provided `webviewView`, configures the webview's options, sets up an event listener for messages from the webview, and then calls the `refresh` method.\n\n### `refresh` Method\nThis method calls the `_refresh` method inside a try-catch block to handle any errors that may occur.\n\n### `_refresh` Method\nThis is an async method that updates the HTML content of the webview. \n\n### `_getHtmlForWebview` Method\nThis method generates the HTML content for the webview. It uses the `marked` library to parse Markdown content into HTML, and the `lodash.template` function to interpolate variables into an HTML template.\n\nThe algorithm used in this method is as follows:\n1. Define URIs for the required resources (CSS and JS files).\n2. Read the raw HTML content from the file system.\n3. Compile the raw HTML content into a template function.\n4. Define the title and content type based on the `_type` property.\n5. If the Boost extension has not been fully activated or there is no open workspace, return an HTML string with an appropriate message.\n6. Otherwise, read the summary data from the file system and parse it into a BoostNotebook object.\n7. Depending on the `_type` property, find the appropriate cell in the BoostNotebook and extract its value.\n8. If the cell content starts with an error message, format the content accordingly and set `usefulContent` to false.\n9. Otherwise, set the content to the cell content and `usefulContent` to true.\n10. If there is no cell content, set the content to a default message and `usefulContent` to false.\n11. Interpolate the variables into the HTML template and return the resulting HTML string.\n\nFor more information about the VS Code API, see [VS Code API](https://code.visualstudio.com/api/references/vscode-api).\n\nFor more information about the `marked` library, see [Marked.js](https://marked.js.org/).\n\nFor more information about the `lodash.template` function, see [Lodash Documentation](https://lodash.com/docs/4.17.15#template)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:40:36 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExampleErrorPath-->End;\n```\n\nIn the generated control flow graph, the `resolveWebviewView` function is the starting point. It calls the `_resolveWebviewView` function, which in turn calls the `_refresh` function. The `_refresh` function updates the webview with HTML content.\n\nThe primary path through the code is the non-error path, which includes the execution of the `resolveWebviewView`, `_resolveWebviewView`, and `_refresh` functions.\n\nThe error path is triggered when an error occurs in the `resolveWebviewView` function. In this case, the error is caught and logged, but no further action is taken.\n\nNote that the control flow graph does not include external library calls or non-standard function calls, as they are not present in the provided code."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:42:16 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 104\n\n   **Bug Type**: Insecure Use of Cryptography\n\n   **Description**: The code uses a hard-coded nonce 'nonce-123456' in the webview. This can be exploited by attackers to bypass content security policies, leading to potential Cross-Site Scripting (XSS) attacks.\n\n   **Solution**: Generate a random nonce for each new session or request. This can be done using a secure random number generator. More info: [Content Security Policy (CSP)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)\n\n\n2. **Severity**: 6/10\n\n   **Line Number**: 114\n\n   **Bug Type**: Insecure File Handling\n\n   **Description**: The code reads HTML content from a file and uses it directly in a webview. If an attacker can modify this file, they can inject malicious content that will be executed in the webview.\n\n   **Solution**: Ensure that files used in this way are properly secured and cannot be modified by untrusted users or processes. Alternatively, consider storing the HTML content as a string within the code to prevent external modification. More info: [Untrusted File Management](https://owasp.org/www-project-top-ten/2017/A4_2017-XML_External_Entities_(XXE))\n\n\n3. **Severity**: 5/10\n\n   **Line Number**: 90\n\n   **Bug Type**: Cross-Site Scripting (XSS)\n\n   **Description**: The code enables scripts in the webview. If an attacker can control any content that is loaded into the webview, they can execute arbitrary JavaScript in the context of the webview.\n\n   **Solution**: Disable scripts in the webview unless absolutely necessary. If scripts must be enabled, ensure that all content loaded into the webview is properly escaped or sanitized to prevent XSS attacks. More info: [Cross-Site Scripting (XSS)](https://owasp.org/www-community/attacks/xss/)\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 82,
+                "severity": 7,
+                "bugType": "Insecure Use of Cryptography",
+                "description": "The code uses a hard-coded nonce 'nonce-123456' in the webview. This can be exploited by attackers to bypass content security policies, leading to potential Cross-Site Scripting (XSS) attacks.",
+                "solution": "Generate a random nonce for each new session or request. This can be done using a secure random number generator. More info: [Content Security Policy (CSP)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)"
+              },
+              {
+                "lineNumber": 92,
+                "severity": 6,
+                "bugType": "Insecure File Handling",
+                "description": "The code reads HTML content from a file and uses it directly in a webview. If an attacker can modify this file, they can inject malicious content that will be executed in the webview.",
+                "solution": "Ensure that files used in this way are properly secured and cannot be modified by untrusted users or processes. Alternatively, consider storing the HTML content as a string within the code to prevent external modification. More info: [Untrusted File Management](https://owasp.org/www-project-top-ten/2017/A4_2017-XML_External_Entities_(XXE))"
+              },
+              {
+                "lineNumber": 68,
+                "severity": 5,
+                "bugType": "Cross-Site Scripting (XSS)",
+                "description": "The code enables scripts in the webview. If an attacker can control any content that is loaded into the webview, they can execute arbitrary JavaScript in the context of the webview.",
+                "solution": "Disable scripts in the webview unless absolutely necessary. If scripts must be enabled, ensure that all content loaded into the webview is properly escaped or sanitized to prevent XSS attacks. More info: [Cross-Site Scripting (XSS)](https://owasp.org/www-community/attacks/xss/)"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:44:24 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 84\n\n   **Bug Type**: Disk\n\n   **Description**: The use of 'fs.readFileSync' is a blocking operation. It reads the file content synchronously, blocking the Node.js event loop, which can impact performance.\n\n   **Solution**: Replace 'fs.readFileSync' with 'fs.readFile' and use async/await to handle the asynchronous operation. This will allow Node.js to continue processing other requests while waiting for the file reading operation to complete.\n\n\n2. **Severity**: 6/10\n\n   **Line Number**: 111\n\n   **Bug Type**: Disk\n\n   **Description**: The 'fs.existsSync' function is used to check if a file exists before reading it. This is an extra I/O operation which can slow down the application.\n\n   **Solution**: Instead of checking if a file exists before reading it, you can just try to read the file and handle the error, if it occurs. This will eliminate the need for the extra 'fs.existsSync' call.\n\n\n3. **Severity**: 4/10\n\n   **Line Number**: 84\n\n   **Bug Type**: Memory\n\n   **Description**: The use of 'fs.readFileSync' can lead to high memory usage if the file being read is large. This can impact performance and potentially cause the application to run out of memory.\n\n   **Solution**: Consider using a streaming approach to read the file. This will allow you to process the file in chunks, reducing memory usage.\n\n\n4. **Severity**: 5/10\n\n   **Line Number**: 87\n\n   **Bug Type**: CPU\n\n   **Description**: The use of the '_.template' function from the lodash library can be CPU-intensive, especially for large inputs. This can impact performance.\n\n   **Solution**: Consider using a more efficient templating library, or caching the compiled template to avoid recompiling it every time.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 62,
+                "severity": 7,
+                "bugType": "Disk",
+                "description": "The use of 'fs.readFileSync' is a blocking operation. It reads the file content synchronously, blocking the Node.js event loop, which can impact performance.",
+                "solution": "Replace 'fs.readFileSync' with 'fs.readFile' and use async/await to handle the asynchronous operation. This will allow Node.js to continue processing other requests while waiting for the file reading operation to complete."
+              },
+              {
+                "lineNumber": 89,
+                "severity": 6,
+                "bugType": "Disk",
+                "description": "The 'fs.existsSync' function is used to check if a file exists before reading it. This is an extra I/O operation which can slow down the application.",
+                "solution": "Instead of checking if a file exists before reading it, you can just try to read the file and handle the error, if it occurs. This will eliminate the need for the extra 'fs.existsSync' call."
+              },
+              {
+                "lineNumber": 62,
+                "severity": 4,
+                "bugType": "Memory",
+                "description": "The use of 'fs.readFileSync' can lead to high memory usage if the file being read is large. This can impact performance and potentially cause the application to run out of memory.",
+                "solution": "Consider using a streaming approach to read the file. This will allow you to process the file in chunks, reducing memory usage."
+              },
+              {
+                "lineNumber": 65,
+                "severity": 5,
+                "bugType": "CPU",
+                "description": "The use of the '_.template' function from the lodash library can be CPU-intensive, especially for large inputs. This can impact performance.",
+                "solution": "Consider using a more efficient templating library, or caching the compiled template to avoid recompiling it every time."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:48:31 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 47\n\n   **Bug Type**: GDPR\n\n   **Description**: The use of a static nonce 'nonce-123456' in the code can lead to replay attacks compromising user data.\n\n   **Solution**: Generate a unique nonce for each session or request. Nonce should be unpredictable and large enough to prevent guessing attacks.\n\n\n2. **Severity**: 8/10\n\n   **Line Number**: 70\n\n   **Bug Type**: HIPAA\n\n   **Description**: The BoostMarkdownViewProvider class has a 'usefulContent' private variable that could potentially hold sensitive health information. If not properly secured, it could lead to HIPAA compliance issues.\n\n   **Solution**: Ensure that any health-related data stored in 'usefulContent' is properly secured. This may involve encrypting the data at rest and in transit, and ensuring that it is only accessible to authorized individuals.\n\n\n3. **Severity**: 5/10\n\n   **Line Number**: 86\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The 'boostContent' variable could potentially hold sensitive payment card data. If not properly secured, it could lead to PCI DSS compliance issues.\n\n   **Solution**: Ensure that any payment card data stored in 'boostContent' is properly secured. This may involve encrypting the data at rest and in transit, and ensuring that it is only accessible to authorized individuals.\n\n\n4. **Severity**: 7/10\n\n   **Line Number**: 70\n\n   **Bug Type**: GDPR\n\n   **Description**: The 'usefulContent' private variable could potentially hold personal data. If not properly secured, it could lead to GDPR compliance issues.\n\n   **Solution**: Ensure that any personal data stored in 'usefulContent' is properly secured. This may involve encrypting the data at rest and in transit, and ensuring that it is only accessible to authorized individuals.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 25,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The use of a static nonce 'nonce-123456' in the code can lead to replay attacks compromising user data.",
+                "solution": "Generate a unique nonce for each session or request. Nonce should be unpredictable and large enough to prevent guessing attacks.",
+                "webLink": "https://owasp.org/www-community/Using_a_nonce"
+              },
+              {
+                "lineNumber": 48,
+                "severity": 8,
+                "bugType": "HIPAA",
+                "description": "The BoostMarkdownViewProvider class has a 'usefulContent' private variable that could potentially hold sensitive health information. If not properly secured, it could lead to HIPAA compliance issues.",
+                "solution": "Ensure that any health-related data stored in 'usefulContent' is properly secured. This may involve encrypting the data at rest and in transit, and ensuring that it is only accessible to authorized individuals.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              },
+              {
+                "lineNumber": 64,
+                "severity": 5,
+                "bugType": "PCI DSS",
+                "description": "The 'boostContent' variable could potentially hold sensitive payment card data. If not properly secured, it could lead to PCI DSS compliance issues.",
+                "solution": "Ensure that any payment card data stored in 'boostContent' is properly secured. This may involve encrypting the data at rest and in transit, and ensuring that it is only accessible to authorized individuals.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 48,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The 'usefulContent' private variable could potentially hold personal data. If not properly secured, it could lead to GDPR compliance issues.",
+                "solution": "Ensure that any personal data stored in 'usefulContent' is properly secured. This may involve encrypting the data at rest and in transit, and ensuring that it is only accessible to authorized individuals.",
+                "webLink": "https://gdpr-info.eu/"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "9",
+      "value": "*/\n\nexport class BoostMarkdownViewProvider implements vscode.WebviewViewProvider {\n\n\tpublic static readonly viewType = 'polyverse-boost-markdown-view';\n\n\tprivate _view?: vscode.WebviewView;\n\tprivate _context: vscode.ExtensionContext;\n\tprivate _boostExtension: BoostExtension;\n\tprivate _type: string;\n    private _initialized: boolean = false;\n\n\tconstructor(\n\t\tprivate readonly context: vscode.ExtensionContext,\n\t\tprivate boostExtension: BoostExtension,\n\t\tprivate type: string,\n        private usefulContent : boolean = true\n\t) { \n\t\tthis._context = context;\n\t\tthis._boostExtension = boostExtension;\n\t\tthis._type = type;\n\t}\n\n\tpublic async resolveWebviewView(\n\t\twebviewView: vscode.WebviewView,\n\t\tcontext: vscode.WebviewViewResolveContext,\n\t\t_token: vscode.CancellationToken,\n\t) {\n        try {\n            this._resolveWebviewView(webviewView, context, _token);\n        } catch (e) {\n            boostLogging.error(`Could not load Boost Markdown View due to ${e}`, false);\n        }\n    }\n\n\tasync _resolveWebviewView(\n\t\twebviewView: vscode.WebviewView,\n\t\tcontext: vscode.WebviewViewResolveContext,\n\t\t_token: vscode.CancellationToken,\n\t) {\n\t\tthis._view = webviewView;\n\n\t\twebviewView.webview.options = {\n\t\t\t// Allow scripts in the webview\n\t\t\tenableScripts: true,\n\n\t\t\tlocalResourceRoots: [\n\t\t\t\tthis.context.extensionUri\n\t\t\t]\n\t\t};\n    \n\t\twebviewView.webview.onDidReceiveMessage(data => {\n\t\t\tswitch (data.command) {\n\t\t\t\tcase 'initialize-visibility':\n\t\t\t\t\t{\n                        if (!this._initialized && !this.usefulContent) {\n//                            vscode.commands.executeCommand(`polyverse-boost-${this._type}-view.removeView`);\n                        }\n                        break;\n\t\t\t\t\t}\n\t\t\t}\n\t\t});\n\t\tthis.refresh();\n        this._initialized = true;\n    }\n\n    public refresh() {\n        try {\n            this._refresh();\n        } catch (e) {\n            boostLogging.error(`Could not refresh Boost Markdown View due to ${e}`, false);\n        }\n    }\n\n\tasync _refresh() {\n\t\tif (this._view) {\n\t\t\tthis._view.webview.html = this._getHtmlForWebview(this._view.webview);\n\n            this._view.show?.(true);\n\t\t}\n\t}\n\n    private _getHtmlForWebview(webview: vscode.Webview) {\n\t\tconst codiconsUri = webview.asWebviewUri(vscode.Uri.joinPath(this._context.extensionUri, 'node_modules', '@vscode/codicons', 'dist', 'codicon.css'));\n        const htmlPathOnDisk = vscode.Uri.joinPath(this.context.extensionUri, 'resources', 'dashboard', 'markdown.html');\n\t\tconst jsPathOnDisk = vscode.Uri.joinPath(this.context.extensionUri, 'out', 'dashboard', 'markdown', 'main.js');\n        const jsSrc = webview.asWebviewUri(jsPathOnDisk);\n\t\tconst nonce = 'nonce-123456'; // TODO: add a real nonce here\n        const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');\n    \n        const template = _.template(rawHtmlContent);\n\t\tconst convert = marked.parse;\n\t\tconst title = \"Markdown\";\n\n        let contentType;\n        switch (this._type) {\n            case \"doc\":\n                contentType = \"Documentation\";\n                break;\n            case BoostUserAnalysisType.security:\n                contentType = \"Security\";\n                break;\n            case BoostUserAnalysisType.compliance:\n                contentType = \"Compliance\";\n                break;\n            case BoostUserAnalysisType.blueprint:\n                contentType = \"Blueprint\";\n                break;\n            default:\n                break;\n        }\n\n        let boostContent = `Missing Analysis Content found for ${contentType} - please run \"Run Selected Analyses\" to generate content`;\n\n        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];\n\n        let message;\n        if (!this._boostExtension.finishedActivation) {\n            if (!vscode.workspace.workspaceFolders) {\n                message = noProjectOpenMessage;\n            } else {\n                message = extensionNotFullyActivated;\n            }\n        } else if (!this._boostExtension.successfullyActivated) {\n            message = extensionFailedToActivate;\n        } else if (!workspaceFolder) {\n            message = noProjectOpenMessage;\n        }\n        \n        if (message) {\n            return `<html><body><h3>${contentType} Summary</h3><p>${message}</p></body></html>`;\n        }\n\n        const summaryDataUri = getBoostFile(workspaceFolder?.uri, { format: BoostFileType.summary });\n        const boostNotebook = new BoostNotebook();\n        // if we have a summary file, load it\n        let ourCellContent = \"\";\n        if (fs.existsSync(summaryDataUri.fsPath)) {\n            boostNotebook.load(summaryDataUri.fsPath);\n            switch (this._type) {\n                case \"doc\":\n                    ourCellContent = (findCellByKernel(boostNotebook, ControllerOutputType.explain) as BoostNotebookCell)?.value;\n                    ourCellContent = `\\n\\n${(findCellByKernel(boostNotebook, ControllerOutputType.flowDiagram ) as BoostNotebookCell)?.value}`;\n                    break;\n                case BoostUserAnalysisType.security:\n                    ourCellContent = (findCellByKernel(boostNotebook, ControllerOutputType.analyze) as BoostNotebookCell)?.value;\n                    break;\n                case BoostUserAnalysisType.compliance:\n                    ourCellContent = (findCellByKernel(boostNotebook, ControllerOutputType.compliance) as BoostNotebookCell)?.value;\n                    break;\n                case BoostUserAnalysisType.blueprint:\n                    ourCellContent = (findCellByKernel(boostNotebook, ControllerOutputType.blueprint ) as BoostNotebookCell)?.value;\n                    break;\n                default:\n                    ourCellContent = `Unexpected type of Analysis: ${this._type} - Unable to render markdown`;\n                    break;\n            }\n        } else {\n            boostLogging.debug(`No summary file found at ${summaryDataUri.fsPath}`);\n        }\n        if (ourCellContent) {\n            const summaryError = `\"Error: ${contentType} Summary failed: `;\n            if (ourCellContent.startsWith(summaryError)) {\n                boostContent =\n                    `***Error Building ${contentType} Summary***\\n\\n` +\n                    `Please review below error, then run \"Run Selected Analyses\" to regenerate Summary data\\n\\n` +\n                    ourCellContent.substring(summaryError.length);\n                if (boostContent.endsWith(\"\\\"\")) {\n                    boostContent.substring(0, boostContent.length - 1);\n                }\n                this.usefulContent = false;\n            } else {\n                boostContent = ourCellContent;\n                this.usefulContent = true;\n            }\n        } else {\n            boostContent = `***To Generate ${contentType} Summary***\\n\\nPlease check the \"${contentType}\" analysis from the Analysis Summary panel above and press \"Run Selected Analyses\" button`;\n            this.usefulContent = false;\n        }\n        const content = boostContent;\n        const htmlContent = template({ jsSrc, nonce, convert, codiconsUri, content, title});\n    \n        return htmlContent;\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 9,
+        "type": "originalCode",
+        "lineNumberBase": 22
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/dashboard/markdown_view.ts"
+  }
+}

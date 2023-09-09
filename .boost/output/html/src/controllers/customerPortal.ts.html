@@ -1,0 +1,940 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/controllers/customerPortal.ts</h1>
+    <p>Date Generated: Friday, September 8, 2023 at 9:51:35 PM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:48:10 PM PDT</p>
+<p>Executive Level Report:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The project is a Visual Studio Code extension that provides code analysis functionality. It communicates with a remote service for code analysis. The architecture is well-structured and organized into classes. However, the file <code>src/controllers/customerPortal.ts</code> has been identified with several high-severity issues, including Command Injection, Insecure Direct Object References (IDOR), Insecure Randomness, and Cross-site Request Forgery (CSRF). These issues could potentially impact the overall architecture of the project, as they could allow unauthorized access or manipulation of data.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The identified issues present a significant risk to the project. Command Injection, in particular, is a high-risk vulnerability that could allow an attacker to execute arbitrary commands on the system. This could potentially lead to data loss or unauthorized access. The fact that these issues are present in the <code>src/controllers/customerPortal.ts</code> file, which likely plays a crucial role in the project, increases the risk.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: If left unaddressed, these issues could have a significant impact on customers. They could lead to data breaches, loss of customer trust, and potential legal issues. It is crucial to address these issues promptly to mitigate these risks.</p>
+</li>
+<li><p><strong>Overall Issues</strong>: The project has a total of 1 file, all of which have been identified with issues. This represents 100% of the project files. The issues are categorized as 1 Error, 3 Warnings, and 1 Information. The most severe issue is Command Injection, which is categorized as an Error.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: Based on the analysis, the overall health of the project source is concerning. All the files in the project have detected issues, with the most severe being Command Injection. This suggests that the project may have underlying security and quality issues that need to be addressed.</p>
+</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>The project is a Visual Studio Code extension that provides code analysis functionality.</li>
+<li>The file <code>src/controllers/customerPortal.ts</code> has several high-severity issues, including Command Injection, Insecure Direct Object References (IDOR), Insecure Randomness, and Cross-site Request Forgery (CSRF).</li>
+<li>These issues present a significant risk to the project and could have a significant impact on customers.</li>
+<li>All the files in the project have detected issues, with the most severe being Command Injection.</li>
+<li>The overall health of the project source is concerning, suggesting underlying security and quality issues.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:49:41 PM PDT</p>
+<p>Executive Level Report:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The software project appears to be well-structured and follows best practices for a Visual Studio Code extension. It uses object-oriented design, event-driven programming, and asynchronous programming for potentially long-running tasks. However, there is a warning in the <code>customerPortal.ts</code> file related to unnecessary network requests. This could potentially impact the performance and responsiveness of the software, especially if the function <code>fetchGithubSession()</code> is frequently called.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The risk associated with this project is relatively low. Only one file, <code>customerPortal.ts</code>, has been flagged with issues. The issue is of &#39;Warning&#39; severity, indicating that while it&#39;s not a critical problem, it should be addressed to improve the software&#39;s efficiency and performance. The risk could increase if the issue is not addressed and the function in question is used extensively throughout the project.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: Customers may experience slower performance or increased data usage due to the unnecessary network requests. This could lead to a negative user experience, especially for customers with slow or limited internet connections.</p>
+</li>
+<li><p><strong>Overall Issues</strong>: The overall health of the project source is good, with only one file having detected issues. This represents a small percentage of the project files, indicating that the majority of the codebase is free of detected issues. However, it&#39;s important to note that this analysis is based on the provided information and a full review of the project may reveal additional issues.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: Based on the current analysis, the risk to the overall health of the project source is low. The majority of the project files have no detected issues, and the issue that has been detected is of &#39;Warning&#39; severity. However, it&#39;s recommended to address this issue to prevent potential performance problems in the future.</p>
+</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>The project follows best practices for a Visual Studio Code extension and uses object-oriented design, event-driven programming, and asynchronous programming.</li>
+<li>Only one file, <code>customerPortal.ts</code>, has been flagged with issues, indicating a low risk to the overall health of the project source.</li>
+<li>The issue detected is of &#39;Warning&#39; severity and relates to unnecessary network requests, which could impact the software&#39;s performance and responsiveness.</li>
+<li>Customers may experience slower performance or increased data usage due to the unnecessary network requests.</li>
+<li>It&#39;s recommended to address the detected issue to prevent potential performance problems in the future.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:52:00 PM PDT</p>
+<h2 id="executive-report">Executive Report</h2>
+<h3 id="architectural-impact-and-risk-analysis">Architectural Impact and Risk Analysis</h3>
+<p>The software project under review is a Visual Studio Code extension that provides code analysis functionality. The project communicates with a remote service for code analysis, using different endpoints based on the configured stage. The project uses asynchronous programming for potentially long-running tasks, such as communicating with the remote service, which should keep the VS Code UI responsive.</p>
+<p>The analysis of the project&#39;s source code has revealed several issues of varying severity, with the most severe issues being related to the Health Insurance Portability and Accountability Act (HIPAA) compliance. These issues are found in the <code>src/controllers/customerPortal.ts</code> file, which appears to be a critical part of the project as it likely handles the communication with the remote service.</p>
+<h3 id="potential-customer-impact">Potential Customer Impact</h3>
+<p>The identified issues could have a significant impact on the customers, especially if the software handles protected health information (PHI). Non-compliance with HIPAA could lead to legal consequences and loss of customer trust. It is crucial to ensure that any PHI is encrypted in transit and at rest, and that only the minimum necessary amount of data is used and disclosed.</p>
+<h3 id="overall-issues">Overall Issues</h3>
+<p>The project has a total of 1 file, and all of them have been found to have issues. The issues are categorized into Information, Warning, and Error, with the most severe being Error. The issues are related to GDPR, PCI DSS, Data Exposure, and HIPAA.</p>
+<h3 id="risk-assessment">Risk Assessment</h3>
+<p>Given that all the files in the project have issues, the overall health of the project source can be considered as risky. The most severe issues are related to HIPAA, which could have serious legal implications. It is recommended to address these issues as a priority.</p>
+<h3 id="highlights">Highlights</h3>
+<ul>
+<li>The <code>src/controllers/customerPortal.ts</code> file, which likely handles the communication with the remote service, has the most severe issues related to HIPAA compliance.</li>
+<li>All the files in the project have issues, indicating a need for a comprehensive review and refactoring of the code.</li>
+<li>The project uses asynchronous programming for potentially long-running tasks, which should keep the VS Code UI responsive. However, the handling of data, especially PHI, needs to be improved to ensure compliance with HIPAA.</li>
+<li>The project does not appear to use any persistent data storage, which could potentially reduce the risk of data breaches. However, the communication with the remote service needs to be secure to protect the data in transit.</li>
+<li>The project follows best practices for a VS Code extension and makes use of TypeScript features and the VS Code API. However, the identified issues indicate a need for improved error handling and data protection measures.</li>
+</ul>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/controllers/customerPortal.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;axios&quot;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> vscode <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vscode&quot;</span>;
+
+<span class="hljs-keyword">import</span> { BoostConfiguration } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../extension/boostConfiguration&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:41:41 PM PDT</p>
+<p>This code is written in TypeScript, which is a statically typed superset of JavaScript. It&#39;s a small snippet of code, but there&#39;s still a lot to unpack.</p>
+<p>The first line is importing the <code>axios</code> library. Axios is a popular, promise-based HTTP client for the browser and Node.js. It can be used to make HTTP requests to retrieve or send data. It&#39;s particularly useful in this context because it supports Promises, which are a core part of JavaScript&#39;s asynchronous programming features. More information about axios can be found here: <a href="https://axios-http.com/">Axios</a>.</p>
+<p>The second line is importing the <code>vscode</code> module. This is the API that allows extensions to interact with Visual Studio Code. The <code>vscode</code> module contains the vscode.d.ts file that defines the VS Code extensibility API. This is a large API, and includes types, functions, and objects that can be used to interact with the VS Code editor, create webviews, manage workspace settings, and much more. More information about the VS Code API can be found here: <a href="https://code.visualstudio.com/api/references/vscode-api">VS Code API</a>.</p>
+<p>The third line imports a module named <code>BoostConfiguration</code> from a local file located at &quot;../extension/boostConfiguration&quot;. The exact contents of this module are not shown in this snippet, but based on its name and common conventions, we can infer that it likely contains configuration settings or functions related to the &#39;Boost&#39; functionality of this extension.</p>
+<p>In terms of architecture, this code is consistent with common practices for a VS Code extension. It&#39;s modular, with separate files for different parts of the extension (in this case, the Boost configuration). It also uses external libraries (<code>axios</code>) to handle common tasks (HTTP requests), and it interacts with the VS Code API to integrate with the editor.</p>
+<p>This code does not contain any complex algorithms, it&#39;s just importing modules for use in the rest of the application. The axios library does use the Promise pattern, which is a way to handle asynchronous operations in JavaScript. A Promise represents a value that may not be available yet. More information about Promises can be found here: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promises</a>. </p>
+<p>This code does not appear to conflict with any architectural guidelines or constraints, but without more context, it&#39;s hard to say for certain.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:44:50 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style axios fill:#FF8C00, stroke:#000000, stroke-width:2px;
+style vscode fill:#FF8C00, stroke:#000000, stroke-width:2px;
+style BoostConfiguration fill:#FF8C00, stroke:#000000, stroke-width:2px;
+
+Start-->axios;
+Start-->vscode;
+Start-->BoostConfiguration;</pre>
+</code></pre><p>The control flow graph for the provided source code is shown above. The code starts at the function being analyzed and has control flow to three external libraries or non-standard functions: axios, vscode, and BoostConfiguration.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:46:30 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:48:24 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:50:12 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 1</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;axios&#39; library is used for making HTTP requests. If it is used to send or receive personal data, it might be a violation of GDPR if not properly handled.</p>
+<p><strong>Solution</strong>: Ensure that any personal data sent or received with &#39;axios&#39; is done with the user&#39;s consent, is necessary for the service, and is protected during transit. Be sure to implement appropriate data protection measures, such as encryption.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 1</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;vscode&#39; module is imported, which could potentially access user workspace data. If this data includes personal information, it could be a violation of GDPR if not properly handled.</p>
+<p><strong>Solution</strong>: Ensure that any personal data accessed through the &#39;vscode&#39; module is done with the user&#39;s consent, is necessary for the service, and is protected. Implement appropriate data protection measures, such as anonymization or pseudonymization of data.</p>
+</li>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 3</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;BoostConfiguration&#39; is imported, which might be used to store user settings. If these settings include personal data, it could be a violation of GDPR if not properly handled.</p>
+<p><strong>Solution</strong>: Ensure that any personal data stored in &#39;BoostConfiguration&#39; is done with the user&#39;s consent, is necessary for the service, and is protected. Implement appropriate data protection measures, such as encryption.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/customerPortal.ts line 6:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { fetchGithubSession, getCurrentOrganization } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../utilities/authorization&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:42:14 PM PDT</p>
+<p>This is a single line of JavaScript code that imports two functions, <code>fetchGithubSession</code> and <code>getCurrentOrganization</code>, from a module named <code>authorization</code> located in a <code>utilities</code> directory one level up from the current file.</p>
+<p>Let&#39;s break down each part:</p>
+<ul>
+<li><p><code>import</code>: This is a keyword in JavaScript that is part of the ES6 module system. It allows you to include functions, objects, or values from other files in your project so that you can use them in the current file. This is a way to share code across different parts of your application.</p>
+</li>
+<li><p><code>{ fetchGithubSession, getCurrentOrganization }</code>: These are the specific items being imported from the other module. In this case, they are both functions. The curly braces <code>{}</code> are used when you want to import specific named exports from a module. </p>
+</li>
+<li><p><code>from &quot;../utilities/authorization&quot;</code>: This is the relative path to the module that contains the items you&#39;re importing. The <code>..</code> means to go up one directory level. Then it goes into a <code>utilities</code> directory and looks for a file named <code>authorization</code>.</p>
+</li>
+</ul>
+<p>As for what these functions do, we can infer from their names:</p>
+<ul>
+<li><p><code>fetchGithubSession</code>: This function likely interacts with the GitHub API to fetch some kind of session data, perhaps as part of an authentication or authorization process.</p>
+</li>
+<li><p><code>getCurrentOrganization</code>: This function likely returns data about the currently active or selected GitHub organization, perhaps from the session data.</p>
+</li>
+</ul>
+<p>Without more context or the implementation of these functions, it&#39;s hard to say what specific algorithms are used. They likely involve network requests to the GitHub API, and might use standard algorithms for tasks like parsing JSON data.</p>
+<p>As for architectural guidelines, this line of code seems fine. It&#39;s modular, with separate functions handling different tasks, and it makes use of a utilities module, which is a common pattern for organizing shared code. </p>
+<p>For more information about ES6 modules, you can check out this link: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">ES6 Modules</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:44:54 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style fetchGithubSession fill:#228B22, stroke:#000000, stroke-width:2px;
+style getCurrentOrganization fill:#228B22, stroke:#000000, stroke-width:2px;
+
+    Start-->fetchGithubSession;
+    Start-->getCurrentOrganization;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:46:33 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:48:28 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:50:36 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 10</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code imports functions that may be used to fetch user data from Github. If personal data is fetched and processed without proper consent or necessity, it could violate GDPR.</p>
+<p><strong>Solution</strong>: Ensure that explicit consent is obtained from users before fetching their data. Also, only fetch the minimum necessary data.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 10</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: If the fetched data includes cardholder data, it could violate PCI DSS if not handled securely.</p>
+<p><strong>Solution</strong>: Ensure that cardholder data is not stored, processed, or transmitted unless it&#39;s necessary and is done in a secure manner.</p>
+</li>
+<li><p><strong>Severity</strong>: 9/10</p>
+<p><strong>Line Number</strong>: 10</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: If the fetched data includes protected health information (PHI), it could violate HIPAA if not handled securely and with proper consent.</p>
+<p><strong>Solution</strong>: Ensure that PHI is not stored, processed, or transmitted unless it&#39;s necessary, done with proper consent, and in a secure manner.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/customerPortal.ts line 7:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { mapError } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../utilities/error&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:42:43 PM PDT</p>
+<p>The line of code you provided is a simple import statement in JavaScript (or TypeScript, as it&#39;s also valid in that language). This statement is used to include functions, objects, or values from other modules so they can be used in the current module.</p>
+<p>Here&#39;s the breakdown of the line:</p>
+<ul>
+<li><p><code>import</code>: This is a keyword in JavaScript that is used to import functions, objects, or values exported from another module.</p>
+</li>
+<li><p><code>{ mapError }</code>: This is the specific function that is being imported from the module. The curly braces <code>{}</code> are used for named imports. This means that the <code>mapError</code> function is exported with the <code>export</code> keyword in its module.</p>
+</li>
+<li><p><code>from &quot;../utilities/error&quot;</code>: This specifies the path to the module that exports the <code>mapError</code> function. The <code>..</code> means to go up one directory level, then it goes into the <code>utilities</code> directory, and finally, loads the <code>error</code> module.</p>
+</li>
+</ul>
+<p>The <code>mapError</code> function is likely a utility function used throughout the project to handle or transform errors in a specific way. Without more context, it&#39;s hard to say exactly what this function does, but the name suggests it applies a mapping (or transformation) to an error. This could be used for various purposes such as standardizing error messages, translating error codes into user-friendly messages, or adding additional information to errors.</p>
+<p>As for the architectural guidelines, this import statement is a common practice in JavaScript and TypeScript projects and does not seem to conflict with any general architectural guidelines. However, without more specific guidelines or more context about the project, it&#39;s hard to make a definitive judgement.</p>
+<p>For more information about the <code>import</code> and <code>export</code> statements in JavaScript, you can refer to the following resources:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">MDN Web Docs: import</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export">MDN Web Docs: export</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:44:58 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style mapError fill:#228B22, stroke:#000000, stroke-width:2px;
+
+    Start-->mapError;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:46:37 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:48:31 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:50:39 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/customerPortal.ts line 8:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { boostLogging } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../utilities/boostLogging&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:43:08 PM PDT</p>
+<p>The line of code you&#39;ve provided is a single import statement in JavaScript, specifically in Node.js, which is used to include external modules or files into the current file.</p>
+<p>Here&#39;s a breakdown:</p>
+<p><code>import { boostLogging } from &quot;../utilities/boostLogging&quot;;</code></p>
+<p>This is an ES6 (ECMAScript 2015) import statement. It is used to import bindings that are exported by another module. </p>
+<ul>
+<li><p><code>{ boostLogging }</code> is a named import. The curly braces are used to import specific exports from the module. In this case, it&#39;s importing the <code>boostLogging</code> export from the module. This means that the <code>boostLogging</code> module has an export named <code>boostLogging</code>.</p>
+</li>
+<li><p><code>from &quot;../utilities/boostLogging&quot;</code> specifies the module to import from. The string is a path to the module. In this case, it&#39;s a relative path, meaning it&#39;s looking for the <code>boostLogging</code> module in the <code>utilities</code> directory, which is one level up from the current directory (that&#39;s what <code>..</code> means).</p>
+</li>
+</ul>
+<p>The <code>boostLogging</code> module is likely a utility module that provides logging functionality for the Boost application. Since it&#39;s being imported, it&#39;s likely that the current module wants to use this logging functionality. </p>
+<p>Unfortunately, without more code, it&#39;s hard to give a more detailed explanation. However, this import statement is consistent with good architectural practices, as it&#39;s modularizing the logging functionality into its own module and then importing it where it&#39;s needed.</p>
+<p>For more information on ES6 modules and import/export statements, you can check out this <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">MDN Web Docs page</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:45:02 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style boostLogging fill:#228B22, stroke:#000000, stroke-width:2px;
+
+boostLogging-->NO CONTROL FLOW FOUND;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:46:40 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:48:35 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:50:50 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 14</p>
+<p><strong>Bug Type</strong>: General</p>
+<p><strong>Description</strong>: The code imports a module for logging, but it&#39;s unclear how the logs are being handled. Improper logging can lead to data leaks and non-compliance with GDPR, PCI DSS, and HIPAA.</p>
+<p><strong>Solution</strong>: Ensure that the logging module does not log sensitive data. If it does, it must be properly anonymized or pseudonymized. Also, ensure that logs are securely stored and only accessible to authorized individuals. Regularly review and delete logs that are no longer needed.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/customerPortal.ts line 9:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">serviceEndpoint</span><span class="hljs-params">()</span>: string {
+    <span class="hljs-keyword">switch</span> (BoostConfiguration.cloudServiceStage) {
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;local&quot;</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;http://127.0.0.1:8000/customer_portal&quot;</span>;
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;dev&quot;</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;https://hry4lqp3ktulatehaowyzhkbja0mkjob.lambda-url.us-west-2.on.aws/&quot;</span>;
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;test&quot;</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;https://kpxtpi5swejjt6yiflcpspchim0wrhaa.lambda-url.us-west-2.on.aws/&quot;</span>;
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;staging&quot;</span>:
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;prod&quot;</span>:
+        <span class="hljs-keyword">default</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;https://roxbi254sch3yijt7tqbz4s7jq0jxddr.lambda-url.us-west-2.on.aws/&quot;</span>;
+    }
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:43:34 PM PDT</p>
+<p>The provided code is a JavaScript function named <code>serviceEndpoint</code>. This function is used to return the appropriate service endpoint URL based on the current cloud service stage, which is stored in <code>BoostConfiguration.cloudServiceStage</code>.</p>
+<p>Here&#39;s a detailed breakdown of the code:</p>
+<ul>
+<li><p>The function <code>serviceEndpoint</code> does not take any parameters and returns a string.</p>
+</li>
+<li><p>Inside this function, a switch statement is used to determine the value of <code>BoostConfiguration.cloudServiceStage</code>.</p>
+</li>
+<li><p>The <code>BoostConfiguration.cloudServiceStage</code> value is checked against several cases: &quot;local&quot;, &quot;dev&quot;, &quot;test&quot;, &quot;staging&quot;, and &quot;prod&quot;. Depending on which case matches, the function returns a different URL.</p>
+</li>
+<li><p>If <code>BoostConfiguration.cloudServiceStage</code> is &quot;local&quot;, the function returns the local development server URL, &quot;<a href="http://127.0.0.1:8000/customer_portal">http://127.0.0.1:8000/customer_portal</a>&quot;.</p>
+</li>
+<li><p>If the value is &quot;dev&quot;, the function returns the development AWS Lambda URL.</p>
+</li>
+<li><p>If the value is &quot;test&quot;, the function returns the testing AWS Lambda URL.</p>
+</li>
+<li><p>If the value is &quot;staging&quot; or &quot;prod&quot;, or if it&#39;s any value not covered by the other cases (handled by the <code>default</code> case), the function returns the production AWS Lambda URL.</p>
+</li>
+</ul>
+<p>This function uses the Switch Statement algorithm, which is a type of selection control mechanism used to allow the value of a variable or expression to change the control flow of program execution via search and map.</p>
+<p>The function adheres to the architectural guidelines given, as it doesn&#39;t seem to conflict with any specific constraints or guidelines. It is a simple, well-structured function that follows good practices such as using a switch statement for multiple conditions and returning appropriate values in each case.</p>
+<p>For more information about switch statements in JavaScript, you can refer to this link: <a href="https://www.w3schools.com/js/js_switch.asp">JavaScript Switch Statement</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:45:58 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ProcessSwitch;
+ProcessSwitch-->LocalEndpoint;
+ProcessSwitch-->DevEndpoint;
+ProcessSwitch-->TestEndpoint;
+ProcessSwitch-->StagingProdEndpoint;
+LocalEndpoint-->ReturnLocalEndpoint;
+DevEndpoint-->ReturnDevEndpoint;
+TestEndpoint-->ReturnTestEndpoint;
+StagingProdEndpoint-->ReturnStagingProdEndpoint;
+
+style ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+</pre>
+</code></pre><pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ProcessSwitch;
+ProcessSwitch-->LocalEndpoint;
+ProcessSwitch-->DevEndpoint;
+ProcessSwitch-->TestEndpoint;
+ProcessSwitch-->StagingProdEndpoint;
+LocalEndpoint-->ReturnLocalEndpoint;
+DevEndpoint-->ReturnDevEndpoint;
+TestEndpoint-->ReturnTestEndpoint;
+StagingProdEndpoint-->ReturnStagingProdEndpoint;
+
+style ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+</pre>
+</code></pre><pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ProcessSwitch;
+ProcessSwitch-->LocalEndpoint;
+ProcessSwitch-->DevEndpoint;
+ProcessSwitch-->TestEndpoint;
+ProcessSwitch-->StagingProdEndpoint;
+LocalEndpoint-->ReturnLocalEndpoint;
+DevEndpoint-->ReturnDevEndpoint;
+TestEndpoint-->ReturnTestEndpoint;
+StagingProdEndpoint-->ReturnStagingProdEndpoint;
+
+style ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+</pre>
+</code></pre><pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ProcessSwitch;
+ProcessSwitch-->LocalEndpoint;
+ProcessSwitch-->DevEndpoint;
+ProcessSwitch-->TestEndpoint;
+ProcessSwitch-->StagingProdEndpoint;
+LocalEndpoint-->ReturnLocalEndpoint;
+DevEndpoint-->ReturnDevEndpoint;
+TestEndpoint-->ReturnTestEndpoint;
+StagingProdEndpoint-->ReturnStagingProdEndpoint;
+
+style ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+</pre>
+</code></pre><pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ProcessSwitch;
+ProcessSwitch-->LocalEndpoint;
+ProcessSwitch-->DevEndpoint;
+ProcessSwitch-->TestEndpoint;
+ProcessSwitch-->StagingProdEndpoint;
+LocalEndpoint-->ReturnLocalEndpoint;
+DevEndpoint-->ReturnDevEndpoint;
+TestEndpoint-->ReturnTestEndpoint;
+StagingProdEndpoint-->ReturnStagingProdEndpoint;
+
+style ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+</pre>
+</code></pre><pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ProcessSwitch;
+ProcessSwitch-->LocalEndpoint;
+ProcessSwitch-->DevEndpoint;
+ProcessSwitch-->TestEndpoint;
+ProcessSwitch-->StagingProdEndpoint;
+LocalEndpoint-->ReturnLocalEndpoint;
+DevEndpoint-->ReturnDevEndpoint;
+TestEndpoint-->ReturnTestEndpoint;
+StagingProdEndpoint-->ReturnStagingProdEndpoint;
+
+style ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+</pre>
+</code></pre><pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ProcessSwitch;
+ProcessSwitch-->LocalEndpoint;
+ProcessSwitch-->DevEndpoint;
+ProcessSwitch-->TestEndpoint;
+ProcessSwitch-->StagingProdEndpoint;
+LocalEndpoint-->ReturnLocalEndpoint;
+DevEndpoint-->ReturnDevEndpoint;
+TestEndpoint-->ReturnTestEndpoint;
+StagingProdEndpoint-->ReturnStagingProdEndpoint;
+
+style ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+</pre>
+</code></pre><pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ProcessSwitch;
+ProcessSwitch-->LocalEndpoint;
+ProcessSwitch-->DevEndpoint;
+ProcessSwitch-->TestEndpoint;
+ProcessSwitch-->StagingProdEndpoint;
+LocalEndpoint-->ReturnLocalEndpoint;
+DevEndpoint-->ReturnDevEndpoint;
+TestEndpoint-->ReturnTestEndpoint;
+StagingProdEndpoint-->ReturnStagingProdEndpoint;
+
+style ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+</pre>
+</code></pre><pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ProcessSwitch;
+ProcessSwitch-->LocalEndpoint;
+ProcessSwitch-->DevEndpoint;
+ProcessSwitch-->TestEndpoint;
+ProcessSwitch-->StagingProdEndpoint;
+LocalEndpoint-->ReturnLocalEndpoint;
+DevEndpoint-->ReturnDevEndpoint;
+TestEndpoint-->ReturnTestEndpoint;
+StagingProdEndpoint-->ReturnStagingProdEndpoint;
+
+style ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+</pre>
+</code></pre><pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ProcessSwitch;
+ProcessSwitch-->LocalEndpoint;
+ProcessSwitch-->DevEndpoint;
+ProcessSwitch-->TestEndpoint;
+ProcessSwitch-->StagingProdEndpoint;
+LocalEndpoint-->ReturnLocalEndpoint;
+DevEndpoint-->ReturnDevEndpoint;
+TestEndpoint-->ReturnTestEndpoint;
+StagingProdEndpoint-->ReturnStagingProdEndpoint;
+
+style ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;
+style ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:46:56 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 16</p>
+<p><strong>Bug Type</strong>: Insecure Direct Object References (IDOR)</p>
+<p><strong>Description</strong>: The function <code>serviceEndpoint</code> returns different endpoints based on the <code>BoostConfiguration.cloudServiceStage</code> value. If an attacker can manipulate this value, they may be able to access unauthorized endpoints. More about IDOR can be found here: <a href="https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control">https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control</a></p>
+<p><strong>Solution</strong>: Instead of directly using the <code>BoostConfiguration.cloudServiceStage</code> value to determine the endpoint, use a secure method to map these values to the corresponding endpoints. Ensure that the user has the necessary permissions to access the requested endpoint. More about secure coding practices can be found here: <a href="https://cheatsheetseries.owasp.org/cheatsheets/Access_Control_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/Access_Control_Cheat_Sheet.html</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:48:38 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:51:02 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 16</p>
+<p><strong>Bug Type</strong>: Data Exposure</p>
+<p><strong>Description</strong>: The function &#39;serviceEndpoint&#39; is exposing potentially sensitive server information, including internal IP addresses and server URLs. This could be used by malicious actors to target these servers for attacks.</p>
+<p><strong>Solution</strong>: Consider removing hard-coded server URLs and IP addresses. Use environment variables to store this information and access it securely within your application. This makes it more difficult for an attacker to gain access to this information.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/customerPortal.ts line 24:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BoostAuthenticationException</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Error</span> </span>{
+    constructor(message?: string) {
+        <span class="hljs-keyword">super</span>(message);
+        <span class="hljs-keyword">this</span>.name = <span class="hljs-string">&quot;BoostAuthenticationException&quot;</span>;
+    }
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:44:04 PM PDT</p>
+<p>This code is written in TypeScript, which is a statically typed superset of JavaScript that adds types and some other features to the language.</p>
+<p>The code defines a custom exception class called <code>BoostAuthenticationException</code> that extends the built-in <code>Error</code> class in JavaScript. Custom exceptions are useful for creating specific types of error objects in your application, which can then be checked for and handled specifically in your error handling logic.</p>
+<p>Let&#39;s break down the code:</p>
+<ul>
+<li><p><code>export class BoostAuthenticationException extends Error</code>: This line is defining a new class <code>BoostAuthenticationException</code> that extends (or inherits from) the built-in <code>Error</code> class. The <code>export</code> keyword means that this class is exported from this module and can be imported and used in other modules.</p>
+</li>
+<li><p><code>constructor(message?: string)</code>: This line is defining the constructor for the class, which is a special method that is called when a new object is created from a class. The constructor takes one parameter, <code>message</code>, which is optional (<code>?</code>) and should be a string if it is provided.</p>
+</li>
+<li><p><code>super(message);</code>: This line is calling the constructor of the parent class (<code>Error</code>) with the <code>message</code> argument. This is necessary because <code>BoostAuthenticationException</code> extends <code>Error</code>, and the <code>Error</code> constructor needs to be called when a new <code>BoostAuthenticationException</code> is created.</p>
+</li>
+<li><p><code>this.name = &quot;BoostAuthenticationException&quot;;</code>: This line is setting the <code>name</code> property of the <code>BoostAuthenticationException</code> object to the string <code>&quot;BoostAuthenticationException&quot;</code>. The <code>name</code> property is typically used to hold the name of the error type, which can be useful for debugging and error handling.</p>
+</li>
+</ul>
+<p>This code does not contain any specific algorithms, but it uses the concept of object-oriented programming, specifically inheritance, which is a fundamental concept in object-oriented design.</p>
+<p>Here are some useful links for further reading:</p>
+<ul>
+<li><a href="https://www.typescriptlang.org/docs/handbook/classes.html">TypeScript Classes</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">JavaScript Error class</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Object-oriented_programming">Object-oriented programming</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">Inheritance (object-oriented programming)</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:46:02 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->BoostAuthenticationException;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:46:59 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:48:42 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:51:06 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/customerPortal.ts line 31:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">getCustomerStatus</span>(<span class="hljs-params">
+    context: vscode.ExtensionContext
+</span>): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">any</span>&gt; {
+    <span class="hljs-keyword">let</span> session = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetchGithubSession</span>(!context); <span class="hljs-comment">// get the session</span>
+    <span class="hljs-keyword">let</span> organization = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getCurrentOrganization</span>(context);
+    <span class="hljs-keyword">if</span> (!organization) {
+        boostLogging.<span class="hljs-title function_">warn</span>(<span class="hljs-string">&quot;Unable to identify current organization&quot;</span>, <span class="hljs-literal">false</span>);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!session) {
+        boostLogging.<span class="hljs-title function_">warn</span>(<span class="hljs-string">&quot;Unable to identify current GitHub session&quot;</span>, <span class="hljs-literal">false</span>);
+    }
+    <span class="hljs-keyword">let</span> payload = {
+        <span class="hljs-attr">session</span>: session.<span class="hljs-property">accessToken</span>,
+        <span class="hljs-attr">organization</span>: organization,
+    };
+    <span class="hljs-keyword">const</span> headers = {
+        <span class="hljs-comment">// eslint-disable-next-line @typescript-eslint/naming-convention</span>
+        <span class="hljs-string">&quot;User-Agent&quot;</span>: <span class="hljs-string">`Boost-VSCE/<span class="hljs-subst">${BoostConfiguration.version}</span>`</span>,
+    };
+
+    <span class="hljs-keyword">try</span> {
+        <span class="hljs-keyword">if</span> (
+            <span class="hljs-title class_">BoostConfiguration</span>.<span class="hljs-property">serviceFaultInjection</span> &gt; <span class="hljs-number">0</span> &amp;&amp;
+            <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() * <span class="hljs-number">100</span>) &lt;
+                <span class="hljs-title class_">BoostConfiguration</span>.<span class="hljs-property">serviceFaultInjection</span>
+        ) {
+            boostLogging.<span class="hljs-title function_">debug</span>(
+                <span class="hljs-string">`Injecting fault into service request fetching organizations`</span>
+            );
+            <span class="hljs-keyword">await</span> axios.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;https://serviceFaultInjection/synthetic/error/&quot;</span>);
+        }
+
+        <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> axios.<span class="hljs-title function_">post</span>(<span class="hljs-title function_">serviceEndpoint</span>(), payload, {
+            headers,
+        });
+        <span class="hljs-keyword">if</span> (result &amp;&amp; result.<span class="hljs-property">data</span> &amp;&amp; result.<span class="hljs-property">data</span>.<span class="hljs-property">error</span>) {
+            <span class="hljs-comment">// if we have an error, throw it - this is generally happens with the local service shim</span>
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(
+                <span class="hljs-string">`Boost Service failed with a network error: <span class="hljs-subst">${result.data.error}</span>`</span>
+            );
+        }
+        <span class="hljs-keyword">return</span> result.<span class="hljs-property">data</span>;
+    } <span class="hljs-keyword">catch</span> (<span class="hljs-attr">err</span>: <span class="hljs-built_in">any</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_">mapError</span>(err);
+    }
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:44:39 PM PDT</p>
+<p>This code defines an asynchronous function <code>getCustomerStatus</code> which retrieves the status of a customer from a remote service. It uses the <code>vscode.ExtensionContext</code> to fetch the GitHub session and the current organization, then sends a POST request to the service endpoint with the session and organization as the payload.</p>
+<p>Let&#39;s break it down:</p>
+<ol>
+<li><p><code>fetchGithubSession(!context)</code> and <code>getCurrentOrganization(context)</code> are asynchronous operations that fetch GitHub session and current organization respectively. The <code>await</code> keyword is used to pause and resume the async function execution based on the promise returned by these functions.</p>
+</li>
+<li><p>The function checks if the <code>organization</code> and <code>session</code> are available. If not, it logs a warning using <code>boostLogging.warn</code>.</p>
+</li>
+<li><p>The payload for the POST request to the service endpoint is created, containing the session access token and the organization.</p>
+</li>
+<li><p>Headers for the request are defined, including a User-Agent string that includes the version of the Boost VS Code extension.</p>
+</li>
+<li><p>The function checks if the <code>serviceFaultInjection</code> configuration value is greater than 0. If it is, it generates a random number between 0 and 100 and compares it to the <code>serviceFaultInjection</code> value. If the random number is less, it simulates a service fault by making a GET request to a synthetic error URL.</p>
+</li>
+<li><p>The function sends a POST request to the service endpoint using <code>axios.post</code>, with the payload and headers as parameters. </p>
+</li>
+<li><p>If the response contains an error, it throws an error with a message that includes the error from the response.</p>
+</li>
+<li><p>If an error is caught during the execution of the try block, it is passed to the <code>mapError</code> function and the result is returned.</p>
+</li>
+<li><p>If no errors are caught, the function returns the data from the service response.</p>
+</li>
+</ol>
+<p>This code uses the <code>axios</code> library for making HTTP requests, and the <code>Math.random</code> function to generate random numbers for fault injection. It also uses async/await syntax for handling asynchronous operations, and try/catch for error handling.</p>
+<p>More about these topics can be found in the following resources:</p>
+<ul>
+<li><a href="https://axios-http.com/docs/intro">Axios Documentation</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await">Async/Await in JavaScript</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling#exception_handling_statements">Error Handling in JavaScript</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random">Math.random function</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:46:21 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->A;
+A-->B;
+B-->C;
+C-->D;
+D-->E;
+E-->F;
+F-->G;
+G-->H;
+H-->I;
+I-->J;
+J-->K;
+K-->L;
+L-->M;
+M-->N;
+N-->O;
+O-->P;
+P-->Q;
+Q-->R;
+R-->S;
+S-->T;
+T-->U;
+U-->V;
+V-->W;
+W-->X;
+X-->Y;
+Y-->Z;
+Z-->End;
+
+style A fill:#B22222, stroke:#000000, stroke-width:2px;
+style B fill:#B22222, stroke:#000000, stroke-width:2px;
+style C fill:#B22222, stroke:#000000, stroke-width:2px;
+style D fill:#B22222, stroke:#000000, stroke-width:2px;
+style E fill:#B22222, stroke:#000000, stroke-width:2px;
+style F fill:#B22222, stroke:#000000, stroke-width:2px;
+style G fill:#B22222, stroke:#000000, stroke-width:2px;
+style H fill:#B22222, stroke:#000000, stroke-width:2px;
+style I fill:#B22222, stroke:#000000, stroke-width:2px;
+style J fill:#B22222, stroke:#000000, stroke-width:2px;
+style K fill:#B22222, stroke:#000000, stroke-width:2px;
+style L fill:#B22222, stroke:#000000, stroke-width:2px;
+style M fill:#B22222, stroke:#000000, stroke-width:2px;
+style N fill:#B22222, stroke:#000000, stroke-width:2px;
+style O fill:#B22222, stroke:#000000, stroke-width:2px;
+style P fill:#B22222, stroke:#000000, stroke-width:2px;
+style Q fill:#B22222, stroke:#000000, stroke-width:2px;
+style R fill:#B22222, stroke:#000000, stroke-width:2px;
+style S fill:#B22222, stroke:#000000, stroke-width:2px;
+style T fill:#B22222, stroke:#000000, stroke-width:2px;
+style U fill:#B22222, stroke:#000000, stroke-width:2px;
+style V fill:#B22222, stroke:#000000, stroke-width:2px;
+style W fill:#B22222, stroke:#000000, stroke-width:2px;
+style X fill:#B22222, stroke:#000000, stroke-width:2px;
+style Y fill:#B22222, stroke:#000000, stroke-width:2px;
+style Z fill:#B22222, stroke:#000000, stroke-width:2px;
+style End fill:#228B22, stroke:#000000, stroke-width:2px;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:47:30 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 64</p>
+<p><strong>Bug Type</strong>: Insecure Direct Object References (IDOR)</p>
+<p><strong>Description</strong>: The function fetchGithubSession is called with a parameter that is not checked for authenticity or authorization. This can lead to unauthorized access to sensitive information.</p>
+<p><strong>Solution</strong>: Add authorization checks to ensure that the user is allowed to access the information. For more information, refer to the OWASP guide on Insecure Direct Object References: <a href="https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control">https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control</a></p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 75</p>
+<p><strong>Bug Type</strong>: Insecure Randomness</p>
+<p><strong>Description</strong>: The use of Math.random() is not cryptographically secure and could lead to predictable randomness in the system, which could be exploited by an attacker.</p>
+<p><strong>Solution</strong>: Use a cryptographically secure random number generator. For more information, refer to the Mozilla Developer Network guide on this topic: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues">https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues</a></p>
+</li>
+<li><p><strong>Severity</strong>: 9/10</p>
+<p><strong>Line Number</strong>: 77</p>
+<p><strong>Bug Type</strong>: Command Injection</p>
+<p><strong>Description</strong>: The use of axios.get with a constructed URL could potentially allow for command injection if the URL is not properly sanitized.</p>
+<p><strong>Solution</strong>: Ensure that all inputs to the URL are properly sanitized and encoded. For more information, refer to the OWASP guide on Command Injection: <a href="https://owasp.org/www-community/attacks/Command_Injection">https://owasp.org/www-community/attacks/Command_Injection</a></p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 82</p>
+<p><strong>Bug Type</strong>: Cross-site Request Forgery (CSRF)</p>
+<p><strong>Description</strong>: The axios.post request does not include any CSRF protection, which could allow an attacker to perform actions on behalf of the user without their consent.</p>
+<p><strong>Solution</strong>: Add CSRF protection to all state-changing requests. For more information, refer to the OWASP guide on Cross-Site Request Forgery: <a href="https://owasp.org/www-community/attacks/csrf">https://owasp.org/www-community/attacks/csrf</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:49:06 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 62</p>
+<p><strong>Bug Type</strong>: Network</p>
+<p><strong>Description</strong>: The function fetchGithubSession() is called with a negated context. This could potentially lead to unnecessary network requests.</p>
+<p><strong>Solution</strong>: Ensure that the correct argument is passed to fetchGithubSession(). If the context should be negated, consider revising the function to avoid unnecessary network requests.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 72</p>
+<p><strong>Bug Type</strong>: Network</p>
+<p><strong>Description</strong>: A service fault is injected into the service request fetching organizations. This could potentially lead to unnecessary network requests and errors.</p>
+<p><strong>Solution</strong>: Consider removing the service fault injection or revising the condition for injecting the fault to reduce unnecessary network requests and errors.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 79</p>
+<p><strong>Bug Type</strong>: Network</p>
+<p><strong>Description</strong>: The axios.post() function can potentially throw an error if the result contains an error. This could lead to unnecessary network requests if the function is called again to handle the error.</p>
+<p><strong>Solution</strong>: Consider revising the error handling mechanism to avoid unnecessary network requests. For example, the function could return an error response instead of throwing an error.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 61</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The function getCurrentOrganization() is called with the context as an argument. If the context is large, this could potentially lead to high memory usage.</p>
+<p><strong>Solution</strong>: Consider revising the function to only use the necessary parts of the context, or to avoid passing the context as an argument if it is not necessary.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 9:51:35 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 62</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The access token is being sent in the payload of a POST request. This can expose sensitive user information if the connection is not secure.</p>
+<p><strong>Solution</strong>: Use secure methods to transmit sensitive data, such as HTTPS and secure cookies. Also, consider using OAuth 2.0 for authorization, which does not require the exposure of user credentials.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 73</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The code is making an HTTP request to an external service. If this service is used to process, store, or transmit cardholder data, it could be a violation of PCI DSS requirements.</p>
+<p><strong>Solution</strong>: Ensure that all external services used to process, store, or transmit cardholder data are PCI DSS compliant. Also, use secure communication protocols (such as HTTPS) when interacting with these services.</p>
+</li>
+<li><p><strong>Severity</strong>: 9/10</p>
+<p><strong>Line Number</strong>: 76</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: If the data returned from the service includes Protected Health Information (PHI), it may be a violation of HIPAA rules if the data is not properly secured and if minimum necessary use and disclosure principles are not followed.</p>
+<p><strong>Solution</strong>: Ensure that any PHI is encrypted in transit and at rest, and that only the minimum necessary amount of data is used and disclosed. Also, ensure that all services used to process, store, or transmit PHI are HIPAA compliant.</p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>

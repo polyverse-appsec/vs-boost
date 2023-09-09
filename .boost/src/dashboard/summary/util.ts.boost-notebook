@@ -1,0 +1,44 @@
+{
+  "cells": [
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import { vscode } from \"./main\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\nexport function openFile(event) {\n    const path = event.target.getAttribute(\"href\");\n    openFileFromName(path);\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 1
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "\nexport function openFileFromName(path: string) {\n    vscode.postMessage({\n        command: \"open_file\",\n        file: path,\n    });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 6
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/dashboard/summary/util.ts"
+  }
+}

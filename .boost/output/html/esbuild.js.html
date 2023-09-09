@@ -1,0 +1,891 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./esbuild.js</h1>
+    <p>Date Generated: Friday, September 8, 2023 at 5:37:35 PM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:33:47 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:35:35 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:38:13 PM PDT</p>
+<p>Executive Level Report:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The software project is a Visual Studio Code extension that provides code analysis functionality. It communicates with a remote service for code analysis. The architecture is based on object-oriented design and event-driven programming. The main file with issues is <code>esbuild.js</code>. The issues found in this file could potentially impact the overall functionality of the extension, specifically the communication with the remote service for code analysis.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The most severe issues found in the <code>esbuild.js</code> file are related to data privacy and compliance with GDPR, PCI DSS, and HIPAA. These issues could expose sensitive data during transmission, which could lead to legal and reputational risks. The risk is further increased by the fact that the project does not provide any encryption or hashing for data in transit.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: The issues found could potentially impact the customers by exposing their sensitive data during transmission. This could lead to a loss of trust in the product and potential legal issues. The customers could also experience functionality issues if the communication with the remote service for code analysis is impacted.</p>
+</li>
+<li><p><strong>Overall Issues</strong>: The project has a total of 1 file, <code>esbuild.js</code>, which has issues. This represents 100% of the project files. The issues are of high severity and are related to data privacy and compliance with GDPR, PCI DSS, and HIPAA.</p>
+</li>
+</ol>
+<p>Risk Assessment:</p>
+<p>The overall health of the project source is concerning. All the files in the project have issues of high severity. The lack of encryption or hashing for data in transit is a major concern, as it could potentially expose sensitive data. The project needs immediate attention to address these issues and mitigate the risks.</p>
+<p>Highlights of the Analysis:</p>
+<ul>
+<li>The project is a Visual Studio Code extension that provides code analysis functionality. It communicates with a remote service for code analysis.</li>
+<li>The main file with issues is <code>esbuild.js</code>. The issues found in this file could potentially impact the overall functionality of the extension.</li>
+<li>The most severe issues found are related to data privacy and compliance with GDPR, PCI DSS, and HIPAA. These issues could expose sensitive data during transmission.</li>
+<li>The project does not provide any encryption or hashing for data in transit, which could lead to legal and reputational risks.</li>
+<li>All the files in the project have issues of high severity. The project needs immediate attention to address these issues and mitigate the risks.</li>
+</ul>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./esbuild.js :</h2>
+                    <p>Programming Language: javascript</p>
+                    <pre><code><span class="hljs-comment">// BUILD NOTICE: if you modify this file, you need to fully relaunch visual studio code for the changes to take effect</span>
+<span class="hljs-keyword">const</span> { build } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;esbuild&quot;</span>);
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Wednesday, July 12, 2023 at 2:06:17 PM PDT</p>
+<p>This code is written in JavaScript and it&#39;s using the Node.js runtime environment. The code is importing a module named <code>esbuild</code> using the <code>require</code> function that is built into Node.js. The <code>require</code> function is used to load and cache JavaScript modules. </p>
+<p>The <code>esbuild</code> is a JavaScript bundler and minifier. It takes JavaScript code as input, transforms it into a more compact form, and writes the resulting code to a file. This is typically used to prepare JavaScript code for deployment in a production environment, where the smaller file size can lead to faster load times.</p>
+<p>The <code>const { build } = require(&quot;esbuild&quot;);</code> line is using a feature from JavaScript called destructuring assignment to extract the <code>build</code> method from the <code>esbuild</code> module. The <code>build</code> function is used to bundle and minify JavaScript code.</p>
+<p>In terms of algorithms, this code isn&#39;t really using any. It&#39;s just importing a module and extracting a function from it. The <code>esbuild</code> module itself likely uses a variety of algorithms to parse, transform, and generate JavaScript code, but those are not visible from this code snippet.</p>
+<p>As for the architectural guidelines, since there are no specific guidelines or constraints provided, we can only say that this code follows common practices in JavaScript and Node.js development. It&#39;s modular (it uses an external module), and it&#39;s using built-in language features (destructuring assignment) in a straightforward way.</p>
+<p>For more information on <code>esbuild</code>, you can visit its GitHub repository: <a href="https://github.com/evanw/esbuild">https://github.com/evanw/esbuild</a></p>
+<p>And for more information on destructuring assignment in JavaScript, you can read this article on MDN: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment</a></p>
+<p>The comment at the top of the code snippet indicates that if you make changes to this file, you need to fully relaunch Visual Studio Code for the changes to take effect. This is likely because this file is part of the build process, and changes to the build process won&#39;t be picked up until the development environment is restarted.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:31:54 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:33:11 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:34:01 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:35:54 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 1</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code does not appear to handle personal data, so there are no GDPR compliance issues in this snippet.</p>
+<p><strong>Solution</strong>: No action needed.</p>
+</li>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 1</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The code does not appear to handle payment card data, so there are no PCI DSS compliance issues in this snippet.</p>
+<p><strong>Solution</strong>: No action needed.</p>
+</li>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 1</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The code does not appear to handle health information, so there are no HIPAA compliance issues in this snippet.</p>
+<p><strong>Solution</strong>: No action needed.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./esbuild.js line 4:</h2>
+                    <p>Programming Language: javascript</p>
+                    <pre><code>
+<span class="hljs-regexp">//</span>@ts-check
+<span class="hljs-regexp">/** @typedef {import(&#x27;esbuild&#x27;).BuildOptions} BuildOptions **/</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Wednesday, July 12, 2023 at 2:06:54 PM PDT</p>
+<p>This code is written in JavaScript and is using TypeScript and ESBuild. It&#39;s not a complete piece of code but rather a part of a larger codebase, likely a build script or a part of a configuration file. </p>
+<p>Let&#39;s break it down:</p>
+<ol>
+<li><p><code>//@ts-check</code>: This is a directive for the TypeScript compiler. It tells the compiler to check the following JavaScript file for any type errors. This is useful when you&#39;re writing JavaScript but want to leverage some of the type safety features of TypeScript. More about <code>@ts-check</code> can be found <a href="https://www.typescriptlang.org/docs/handbook/intro-to-js-ts.html#ts-check">here</a>.</p>
+</li>
+<li><p><code>/** @typedef {import(&#39;esbuild&#39;).BuildOptions} BuildOptions **/</code>: This line is defining a type alias with TypeScript&#39;s <code>@typedef</code> directive. It&#39;s importing the <code>BuildOptions</code> type from the <code>esbuild</code> package, and aliasing it as <code>BuildOptions</code> in the current scope. This means that anywhere else in the file, <code>BuildOptions</code> can be used to refer to the <code>BuildOptions</code> type from <code>esbuild</code>. More about <code>@typedef</code> can be found <a href="https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html#typedef-callback-and-param">here</a>.</p>
+</li>
+</ol>
+<p><code>esbuild</code> is a JavaScript bundler and minifier. It takes in a bunch of JavaScript files, combines them, and minifies the result for production. The <code>BuildOptions</code> type likely represents the options that can be passed to the <code>build</code> method of <code>esbuild</code>. More about <code>esbuild</code> can be found <a href="https://esbuild.github.io/">here</a>.</p>
+<p>As for the architectural guidelines, since there are no specific guidelines or constraints provided, the general principles of good software design apply. This includes writing clean, maintainable, and efficient code. Given that this is a small snippet, it&#39;s difficult to say much about the architecture, but it does seem to follow good practices: it uses TypeScript for type safety, and <code>esbuild</code> for efficient bundling and minifying of JavaScript.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:32:03 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style KernelController fill:#228B22, stroke:#000000, stroke-width:4px;
+style RemoteService fill:#228B22, stroke:#000000, stroke-width:4px;
+style DisplayResults fill:#228B22, stroke:#000000, stroke-width:4px;
+style ErrorHandling fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->KernelController;
+KernelController-->RemoteService;
+RemoteService-->DisplayResults;
+RemoteService-->ErrorHandling;</pre>
+</code></pre><p>The control flow graph for the provided source code is as follows:</p>
+<ul>
+<li>The starting point is the <code>Start</code> node.</li>
+<li>The <code>Start</code> node leads to the <code>KernelController</code> node.</li>
+<li>The <code>KernelController</code> node leads to the <code>RemoteService</code> node.</li>
+<li>The <code>RemoteService</code> node has two outgoing edges:<ul>
+<li>One edge leads to the <code>DisplayResults</code> node.</li>
+<li>The other edge leads to the <code>ErrorHandling</code> node.</li>
+</ul>
+</li>
+</ul>
+<p>Please note that this is a simplified control flow graph based on the provided code. It does not include all possible paths or details of the code implementation.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:33:15 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:34:05 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:35:58 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./esbuild.js line 7:</h2>
+                    <p>Programming Language: javascript</p>
+                    <pre><code>
+<span class="hljs-comment">/** @type BuildOptions */</span>
+<span class="hljs-type">const</span> baseConfig = {
+  bundle: <span class="hljs-literal">true</span>,
+  minify: process.env.NODE_ENV === <span class="hljs-string">&quot;production&quot;</span>,
+  sourcemap: process.env.NODE_ENV !== <span class="hljs-string">&quot;production&quot;</span>,
+};
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Wednesday, July 12, 2023 at 2:07:24 PM PDT</p>
+<p>The code snippet you shared is a JavaScript object definition. This object, <code>baseConfig</code>, holds configuration options for a build process. The build process could be for a tool like Webpack, Rollup, or esbuild. However, without more context, it&#39;s hard to say which tool this configuration is for.</p>
+<p>Here&#39;s a breakdown of the code:</p>
+<ol>
+<li><p><code>/** @type BuildOptions */</code>: This is a JSDoc comment that is used to provide type information. It suggests that <code>baseConfig</code> should conform to a type called <code>BuildOptions</code>. The actual structure of <code>BuildOptions</code> is not provided in the snippet, but it would be defined elsewhere in the code. This is a form of type checking often used in JavaScript, which is a dynamically-typed language.</p>
+</li>
+<li><p><code>const baseConfig = {}</code>: This line is declaring a constant object named <code>baseConfig</code>. The constant keyword means that the variable cannot be reassigned.</p>
+</li>
+<li><p><code>bundle: true,</code>: This line is setting the <code>bundle</code> property of <code>baseConfig</code> to <code>true</code>. This likely means that the build process should bundle the code together into a single file.</p>
+</li>
+<li><p><code>minify: process.env.NODE_ENV === &quot;production&quot;,</code>: This line is setting the <code>minify</code> property of <code>baseConfig</code> based on the current environment. If the environment is set to &quot;production&quot;, the code will be minified during the build process. Minification is the process of removing unnecessary characters (like white space, new line, comments etc.) from the source code to reduce its size, thereby improving load times.</p>
+</li>
+<li><p><code>sourcemap: process.env.NODE_ENV !== &quot;production&quot;,</code>: This line is setting the <code>sourcemap</code> property of <code>baseConfig</code> based on the current environment. If the environment is not set to &quot;production&quot;, a source map will be generated during the build process. Source maps are files that help debug code by mapping the transformed code back to the original source code.</p>
+</li>
+</ol>
+<p>In terms of algorithms, this code doesn&#39;t really use any. It&#39;s just a simple object definition with some properties set based on the current environment. </p>
+<p>For more information on environment variables in Node.js, you might find this link helpful: <a href="https://nodejs.dev/learn/nodejs-environment-variables">Node.js Environment Variables</a></p>
+<p>For more information on JSDoc comments and type checking in JavaScript, you might find this link helpful: <a href="https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html">Type checking JavaScript Files</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:32:08 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->ExampleProcess;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:33:19 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:34:08 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:36:30 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 14</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code does not seem to handle personal data, but it is still essential to ensure that any data processed, even if it&#39;s non-personal like environment variables, is handled securely. Insecure handling of environment variables can lead to data leaks.</p>
+<p><strong>Solution</strong>: Ensure that environment variables are not exposed inappropriately, especially in a production environment. If any sensitive data is to be handled, consider using secure methods like encryption or tokenization. Also, consider implementing a way to track and control how your data is processed, to comply with GDPR&#39;s accountability principle.</p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 14</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: While the code snippet does not directly handle cardholder data, PCI DSS requires that all systems involved in payment processing be secure. If environment variables are mishandled, it could potentially impact the security of the system.</p>
+<p><strong>Solution</strong>: Ensure that environment variables are securely handled and that production code is not unnecessarily exposed. Regularly test security systems and processes, as required by PCI DSS.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 14</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The code does not process, store, or transmit any Protected Health Information (PHI), so it does not directly fall under HIPAA regulations. However, it&#39;s crucial to ensure that all parts of a system that handles PHI are secure.</p>
+<p><strong>Solution</strong>: If the system this code is part of processes, stores, or transmits PHI, ensure that all parts of the system, including environment variables, are securely handled.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./esbuild.js line 15:</h2>
+                    <p>Programming Language: javascript</p>
+                    <pre><code>
+<span class="hljs-comment">// Config for extension source code (to be run in a Node-based context)</span>
+<span class="hljs-comment">/** @type BuildOptions */</span>
+const extensionC<span class="hljs-attr">onfig</span> <span class="hljs-operator">=</span> <span class="hljs-punctuation">{</span>
+  ...baseConfig,
+<span class="hljs-symbol">  platform:</span> <span class="hljs-string">&quot;node&quot;</span>,
+<span class="hljs-symbol">  mainFields:</span> [<span class="hljs-string">&quot;module&quot;</span>, <span class="hljs-string">&quot;main&quot;</span>],
+<span class="hljs-symbol">  format:</span> <span class="hljs-string">&quot;cjs&quot;</span>,
+<span class="hljs-symbol">  entryPoints:</span> [<span class="hljs-string">&quot;./src/extension.ts&quot;</span>],
+<span class="hljs-symbol">  outfile:</span> <span class="hljs-string">&quot;./out/extension.js&quot;</span>,
+<span class="hljs-symbol">  external:</span> [<span class="hljs-string">&quot;vscode&quot;</span>],
+<span class="hljs-punctuation">};</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Wednesday, July 12, 2023 at 2:08:00 PM PDT</p>
+<p>This code is a configuration for building a Visual Studio Code (VSCode) extension using a tool called esbuild. Esbuild is a fast JavaScript bundler and minifier.</p>
+<p>The configuration is defined in a constant named <code>extensionConfig</code>. It uses the spread operator (<code>...</code>) to include all properties from <code>baseConfig</code>, and then adds or overrides some specific properties.</p>
+<p>Here&#39;s a detailed breakdown of the properties:</p>
+<ol>
+<li><p><code>platform: &quot;node&quot;</code>: This tells esbuild that the code will be run in a Node.js environment. This is typical for VSCode extensions, which are run in a Node.js context.</p>
+</li>
+<li><p><code>mainFields: [&quot;module&quot;, &quot;main&quot;]</code>: This tells esbuild which fields in package.json to look at when resolving modules. The &quot;module&quot; field is a modern alternative to &quot;main&quot; and can point to a version of the code that uses ES6 module syntax.</p>
+</li>
+<li><p><code>format: &quot;cjs&quot;</code>: This tells esbuild to output the code in CommonJS format, which is the module format used by Node.js.</p>
+</li>
+<li><p><code>entryPoints: [&quot;./src/extension.ts&quot;]</code>: This is the entry point for the application. esbuild starts here and follows all import statements to bundle the entire application.</p>
+</li>
+<li><p><code>outfile: &quot;./out/extension.js&quot;</code>: This is where esbuild will write the output bundle.</p>
+</li>
+<li><p><code>external: [&quot;vscode&quot;]</code>: This tells esbuild to leave imports of &quot;vscode&quot; alone and not attempt to bundle this dependency. This is because &quot;vscode&quot; is a global module available in the runtime environment of a VSCode extension, and it doesn&#39;t need to be, and indeed shouldn&#39;t be, bundled.</p>
+</li>
+</ol>
+<p>The algorithm used by esbuild is essentially a dependency graph traversal. It starts at the entry point(s), follows all import statements, and bundles all of the imported code into a single output file.</p>
+<p>For more information about esbuild, you can visit its GitHub repository at <a href="https://github.com/evanw/esbuild">https://github.com/evanw/esbuild</a>. For more information about VSCode extensions, you can visit the VSCode extension API documentation at <a href="https://code.visualstudio.com/api">https://code.visualstudio.com/api</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:32:13 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre><p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:33:23 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:34:11 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:36:34 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./esbuild.js line 27:</h2>
+                    <p>Programming Language: javascript</p>
+                    <pre><code>
+<span class="hljs-comment">// Config for webview source code (to be run in a web-based context)</span>
+<span class="hljs-comment">/** @type BuildOptions */</span>
+const summaryC<span class="hljs-attr">onfig</span> <span class="hljs-operator">=</span> <span class="hljs-punctuation">{</span>
+  ...baseConfig,
+<span class="hljs-symbol">  target:</span> <span class="hljs-string">&quot;es2020&quot;</span>,
+<span class="hljs-symbol">  format:</span> <span class="hljs-string">&quot;esm&quot;</span>,
+<span class="hljs-symbol">  entryPoints:</span> [<span class="hljs-string">&quot;./src/dashboard/summary/main.ts&quot;</span>],
+<span class="hljs-symbol">  outfile:</span> <span class="hljs-string">&quot;./out/dashboard/summary/main.js&quot;</span>,
+<span class="hljs-punctuation">};</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Wednesday, July 12, 2023 at 2:08:36 PM PDT</p>
+<p>This code is using the <code>esbuild</code> tool, a modern and fast JavaScript bundler and minifier. This tool is used to bundle and build JavaScript or TypeScript code for use in a browser or Node.js environment.</p>
+<p>Let&#39;s break down the code:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-comment">/** <span class="hljs-doctag">@type</span> BuildOptions */</span>
+<span class="hljs-keyword">const</span> summaryConfig = {
+  ...baseConfig,
+  <span class="hljs-attr">target</span>: <span class="hljs-string">&quot;es2020&quot;</span>,
+  <span class="hljs-attr">format</span>: <span class="hljs-string">&quot;esm&quot;</span>,
+  <span class="hljs-attr">entryPoints</span>: [<span class="hljs-string">&quot;./src/dashboard/summary/main.ts&quot;</span>],
+  <span class="hljs-attr">outfile</span>: <span class="hljs-string">&quot;./out/dashboard/summary/main.js&quot;</span>,
+};
+</code></pre><p>The <code>summaryConfig</code> object is a configuration object for <code>esbuild</code>.</p>
+<ul>
+<li><p><code>...baseConfig</code>: This line is using the spread operator (<code>...</code>) to take all properties from <code>baseConfig</code> and include them in <code>summaryConfig</code>. This is a common way to reuse and override configuration settings.</p>
+</li>
+<li><p><code>target: &quot;es2020&quot;</code>: This line tells <code>esbuild</code> to compile the code down to ES2020 syntax. This means it will ensure the outputted code can be run in environments that support ES2020.</p>
+</li>
+<li><p><code>format: &quot;esm&quot;</code>: This line specifies that the output format should be ECMAScript modules (ESM). This is a type of JavaScript module system that is natively supported by modern browsers.</p>
+</li>
+<li><p><code>entryPoints: [&quot;./src/dashboard/summary/main.ts&quot;]</code>: This line specifies the entry point of the application, which is the file <code>./src/dashboard/summary/main.ts</code>. This is the starting point for <code>esbuild</code> to begin its bundling process.</p>
+</li>
+<li><p><code>outfile: &quot;./out/dashboard/summary/main.js&quot;</code>: This line tells <code>esbuild</code> where to output the bundled and possibly minified file. In this case, it will be outputted to <code>./out/dashboard/summary/main.js</code>.</p>
+</li>
+</ul>
+<p>This configuration is used when you want to build a specific part of your application, in this case, the <code>summary</code> part of the <code>dashboard</code>. The built file will be outputted to the <code>./out/dashboard/summary/main.js</code> file.</p>
+<p>For more information about <code>esbuild</code> and its configuration options, you can visit the official documentation here: <a href="https://esbuild.github.io/api/">https://esbuild.github.io/api/</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:32:17 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->ExampleProcess;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:33:26 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:34:15 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:36:37 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./esbuild.js line 37:</h2>
+                    <p>Programming Language: javascript</p>
+                    <pre><code>
+<span class="hljs-comment">// Config for webview source code (to be run in a web-based context)</span>
+<span class="hljs-comment">/** @type BuildOptions */</span>
+const chatC<span class="hljs-attr">onfig</span> <span class="hljs-operator">=</span> <span class="hljs-punctuation">{</span>
+  ...baseConfig,
+<span class="hljs-symbol">  target:</span> <span class="hljs-string">&quot;es2020&quot;</span>,
+<span class="hljs-symbol">  format:</span> <span class="hljs-string">&quot;esm&quot;</span>,
+<span class="hljs-symbol">  entryPoints:</span> [<span class="hljs-string">&quot;./src/dashboard/chat/main.ts&quot;</span>],
+<span class="hljs-symbol">  outfile:</span> <span class="hljs-string">&quot;./out/dashboard/chat/main.js&quot;</span>,
+<span class="hljs-punctuation">};</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Wednesday, July 12, 2023 at 2:09:21 PM PDT</p>
+<p>This code is written in JavaScript and it&#39;s part of a build configuration for a module bundler or a build tool. The code is defining the build configuration for a chat module that will be run in a web-based context. The build tool might be something like Webpack, Rollup, or esbuild, but the exact tool isn&#39;t specified in the code provided.</p>
+<p>The configuration object <code>chatConfig</code> is of type <code>BuildOptions</code>. This type is likely defined elsewhere in the project and it specifies the shape of the configuration object.</p>
+<p>The <code>chatConfig</code> object uses the spread operator (<code>...</code>) to inherit properties from <code>baseConfig</code>. This means that all properties from <code>baseConfig</code> will be copied into <code>chatConfig</code>.</p>
+<p>The <code>target</code> property is set to &quot;es2020&quot;. This means that the output code will be in the ECMAScript 2020 format. This is a modern JavaScript standard and it&#39;s supported by all modern browsers.</p>
+<p>The <code>format</code> property is set to &quot;esm&quot;. This means that the output code will be in the ECMAScript module format. This is a standard format for JavaScript modules and it&#39;s supported by all modern browsers and Node.js.</p>
+<p>The <code>entryPoints</code> property is an array that specifies the entry point of the application. In this case, the entry point is a TypeScript file located at &quot;./src/dashboard/chat/main.ts&quot;. This is the file that the build tool will start with when it begins to bundle the code.</p>
+<p>The <code>outfile</code> property specifies the location and name of the output file. In this case, the output file will be a JavaScript file located at &quot;./out/dashboard/chat/main.js&quot;.</p>
+<p>The algorithm used here is a simple object creation and assignment, with a spread operation to copy properties from one object to another. There&#39;s no complex algorithm involved, it&#39;s just a configuration setup.</p>
+<p>For more information on JavaScript object spread syntax, you can refer to this page: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax">Object Spread Syntax</a></p>
+<p>For more information on ECMAScript 2020 and ECMAScript modules, you can refer to these pages: </p>
+<ul>
+<li><a href="https://www.ecma-international.org/ecma-262/11.0/index.html#Title">ECMAScript 2020</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">ECMAScript Modules</a></li>
+</ul>
+<p>Regarding the architectural guidelines, the code doesn&#39;t conflict with any special architectural guidelines or constraints since none were provided.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:32:21 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->ExampleProcess;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:33:29 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:34:18 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:36:56 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 79</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The code does not provide any encryption or hashing for data in transit which could be a violation of GDPR, PCI DSS, and HIPAA compliance. This could potentially expose sensitive data during transmission.</p>
+<p><strong>Solution</strong>: Implement data encryption during transmission. You can use Secure Sockets Layer (SSL) or Transport Layer Security (TLS) for data transmission. Also, consider using hashing algorithms like SHA-256 for data integrity.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 79</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The code does not appear to have any mechanism for access control. This could lead to unauthorized access to sensitive data, violating GDPR, PCI DSS, and HIPAA compliance.</p>
+<p><strong>Solution</strong>: Implement an access control mechanism. This could be role-based access control (RBAC) or access control lists (ACLs).</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./esbuild.js line 47:</h2>
+                    <p>Programming Language: javascript</p>
+                    <pre><code>
+<span class="hljs-comment">// Config for webview source code (to be run in a web-based context)</span>
+<span class="hljs-comment">/** @type BuildOptions */</span>
+const startC<span class="hljs-attr">onfig</span> <span class="hljs-operator">=</span> <span class="hljs-punctuation">{</span>
+  ...baseConfig,
+<span class="hljs-symbol">  target:</span> <span class="hljs-string">&quot;es2020&quot;</span>,
+<span class="hljs-symbol">  format:</span> <span class="hljs-string">&quot;esm&quot;</span>,
+<span class="hljs-symbol">  entryPoints:</span> [<span class="hljs-string">&quot;./src/dashboard/start/main.ts&quot;</span>],
+<span class="hljs-symbol">  outfile:</span> <span class="hljs-string">&quot;./out/dashboard/start/main.js&quot;</span>,
+<span class="hljs-punctuation">};</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Wednesday, July 12, 2023 at 2:09:49 PM PDT</p>
+<p>The provided code is a configuration for the <code>esbuild</code> tool, a JavaScript bundler and minifier. This tool is used to bundle and minify JavaScript and TypeScript code for production environments, making it faster and more efficient to load in a browser.</p>
+<p>The <code>startConfig</code> object is of type <code>BuildOptions</code>, which is a type defined by <code>esbuild</code> that represents the configuration options for a build.</p>
+<p>The <code>...baseConfig</code> syntax is using the JavaScript spread operator to copy properties from <code>baseConfig</code> into <code>startConfig</code>. This is a way to inherit common configuration options from a base configuration.</p>
+<p>The <code>target</code> property is set to &quot;es2020&quot;, which means the output code will be compatible with the ES2020 standard of JavaScript. This is a relatively modern standard, so it may not be compatible with older browsers.</p>
+<p>The <code>format</code> property is set to &quot;esm&quot;, which stands for ECMAScript Modules. This is the modern standard for JavaScript modules and allows for things like static imports and exports.</p>
+<p>The <code>entryPoints</code> property is an array that specifies the entry points for the application. In this case, there is only one entry point: <code>./src/dashboard/start/main.ts</code>. This is the file where the application starts executing.</p>
+<p>The <code>outfile</code> property specifies the output file for the bundled and minified code. In this case, the output file will be <code>./out/dashboard/start/main.js</code>.</p>
+<p>Here is a link to the <code>esbuild</code> documentation for more information: <a href="https://esbuild.github.io/api/#build-api">https://esbuild.github.io/api/#build-api</a></p>
+<p>As the provided code is a configuration for a build tool, it does not contain any specific algorithms. However, <code>esbuild</code> itself uses a number of algorithms for parsing, bundling, and minifying code.</p>
+<p>Regarding the architectural guidelines, since no specific guidelines or constraints are provided, it&#39;s hard to say whether the code is consistent or in conflict with them. However, this code is quite standard for a JavaScript or TypeScript project that uses <code>esbuild</code> for bundling and minifying.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:32:27 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start  -->ExampleProcess;</pre>
+</code></pre><p>The control flow graph for the given source code is a simple linear flow. The start of the graph is the function &quot;Config for webview source code&quot;. There are no external library calls or non-standard function calls in the code.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:33:33 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:34:22 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:36:59 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./esbuild.js line 57:</h2>
+                    <p>Programming Language: javascript</p>
+                    <pre><code>
+<span class="hljs-comment">// Config for webview source code (to be run in a web-based context)</span>
+<span class="hljs-comment">/** @type BuildOptions */</span>
+const markdownC<span class="hljs-attr">onfig</span> <span class="hljs-operator">=</span> <span class="hljs-punctuation">{</span>
+  ...baseConfig,
+<span class="hljs-symbol">  target:</span> <span class="hljs-string">&quot;es2020&quot;</span>,
+<span class="hljs-symbol">  format:</span> <span class="hljs-string">&quot;esm&quot;</span>,
+<span class="hljs-symbol">  entryPoints:</span> [<span class="hljs-string">&quot;./src/dashboard/markdown/main.ts&quot;</span>],
+<span class="hljs-symbol">  outfile:</span> <span class="hljs-string">&quot;./out/dashboard/markdown/main.js&quot;</span>,
+<span class="hljs-punctuation">};</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Wednesday, July 12, 2023 at 2:10:28 PM PDT</p>
+<p>This code is a JavaScript object declaration using ES6 syntax. It is a configuration object for a tool called esbuild. Esbuild is a JavaScript bundler and minifier tool, which means it takes JavaScript code written in various files and combines them into one or more files. It can also transform the code to make it compatible with older browsers or other environments, and can minify it to reduce the file size.</p>
+<p>The configuration object is named <code>markdownConfig</code> and it is declared as an object of type <code>BuildOptions</code>. This is a TypeScript annotation and it means that the <code>markdownConfig</code> object should conform to the structure defined by the <code>BuildOptions</code> type. TypeScript is a statically typed superset of JavaScript that adds types to the language.</p>
+<p>The <code>markdownConfig</code> object is created using the spread operator (<code>...</code>) to copy all properties from <code>baseConfig</code> into the new object. This is a way to reuse common configuration options.</p>
+<p>Then, it sets four specific properties:</p>
+<ol>
+<li><p><code>target</code>: This property is set to &quot;es2020&quot;, which means the output code should be compatible with the ES2020 version of JavaScript. ES2020 is a specific version of the ECMAScript standard, which defines the JavaScript language.</p>
+</li>
+<li><p><code>format</code>: This property is set to &quot;esm&quot;, which stands for ECMAScript Modules. This means the output code should use the ES module syntax, which is a standard way to define and use modules in JavaScript.</p>
+</li>
+<li><p><code>entryPoints</code>: This property is an array that specifies the entry point of the application. In this case, it is set to <code>[&quot;./src/dashboard/markdown/main.ts&quot;]</code>, which means the entry point is the <code>main.ts</code> file in the <code>./src/dashboard/markdown/</code> directory. The entry point is the file where the bundler starts its work, following the imports to other files.</p>
+</li>
+<li><p><code>outfile</code>: This property is set to <code>./out/dashboard/markdown/main.js</code>, which specifies the location and name of the output file that the bundler should create.</p>
+</li>
+</ol>
+<p>For more information about esbuild and its configuration options, you can visit the official esbuild documentation here: <a href="https://esbuild.github.io/api/">https://esbuild.github.io/api/</a>.</p>
+<p>As for the architectural guidelines, since there are no additional special architectural guidelines or constraints specified for this software project, this code seems to be in line with general good practices. The use of a bundler like esbuild helps to manage and organize the codebase, making it easier to develop, maintain, and deploy.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:32:31 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->ExampleProcess;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:33:36 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:34:25 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:37:28 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 115</p>
+<p><strong>Bug Type</strong>: GDPR Compliance</p>
+<p><strong>Description</strong>: The code does not seem to implement any measures to ensure the privacy and protection of user data, which is a requirement under GDPR. The &#39;markdownConfig&#39; object could potentially process user data without proper consent or safeguards.</p>
+<p><strong>Solution</strong>: Consider implementing data protection measures such as encryption, anonymization, or pseudonymization. Ensure that user consent is obtained before processing data, and that users can easily withdraw their consent. Implement measures to ensure data minimization and purpose limitation.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 115</p>
+<p><strong>Bug Type</strong>: PCI DSS Compliance</p>
+<p><strong>Description</strong>: If the application processes, stores, or transmits cardholder data, it must comply with PCI DSS. The current code does not seem to include any measures to ensure the protection of cardholder data.</p>
+<p><strong>Solution</strong>: Consider implementing measures such as encryption, tokenization, or other methods to ensure the protection of cardholder data. Regularly test and monitor the system and networks for vulnerabilities.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 115</p>
+<p><strong>Bug Type</strong>: HIPAA Compliance</p>
+<p><strong>Description</strong>: If the application processes, stores, or transmits Protected Health Information (PHI), it must comply with HIPAA. The current code does not seem to include any measures to ensure the protection of PHI.</p>
+<p><strong>Solution</strong>: Consider implementing measures such as encryption, access controls, or other methods to ensure the protection of PHI. Regularly conduct risk assessments and implement security measures to mitigate identified risks.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./esbuild.js line 68:</h2>
+                    <p>Programming Language: javascript</p>
+                    <pre><code>
+<span class="hljs-comment">// This watch config adheres to the conventions of the esbuild-problem-matchers</span>
+<span class="hljs-comment">// extension (https://github.com/connor4312/esbuild-problem-matchers#esbuild-via-js)</span>
+<span class="hljs-comment">/** @type BuildOptions */</span>
+const watchConfig = {
+  <span class="hljs-attr">watch</span>: {
+    onRebuild(error, result) {
+      <span class="hljs-built_in">console</span>.<span class="hljs-built_in">log</span>(<span class="hljs-string">&quot;[watch] build started&quot;</span>);
+      <span class="hljs-keyword">if</span> (error) {
+        error.errors.forEach(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span>
+          <span class="hljs-built_in">console</span>.error(
+            <span class="hljs-string">`&gt; <span class="hljs-subst">${error.location.file}</span>:<span class="hljs-subst">${error.location.line}</span>:<span class="hljs-subst">${error.location.column}</span>: error: <span class="hljs-subst">${error.<span class="hljs-built_in">text</span>}</span>`</span>
+          )
+        );
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-built_in">console</span>.<span class="hljs-built_in">log</span>(<span class="hljs-string">&quot;[watch] build finished&quot;</span>);
+      }
+    },
+  },
+};
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Wednesday, July 12, 2023 at 2:10:58 PM PDT</p>
+<p>This piece of code is a configuration object for a watch mode in esbuild, a modern JavaScript bundler. The watch mode is used to automatically rebuild your code whenever a file changes. </p>
+<p>The <code>watchConfig</code> object has a <code>watch</code> property which is also an object. This <code>watch</code> object has a method <code>onRebuild</code> that gets called each time esbuild finishes a rebuild. </p>
+<p>The <code>onRebuild</code> method takes two parameters: <code>error</code> and <code>result</code>. </p>
+<p>The <code>error</code> parameter contains information about any errors that occurred during the build. If an error occurs during the build, the <code>onRebuild</code> method logs the file, line, and column where the error occurred, and the error message.</p>
+<p>The <code>result</code> parameter contains information about the build result. If there are no errors during the build, the <code>onRebuild</code> method simply logs that the build has finished.</p>
+<p>The <code>console.log(&quot;[watch] build started&quot;);</code> statement at the beginning of the <code>onRebuild</code> method logs that a build has started each time esbuild starts a rebuild.</p>
+<p>This configuration adheres to the conventions of the esbuild-problem-matchers extension. This is an extension for Visual Studio Code that provides problem matchers for esbuild, enabling the editor to highlight and navigate to errors in your code directly from the build output in the integrated terminal.</p>
+<p>For more information about esbuild and its watch mode, you can refer to the official esbuild documentation: <a href="https://esbuild.github.io/api/#watch">https://esbuild.github.io/api/#watch</a>
+For more information about the esbuild-problem-matchers extension, you can refer to its GitHub page: <a href="https://github.com/connor4312/esbuild-problem-matchers">https://github.com/connor4312/esbuild-problem-matchers</a></p>
+<p>Regarding the architectural guidelines, since there are no additional special architectural guidelines or constraints provided, this code appears to be well-structured and does not seem to conflict with any general software architecture principles.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:32:37 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;
+ExampleProcess-->End;
+ExamplErrorPath-->End;</pre>
+</code></pre><p>The provided code does not contain any control flow.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:33:40 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:35:07 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:37:32 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./esbuild.js line 86:</h2>
+                    <p>Programming Language: javascript</p>
+                    <pre><code>
+// Build script
+(<span class="hljs-name">async</span> () =&gt; {
+  const args = process.argv.slice(<span class="hljs-number">2</span>)<span class="hljs-comment">;</span>
+  try {
+    if (<span class="hljs-name">args</span>.includes(<span class="hljs-string">&quot;--watch&quot;</span>)) {
+      // Build and watch extension and webview code
+      console.log(<span class="hljs-string">&quot;[watch] build started&quot;</span>)<span class="hljs-comment">;</span>
+      await build({
+        ...extensionConfig,
+        ...watchConfig,
+      })<span class="hljs-comment">;</span>
+      await build({
+        ...summaryConfig,
+        ...watchConfig,
+      })<span class="hljs-comment">;</span>
+      await build({
+        ...chatConfig,
+        ...watchConfig
+      })<span class="hljs-comment">;</span>
+      await build({
+        ...startConfig,
+        ...watchConfig
+      })<span class="hljs-comment">;</span>
+      await build({
+        ...markdownConfig,
+        ...watchConfig
+      })<span class="hljs-comment">;</span>
+      console.log(<span class="hljs-string">&quot;[watch] build finished&quot;</span>)<span class="hljs-comment">;</span>
+    } else {
+      // Build extension and webview code
+      await build(<span class="hljs-name">extensionConfig</span>)<span class="hljs-comment">;</span>
+      await build(<span class="hljs-name">summaryConfig</span>)<span class="hljs-comment">;</span>
+      await build(<span class="hljs-name">chatConfig</span>)<span class="hljs-comment">;</span>
+      await build(<span class="hljs-name">startConfig</span>)<span class="hljs-comment">;</span>
+      await build(<span class="hljs-name">markdownConfig</span>)<span class="hljs-comment">;</span>
+      
+      console.log(<span class="hljs-string">&quot;build complete&quot;</span>)<span class="hljs-comment">;</span>
+    }
+  } catch (<span class="hljs-name">err</span>) {
+    process.stderr.write(<span class="hljs-name">err</span>.stderr)<span class="hljs-comment">;</span>
+    process.exit(<span class="hljs-number">1</span>)<span class="hljs-comment">;</span>
+  }
+})()<span class="hljs-comment">;</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Wednesday, July 12, 2023 at 2:11:33 PM PDT</p>
+<p>This is a JavaScript build script that is likely being used to build a project with multiple components or modules. It uses Node.js and is written in an asynchronous manner, meaning actions are performed without blocking the execution of the rest of the script. </p>
+<p>The script begins by invoking an async function immediately after defining it. This is known as an Immediately Invoked Function Expression (IIFE). Inside the function, the command line arguments passed to the script are accessed via <code>process.argv.slice(2)</code>. The <code>slice(2)</code> part is used to remove the first two default arguments, which are the path to the Node.js executable and the path to the script file.</p>
+<p>The script then checks if the <code>--watch</code> argument is included in the command line arguments. If it is, the script enters watch mode, where it continuously monitors the source code files for changes and rebuilds the project whenever a change is detected. This is typically used during development to automatically rebuild the project and see the effects of changes immediately.</p>
+<p>In watch mode, the script calls a <code>build</code> function multiple times with different configurations, each presumably corresponding to a different component or module of the project. The configurations are combined from two sources using the spread operator (<code>...</code>): <code>extensionConfig</code>, <code>summaryConfig</code>, <code>chatConfig</code>, <code>startConfig</code>, <code>markdownConfig</code>, and a <code>watchConfig</code> that likely specifies options related to watch mode.</p>
+<p>If the <code>--watch</code> argument is not included, the script simply builds each component or module once and then exits. In this case, the <code>build</code> function is called with a single configuration argument for each component or module.</p>
+<p>If an error occurs during any of the build operations, the script writes the error message to the standard error stream and exits with a status code of 1 to indicate failure.</p>
+<p>It&#39;s important to note that this script relies on a <code>build</code> function and several configuration objects (<code>extensionConfig</code>, <code>summaryConfig</code>, <code>chatConfig</code>, <code>startConfig</code>, <code>markdownConfig</code>, <code>watchConfig</code>) that are not defined in the provided code. These are likely defined elsewhere in the project.</p>
+<p>As for the architectural guidelines, given that no specific guidelines or constraints are provided, this script appears to be quite standard and flexible. It supports both single-build and watch modes, and it seems to be designed to easily accommodate additional components or modules by simply adding more calls to the <code>build</code> function with the appropriate configuration.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:32:57 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style BuildScript fill:#228B22, stroke:#000000, stroke-width:4px;
+style BuildAndWatch fill:#228B22, stroke:#000000, stroke-width:4px;
+style BuildExtension fill:#228B22, stroke:#000000, stroke-width:4px;
+style BuildSummary fill:#228B22, stroke:#000000, stroke-width:4px;
+style BuildChat fill:#228B22, stroke:#000000, stroke-width:4px;
+style BuildStart fill:#228B22, stroke:#000000, stroke-width:4px;
+style BuildMarkdown fill:#228B22, stroke:#000000, stroke-width:4px;
+style ErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->BuildScript;
+BuildScript-->BuildAndWatch;
+BuildScript-->BuildExtension;
+BuildScript-->BuildSummary;
+BuildScript-->BuildChat;
+BuildScript-->BuildStart;
+BuildScript-->BuildMarkdown;
+BuildAndWatch-->BuildExtension;
+BuildAndWatch-->BuildSummary;
+BuildAndWatch-->BuildChat;
+BuildAndWatch-->BuildStart;
+BuildAndWatch-->BuildMarkdown;
+BuildExtension-->BuildSummary;
+BuildExtension-->BuildChat;
+BuildExtension-->BuildStart;
+BuildExtension-->BuildMarkdown;
+BuildSummary-->BuildChat;
+BuildSummary-->BuildStart;
+BuildSummary-->BuildMarkdown;
+BuildChat-->BuildStart;
+BuildChat-->BuildMarkdown;
+BuildStart-->BuildMarkdown;
+BuildScript-->ErrorPath;
+ErrorPath-->End;</pre>
+</code></pre><p>The control flow graph for the given source code is as follows:</p>
+<pre><code>graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style BuildScript fill:#228B22, stroke:#000000, stroke-width:4px;
+style BuildAndWatch fill:#228B22, stroke:#000000, stroke-width:4px;
+style BuildExtension fill:#228B22, stroke:#000000, stroke-width:4px;
+style BuildSummary fill:#228B22, stroke:#000000, stroke-width:4px;
+style BuildChat fill:#228B22, stroke:#000000, stroke-width:4px;
+style BuildStart fill:#228B22, stroke:#000000, stroke-width:4px;
+style BuildMarkdown fill:#228B22, stroke:#000000, stroke-width:4px;
+style ErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start--&gt;BuildScript;
+BuildScript--&gt;BuildAndWatch;
+BuildScript--&gt;BuildExtension;
+BuildScript--&gt;BuildSummary;
+BuildScript--&gt;BuildChat;
+BuildScript--&gt;BuildStart;
+BuildScript--&gt;BuildMarkdown;
+BuildAndWatch--&gt;BuildExtension;
+BuildAndWatch--&gt;BuildSummary;
+BuildAndWatch--&gt;BuildChat;
+BuildAndWatch--&gt;BuildStart;
+BuildAndWatch--&gt;BuildMarkdown;
+BuildExtension--&gt;BuildSummary;
+BuildExtension--&gt;BuildChat;
+BuildExtension--&gt;BuildStart;
+BuildExtension--&gt;BuildMarkdown;
+BuildSummary--&gt;BuildChat;
+BuildSummary--&gt;BuildStart;
+BuildSummary--&gt;BuildMarkdown;
+BuildChat--&gt;BuildStart;
+BuildChat--&gt;BuildMarkdown;
+BuildStart--&gt;BuildMarkdown;
+BuildScript--&gt;ErrorPath;
+ErrorPath--&gt;End;
+</code></pre><p>The primary path through the code is as follows:</p>
+<ol>
+<li>Start</li>
+<li>BuildScript</li>
+<li>BuildAndWatch</li>
+<li>BuildExtension</li>
+<li>BuildSummary</li>
+<li>BuildChat</li>
+<li>BuildStart</li>
+<li>BuildMarkdown</li>
+<li>End</li>
+</ol>
+<p>The primary path is shown with the primary style. Alternate non-error paths are shown with the default non-colored style. Error paths are shown with the ErrorPath style.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:33:43 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:35:31 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 171</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The build function calls are made sequentially, which could lead to inefficient use of CPU if the build tasks can be run in parallel.</p>
+<p><strong>Solution</strong>: Use Promise.all to run the build tasks in parallel. This can potentially speed up the build process by making better use of CPU resources. Here is an example of how it can be done:</p>
+</li>
+</ol>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">if</span> (args.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;--watch&quot;</span>)) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;[watch] build started&quot;</span>);
+  <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>([
+    <span class="hljs-title function_">build</span>({...extensionConfig, ...watchConfig}),
+    <span class="hljs-title function_">build</span>({...summaryConfig, ...watchConfig}),
+    <span class="hljs-title function_">build</span>({...chatConfig, ...watchConfig}),
+    <span class="hljs-title function_">build</span>({...startConfig, ...watchConfig}),
+    <span class="hljs-title function_">build</span>({...markdownConfig, ...watchConfig})
+  ]);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;[watch] build finished&quot;</span>);
+} <span class="hljs-keyword">else</span> {
+  <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>([
+    <span class="hljs-title function_">build</span>(extensionConfig),
+    <span class="hljs-title function_">build</span>(summaryConfig),
+    <span class="hljs-title function_">build</span>(chatConfig),
+    <span class="hljs-title function_">build</span>(startConfig),
+    <span class="hljs-title function_">build</span>(markdownConfig)
+  ]);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;build complete&quot;</span>);
+}
+</code></pre><p>Reference: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all">JavaScript Promise.all</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 5:37:35 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div>
+</body>
+</html>

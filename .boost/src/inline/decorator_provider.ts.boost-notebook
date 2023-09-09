@@ -1,0 +1,490 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 5:49:52 AM PDT\n\nThis is a very short piece of code that does not contain any algorithms, but I can certainly explain what it does.\n\nThe code is written in TypeScript, a statically typed superset of JavaScript. It imports modules for use in the rest of the script.\n\n```javascript\nimport * as vscode from 'vscode';\n```\nThis line imports the entire `vscode` module, which is a library provided by Visual Studio Code for writing extensions. This module provides functions and objects that allow you to interact with the VS Code editor, such as opening files, displaying messages, and so on. You can learn more about it [here](https://code.visualstudio.com/api/references/vscode-api).\n\n```javascript\nimport * as fs from 'fs';\n```\nThis line imports the entire `fs` module, which is a core Node.js module for working with the file system. It provides functions for reading and writing files, creating directories, and so on. You can learn more about it [here](https://nodejs.org/api/fs.html).\n\n```javascript\nimport {\n    getAnalysisForSourceTarget,\n    generateSingleLineSummaryForAnalysisData\n} from '../extension/vscodeUtilities';\n```\nThis line imports two specific functions from the `vscodeUtilities` module, which is located in the `extension` directory one level up from the current file. The `getAnalysisForSourceTarget` function presumably performs some sort of analysis on a source target, and the `generateSingleLineSummaryForAnalysisData` function presumably generates a single line summary from some analysis data. Without seeing these functions, I can't provide more detail on what they do.\n\nOverall, this code is consistent with the architectural blueprint summary you provided. It uses TypeScript and imports modules, which are common practices in Node.js and VS Code extension development. It also appears to be part of a larger project that provides code analysis functionality, as indicated by the imported functions."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:52:05 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\n```\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:52:51 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:53:35 AM PDT\n\n1. **Severity**: 3/10\n\n   **Line Number**: 1\n\n   **Bug Type**: Memory\n\n   **Description**: The 'vscode' and 'fs' modules are imported in their entirety which can lead to unnecessary memory consumption if only a few functionalities are used.\n\n   **Solution**: Consider importing only the required functions or objects from the modules. This can be achieved by using destructuring assignment. For example, instead of 'import * as vscode from 'vscode';' use 'import { window, workspace } from 'vscode';' if only 'window' and 'workspace' are used from 'vscode'.\n\n\n2. **Severity**: 2/10\n\n   **Line Number**: 5\n\n   **Bug Type**: CPU\n\n   **Description**: The functions 'getAnalysisForSourceTarget' and 'generateSingleLineSummaryForAnalysisData' are imported but not used in the provided code snippet. This could potentially lead to unnecessary CPU usage if these functions are complex and are executed elsewhere in the code.\n\n   **Solution**: Ensure that only necessary functions are imported and executed. Remove unused imports to reduce unnecessary CPU usage.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 1,
+                "severity": 3,
+                "bugType": "Memory",
+                "description": "The 'vscode' and 'fs' modules are imported in their entirety which can lead to unnecessary memory consumption if only a few functionalities are used.",
+                "solution": "Consider importing only the required functions or objects from the modules. This can be achieved by using destructuring assignment. For example, instead of 'import * as vscode from 'vscode';' use 'import { window, workspace } from 'vscode';' if only 'window' and 'workspace' are used from 'vscode'."
+              },
+              {
+                "lineNumber": 5,
+                "severity": 2,
+                "bugType": "CPU",
+                "description": "The functions 'getAnalysisForSourceTarget' and 'generateSingleLineSummaryForAnalysisData' are imported but not used in the provided code snippet. This could potentially lead to unnecessary CPU usage if these functions are complex and are executed elsewhere in the code.",
+                "solution": "Ensure that only necessary functions are imported and executed. Remove unused imports to reduce unnecessary CPU usage."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:55:00 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as vscode from 'vscode';\nimport * as fs from 'fs';\n\nimport {\n    getAnalysisForSourceTarget,\n    generateSingleLineSummaryForAnalysisData\n} from '../extension/vscodeUtilities';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 5:50:23 AM PDT\n\nThis small snippet of code is written in TypeScript, a statically typed superset of JavaScript, and it's part of a larger module in a Visual Studio Code extension. It's responsible for importing modules and functions from other files in the project. \n\nHere's a breakdown of what each line does:\n\n1. `import * as boostnb from '../data/jupyter_notebook';` - This line imports everything from the module located at '../data/jupyter_notebook'. The `* as boostnb` syntax means that all exported members of the module are imported and can be accessed via the `boostnb` prefix. This is likely a module related to handling or interacting with Jupyter notebooks in some way.\n\n2. `import { getBoostFile, BoostCommands } from '../extension/extension';` - This line imports two specific exports from the module located at '../extension/extension'. The `getBoostFile` is likely a function that retrieves a file related to the Boost extension, while `BoostCommands` might be a collection or enumeration of commands that the extension can perform. By using the curly braces `{}`, we're using named imports to only import these two specific exports from the module.\n\nAs for algorithms, this snippet does not contain any. It's simply importing modules and functions to be used elsewhere in the code. \n\nFor more information about modules and import/export syntax in TypeScript, you can refer to the TypeScript documentation:\n\n- [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/modules.html)\n- [TypeScript Handbook: Modules](https://www.typescriptlang.org/docs/handbook/2/modules.html)\n\nRegarding the architectural guidelines, as this code snippet is part of a larger module, it's hard to say definitively whether it's consistent with or conflicts with any architectural guidelines without seeing the rest of the module. However, importing modules and functions is a common practice in many software architectures, and is especially prevalent in JavaScript and TypeScript projects. It's a way to organize code into separate modules, each with a specific purpose, which can then be imported and used where needed. This helps to keep code organized and maintainable."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:52:11 AM PDT\n\n```mermaid\ngraph TD;\nstyle getBoostFile fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle BoostCommands fill:#228B22, stroke:#000000, stroke-width:2px;\n\ngetBoostFile-->BoostCommands;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:52:55 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:53:39 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:55:24 AM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 14\n\n   **Bug Type**: GDPR\n\n   **Description**: The code imports a module 'jupyter_notebook' which might handle user data. If user data is processed or stored without explicit consent, it could lead to GDPR non-compliance.\n\n   **Solution**: Ensure that user consent is obtained before processing personal data, and that personal data is processed in a transparent manner. Also, implement appropriate security measures to protect personal data.\n\n\n2. **Severity**: 6/10\n\n   **Line Number**: 18\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The code imports a module 'extension' which might handle payment data. If payment data is processed or stored without proper security measures, it could lead to PCI DSS non-compliance.\n\n   **Solution**: Ensure that payment data is processed and stored securely, and that access to payment data is restricted to authorized individuals only. Implement strong encryption for payment data during transmission and storage.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 7,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "The code imports a module 'jupyter_notebook' which might handle user data. If user data is processed or stored without explicit consent, it could lead to GDPR non-compliance.",
+                "solution": "Ensure that user consent is obtained before processing personal data, and that personal data is processed in a transparent manner. Also, implement appropriate security measures to protect personal data.",
+                "reference": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 11,
+                "severity": 6,
+                "bugType": "PCI DSS",
+                "description": "The code imports a module 'extension' which might handle payment data. If payment data is processed or stored without proper security measures, it could lead to PCI DSS non-compliance.",
+                "solution": "Ensure that payment data is processed and stored securely, and that access to payment data is restricted to authorized individuals only. Implement strong encryption for payment data during transmission and storage.",
+                "reference": "https://www.pcisecuritystandards.org/pci_security/"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import * as boostnb from '../data/jupyter_notebook';\nimport {\n    getBoostFile,\n    BoostCommands\n} from '../extension/extension'; \n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 7
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 5:50:50 AM PDT\n\nThe line of code you've shared is an import statement in JavaScript (or TypeScript, as both languages use the same syntax for imports). This line of code doesn't contain any algorithms, but it's a fundamental part of the module system in JavaScript.\n\nHere's a detailed explanation:\n\n```javascript\nimport {\n    BoostExtension\n} from '../extension/BoostExtension';\n```\n\nIn this line of code, the `import` keyword is used to import a module into the current file. The module being imported is `BoostExtension`, which is located in the `extension` directory one level up from the current file (as indicated by the `../` in the path).\n\nThe `{ BoostExtension }` syntax is known as named import syntax. This means that the `BoostExtension` module exports an object, function, or value under the name `BoostExtension`, and the current file wants to import specifically that export. If the `BoostExtension` module exported multiple things, this syntax would allow the current file to import only what it needs.\n\nIt's important to note that the file path in the `from` clause is relative to the current file. The `../` at the beginning of the path means to go up one directory level, and the `/extension/BoostExtension` part of the path indicates to look in the `extension` directory for a file named `BoostExtension`.\n\nThis import statement doesn't conflict with any architectural guidelines, as it's a standard practice in JavaScript and TypeScript to organize code into modules and import them where needed. It's a fundamental part of the language's architecture.\n\nFor more information on JavaScript's module system, you can refer to the [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:52:16 AM PDT\n\n```mermaid\ngraph TD;\nstyle BoostExtension fill:#228B22, stroke:#000000, stroke-width:2px;\n\nBoostExtension-->NO CONTROL FLOW FOUND;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:52:59 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:53:42 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:55:28 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import {\n    BoostExtension\n} from '../extension/BoostExtension';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 12
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 5:51:16 AM PDT\n\nThis line of code is a JavaScript import statement that is used to import a specific export from another module. The module being imported here is named 'controllerOutputTypes' and it is located in the 'controllers' directory relative to the current file. The specific export being imported is 'ControllerOutputType'.\n\nThe 'ControllerOutputType' is likely an enumeration, a class, a type, an interface, or a function that is exported from the 'controllerOutputTypes' module. The exact nature of 'ControllerOutputType' would depend on its definition in the 'controllerOutputTypes' module.\n\nThis import statement allows the current module to use 'ControllerOutputType' in its code. For example, it might be used to type a variable or a function parameter, as a constructor for creating new objects, or to call a function, depending on what 'ControllerOutputType' is.\n\nThis code is consistent with the architectural blueprint provided. It uses TypeScript (a superset of JavaScript), and the import statement is a common feature of both TypeScript and modern JavaScript. The use of modules helps to organize code into separate files, each with a specific purpose, which is a good practice in software development.\n\nHere are some resources for further reading:\n- [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/modules.html)\n- [JavaScript import statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [JavaScript Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:52:21 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ControllerOutputType fill:#228B22, stroke:#000000, stroke-width:2px;\n\nStart-->ControllerOutputType;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:53:02 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:53:46 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:55:36 AM PDT\n\n1. **Severity**: 1/10\n\n   **Line Number**: 30\n\n   **Bug Type**: GDPR\n\n   **Description**: The code imports a module but does not use it, which might lead to unnecessary data processing.\n\n   **Solution**: Remove unused imports to minimize data processing.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 15,
+                "severity": 1,
+                "bugType": "GDPR",
+                "description": "The code imports a module but does not use it, which might lead to unnecessary data processing.",
+                "solution": "Remove unused imports to minimize data processing."
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "import { ControllerOutputType } from '../controllers/controllerOutputTypes';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 15
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 5:51:47 AM PDT\n\nThis code defines a class called `DecoratorProvider` which is used in a Visual Studio Code extension to provide functionality for decorating text in the editor, such as highlighting, adding border styles, and creating hover messages. \n\nThe class includes several private properties:\n- `boostLineSelectDecoration` is a decoration type object that defines the style of the decoration.\n- `timeout` is a timer that can be used to delay the update of decorations.\n- `activeEditor` is the currently active text editor.\n- `_activeEditorBoostNotebookShadow` is an instance of `BoostNotebook`, which is used to manage the notebook data.\n- `_context` and `_extension` are the extension context and the instance of the BoostExtension respectively.\n\nIn the constructor, several initializations are done, including creating the decoration type, setting the active editor, and setting up event listeners for changes in the active text editor, changes in the text document, and changes in the text editor selection.\n\nThe `updateDecorations` method is used to update the decorations in the active editor. It loops through each selection in the active editor, gets the analysis results for each selection, generates a single line summary for the analysis data, and creates a decoration for each line in the selection. The decorations are then set in the active editor.\n\nThe `triggerUpdateDecorations` method is used to trigger the update of decorations. It clears any existing timeout and sets a new timeout if `throttle` is true. Otherwise, it immediately updates the decorations.\n\nThe `updateShadowNotebook` method is used to update the shadow notebook. It gets the Boost file for the active editor document, and if the file exists, it loads the notebook data into `_activeEditorBoostNotebookShadow`.\n\nThe class uses the VS Code API extensively and follows the event-driven programming paradigm. It also uses the filesystem module (`fs`) to check if the Boost file exists.\n\nFor more information on the VS Code API, see the [VS Code API documentation](https://code.visualstudio.com/api/references/vscode-api). For more information on event-driven programming, see the [Wikipedia article on event-driven programming](https://en.wikipedia.org/wiki/Event-driven_programming)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:52:37 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle UpdateDecorations fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle UpdateShadowNotebook fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle UpdateDecorationsThrottle fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle UpdateDecorationsNoThrottle fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle UpdateDecorationsError fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle UpdateShadowNotebookError fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle UpdateDecorationsThrottleError fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle UpdateDecorationsNoThrottleError fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->UpdateDecorations;\nStart-->UpdateShadowNotebook;\nUpdateDecorations-->UpdateDecorationsThrottle;\nUpdateDecorations-->UpdateDecorationsNoThrottle;\nUpdateDecorationsThrottle-->UpdateDecorationsError;\nUpdateDecorationsNoThrottle-->UpdateDecorationsError;\nUpdateShadowNotebook-->UpdateShadowNotebookError;\nUpdateDecorationsThrottle-->UpdateDecorationsThrottleError;\nUpdateDecorationsNoThrottle-->UpdateDecorationsNoThrottleError;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:53:06 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:54:24 AM PDT\n\n1. **Severity**: 8/10\n\n   **Line Number**: 80\n\n   **Bug Type**: CPU\n\n   **Description**: The function `getAnalysisForSourceTarget` is called within a loop. This could lead to high CPU usage if there are many selections in the active editor.\n\n   **Solution**: Consider using a more efficient algorithm for this function, or reducing the number of times it is called. If the function is expensive, consider debouncing or throttling it.\n\n\n2. **Severity**: 8/10\n\n   **Line Number**: 81\n\n   **Bug Type**: CPU\n\n   **Description**: The function `generateSingleLineSummaryForAnalysisData` is called within a loop. This could lead to high CPU usage if there are many selections in the active editor.\n\n   **Solution**: Consider using a more efficient algorithm for this function, or reducing the number of times it is called. If the function is expensive, consider debouncing or throttling it.\n\n\n3. **Severity**: 7/10\n\n   **Line Number**: 96\n\n   **Bug Type**: CPU\n\n   **Description**: The function `setDecorations` is called frequently which could lead to high CPU usage.\n\n   **Solution**: Consider using a more efficient algorithm for this function, or reducing the number of times it is called. If the function is expensive, consider debouncing or throttling it.\n\n\n4. **Severity**: 8/10\n\n   **Line Number**: 112\n\n   **Bug Type**: Disk\n\n   **Description**: The function `fs.existsSync` is called in `updateShadowNotebook` method. This could lead to high disk usage if the file system has to be queried frequently.\n\n   **Solution**: Consider caching the result of `fs.existsSync` if the file system state does not change frequently. Alternatively, consider using asynchronous file system operations to avoid blocking the event loop.\n\n\n5. **Severity**: 7/10\n\n   **Line Number**: 114\n\n   **Bug Type**: Memory\n\n   **Description**: A new `BoostNotebook` object is created every time `updateShadowNotebook` is called. This could lead to high memory usage if there are many active editors.\n\n   **Solution**: Consider reusing `BoostNotebook` objects, or using a pool of objects, to reduce memory usage.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 64,
+                "severity": 8,
+                "bugType": "CPU",
+                "description": "The function `getAnalysisForSourceTarget` is called within a loop. This could lead to high CPU usage if there are many selections in the active editor.",
+                "solution": "Consider using a more efficient algorithm for this function, or reducing the number of times it is called. If the function is expensive, consider debouncing or throttling it."
+              },
+              {
+                "lineNumber": 65,
+                "severity": 8,
+                "bugType": "CPU",
+                "description": "The function `generateSingleLineSummaryForAnalysisData` is called within a loop. This could lead to high CPU usage if there are many selections in the active editor.",
+                "solution": "Consider using a more efficient algorithm for this function, or reducing the number of times it is called. If the function is expensive, consider debouncing or throttling it."
+              },
+              {
+                "lineNumber": 80,
+                "severity": 7,
+                "bugType": "CPU",
+                "description": "The function `setDecorations` is called frequently which could lead to high CPU usage.",
+                "solution": "Consider using a more efficient algorithm for this function, or reducing the number of times it is called. If the function is expensive, consider debouncing or throttling it."
+              },
+              {
+                "lineNumber": 96,
+                "severity": 8,
+                "bugType": "Disk",
+                "description": "The function `fs.existsSync` is called in `updateShadowNotebook` method. This could lead to high disk usage if the file system has to be queried frequently.",
+                "solution": "Consider caching the result of `fs.existsSync` if the file system state does not change frequently. Alternatively, consider using asynchronous file system operations to avoid blocking the event loop."
+              },
+              {
+                "lineNumber": 98,
+                "severity": 7,
+                "bugType": "Memory",
+                "description": "A new `BoostNotebook` object is created every time `updateShadowNotebook` is called. This could lead to high memory usage if there are many active editors.",
+                "solution": "Consider reusing `BoostNotebook` objects, or using a pool of objects, to reduce memory usage."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:56:19 AM PDT\n\n1. **Severity**: 3/10\n\n   **Line Number**: 32\n\n   **Bug Type**: Data Privacy\n\n   **Description**: The class DecoratorProvider is storing the active editor instance. This instance may contain sensitive user data.\n\n   **Solution**: Ensure that the active editor instance is not storing any sensitive data. If it is, ensure that it is properly encrypted and secured. Also, consider using a secure method for storing and retrieving this data.\n\n\n2. **Severity**: 2/10\n\n   **Line Number**: 45\n\n   **Bug Type**: Data Privacy\n\n   **Description**: The class DecoratorProvider is storing the context instance. The context may contain sensitive user data.\n\n   **Solution**: Ensure that the context instance is not storing any sensitive data. If it is, ensure that it is properly encrypted and secured. Also, consider using a secure method for storing and retrieving this data.\n\n\n3. **Severity**: 2/10\n\n   **Line Number**: 46\n\n   **Bug Type**: Data Privacy\n\n   **Description**: The class DecoratorProvider is storing the extension instance. The extension may contain sensitive user data.\n\n   **Solution**: Ensure that the extension instance is not storing any sensitive data. If it is, ensure that it is properly encrypted and secured. Also, consider using a secure method for storing and retrieving this data.\n\n\n4. **Severity**: 1/10\n\n   **Line Number**: 74\n\n   **Bug Type**: Data Privacy\n\n   **Description**: The class DecoratorProvider is storing the active editor's selections. These selections may contain sensitive user data.\n\n   **Solution**: Ensure that the selections are not storing any sensitive data. If they are, ensure that they are properly encrypted and secured. Also, consider using a secure method for storing and retrieving this data.\n\n\n5. **Severity**: 2/10\n\n   **Line Number**: 106\n\n   **Bug Type**: Data Privacy\n\n   **Description**: The class DecoratorProvider is storing the active editor's document URI. This URI may contain sensitive user data.\n\n   **Solution**: Ensure that the URI is not storing any sensitive data. If it is, ensure that it is properly encrypted and secured. Also, consider using a secure method for storing and retrieving this data.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 16,
+                "severity": 3,
+                "bugType": "Data Privacy",
+                "description": "The class DecoratorProvider is storing the active editor instance. This instance may contain sensitive user data.",
+                "solution": "Ensure that the active editor instance is not storing any sensitive data. If it is, ensure that it is properly encrypted and secured. Also, consider using a secure method for storing and retrieving this data.",
+                "link": "https://gdpr-info.eu/issues/data-protection/"
+              },
+              {
+                "lineNumber": 29,
+                "severity": 2,
+                "bugType": "Data Privacy",
+                "description": "The class DecoratorProvider is storing the context instance. The context may contain sensitive user data.",
+                "solution": "Ensure that the context instance is not storing any sensitive data. If it is, ensure that it is properly encrypted and secured. Also, consider using a secure method for storing and retrieving this data.",
+                "link": "https://gdpr-info.eu/issues/data-protection/"
+              },
+              {
+                "lineNumber": 30,
+                "severity": 2,
+                "bugType": "Data Privacy",
+                "description": "The class DecoratorProvider is storing the extension instance. The extension may contain sensitive user data.",
+                "solution": "Ensure that the extension instance is not storing any sensitive data. If it is, ensure that it is properly encrypted and secured. Also, consider using a secure method for storing and retrieving this data.",
+                "link": "https://gdpr-info.eu/issues/data-protection/"
+              },
+              {
+                "lineNumber": 58,
+                "severity": 1,
+                "bugType": "Data Privacy",
+                "description": "The class DecoratorProvider is storing the active editor's selections. These selections may contain sensitive user data.",
+                "solution": "Ensure that the selections are not storing any sensitive data. If they are, ensure that they are properly encrypted and secured. Also, consider using a secure method for storing and retrieving this data.",
+                "link": "https://gdpr-info.eu/issues/data-protection/"
+              },
+              {
+                "lineNumber": 90,
+                "severity": 2,
+                "bugType": "Data Privacy",
+                "description": "The class DecoratorProvider is storing the active editor's document URI. This URI may contain sensitive user data.",
+                "solution": "Ensure that the URI is not storing any sensitive data. If it is, ensure that it is properly encrypted and secured. Also, consider using a secure method for storing and retrieving this data.",
+                "link": "https://gdpr-info.eu/issues/data-protection/"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "\nexport class DecoratorProvider {\n    private boostLineSelectDecoration: vscode.TextEditorDecorationType;\n    private timeout: NodeJS.Timer | undefined = undefined;\n    private activeEditor: vscode.TextEditor | undefined;\n    private _activeEditorBoostNotebookShadow: boostnb.BoostNotebook | undefined;\n    private _context: vscode.ExtensionContext;\n    private _extension: BoostExtension;\n\n    constructor(context: vscode.ExtensionContext, extension: BoostExtension) {\n        this._context = context;\n        this._extension = extension;\n\n        this.boostLineSelectDecoration = vscode.window.createTextEditorDecorationType({\n            borderWidth: '1px',\n            borderStyle: 'solid',\n            overviewRulerColor: 'blue',\n            overviewRulerLane: vscode.OverviewRulerLane.Right,\n            light: {\n                borderColor: 'darkblue'\n            },\n            dark: {\n                borderColor: 'lightblue'\n            },\n            opacity: '0.5'\n        });\n\n        this.activeEditor = vscode.window.activeTextEditor;\n\n        this.updateShadowNotebook();\n        this.updateDecorations();\n\n        vscode.window.onDidChangeActiveTextEditor(editor => {\n            this.activeEditor = editor;\n            if (editor) {\n                this.updateShadowNotebook();\n                this.triggerUpdateDecorations();\n            }\n        }, null, context.subscriptions);\n\n        vscode.workspace.onDidChangeTextDocument(event => {\n            if (this.activeEditor && event.document === this.activeEditor.document) {\n                this.updateShadowNotebook();\n                this.triggerUpdateDecorations(true);\n            }\n        }, null, context.subscriptions);\n\n        vscode.window.onDidChangeTextEditorSelection(\n            (event) => {\n                if (event.textEditor === this.activeEditor) {\n                    this.updateDecorations();\n                }\n            },\n            null,\n            context.subscriptions\n        );\n    }\n\n    private updateDecorations() {\n        if (!this.activeEditor || !this._activeEditorBoostNotebookShadow) {\n            return;\n        }\n\n        const decorations: vscode.DecorationOptions[] = [];\n\n        for (const selection of this.activeEditor.selections) {\n            const startLine = selection.start.line;\n            const endLine = selection.end.line;\n            const results = getAnalysisForSourceTarget(this._activeEditorBoostNotebookShadow, undefined, selection, [ ControllerOutputType.flowDiagram]);\n            const lineSummary = generateSingleLineSummaryForAnalysisData(this._extension, this._activeEditorBoostNotebookShadow, selection);\n    \n            if( !results || results.length === 0 ) {\n                continue;\n            }\n            for (let lineNum = startLine; lineNum <= endLine; lineNum++) {\n                const line = this.activeEditor.document.lineAt(lineNum);\n                const startPos = new vscode.Position(lineNum, line.text.length);\n                const endPos = new vscode.Position(lineNum, line.text.length);\n\n                const md = new vscode.MarkdownString(\n                    `[Run command](command:${boostnb.NOTEBOOK_TYPE + \".\" + BoostCommands.showGuidelines}) *Hello* from Boost!`\n                );\n                md.isTrusted = true;\n                const decoration = {\n                    range: new vscode.Range(startPos, endPos),\n                    hoverMessage: new vscode.MarkdownString(results.join('\\n')),\n                    renderOptions: {\n                        after: {\n                            contentText: `   Boost Analysis: ${lineSummary}`,\n                            color: 'rgba(150, 150, 150, 0.5)'  // grayed out with 50% transparency\n                        }\n                    }\n                };\n\n                decorations.push(decoration);\n            }\n        }\n    \n        this.activeEditor.setDecorations(this.boostLineSelectDecoration, decorations);\n    }\n\n    private triggerUpdateDecorations(throttle = false) {\n        if (this.timeout) {\n            clearTimeout(this.timeout);\n            this.timeout = undefined;\n        }\n        if (throttle) {\n            this.timeout = setTimeout(() => this.updateDecorations(), 500);\n        } else {\n            this.updateDecorations();\n        }\n    }\n\n    private updateShadowNotebook() {\n        if (!this.activeEditor) {\n            return;\n        }\n\n        const boostUri = getBoostFile(this.activeEditor.document.uri);\n        if (!boostUri) {\n            return;\n        }\n        //now load the notebook\n        const boostNotebook = new boostnb.BoostNotebook();\n        if (fs.existsSync(boostUri.fsPath)) {\n            boostNotebook.load(boostUri.fsPath);\n            this._activeEditorBoostNotebookShadow = boostNotebook;\n        } else {\n            this._activeEditorBoostNotebookShadow = undefined;\n        }\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 16
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/inline/decorator_provider.ts"
+  }
+}

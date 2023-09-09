@@ -5,13 +5,78 @@
         {
           "items": [
             {
-              "mime": "application/vnd.code.notebook.error",
-              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:10:45 PM PDT\n\nThis code is written in TypeScript, a statically typed superset of JavaScript that adds types and other features to the language. The code is part of a Visual Studio Code (VS Code) extension, which is a software add-on that extends the functionality of VS Code.\n\nThe code is importing modules from two different sources:\n\n1. `import * as vscode from 'vscode';`  \nThis line imports the entire `vscode` module and assigns it to the variable `vscode`. The `vscode` module is the API for interacting with VS Code. It provides functions, classes, and interfaces for interacting with the editor, creating UI elements, handling events, and more.\n\n2. `import { getRandomTestSourceFile } from '../suite/utils';`  \nThis line imports a specific function named `getRandomTestSourceFile` from a module located at '../suite/utils'. The relative path indicates that the utils module is in a directory named 'suite', which is a sibling directory to the directory containing the current file. The `getRandomTestSourceFile` function is not defined in the provided code, but based on its name, it likely returns a random test source file from a suite of tests.\n\nThe exact functionality of these imports will depend on the rest of the code in the file, which is not provided.\n\nRemember, in TypeScript, the `import` statement is used to import functions, objects or values from other modules (i.e., other files). This is part of the ES6 module system, which TypeScript supports.\n\nHere are some resources for further reading:\n\n- [VS Code Extension API](https://code.visualstudio.com/api/references/vscode-api)\n- [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/modules.html)\n- [ES6 import statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)"
             }
           ],
           "metadata": {
             "outputType": "explainCode",
             "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:12:29 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\n\nStart-->End;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:12:58 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:13:52 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:14:57 PM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 1\n\n   **Bug Type**: Importing an Unsecured Module\n\n   **Description**: The vscode module is imported without any security checks or constraints. This could potentially lead to security vulnerabilities if the module is compromised.\n\n   **Solution**: Ensure that the vscode module is always up-to-date and verify its integrity before use. Consider using a package manager that supports security features like package signing and package lock.\n\n\n2. **Severity**: 5/10\n\n   **Line Number**: 1\n\n   **Bug Type**: Insecure Randomness\n\n   **Description**: The function getRandomTestSourceFile is used which may not provide cryptographically secure randomness. This could potentially lead to predictable values which can be exploited.\n\n   **Solution**: Use a function that provides cryptographically secure randomness. In Node.js, the crypto.randomBytes or crypto.randomFill function can be used.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 1,
+                "severity": 2,
+                "bugType": "Importing an Unsecured Module",
+                "description": "The vscode module is imported without any security checks or constraints. This could potentially lead to security vulnerabilities if the module is compromised.",
+                "solution": "Ensure that the vscode module is always up-to-date and verify its integrity before use. Consider using a package manager that supports security features like package signing and package lock.",
+                "webLink": "https://cheatsheetseries.owasp.org/cheatsheets/Using_Components_with_Known_Vulnerabilities_Cheat_Sheet.html"
+              },
+              {
+                "lineNumber": 1,
+                "severity": 5,
+                "bugType": "Insecure Randomness",
+                "description": "The function getRandomTestSourceFile is used which may not provide cryptographically secure randomness. This could potentially lead to predictable values which can be exploited.",
+                "solution": "Use a function that provides cryptographically secure randomness. In Node.js, the crypto.randomBytes or crypto.randomFill function can be used.",
+                "webLink": "https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html"
+              }
+            ]
           }
         }
       ],
@@ -30,13 +95,69 @@
         {
           "items": [
             {
-              "mime": "application/vnd.code.notebook.error",
-              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:11:15 PM PDT\n\nThe provided code is a simple JavaScript/TypeScript import statement. It's only one line, but it is important for the functionality of the module where it is used.\n\nHere's a detailed explanation:\n\n- `import` is a keyword in JavaScript and TypeScript that is used to include functions, objects, or values from other modules or files into the current file. This is a part of ES6 (ECMAScript 2015) modules syntax.\n\n- `{ getBoostFile }` is the specific function that is being imported from another module. The curly braces `{}` are used to import specific exports from a module. In this case, the `getBoostFile` function is being imported.\n\n- `from '../../extension'` specifies the path to the module that contains the exported `getBoostFile` function. The `..` in the path is used to move up one directory level. So, `../../extension` means the code is importing from a file named `extension` that is two directories up from the current file.\n\nThe import statement does not include any algorithms. It is a simple operation that includes a function from another file. This function can then be used in the current file.\n\nThe `getBoostFile` function is not defined in the provided code, so I can't provide specific details about it. However, based on the name, it likely retrieves a file related to the \"Boost\" functionality of the software. The specifics of this would depend on the implementation in the `extension` module.\n\nIn terms of architectural guidelines, this import statement is a common practice in JavaScript and TypeScript projects. It helps to organize code into separate modules that can be reused and tested independently. This aligns with principles of modular design and separation of concerns in software architecture.\n\nFor more information on JavaScript modules and import/export syntax, you can refer to these resources:\n\n- [JavaScript Modules: A Beginner’s Guide](https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/)\n- [MDN Web Docs: import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)"
             }
           ],
           "metadata": {
             "outputType": "explainCode",
             "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:12:34 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\n```\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:13:02 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:13:55 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:15:05 PM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 2\n\n   **Bug Type**: Data Privacy\n\n   **Description**: The import statement does not directly violate GDPR, PCI DSS, or HIPAA compliance. However, the method 'getBoostFile' could potentially access sensitive data. If it does, it must handle that data in a compliant manner.\n\n   **Solution**: Ensure that 'getBoostFile' handles any sensitive data it accesses in a manner compliant with GDPR, PCI DSS, and HIPAA. This includes proper data encryption, access controls, and data retention policies. Refer to the respective compliance guidelines for more details.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 1,
+                "severity": 2,
+                "bugType": "Data Privacy",
+                "description": "The import statement does not directly violate GDPR, PCI DSS, or HIPAA compliance. However, the method 'getBoostFile' could potentially access sensitive data. If it does, it must handle that data in a compliant manner.",
+                "solution": "Ensure that 'getBoostFile' handles any sensitive data it accesses in a manner compliant with GDPR, PCI DSS, and HIPAA. This includes proper data encryption, access controls, and data retention policies. Refer to the respective compliance guidelines for more details."
+              }
+            ]
           }
         }
       ],
@@ -55,13 +176,70 @@
         {
           "items": [
             {
-              "mime": "application/vnd.code.notebook.error",
-              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:11:36 PM PDT\n\nThis line of code is written in JavaScript and uses the ES6 module system for importing and exporting values between files.\n\nThe `import` keyword is used to import bindings that are exported by another module. Bindings refer to variables, functions, objects or values that you can access and use within your code.\n\nIn this case, `{ rightClickLoadFileCommandTest }` is a named import from the module './testCommandUtilities'. The curly brackets `{}` are used for named imports, meaning that the imported binding must have the same name as the exported binding in the other module.\n\n`rightClickLoadFileCommandTest` is likely a function or an object that has been exported from the module located at './testCommandUtilities'. This function or object can now be used in the module where this import statement is written.\n\nSo, in essence, this line of code is importing a specific function or object named `rightClickLoadFileCommandTest` from a module named `testCommandUtilities` located in the same directory.\n\nAs for the algorithms used, this line of code doesn't implement any specific algorithm. It's part of the module system in JavaScript, which is a built-in feature of the language.\n\nFor more on JavaScript ES6 Modules, you can refer to this [Mozilla Developer Network (MDN) article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules). The MDN Web Docs are a comprehensive resource for JavaScript and web technologies, maintained by an open community of developers."
             }
           ],
           "metadata": {
             "outputType": "explainCode",
             "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:12:39 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\n```\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:13:06 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:13:59 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:15:21 PM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 4\n\n   **Bug Type**: Data Compliance\n\n   **Description**: The code imports a function from 'testCommandUtilities' but it's unclear if this function handles data in a way that complies with GDPR, PCI DSS, or HIPAA. If this function processes, stores, or transmits any personal, financial, or health data, it must do so in a way that complies with these regulations.\n\n   **Solution**: Review the 'rightClickLoadFileCommandTest' function to ensure it's handling data in a compliant way. If it's not, modify the function to ensure compliance or use a different, compliant function. Consider implementing data anonymization or pseudonymization, encryption, and secure data transmission methods as required by these regulations.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 2,
+                "severity": 2,
+                "bugType": "Data Compliance",
+                "description": "The code imports a function from 'testCommandUtilities' but it's unclear if this function handles data in a way that complies with GDPR, PCI DSS, or HIPAA. If this function processes, stores, or transmits any personal, financial, or health data, it must do so in a way that complies with these regulations.",
+                "solution": "Review the 'rightClickLoadFileCommandTest' function to ensure it's handling data in a compliant way. If it's not, modify the function to ensure compliance or use a different, compliant function. Consider implementing data anonymization or pseudonymization, encryption, and secure data transmission methods as required by these regulations.",
+                "link": "https://gdpr-info.eu/"
+              }
+            ]
           }
         }
       ],
@@ -80,13 +258,145 @@
         {
           "items": [
             {
-              "mime": "application/vnd.code.notebook.error",
-              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 11:12:13 PM PDT\n\nThis code is a test suite for a feature in a Visual Studio Code (VS Code) extension. It is written in JavaScript using Mocha, a popular JavaScript testing framework. The feature being tested is the 'Right Click Load File Command'.\n\nHere's a breakdown of the code:\n\n1. `suite('Right Click Load File Command', function() {...});`  \nThis line declares a new test suite. A test suite is a collection of tests that are logically connected. In this case, all tests inside this suite are related to the 'Right Click Load File Command' feature.\n\n2. `this.timeout(20000);`  \nThis sets the timeout for each test in the suite to 20,000 milliseconds (or 20 seconds). If a test takes longer than this to run, Mocha will automatically fail it.\n\n3. `const randomFile = getRandomTestSourceFile();`  \nThis line gets a random test source file for testing. The actual implementation of `getRandomTestSourceFile()` is not provided, but it likely returns a string representing the file path of a random test source file.\n\n4. `const fileUri = vscode.Uri.parse(randomFile);`  \nThis line converts the file path string into a Uri object using the `vscode.Uri.parse()` method. VS Code uses Uri objects to represent file locations.\n\n5. `const boostUri = getBoostFile(fileUri);`  \nThis line gets a corresponding 'boost' file for the test source file. The actual implementation of `getBoostFile()` is not provided, but it likely returns a Uri object representing the location of the 'boost' file.\n\n6. `test('Right Click Load File Command Test', async function() {...});`  \nThis declares a new test case. The test case is asynchronous, as indicated by the `async` keyword. This means it can perform asynchronous operations such as reading from a file or making a network request.\n\n7. `await rightClickLoadFileCommandTest(this, fileUri, boostUri);`  \nThis line calls the `rightClickLoadFileCommandTest()` function and waits for it to complete. The `await` keyword is used to pause the execution of the function until the Promise returned by `rightClickLoadFileCommandTest()` is resolved. The actual implementation of `rightClickLoadFileCommandTest()` is not provided, but it likely tests the functionality of the 'Right Click Load File Command' feature.\n\nFor more information on Mocha, you can visit the [Mocha website](https://mochajs.org/). For more information on VS Code extensions, you can visit the [VS Code Extension API Documentation](https://code.visualstudio.com/api).\n"
             }
           ],
           "metadata": {
             "outputType": "explainCode",
             "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 11:12:45 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExampleErrorPath-->End;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:13:35 PM PDT\n\n1. **Severity**: 4/10\n\n   **Line Number**: 8\n\n   **Bug Type**: Insecure Logging\n\n   **Description**: Logging sensitive information such as file paths can lead to information disclosure. An attacker with access to logs can gain insights about the file system structure and potentially sensitive data.\n\n   **Solution**: Avoid logging sensitive information. If it is necessary, ensure that the logs are properly secured and access to them is controlled. For more information, refer to the OWASP Logging Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html\n\n\n2. **Severity**: 4/10\n\n   **Line Number**: 12\n\n   **Bug Type**: Insecure Logging\n\n   **Description**: Logging sensitive information such as file paths can lead to information disclosure. An attacker with access to logs can gain insights about the file system structure and potentially sensitive data.\n\n   **Solution**: Avoid logging sensitive information. If it is necessary, ensure that the logs are properly secured and access to them is controlled. For more information, refer to the OWASP Logging Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html\n\n\n3. **Severity**: 2/10\n\n   **Line Number**: 15\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The function 'rightClickLoadFileCommandTest' is directly exposed to user input through the 'fileUri' and 'boostUri' parameters. If the function does not properly validate and sanitize the user input, it can lead to Insecure Direct Object References (IDOR), allowing an attacker to manipulate these references to access unauthorized data.\n\n   **Solution**: Ensure that the function 'rightClickLoadFileCommandTest' validates and sanitizes user input. Implement access controls to prevent unauthorized access to data. For more information, refer to the OWASP IDOR prevention Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 4,
+                "severity": 4,
+                "bugType": "Insecure Logging",
+                "description": "Logging sensitive information such as file paths can lead to information disclosure. An attacker with access to logs can gain insights about the file system structure and potentially sensitive data.",
+                "solution": "Avoid logging sensitive information. If it is necessary, ensure that the logs are properly secured and access to them is controlled. For more information, refer to the OWASP Logging Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html"
+              },
+              {
+                "lineNumber": 8,
+                "severity": 4,
+                "bugType": "Insecure Logging",
+                "description": "Logging sensitive information such as file paths can lead to information disclosure. An attacker with access to logs can gain insights about the file system structure and potentially sensitive data.",
+                "solution": "Avoid logging sensitive information. If it is necessary, ensure that the logs are properly secured and access to them is controlled. For more information, refer to the OWASP Logging Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html"
+              },
+              {
+                "lineNumber": 11,
+                "severity": 2,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The function 'rightClickLoadFileCommandTest' is directly exposed to user input through the 'fileUri' and 'boostUri' parameters. If the function does not properly validate and sanitize the user input, it can lead to Insecure Direct Object References (IDOR), allowing an attacker to manipulate these references to access unauthorized data.",
+                "solution": "Ensure that the function 'rightClickLoadFileCommandTest' validates and sanitizes user input. Implement access controls to prevent unauthorized access to data. For more information, refer to the OWASP IDOR prevention Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:14:29 PM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 8\n\n   **Bug Type**: Memory\n\n   **Description**: The getRandomTestSourceFile function is invoked but the implementation is not shown. If this function loads a large file into memory, it could potentially lead to high memory usage.\n\n   **Solution**: Consider using a streaming approach to process the file if it is large. This will allow you to process the file in chunks, reducing the amount of memory used. See Node.js Stream documentation for more details: https://nodejs.org/api/stream.html\n\n\n2. **Severity**: 2/10\n\n   **Line Number**: 11\n\n   **Bug Type**: Memory\n\n   **Description**: The getBoostFile function is invoked but the implementation is not shown. If this function loads a large file into memory, it could potentially lead to high memory usage.\n\n   **Solution**: Consider using a streaming approach to process the file if it is large. This will allow you to process the file in chunks, reducing the amount of memory used. See Node.js Stream documentation for more details: https://nodejs.org/api/stream.html\n\n\n3. **Severity**: 5/10\n\n   **Line Number**: 15\n\n   **Bug Type**: CPU\n\n   **Description**: The rightClickLoadFileCommandTest function is invoked but the implementation is not shown. If this function performs computationally expensive operations, it could potentially lead to high CPU usage.\n\n   **Solution**: Consider optimizing the algorithm used in the function or offloading the computation to a worker thread if possible. See the Web Workers API for more details: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API\n\n\n4. **Severity**: 3/10\n\n   **Line Number**: 6\n\n   **Bug Type**: CPU\n\n   **Description**: The timeout for the test suite is set to 20 seconds. If the tests are not optimized, this could potentially lead to high CPU usage for a prolonged period.\n\n   **Solution**: Consider optimizing the tests to run faster. This could be achieved by reducing the complexity of the tests, using stubs or mocks for expensive operations, or parallelizing the tests if possible. See Mocha's guide on testing for more details: https://mochajs.org/#getting-started\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 4,
+                "severity": 2,
+                "bugType": "Memory",
+                "description": "The getRandomTestSourceFile function is invoked but the implementation is not shown. If this function loads a large file into memory, it could potentially lead to high memory usage.",
+                "solution": "Consider using a streaming approach to process the file if it is large. This will allow you to process the file in chunks, reducing the amount of memory used. See Node.js Stream documentation for more details: https://nodejs.org/api/stream.html"
+              },
+              {
+                "lineNumber": 7,
+                "severity": 2,
+                "bugType": "Memory",
+                "description": "The getBoostFile function is invoked but the implementation is not shown. If this function loads a large file into memory, it could potentially lead to high memory usage.",
+                "solution": "Consider using a streaming approach to process the file if it is large. This will allow you to process the file in chunks, reducing the amount of memory used. See Node.js Stream documentation for more details: https://nodejs.org/api/stream.html"
+              },
+              {
+                "lineNumber": 11,
+                "severity": 5,
+                "bugType": "CPU",
+                "description": "The rightClickLoadFileCommandTest function is invoked but the implementation is not shown. If this function performs computationally expensive operations, it could potentially lead to high CPU usage.",
+                "solution": "Consider optimizing the algorithm used in the function or offloading the computation to a worker thread if possible. See the Web Workers API for more details: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API"
+              },
+              {
+                "lineNumber": 2,
+                "severity": 3,
+                "bugType": "CPU",
+                "description": "The timeout for the test suite is set to 20 seconds. If the tests are not optimized, this could potentially lead to high CPU usage for a prolonged period.",
+                "solution": "Consider optimizing the tests to run faster. This could be achieved by reducing the complexity of the tests, using stubs or mocks for expensive operations, or parallelizing the tests if possible. See Mocha's guide on testing for more details: https://mochajs.org/#getting-started"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 11:15:51 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 11\n\n   **Bug Type**: GDPR\n\n   **Description**: Logging potentially sensitive information. The file path logged could contain personal data, which violates GDPR.\n\n   **Solution**: Avoid logging file paths or any potentially sensitive information. If necessary, make sure the logs are properly protected and only accessible to authorized individuals.\n\n\n2. **Severity**: 5/10\n\n   **Line Number**: 14\n\n   **Bug Type**: GDPR\n\n   **Description**: Logging potentially sensitive information. The file path logged could contain personal data, which violates GDPR.\n\n   **Solution**: Avoid logging file paths or any potentially sensitive information. If necessary, make sure the logs are properly protected and only accessible to authorized individuals.\n\n\n3. **Severity**: 7/10\n\n   **Line Number**: 10\n\n   **Bug Type**: HIPAA\n\n   **Description**: The file path could contain protected health information (PHI), which violates HIPAA if not properly protected.\n\n   **Solution**: Ensure that any PHI in file paths is properly protected according to HIPAA regulations, or avoid storing PHI in file paths altogether.\n\n\n4. **Severity**: 7/10\n\n   **Line Number**: 13\n\n   **Bug Type**: HIPAA\n\n   **Description**: The file path could contain protected health information (PHI), which violates HIPAA if not properly protected.\n\n   **Solution**: Ensure that any PHI in file paths is properly protected according to HIPAA regulations, or avoid storing PHI in file paths altogether.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 7,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "Logging potentially sensitive information. The file path logged could contain personal data, which violates GDPR.",
+                "solution": "Avoid logging file paths or any potentially sensitive information. If necessary, make sure the logs are properly protected and only accessible to authorized individuals.",
+                "webLink": "https://gdpr-info.eu/issues/personal-data/"
+              },
+              {
+                "lineNumber": 10,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "Logging potentially sensitive information. The file path logged could contain personal data, which violates GDPR.",
+                "solution": "Avoid logging file paths or any potentially sensitive information. If necessary, make sure the logs are properly protected and only accessible to authorized individuals.",
+                "webLink": "https://gdpr-info.eu/issues/personal-data/"
+              },
+              {
+                "lineNumber": 6,
+                "severity": 7,
+                "bugType": "HIPAA",
+                "description": "The file path could contain protected health information (PHI), which violates HIPAA if not properly protected.",
+                "solution": "Ensure that any PHI in file paths is properly protected according to HIPAA regulations, or avoid storing PHI in file paths altogether.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/index.html"
+              },
+              {
+                "lineNumber": 9,
+                "severity": 7,
+                "bugType": "HIPAA",
+                "description": "The file path could contain protected health information (PHI), which violates HIPAA if not properly protected.",
+                "solution": "Ensure that any PHI in file paths is properly protected according to HIPAA regulations, or avoid storing PHI in file paths altogether.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/index.html"
+              }
+            ]
           }
         }
       ],

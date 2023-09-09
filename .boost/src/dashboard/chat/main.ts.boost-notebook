@@ -13,6 +13,54 @@
             "outputType": "explainCode",
             "details": []
           }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:24:55 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle provideVSCodeDesignSystem fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle vsCodeButton fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle vsCodeTextArea fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle vsCodeRadio fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle vsCodeRadioGroup fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle vsCodePanels fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle vsCodePanelTab fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle vsCodePanelView fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle vsCodeProgressRing fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle Button fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->provideVSCodeDesignSystem;\nprovideVSCodeDesignSystem-->vsCodeButton;\nprovideVSCodeDesignSystem-->vsCodeTextArea;\nprovideVSCodeDesignSystem-->vsCodeRadio;\nprovideVSCodeDesignSystem-->vsCodeRadioGroup;\nprovideVSCodeDesignSystem-->vsCodePanels;\nprovideVSCodeDesignSystem-->vsCodePanelTab;\nprovideVSCodeDesignSystem-->vsCodePanelView;\nprovideVSCodeDesignSystem-->vsCodeProgressRing;\nprovideVSCodeDesignSystem-->Button;\n```\n\nThe control flow graph for the provided code shows the dependency relationships between the imported modules from the `@vscode/webview-ui-toolkit` library. The `provideVSCodeDesignSystem` function is the starting point, and it provides access to various UI components such as buttons, text areas, radios, panels, and progress rings. Each component is connected to the `provideVSCodeDesignSystem` function, indicating that they are part of the same module and can be used together in the code."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:25:58 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:27:29 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:29:04 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
         }
       ],
       "languageId": "typescript",
@@ -36,6 +84,69 @@
           ],
           "metadata": {
             "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:25:17 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->provideVSCodeDesignSystem;\nprovideVSCodeDesignSystem-->register;\nregister-->vsCodeButton;\nregister-->vsCodeTextArea;\nregister-->vsCodeRadio;\nregister-->vsCodeRadioGroup;\nregister-->vsCodePanels;\nregister-->vsCodePanelTab;\nregister-->vsCodePanelView;\nregister-->vsCodeProgressRing;\nprovideVSCodeDesignSystem-->vscode;\nvscode-->addEventListener;\naddEventListener-->main;\nmain-->howdyButton;\nhowdyButton-->handleSendClick;\nmain-->closeButtons;\ncloseButtons-->handleCloseClick;\nmain-->addButton;\naddButton-->handleAddClick;\n```\n\nIn the code, the control flow starts with the `provideVSCodeDesignSystem` function being called. This function registers various VS Code components using the `register` function. The registered components include `vsCodeButton`, `vsCodeTextArea`, `vsCodeRadio`, `vsCodeRadioGroup`, `vsCodePanels`, `vsCodePanelTab`, `vsCodePanelView`, and `vsCodeProgressRing`.\n\nAfter registering the components, the code retrieves the `vscode` object using the `acquireVsCodeApi` function. Then, an event listener is added to the `load` event of the window, which triggers the `main` function.\n\nIn the `main` function, the `howdyButton` element is retrieved and an event listener is added to the `click` event, which triggers the `handleSendClick` function.\n\nNext, the code retrieves all elements with the class name \"tab-close-button\" and adds event listeners to the `click` event of each element, triggering the `handleCloseClick` function.\n\nFinally, the `addButton` element is retrieved and an event listener is added to the `click` event, triggering the `handleAddClick` function.\n\nThis control flow diagram represents the flow of execution in the code, showing the primary path and the various event listeners being set up."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:26:02 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:27:50 AM PDT\n\n1. **Severity**: 3/10\n\n   **Line Number**: 57\n\n   **Bug Type**: CPU\n\n   **Description**: The use of 'getElementsByClassName' and looping through each element to add an event listener can be CPU-intensive if the number of elements is large.\n\n   **Solution**: Consider using event delegation. Rather than attaching an event listener to each individual button, you can attach a single event listener to a parent element. This approach can improve performance by reducing the number of event listeners, and it also handles dynamically added elements. Here is a resource on event delegation: https://javascript.info/event-delegation\n\n\n2. **Severity**: 2/10\n\n   **Line Number**: 62\n\n   **Bug Type**: Memory\n\n   **Description**: The 'handleAddClick' and 'handleCloseClick' event handlers are not removed when they are no longer needed. If these handlers create closures that capture large objects, it could lead to increased memory usage over time.\n\n   **Solution**: Ensure to remove event listeners when they are no longer needed to prevent potential memory leaks. You can do this by calling 'removeEventListener' with the same arguments as when you added the listener. Here is a resource on removing event listeners: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 34,
+                "severity": 3,
+                "bugType": "CPU",
+                "description": "The use of 'getElementsByClassName' and looping through each element to add an event listener can be CPU-intensive if the number of elements is large.",
+                "solution": "Consider using event delegation. Rather than attaching an event listener to each individual button, you can attach a single event listener to a parent element. This approach can improve performance by reducing the number of event listeners, and it also handles dynamically added elements. Here is a resource on event delegation: https://javascript.info/event-delegation"
+              },
+              {
+                "lineNumber": 39,
+                "severity": 2,
+                "bugType": "Memory",
+                "description": "The 'handleAddClick' and 'handleCloseClick' event handlers are not removed when they are no longer needed. If these handlers create closures that capture large objects, it could lead to increased memory usage over time.",
+                "solution": "Ensure to remove event listeners when they are no longer needed to prevent potential memory leaks. You can do this by calling 'removeEventListener' with the same arguments as when you added the listener. Here is a resource on removing event listeners: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:29:08 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
             "details": []
           }
         }
@@ -63,6 +174,54 @@
             "outputType": "explainCode",
             "details": []
           }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:25:25 AM PDT\n\n```mermaid\ngraph TD;\nstyle handleAddClick fill:#228B22, stroke:#000000, stroke-width:2px;\n\nhandleAddClick-->console.log;\nhandleAddClick-->vscode.postMessage;\nconsole.log-->vscode.postMessage;\n```\n\nThe control flow graph for the given source code is as follows:\n\n1. The function `handleAddClick` is the starting point of the control flow.\n2. The function logs the message \"add click\" to the console using `console.log`.\n3. The function then sends a message to `vscode.postMessage` with the command \"add-chat\".\n\nNote: There is no error path or external library call in the given source code."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:26:06 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:27:53 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:29:13 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
         }
       ],
       "languageId": "typescript",
@@ -88,6 +247,101 @@
             "outputType": "explainCode",
             "details": []
           }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:25:35 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExampleErrorPath-->End;\n```\n\nThe control flow graph for the provided source code is as follows:\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle handleCloseClick fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->handleCloseClick;\n```\n\nThe control flow starts at the `handleCloseClick` function."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:26:20 AM PDT\n\n1. **Severity**: 6/10\n\n   **Line Number**: 107\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The code is directly using the ID from the closeButton or vscodeButton to post a message. This can be exploited if an attacker is able to manipulate these IDs, leading to unauthorized access or actions.\n\n   **Solution**: Avoid using direct references from user inputs. Implement proper access control checks before performing actions on behalf of the user. You can read more about this issue and how to prevent it here: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 57,
+                "severity": 6,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The code is directly using the ID from the closeButton or vscodeButton to post a message. This can be exploited if an attacker is able to manipulate these IDs, leading to unauthorized access or actions.",
+                "solution": "Avoid using direct references from user inputs. Implement proper access control checks before performing actions on behalf of the user. You can read more about this issue and how to prevent it here: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:28:15 AM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 105\n\n   **Bug Type**: CPU\n\n   **Description**: The `closest` method is used, which traverses up the DOM tree, and can be inefficient if the DOM tree is large.\n\n   **Solution**: Consider using a more efficient method to access the parent element, such as caching the parent element if it is frequently accessed, or using event delegation.\n\n\n2. **Severity**: 1/10\n\n   **Line Number**: 110\n\n   **Bug Type**: CPU\n\n   **Description**: The `split` method is used to extract the chat index from the id. This might be inefficient if the id string is very long.\n\n   **Solution**: Consider using a more efficient method to extract the chat index, such as using a regular expression or storing the chat index separately.\n\n\n3. **Severity**: 3/10\n\n   **Line Number**: 111\n\n   **Bug Type**: Network\n\n   **Description**: The `postMessage` method is used to send a message to the VS Code extension host. This could be inefficient if many messages are being sent in a short period of time.\n\n   **Solution**: Consider batching messages together if many are being sent in a short period of time, or using a more efficient communication method if available.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 55,
+                "severity": 2,
+                "bugType": "CPU",
+                "description": "The `closest` method is used, which traverses up the DOM tree, and can be inefficient if the DOM tree is large.",
+                "solution": "Consider using a more efficient method to access the parent element, such as caching the parent element if it is frequently accessed, or using event delegation."
+              },
+              {
+                "lineNumber": 60,
+                "severity": 1,
+                "bugType": "CPU",
+                "description": "The `split` method is used to extract the chat index from the id. This might be inefficient if the id string is very long.",
+                "solution": "Consider using a more efficient method to extract the chat index, such as using a regular expression or storing the chat index separately."
+              },
+              {
+                "lineNumber": 61,
+                "severity": 3,
+                "bugType": "Network",
+                "description": "The `postMessage` method is used to send a message to the VS Code extension host. This could be inefficient if many messages are being sent in a short period of time.",
+                "solution": "Consider batching messages together if many are being sent in a short period of time, or using a more efficient communication method if available."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:29:34 AM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 110\n\n   **Bug Type**: GDPR\n\n   **Description**: The code is collecting the ID of the button clicked by the user. If this ID is tied to the user's personal information, it could potentially violate GDPR regulations, which require explicit consent for data collection.\n\n   **Solution**: Ensure that the IDs used in the system are not tied to any personal data of the user. If they are, make sure to obtain explicit consent from the user before collecting this data. Consider using anonymized or pseudonymized IDs.\n\n\n2. **Severity**: 2/10\n\n   **Line Number**: 117\n\n   **Bug Type**: GDPR\n\n   **Description**: The code is posting a message with the ID of the chat to close. If this ID is tied to the user's personal information, it could potentially violate GDPR regulations, which require explicit consent for data collection.\n\n   **Solution**: Ensure that the IDs used in the system are not tied to any personal data of the user. If they are, make sure to obtain explicit consent from the user before collecting this data. Consider using anonymized or pseudonymized IDs.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 60,
+                "severity": 2,
+                "bugType": "GDPR",
+                "description": "The code is collecting the ID of the button clicked by the user. If this ID is tied to the user's personal information, it could potentially violate GDPR regulations, which require explicit consent for data collection.",
+                "solution": "Ensure that the IDs used in the system are not tied to any personal data of the user. If they are, make sure to obtain explicit consent from the user before collecting this data. Consider using anonymized or pseudonymized IDs.",
+                "webLink": "https://gdpr.eu/data-processing-principles/"
+              },
+              {
+                "lineNumber": 67,
+                "severity": 2,
+                "bugType": "GDPR",
+                "description": "The code is posting a message with the ID of the chat to close. If this ID is tied to the user's personal information, it could potentially violate GDPR regulations, which require explicit consent for data collection.",
+                "solution": "Ensure that the IDs used in the system are not tied to any personal data of the user. If they are, make sure to obtain explicit consent from the user before collecting this data. Consider using anonymized or pseudonymized IDs.",
+                "webLink": "https://gdpr.eu/data-processing-principles/"
+              }
+            ]
+          }
         }
       ],
       "languageId": "typescript",
@@ -112,6 +366,124 @@
           "metadata": {
             "outputType": "explainCode",
             "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 5:25:49 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExampleErrorPath-->End;\n```\n\nIn this code, there is a single function named `handleSendClick` that is executed when the \"howdy\" button is clicked. The function performs several operations based on the user input and sends a message to a remote service using the `vscode.postMessage` method.\n\nThe control flow starts at the `handleSendClick` function and there are no external library or non-standard function calls in the provided code. Therefore, the control flow graph is a simple linear flow from the start to the end of the function.\n\nThe primary path is the default non-colored style, indicating the normal flow of execution. There are no error paths identified in the code.\n\nPlease note that the provided code does not contain any control flow decision points or branches, so the control flow graph is a simple linear flow."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:26:44 AM PDT\n\n1. **Severity**: 3/10\n\n   **Line Number**: 141\n\n   **Bug Type**: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')\n\n   **Description**: The code retrieves the 'promptData' from a text area element and directly uses it in a postMessage call without sanitizing it. This can lead to Cross-Site Scripting (XSS) vulnerabilities if an attacker is able to inject malicious scripts into the 'promptData'.\n\n   **Solution**: Sanitize the 'promptData' before using it in the postMessage call. You can use a library like DOMPurify to sanitize the input. For more information, refer to: https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html\n\n\n2. **Severity**: 2/10\n\n   **Line Number**: 135\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The code directly uses the 'chatid' obtained from the 'chat-group' element attribute in the postMessage call. If an attacker is able to manipulate this 'chatid', they might be able to access chats they are not authorized to access.\n\n   **Solution**: Ensure that proper access controls are in place on the server-side to verify the user's permissions before processing the request. For more information, refer to: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 75,
+                "severity": 3,
+                "bugType": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')",
+                "description": "The code retrieves the 'promptData' from a text area element and directly uses it in a postMessage call without sanitizing it. This can lead to Cross-Site Scripting (XSS) vulnerabilities if an attacker is able to inject malicious scripts into the 'promptData'.",
+                "solution": "Sanitize the 'promptData' before using it in the postMessage call. You can use a library like DOMPurify to sanitize the input. For more information, refer to: https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html"
+              },
+              {
+                "lineNumber": 69,
+                "severity": 2,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The code directly uses the 'chatid' obtained from the 'chat-group' element attribute in the postMessage call. If an attacker is able to manipulate this 'chatid', they might be able to access chats they are not authorized to access.",
+                "solution": "Ensure that proper access controls are in place on the server-side to verify the user's permissions before processing the request. For more information, refer to: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:28:52 AM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 138\n\n   **Bug Type**: CPU\n\n   **Description**: The split operation can be CPU-intensive if the chatid string is very large.\n\n   **Solution**: Ensure that the chatid string is not excessively large. If it can be, consider using a different method to extract the chatindex.\n\n\n2. **Severity**: 3/10\n\n   **Line Number**: 145\n\n   **Bug Type**: CPU\n\n   **Description**: The setAttribute and removeAttribute operations can be CPU-intensive if done frequently.\n\n   **Solution**: Consider using CSS classes to show and hide elements instead of manipulating the 'hidden' attribute. This could improve performance by reducing layout thrashing. See: https://developers.google.com/web/fundamentals/performance/rendering/avoid-large-complex-layouts-and-layout-thrashing\n\n\n3. **Severity**: 2/10\n\n   **Line Number**: 147\n\n   **Bug Type**: Network\n\n   **Description**: The vscode.postMessage operation can be network-intensive if the promptData is very large.\n\n   **Solution**: Ensure that the promptData is not excessively large. If it can be, consider using a different method to send the data.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 72,
+                "severity": 2,
+                "bugType": "CPU",
+                "description": "The split operation can be CPU-intensive if the chatid string is very large.",
+                "solution": "Ensure that the chatid string is not excessively large. If it can be, consider using a different method to extract the chatindex."
+              },
+              {
+                "lineNumber": 79,
+                "severity": 3,
+                "bugType": "CPU",
+                "description": "The setAttribute and removeAttribute operations can be CPU-intensive if done frequently.",
+                "solution": "Consider using CSS classes to show and hide elements instead of manipulating the 'hidden' attribute. This could improve performance by reducing layout thrashing. See: https://developers.google.com/web/fundamentals/performance/rendering/avoid-large-complex-layouts-and-layout-thrashing"
+              },
+              {
+                "lineNumber": 81,
+                "severity": 2,
+                "bugType": "Network",
+                "description": "The vscode.postMessage operation can be network-intensive if the promptData is very large.",
+                "solution": "Ensure that the promptData is not excessively large. If it can be, consider using a different method to send the data."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 5:30:04 AM PDT\n\n1. **Severity**: 6/10\n\n   **Line Number**: 144\n\n   **Bug Type**: GDPR\n\n   **Description**: The code is possibly collecting personal data (chat messages) without explicit user consent. This is a potential violation of GDPR.\n\n   **Solution**: Ensure explicit user consent is obtained before collecting personal data. This could be done through a checkbox or a popup dialog where the user agrees to data collection and processing.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 154\n\n   **Bug Type**: GDPR\n\n   **Description**: The code is transmitting potentially personal data without encryption. This could lead to data breaches and GDPR non-compliance.\n\n   **Solution**: Ensure data transmission is done over secure, encrypted channels. This could be achieved by using HTTPS or other secure protocols.\n\n\n3. **Severity**: 5/10\n\n   **Line Number**: 154\n\n   **Bug Type**: HIPAA\n\n   **Description**: If the chat messages contain health information, transmitting this information without encryption could be a violation of HIPAA.\n\n   **Solution**: Ensure encryption of all transmitted data containing health information. This could be achieved by using secure, encrypted communication protocols.\n\n\n4. **Severity**: 4/10\n\n   **Line Number**: 144\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If the chat messages contain cardholder data, storing this data in plain text could be a violation of PCI DSS.\n\n   **Solution**: Ensure any cardholder data is securely stored and encrypted. This could be achieved by using secure storage solutions and encryption methods.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 78,
+                "severity": 6,
+                "bugType": "GDPR",
+                "description": "The code is possibly collecting personal data (chat messages) without explicit user consent. This is a potential violation of GDPR.",
+                "solution": "Ensure explicit user consent is obtained before collecting personal data. This could be done through a checkbox or a popup dialog where the user agrees to data collection and processing.",
+                "reference": "https://gdpr.eu/what-is-gdpr/"
+              },
+              {
+                "lineNumber": 88,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The code is transmitting potentially personal data without encryption. This could lead to data breaches and GDPR non-compliance.",
+                "solution": "Ensure data transmission is done over secure, encrypted channels. This could be achieved by using HTTPS or other secure protocols.",
+                "reference": "https://gdpr.eu/data-encryption/"
+              },
+              {
+                "lineNumber": 88,
+                "severity": 5,
+                "bugType": "HIPAA",
+                "description": "If the chat messages contain health information, transmitting this information without encryption could be a violation of HIPAA.",
+                "solution": "Ensure encryption of all transmitted data containing health information. This could be achieved by using secure, encrypted communication protocols.",
+                "reference": "https://www.hipaajournal.com/hipaa-encryption-requirements/"
+              },
+              {
+                "lineNumber": 78,
+                "severity": 4,
+                "bugType": "PCI DSS",
+                "description": "If the chat messages contain cardholder data, storing this data in plain text could be a violation of PCI DSS.",
+                "solution": "Ensure any cardholder data is securely stored and encrypted. This could be achieved by using secure storage solutions and encryption methods.",
+                "reference": "https://www.pcisecuritystandards.org/pci_security/maintaining_payment_security"
+              }
+            ]
           }
         }
       ],

@@ -1,0 +1,357 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 6:46:36 AM PDT\n\nThe line of code you've provided is a single import statement in JavaScript, specifically in a format known as ES6 (ECMAScript 6) module syntax. There's not much to analyze architecturally or algorithmically from this single line, but I'll explain what it does and its role in a larger system.\n\n```import { getCurrentDateTime } from \"../utilities/datetime\";```\n\nThis line of code is importing a specific function, `getCurrentDateTime`, from a module located at `../utilities/datetime`. The `..` in the path indicates that the module is located in a directory one level up from the current file's directory. \n\nThe `getCurrentDateTime` function is presumably a utility function that, when called, returns the current date and time. This function could be used throughout the rest of the codebase wherever the current date and time is needed.\n\nAs for architectural guidelines, this line of code demonstrates good encapsulation and modularity practices. By keeping the `getCurrentDateTime` function in a separate module and importing it where needed, the code remains DRY (Don't Repeat Yourself), easier to maintain, and more readable. \n\nFor more information on ES6 Modules, you can refer to this link: [ES6 Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)\n\nAs for algorithms, this line of code doesn't really involve any. It's merely importing a function for use. The algorithm, if any, would be contained within the `getCurrentDateTime` function itself, which is not shown here."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 6:48:28 AM PDT\n\n```mermaid\ngraph TD;\nstyle getCurrentDateTime fill:#228B22, stroke:#000000, stroke-width:2px;\n\n    Start-->getCurrentDateTime;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 6:48:59 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 6:49:23 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 6:50:13 AM PDT\n\n1. **Severity**: 1/10\n\n   **Line Number**: 1\n\n   **Bug Type**: GDPR\n\n   **Description**: The code imports a function that gets the current date and time. This in itself does not violate any data compliance regulations. However, if this function is used to collect timestamps associated with user activities without their consent, it could potentially violate GDPR.\n\n   **Solution**: Ensure that any data collected with this function is done with user consent and is necessary for the operation of the software. Also, ensure that this data is properly protected and not shared without user consent.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 1,
+                "severity": 1,
+                "bugType": "GDPR",
+                "description": "The code imports a function that gets the current date and time. This in itself does not violate any data compliance regulations. However, if this function is used to collect timestamps associated with user activities without their consent, it could potentially violate GDPR.",
+                "solution": "Ensure that any data collected with this function is done with user consent and is necessary for the operation of the software. Also, ensure that this data is properly protected and not shared without user consent.",
+                "moreInfo": "https://gdpr-info.eu/"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "\nimport { getCurrentDateTime } from \"../utilities/datetime\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 6:46:58 AM PDT\n\nThis is a simple JavaScript function named `getKernelName` that is part of an ES6 module, as indicated by the `export` keyword. The function takes one argument, `kernelName`, which is expected to be a string.\n\nThe function's purpose is to take the input `kernelName` and prepend it with the string `\"polyverse-boost-\"` and append it with the string `\"-kernel\"`. This is done using the `+` operator, which concatenates strings in JavaScript.\n\nThere's no complex algorithm used here; it's a straightforward string concatenation operation.\n\nIn terms of architectural analysis, this function is quite simple and would likely not have a significant impact on the overall architecture of the software project. It's a utility function that generates a specific format of a kernel name.\n\nThe function follows general good coding practices: it is clearly named, takes an input, performs a specific task, and returns an output. It's a pure function, meaning it doesn't have any side effects or depend on any external state; the output is solely determined by the input.\n\nFor more information about JavaScript functions, you can visit this link: [JavaScript Functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions)\n\nFor more information about ES6 modules and export statement, you can visit this link: [ES6 Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 6:48:33 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->ExampleProcess;\n```\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 6:49:02 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 6:49:27 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 6:50:17 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\nexport function getKernelName(kernelName: string): string {\n    return \"polyverse-boost-\" + kernelName + \"-kernel\";\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 2
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 6:47:37 AM PDT\n\nThe function `cleanCellOutput(input: string): string` is a TypeScript function that takes in a string as an input and returns a string. The purpose of this function is to clean up the cell output by removing certain parts of the string that match a specific pattern.\n\nThe specific pattern it's looking for is a string that starts with two newline characters, followed by three hyphens, two more newline characters, the string \"### Boost\", any characters that are not a newline, two newline characters, the string \"Last Updated:\", any characters that are not a newline, and two more newline characters. This pattern is represented by the regular expression (`regex`) in the variable `pattern`.\n\nHere's how the pattern works:\n\n- `\\n\\n---\\n\\n### Boost`: Matches this exact string.\n- `[^\\n]*`: Matches any number of characters that are not a newline. The `*` means \"zero or more of the preceding element\".\n- `\\n\\nLast Updated:`: Matches this exact string.\n- `[^\\n]*`: Matches any number of characters that are not a newline.\n- `\\n\\n`: Matches two newline characters.\n\nThe `g` at the end of the regular expression means that this pattern should be matched globally in the input string, i.e., it should find all matches rather than stopping after the first match.\n\nThe function then uses the `replace` method of the string to replace all occurrences of the pattern in the input with an empty string, effectively removing them. This cleaned up string is then returned by the function.\n\nIn terms of algorithms, this function uses a basic string manipulation algorithm. It scans the input string from start to end, looking for matches to the pattern. When it finds a match, it removes it from the string. The time complexity of this algorithm is O(n), where n is the length of the input string, as it needs to scan the entire string.\n\nHere are some online resources for further learning:\n\n- [Regular Expressions (MDN)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)\n- [String.prototype.replace() (MDN)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace)\n- [TypeScript Functions](https://www.typescriptlang.org/docs/handbook/functions.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 6:48:39 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle CleanCellOutput fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->CleanCellOutput;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 6:49:06 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 6:49:46 AM PDT\n\n1. **Severity**: 3/10\n\n   **Line Number**: 14\n\n   **Bug Type**: CPU\n\n   **Description**: The use of regular expressions can be CPU-intensive, especially for large input strings.\n\n   **Solution**: Consider using a more efficient string processing method or optimizing the regular expression. If the pattern is static, precompile the regular expression outside the function scope for better efficiency. For more information, refer to this resource: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\n\n\n2. **Severity**: 2/10\n\n   **Line Number**: 14\n\n   **Bug Type**: Memory\n\n   **Description**: The replace method creates a new string, which could lead to increased memory usage for large input strings.\n\n   **Solution**: If memory usage is a concern, consider using a streaming or chunked processing approach. This can be more complex but can significantly reduce memory usage for large inputs. More information on this approach can be found here: https://nodejs.org/api/stream.html\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 8,
+                "severity": 3,
+                "bugType": "CPU",
+                "description": "The use of regular expressions can be CPU-intensive, especially for large input strings.",
+                "solution": "Consider using a more efficient string processing method or optimizing the regular expression. If the pattern is static, precompile the regular expression outside the function scope for better efficiency. For more information, refer to this resource: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions"
+              },
+              {
+                "lineNumber": 8,
+                "severity": 2,
+                "bugType": "Memory",
+                "description": "The replace method creates a new string, which could lead to increased memory usage for large input strings.",
+                "solution": "If memory usage is a concern, consider using a streaming or chunked processing approach. This can be more complex but can significantly reduce memory usage for large inputs. More information on this approach can be found here: https://nodejs.org/api/stream.html"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 6:50:28 AM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 12\n\n   **Bug Type**: Data Privacy\n\n   **Description**: The function 'cleanCellOutput' does not have any explicit data validation or sanitization. This could potentially lead to data privacy issues as it may process sensitive and/or personally identifiable information (PII).\n\n   **Solution**: Implement explicit data validation and sanitization mechanisms to ensure that the data being processed is safe and does not contain any sensitive or PII data. You may use libraries like 'validator.js' for input validation and 'DOMPurify' for sanitization.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 6,
+                "severity": 5,
+                "bugType": "Data Privacy",
+                "description": "The function 'cleanCellOutput' does not have any explicit data validation or sanitization. This could potentially lead to data privacy issues as it may process sensitive and/or personally identifiable information (PII).",
+                "solution": "Implement explicit data validation and sanitization mechanisms to ensure that the data being processed is safe and does not contain any sensitive or PII data. You may use libraries like 'validator.js' for input validation and 'DOMPurify' for sanitization."
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "\nexport function cleanCellOutput(input: string): string {\n    // strip out timestamps from the input\n    // ### Boost Code Compliance Check Summary\n    // Last Updated: Friday, June 16, 2023 at 8:24:17 PM PDT\n\n    // use regex to remove the above info\n    var pattern = /\\n\\n---\\n\\n### Boost [^\\n]*\\n\\nLast Updated: [^\\n]*\\n\\n/g;\n    const cleanedInput = input.replace(pattern, \"\");\n    return cleanedInput;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 6
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 6:48:13 AM PDT\n\nThe provided code is a function written in TypeScript, which is a statically typed superset of JavaScript. The function is named `generateCellOutputWithHeader` and it's exported, meaning it can be used in other modules in the application.\n\nThe function takes two parameters:\n1. `analysisType`: a string that represents the type of analysis being performed.\n2. `analysisResults`: a string that contains the results of the analysis.\n\nThe function generates and returns a string that combines these parameters with some additional text to create a formatted output.\n\nHere is a detailed breakdown of what the function does:\n\n1. It begins with two newline characters (`\\n\\n`), which creates an empty line for formatting purposes.\n\n2. It then adds a line of three hyphens (`---`), which in Markdown syntax (commonly used in documentation and text formatting in software projects) creates a horizontal line.\n\n3. It adds another two newline characters for formatting.\n\n4. It then includes a heading, starting with \"### Boost\", which in Markdown syntax creates a level 3 heading. This heading is followed by the `analysisType` parameter value. \n\n5. It adds another two newline characters for formatting.\n\n6. It adds the text \"Last Updated: \", followed by the return value of the `getCurrentDateTime()` function. This function is not defined in the provided code, but it presumably returns the current date and time as a string.\n\n7. It adds another two newline characters for formatting.\n\n8. Finally, it adds the `analysisResults` parameter value, which is the results of the analysis.\n\nThe function uses string interpolation to combine these elements into a single string. String interpolation is a feature of modern JavaScript (and thus TypeScript) that allows for easier concatenation of strings and variables.\n\nThe function does not appear to use any complex algorithms. Its purpose is to format and present the results of some analysis in a readable way.\n\nHere are some resources for further learning:\n\n- [TypeScript Documentation](https://www.typescriptlang.org/docs/)\n- [JavaScript String Interpolation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)\n- [Markdown Syntax](https://daringfireball.net/projects/markdown/syntax)\n\nRegarding the architectural guidelines, this function does not appear to conflict with any guidelines. It's a simple utility function for formatting output, and such functions are common in many software projects. However, without more context, it's hard to say how this function fits into the overall architecture of the project."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 6:48:44 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->ExampleProcess;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 6:49:10 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 6:49:50 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 6:50:56 AM PDT\n\n1. **Severity**: 4/10\n\n   **Line Number**: 37\n\n   **Bug Type**: GDPR\n\n   **Description**: The function generateCellOutputWithHeader may potentially include personal data in the 'analysisResults' parameter, which could be a violation of GDPR if the data is not properly anonymized or if user consent has not been obtained.\n\n   **Solution**: Ensure that any personal data included in 'analysisResults' is properly anonymized or that user consent has been obtained before processing the data. Implement data minimization principles.\n\n\n2. **Severity**: 4/10\n\n   **Line Number**: 37\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If 'analysisResults' contains cardholder data, it could lead to non-compliance with PCI DSS. PCI DSS requires that cardholder data be stored and transmitted securely.\n\n   **Solution**: Ensure that 'analysisResults' does not contain cardholder data. If it does, make sure it is encrypted and stored securely according to PCI DSS guidelines.\n\n\n3. **Severity**: 4/10\n\n   **Line Number**: 37\n\n   **Bug Type**: HIPAA\n\n   **Description**: If 'analysisResults' contains protected health information (PHI), it could lead to non-compliance with HIPAA. HIPAA requires that PHI be stored and transmitted securely.\n\n   **Solution**: Ensure that 'analysisResults' does not contain PHI. If it does, make sure it is encrypted and stored securely according to HIPAA guidelines.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 20,
+                "severity": 4,
+                "bugType": "GDPR",
+                "description": "The function generateCellOutputWithHeader may potentially include personal data in the 'analysisResults' parameter, which could be a violation of GDPR if the data is not properly anonymized or if user consent has not been obtained.",
+                "solution": "Ensure that any personal data included in 'analysisResults' is properly anonymized or that user consent has been obtained before processing the data. Implement data minimization principles.",
+                "webLink": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 20,
+                "severity": 4,
+                "bugType": "PCI DSS",
+                "description": "If 'analysisResults' contains cardholder data, it could lead to non-compliance with PCI DSS. PCI DSS requires that cardholder data be stored and transmitted securely.",
+                "solution": "Ensure that 'analysisResults' does not contain cardholder data. If it does, make sure it is encrypted and stored securely according to PCI DSS guidelines.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 20,
+                "severity": 4,
+                "bugType": "HIPAA",
+                "description": "If 'analysisResults' contains protected health information (PHI), it could lead to non-compliance with HIPAA. HIPAA requires that PHI be stored and transmitted securely.",
+                "solution": "Ensure that 'analysisResults' does not contain PHI. If it does, make sure it is encrypted and stored securely according to HIPAA guidelines.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "\nexport function generateCellOutputWithHeader(\n    analysisType: string,\n    analysisResults: string\n): string {\n    return `\\n\\n---\\n\\n### Boost ${analysisType}\\n\\nLast Updated: ${getCurrentDateTime()}\\n\\n${analysisResults}`;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 17
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/extension/extensionUtilities.ts"
+  }
+}

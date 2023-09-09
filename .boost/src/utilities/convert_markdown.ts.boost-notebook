@@ -1,0 +1,982 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 3:42:44 AM PDT\n\nThis code is written in TypeScript, which is a statically typed superset of JavaScript. It's a part of a larger project, likely a Visual Studio Code (VS Code) extension as indicated by the import of the 'vscode' module. The specific purpose of this code snippet is to import several modules and components that will be used in the rest of the script.\n\nHere's a breakdown of the different parts:\n\n1. `import * as fs from \"fs\";` - This line imports the built-in Node.js 'fs' (file system) module. This module provides an API for interacting with the file system in a manner closely modeled around standard POSIX functions. More about fs module can be found [here](https://nodejs.org/api/fs.html).\n\n2. `import * as vscode from \"vscode\";` - This line imports the 'vscode' module, which provides the VS Code extension API. This API allows the extension to interact with the VS Code editor, including opening and modifying documents, showing messages, and more. More about vscode module can be found [here](https://code.visualstudio.com/api/references/vscode-api).\n\n3. `import * as path from \"path\";` - This line imports the built-in Node.js 'path' module. This module provides utilities for working with file and directory paths. More about path module can be found [here](https://nodejs.org/api/path.html).\n\n4. The next part imports several components from a local module located at '../data/jupyter_notebook'. These components are:\n\n   - `BoostNotebook` - This is likely a class or interface that represents a notebook in the BoostNotebook system.\n   \n   - `BoostNotebookCell` - This is likely a class or interface that represents a cell in a BoostNotebook.\n   \n   - `NOTEBOOK_SUMMARY_EXTENSION` - This is likely a constant that holds the file extension used for notebook summary files.\n   \n   - `SerializedNotebookCellOutput` - This is likely a class or interface that represents the serialized output of a notebook cell.\n\nThe specific details of these components would depend on their implementation in the '../data/jupyter_notebook' module.\n\nThe code doesn't contain any specific algorithms; it's just importing modules and components for use in the rest of the script. The architectural guidelines provided don't provide any additional constraints or requirements for this code."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 3:46:54 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\n```\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:49:38 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:51:52 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:55:00 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 1\n\n   **Bug Type**: GDPR\n\n   **Description**: The imported fs module allows file system operations, potentially exposing user data. If personal data is read or written without explicit user consent, this could be a violation of GDPR.\n\n   **Solution**: Ensure explicit user consent is obtained before performing file system operations that involve personal data. Use encryption for sensitive data storage.\n\n\n2. **Severity**: 8/10\n\n   **Line Number**: 13\n\n   **Bug Type**: HIPAA\n\n   **Description**: The BoostNotebook and BoostNotebookCell objects could potentially contain sensitive health information. If such data is not properly encrypted and protected, this could be a violation of HIPAA.\n\n   **Solution**: Ensure health-related data is encrypted in transit and at rest, and access is strictly controlled. Use secure coding practices to prevent data leaks.\n\n\n3. **Severity**: 9/10\n\n   **Line Number**: 13\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If the BoostNotebook and BoostNotebookCell objects contain payment card data and it's not properly encrypted and protected, this could be a violation of PCI DSS.\n\n   **Solution**: Ensure payment card data is encrypted in transit and at rest, and access is strictly controlled. Use secure coding practices to prevent data leaks.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 1,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The imported fs module allows file system operations, potentially exposing user data. If personal data is read or written without explicit user consent, this could be a violation of GDPR.",
+                "solution": "Ensure explicit user consent is obtained before performing file system operations that involve personal data. Use encryption for sensitive data storage.",
+                "webLink": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 13,
+                "severity": 8,
+                "bugType": "HIPAA",
+                "description": "The BoostNotebook and BoostNotebookCell objects could potentially contain sensitive health information. If such data is not properly encrypted and protected, this could be a violation of HIPAA.",
+                "solution": "Ensure health-related data is encrypted in transit and at rest, and access is strictly controlled. Use secure coding practices to prevent data leaks.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              },
+              {
+                "lineNumber": 13,
+                "severity": 9,
+                "bugType": "PCI DSS",
+                "description": "If the BoostNotebook and BoostNotebookCell objects contain payment card data and it's not properly encrypted and protected, this could be a violation of PCI DSS.",
+                "solution": "Ensure payment card data is encrypted in transit and at rest, and access is strictly controlled. Use secure coding practices to prevent data leaks.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import * as fs from \"fs\";\nimport * as vscode from \"vscode\";\nimport * as path from \"path\";\n\nimport {\n    BoostNotebook,\n    BoostNotebookCell,\n    NOTEBOOK_SUMMARY_EXTENSION,\n    SerializedNotebookCellOutput,\n} from \"../data/jupyter_notebook\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 3:43:13 AM PDT\n\nThe code snippet you provided is a part of a JavaScript or TypeScript file that is importing specific functions or constants from another file located at \"../extension/extension\". \n\nLet's break down the individual imports:\n\n1. `BoostFileType`: This might be a type definition, a constant, or a function that is related to the file type used or supported by the Boost extension. Without more context, it's hard to say exactly what it does.\n\n2. `OutputType`: Similar to `BoostFileType`, this could be a type definition, a constant, or a function. Given the name, it's likely related to the type of output that the extension produces.\n\n3. `findCellByKernel`: This sounds like a function that searches for a specific cell (perhaps in a data structure like an array or a grid) based on a provided kernel. In computing, a kernel often refers to a core component or function of a system, so this function might be looking for cells related to a specific core function.\n\n4. `getBoostFile`: This is likely a function that retrieves a file related to the Boost extension. It might be used to load configuration data, read in source code for analysis, or perform other file-related operations.\n\nAs for the algorithms used, this code snippet doesn't provide enough information to determine that. It's simply importing functions or constants from another file. The algorithms would be found in the implementations of these functions in the \"../extension/extension\" file.\n\nFor more information about JavaScript imports, you can refer to the [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import). \n\nAs for the architectural guidelines, since no specific constraints or guidelines were provided, we can only analyze based on common practices. The code seems to follow a modular design, which is a common and recommended practice in software development. It enhances readability, maintainability, and testability of the code. However, the actual consistency or conflict would depend on the implementation details of the imported modules."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 3:47:00 AM PDT\n\n```mermaid\ngraph TD;\nstyle findCellByKernel fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle getBoostFile fill:#228B22, stroke:#000000, stroke-width:2px;\n\nStart-->findCellByKernel;\nStart-->getBoostFile;\n```\n\nThe control flow starts at the function `Start` and then branches to `findCellByKernel` and `getBoostFile`."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:49:42 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:51:55 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:55:18 AM PDT\n\n1. **Severity**: 3/10\n\n   **Line Number**: 20\n\n   **Bug Type**: GDPR\n\n   **Description**: The code imports functions that might be used to access or manipulate user data. If this data includes personal information, it could potentially violate GDPR regulations if not handled properly.\n\n   **Solution**: Ensure that any user data accessed or manipulated by these functions is handled in a way that respects user privacy and complies with GDPR regulations. This includes obtaining user consent before collecting or processing their data, anonymizing data where possible, and implementing appropriate security measures to protect the data.\n\n\n2. **Severity**: 4/10\n\n   **Line Number**: 20\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If any of the imported functions are used to handle payment card data, this could potentially violate PCI DSS regulations if the data is not properly protected.\n\n   **Solution**: Ensure that any payment card data is handled in accordance with PCI DSS regulations. This includes encrypting the data during transmission and storage, implementing strong access control measures, and regularly testing security systems and processes.\n\n\n3. **Severity**: 2/10\n\n   **Line Number**: 20\n\n   **Bug Type**: HIPAA\n\n   **Description**: If any of the imported functions are used to handle protected health information (PHI), this could potentially violate HIPAA regulations if the data is not properly protected.\n\n   **Solution**: Ensure that any PHI is handled in accordance with HIPAA regulations. This includes implementing strong physical, technical, and administrative safeguards, providing training to all employees who handle PHI, and regularly reviewing and updating security measures.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 10,
+                "severity": 3,
+                "bugType": "GDPR",
+                "description": "The code imports functions that might be used to access or manipulate user data. If this data includes personal information, it could potentially violate GDPR regulations if not handled properly.",
+                "solution": "Ensure that any user data accessed or manipulated by these functions is handled in a way that respects user privacy and complies with GDPR regulations. This includes obtaining user consent before collecting or processing their data, anonymizing data where possible, and implementing appropriate security measures to protect the data.",
+                "webLink": "https://gdpr.eu/what-is-gdpr/"
+              },
+              {
+                "lineNumber": 10,
+                "severity": 4,
+                "bugType": "PCI DSS",
+                "description": "If any of the imported functions are used to handle payment card data, this could potentially violate PCI DSS regulations if the data is not properly protected.",
+                "solution": "Ensure that any payment card data is handled in accordance with PCI DSS regulations. This includes encrypting the data during transmission and storage, implementing strong access control measures, and regularly testing security systems and processes.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 10,
+                "severity": 2,
+                "bugType": "HIPAA",
+                "description": "If any of the imported functions are used to handle protected health information (PHI), this could potentially violate HIPAA regulations if the data is not properly protected.",
+                "solution": "Ensure that any PHI is handled in accordance with HIPAA regulations. This includes implementing strong physical, technical, and administrative safeguards, providing training to all employees who handle PHI, and regularly reviewing and updating security measures.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import {\n    BoostFileType,\n    OutputType,\n    findCellByKernel,\n    getBoostFile,\n} from \"../extension/extension\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 10
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 3:43:41 AM PDT\n\nThe line of code you provided is a single import statement written in TypeScript, a statically typed superset of JavaScript. It's used to import a specific exported member from another module.\n\nThis statement is importing `ControllerOutputType` from a module located at \"../controllers/controllerOutputTypes\". \n\nHere's a breakdown of how this import statement works:\n\n- `import`: This is a keyword in JavaScript and TypeScript that is used to import functions, objects, or values that have been exported from an external module.\n\n- `{ ControllerOutputType }`: This is the specific member that is being imported from the external module. The curly braces `{}` are used when you want to import a specific member exported from the module. If the module exported multiple members, you could import multiple members like so `{ member1, member2, member3 }`.\n\n- `from`: This is another keyword used in the import statement to specify from which module the export is coming.\n\n- `\"../controllers/controllerOutputTypes\"`: This is the path to the module from which `ControllerOutputType` is being imported. The `..` at the beginning of the path means to go up one directory level from the current file. Then it goes into the `controllers` directory and imports from the `controllerOutputTypes` file. The file extension is not needed when importing in JavaScript and TypeScript.\n\nWithout more context, it's hard to provide more details about what `ControllerOutputType` is, but based on the name, it might be a type or interface that defines the output for some controller functions in this application.\n\nThis import statement is standard and doesn't conflict with the given architectural guidelines. However, it's important to ensure that the file and export actually exist at the given path. If not, an error will be thrown.\n\nFor more information on imports and exports in JavaScript and TypeScript, you can refer to these resources:\n- [Mozilla Developer Network (MDN) documentation on import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [TypeScript Handbook: Modules](https://www.typescriptlang.org/docs/handbook/modules.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 3:47:06 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ControllerOutputType fill:#228B22, stroke:#000000, stroke-width:2px;\n\nStart-->ControllerOutputType;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:49:45 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:51:59 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:55:32 AM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 32\n\n   **Bug Type**: GDPR\n\n   **Description**: The import statement does not directly violate GDPR, PCI DSS, or HIPAA regulations. However, if the imported ControllerOutputType is used to process or store personal data, it could potentially lead to compliance issues.\n\n   **Solution**: Ensure that any processing or storage of personal data complies with GDPR principles. This could include obtaining explicit consent from users, implementing data minimization strategies, and ensuring that data is encrypted during transit and at rest.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 16,
+                "severity": 2,
+                "bugType": "GDPR",
+                "description": "The import statement does not directly violate GDPR, PCI DSS, or HIPAA regulations. However, if the imported ControllerOutputType is used to process or store personal data, it could potentially lead to compliance issues.",
+                "solution": "Ensure that any processing or storage of personal data complies with GDPR principles. This could include obtaining explicit consent from users, implementing data minimization strategies, and ensuring that data is encrypted during transit and at rest.",
+                "link": "https://gdpr-info.eu/"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import { ControllerOutputType } from \"../controllers/controllerOutputTypes\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 16
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 3:44:11 AM PDT\n\nThis code is a single line of JavaScript or TypeScript code. It's using the ES6 import syntax to import a specific function from another module. \n\nThe `import` statement is used to import functions, objects or values that have been exported from an external module, another script, or another file. In this case, it is importing the `formatDateTime` function from a module called `datetime` located in the same directory.\n\nHere's a little more detail:\n\n- `import { formatDateTime } from \"./datetime\";` \n\nThis line is importing the `formatDateTime` function from the `datetime` module. The `datetime` module is in the same directory as the file that this import statement is in, as indicated by the `./` in the path.\n\nThe `formatDateTime` function is presumably a utility function that formats date and time in a specific way. The exact implementation of this function and how it works would be found in the `datetime.js` or `datetime.ts` file.\n\nThe `import` statement allows you to use the `formatDateTime` function in the file where this import statement is. You would use it like this: `formatDateTime(someDate)`, where `someDate` is a Date object or possibly a string representing a date and time.\n\nThis code doesn't really involve any algorithms, it's more about code organization and modularity. By separating the `formatDateTime` function into a separate module, the code is easier to manage, understand, test, and reuse.\n\nHere is a link to learn more about the `import` statement in JavaScript: [MDN Web Docs: import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n\nAs for the architectural guidelines provided, this code snippet is too small to make any broad architectural assessments. However, it is consistent with common best practices for modular design, as it is using imports to separate concerns and dependencies."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 3:47:10 AM PDT\n\n```mermaid\ngraph TD;\nstyle formatDateTime fill:#228B22, stroke:#000000, stroke-width:2px;\n\nformatDateTime-->End;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:49:49 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:52:02 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:55:47 AM PDT\n\n1. **Severity**: 1/10\n\n   **Line Number**: 34\n\n   **Bug Type**: GDPR\n\n   **Description**: The code imports a function that formats date and time. While this in itself is not a violation, GDPR requires that any processing of personal data, which can include date and time information, be done securely and with user consent. If the function is used to process personal data, it could potentially lead to GDPR compliance issues.\n\n   **Solution**: Ensure that any processing of personal data using the 'formatDateTime' function is done with user consent and in a secure manner. Implement appropriate data protection measures, such as encryption, when storing or transmitting the processed data.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 17,
+                "severity": 1,
+                "bugType": "GDPR",
+                "description": "The code imports a function that formats date and time. While this in itself is not a violation, GDPR requires that any processing of personal data, which can include date and time information, be done securely and with user consent. If the function is used to process personal data, it could potentially lead to GDPR compliance issues.",
+                "solution": "Ensure that any processing of personal data using the 'formatDateTime' function is done with user consent and in a secure manner. Implement appropriate data protection measures, such as encryption, when storing or transmitting the processed data.",
+                "webLink": "https://gdpr-info.eu/"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "import { formatDateTime } from \"./datetime\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 17
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 3:44:56 AM PDT\n\nThe provided code is a TypeScript function named `generateMarkdownforNotebook`. It's an asynchronous function that takes two parameters: `boostNotebookPath` and `baseFolderPath`. The function returns a `Promise<string>`, which means it will eventually return a string value or an error.\n\nHere's a detailed breakdown of the code:\n\n1. `export async function generateMarkdownforNotebook(boostNotebookPath: string, baseFolderPath: string): Promise<string>` - This line declares the function as an asynchronous function, which means it's designed to work with promises and asynchronous operations. It takes in two parameters: `boostNotebookPath` and `baseFolderPath`, both of which are strings.\n\n2. `return new Promise<string>(async (resolve, reject) => {` - This line creates a new Promise object. Promises are a way of handling asynchronous operations in JavaScript and TypeScript. They take two parameters: a `resolve` function and a `reject` function. If the operation is successful, the `resolve` function is called with the result. If an error occurs, the `reject` function is called with the error.\n\n3. Inside the Promise, a try-catch block is used to handle any errors that might occur during the execution of the code.\n\n4. `const mdFilename = getBoostFile(vscode.Uri.parse(boostNotebookPath), { format: BoostFileType.output, outputType: OutputType.markdown, }).fsPath;` - This line calls the `getBoostFile` function with the `boostNotebookPath` parsed into a URI and an object specifying the format and output type. The result is stored in `mdFilename`.\n\n5. `const boostNotebook = new BoostNotebook(); boostNotebook.load(boostNotebookPath);` - These lines create a new instance of the `BoostNotebook` class and then call its `load` method with the `boostNotebookPath`.\n\n6. `await generateMarkdownFromJson(boostNotebook, boostNotebookPath, baseFolderPath, mdFilename);` - This line calls the `generateMarkdownFromJson` function with the `boostNotebook` object, `boostNotebookPath`, `baseFolderPath`, and `mdFilename`. It's prefixed with `await` because it's an asynchronous operation, and the function needs to wait for it to complete.\n\n7. `resolve(mdFilename);` - If all the operations are successful, the Promise is resolved with the `mdFilename`.\n\n8. `catch (error) { reject(error); }` - If any error occurs during the execution of the code, the Promise is rejected with the error.\n\nThe algorithm used in this code is fairly straightforward: it loads a BoostNotebook, generates a Markdown file from it, and then returns the filename of the generated Markdown file.\n\nFor more information on Promises, asynchronous functions, and try-catch blocks, you can visit the following links:\n\n- [Promise - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)\n- [async function - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)\n- [try...catch - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 3:47:27 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExampleErrorPath-->End;\n```\n\nIn the above code, the control flow starts at the `generateMarkdownforNotebook` function. The function takes two parameters, `boostNotebookPath` and `baseFolderPath`. It returns a Promise that resolves to a string.\n\nThe control flow then enters a try-catch block. In the try block, the function calls the `getBoostFile` function to get the Boost file path. It passes the `boostNotebookPath` and an object with format and outputType properties as arguments. The returned Boost file path is assigned to the `mdFilename` variable.\n\nNext, an instance of the `BoostNotebook` class is created and assigned to the `boostNotebook` variable. The `load` method of the `boostNotebook` object is called with the `boostNotebookPath` argument to load the Boost notebook.\n\nThe control flow then enters an asynchronous function block. Inside this block, the `generateMarkdownFromJson` function is called with several arguments, including the `boostNotebook` object, `boostNotebookPath`, `baseFolderPath`, and `mdFilename`. This function generates markdown from the JSON data of the Boost notebook.\n\nFinally, the Promise is resolved with the `mdFilename` variable.\n\nIf an error occurs at any point, the control flow jumps to the catch block, where the error is rejected."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:49:53 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:52:18 AM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 42\n\n   **Bug Type**: Disk\n\n   **Description**: The 'load' method of the 'BoostNotebook' class may involve disk I/O operation which might be slow if the notebook file is large.\n\n   **Solution**: Consider loading the file asynchronously or in a separate thread to prevent blocking the main thread. You could also consider loading the file in chunks if it is very large.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 43\n\n   **Bug Type**: Disk\n\n   **Description**: The 'generateMarkdownFromJson' function is called with await, which means it could be performing some heavy disk I/O operations. If the notebook is large, this could lead to performance issues.\n\n   **Solution**: Consider optimizing the 'generateMarkdownFromJson' function to handle large notebooks more efficiently, for example by processing the notebook in smaller chunks or using a streaming approach.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 24,
+                "severity": 5,
+                "bugType": "Disk",
+                "description": "The 'load' method of the 'BoostNotebook' class may involve disk I/O operation which might be slow if the notebook file is large.",
+                "solution": "Consider loading the file asynchronously or in a separate thread to prevent blocking the main thread. You could also consider loading the file in chunks if it is very large."
+              },
+              {
+                "lineNumber": 25,
+                "severity": 7,
+                "bugType": "Disk",
+                "description": "The 'generateMarkdownFromJson' function is called with await, which means it could be performing some heavy disk I/O operations. If the notebook is large, this could lead to performance issues.",
+                "solution": "Consider optimizing the 'generateMarkdownFromJson' function to handle large notebooks more efficiently, for example by processing the notebook in smaller chunks or using a streaming approach."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:56:17 AM PDT\n\n1. **Severity**: 4/10\n\n   **Line Number**: 44\n\n   **Bug Type**: GDPR\n\n   **Description**: The function generateMarkdownforNotebook reads a file and processes it without checking the nature of the data it contains. If this data contains personal information, it could be a violation of GDPR.\n\n   **Solution**: Implement a data classification mechanism to identify if the data being processed is personal data. If so, ensure that appropriate consent has been obtained and that the data is being processed in a manner that respects the individual's privacy rights. See https://gdpr-info.eu/ for more information.\n\n\n2. **Severity**: 3/10\n\n   **Line Number**: 46\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The function generateMarkdownforNotebook could potentially handle sensitive cardholder data if it is present in the file being processed. If this data is not properly protected, it could lead to a PCI DSS compliance issue.\n\n   **Solution**: Implement a mechanism to identify and protect cardholder data. This could include tokenization, encryption, or other methods of data protection. See https://www.pcisecuritystandards.org/pci_security/ for more information.\n\n\n3. **Severity**: 5/10\n\n   **Line Number**: 44\n\n   **Bug Type**: HIPAA\n\n   **Description**: The function generateMarkdownforNotebook may process files containing sensitive health information without ensuring the data is protected, potentially violating HIPAA.\n\n   **Solution**: Implement a mechanism to identify and protect health information. This could include encryption, anonymization, or other methods of data protection. See https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html for more information.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 26,
+                "severity": 4,
+                "bugType": "GDPR",
+                "description": "The function generateMarkdownforNotebook reads a file and processes it without checking the nature of the data it contains. If this data contains personal information, it could be a violation of GDPR.",
+                "solution": "Implement a data classification mechanism to identify if the data being processed is personal data. If so, ensure that appropriate consent has been obtained and that the data is being processed in a manner that respects the individual's privacy rights. See https://gdpr-info.eu/ for more information."
+              },
+              {
+                "lineNumber": 28,
+                "severity": 3,
+                "bugType": "PCI DSS",
+                "description": "The function generateMarkdownforNotebook could potentially handle sensitive cardholder data if it is present in the file being processed. If this data is not properly protected, it could lead to a PCI DSS compliance issue.",
+                "solution": "Implement a mechanism to identify and protect cardholder data. This could include tokenization, encryption, or other methods of data protection. See https://www.pcisecuritystandards.org/pci_security/ for more information."
+              },
+              {
+                "lineNumber": 26,
+                "severity": 5,
+                "bugType": "HIPAA",
+                "description": "The function generateMarkdownforNotebook may process files containing sensitive health information without ensuring the data is protected, potentially violating HIPAA.",
+                "solution": "Implement a mechanism to identify and protect health information. This could include encryption, anonymization, or other methods of data protection. See https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html for more information."
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "\nexport async function generateMarkdownforNotebook(\n    boostNotebookPath: string,\n    baseFolderPath: string\n): Promise<string> {\n    return new Promise<string>(async (resolve, reject) => {\n        try {\n            const mdFilename = getBoostFile(\n                vscode.Uri.parse(boostNotebookPath),\n                {\n                    format: BoostFileType.output,\n                    outputType: OutputType.markdown,\n                }\n            ).fsPath;\n\n            const boostNotebook = new BoostNotebook();\n            boostNotebook.load(boostNotebookPath);\n            await generateMarkdownFromJson(\n                boostNotebook,\n                boostNotebookPath,\n                baseFolderPath,\n                mdFilename\n            );\n            resolve(mdFilename);\n        } catch (error) {\n            reject(error);\n        }\n    });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 18
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 3:45:14 AM PDT\n\nThe provided code is written in TypeScript, a statically typed superset of JavaScript. The code defines an asynchronous function named `generateMarkdownFromJson`. The function returns a `Promise<void>` which means it's a promise that will not return any value upon completion. \n\nThe function takes four parameters:\n\n1. `boostNotebook`: This is likely an object containing data about a notebook, in the context of the BoostNote app.\n2. `notebookPath`: This is likely a string representing the path to the notebook file.\n3. `baseFolderPath`: This is likely the path to the folder where the BoostNote app stores its notebooks.\n4. `outputPath`: This is the path where the generated Markdown file should be saved.\n\nThe function does the following:\n\n1. It calls another asynchronous function `generateMarkdownFromObject`. This function likely converts the `boostNotebook` object into a Markdown string. It also takes the `notebookPath`, `baseFolderPath` and an options object as parameters. The options object has three properties: `showOutputMetadata`, `printSourceCodeBorder`, and `wrapText`, all of which are set to `false`.\n\n2. The Markdown string returned by `generateMarkdownFromObject` is then saved to a file. The function first checks if the directory for the output file exists (`fs.existsSync(dir)`). If it does not exist, it creates the directory (`fs.mkdirSync(dir, { recursive: true })`). It then writes the Markdown string to the output file (`fs.writeFileSync(outputPath, markdown)`).\n\n3. If everything goes well, the function resolves the promise it returned (`resolve()`). If there's any error during the execution, it rejects the promise with the error (`reject(error)`).\n\nThe code doesn't seem to use any specific algorithm, it's more about file and directory operations and asynchronous programming in Node.js. \n\nHere are some helpful links for more information:\n\n- [Promises in JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)\n- [Async function in JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)\n- [File system operations in Node.js](https://nodejs.org/api/fs.html)\n- [Path operations in Node.js](https://nodejs.org/api/path.html)\n- [Markdown](https://daringfireball.net/projects/markdown/)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 3:47:34 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExampleErrorPath-->End;\n```\n\nIn the provided code, there is no control flow."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:50:13 AM PDT\n\n1. **Severity**: 4/10\n\n   **Line Number**: 106\n\n   **Bug Type**: Insecure File Permissions\n\n   **Description**: The code uses 'fs.mkdirSync' and 'fs.writeFileSync' to create a directory and write a file, but it does not specify file permissions. This could potentially allow unauthorized users to access or modify the file, leading to information disclosure or unauthorized changes.\n\n   **Solution**: Specify file permissions when creating directories or files. For example, use '0o700' for directories and '0o600' for files to only allow access to the owner. More about file permissions can be found at: https://nodejs.org/api/fs.html#fs_file_modes\n\n\n2. **Severity**: 5/10\n\n   **Line Number**: 106\n\n   **Bug Type**: Path Traversal\n\n   **Description**: The code uses 'path.dirname' on 'outputPath', which could be manipulated by an attacker to traverse to directories outside of the intended scope, potentially leading to unauthorized file access or modification.\n\n   **Solution**: Validate and sanitize 'outputPath' before using it to create directories or files. Check that it does not contain '..' or other sequences that could lead to path traversal. More about path traversal can be found at: https://owasp.org/www-community/attacks/Path_Traversal\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 59,
+                "severity": 4,
+                "bugType": "Insecure File Permissions",
+                "description": "The code uses 'fs.mkdirSync' and 'fs.writeFileSync' to create a directory and write a file, but it does not specify file permissions. This could potentially allow unauthorized users to access or modify the file, leading to information disclosure or unauthorized changes.",
+                "solution": "Specify file permissions when creating directories or files. For example, use '0o700' for directories and '0o600' for files to only allow access to the owner. More about file permissions can be found at: https://nodejs.org/api/fs.html#fs_file_modes"
+              },
+              {
+                "lineNumber": 59,
+                "severity": 5,
+                "bugType": "Path Traversal",
+                "description": "The code uses 'path.dirname' on 'outputPath', which could be manipulated by an attacker to traverse to directories outside of the intended scope, potentially leading to unauthorized file access or modification.",
+                "solution": "Validate and sanitize 'outputPath' before using it to create directories or files. Check that it does not contain '..' or other sequences that could lead to path traversal. More about path traversal can be found at: https://owasp.org/www-community/attacks/Path_Traversal"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:52:36 AM PDT\n\n1. **Severity**: 6/10\n\n   **Line Number**: 103\n\n   **Bug Type**: Disk\n\n   **Description**: Usage of fs.existsSync and fs.mkdirSync can be inefficient due to their synchronous nature. They can block the event loop, causing the application to be unresponsive.\n\n   **Solution**: Use fs.promises.mkdir with option { recursive: true } instead. It's a non-blocking alternative and will create the directory if it does not exist. No need to check existence before creation. Refer to Node.js documentation: https://nodejs.org/api/fs.html#fspromisesmkdirpath-options\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 106\n\n   **Bug Type**: Disk\n\n   **Description**: fs.writeFileSync is a blocking operation that can cause the event loop to be blocked, leading to potential performance issues.\n\n   **Solution**: Replace fs.writeFileSync with fs.promises.writeFile, which is a non-blocking alternative. Refer to Node.js documentation: https://nodejs.org/api/fs.html#fspromiseswritefilefile-data-options\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 56,
+                "severity": 6,
+                "bugType": "Disk",
+                "description": "Usage of fs.existsSync and fs.mkdirSync can be inefficient due to their synchronous nature. They can block the event loop, causing the application to be unresponsive.",
+                "solution": "Use fs.promises.mkdir with option { recursive: true } instead. It's a non-blocking alternative and will create the directory if it does not exist. No need to check existence before creation. Refer to Node.js documentation: https://nodejs.org/api/fs.html#fspromisesmkdirpath-options"
+              },
+              {
+                "lineNumber": 59,
+                "severity": 7,
+                "bugType": "Disk",
+                "description": "fs.writeFileSync is a blocking operation that can cause the event loop to be blocked, leading to potential performance issues.",
+                "solution": "Replace fs.writeFileSync with fs.promises.writeFile, which is a non-blocking alternative. Refer to Node.js documentation: https://nodejs.org/api/fs.html#fspromiseswritefilefile-data-options"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:56:48 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 109\n\n   **Bug Type**: GDPR\n\n   **Description**: The function writeFileSync is used to write data to a file. If this data contains personal data of EU citizens, it could be a violation of GDPR if not handled correctly.\n\n   **Solution**: Consider implementing data encryption before writing data to a file, and ensure that personal data is processed in accordance with GDPR principles. Also, consider implementing a mechanism to obtain explicit consent from users before processing their personal data.\n\n\n2. **Severity**: 8/10\n\n   **Line Number**: 109\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If the data being written to the file includes cardholder data, it may be in violation of PCI DSS requirements, which mandate that cardholder data must be stored securely and only when necessary.\n\n   **Solution**: Ensure that no cardholder data is stored unless absolutely necessary. If it is necessary, ensure it is stored in a secure and encrypted manner. Implement strong access control measures to restrict access to cardholder data.\n\n\n3. **Severity**: 9/10\n\n   **Line Number**: 109\n\n   **Bug Type**: HIPAA\n\n   **Description**: If the data being written to the file includes Protected Health Information (PHI), it could be a violation of HIPAA. HIPAA requires that PHI must be stored securely and only when necessary, with strict access controls.\n\n   **Solution**: Ensure that no PHI is stored unless absolutely necessary. If it is necessary, ensure it is stored in a secure and encrypted manner. Implement strong access control measures to restrict access to PHI.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 62,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The function writeFileSync is used to write data to a file. If this data contains personal data of EU citizens, it could be a violation of GDPR if not handled correctly.",
+                "solution": "Consider implementing data encryption before writing data to a file, and ensure that personal data is processed in accordance with GDPR principles. Also, consider implementing a mechanism to obtain explicit consent from users before processing their personal data.",
+                "webLink": "https://gdpr.eu/data-processing-principles/"
+              },
+              {
+                "lineNumber": 62,
+                "severity": 8,
+                "bugType": "PCI DSS",
+                "description": "If the data being written to the file includes cardholder data, it may be in violation of PCI DSS requirements, which mandate that cardholder data must be stored securely and only when necessary.",
+                "solution": "Ensure that no cardholder data is stored unless absolutely necessary. If it is necessary, ensure it is stored in a secure and encrypted manner. Implement strong access control measures to restrict access to cardholder data.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/why_security_matters"
+              },
+              {
+                "lineNumber": 62,
+                "severity": 9,
+                "bugType": "HIPAA",
+                "description": "If the data being written to the file includes Protected Health Information (PHI), it could be a violation of HIPAA. HIPAA requires that PHI must be stored securely and only when necessary, with strict access controls.",
+                "solution": "Ensure that no PHI is stored unless absolutely necessary. If it is necessary, ensure it is stored in a secure and encrypted manner. Implement strong access control measures to restrict access to PHI.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "\nasync function generateMarkdownFromJson(\n    boostNotebook: BoostNotebook,\n    notebookPath: string,\n    baseFolderPath: string,\n    outputPath: string\n): Promise<void> {\n    return new Promise<void>(async (resolve, reject) => {\n        try {\n            const markdown = await generateMarkdownFromObject(\n                boostNotebook,\n                notebookPath,\n                baseFolderPath,\n                {\n                    showOutputMetadata: false,\n                    printSourceCodeBorder: false,\n                    wrapText: false,\n                }\n            );\n\n            // Save the Markdown to a file, creating the directory if necessary\n            const dir = path.dirname(outputPath);\n\n            if (!fs.existsSync(dir)) {\n                fs.mkdirSync(dir, { recursive: true });\n            }\n            fs.writeFileSync(outputPath, markdown);\n            resolve();\n        } catch (error) {\n            reject(error);\n        }\n    });\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 47
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 3:45:39 AM PDT\n\nThe provided code is a TypeScript interface definition. TypeScript is a statically typed superset of JavaScript that adds types to the language. An interface in TypeScript is a way to define a contract for a certain structure of an object. This means that an object of this interface type must have the properties defined in the interface.\n\nHere's a detailed explanation of the code:\n\n```\ninterface PrintOptions {\n    showOutputMetadata: boolean;\n    printSourceCodeBorder: boolean;\n    wrapText: boolean;\n}\n```\n\nThis code defines an interface named `PrintOptions`. This interface has three properties: `showOutputMetadata`, `printSourceCodeBorder`, and `wrapText`. Each of these properties is of the type `boolean`, which means they can hold either `true` or `false`.\n\n- `showOutputMetadata`: This property might control whether metadata related to the output is displayed or not.\n- `printSourceCodeBorder`: This property might control whether a border is printed around the source code or not.\n- `wrapText`: This property might control whether the output text should be wrapped or not.\n\nThis interface might be used as a parameter type for a function, or as the type for an object, to ensure that the object has these specific properties.\n\nThe code does not explicitly use any particular algorithm. However, it follows the principle of \"strong typing\" that TypeScript introduces to JavaScript. Strong typing helps catch errors at compile time, improves code readability, and makes the code more maintainable.\n\nFor more information on TypeScript interfaces, you can check this link: [TypeScript Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 3:47:40 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle PrintOptions fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle End fill:#228B22, stroke:#000000, stroke-width:2px;\n\nStart-->PrintOptions;\nPrintOptions-->End;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:50:17 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:52:40 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:56:52 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "\ninterface PrintOptions {\n    showOutputMetadata: boolean;\n    printSourceCodeBorder: boolean;\n    wrapText: boolean;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 80
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 3:46:00 AM PDT\n\nThis is an asynchronous function named `generateMarkdownFromObject` in JavaScript (or TypeScript). It takes four parameters: `boostNotebook`, `notebookPath`, `baseFolderPath`, and `printOptions`. The function returns a Promise that resolves to a string. The function is used to generate a markdown report from a BoostNotebook object.\n\nHere is a detailed explanation of the code:\n\n1. The function starts by getting the file statistics for the notebook file using the `fs.statSync` function. It then formats the modification time of the file to a human-readable format.\n\n2. It retrieves the source file from the metadata of the BoostNotebook. If the source file is the root directory, it sets the analysis type to \"Project\", otherwise, it's \"Source\". It also determines whether it's building a summary or detailed report based on the extension of the notebook path.\n\n3. The function then generates a pretty source file name. If the source file is the root directory, it uses the base name of the base folder path. Otherwise, it uses the source file name.\n\n4. It generates the section heading using the analysis type and the pretty source file name, and appends it to the markdown content.\n\n5. If it's a project level analysis or building a summary, it uses the current BoostNotebook as the summary notebook. Otherwise, it tries to load the summary notebook from the file system.\n\n6. If a summary notebook exists, it finds the blueprint cell and appends its content to the markdown content. Then it goes through each cell in the summary notebook and appends its content to the markdown content.\n\n7. If it's not a project level analysis and not building a summary, it appends the detailed analysis to the markdown content. It goes through each cell in the BoostNotebook, formats the cell's content and appends it to the markdown content.\n\n8. Finally, the function returns the generated markdown content.\n\nThe algorithm used in this function is basically a sequence of steps to generate a markdown report from a BoostNotebook object. It uses a few standard JavaScript/TypeScript features, such as asynchronous functions, Promises, and the `fs` module for file system operations.\n\nFor more information on these topics, you can refer to the following links:\n\n- [Asynchronous Functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)\n- [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)\n- [fs module](https://nodejs.org/api/fs.html)\n\nThis code seems to be consistent with the architectural guidelines provided. It uses asynchronous programming for potentially long-running tasks, such as file system operations, which keeps the UI responsive. It also uses TypeScript, which provides static typing to catch many errors at compile time. The code is well-structured and organized into functions, which follows the principle of object-oriented design."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 3:49:16 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle fs.statSync fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle formatDateTime fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle path.basename fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle getBoostFile fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle fs.existsSync fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle findCellByKernel fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle formatOutput fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle generateMarkdownFromObject fill:#228B22"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:50:54 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 178\n\n   **Bug Type**: Insecure File Access (Insecure Direct Object References)\n\n   **Description**: The use of 'fs.statSync' can lead to blocking operations and potential security risks if the provided path is not properly validated, potentially allowing unauthorized access to files. More info can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control\n\n   **Solution**: Replace 'fs.statSync' with its asynchronous counterpart 'fs.stat' and ensure proper validation and sanitization of the 'notebookPath' before use.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 192\n\n   **Bug Type**: Insecure File Access (Insecure Direct Object References)\n\n   **Description**: The use of 'fs.existsSync' can lead to potential security risks if the provided path is not properly validated, potentially allowing unauthorized access to files. More info can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control\n\n   **Solution**: Ensure proper validation and sanitization of the 'summaryBoostFile.fsPath' before use.\n\n\n3. **Severity**: 7/10\n\n   **Line Number**: 193\n\n   **Bug Type**: Insecure File Access (Insecure Direct Object References)\n\n   **Description**: The use of 'summaryNotebook.load' can lead to potential security risks if the provided path is not properly validated, potentially allowing unauthorized access to files. More info can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control\n\n   **Solution**: Ensure proper validation and sanitization of the 'summaryBoostFile.fsPath' before use.\n\n\n4. **Severity**: 4/10\n\n   **Line Number**: 217\n\n   **Bug Type**: Cross Site Scripting (XSS)\n\n   **Description**: The use of 'boostCell.value' in constructing the 'markdownContent' can potentially lead to Cross Site Scripting (XSS) if the value is not properly sanitized before use. More info can be found here: https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)\n\n   **Solution**: Ensure proper sanitization of 'boostCell.value' before use, especially if it will be displayed in a web context.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 92,
+                "severity": 7,
+                "bugType": "Insecure File Access (Insecure Direct Object References)",
+                "description": "The use of 'fs.statSync' can lead to blocking operations and potential security risks if the provided path is not properly validated, potentially allowing unauthorized access to files. More info can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control",
+                "solution": "Replace 'fs.statSync' with its asynchronous counterpart 'fs.stat' and ensure proper validation and sanitization of the 'notebookPath' before use."
+              },
+              {
+                "lineNumber": 106,
+                "severity": 7,
+                "bugType": "Insecure File Access (Insecure Direct Object References)",
+                "description": "The use of 'fs.existsSync' can lead to potential security risks if the provided path is not properly validated, potentially allowing unauthorized access to files. More info can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control",
+                "solution": "Ensure proper validation and sanitization of the 'summaryBoostFile.fsPath' before use."
+              },
+              {
+                "lineNumber": 107,
+                "severity": 7,
+                "bugType": "Insecure File Access (Insecure Direct Object References)",
+                "description": "The use of 'summaryNotebook.load' can lead to potential security risks if the provided path is not properly validated, potentially allowing unauthorized access to files. More info can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control",
+                "solution": "Ensure proper validation and sanitization of the 'summaryBoostFile.fsPath' before use."
+              },
+              {
+                "lineNumber": 131,
+                "severity": 4,
+                "bugType": "Cross Site Scripting (XSS)",
+                "description": "The use of 'boostCell.value' in constructing the 'markdownContent' can potentially lead to Cross Site Scripting (XSS) if the value is not properly sanitized before use. More info can be found here: https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)",
+                "solution": "Ensure proper sanitization of 'boostCell.value' before use, especially if it will be displayed in a web context."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:53:23 AM PDT\n\n1. **Severity**: 6/10\n\n   **Line Number**: 174\n\n   **Bug Type**: Disk\n\n   **Description**: The 'fs.statSync' function is a synchronous operation that can block the event loop, leading to poor performance, especially for large files or directories.\n\n   **Solution**: Replace 'fs.statSync' with the asynchronous 'fs.stat' function, and use async/await or Promises to handle the result. This will prevent blocking the event loop and improve performance. Refer: https://nodejs.org/api/fs.html#fs_fs_stat_path_options_callback\n\n\n2. **Severity**: 6/10\n\n   **Line Number**: 196\n\n   **Bug Type**: Disk\n\n   **Description**: The 'fs.existsSync' function is a synchronous operation that can block the event loop, leading to poor performance, especially for large files or directories.\n\n   **Solution**: Replace 'fs.existsSync' with the asynchronous 'fs.access' function, and use async/await or Promises to handle the result. This will prevent blocking the event loop and improve performance. Refer: https://nodejs.org/api/fs.html#fs_fs_access_path_mode_callback\n\n\n3. **Severity**: 4/10\n\n   **Line Number**: 204\n\n   **Bug Type**: Memory\n\n   **Description**: The 'markdownContent' variable is continuously appended with new content, which can potentially lead to high memory usage for large notebooks.\n\n   **Solution**: Consider using a streaming approach to write the content to a file as it is generated, instead of storing all of it in memory. This can be done using Node.js streams, which can significantly reduce memory usage. Refer: https://nodejs.org/api/stream.html\n\n\n4. **Severity**: 4/10\n\n   **Line Number**: 216\n\n   **Bug Type**: CPU\n\n   **Description**: The 'replace' function is called on the 'cellContent' variable inside a loop, which can be CPU-intensive for large notebooks or long cell values.\n\n   **Solution**: Consider using a faster string manipulation method, such as a regular expression with the 'g' flag, or perform the replacement outside the loop if possible. Refer: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\n\n\n5. **Severity**: 4/10\n\n   **Line Number**: 223\n\n   **Bug Type**: CPU\n\n   **Description**: The 'map' function is called on the 'cellOutputs' array inside a loop, which can be CPU-intensive for large notebooks or many cell outputs.\n\n   **Solution**: Consider using a more efficient looping method, such as a 'for' loop, or perform the mapping outside the loop if possible. Also, consider using a streaming approach to process the outputs as they are generated, instead of storing all of them in memory. Refer: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 88,
+                "severity": 6,
+                "bugType": "Disk",
+                "description": "The 'fs.statSync' function is a synchronous operation that can block the event loop, leading to poor performance, especially for large files or directories.",
+                "solution": "Replace 'fs.statSync' with the asynchronous 'fs.stat' function, and use async/await or Promises to handle the result. This will prevent blocking the event loop and improve performance. Refer: https://nodejs.org/api/fs.html#fs_fs_stat_path_options_callback"
+              },
+              {
+                "lineNumber": 110,
+                "severity": 6,
+                "bugType": "Disk",
+                "description": "The 'fs.existsSync' function is a synchronous operation that can block the event loop, leading to poor performance, especially for large files or directories.",
+                "solution": "Replace 'fs.existsSync' with the asynchronous 'fs.access' function, and use async/await or Promises to handle the result. This will prevent blocking the event loop and improve performance. Refer: https://nodejs.org/api/fs.html#fs_fs_access_path_mode_callback"
+              },
+              {
+                "lineNumber": 118,
+                "severity": 4,
+                "bugType": "Memory",
+                "description": "The 'markdownContent' variable is continuously appended with new content, which can potentially lead to high memory usage for large notebooks.",
+                "solution": "Consider using a streaming approach to write the content to a file as it is generated, instead of storing all of it in memory. This can be done using Node.js streams, which can significantly reduce memory usage. Refer: https://nodejs.org/api/stream.html"
+              },
+              {
+                "lineNumber": 130,
+                "severity": 4,
+                "bugType": "CPU",
+                "description": "The 'replace' function is called on the 'cellContent' variable inside a loop, which can be CPU-intensive for large notebooks or long cell values.",
+                "solution": "Consider using a faster string manipulation method, such as a regular expression with the 'g' flag, or perform the replacement outside the loop if possible. Refer: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions"
+              },
+              {
+                "lineNumber": 137,
+                "severity": 4,
+                "bugType": "CPU",
+                "description": "The 'map' function is called on the 'cellOutputs' array inside a loop, which can be CPU-intensive for large notebooks or many cell outputs.",
+                "solution": "Consider using a more efficient looping method, such as a 'for' loop, or perform the mapping outside the loop if possible. Also, consider using a streaming approach to process the outputs as they are generated, instead of storing all of them in memory. Refer: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:57:32 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 184\n\n   **Bug Type**: GDPR\n\n   **Description**: The function `generateMarkdownFromObject` uses the `fs.statSync` function to access the file system, potentially accessing user data. This could be a GDPR compliance issue if user data is being accessed without explicit consent.\n\n   **Solution**: Make sure to obtain explicit user consent before accessing any user data. Consider implementing a consent form or dialog that informs the user about what data will be accessed and for what purpose.\n\n\n2. **Severity**: 6/10\n\n   **Line Number**: 186\n\n   **Bug Type**: GDPR\n\n   **Description**: The function `generateMarkdownFromObject` uses the `boostNotebook.metadata['sourceFile']` object, which could potentially contain user data. This could be a GDPR compliance issue if user data is being accessed without explicit consent.\n\n   **Solution**: Ensure that you are not storing any personal data in the `sourceFile` metadata without explicit user consent. If personal data is necessary, ensure that it is anonymized or pseudonymized according to GDPR standards.\n\n\n3. **Severity**: 8/10\n\n   **Line Number**: 200\n\n   **Bug Type**: GDPR\n\n   **Description**: The function `generateMarkdownFromObject` uses the `fs.existsSync` function to check if a file exists, potentially accessing user data. This could be a GDPR compliance issue if user data is being accessed without explicit consent.\n\n   **Solution**: Make sure to obtain explicit user consent before accessing any user data. Consider implementing a consent form or dialog that informs the user about what data will be accessed and for what purpose.\n\n\n4. **Severity**: 6/10\n\n   **Line Number**: 214\n\n   **Bug Type**: HIPAA\n\n   **Description**: The function `generateMarkdownFromObject` uses the `boostCell.metadata?.lineNumberBase` object, which could potentially contain health information if the analyzed code is related to healthcare. This could be a HIPAA compliance issue if health information is being accessed without adequate protection.\n\n   **Solution**: Ensure that you are not storing any health information in the `lineNumberBase` metadata without adequate protection. If health information is necessary, ensure that it is encrypted and secured according to HIPAA standards.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 98,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The function `generateMarkdownFromObject` uses the `fs.statSync` function to access the file system, potentially accessing user data. This could be a GDPR compliance issue if user data is being accessed without explicit consent.",
+                "solution": "Make sure to obtain explicit user consent before accessing any user data. Consider implementing a consent form or dialog that informs the user about what data will be accessed and for what purpose.",
+                "webLink": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 100,
+                "severity": 6,
+                "bugType": "GDPR",
+                "description": "The function `generateMarkdownFromObject` uses the `boostNotebook.metadata['sourceFile']` object, which could potentially contain user data. This could be a GDPR compliance issue if user data is being accessed without explicit consent.",
+                "solution": "Ensure that you are not storing any personal data in the `sourceFile` metadata without explicit user consent. If personal data is necessary, ensure that it is anonymized or pseudonymized according to GDPR standards.",
+                "webLink": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 114,
+                "severity": 8,
+                "bugType": "GDPR",
+                "description": "The function `generateMarkdownFromObject` uses the `fs.existsSync` function to check if a file exists, potentially accessing user data. This could be a GDPR compliance issue if user data is being accessed without explicit consent.",
+                "solution": "Make sure to obtain explicit user consent before accessing any user data. Consider implementing a consent form or dialog that informs the user about what data will be accessed and for what purpose.",
+                "webLink": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 128,
+                "severity": 6,
+                "bugType": "HIPAA",
+                "description": "The function `generateMarkdownFromObject` uses the `boostCell.metadata?.lineNumberBase` object, which could potentially contain health information if the analyzed code is related to healthcare. This could be a HIPAA compliance issue if health information is being accessed without adequate protection.",
+                "solution": "Ensure that you are not storing any health information in the `lineNumberBase` metadata without adequate protection. If health information is necessary, ensure that it is encrypted and secured according to HIPAA standards.",
+                "webLink": "https://www.hhs.gov/hipaa/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "7",
+      "value": "\nasync function generateMarkdownFromObject(\n    boostNotebook: BoostNotebook,\n    notebookPath: string,\n    baseFolderPath: string,\n    printOptions: PrintOptions\n): Promise<string> {\n    const stats = fs.statSync(notebookPath);\n    const timestamp = stats.mtime;\n    const fileStamp = formatDateTime(timestamp);\n\n    const sourceFile = boostNotebook.metadata[\"sourceFile\"] as string;\n\n    const projectLevel = sourceFile === \"./\";\n    const analysisType = projectLevel ? \"Project\" : \"Source\";\n    const buildingSummary = notebookPath.endsWith(NOTEBOOK_SUMMARY_EXTENSION);\n    const pageTitle = `Polyverse Boost-generated ${analysisType} Analysis${buildingSummary?\" Summary\":projectLevel?\"\":\" Details\"}`;\n\n    const prettySourceFile =\n        sourceFile === \"./\" ? path.basename(baseFolderPath) : sourceFile;\n\n    const sectionHeading = `${analysisType}: ${prettySourceFile}\\nDate Generated: ${fileStamp}`;\n\n    let markdownContent = `# ${pageTitle}\\n\\n` + `## ${sectionHeading}\\n\\n`;\n\n    let summaryNotebook: BoostNotebook | undefined = undefined;\n    if (projectLevel || buildingSummary) {\n        summaryNotebook = boostNotebook;\n    } else {\n        const summaryBoostFile = getBoostFile(vscode.Uri.parse(path.join(baseFolderPath,sourceFile)), {\n            format: BoostFileType.summary\n        });\n        // if summary exists, then print that \n        if (fs.existsSync(summaryBoostFile.fsPath)) {\n            summaryNotebook = new BoostNotebook();\n            summaryNotebook.load(summaryBoostFile.fsPath);\n        }\n    }\n\n    if (summaryNotebook) {\n        // print the blueprint first in the summary\n        const blueprintCell = findCellByKernel(summaryNotebook, ControllerOutputType.blueprint) as BoostNotebookCell;\n        if (blueprintCell) {\n            markdownContent += `${blueprintCell.value}\\n`;\n        }\n\n        // then print the other summaries\n        for (const boostCell of summaryNotebook.cells) {\n            if (boostCell.id === blueprintCell?.id) {\n                continue;\n            }\n            markdownContent += `${boostCell.value}\\n`;\n        }\n    }\n\n    // if we are printing details for a file, keep displaying - otherwise summary only\n    if (!projectLevel && !buildingSummary) {\n        if (summaryNotebook) {\n            markdownContent += `---\\n## Detailed Analysis:\\n`;\n        }\n\n        for (const boostCell of boostNotebook.cells) {\n            // if there is a lineNumberBase, then add 1 to it to get the original line number and \n            // add that info\n            const line = boostCell.metadata?.lineNumberBase ? boostCell.metadata?.lineNumberBase as number + 1 : 1;\n            const lineText = boostCell.metadata?.lineNumberBase ? `line ${line}` : \"\";\n\n            markdownContent += `\\n### Cell ${boostCell.id}:\\n`;\n            \n            markdownContent += `## Original Code:\\n\\n`;\n\n            markdownContent += `### Programming Language: ${boostCell.languageId}\\n`;\n            markdownContent += `### ${prettySourceFile} ${lineText}\\n\\n`;\n    \n            let cellContent = boostCell.value.replace(/\\t/g, \" \");\n    \n            markdownContent += `\\`\\`\\`${boostCell.languageId}\\n${cellContent}\\n\\`\\`\\`\\n`;\n    \n            const cellOutputs = boostCell.outputs || [];\n            const outputText = cellOutputs\n                .map((output) => formatOutput(output, printOptions))\n                .join(\"\\n\");\n    \n            markdownContent += `## Boost Analysis:\\n${outputText}\\n\\n`;\n        }\n    }\n\n    return markdownContent;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 86
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 3:46:36 AM PDT\n\nThis function, `formatOutput()`, is used to format the output of a notebook cell in Visual Studio Code. The function takes two parameters: `output`, which is the output of a notebook cell, and `printOptions`, which are options for printing the output. The function returns a formatted string.\n\nThe `output` parameter is an object of type `SerializedNotebookCellOutput`. This object contains an array of `items`, where each `item` is an output of the cell. Each `item` has a `mime` property, which is a string representing the MIME type of the output, and a `data` property, which is the actual output data.\n\nThe `printOptions` parameter is an object of type `PrintOptions`. This object may have a `showOutputMetadata` property, which is a boolean indicating whether to include the output metadata in the printed output.\n\nThe function uses the `map()` method to transform each `item` in the `output.items` array. The transformation depends on the `mime` property of the `item`:\n\n- If the `mime` property starts with \"text/x-\", the function interprets the `mime` type as a programming language. It removes the \"text/x-\" prefix from the `mime` type to get the programming language, and formats the `data` property as code in that language. The formatted output includes a line indicating the programming language, followed by the `data` enclosed in triple backticks (```) for code formatting.\n- If the `mime` property does not start with \"text/markdown\", the function simply includes the `mime` type and the `data` in the formatted output.\n\nThe function then joins all the transformed `items` into a single string, with each `item` separated by a newline (`\\n`).\n\nIf the `printOptions.showOutputMetadata` property is `true` and `output.metadata` exists, the function also includes the metadata in the formatted output. The metadata is stringified into JSON format with an indentation of 2 spaces.\n\nFinally, the function returns the formatted string.\n\nFor more information, you can refer to the following resources:\n\n- [Array.prototype.map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)\n- [Template literals (Template strings)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)\n- [JSON.stringify()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)\n- [Visual Studio Code Notebook API](https://code.visualstudio.com/api/extension-guides/notebook)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 3:49:24 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle formatOutput fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->formatOutput;\n```\n\nThe control flow graph for the given source code is a simple linear flow. The function `formatOutput` is the starting point, and it calls the `SerializedNotebookCellOutput` function to format the output. The primary path is shown in green, indicating the normal flow of execution."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:51:11 AM PDT\n\n1. **Severity**: 3/10\n\n   **Line Number**: 357\n\n   **Bug Type**: Improper Input Validation\n\n   **Description**: The function 'formatOutput' does not validate the input 'output' and 'printOptions'. This can lead to various issues, such as type errors, null reference errors, or unexpected behavior if the input is not as expected. For example, if 'output' or 'output.items' is null, the function will throw an error when trying to map over 'output.items'. Similarly, if 'printOptions' or 'printOptions.showOutputMetadata' is null, it could lead to unexpected behavior when checking 'printOptions.showOutputMetadata'.\n\n   **Solution**: You should validate the input before using it. For example, you can check if 'output', 'output.items', 'printOptions', and 'printOptions.showOutputMetadata' are not null before using them. If they are null, you can return a default value or throw an error. You can also use TypeScript's optional chaining feature to safely access nested properties. For example, you can replace 'output.items' with 'output?.items' and 'printOptions.showOutputMetadata' with 'printOptions?.showOutputMetadata'. More about input validation can be found here: https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation\n\n\n2. **Severity**: 2/10\n\n   **Line Number**: 365\n\n   **Bug Type**: Information Exposure\n\n   **Description**: The function 'formatOutput' exposes potentially sensitive information by including the 'output.metadata' in the returned string if 'printOptions.showOutputMetadata' is true. Depending on what 'output.metadata' contains, this could lead to information exposure.\n\n   **Solution**: You should carefully consider what information is included in 'output.metadata' and whether it is safe to include in the returned string. If 'output.metadata' can contain sensitive information, you should either exclude it from the returned string or sanitize it before including it. More about information exposure can be found here: https://owasp.org/www-community/Information_exposure\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 182,
+                "severity": 3,
+                "bugType": "Improper Input Validation",
+                "description": "The function 'formatOutput' does not validate the input 'output' and 'printOptions'. This can lead to various issues, such as type errors, null reference errors, or unexpected behavior if the input is not as expected. For example, if 'output' or 'output.items' is null, the function will throw an error when trying to map over 'output.items'. Similarly, if 'printOptions' or 'printOptions.showOutputMetadata' is null, it could lead to unexpected behavior when checking 'printOptions.showOutputMetadata'.",
+                "solution": "You should validate the input before using it. For example, you can check if 'output', 'output.items', 'printOptions', and 'printOptions.showOutputMetadata' are not null before using them. If they are null, you can return a default value or throw an error. You can also use TypeScript's optional chaining feature to safely access nested properties. For example, you can replace 'output.items' with 'output?.items' and 'printOptions.showOutputMetadata' with 'printOptions?.showOutputMetadata'. More about input validation can be found here: https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation"
+              },
+              {
+                "lineNumber": 190,
+                "severity": 2,
+                "bugType": "Information Exposure",
+                "description": "The function 'formatOutput' exposes potentially sensitive information by including the 'output.metadata' in the returned string if 'printOptions.showOutputMetadata' is true. Depending on what 'output.metadata' contains, this could lead to information exposure.",
+                "solution": "You should carefully consider what information is included in 'output.metadata' and whether it is safe to include in the returned string. If 'output.metadata' can contain sensitive information, you should either exclude it from the returned string or sanitize it before including it. More about information exposure can be found here: https://owasp.org/www-community/Information_exposure"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:53:46 AM PDT\n\n1. **Severity**: 3/10\n\n   **Line Number**: 355\n\n   **Bug Type**: Memory\n\n   **Description**: The .map() function creates a new array, which can be memory-intensive if the 'output.items' array is large.\n\n   **Solution**: Consider using a for loop or for-of loop to iterate over the array instead of .map() if memory usage is a concern. This will avoid creating a new array. Alternatively, consider using a streaming approach if the data size is very large.\n\n\n2. **Severity**: 2/10\n\n   **Line Number**: 357\n\n   **Bug Type**: CPU\n\n   **Description**: The startsWith() and replace() methods are used within a loop, which can be CPU-intensive if the 'output.items' array is large.\n\n   **Solution**: Consider optimizing the code to reduce the number of startsWith() and replace() calls. For example, you could store the result of 'item.mime.startsWith(\"text/x-\")' in a variable and reuse it.\n\n\n3. **Severity**: 1/10\n\n   **Line Number**: 372\n\n   **Bug Type**: Memory\n\n   **Description**: The JSON.stringify() method can be memory-intensive if 'output.metadata' is a large object.\n\n   **Solution**: Consider using a streaming JSON serialization library if 'output.metadata' can be very large. This will help to manage memory usage.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 180,
+                "severity": 3,
+                "bugType": "Memory",
+                "description": "The .map() function creates a new array, which can be memory-intensive if the 'output.items' array is large.",
+                "solution": "Consider using a for loop or for-of loop to iterate over the array instead of .map() if memory usage is a concern. This will avoid creating a new array. Alternatively, consider using a streaming approach if the data size is very large."
+              },
+              {
+                "lineNumber": 182,
+                "severity": 2,
+                "bugType": "CPU",
+                "description": "The startsWith() and replace() methods are used within a loop, which can be CPU-intensive if the 'output.items' array is large.",
+                "solution": "Consider optimizing the code to reduce the number of startsWith() and replace() calls. For example, you could store the result of 'item.mime.startsWith(\"text/x-\")' in a variable and reuse it."
+              },
+              {
+                "lineNumber": 197,
+                "severity": 1,
+                "bugType": "Memory",
+                "description": "The JSON.stringify() method can be memory-intensive if 'output.metadata' is a large object.",
+                "solution": "Consider using a streaming JSON serialization library if 'output.metadata' can be very large. This will help to manage memory usage."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 3:58:00 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 352\n\n   **Bug Type**: GDPR\n\n   **Description**: The function is processing data without checking if it contains personal data. This could lead to GDPR compliance issues as personal data should be processed with user consent and should be anonymized or pseudonymized where possible.\n\n   **Solution**: Implement a mechanism to identify and handle personal data. This could be a function that checks if the data contains any personal information and if so, anonymizes or pseudonymizes it. Also, ensure user consent is obtained before processing personal data.\n\n\n2. **Severity**: 8/10\n\n   **Line Number**: 361\n\n   **Bug Type**: HIPAA\n\n   **Description**: The function is outputting metadata without checking if it contains Protected Health Information (PHI). This could lead to HIPAA compliance issues as PHI should be handled with strict security measures.\n\n   **Solution**: Implement a mechanism to identify and handle PHI. This could be a function that checks if the metadata contains any PHI and if so, applies necessary security measures like encryption and access control. Also, ensure that PHI is only shared with entities that are allowed to receive it under HIPAA.\n\n\n3. **Severity**: 6/10\n\n   **Line Number**: 361\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The function is outputting metadata without checking if it contains cardholder data. This could lead to PCI DSS compliance issues as cardholder data should be handled with strict security measures.\n\n   **Solution**: Implement a mechanism to identify and handle cardholder data. This could be a function that checks if the metadata contains any cardholder data and if so, applies necessary security measures like encryption and access control. Also, ensure that cardholder data is only shared with entities that are allowed to receive it under PCI DSS.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 177,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The function is processing data without checking if it contains personal data. This could lead to GDPR compliance issues as personal data should be processed with user consent and should be anonymized or pseudonymized where possible.",
+                "solution": "Implement a mechanism to identify and handle personal data. This could be a function that checks if the data contains any personal information and if so, anonymizes or pseudonymizes it. Also, ensure user consent is obtained before processing personal data."
+              },
+              {
+                "lineNumber": 186,
+                "severity": 8,
+                "bugType": "HIPAA",
+                "description": "The function is outputting metadata without checking if it contains Protected Health Information (PHI). This could lead to HIPAA compliance issues as PHI should be handled with strict security measures.",
+                "solution": "Implement a mechanism to identify and handle PHI. This could be a function that checks if the metadata contains any PHI and if so, applies necessary security measures like encryption and access control. Also, ensure that PHI is only shared with entities that are allowed to receive it under HIPAA."
+              },
+              {
+                "lineNumber": 186,
+                "severity": 6,
+                "bugType": "PCI DSS",
+                "description": "The function is outputting metadata without checking if it contains cardholder data. This could lead to PCI DSS compliance issues as cardholder data should be handled with strict security measures.",
+                "solution": "Implement a mechanism to identify and handle cardholder data. This could be a function that checks if the metadata contains any cardholder data and if so, applies necessary security measures like encryption and access control. Also, ensure that cardholder data is only shared with entities that are allowed to receive it under PCI DSS."
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "8",
+      "value": "\nfunction formatOutput(\n    output: SerializedNotebookCellOutput,\n    printOptions: PrintOptions\n): string {\n    const items = output.items\n        .map((item) => {\n            let text = \"\";\n            if (item.mime.startsWith(\"text/x-\")) {\n                const programmingLanguage = item.mime.replace(\"text/x-\", \"\");\n                text += `Converted Programming Language: ${programmingLanguage}\\n`;\n                return text + `\\n\\`\\`\\`${programmingLanguage}\\n${item.data}\\`\\`\\``;\n            } else if (!item.mime.startsWith(\"text/markdown\")) {\n                text += `MIME Type: ${item.mime}\\n`;\n            } \n            return text + `\\n${item.data}`;\n        })\n        .join(\"\\n\");\n\n    const metadata =\n        printOptions.showOutputMetadata && output.metadata\n            ? `\\n\\nMetadata: ${JSON.stringify(output.metadata, null, 2)}`\n            : \"\";\n\n    return `${items}${metadata}`;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 8,
+        "type": "originalCode",
+        "lineNumberBase": 175
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/utilities/convert_markdown.ts"
+  }
+}

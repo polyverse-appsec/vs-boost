@@ -1,0 +1,580 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/utilities/boostLogging.ts</h1>
+    <p>Date Generated: Saturday, September 9, 2023 at 2:14:48 AM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:12:45 AM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:13:38 AM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:15:38 AM PDT</p>
+<p>Executive Level Report:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The software project appears to be well-structured and follows best practices for a Visual Studio Code extension. However, there is a potential architectural risk in the <code>boostLogging.ts</code> file, where the &#39;BoostLogger&#39; instance is exported globally. This could lead to potential data leakage if sensitive data is logged. This issue could have architectural implications, as it may require changes to the logging mechanism to ensure data privacy.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The risk associated with the identified issue is high, as it could lead to violations of GDPR, PCI DSS, and HIPAA regulations. This could result in legal and financial penalties, as well as damage to the company&#39;s reputation. The risk is further increased by the fact that this issue is present in a utility file, which is likely used throughout the project.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: If sensitive data is logged and leaked, it could have a significant impact on customers. Their personal and financial information could be compromised, leading to potential identity theft or other forms of fraud. This could also lead to a loss of trust in the company and its products.</p>
+</li>
+<li><p><strong>Overall Issues</strong>: The overall health of the project source appears to be good, with only one file (<code>boostLogging.ts</code>) having detected issues. However, the severity of the issue in this file is high. It&#39;s important to note that this analysis is based on the provided information and a full review of the project may reveal additional issues.</p>
+</li>
+</ol>
+<p>Risk Assessment:</p>
+<ul>
+<li>The project consists of one file, <code>boostLogging.ts</code>, which has detected issues. This means 100% of the project files have issues by severity.</li>
+<li>The severity of the issues in this file is high, with potential violations of GDPR, PCI DSS, and HIPAA regulations. This indicates a high risk to the project.</li>
+</ul>
+<p>Highlights:</p>
+<ul>
+<li>The project follows best practices for a Visual Studio Code extension and makes good use of TypeScript features and the VS Code API.</li>
+<li>The <code>boostLogging.ts</code> file has a high-severity issue related to data privacy, which could lead to potential data leakage.</li>
+<li>The potential customer impact of this issue is high, as it could lead to the compromise of personal and financial information.</li>
+<li>The overall health of the project source appears to be good, but the severity of the issue in the <code>boostLogging.ts</code> file indicates a high risk to the project.</li>
+<li>Despite the lack of additional architectural guidelines or constraints, the project appears to adhere to standard best practices for this type of software project.</li>
+</ul>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/utilities/boostLogging.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { <span class="hljs-title class_">OutputChannel</span>, <span class="hljs-title class_">Disposable</span>, <span class="hljs-variable language_">window</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vscode&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:09:41 AM PDT</p>
+<p>The code provided is a small piece of a much larger code base, likely from a Visual Studio Code extension written in TypeScript. </p>
+<p>This line of code is importing specific modules from the &quot;vscode&quot; package. These modules are:</p>
+<ol>
+<li><p><code>OutputChannel</code>: This is a type that represents an output channel in Visual Studio Code. An output channel is a pane in the output view of VS Code that can display text output. Extensions can create their own output channels to display information to the user.</p>
+</li>
+<li><p><code>Disposable</code>: This is a type that represents a resource that needs to be disposed when it is no longer needed. Disposing a resource is a way of cleaning up after it, such as closing files or network connections, or freeing up memory. In VS Code extensions, disposables are used to manage resources like event listeners or output channels, which need to be cleaned up when the extension is deactivated.</p>
+</li>
+<li><p><code>window</code>: This module provides access to window-related functionality in VS Code. It can be used to interact with the editor window, such as by showing messages or input boxes to the user, or by creating output channels.</p>
+</li>
+</ol>
+<p>The specific algorithms used in these modules are not visible from this piece of code, as they are part of the implementation of the &quot;vscode&quot; package. However, the general principles involved are resource management (for <code>Disposable</code>), user interface design (for <code>OutputChannel</code>), and event-driven programming (for <code>window</code>).</p>
+<p>For more information on these topics, you can refer to the following resources:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api#OutputChannel">VS Code API - OutputChannel</a></li>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api#Disposable">VS Code API - Disposable</a></li>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api#window">VS Code API - window</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Memory_Management">Resource management in JavaScript</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Event-driven_programming">Event-driven programming</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:11:34 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre><p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:12:28 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:13:00 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:13:53 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/boostLogging.ts line 2:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">import</span> { BoostConfiguration } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../extension/boostConfiguration&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:09:58 AM PDT</p>
+<p>This is a single line of code written in TypeScript, which is a statically typed superset of JavaScript. This line of code is an import statement, which is used to include external modules or libraries into the current module. </p>
+<p>Here&#39;s what this line of code is doing:</p>
+<p><code>import { BoostConfiguration } from &quot;../extension/boostConfiguration&quot;;</code></p>
+<ol>
+<li><p><code>import</code>: This is the keyword that indicates we&#39;re bringing in an external module or part of a module. </p>
+</li>
+<li><p><code>{ BoostConfiguration }</code>: This is the specific item we&#39;re importing from the module. In this case, we&#39;re importing a class or object named <code>BoostConfiguration</code>. The curly braces <code>{}</code> indicate that we&#39;re importing something specific from the module, not the entire module itself. </p>
+</li>
+<li><p><code>from &quot;../extension/boostConfiguration&quot;</code>: This is the path to the module we&#39;re importing from. The <code>..</code> at the start of the path means we&#39;re going up one directory level from the current file&#39;s location. From there, we&#39;re going into the <code>extension</code> directory and importing from the <code>boostConfiguration</code> file. The <code>.ts</code> or <code>.js</code> file extension is usually left off in import statements.</p>
+</li>
+</ol>
+<p>As for the architectural guidelines, this line of code seems to be in line with the general principles outlined in the project blueprint. It&#39;s using TypeScript and object-oriented design, as the <code>BoostConfiguration</code> is likely a class or object. However, without more context or code, it&#39;s hard to provide a more detailed analysis. </p>
+<p>For more information on import statements in JavaScript and TypeScript, you can refer to the following resources:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">MDN Web Docs: import</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/modules.html">TypeScript: Modules</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:11:39 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style BoostConfiguration fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->BoostConfiguration;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:12:33 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:13:04 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:14:06 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 2</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The import statement on line 1 suggests that the BoostConfiguration module may contain configuration settings that could potentially include personal data, which could be a GDPR compliance issue if not handled properly.</p>
+<p><strong>Solution</strong>: Ensure any personal data in the BoostConfiguration module is anonymized, encrypted, and handled according to GDPR regulations. Consider implementing a data protection impact assessment (DPIA) to identify and minimize data protection risks.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/boostLogging.ts line 4:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+export <span class="hljs-keyword">class</span> <span class="hljs-title class_">BoostLogger</span> <span class="hljs-title">extends</span> <span class="hljs-title">Disposable</span> {
+    <span class="hljs-keyword">private</span> _outputChannel: OutputChannel | undefined;
+
+    <span class="hljs-keyword">constructor</span>() {
+        <span class="hljs-keyword">super</span>(() =&gt; <span class="hljs-keyword">this</span>.dispose());
+
+        <span class="hljs-comment">// we use a friendly name for the channel as this will be displayed to the user in the output pane</span>
+        <span class="hljs-keyword">for</span> (let i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++) {
+            <span class="hljs-keyword">try</span> {
+                <span class="hljs-keyword">this</span>._outputChannel =
+                    window.createOutputChannel(<span class="hljs-string">&quot;Polyverse Boost&quot;</span>);
+            } <span class="hljs-keyword">catch</span> (e) {
+                <span class="hljs-comment">// ignore</span>
+            }
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>._outputChannel) {
+                <span class="hljs-keyword">break</span>;
+            }
+        }
+
+        <span class="hljs-keyword">this</span>.log(<span class="hljs-string">&quot;Boost Logging starting...&quot;</span>);
+    }
+
+    debug(message: string) {
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.shouldLog(<span class="hljs-string">&quot;debug&quot;</span>)) {
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-keyword">this</span>.log(<span class="hljs-string">&quot;DEBUG: &quot;</span> + message);
+    }
+
+    log(message: string) {
+        <span class="hljs-keyword">this</span>._outputChannel?.appendLine(message);
+    }
+
+    info(message: string, showUI: boolean = <span class="hljs-literal">false</span>) {
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.shouldLog(<span class="hljs-string">&quot;info&quot;</span>)) {
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-keyword">this</span>.log(<span class="hljs-string">&quot;INFO: &quot;</span> + message);
+        <span class="hljs-keyword">if</span> (showUI) {
+            window.showInformationMessage(message);
+        }
+    }
+
+    warn(message: string, showUI: boolean = <span class="hljs-literal">false</span>) {
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.shouldLog(<span class="hljs-string">&quot;warn&quot;</span>)) {
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-keyword">this</span>.log(<span class="hljs-string">&quot;WARNING: &quot;</span> + message);
+        <span class="hljs-keyword">if</span> (showUI) {
+            window.showWarningMessage(message);
+        }
+    }
+
+    error(message: string, showUI: boolean = <span class="hljs-literal">false</span>) {
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.shouldLog(<span class="hljs-string">&quot;error&quot;</span>)) {
+            <span class="hljs-keyword">return</span>;
+        }
+
+        <span class="hljs-keyword">this</span>.log(<span class="hljs-string">&quot;ERROR: &quot;</span> + message);
+        <span class="hljs-keyword">if</span> (showUI) {
+            window.showErrorMessage(message);
+        }
+    }
+
+    dispose(): void {
+        <span class="hljs-keyword">this</span>.log(<span class="hljs-string">&quot;Boost Logging shutting down...&quot;</span>);
+        <span class="hljs-keyword">this</span>._outputChannel?.dispose();
+    }
+
+    shouldLog(messageTarget: string): boolean {
+        <span class="hljs-keyword">const</span> logLevel = BoostConfiguration.logLevel.toLowerCase();
+
+        switch (messageTarget) {
+            case <span class="hljs-string">&quot;debug&quot;</span>:
+                <span class="hljs-keyword">return</span> logLevel === <span class="hljs-string">&quot;debug&quot;</span>;
+            case <span class="hljs-string">&quot;info&quot;</span>:
+                <span class="hljs-keyword">return</span> logLevel === <span class="hljs-string">&quot;debug&quot;</span> || logLevel === <span class="hljs-string">&quot;info&quot;</span>;
+            case <span class="hljs-string">&quot;warn&quot;</span>:
+                <span class="hljs-keyword">return</span> (
+                    logLevel === <span class="hljs-string">&quot;debug&quot;</span> ||
+                    logLevel === <span class="hljs-string">&quot;info&quot;</span> ||
+                    logLevel === <span class="hljs-string">&quot;warn&quot;</span>
+                );
+            case <span class="hljs-string">&quot;error&quot;</span>:
+                <span class="hljs-keyword">return</span> (
+                    logLevel === <span class="hljs-string">&quot;debug&quot;</span> ||
+                    logLevel === <span class="hljs-string">&quot;info&quot;</span> ||
+                    logLevel === <span class="hljs-string">&quot;warn&quot;</span> ||
+                    logLevel === <span class="hljs-string">&quot;error&quot;</span>
+                );
+            default:
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        }
+    }
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:10:44 AM PDT</p>
+<p>This TypeScript code defines a class named <code>BoostLogger</code> which extends <code>Disposable</code>. The <code>Disposable</code> class is a part of the Visual Studio Code Extension API, and it provides a way to free up resources when they are no longer needed. </p>
+<p>The <code>BoostLogger</code> class is a custom logger for a Visual Studio Code extension. It logs messages to an output channel named &quot;Polyverse Boost&quot; which is created in the Visual Studio Code output pane. </p>
+<p>Here is a detailed breakdown:</p>
+<ul>
+<li><p><code>constructor()</code>: This method is called when a new instance of the <code>BoostLogger</code> class is created. It attempts to create an output channel named &quot;Polyverse Boost&quot; up to three times, ignoring any errors that occur. Once the output channel is successfully created, it logs the message &quot;Boost Logging starting...&quot;.</p>
+</li>
+<li><p><code>debug(message: string)</code>: This method logs debug messages. If the current log level does not include debug messages, this method returns immediately without logging the message.</p>
+</li>
+<li><p><code>log(message: string)</code>: This method appends a new line containing the provided message to the output channel.</p>
+</li>
+<li><p><code>info(message: string, showUI: boolean = false)</code>: This method logs informational messages. If the current log level does not include informational messages, this method returns immediately without logging the message. If <code>showUI</code> is <code>true</code>, it also displays the message to the user using <code>window.showInformationMessage()</code>.</p>
+</li>
+<li><p><code>warn(message: string, showUI: boolean = false)</code>: This method logs warning messages. If the current log level does not include warning messages, this method returns immediately without logging the message. If <code>showUI</code> is <code>true</code>, it also displays the message to the user using <code>window.showWarningMessage()</code>.</p>
+</li>
+<li><p><code>error(message: string, showUI: boolean = false)</code>: This method logs error messages. If the current log level does not include error messages, this method returns immediately without logging the message. If <code>showUI</code> is <code>true</code>, it also displays the message to the user using <code>window.showErrorMessage()</code>.</p>
+</li>
+<li><p><code>dispose()</code>: This method is called when the <code>BoostLogger</code> instance is being disposed of. It logs the message &quot;Boost Logging shutting down...&quot; and then disposes of the output channel.</p>
+</li>
+<li><p><code>shouldLog(messageTarget: string)</code>: This method determines whether a message of the specified type should be logged, based on the current log level. It uses a switch statement to check the <code>messageTarget</code> against the current log level.</p>
+</li>
+</ul>
+<p>The algorithm used here is straightforward: based on the log level, decide whether to log a message or not, and if so, append it to the output channel and possibly display it to the user.</p>
+<p>For more information on the concepts used here, you can refer to the following links:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api">Visual Studio Code Extension API</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/2/classes.html">TypeScript Classes</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html#optional-chaining">TypeScript Optional Chaining</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html#nullish-coalescing">TypeScript Nullish Coalescing</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:12:09 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;
+ExampleProcess-->End;
+ExampleErrorPath-->End;
+
+classDef primary fill:#228B22, stroke:#000000, stroke-width:2px;
+classDef error fill:#B22222, stroke:#000000, stroke-width:2px;
+
+class BoostLogger primary;
+
+BoostLogger-->createOutputChannel;
+BoostLogger-->log;
+BoostLogger-->shouldLog;
+BoostLogger-->dispose;
+BoostLogger-->debug;
+BoostLogger-->info;
+BoostLogger-->warn;
+BoostLogger-->error;
+
+createOutputChannel-->window.createOutputChannel;
+log-->_outputChannel.appendLine;
+shouldLog-->BoostConfiguration.logLevel.toLowerCase;
+dispose-->log;
+debug-->shouldLog;
+info-->shouldLog;
+warn-->shouldLog;
+error-->shouldLog;
+</pre>
+</code></pre><p>The control flow graph for the given source code is as follows:</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;
+ExampleProcess-->End;
+ExampleErrorPath-->End;
+
+classDef primary fill:#228B22, stroke:#000000, stroke-width:2px;
+classDef error fill:#B22222, stroke:#000000, stroke-width:2px;
+
+class BoostLogger primary;
+
+BoostLogger-->createOutputChannel;
+BoostLogger-->log;
+BoostLogger-->shouldLog;
+BoostLogger-->dispose;
+BoostLogger-->debug;
+BoostLogger-->info;
+BoostLogger-->warn;
+BoostLogger-->error;
+
+createOutputChannel-->window.createOutputChannel;
+log-->_outputChannel.appendLine;
+shouldLog-->BoostConfiguration.logLevel.toLowerCase;
+dispose-->log;
+debug-->shouldLog;
+info-->shouldLog;
+warn-->shouldLog;
+error-->shouldLog;
+</pre>
+</code></pre><p>The primary path through the code is as follows:</p>
+<ol>
+<li>Start at the <code>BoostLogger</code> class.</li>
+<li>Call the <code>createOutputChannel</code> function to create an output channel.</li>
+<li>Call the <code>log</code> function to append a message to the output channel.</li>
+<li>Call the <code>shouldLog</code> function to check if the log level allows logging for the specified message target.</li>
+<li>Call the <code>dispose</code> function to shut down the logging and dispose of the output channel.</li>
+</ol>
+<p>The error path through the code is as follows:</p>
+<ol>
+<li>Start at the <code>BoostLogger</code> class.</li>
+<li>Call the <code>createOutputChannel</code> function to create an output channel.</li>
+<li>Call the <code>log</code> function to append a message to the output channel.</li>
+<li>Call the <code>shouldLog</code> function to check if the log level allows logging for the specified message target.</li>
+<li>Call the <code>dispose</code> function to shut down the logging and dispose of the output channel.</li>
+<li>Call the <code>debug</code>, <code>info</code>, <code>warn</code>, or <code>error</code> function to log a message of the corresponding severity level.</li>
+<li>Show a message to the user if <code>showUI</code> is <code>true</code>.</li>
+</ol>
+<p>Note: The control flow graph does not include external library or non-standard function calls as distinct flow blocks, as there are none in the provided code.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:12:38 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:13:31 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 11</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The creation of the OutputChannel is attempted in a loop up to three times without any delay or backoff strategy. This could lead to unnecessary CPU usage if the creation fails repeatedly.</p>
+<p><strong>Solution</strong>: Consider adding a delay or a backoff strategy if the creation of the OutputChannel fails. This would allow the system to recover resources between attempts, improving CPU usage. See this link for more information on backoff strategies: <a href="https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/">https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/</a></p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 41</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The &#39;log&#39; and &#39;shouldLog&#39; methods are called even if the log level doesn&#39;t match the message level. This could lead to unnecessary CPU usage.</p>
+<p><strong>Solution</strong>: Consider checking the log level before calling the &#39;log&#39; method. This would prevent unnecessary calls to the method, improving CPU usage.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 59</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The &#39;shouldLog&#39; method is called for each log message, and it involves a switch statement and multiple string comparisons. This could lead to unnecessary CPU usage, especially if the log level doesn&#39;t change often.</p>
+<p><strong>Solution</strong>: Consider caching the log level and updating it only when it changes. This would reduce the number of string comparisons, improving CPU usage.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:14:36 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 11</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The logger may capture personal data and output it in the logs. This could potentially violate GDPR regulations if personal data is logged without consent and appropriate safeguards.</p>
+<p><strong>Solution</strong>: Ensure that the logger does not capture any personal data. If necessary, implement a mechanism to anonymize or pseudonymize personal data before it is logged. Also, make sure to obtain user consent before logging their data.</p>
+</li>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 11</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The logger may capture sensitive payment card data. This could potentially violate PCI DSS regulations if cardholder data is logged without appropriate safeguards.</p>
+<p><strong>Solution</strong>: Ensure that the logger does not capture any cardholder data. If necessary, implement a mechanism to mask or tokenize cardholder data before it is logged. Also, make sure to comply with all other PCI DSS requirements related to logging and monitoring.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 11</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The logger may capture protected health information (PHI). This could potentially violate HIPAA regulations if PHI is logged without appropriate safeguards.</p>
+<p><strong>Solution</strong>: Ensure that the logger does not capture any PHI. If necessary, implement a mechanism to de-identify PHI before it is logged. Also, make sure to comply with all other HIPAA requirements related to logging and monitoring.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/boostLogging.ts line 103:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-type">const</span> boostLogging = <span class="hljs-keyword">new</span> <span class="hljs-built_in">BoostLogger</span>();
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:11:16 AM PDT</p>
+<p>The line of code you provided is a single statement written in JavaScript (or TypeScript). It&#39;s part of a larger program and without the context, it&#39;s hard to provide a detailed explanation. However, I can explain what this line is doing in a general sense.</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> boostLogging = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BoostLogger</span>();
+</code></pre><p>This line is creating a new instance of a <code>BoostLogger</code> class and exporting it as a constant named <code>boostLogging</code>. </p>
+<p><code>BoostLogger</code> is presumably a class defined elsewhere in your codebase. A class in JavaScript is a type of function, but instead of using the keyword <code>function</code> to initiate it, you use the keyword <code>class</code>. This is the foundation of Object-Oriented Programming (OOP) in JavaScript.</p>
+<p>The <code>new</code> keyword is used to create an instance of a class. In this case, <code>new BoostLogger()</code> is creating an instance of the <code>BoostLogger</code> class.</p>
+<p>The <code>const</code> keyword is used to define a variable that cannot be reassigned. In this case, <code>boostLogging</code> is defined as a constant, meaning you cannot reassign <code>boostLogging</code> to a new value later in your code.</p>
+<p>The <code>export</code> keyword is used to export objects, functions, variables, etc., from a module so they can be used in other JavaScript files using the <code>import</code> statement.</p>
+<p>In terms of architectural guidelines, this line of code is quite standard in JavaScript and TypeScript projects. It follows the principles of Object-Oriented Programming (OOP) by creating an instance of a class. It also follows the module system in JavaScript, by exporting a module member.</p>
+<p>For more information, you can refer to these links:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">JavaScript Classes</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new">The <code>new</code> operator</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const">JavaScript <code>const</code> statement</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export">JavaScript <code>export</code> statement</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:12:13 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style boostLogging fill:#228B22, stroke:#000000, stroke-width:2px;
+
+    boostLogging</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:12:41 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:13:35 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 2:14:48 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 204</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The &#39;BoostLogger&#39; instance is exported globally, which could lead to potential data leakage if sensitive data is logged. This could compromise the privacy of user data, which is a violation of GDPR, PCI DSS, and HIPAA.</p>
+<p><strong>Solution</strong>: Ensure that any logging of sensitive data is done in a secure and compliant manner. Consider implementing a logging policy that specifies what data can be logged and how it should be handled. Also consider using a logging library that supports redaction of sensitive data.</p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>

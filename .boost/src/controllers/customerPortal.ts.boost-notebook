@@ -1,0 +1,677 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:41:41 PM PDT\n\nThis code is written in TypeScript, which is a statically typed superset of JavaScript. It's a small snippet of code, but there's still a lot to unpack.\n\nThe first line is importing the `axios` library. Axios is a popular, promise-based HTTP client for the browser and Node.js. It can be used to make HTTP requests to retrieve or send data. It's particularly useful in this context because it supports Promises, which are a core part of JavaScript's asynchronous programming features. More information about axios can be found here: [Axios](https://axios-http.com/).\n\nThe second line is importing the `vscode` module. This is the API that allows extensions to interact with Visual Studio Code. The `vscode` module contains the vscode.d.ts file that defines the VS Code extensibility API. This is a large API, and includes types, functions, and objects that can be used to interact with the VS Code editor, create webviews, manage workspace settings, and much more. More information about the VS Code API can be found here: [VS Code API](https://code.visualstudio.com/api/references/vscode-api).\n\nThe third line imports a module named `BoostConfiguration` from a local file located at \"../extension/boostConfiguration\". The exact contents of this module are not shown in this snippet, but based on its name and common conventions, we can infer that it likely contains configuration settings or functions related to the 'Boost' functionality of this extension.\n\nIn terms of architecture, this code is consistent with common practices for a VS Code extension. It's modular, with separate files for different parts of the extension (in this case, the Boost configuration). It also uses external libraries (`axios`) to handle common tasks (HTTP requests), and it interacts with the VS Code API to integrate with the editor.\n\nThis code does not contain any complex algorithms, it's just importing modules for use in the rest of the application. The axios library does use the Promise pattern, which is a way to handle asynchronous operations in JavaScript. A Promise represents a value that may not be available yet. More information about Promises can be found here: [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). \n\nThis code does not appear to conflict with any architectural guidelines or constraints, but without more context, it's hard to say for certain."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:44:50 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle axios fill:#FF8C00, stroke:#000000, stroke-width:2px;\nstyle vscode fill:#FF8C00, stroke:#000000, stroke-width:2px;\nstyle BoostConfiguration fill:#FF8C00, stroke:#000000, stroke-width:2px;\n\nStart-->axios;\nStart-->vscode;\nStart-->BoostConfiguration;\n```\n\nThe control flow graph for the provided source code is shown above. The code starts at the function being analyzed and has control flow to three external libraries or non-standard functions: axios, vscode, and BoostConfiguration."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:46:30 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:48:24 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:50:12 PM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 1\n\n   **Bug Type**: GDPR\n\n   **Description**: The 'axios' library is used for making HTTP requests. If it is used to send or receive personal data, it might be a violation of GDPR if not properly handled.\n\n   **Solution**: Ensure that any personal data sent or received with 'axios' is done with the user's consent, is necessary for the service, and is protected during transit. Be sure to implement appropriate data protection measures, such as encryption.\n\n\n2. **Severity**: 2/10\n\n   **Line Number**: 1\n\n   **Bug Type**: GDPR\n\n   **Description**: The 'vscode' module is imported, which could potentially access user workspace data. If this data includes personal information, it could be a violation of GDPR if not properly handled.\n\n   **Solution**: Ensure that any personal data accessed through the 'vscode' module is done with the user's consent, is necessary for the service, and is protected. Implement appropriate data protection measures, such as anonymization or pseudonymization of data.\n\n\n3. **Severity**: 1/10\n\n   **Line Number**: 3\n\n   **Bug Type**: GDPR\n\n   **Description**: The 'BoostConfiguration' is imported, which might be used to store user settings. If these settings include personal data, it could be a violation of GDPR if not properly handled.\n\n   **Solution**: Ensure that any personal data stored in 'BoostConfiguration' is done with the user's consent, is necessary for the service, and is protected. Implement appropriate data protection measures, such as encryption.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 1,
+                "severity": 2,
+                "bugType": "GDPR",
+                "description": "The 'axios' library is used for making HTTP requests. If it is used to send or receive personal data, it might be a violation of GDPR if not properly handled.",
+                "solution": "Ensure that any personal data sent or received with 'axios' is done with the user's consent, is necessary for the service, and is protected during transit. Be sure to implement appropriate data protection measures, such as encryption.",
+                "webLink": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 1,
+                "severity": 2,
+                "bugType": "GDPR",
+                "description": "The 'vscode' module is imported, which could potentially access user workspace data. If this data includes personal information, it could be a violation of GDPR if not properly handled.",
+                "solution": "Ensure that any personal data accessed through the 'vscode' module is done with the user's consent, is necessary for the service, and is protected. Implement appropriate data protection measures, such as anonymization or pseudonymization of data.",
+                "webLink": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 3,
+                "severity": 1,
+                "bugType": "GDPR",
+                "description": "The 'BoostConfiguration' is imported, which might be used to store user settings. If these settings include personal data, it could be a violation of GDPR if not properly handled.",
+                "solution": "Ensure that any personal data stored in 'BoostConfiguration' is done with the user's consent, is necessary for the service, and is protected. Implement appropriate data protection measures, such as encryption.",
+                "webLink": "https://gdpr-info.eu/"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "\nimport axios from \"axios\";\nimport * as vscode from \"vscode\";\n\nimport { BoostConfiguration } from \"../extension/boostConfiguration\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:42:14 PM PDT\n\nThis is a single line of JavaScript code that imports two functions, `fetchGithubSession` and `getCurrentOrganization`, from a module named `authorization` located in a `utilities` directory one level up from the current file.\n\nLet's break down each part:\n\n- `import`: This is a keyword in JavaScript that is part of the ES6 module system. It allows you to include functions, objects, or values from other files in your project so that you can use them in the current file. This is a way to share code across different parts of your application.\n\n- `{ fetchGithubSession, getCurrentOrganization }`: These are the specific items being imported from the other module. In this case, they are both functions. The curly braces `{}` are used when you want to import specific named exports from a module. \n\n- `from \"../utilities/authorization\"`: This is the relative path to the module that contains the items you're importing. The `..` means to go up one directory level. Then it goes into a `utilities` directory and looks for a file named `authorization`.\n\nAs for what these functions do, we can infer from their names:\n\n- `fetchGithubSession`: This function likely interacts with the GitHub API to fetch some kind of session data, perhaps as part of an authentication or authorization process.\n\n- `getCurrentOrganization`: This function likely returns data about the currently active or selected GitHub organization, perhaps from the session data.\n\nWithout more context or the implementation of these functions, it's hard to say what specific algorithms are used. They likely involve network requests to the GitHub API, and might use standard algorithms for tasks like parsing JSON data.\n\nAs for architectural guidelines, this line of code seems fine. It's modular, with separate functions handling different tasks, and it makes use of a utilities module, which is a common pattern for organizing shared code. \n\nFor more information about ES6 modules, you can check out this link: [ES6 Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:44:54 PM PDT\n\n```mermaid\ngraph TD;\nstyle fetchGithubSession fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle getCurrentOrganization fill:#228B22, stroke:#000000, stroke-width:2px;\n\n    Start-->fetchGithubSession;\n    Start-->getCurrentOrganization;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:46:33 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:48:28 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:50:36 PM PDT\n\n1. **Severity**: 8/10\n\n   **Line Number**: 10\n\n   **Bug Type**: GDPR\n\n   **Description**: The code imports functions that may be used to fetch user data from Github. If personal data is fetched and processed without proper consent or necessity, it could violate GDPR.\n\n   **Solution**: Ensure that explicit consent is obtained from users before fetching their data. Also, only fetch the minimum necessary data.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 10\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If the fetched data includes cardholder data, it could violate PCI DSS if not handled securely.\n\n   **Solution**: Ensure that cardholder data is not stored, processed, or transmitted unless it's necessary and is done in a secure manner.\n\n\n3. **Severity**: 9/10\n\n   **Line Number**: 10\n\n   **Bug Type**: HIPAA\n\n   **Description**: If the fetched data includes protected health information (PHI), it could violate HIPAA if not handled securely and with proper consent.\n\n   **Solution**: Ensure that PHI is not stored, processed, or transmitted unless it's necessary, done with proper consent, and in a secure manner.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 5,
+                "severity": 8,
+                "bugType": "GDPR",
+                "description": "The code imports functions that may be used to fetch user data from Github. If personal data is fetched and processed without proper consent or necessity, it could violate GDPR.",
+                "solution": "Ensure that explicit consent is obtained from users before fetching their data. Also, only fetch the minimum necessary data.",
+                "webLink": "https://gdpr.eu/data-processing-principles/"
+              },
+              {
+                "lineNumber": 5,
+                "severity": 7,
+                "bugType": "PCI DSS",
+                "description": "If the fetched data includes cardholder data, it could violate PCI DSS if not handled securely.",
+                "solution": "Ensure that cardholder data is not stored, processed, or transmitted unless it's necessary and is done in a secure manner.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/maintaining_payment_security"
+              },
+              {
+                "lineNumber": 5,
+                "severity": 9,
+                "bugType": "HIPAA",
+                "description": "If the fetched data includes protected health information (PHI), it could violate HIPAA if not handled securely and with proper consent.",
+                "solution": "Ensure that PHI is not stored, processed, or transmitted unless it's necessary, done with proper consent, and in a secure manner.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import { fetchGithubSession, getCurrentOrganization } from \"../utilities/authorization\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 5
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:42:43 PM PDT\n\nThe line of code you provided is a simple import statement in JavaScript (or TypeScript, as it's also valid in that language). This statement is used to include functions, objects, or values from other modules so they can be used in the current module.\n\nHere's the breakdown of the line:\n\n- `import`: This is a keyword in JavaScript that is used to import functions, objects, or values exported from another module.\n\n- `{ mapError }`: This is the specific function that is being imported from the module. The curly braces `{}` are used for named imports. This means that the `mapError` function is exported with the `export` keyword in its module.\n\n- `from \"../utilities/error\"`: This specifies the path to the module that exports the `mapError` function. The `..` means to go up one directory level, then it goes into the `utilities` directory, and finally, loads the `error` module.\n\nThe `mapError` function is likely a utility function used throughout the project to handle or transform errors in a specific way. Without more context, it's hard to say exactly what this function does, but the name suggests it applies a mapping (or transformation) to an error. This could be used for various purposes such as standardizing error messages, translating error codes into user-friendly messages, or adding additional information to errors.\n\nAs for the architectural guidelines, this import statement is a common practice in JavaScript and TypeScript projects and does not seem to conflict with any general architectural guidelines. However, without more specific guidelines or more context about the project, it's hard to make a definitive judgement.\n\nFor more information about the `import` and `export` statements in JavaScript, you can refer to the following resources:\n\n- [MDN Web Docs: import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)\n- [MDN Web Docs: export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:44:58 PM PDT\n\n```mermaid\ngraph TD;\nstyle mapError fill:#228B22, stroke:#000000, stroke-width:2px;\n\n    Start-->mapError;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:46:37 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:48:31 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:50:39 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "import { mapError } from \"../utilities/error\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 6
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:43:08 PM PDT\n\nThe line of code you've provided is a single import statement in JavaScript, specifically in Node.js, which is used to include external modules or files into the current file.\n\nHere's a breakdown:\n\n`import { boostLogging } from \"../utilities/boostLogging\";`\n\nThis is an ES6 (ECMAScript 2015) import statement. It is used to import bindings that are exported by another module. \n\n- `{ boostLogging }` is a named import. The curly braces are used to import specific exports from the module. In this case, it's importing the `boostLogging` export from the module. This means that the `boostLogging` module has an export named `boostLogging`.\n\n- `from \"../utilities/boostLogging\"` specifies the module to import from. The string is a path to the module. In this case, it's a relative path, meaning it's looking for the `boostLogging` module in the `utilities` directory, which is one level up from the current directory (that's what `..` means).\n\nThe `boostLogging` module is likely a utility module that provides logging functionality for the Boost application. Since it's being imported, it's likely that the current module wants to use this logging functionality. \n\nUnfortunately, without more code, it's hard to give a more detailed explanation. However, this import statement is consistent with good architectural practices, as it's modularizing the logging functionality into its own module and then importing it where it's needed.\n\nFor more information on ES6 modules and import/export statements, you can check out this [MDN Web Docs page](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:45:02 PM PDT\n\n```mermaid\ngraph TD;\nstyle boostLogging fill:#228B22, stroke:#000000, stroke-width:2px;\n\nboostLogging-->NO CONTROL FLOW FOUND;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:46:40 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:48:35 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:50:50 PM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 14\n\n   **Bug Type**: General\n\n   **Description**: The code imports a module for logging, but it's unclear how the logs are being handled. Improper logging can lead to data leaks and non-compliance with GDPR, PCI DSS, and HIPAA.\n\n   **Solution**: Ensure that the logging module does not log sensitive data. If it does, it must be properly anonymized or pseudonymized. Also, ensure that logs are securely stored and only accessible to authorized individuals. Regularly review and delete logs that are no longer needed.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 7,
+                "severity": 2,
+                "bugType": "General",
+                "description": "The code imports a module for logging, but it's unclear how the logs are being handled. Improper logging can lead to data leaks and non-compliance with GDPR, PCI DSS, and HIPAA.",
+                "solution": "Ensure that the logging module does not log sensitive data. If it does, it must be properly anonymized or pseudonymized. Also, ensure that logs are securely stored and only accessible to authorized individuals. Regularly review and delete logs that are no longer needed."
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "import { boostLogging } from \"../utilities/boostLogging\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 7
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:43:34 PM PDT\n\nThe provided code is a JavaScript function named `serviceEndpoint`. This function is used to return the appropriate service endpoint URL based on the current cloud service stage, which is stored in `BoostConfiguration.cloudServiceStage`.\n\nHere's a detailed breakdown of the code:\n\n- The function `serviceEndpoint` does not take any parameters and returns a string.\n\n- Inside this function, a switch statement is used to determine the value of `BoostConfiguration.cloudServiceStage`.\n\n- The `BoostConfiguration.cloudServiceStage` value is checked against several cases: \"local\", \"dev\", \"test\", \"staging\", and \"prod\". Depending on which case matches, the function returns a different URL.\n\n- If `BoostConfiguration.cloudServiceStage` is \"local\", the function returns the local development server URL, \"http://127.0.0.1:8000/customer_portal\".\n\n- If the value is \"dev\", the function returns the development AWS Lambda URL.\n\n- If the value is \"test\", the function returns the testing AWS Lambda URL.\n\n- If the value is \"staging\" or \"prod\", or if it's any value not covered by the other cases (handled by the `default` case), the function returns the production AWS Lambda URL.\n\nThis function uses the Switch Statement algorithm, which is a type of selection control mechanism used to allow the value of a variable or expression to change the control flow of program execution via search and map.\n\nThe function adheres to the architectural guidelines given, as it doesn't seem to conflict with any specific constraints or guidelines. It is a simple, well-structured function that follows good practices such as using a switch statement for multiple conditions and returning appropriate values in each case.\n\nFor more information about switch statements in JavaScript, you can refer to this link: [JavaScript Switch Statement](https://www.w3schools.com/js/js_switch.asp)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:45:58 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ProcessSwitch;\nProcessSwitch-->LocalEndpoint;\nProcessSwitch-->DevEndpoint;\nProcessSwitch-->TestEndpoint;\nProcessSwitch-->StagingProdEndpoint;\nLocalEndpoint-->ReturnLocalEndpoint;\nDevEndpoint-->ReturnDevEndpoint;\nTestEndpoint-->ReturnTestEndpoint;\nStagingProdEndpoint-->ReturnStagingProdEndpoint;\n\nstyle ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\n\n```\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ProcessSwitch;\nProcessSwitch-->LocalEndpoint;\nProcessSwitch-->DevEndpoint;\nProcessSwitch-->TestEndpoint;\nProcessSwitch-->StagingProdEndpoint;\nLocalEndpoint-->ReturnLocalEndpoint;\nDevEndpoint-->ReturnDevEndpoint;\nTestEndpoint-->ReturnTestEndpoint;\nStagingProdEndpoint-->ReturnStagingProdEndpoint;\n\nstyle ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\n\n```\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ProcessSwitch;\nProcessSwitch-->LocalEndpoint;\nProcessSwitch-->DevEndpoint;\nProcessSwitch-->TestEndpoint;\nProcessSwitch-->StagingProdEndpoint;\nLocalEndpoint-->ReturnLocalEndpoint;\nDevEndpoint-->ReturnDevEndpoint;\nTestEndpoint-->ReturnTestEndpoint;\nStagingProdEndpoint-->ReturnStagingProdEndpoint;\n\nstyle ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\n\n```\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ProcessSwitch;\nProcessSwitch-->LocalEndpoint;\nProcessSwitch-->DevEndpoint;\nProcessSwitch-->TestEndpoint;\nProcessSwitch-->StagingProdEndpoint;\nLocalEndpoint-->ReturnLocalEndpoint;\nDevEndpoint-->ReturnDevEndpoint;\nTestEndpoint-->ReturnTestEndpoint;\nStagingProdEndpoint-->ReturnStagingProdEndpoint;\n\nstyle ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\n\n```\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ProcessSwitch;\nProcessSwitch-->LocalEndpoint;\nProcessSwitch-->DevEndpoint;\nProcessSwitch-->TestEndpoint;\nProcessSwitch-->StagingProdEndpoint;\nLocalEndpoint-->ReturnLocalEndpoint;\nDevEndpoint-->ReturnDevEndpoint;\nTestEndpoint-->ReturnTestEndpoint;\nStagingProdEndpoint-->ReturnStagingProdEndpoint;\n\nstyle ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\n\n```\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ProcessSwitch;\nProcessSwitch-->LocalEndpoint;\nProcessSwitch-->DevEndpoint;\nProcessSwitch-->TestEndpoint;\nProcessSwitch-->StagingProdEndpoint;\nLocalEndpoint-->ReturnLocalEndpoint;\nDevEndpoint-->ReturnDevEndpoint;\nTestEndpoint-->ReturnTestEndpoint;\nStagingProdEndpoint-->ReturnStagingProdEndpoint;\n\nstyle ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\n\n```\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ProcessSwitch;\nProcessSwitch-->LocalEndpoint;\nProcessSwitch-->DevEndpoint;\nProcessSwitch-->TestEndpoint;\nProcessSwitch-->StagingProdEndpoint;\nLocalEndpoint-->ReturnLocalEndpoint;\nDevEndpoint-->ReturnDevEndpoint;\nTestEndpoint-->ReturnTestEndpoint;\nStagingProdEndpoint-->ReturnStagingProdEndpoint;\n\nstyle ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\n\n```\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ProcessSwitch;\nProcessSwitch-->LocalEndpoint;\nProcessSwitch-->DevEndpoint;\nProcessSwitch-->TestEndpoint;\nProcessSwitch-->StagingProdEndpoint;\nLocalEndpoint-->ReturnLocalEndpoint;\nDevEndpoint-->ReturnDevEndpoint;\nTestEndpoint-->ReturnTestEndpoint;\nStagingProdEndpoint-->ReturnStagingProdEndpoint;\n\nstyle ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\n\n```\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ProcessSwitch;\nProcessSwitch-->LocalEndpoint;\nProcessSwitch-->DevEndpoint;\nProcessSwitch-->TestEndpoint;\nProcessSwitch-->StagingProdEndpoint;\nLocalEndpoint-->ReturnLocalEndpoint;\nDevEndpoint-->ReturnDevEndpoint;\nTestEndpoint-->ReturnTestEndpoint;\nStagingProdEndpoint-->ReturnStagingProdEndpoint;\n\nstyle ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnStagingProdEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\n\n```\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ProcessSwitch;\nProcessSwitch-->LocalEndpoint;\nProcessSwitch-->DevEndpoint;\nProcessSwitch-->TestEndpoint;\nProcessSwitch-->StagingProdEndpoint;\nLocalEndpoint-->ReturnLocalEndpoint;\nDevEndpoint-->ReturnDevEndpoint;\nTestEndpoint-->ReturnTestEndpoint;\nStagingProdEndpoint-->ReturnStagingProdEndpoint;\n\nstyle ReturnLocalEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnDevEndpoint fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ReturnTestEndpoint fill:#228B22, stroke:#000000, stroke-width:4px"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:46:56 PM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 16\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The function `serviceEndpoint` returns different endpoints based on the `BoostConfiguration.cloudServiceStage` value. If an attacker can manipulate this value, they may be able to access unauthorized endpoints. More about IDOR can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control\n\n   **Solution**: Instead of directly using the `BoostConfiguration.cloudServiceStage` value to determine the endpoint, use a secure method to map these values to the corresponding endpoints. Ensure that the user has the necessary permissions to access the requested endpoint. More about secure coding practices can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Access_Control_Cheat_Sheet.html\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 8,
+                "severity": 2,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The function `serviceEndpoint` returns different endpoints based on the `BoostConfiguration.cloudServiceStage` value. If an attacker can manipulate this value, they may be able to access unauthorized endpoints. More about IDOR can be found here: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control",
+                "solution": "Instead of directly using the `BoostConfiguration.cloudServiceStage` value to determine the endpoint, use a secure method to map these values to the corresponding endpoints. Ensure that the user has the necessary permissions to access the requested endpoint. More about secure coding practices can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Access_Control_Cheat_Sheet.html"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:48:38 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:51:02 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 16\n\n   **Bug Type**: Data Exposure\n\n   **Description**: The function 'serviceEndpoint' is exposing potentially sensitive server information, including internal IP addresses and server URLs. This could be used by malicious actors to target these servers for attacks.\n\n   **Solution**: Consider removing hard-coded server URLs and IP addresses. Use environment variables to store this information and access it securely within your application. This makes it more difficult for an attacker to gain access to this information.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 8,
+                "severity": 7,
+                "bugType": "Data Exposure",
+                "description": "The function 'serviceEndpoint' is exposing potentially sensitive server information, including internal IP addresses and server URLs. This could be used by malicious actors to target these servers for attacks.",
+                "solution": "Consider removing hard-coded server URLs and IP addresses. Use environment variables to store this information and access it securely within your application. This makes it more difficult for an attacker to gain access to this information.",
+                "webLink": "https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "\nfunction serviceEndpoint(): string {\n    switch (BoostConfiguration.cloudServiceStage) {\n        case \"local\":\n            return \"http://127.0.0.1:8000/customer_portal\";\n        case \"dev\":\n            return \"https://hry4lqp3ktulatehaowyzhkbja0mkjob.lambda-url.us-west-2.on.aws/\";\n        case \"test\":\n            return \"https://kpxtpi5swejjt6yiflcpspchim0wrhaa.lambda-url.us-west-2.on.aws/\";\n        case \"staging\":\n        case \"prod\":\n        default:\n            return \"https://roxbi254sch3yijt7tqbz4s7jq0jxddr.lambda-url.us-west-2.on.aws/\";\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 8
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:44:04 PM PDT\n\nThis code is written in TypeScript, which is a statically typed superset of JavaScript that adds types and some other features to the language.\n\nThe code defines a custom exception class called `BoostAuthenticationException` that extends the built-in `Error` class in JavaScript. Custom exceptions are useful for creating specific types of error objects in your application, which can then be checked for and handled specifically in your error handling logic.\n\nLet's break down the code:\n\n- `export class BoostAuthenticationException extends Error`: This line is defining a new class `BoostAuthenticationException` that extends (or inherits from) the built-in `Error` class. The `export` keyword means that this class is exported from this module and can be imported and used in other modules.\n\n- `constructor(message?: string)`: This line is defining the constructor for the class, which is a special method that is called when a new object is created from a class. The constructor takes one parameter, `message`, which is optional (`?`) and should be a string if it is provided.\n\n- `super(message);`: This line is calling the constructor of the parent class (`Error`) with the `message` argument. This is necessary because `BoostAuthenticationException` extends `Error`, and the `Error` constructor needs to be called when a new `BoostAuthenticationException` is created.\n\n- `this.name = \"BoostAuthenticationException\";`: This line is setting the `name` property of the `BoostAuthenticationException` object to the string `\"BoostAuthenticationException\"`. The `name` property is typically used to hold the name of the error type, which can be useful for debugging and error handling.\n\nThis code does not contain any specific algorithms, but it uses the concept of object-oriented programming, specifically inheritance, which is a fundamental concept in object-oriented design.\n\nHere are some useful links for further reading:\n\n- [TypeScript Classes](https://www.typescriptlang.org/docs/handbook/classes.html)\n- [JavaScript Error class](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)\n- [Object-oriented programming](https://en.wikipedia.org/wiki/Object-oriented_programming)\n- [Inheritance (object-oriented programming)](https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming))"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:46:02 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->BoostAuthenticationException;\n```\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:46:59 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:48:42 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:51:06 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "\nexport class BoostAuthenticationException extends Error {\n    constructor(message?: string) {\n        super(message);\n        this.name = \"BoostAuthenticationException\";\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 23
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:44:39 PM PDT\n\nThis code defines an asynchronous function `getCustomerStatus` which retrieves the status of a customer from a remote service. It uses the `vscode.ExtensionContext` to fetch the GitHub session and the current organization, then sends a POST request to the service endpoint with the session and organization as the payload.\n\nLet's break it down:\n\n1. `fetchGithubSession(!context)` and `getCurrentOrganization(context)` are asynchronous operations that fetch GitHub session and current organization respectively. The `await` keyword is used to pause and resume the async function execution based on the promise returned by these functions.\n\n2. The function checks if the `organization` and `session` are available. If not, it logs a warning using `boostLogging.warn`.\n\n3. The payload for the POST request to the service endpoint is created, containing the session access token and the organization.\n\n4. Headers for the request are defined, including a User-Agent string that includes the version of the Boost VS Code extension.\n\n5. The function checks if the `serviceFaultInjection` configuration value is greater than 0. If it is, it generates a random number between 0 and 100 and compares it to the `serviceFaultInjection` value. If the random number is less, it simulates a service fault by making a GET request to a synthetic error URL.\n\n6. The function sends a POST request to the service endpoint using `axios.post`, with the payload and headers as parameters. \n\n7. If the response contains an error, it throws an error with a message that includes the error from the response.\n\n8. If an error is caught during the execution of the try block, it is passed to the `mapError` function and the result is returned.\n\n9. If no errors are caught, the function returns the data from the service response.\n\nThis code uses the `axios` library for making HTTP requests, and the `Math.random` function to generate random numbers for fault injection. It also uses async/await syntax for handling asynchronous operations, and try/catch for error handling.\n\nMore about these topics can be found in the following resources:\n- [Axios Documentation](https://axios-http.com/docs/intro)\n- [Async/Await in JavaScript](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await)\n- [Error Handling in JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling#exception_handling_statements)\n- [Math.random function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:46:21 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->A;\nA-->B;\nB-->C;\nC-->D;\nD-->E;\nE-->F;\nF-->G;\nG-->H;\nH-->I;\nI-->J;\nJ-->K;\nK-->L;\nL-->M;\nM-->N;\nN-->O;\nO-->P;\nP-->Q;\nQ-->R;\nR-->S;\nS-->T;\nT-->U;\nU-->V;\nV-->W;\nW-->X;\nX-->Y;\nY-->Z;\nZ-->End;\n\nstyle A fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle B fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle C fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle D fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle E fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle F fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle G fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle H fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle I fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle J fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle K fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle L fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle M fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle N fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle O fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle P fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle Q fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle R fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle S fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle T fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle U fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle V fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle W fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle X fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle Y fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle Z fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle End fill:#228B22, stroke:#000000, stroke-width:2px;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:47:30 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 64\n\n   **Bug Type**: Insecure Direct Object References (IDOR)\n\n   **Description**: The function fetchGithubSession is called with a parameter that is not checked for authenticity or authorization. This can lead to unauthorized access to sensitive information.\n\n   **Solution**: Add authorization checks to ensure that the user is allowed to access the information. For more information, refer to the OWASP guide on Insecure Direct Object References: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control\n\n\n2. **Severity**: 8/10\n\n   **Line Number**: 75\n\n   **Bug Type**: Insecure Randomness\n\n   **Description**: The use of Math.random() is not cryptographically secure and could lead to predictable randomness in the system, which could be exploited by an attacker.\n\n   **Solution**: Use a cryptographically secure random number generator. For more information, refer to the Mozilla Developer Network guide on this topic: https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues\n\n\n3. **Severity**: 9/10\n\n   **Line Number**: 77\n\n   **Bug Type**: Command Injection\n\n   **Description**: The use of axios.get with a constructed URL could potentially allow for command injection if the URL is not properly sanitized.\n\n   **Solution**: Ensure that all inputs to the URL are properly sanitized and encoded. For more information, refer to the OWASP guide on Command Injection: https://owasp.org/www-community/attacks/Command_Injection\n\n\n4. **Severity**: 7/10\n\n   **Line Number**: 82\n\n   **Bug Type**: Cross-site Request Forgery (CSRF)\n\n   **Description**: The axios.post request does not include any CSRF protection, which could allow an attacker to perform actions on behalf of the user without their consent.\n\n   **Solution**: Add CSRF protection to all state-changing requests. For more information, refer to the OWASP guide on Cross-Site Request Forgery: https://owasp.org/www-community/attacks/csrf\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 34,
+                "severity": 7,
+                "bugType": "Insecure Direct Object References (IDOR)",
+                "description": "The function fetchGithubSession is called with a parameter that is not checked for authenticity or authorization. This can lead to unauthorized access to sensitive information.",
+                "solution": "Add authorization checks to ensure that the user is allowed to access the information. For more information, refer to the OWASP guide on Insecure Direct Object References: https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control"
+              },
+              {
+                "lineNumber": 45,
+                "severity": 8,
+                "bugType": "Insecure Randomness",
+                "description": "The use of Math.random() is not cryptographically secure and could lead to predictable randomness in the system, which could be exploited by an attacker.",
+                "solution": "Use a cryptographically secure random number generator. For more information, refer to the Mozilla Developer Network guide on this topic: https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues"
+              },
+              {
+                "lineNumber": 47,
+                "severity": 9,
+                "bugType": "Command Injection",
+                "description": "The use of axios.get with a constructed URL could potentially allow for command injection if the URL is not properly sanitized.",
+                "solution": "Ensure that all inputs to the URL are properly sanitized and encoded. For more information, refer to the OWASP guide on Command Injection: https://owasp.org/www-community/attacks/Command_Injection"
+              },
+              {
+                "lineNumber": 52,
+                "severity": 7,
+                "bugType": "Cross-site Request Forgery (CSRF)",
+                "description": "The axios.post request does not include any CSRF protection, which could allow an attacker to perform actions on behalf of the user without their consent.",
+                "solution": "Add CSRF protection to all state-changing requests. For more information, refer to the OWASP guide on Cross-Site Request Forgery: https://owasp.org/www-community/attacks/csrf"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:49:06 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 62\n\n   **Bug Type**: Network\n\n   **Description**: The function fetchGithubSession() is called with a negated context. This could potentially lead to unnecessary network requests.\n\n   **Solution**: Ensure that the correct argument is passed to fetchGithubSession(). If the context should be negated, consider revising the function to avoid unnecessary network requests.\n\n\n2. **Severity**: 6/10\n\n   **Line Number**: 72\n\n   **Bug Type**: Network\n\n   **Description**: A service fault is injected into the service request fetching organizations. This could potentially lead to unnecessary network requests and errors.\n\n   **Solution**: Consider removing the service fault injection or revising the condition for injecting the fault to reduce unnecessary network requests and errors.\n\n\n3. **Severity**: 6/10\n\n   **Line Number**: 79\n\n   **Bug Type**: Network\n\n   **Description**: The axios.post() function can potentially throw an error if the result contains an error. This could lead to unnecessary network requests if the function is called again to handle the error.\n\n   **Solution**: Consider revising the error handling mechanism to avoid unnecessary network requests. For example, the function could return an error response instead of throwing an error.\n\n\n4. **Severity**: 5/10\n\n   **Line Number**: 61\n\n   **Bug Type**: Memory\n\n   **Description**: The function getCurrentOrganization() is called with the context as an argument. If the context is large, this could potentially lead to high memory usage.\n\n   **Solution**: Consider revising the function to only use the necessary parts of the context, or to avoid passing the context as an argument if it is not necessary.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 32,
+                "severity": 7,
+                "bugType": "Network",
+                "description": "The function fetchGithubSession() is called with a negated context. This could potentially lead to unnecessary network requests.",
+                "solution": "Ensure that the correct argument is passed to fetchGithubSession(). If the context should be negated, consider revising the function to avoid unnecessary network requests."
+              },
+              {
+                "lineNumber": 42,
+                "severity": 6,
+                "bugType": "Network",
+                "description": "A service fault is injected into the service request fetching organizations. This could potentially lead to unnecessary network requests and errors.",
+                "solution": "Consider removing the service fault injection or revising the condition for injecting the fault to reduce unnecessary network requests and errors."
+              },
+              {
+                "lineNumber": 49,
+                "severity": 6,
+                "bugType": "Network",
+                "description": "The axios.post() function can potentially throw an error if the result contains an error. This could lead to unnecessary network requests if the function is called again to handle the error.",
+                "solution": "Consider revising the error handling mechanism to avoid unnecessary network requests. For example, the function could return an error response instead of throwing an error."
+              },
+              {
+                "lineNumber": 31,
+                "severity": 5,
+                "bugType": "Memory",
+                "description": "The function getCurrentOrganization() is called with the context as an argument. If the context is large, this could potentially lead to high memory usage.",
+                "solution": "Consider revising the function to only use the necessary parts of the context, or to avoid passing the context as an argument if it is not necessary."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:51:35 PM PDT\n\n1. **Severity**: 8/10\n\n   **Line Number**: 62\n\n   **Bug Type**: GDPR\n\n   **Description**: The access token is being sent in the payload of a POST request. This can expose sensitive user information if the connection is not secure.\n\n   **Solution**: Use secure methods to transmit sensitive data, such as HTTPS and secure cookies. Also, consider using OAuth 2.0 for authorization, which does not require the exposure of user credentials.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 73\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The code is making an HTTP request to an external service. If this service is used to process, store, or transmit cardholder data, it could be a violation of PCI DSS requirements.\n\n   **Solution**: Ensure that all external services used to process, store, or transmit cardholder data are PCI DSS compliant. Also, use secure communication protocols (such as HTTPS) when interacting with these services.\n\n\n3. **Severity**: 9/10\n\n   **Line Number**: 76\n\n   **Bug Type**: HIPAA\n\n   **Description**: If the data returned from the service includes Protected Health Information (PHI), it may be a violation of HIPAA rules if the data is not properly secured and if minimum necessary use and disclosure principles are not followed.\n\n   **Solution**: Ensure that any PHI is encrypted in transit and at rest, and that only the minimum necessary amount of data is used and disclosed. Also, ensure that all services used to process, store, or transmit PHI are HIPAA compliant.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 32,
+                "severity": 8,
+                "bugType": "GDPR",
+                "description": "The access token is being sent in the payload of a POST request. This can expose sensitive user information if the connection is not secure.",
+                "solution": "Use secure methods to transmit sensitive data, such as HTTPS and secure cookies. Also, consider using OAuth 2.0 for authorization, which does not require the exposure of user credentials.",
+                "webLink": "https://www.oauth.com/oauth2-servers/access-tokens/"
+              },
+              {
+                "lineNumber": 43,
+                "severity": 7,
+                "bugType": "PCI DSS",
+                "description": "The code is making an HTTP request to an external service. If this service is used to process, store, or transmit cardholder data, it could be a violation of PCI DSS requirements.",
+                "solution": "Ensure that all external services used to process, store, or transmit cardholder data are PCI DSS compliant. Also, use secure communication protocols (such as HTTPS) when interacting with these services.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 46,
+                "severity": 9,
+                "bugType": "HIPAA",
+                "description": "If the data returned from the service includes Protected Health Information (PHI), it may be a violation of HIPAA rules if the data is not properly secured and if minimum necessary use and disclosure principles are not followed.",
+                "solution": "Ensure that any PHI is encrypted in transit and at rest, and that only the minimum necessary amount of data is used and disclosed. Also, ensure that all services used to process, store, or transmit PHI are HIPAA compliant.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "\n\nexport async function getCustomerStatus(\n    context: vscode.ExtensionContext\n): Promise<any> {\n    let session = await fetchGithubSession(!context); // get the session\n    let organization = await getCurrentOrganization(context);\n    if (!organization) {\n        boostLogging.warn(\"Unable to identify current organization\", false);\n    } else if (!session) {\n        boostLogging.warn(\"Unable to identify current GitHub session\", false);\n    }\n    let payload = {\n        session: session.accessToken,\n        organization: organization,\n    };\n    const headers = {\n        // eslint-disable-next-line @typescript-eslint/naming-convention\n        \"User-Agent\": `Boost-VSCE/${BoostConfiguration.version}`,\n    };\n\n    try {\n        if (\n            BoostConfiguration.serviceFaultInjection > 0 &&\n            Math.floor(Math.random() * 100) <\n                BoostConfiguration.serviceFaultInjection\n        ) {\n            boostLogging.debug(\n                `Injecting fault into service request fetching organizations`\n            );\n            await axios.get(\"https://serviceFaultInjection/synthetic/error/\");\n        }\n\n        const result = await axios.post(serviceEndpoint(), payload, {\n            headers,\n        });\n        if (result && result.data && result.data.error) {\n            // if we have an error, throw it - this is generally happens with the local service shim\n            throw new Error(\n                `Boost Service failed with a network error: ${result.data.error}`\n            );\n        }\n        return result.data;\n    } catch (err: any) {\n        return mapError(err);\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 30
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/controllers/customerPortal.ts"
+  }
+}

@@ -1,0 +1,1227 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/controllers/summary_controller.ts</h1>
+    <p>Date Generated: Friday, September 8, 2023 at 8:08:59 PM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:04:20 PM PDT</p>
+<p>Executive Level Report:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The project appears to be well-structured and follows best practices for a Visual Studio Code extension. However, there is a significant architectural concern in the <code>summary_controller.ts</code> file where the service endpoint URL is hardcoded and switches based on the environment. This could lead to potential security misconfigurations if the environment is not properly set or if a malicious actor is able to manipulate the environment setting. This issue could be mitigated by using environment variables or a configuration file to store the service endpoint URLs.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The project has a high risk associated with security misconfiguration and insufficient logging &amp; monitoring. These risks are present in the <code>summary_controller.ts</code> file. The security misconfiguration risk could lead to unauthorized access to sensitive data or functionality. Insufficient logging &amp; monitoring could delay the detection or hamper the investigation of a security breach.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: The security issues identified could potentially impact customers by exposing their sensitive data or disrupting the service. The insufficient logging &amp; monitoring could also impact the service&#39;s ability to respond to and resolve issues in a timely manner, leading to potential downtime or degraded performance.</p>
+</li>
+<li><p><strong>Overall Issues</strong>: The <code>summary_controller.ts</code> file has the most severe issues, with warnings for security misconfiguration and insufficient logging &amp; monitoring, and an information-level issue for cross-site scripting. These issues could impact the security and reliability of the service.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: The overall health of the project source is concerning due to the severity of the issues identified. Only one file was analyzed, and it contained multiple issues of varying severity. This suggests that a significant portion of the project may have similar issues. Further analysis of the remaining project files is recommended.</p>
+</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>The <code>summary_controller.ts</code> file contains multiple severe issues, including security misconfiguration and insufficient logging &amp; monitoring.</li>
+<li>The security misconfiguration issue could lead to unauthorized access to sensitive data or functionality.</li>
+<li>Insufficient logging &amp; monitoring could delay the detection or hamper the investigation of a security breach.</li>
+<li>The overall health of the project source is concerning due to the severity of the issues identified in the <code>summary_controller.ts</code> file.</li>
+<li>Further analysis of the remaining project files is recommended to assess the full extent of the issues and risks.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:06:10 PM PDT</p>
+<h2 id="executive-report-software-project-analysis">Executive Report: Software Project Analysis</h2>
+<p>Based on the analysis of the software project, the following key points have been identified:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The project is well-structured and follows best practices for a Visual Studio Code extension. It uses object-oriented design, event-driven programming, and asynchronous programming for potentially long-running tasks. However, there is a warning related to the use of &#39;fs.existsSync&#39; in the &#39;summary_controller.ts&#39; file, which can lead to blocking I/O and negatively impact performance. This could potentially affect the responsiveness of the VS Code UI, which is a key architectural concern.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The risk associated with the project is relatively low. The only file with issues is &#39;summary_controller.ts&#39;, and the issues are of &#39;Warning&#39; severity. However, the use of blocking I/O could potentially lead to performance issues, especially in scenarios with large codebases or high network latency. This risk could be mitigated by using &#39;fs.promises.access&#39; instead, which is non-blocking and more efficient.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: The potential impact on customers is minimal. The issues identified are warnings and do not directly impact the functionality of the software. However, performance issues could lead to a less responsive UI, which could negatively impact the user experience.</p>
+</li>
+<li><p><strong>Overall Issues</strong>: The overall health of the project source is good. Only one file has issues, and these are of &#39;Warning&#39; severity. The issues are related to potential performance problems, but do not affect the functionality of the software. The project follows best practices for a VS Code extension and makes good use of TypeScript features and the VS Code API.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: The risk assessment of the project source is low. Only one file out of the total project files has issues, which is a small percentage. The issues are of &#39;Warning&#39; severity and do not affect the functionality of the software. However, the potential for performance issues should be addressed to ensure the responsiveness of the VS Code UI.</p>
+</li>
+</ol>
+<p>In conclusion, the project is well-structured and follows best practices. The issues identified are warnings and do not directly impact the functionality of the software. However, the potential for performance issues should be addressed to ensure a responsive UI and a positive user experience.</p>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:09:39 PM PDT</p>
+<h2 id="executive-report-software-project-analysis">Executive Report: Software Project Analysis</h2>
+<p>Based on the analysis of the software project, the following key points have been identified:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The project is a Visual Studio Code extension that provides code analysis functionality. It communicates with a remote service for code analysis, using different endpoints based on the configured stage. The architecture appears to be sound, with no major architectural problems identified. However, the project has a single file, <code>summary_controller.ts</code>, which has been flagged with multiple compliance issues. This could potentially impact the overall architecture if not addressed.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The <code>summary_controller.ts</code> file has been flagged with several high-severity issues related to GDPR, HIPAA, and PCI DSS compliance. These issues pose a significant risk to the project, as non-compliance with these regulations can result in severe penalties. The risk is further compounded by the fact that this file is a controller, which typically plays a crucial role in the application&#39;s functionality.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: The identified issues could potentially impact customers in several ways. Non-compliance with GDPR could lead to violations of user privacy rights, while non-compliance with HIPAA could result in unauthorized access to protected health information. Similarly, non-compliance with PCI DSS could lead to unauthorized access to cardholder data. These issues could lead to a loss of customer trust and potential legal repercussions.</p>
+</li>
+<li><p><strong>Overall Issues</strong>: The project has a total of 1 file, all of which have been flagged with issues. This represents 100% of the project files. The issues are distributed across different severity levels - Information, Warning, and Error. The most severe issues are related to HIPAA and PCI DSS compliance.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: Given that all the project files have been flagged with issues, the overall health of the project source can be considered at risk. The high-severity issues related to HIPAA and PCI DSS compliance are particularly concerning. It is recommended that these issues be addressed as a priority to mitigate the associated risks.</p>
+</li>
+</ol>
+<p>In conclusion, while the project&#39;s architecture appears to be sound, the compliance issues identified pose significant risks. It is recommended that these issues be addressed promptly to ensure the project&#39;s overall health and to mitigate potential customer impact.</p>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/controllers/summary_controller.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> {
+    KernelControllerBase, errorMimeType
+ } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./base_controller&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 7:55:52 PM PDT</p>
+<p>The code provided is a simple import statement in JavaScript. It is importing two items from a module named &#39;base_controller&#39;. The items being imported are &#39;KernelControllerBase&#39; and &#39;errorMimeType&#39;.</p>
+<p>Let&#39;s break it down:</p>
+<ol>
+<li><p><code>import</code>: This is a keyword in JavaScript used to import functions, objects, or values from another module or file.</p>
+</li>
+<li><p><code>{ KernelControllerBase, errorMimeType }</code>: These are the items that are being imported. They must have been exported from the &#39;base_controller&#39; module. The items are enclosed in curly braces because they are named exports. In JavaScript, a module can have multiple named exports, which can be imported individually using their names.</p>
+</li>
+<li><p><code>from &#39;./base_controller&#39;</code>: This specifies the module or file from which to import. The &#39;./&#39; indicates that &#39;base_controller&#39; is in the same directory as the file containing this import statement.</p>
+</li>
+</ol>
+<p>Now, let&#39;s discuss what these imported items might be:</p>
+<ul>
+<li><p><code>KernelControllerBase</code>: This is likely a base class for kernel controllers in the application. In object-oriented programming, a base class provides a common definition of basic properties and methods that can be inherited by derived classes. This can help to avoid code duplication and make the code easier to maintain.</p>
+</li>
+<li><p><code>errorMimeType</code>: This is likely a constant that defines the MIME type for error messages. MIME types are used in HTTP to describe the format of the data being sent or received. Defining this as a constant can make the code more robust and easier to maintain, as the MIME type would only need to be updated in one place if it ever changes.</p>
+</li>
+</ul>
+<p>As for the algorithms used, there are none evident in this code snippet. It&#39;s just an import statement, which is a feature of the JavaScript language, not an algorithm.</p>
+<p>For more information on JavaScript modules and import/export syntax, you can refer to these resources:</p>
+<ul>
+<li><a href="https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/">JavaScript Modules: A Beginner’s Guide</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">JavaScript import</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export">JavaScript export</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:01:20 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style KernelControllerBase fill:#228B22, stroke:#000000, stroke-width:2px;
+
+KernelControllerBase-->errorMimeType;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:02:25 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:04:27 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:06:23 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/summary_controller.ts line 4:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { DiagnosticCollection, ExtensionContext } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vscode&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 7:56:14 PM PDT</p>
+<p>This line of code is written in TypeScript, a statically typed superset of JavaScript. It&#39;s importing two specific entities from the &#39;vscode&#39; module. These entities are &#39;DiagnosticCollection&#39; and &#39;ExtensionContext&#39;. </p>
+<p>Let&#39;s break down what each of these entities are:</p>
+<ul>
+<li><p><code>DiagnosticCollection</code>: This is a class in the vscode module that represents a collection of diagnostics. Diagnostics in Visual Studio Code are a way to indicate issues in the code, such as errors or warnings. They are typically displayed in the editor with squiggles and can also be shown in the Problems panel. A DiagnosticCollection is a set of diagnostics that are managed together, typically by a single extension. You can read more about it here: <a href="https://code.visualstudio.com/api/references/vscode-api#DiagnosticCollection">Diagnostics in Visual Studio Code</a></p>
+</li>
+<li><p><code>ExtensionContext</code>: This is a class that represents the context in which an extension is running. The context provides additional information and functionality that is available to the extension, such as the ability to create output channels, register commands, and interact with the workspace. You can read more about it here: <a href="https://code.visualstudio.com/api/references/vscode-api#ExtensionContext">ExtensionContext in Visual Studio Code</a></p>
+</li>
+</ul>
+<p>This code is consistent with the architectural guidelines provided. It&#39;s using TypeScript and interacting with the Visual Studio Code API, which is a common practice for VS Code extensions. It&#39;s also importing only the specific entities it needs from the &#39;vscode&#39; module, which can help to reduce the memory footprint of the extension.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:01:25 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre><p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:02:29 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:04:31 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:06:27 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/summary_controller.ts line 5:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { BoostConfiguration } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../extension/boostConfiguration&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 7:56:41 PM PDT</p>
+<p>The line of code you&#39;ve provided is an import statement in TypeScript, a statically typed superset of JavaScript that adds types to the language. This particular line is importing the <code>BoostConfiguration</code> module from a relative file path &#39;../extension/boostConfiguration&#39;.</p>
+<p>Here&#39;s a detailed breakdown:</p>
+<ul>
+<li><p><code>import</code>: This is a keyword in JavaScript and TypeScript used to import functions, objects or values from other modules or files. It&#39;s part of the ES6 (ECMAScript 2015) module system.</p>
+</li>
+<li><p><code>{ BoostConfiguration }</code>: This is the specific module, function, object, or value that is being imported from the specified file. The curly braces are used for named exports. That means <code>BoostConfiguration</code> is a named export of the &#39;../extension/boostConfiguration&#39; module.</p>
+</li>
+<li><p><code>from</code>: This keyword is used to specify the path of the module from which the export is imported.</p>
+</li>
+<li><p><code>&#39;../extension/boostConfiguration&#39;</code>: This is the path to the file that contains the <code>BoostConfiguration</code> module. The <code>..</code> at the beginning of the path means the file is in the parent directory of the current file. <code>/extension/boostConfiguration</code> is the path from the parent directory to the module. The <code>.ts</code> or <code>.js</code> extension is often left off in import statements, but the file is assumed to be a <code>.ts</code> or <code>.js</code> file.</p>
+</li>
+</ul>
+<p>As for the architectural guidelines, this single line of code does not conflict with the provided architectural blueprint. It follows the modular structure, which is a common practice in JavaScript and TypeScript projects. The <code>BoostConfiguration</code> module is likely a part of the codebase that deals with the configuration of the Boost functionality in the Visual Studio Code extension.</p>
+<p>For more information on modules and import/export in JavaScript and TypeScript, you can look at these resources:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">MDN Web Docs: import</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/modules.html">TypeScript Handbook: Modules</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:01:29 PM PDT</p>
+<p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:02:32 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:04:34 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:06:37 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 8</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The import of BoostConfiguration potentially includes sensitive user data, which could violate GDPR if not properly handled.</p>
+<p><strong>Solution</strong>: Ensure that any data handled by BoostConfiguration is anonymized or pseudonymized, and that users have given explicit consent for data processing. Implement appropriate data encryption and access controls.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/summary_controller.ts line 6:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> vscode <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vscode&#x27;</span>;
+<span class="hljs-keyword">import</span> { BoostNotebook, BoostNotebookCell,
+        NotebookCellKind, NOTEBOOK_SUMMARY_EXTENSION } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../data/jupyter_notebook&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 7:57:11 PM PDT</p>
+<p>This is a piece of code written in TypeScript, a statically typed superset of JavaScript. It&#39;s part of a project that seems to be a Visual Studio Code extension, specifically designed to work with Jupyter notebooks. </p>
+<p>The code is importing several modules and components to be used in the rest of the code. </p>
+<p>Let&#39;s break it down:</p>
+<ol>
+<li><p><code>import * as vscode from &#39;vscode&#39;;</code>: This line is importing the entire vscode module. The <code>vscode</code> module is a library provided by Visual Studio Code that contains the VS Code API. This API allows extensions to interact with the VS Code editor. The <code>* as vscode</code> means that all exports from the &#39;vscode&#39; module will be available under the <code>vscode</code> namespace.</p>
+</li>
+<li><p><code>import { BoostNotebook, BoostNotebookCell, NotebookCellKind, NOTEBOOK_SUMMARY_EXTENSION } from &#39;../data/jupyter_notebook&#39;;</code>: This line is using destructuring to import specific exports from the <code>jupyter_notebook</code> module located in the <code>data</code> directory one level up from the current file. The items being imported are presumably classes or constants that are defined and exported in that module.</p>
+<ul>
+<li><p><code>BoostNotebook</code> and <code>BoostNotebookCell</code> are likely classes that represent a notebook and a cell in a notebook respectively. They could be used for creating, manipulating, and analyzing notebook and cell objects.</p>
+</li>
+<li><p><code>NotebookCellKind</code> is likely an enumeration (enum) or a set of constants that represent different types or &quot;kinds&quot; of cells in a notebook. In a Jupyter notebook, cells can be of different kinds such as code cells, markdown cells, etc.</p>
+</li>
+<li><p><code>NOTEBOOK_SUMMARY_EXTENSION</code> is likely a constant that represents the file extension for a notebook summary file.</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>This code does not appear to contain any specific algorithms, as it is simply importing modules and components to be used elsewhere in the code. </p>
+<p>For more information on the topics mentioned, you can visit these resources:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api">VS Code API</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/modules.html">TypeScript Modules</a></li>
+<li><a href="https://jupyter.org/">Jupyter Notebook</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:01:34 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+
+Start  -->BoostNotebook[BoostNotebook];
+BoostNotebook-->BoostNotebookCell[BoostNotebookCell];
+BoostNotebookCell-->NotebookCellKind[NotebookCellKind];
+NotebookCellKind-->NOTEBOOK_SUMMARY_EXTENSION[NOTEBOOK_SUMMARY_EXTENSION];</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:02:35 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:04:38 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:07:10 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 10</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code imports a module &#39;vscode&#39; which interacts with the Visual Studio Code editor. This module can potentially access and manipulate user&#39;s personal data, including source code, settings, and other user-specific data. This could be a violation of GDPR if personal data is processed without explicit user consent.</p>
+<p><strong>Solution</strong>: Ensure that any data accessed through the &#39;vscode&#39; module is anonymized or pseudonymized where possible, and that explicit user consent is obtained before processing personal data. Implement a clear privacy policy that explains what data is collected and how it is used.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 11</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The code imports &#39;BoostNotebook&#39; and &#39;BoostNotebookCell&#39; from &#39;jupyter_notebook&#39;, which can handle and process potentially sensitive health data in notebook cells. If this data is not properly protected, it could be a violation of HIPAA.</p>
+<p><strong>Solution</strong>: Ensure that any health data is encrypted both at rest and in transit, and that access to such data is strictly controlled. Implement a secure user authentication system and regularly audit access logs to detect any unauthorized access.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 11</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The code imports &#39;BoostNotebook&#39; and &#39;BoostNotebookCell&#39; from &#39;jupyter_notebook&#39;, which can handle and process potentially sensitive financial data in notebook cells. If this data is not properly protected, it could be a violation of PCI DSS.</p>
+<p><strong>Solution</strong>: Ensure that any financial data is encrypted both at rest and in transit, and that access to such data is strictly controlled. Implement a secure user authentication system and regularly audit access logs to detect any unauthorized access.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/summary_controller.ts line 9:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { boostLogging } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../utilities/boostLogging&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 7:57:40 PM PDT</p>
+<p>This code is a single line of JavaScript (or TypeScript) that is importing a module named <code>boostLogging</code> from a relative directory path <code>../utilities/boostLogging</code>.</p>
+<p>The <code>import</code> statement is used to import functions, objects, or values from other modules into the current file. In this case, the <code>boostLogging</code> module is being imported.</p>
+<p>The <code>{ boostLogging }</code> syntax is called destructuring. It allows you to import only specific exports from a module, instead of importing the whole module. This can make your code more efficient and easier to read.</p>
+<p>The <code>../utilities/boostLogging</code> is the path to the module that is being imported. The <code>..</code> means &quot;go up one directory level&quot;, and <code>/utilities/boostLogging</code> is the path from there to the module. So, this code is saying &quot;import the <code>boostLogging</code> export from the <code>boostLogging</code> module in the <code>utilities</code> directory one level up from the current directory&quot;.</p>
+<p>The <code>boostLogging</code> module is likely a utility module that provides logging functionality for the Boost application. This could include functions for logging debug information, errors, or other events.</p>
+<p>This code doesn&#39;t contain any algorithms, it&#39;s just a single import statement. It&#39;s a fairly standard line of code for a JavaScript or TypeScript project.</p>
+<p>As for the architectural guidelines, this code seems to be consistent with the guidelines mentioned in the architectural blueprint summary. It&#39;s using a modular structure, where functionality is organized into separate modules that can be imported as needed. This is a common best practice in JavaScript and TypeScript development.</p>
+<p>For more information on the <code>import</code> statement and destructuring in JavaScript, you can refer to the following resources:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">JavaScript <code>import</code> statement</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">JavaScript destructuring assignment</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:01:38 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style boostLogging fill:#228B22, stroke:#000000, stroke-width:2px;
+
+boostLogging</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:02:38 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:04:41 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:07:22 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 16</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code imports a logging utility, which could potentially log sensitive user data. This could be a violation of GDPR if the data logged includes personal data and the logging is not done in a GDPR-compliant manner.</p>
+<p><strong>Solution</strong>: Ensure that the logging utility does not log any personal data, or if it does, that it is done in a GDPR-compliant manner. This includes obtaining user consent for data processing and ensuring data is anonymized or pseudonymized.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/summary_controller.ts line 10:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>import {
+<span class="hljs-built_in">    getBoostFile,</span>
+<span class="hljs-built_in">    findCellByKernel,</span>
+<span class="hljs-built_in">    BoostFileType,</span>
+} from &#x27;../extension/extension&#x27;<span class="hljs-comment">;</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 7:58:10 PM PDT</p>
+<p>The code snippet you provided is a small part of a larger JavaScript or TypeScript file. It&#39;s using the ES6 module system to import specific functions or constants from another module. Let&#39;s break it down:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> {
+    getBoostFile,
+    findCellByKernel,
+    <span class="hljs-title class_">BoostFileType</span>,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../extension/extension&#x27;</span>;
+</code></pre><ul>
+<li><p><code>import</code>: This is a keyword in ES6 (a version of JavaScript) that is used to import functions, objects, or values from another module (which can be a file or a package). This allows you to organize your code into separate modules, each with a specific purpose, and then combine them as needed in different parts of your application.</p>
+</li>
+<li><p><code>{ getBoostFile, findCellByKernel, BoostFileType }</code>: These are the specific items being imported from the other module. In this case, <code>getBoostFile</code> and <code>findCellByKernel</code> are likely to be functions, and <code>BoostFileType</code> is probably a constant or a type (if this is TypeScript).</p>
+</li>
+<li><p><code>from &#39;../extension/extension&#39;</code>: This is the relative path to the module being imported. The path starts with &#39;../&#39;, meaning the module is located in a directory one level up from the current one. The &#39;extension&#39; directory contains a file named &#39;extension&#39; (the .js or .ts extension is implied and not required in the import statement).</p>
+</li>
+</ul>
+<p>As for the algorithms used, this code snippet is too small to contain any. It&#39;s simply importing items from another module for use in the current one.</p>
+<p>This code aligns with the architectural blueprint summary, which mentions that the project uses JavaScript/TypeScript and is organized into classes and modules. This import statement is a common way to organize code in a modular fashion in JavaScript/TypeScript.</p>
+<p>For more information on ES6 modules, you can refer to the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">MDN Web Docs</a> or this <a href="https://www.sitepoint.com/understanding-es6-modules/">ES6 Modules Overview</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:01:42 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style getBoostFile fill:#228B22, stroke:#000000, stroke-width:2px;
+style findCellByKernel fill:#228B22, stroke:#000000, stroke-width:2px;
+
+getBoostFile-->findCellByKernel;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:02:41 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:04:45 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:07:55 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 18</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code imports a method &#39;getBoostFile&#39; which may be used to access or retrieve user data. If this data includes personal data, it could potentially violate GDPR principles if not handled correctly.</p>
+<p><strong>Solution</strong>: Ensure that any personal data accessed or retrieved by &#39;getBoostFile&#39; is processed in accordance with GDPR principles. This includes obtaining user consent, implementing data minimization, and ensuring data security. It may be necessary to revise the &#39;getBoostFile&#39; method to include these safeguards.</p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 19</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The code imports a method &#39;findCellByKernel&#39; which may be used to access or retrieve health information. If this information is not encrypted and secured, it could potentially violate HIPAA regulations.</p>
+<p><strong>Solution</strong>: Ensure that any health information accessed or retrieved by &#39;findCellByKernel&#39; is encrypted and secured in accordance with HIPAA regulations. This may require revising the &#39;findCellByKernel&#39; method to include these safeguards.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 20</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The code imports a constant &#39;BoostFileType&#39; which may be used to classify or handle user data. If this data includes cardholder data, it could potentially violate PCI DSS requirements if not handled correctly.</p>
+<p><strong>Solution</strong>: Ensure that any cardholder data classified or handled by &#39;BoostFileType&#39; is processed in accordance with PCI DSS requirements. This includes protecting stored cardholder data, encrypting transmission of cardholder data across open, public networks, and maintaining a vulnerability management program.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/summary_controller.ts line 15:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { cleanCellOutput, generateCellOutputWithHeader } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../extension/extensionUtilities&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 7:58:37 PM PDT</p>
+<p>This code is written in JavaScript, specifically ES6 syntax, and is importing two functions from a module located at &#39;../extension/extensionUtilities&#39;. </p>
+<p>The functions being imported are:</p>
+<ol>
+<li><p><code>cleanCellOutput</code>: The name of this function suggests that it is used to clean or format the output of a cell. In the context of software like Jupyter notebooks, a cell is a block of code or text that can be executed independently. Cleaning the output of a cell might involve removing unnecessary whitespace, formatting data for display, or similar tasks.</p>
+</li>
+<li><p><code>generateCellOutputWithHeader</code>: This function presumably generates the output for a cell, along with a header. A header in this context might be a title, metadata about the cell, or other introductory information. This function probably takes some input (like the cell content and header information), processes it, and returns the formatted output.</p>
+</li>
+</ol>
+<p>The specific algorithms used by these functions would be defined in the &#39;extensionUtilities&#39; module. Without seeing the implementation of these functions, we can&#39;t say for certain what algorithms they use. They might use string manipulation algorithms, data formatting algorithms, or others, depending on the specifics of what they&#39;re designed to do.</p>
+<p>The &#39;../&#39; in the path indicates that the &#39;extensionUtilities&#39; module is located in the parent directory of the current module. This is a relative path, and it&#39;s a common way to import functions or other exports from another module in JavaScript.</p>
+<p>This code snippet is consistent with the architectural blueprint provided earlier. It&#39;s using modern JavaScript syntax, it&#39;s organized into modules, and it&#39;s following good practices for code organization and reuse.</p>
+<p>For more information about ES6 imports, you can refer to this link: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">ES6 Imports</a></p>
+<p>For more information about modules in JavaScript, you can refer to this link: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">JavaScript Modules</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:01:46 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style cleanCellOutput fill:#228B22, stroke:#000000, stroke-width:2px;
+style generateCellOutputWithHeader fill:#228B22, stroke:#000000, stroke-width:2px;
+
+cleanCellOutput-->generateCellOutputWithHeader;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:02:44 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:04:48 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:08:06 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 28</p>
+<p><strong>Bug Type</strong>: Data Privacy</p>
+<p><strong>Description</strong>: The code imports two functions, &#39;cleanCellOutput&#39; and &#39;generateCellOutputWithHeader&#39;, from &#39;../extension/extensionUtilities&#39;. These functions can potentially manipulate sensitive data without proper security measures, leading to data and privacy compliance issues.</p>
+<p><strong>Solution</strong>: Ensure these functions implement proper data sanitization and anonymization techniques to comply with data privacy regulations. Also, ensure that any data processed by these functions is encrypted and securely stored to comply with GDPR, PCI DSS, and HIPAA.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/summary_controller.ts line 16:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { fullPathFromSourceFile } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../utilities/files&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 7:59:11 PM PDT</p>
+<p>The provided code snippet is quite short and simple. It is written in a JavaScript-based language, most likely TypeScript, which is commonly used for developing large-scale applications, including Visual Studio Code extensions.</p>
+<p>The code imports a function named <code>fullPathFromSourceFile</code> from a module located at <code>&#39;../utilities/files&#39;</code>. This function is not defined in the provided code, so we can only make assumptions about its functionality based on its name.</p>
+<p>Here&#39;s a brief explanation of each part:</p>
+<ol>
+<li><p><code>import</code>: This is the ES6 (ECMAScript 2015) syntax for importing functions, objects or values from other modules or files. This keyword allows you to use code written in other files, promoting code reusability and modularity. Here&#39;s a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">link</a> to learn more about <code>import</code>.</p>
+</li>
+<li><p><code>{ fullPathFromSourceFile }</code>: This is called destructuring assignment syntax. It&#39;s a JavaScript expression that allows you to unpack values from arrays, or properties from objects, into distinct variables. In this context, it is used to import only the <code>fullPathFromSourceFile</code> function from the module, instead of importing the whole module. Here&#39;s a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">link</a> to learn more about destructuring assignment.</p>
+</li>
+<li><p><code>&#39;../utilities/files&#39;</code>: This is the path to the module that contains the <code>fullPathFromSourceFile</code> function. The <code>&#39;..&#39;</code> part means &quot;go up one level in the directory structure&quot;. So, if the current file is in a directory named <code>src</code>, this import statement is looking for a file named <code>files.js</code> or <code>files.ts</code> in a directory named <code>utilities</code> that is located in the parent directory of <code>src</code>.</p>
+</li>
+</ol>
+<p>As for the <code>fullPathFromSourceFile</code> function, based on its name, it likely takes a source file as input and returns its full path. This could be useful in many scenarios, such as reading the file, writing to the file, or performing some sort of analysis on the file. However, without the implementation details of this function or its usage in the code, this is purely speculative.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:01:49 PM PDT</p>
+<p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:02:48 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:04:51 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:08:10 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/summary_controller.ts line 17:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-type">path</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;path&#x27;</span>;
+<span class="hljs-keyword">import</span> { ControllerOutputType } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./controllerOutputTypes&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 7:59:41 PM PDT</p>
+<p>This code snippet is written in TypeScript, a statically typed superset of JavaScript. It is importing modules and a type for usage within the current module.</p>
+<p>Let&#39;s break it down line by line:</p>
+<ol>
+<li><p><code>import * as fs from &#39;fs&#39;;</code>
+This line is importing the <code>fs</code> (File System) module from Node.js. This module provides an API for interacting with the file system in a manner closely modeled around standard POSIX functions. It allows you to work with the file system on your machine. For example, you can create, read, update, and delete files. More information about the <code>fs</code> module can be found in the <a href="https://nodejs.org/api/fs.html">Node.js docs</a>.</p>
+</li>
+<li><p><code>import * as path from &#39;path&#39;;</code>
+This line is importing the <code>path</code> module from Node.js. This module provides utilities for working with file and directory paths. It can be used for manipulating path strings, such as joining paths, resolving paths, extracting file names, etc. More information about the <code>path</code> module can be found in the <a href="https://nodejs.org/api/path.html">Node.js docs</a>.</p>
+</li>
+<li><p><code>import { ControllerOutputType } from &#39;./controllerOutputTypes&#39;;</code>
+This line is importing a type named <code>ControllerOutputType</code> from a local module named <code>controllerOutputTypes</code>. This is a TypeScript-specific syntax. <code>ControllerOutputType</code> is likely a type (interface, type alias, class, enum, etc.) that is used to type-check the data in this module. The exact details of <code>ControllerOutputType</code> would be found in the <code>controllerOutputTypes</code> file.</p>
+</li>
+</ol>
+<p>The algorithms used in this code snippet are not visible as this is just an import section of a TypeScript module. The imported modules and types would be used in the algorithms implemented in the rest of the code.</p>
+<p>Regarding the architectural guidelines, this code is typical of a Node.js or TypeScript project and doesn&#39;t seem to conflict with the given architectural blueprint. It uses modules and types, which are fundamental to Node.js and TypeScript design. It also uses standard Node.js modules (<code>fs</code> and <code>path</code>), which is common in many Node.js applications.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:01:54 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:02:51 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:04:54 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:08:31 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 32</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;fs&#39; module is used to interact with the file system. This may lead to the processing of personal data without explicit consent, which is a violation of GDPR.</p>
+<p><strong>Solution</strong>: Ensure that you have obtained explicit consent from the user before processing their personal data. Use access controls and encryption to protect stored data.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 33</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The &#39;fs&#39; module can be used to store, process, or transmit cardholder data, which could violate PCI DSS if not done securely.</p>
+<p><strong>Solution</strong>: Ensure that cardholder data is encrypted when stored and transmitted. Implement strong access controls and regularly audit your data handling practices.</p>
+</li>
+<li><p><strong>Severity</strong>: 9/10</p>
+<p><strong>Line Number</strong>: 32</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The &#39;fs&#39; module can be used to store, process, or transmit protected health information (PHI), which could violate HIPAA if not done securely.</p>
+<p><strong>Solution</strong>: Encrypt PHI at rest and in transit. Implement strong access controls and regularly audit your data handling practices. Ensure that PHI is only used and disclosed in ways that comply with HIPAA.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/summary_controller.ts line 20:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { DisplayGroupFriendlyName } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../data/userAnalysisType&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:00:09 PM PDT</p>
+<p>The line of code you provided is a single line of import statement from a module in JavaScript. It is importing a specific function or object called <code>DisplayGroupFriendlyName</code> from the module located at <code>../data/userAnalysisType</code>.</p>
+<p>Here&#39;s a detailed breakdown:</p>
+<ul>
+<li><p><code>import</code>: This is a keyword in JavaScript that is used to import functions, objects or values from another module or file. It is part of the ES6 (ECMAScript 2015) module system.</p>
+</li>
+<li><p><code>{ DisplayGroupFriendlyName }</code>: This is the specific function or object that is being imported from the module. The curly braces <code>{}</code> are used for named exports. That means <code>DisplayGroupFriendlyName</code> is a named export in the <code>userAnalysisType</code> module.</p>
+</li>
+<li><p><code>from</code>: This is another keyword used in conjunction with <code>import</code> to specify the path of the module from which the function or object is being imported.</p>
+</li>
+<li><p><code>&#39;../data/userAnalysisType&#39;</code>: This is the relative path to the module that contains the <code>DisplayGroupFriendlyName</code> function or object. The <code>..</code> means to go up one directory level, <code>data</code> is a directory in that level, and <code>userAnalysisType</code> is presumably a JavaScript file in the <code>data</code> directory. It&#39;s assumed that <code>userAnalysisType</code> is a JavaScript file, because the file extension <code>.js</code> is omitted. This is a common practice in JavaScript imports.</p>
+</li>
+</ul>
+<p>This line of code doesn&#39;t really involve any algorithm, it&#39;s simply a way to include functionality from another file. It&#39;s an important part of modular programming, which is a software design technique that emphasizes separating the functionality of a program into independent, interchangeable modules.</p>
+<p>For more information on JavaScript imports and exports, you can check out these resources:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">MDN Web Docs: import</a></li>
+<li><a href="https://javascript.info/import-export">JavaScript.info: Export and Import</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:01:57 PM PDT</p>
+<p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:02:54 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:04:58 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:08:44 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 38</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code imports a function that seems to handle user data, potentially including personal data. If this data is not properly anonymized, encrypted, or consented to by the user, it may violate GDPR.</p>
+<p><strong>Solution</strong>: Ensure that any personal data handled by this function is properly anonymized, encrypted, and consented to by the user. Implement a robust data protection impact assessment (DPIA) to identify and mitigate risks related to data processing.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/summary_controller.ts line 21:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> summarizeKernelName = <span class="hljs-string">&#x27;summarize&#x27;</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> summmarizeOutputHeader = <span class="hljs-string">&#x27;Summary&#x27;</span>;
+
+<span class="hljs-keyword">const</span> summaryInputDelimiter = <span class="hljs-string">&#x27;# New Input Follows&#x27;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SummarizeKernel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">KernelControllerBase</span> {
+    _kernels : <span class="hljs-title class_">Map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-title class_">KernelControllerBase</span>&gt;;
+	<span class="hljs-title function_">constructor</span>(<span class="hljs-params">
+        context: ExtensionContext,
+        onServiceErrorHandler: <span class="hljs-built_in">any</span>,
+        otherThis : <span class="hljs-built_in">any</span>,
+        collection: DiagnosticCollection,
+        kernels : <span class="hljs-built_in">Map</span>&lt;<span class="hljs-built_in">string</span>, KernelControllerBase&gt;</span>) {
+
+        <span class="hljs-variable language_">super</span>(
+            collection,
+            summarizeKernelName,
+            <span class="hljs-string">&#x27;Summarize Analysis&#x27;</span>,
+            <span class="hljs-string">&#x27;Summarizes the analysis across cells&#x27;</span>,
+            <span class="hljs-title class_">ControllerOutputType</span>.<span class="hljs-property">summary</span>,
+            <span class="hljs-title class_">DisplayGroupFriendlyName</span>.<span class="hljs-property">documentation</span>,
+            summmarizeOutputHeader,
+            <span class="hljs-literal">false</span>,
+            <span class="hljs-literal">false</span>,
+            context,
+            otherThis,
+            onServiceErrorHandler,
+            <span class="hljs-string">&quot;inputs&quot;</span>);
+
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">_kernels</span> = kernels;
+    }
+
+	<span class="hljs-title function_">dispose</span>(): <span class="hljs-built_in">void</span> {
+		<span class="hljs-variable language_">super</span>.<span class="hljs-title function_">dispose</span>();
+	}
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">get</span> <span class="hljs-title function_">serviceEndpoint</span>(): <span class="hljs-built_in">string</span> {
+        <span class="hljs-keyword">switch</span> (<span class="hljs-title class_">BoostConfiguration</span>.<span class="hljs-property">cloudServiceStage</span>)
+        {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;local&quot;</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;http://127.0.0.1:8000/summarize&#x27;</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;dev&#x27;</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;https://sh6w6cyjee6wmtmlqutbxy6d2y0vaaas.lambda-url.us-west-2.on.aws/&#x27;</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;test&quot;</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;https://6jmbzmndoptau3zsfkf45fpbm40vnsxq.lambda-url.us-west-2.on.aws/&#x27;</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;staging&#x27;</span>:
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;prod&#x27;</span>:
+            <span class="hljs-attr">default</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;https://tu5zdmjxvvzbzih6yytjtbm6fa0uvjba.lambda-url.us-west-2.on.aws/&#x27;</span>;
+        }   
+    }
+
+    <span class="hljs-keyword">async</span> <span class="hljs-title function_">executeAll</span>(
+        <span class="hljs-attr">sourceCells</span>: (vscode.<span class="hljs-property">NotebookCell</span> | <span class="hljs-title class_">BoostNotebookCell</span>)[],
+        <span class="hljs-attr">notebook</span>: vscode.<span class="hljs-property">NotebookDocument</span> | <span class="hljs-title class_">BoostNotebook</span>,
+        <span class="hljs-attr">session</span>: vscode.<span class="hljs-property">AuthenticationSession</span>,
+        <span class="hljs-attr">forceAnalysisRefresh</span>: <span class="hljs-built_in">boolean</span> = <span class="hljs-literal">false</span>
+    ) : <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">boolean</span>&gt; {
+        <span class="hljs-keyword">const</span> usingBoostNotebook = notebook <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">BoostNotebook</span>;
+
+        <span class="hljs-comment">// for now, we ignore forceAnalysisRefresh - and always re-analyze</span>
+        forceAnalysisRefresh = <span class="hljs-literal">true</span>;
+
+        <span class="hljs-comment">// are we summarizing a source file or a project?</span>
+        <span class="hljs-keyword">let</span> summarizeProject = (notebook.<span class="hljs-property">metadata</span>[<span class="hljs-string">&#x27;sourceFile&#x27;</span>] <span class="hljs-keyword">as</span> <span class="hljs-built_in">string</span>) === <span class="hljs-string">&#x27;./&#x27;</span>;
+
+        <span class="hljs-comment">// input data is not held cells - its held in satellite notebook files</span>
+        <span class="hljs-keyword">if</span> (sourceCells.<span class="hljs-property">length</span> === <span class="hljs-number">0</span> &amp;&amp; !summarizeProject) {
+            boostLogging.<span class="hljs-title function_">warn</span>(<span class="hljs-string">`No cells to <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.command}</span> of Notebook <span class="hljs-subst">${usingBoostNotebook ? notebook.fsPath : notebook.uri.toString()}</span>`</span>, <span class="hljs-literal">false</span>);
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        }
+    
+        boostLogging.<span class="hljs-title function_">info</span>(<span class="hljs-string">`Starting <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.command}</span> of Notebook <span class="hljs-subst">${usingBoostNotebook ? notebook.fsPath : notebook.uri.toString()}</span>`</span>, <span class="hljs-literal">false</span>);
+
+        <span class="hljs-comment">// summary is designed to review an entire file - since it will replace the file-level summary each time</span>
+        <span class="hljs-comment">// warn user - but still do it</span>
+        <span class="hljs-keyword">if</span> (sourceCells.<span class="hljs-property">length</span> &lt; notebook.<span class="hljs-property">cellCount</span> &amp;&amp; !summarizeProject) {
+            boostLogging.<span class="hljs-title function_">warn</span>(<span class="hljs-string">`Not all cells (<span class="hljs-subst">${sourceCells.length}</span>/<span class="hljs-subst">${notebook.cellCount}</span>) are analyzed for <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.command}</span> of Notebook <span class="hljs-subst">${notebook.uri.toString()}</span>`</span>, !usingBoostNotebook);
+        }
+
+        <span class="hljs-keyword">let</span> <span class="hljs-attr">targetNotebookUri</span>: vscode.<span class="hljs-property">Uri</span>;
+        <span class="hljs-keyword">let</span> <span class="hljs-attr">targetNotebook</span>: <span class="hljs-title class_">BoostNotebook</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BoostNotebook</span>();
+
+        <span class="hljs-comment">// if we&#x27;re summarizing a source file, we need to summarize all the cells in the source</span>
+        <span class="hljs-keyword">if</span> (!summarizeProject) {
+            targetNotebookUri = <span class="hljs-title function_">getBoostFile</span>(<span class="hljs-title function_">fullPathFromSourceFile</span>(notebook.<span class="hljs-property">metadata</span>[<span class="hljs-string">&#x27;sourceFile&#x27;</span>] <span class="hljs-keyword">as</span> <span class="hljs-built_in">string</span>), { <span class="hljs-attr">format</span>: <span class="hljs-title class_">BoostFileType</span>.<span class="hljs-property">summary</span> });
+
+            <span class="hljs-keyword">if</span> (fs.<span class="hljs-title function_">existsSync</span>(targetNotebookUri.<span class="hljs-property">fsPath</span>)) {
+                targetNotebook.<span class="hljs-title function_">load</span>(targetNotebookUri.<span class="hljs-property">fsPath</span>);
+            } <span class="hljs-keyword">else</span> {
+                targetNotebook.<span class="hljs-title function_">save</span>(targetNotebookUri.<span class="hljs-property">fsPath</span>);
+            }
+        } <span class="hljs-keyword">else</span> {
+            targetNotebook = notebook <span class="hljs-keyword">as</span> <span class="hljs-title class_">BoostNotebook</span>;
+            targetNotebookUri = vscode.<span class="hljs-property">Uri</span>.<span class="hljs-title function_">parse</span>(targetNotebook.<span class="hljs-property">fsPath</span>);
+        }
+
+        <span class="hljs-keyword">let</span> successfullyCompleted = <span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">const</span> executionContexts : <span class="hljs-built_in">any</span>[] = [];
+        <span class="hljs-keyword">if</span> (!summarizeProject) {
+            sourceCells.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">cell</span> =&gt;</span> {
+                executionContexts.<span class="hljs-title function_">push</span>(<span class="hljs-variable language_">super</span>.<span class="hljs-title function_">openExecutionContext</span>(usingBoostNotebook, cell));
+            });
+        }
+
+        <span class="hljs-keyword">try</span>
+        {
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> controller <span class="hljs-keyword">of</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">_kernels</span>) {
+                <span class="hljs-keyword">if</span> (controller[<span class="hljs-number">1</span>].<span class="hljs-property">command</span> === summarizeKernelName) {
+                    <span class="hljs-keyword">continue</span>;
+                }
+                <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_summarizeCellsForKernel</span>(controller[<span class="hljs-number">1</span>].<span class="hljs-property">outputType</span>, controller[<span class="hljs-number">1</span>].<span class="hljs-property">kernelLabel</span>, summarizeProject,
+                    sourceCells, targetNotebook, notebook, session, usingBoostNotebook);
+            }
+        } <span class="hljs-keyword">catch</span> (rethrow) {
+            successfullyCompleted = <span class="hljs-literal">false</span>;
+            boostLogging.<span class="hljs-title function_">error</span>(<span class="hljs-string">`Error during <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.command}</span> of Notebook <span class="hljs-subst">${targetNotebookUri.fsPath}</span> at <span class="hljs-subst">${<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().toLocaleTimeString()}</span>`</span>, <span class="hljs-literal">false</span>);
+            <span class="hljs-keyword">throw</span> rethrow;
+        }
+        <span class="hljs-keyword">finally</span> {
+            <span class="hljs-keyword">if</span> (!summarizeProject) {
+                executionContexts.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">executionContext</span> =&gt;</span> {
+                    <span class="hljs-variable language_">super</span>.<span class="hljs-title function_">closeExecutionContext</span>(executionContext, successfullyCompleted);
+                });
+            }
+        }
+    
+        <span class="hljs-keyword">if</span> (usingBoostNotebook) {
+            boostLogging.<span class="hljs-title function_">info</span>(<span class="hljs-string">`Finished <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.command}</span> of Notebook <span class="hljs-subst">${targetNotebookUri.fsPath}</span> at <span class="hljs-subst">${<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().toLocaleTimeString()}</span>`</span>, !usingBoostNotebook);
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+
+    noDataToSummarizeMessage = <span class="hljs-string">&quot;No Data to Summarize&quot;</span>;
+    chunkedInputPrefix = <span class="hljs-string">&#x27;input_&#x27;</span>;
+
+    <span class="hljs-keyword">async</span> <span class="hljs-title function_">_summarizeCellsForKernel</span>(<span class="hljs-params">
+        outputType : <span class="hljs-built_in">string</span>,
+        kernelLabel : <span class="hljs-built_in">string</span>,
+        summarizeProject : <span class="hljs-built_in">boolean</span>,
+        sourceCells : (vscode.NotebookCell | BoostNotebookCell)[],
+        targetNotebook: BoostNotebook,
+        notebook: vscode.NotebookDocument | BoostNotebook,
+        session: vscode.AuthenticationSession,
+        usingBoostNotebook : <span class="hljs-built_in">boolean</span></span>) {
+
+        <span class="hljs-keyword">let</span> combinedInputs : <span class="hljs-built_in">string</span>[];
+        <span class="hljs-keyword">if</span> (!summarizeProject) {
+            <span class="hljs-comment">// if we are summarizing a source file, we need to summarize all the cells</span>
+            combinedInputs = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_summarizeCellsAsSingleInput</span>(sourceCells, usingBoostNotebook, outputType);
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// if we are summarizing a project or folder, we need to summarize all the files in it</span>
+            combinedInputs = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_summarizeSourceFilesAsSingleInput</span>(targetNotebook.<span class="hljs-property">metadata</span>[<span class="hljs-string">&#x27;sourceFile&#x27;</span>] <span class="hljs-keyword">as</span> <span class="hljs-built_in">string</span>, outputType);
+        }
+        <span class="hljs-comment">// if we got no input, then skip deep processing</span>
+        <span class="hljs-keyword">let</span> tempProcessingCell = <span class="hljs-literal">undefined</span>;
+        <span class="hljs-keyword">if</span> (combinedInputs &amp;&amp; combinedInputs.<span class="hljs-property">length</span> &gt; <span class="hljs-number">0</span>) {
+            <span class="hljs-comment">// we create a placeholder cell for the input, so we can do processing on the input</span>
+            <span class="hljs-comment">// then we&#x27;ll take the resulting data and put it into the metadata (as multiple separate fields)</span>
+            <span class="hljs-comment">// the value will be empty since we don&#x27;t want to combine it as one large string (yet)</span>
+            tempProcessingCell = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BoostNotebookCell</span>(<span class="hljs-title class_">NotebookCellKind</span>.<span class="hljs-property">Markup</span>, <span class="hljs-string">&quot;***placeholder text - real input is in metadata***&quot;</span>, <span class="hljs-string">&quot;markdown&quot;</span>);
+            tempProcessingCell.<span class="hljs-title function_">initializeMetadata</span>(
+                {<span class="hljs-string">&quot;id&quot;</span>: tempProcessingCell.<span class="hljs-property">id</span>,
+                <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;originalCode&quot;</span>,
+                <span class="hljs-comment">// eslint-disable-next-line @typescript-eslint/naming-convention</span>
+                <span class="hljs-string">&quot;analysis_type&quot;</span>: outputType,
+                <span class="hljs-comment">// eslint-disable-next-line @typescript-eslint/naming-convention</span>
+                <span class="hljs-string">&quot;analysis_label&quot;</span>: kernelLabel});
+            <span class="hljs-keyword">if</span> (tempProcessingCell.<span class="hljs-property">metadata</span>) {
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; combinedInputs.<span class="hljs-property">length</span>; i++) {
+                    tempProcessingCell.<span class="hljs-property">metadata</span>[<span class="hljs-variable language_">this</span>.<span class="hljs-property">chunkedInputPrefix</span> + i.<span class="hljs-title function_">toString</span>()] = combinedInputs[i];
+                }
+            }
+        
+            <span class="hljs-comment">// summaries are written to the side-by-notebook (e.g. e.g. for foo.py, the boost notebook is foo.py.boost-notebook, and summary is foo.py.summary.boost-notebook)</span>
+            <span class="hljs-comment">// the cell written is ONE cell for the entire source file in the summary file</span>
+            <span class="hljs-comment">// or in the case of a project, each cell contains the summary across all source files</span>
+            <span class="hljs-comment">// if we are summarizing all</span>
+            <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">doExecution</span>(targetNotebook, tempProcessingCell, session);
+            <span class="hljs-keyword">if</span> (!result) {
+                boostLogging.<span class="hljs-title function_">error</span>(<span class="hljs-string">`Error Summarizing <span class="hljs-subst">${outputType}</span> of Notebook <span class="hljs-subst">${usingBoostNotebook?
+                    (notebook <span class="hljs-keyword">as</span> BoostNotebook).fsPath : notebook.uri.toString()}</span>`</span>, !usingBoostNotebook);
+            } <span class="hljs-keyword">else</span> {
+                boostLogging.<span class="hljs-title function_">info</span>(<span class="hljs-string">`Success Summarizing <span class="hljs-subst">${outputType}</span> of Notebook <span class="hljs-subst">${usingBoostNotebook ? (notebook <span class="hljs-keyword">as</span> BoostNotebook).fsPath : notebook.uri.toString()}</span>`</span>, <span class="hljs-literal">false</span>);
+            }
+        } <span class="hljs-keyword">else</span> {
+            boostLogging.<span class="hljs-title function_">warn</span>(<span class="hljs-string">`Unable to Summarize <span class="hljs-subst">${outputType}</span> of Notebook <span class="hljs-subst">${usingBoostNotebook ? (notebook <span class="hljs-keyword">as</span> BoostNotebook).fsPath : notebook.uri.toString()}</span>: no source data found`</span>, <span class="hljs-literal">false</span>);
+        }
+
+        <span class="hljs-keyword">let</span> targetCell = <span class="hljs-title function_">findCellByKernel</span>(targetNotebook, outputType) <span class="hljs-keyword">as</span> <span class="hljs-title class_">BoostNotebookCell</span>;
+        <span class="hljs-keyword">if</span> (!targetCell) {
+            targetCell = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BoostNotebookCell</span>(<span class="hljs-title class_">NotebookCellKind</span>.<span class="hljs-property">Markup</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;markdown&quot;</span>);
+            targetCell.<span class="hljs-title function_">initializeMetadata</span>({<span class="hljs-string">&quot;id&quot;</span>: targetCell.<span class="hljs-property">id</span>, <span class="hljs-string">&quot;outputType&quot;</span>: outputType});
+            targetNotebook.<span class="hljs-title function_">addCell</span>(targetCell);
+        }
+        <span class="hljs-comment">// snap the processed analysis summary from the temp cell and store it as the new summary cell in the summary notebook</span>
+        <span class="hljs-keyword">if</span> (tempProcessingCell) {
+            targetCell.<span class="hljs-property">value</span> = tempProcessingCell.<span class="hljs-property">outputs</span>[<span class="hljs-number">0</span>].<span class="hljs-property">items</span>[<span class="hljs-number">0</span>].<span class="hljs-property">data</span>;
+            <span class="hljs-keyword">if</span> (outputType === <span class="hljs-title class_">ControllerOutputType</span>.<span class="hljs-property">blueprint</span>) {
+                <span class="hljs-comment">// store summary as the blueprint type - so quick blueprint doesn&#x27;t overwrite it</span>
+                targetCell.<span class="hljs-title function_">initializeMetadata</span>({
+                    ...targetCell.<span class="hljs-property">metadata</span>,
+                    <span class="hljs-string">&quot;blueprintType&quot;</span>: <span class="hljs-string">&quot;summary&quot;</span>
+                });
+            }
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// generate synthetic no data output cell</span>
+            targetCell.<span class="hljs-property">value</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">onKernelOutputItem</span>(
+                    {<span class="hljs-string">&quot;analysis&quot;</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">noDataToSummarizeMessage</span>,
+                     <span class="hljs-comment">// eslint-disable-next-line @typescript-eslint/naming-convention</span>
+                     <span class="hljs-string">&quot;analysis_type&quot;</span>: outputType,
+                     <span class="hljs-comment">// eslint-disable-next-line @typescript-eslint/naming-convention</span>
+                     <span class="hljs-string">&quot;analysis_label&quot;</span>: kernelLabel},
+                     targetCell,
+                    outputType);
+        }
+
+        targetNotebook.<span class="hljs-title function_">flushToFS</span>();
+    }
+
+    <span class="hljs-keyword">async</span> <span class="hljs-title function_">_summarizeSourceFilesAsSingleInput</span>(<span class="hljs-attr">sourceFolder</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">outputType</span>: <span class="hljs-built_in">string</span>): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">string</span>[]&gt; {
+        <span class="hljs-keyword">if</span> (!vscode.<span class="hljs-property">workspace</span>.<span class="hljs-property">workspaceFolders</span>) {
+            boostLogging.<span class="hljs-title function_">error</span>(<span class="hljs-string">&quot;No workspace folder found for summarizing source files&quot;</span>, <span class="hljs-literal">false</span>);
+            <span class="hljs-keyword">return</span> [];
+        }
+
+        <span class="hljs-comment">// if we don&#x27;t have a workspace folder, just place the Boost file in a new Boostdir - next to the source file</span>
+        <span class="hljs-keyword">const</span> workspaceFolder = vscode.<span class="hljs-property">workspace</span>.<span class="hljs-property">workspaceFolders</span>[<span class="hljs-number">0</span>]; <span class="hljs-comment">// Get the first workspace folder</span>
+
+        <span class="hljs-comment">// create the .boost folder if we need to - this is statically located in the workspace folder no matter which child folder is processed</span>
+        <span class="hljs-keyword">const</span> boostFolder = path.<span class="hljs-title function_">join</span>(workspaceFolder.<span class="hljs-property">uri</span>.<span class="hljs-property">fsPath</span>, <span class="hljs-title class_">BoostConfiguration</span>.<span class="hljs-property">defaultDir</span>);
+        <span class="hljs-keyword">const</span> normalizedBoostFolder = path.<span class="hljs-title function_">normalize</span>(boostFolder);
+        <span class="hljs-keyword">const</span> searchFolder = path.<span class="hljs-title function_">join</span>(normalizedBoostFolder, sourceFolder);
+        <span class="hljs-keyword">const</span> normalizedSearchFolder = path.<span class="hljs-title function_">normalize</span>(searchFolder);
+        <span class="hljs-keyword">const</span> summaryNotebookFileUri = <span class="hljs-title function_">getBoostFile</span>(workspaceFolder.<span class="hljs-property">uri</span>, { <span class="hljs-attr">format</span>: <span class="hljs-title class_">BoostFileType</span>.<span class="hljs-property">summary</span> });
+        
+        <span class="hljs-comment">// we&#x27;re going to search for every boost summary notebook under our target folder (which is under Boost folder)</span>
+        <span class="hljs-keyword">const</span> searchPattern = <span class="hljs-keyword">new</span> vscode.<span class="hljs-title class_">RelativePattern</span>(normalizedSearchFolder, <span class="hljs-string">&#x27;**/*&#x27;</span> + <span class="hljs-variable constant_">NOTEBOOK_SUMMARY_EXTENSION</span>);
+        <span class="hljs-keyword">const</span> files = <span class="hljs-keyword">await</span> vscode.<span class="hljs-property">workspace</span>.<span class="hljs-title function_">findFiles</span>(searchPattern);
+
+        <span class="hljs-comment">// grab all the cell contents by type/command/kernel for submission</span>
+        <span class="hljs-keyword">const</span> <span class="hljs-attr">inputs</span>: <span class="hljs-built_in">string</span>[] = [];
+        <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>(files.<span class="hljs-title function_">map</span>(<span class="hljs-keyword">async</span> (file) =&gt; {
+                <span class="hljs-comment">// ignore the summary rollup file itself</span>
+                <span class="hljs-keyword">if</span> (summaryNotebookFileUri.<span class="hljs-property">fsPath</span> === file.<span class="hljs-property">fsPath</span>) {
+                    <span class="hljs-keyword">return</span>;
+                }
+
+                <span class="hljs-comment">// Perform async operation for each file</span>
+                <span class="hljs-keyword">const</span> inputFromNotebook = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getAnalysisFromNotebook</span>(file, outputType);
+                <span class="hljs-keyword">if</span> (inputFromNotebook &amp;&amp; !inputFromNotebook.<span class="hljs-title function_">includes</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">noDataToSummarizeMessage</span>)) {
+                    <span class="hljs-keyword">if</span> (!<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_isEmptySummary</span>(inputFromNotebook)) {
+                        inputs.<span class="hljs-title function_">push</span>(<span class="hljs-title function_">cleanCellOutput</span>(inputFromNotebook));
+                    }
+                }
+            }));
+    
+        <span class="hljs-keyword">return</span> inputs;
+    }
+
+    <span class="hljs-title function_">_isEmptySummary</span>(<span class="hljs-attr">input</span>: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">boolean</span> {
+        <span class="hljs-keyword">return</span> input.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">`Boost <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.outputHeader}</span> failed:`</span>);
+    }
+
+    <span class="hljs-keyword">async</span> <span class="hljs-title function_">getAnalysisFromNotebook</span>(<span class="hljs-attr">notebookUri</span>: vscode.<span class="hljs-property">Uri</span>, <span class="hljs-attr">outputType</span>: <span class="hljs-built_in">string</span>): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">string</span>&gt; {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-keyword">async</span> (resolve, reject) =&gt; {
+            <span class="hljs-keyword">try</span> {
+                <span class="hljs-keyword">const</span> notebook = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BoostNotebook</span>();
+                notebook.<span class="hljs-title function_">load</span>(notebookUri.<span class="hljs-property">fsPath</span>);
+                <span class="hljs-keyword">const</span> cell = <span class="hljs-title function_">findCellByKernel</span>(notebook, outputType) <span class="hljs-keyword">as</span> <span class="hljs-title class_">BoostNotebookCell</span>;
+                <span class="hljs-keyword">if</span> (!cell) {
+                    <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;&#x27;</span>);
+                    <span class="hljs-keyword">return</span>;
+                }
+                <span class="hljs-title function_">resolve</span>(cell.<span class="hljs-property">value</span>);
+            } <span class="hljs-keyword">catch</span> (error) {
+                <span class="hljs-title function_">reject</span>(error);
+            }
+        });
+    }
+
+    <span class="hljs-title function_">_summarizeCellsAsSingleInput</span>(
+        sourceCells : (vscode.<span class="hljs-property">NotebookCell</span> | <span class="hljs-title class_">BoostNotebookCell</span>)[],
+        usingBoostNotebook : <span class="hljs-built_in">boolean</span>,
+        outputType : <span class="hljs-built_in">string</span>) : <span class="hljs-built_in">string</span>[] {
+
+        <span class="hljs-comment">// grab all the cell contents by type/command/kernel for submission</span>
+        <span class="hljs-keyword">const</span> <span class="hljs-attr">inputs</span>: <span class="hljs-built_in">string</span>[] = [];
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> cellToSummarize <span class="hljs-keyword">of</span> sourceCells) {
+            <span class="hljs-keyword">if</span> (usingBoostNotebook) {
+                <span class="hljs-keyword">const</span> cell = cellToSummarize <span class="hljs-keyword">as</span> <span class="hljs-title class_">BoostNotebookCell</span>;
+                cell.<span class="hljs-property">outputs</span>.<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">output</span>) =&gt;</span> output.<span class="hljs-property">metadata</span>?.<span class="hljs-property">outputType</span> === outputType).<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">output</span>) =&gt;</span> {
+                    output.<span class="hljs-property">items</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> {
+                        <span class="hljs-keyword">if</span> (item.<span class="hljs-property">data</span> &amp;&amp;
+                                <span class="hljs-comment">// ignore error cells</span>
+                            item.<span class="hljs-property">mime</span> !== errorMimeType &amp;&amp;
+                            !<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_isEmptySummary</span>(item.<span class="hljs-property">data</span>)) {
+                            inputs.<span class="hljs-title function_">push</span>(<span class="hljs-title function_">cleanCellOutput</span>(item.<span class="hljs-property">data</span>));
+                        }
+                    });
+                });
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">const</span> cell = cellToSummarize <span class="hljs-keyword">as</span> vscode.<span class="hljs-property">NotebookCell</span>;
+                cell.<span class="hljs-property">outputs</span>.<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">output</span>) =&gt;</span> output.<span class="hljs-property">metadata</span>?.<span class="hljs-property">outputType</span> === outputType).<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">output</span>) =&gt;</span> {
+                    output.<span class="hljs-property">items</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> {
+                        <span class="hljs-comment">// ignore error blocks</span>
+                        <span class="hljs-keyword">if</span> (item.<span class="hljs-property">mime</span> === errorMimeType) {
+                            <span class="hljs-keyword">return</span>;
+                        }
+
+                        <span class="hljs-keyword">const</span> decodedText = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TextDecoder</span>().<span class="hljs-title function_">decode</span>(item.<span class="hljs-property">data</span>);
+                        <span class="hljs-keyword">if</span> (decodedText &amp;&amp; !<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_isEmptySummary</span>(decodedText)) {
+                            inputs.<span class="hljs-title function_">push</span>(<span class="hljs-title function_">cleanCellOutput</span>(decodedText));
+                        }
+                    });
+                });
+            }
+        }
+    
+        <span class="hljs-keyword">return</span> inputs;
+    }
+
+    <span class="hljs-keyword">async</span> <span class="hljs-title function_">onBoostServiceRequest</span>(
+        cell : vscode.<span class="hljs-property">NotebookCell</span> | <span class="hljs-title class_">BoostNotebookCell</span> | <span class="hljs-literal">undefined</span>,
+        serviceEndpoint : <span class="hljs-built_in">string</span>,
+        payload : <span class="hljs-built_in">any</span>) : <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">string</span>&gt;
+    {
+        <span class="hljs-comment">//  dynamically add payload properties to send to Boost service</span>
+        payload.<span class="hljs-property">analysis_type</span> = cell?.<span class="hljs-property">metadata</span>?.<span class="hljs-property">analysis_type</span>;
+        payload.<span class="hljs-property">analysis_label</span> = cell?.<span class="hljs-property">metadata</span>?.<span class="hljs-property">analysis_label</span>;
+        payload.<span class="hljs-property">model</span> = cell?.<span class="hljs-property">metadata</span>?.<span class="hljs-property">model</span>;
+        
+        <span class="hljs-keyword">delete</span> payload.<span class="hljs-property">inputs</span>;
+        <span class="hljs-keyword">let</span> countOfInputs = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">while</span> (cell?.<span class="hljs-property">metadata</span>) {
+            <span class="hljs-keyword">if</span> (!cell.<span class="hljs-property">metadata</span>[<span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.chunkedInputPrefix}</span><span class="hljs-subst">${countOfInputs - <span class="hljs-number">1</span>}</span>`</span>]) {
+                <span class="hljs-keyword">break</span>;
+            }
+            payload[<span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.chunkedInputPrefix}</span><span class="hljs-subst">${countOfInputs - <span class="hljs-number">1</span>}</span>`</span>] = cell.<span class="hljs-property">metadata</span>[<span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.chunkedInputPrefix}</span><span class="hljs-subst">${countOfInputs - <span class="hljs-number">1</span>}</span>`</span>];
+            countOfInputs++;
+        }
+        payload.<span class="hljs-property">chunks</span> = countOfInputs - <span class="hljs-number">1</span>;
+        payload.<span class="hljs-property">chunk_prefix</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">chunkedInputPrefix</span>;
+
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">super</span>.<span class="hljs-title function_">onBoostServiceRequest</span>(cell, serviceEndpoint, payload);
+    }
+
+    <span class="hljs-title function_">onKernelOutputItem</span>(
+        <span class="hljs-attr">response</span>: <span class="hljs-built_in">any</span>,
+        _ : vscode.<span class="hljs-property">NotebookCell</span> | <span class="hljs-title class_">BoostNotebookCell</span>,
+        __ : <span class="hljs-built_in">any</span>) : <span class="hljs-built_in">string</span> {
+
+        <span class="hljs-keyword">if</span> (response.<span class="hljs-property">analysis</span> === <span class="hljs-literal">undefined</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;Unexpected missing analysis from Boost Service&quot;</span>);
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (response.<span class="hljs-property">analysis_label</span> === <span class="hljs-literal">undefined</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;Unexpected missing analysis label from Boost Service&quot;</span>);
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (response.<span class="hljs-property">analysis_type</span> === <span class="hljs-literal">undefined</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;Unexpected missing analysis type from Boost Service&quot;</span>);
+        }
+
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_">generateCellOutputWithHeader</span>(<span class="hljs-string">`<span class="hljs-subst">${response.analysis_label}</span> Summary`</span>, response.<span class="hljs-property">analysis</span>);
+    }
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:00:59 PM PDT</p>
+<p>This code defines a TypeScript class named <code>SummarizeKernel</code> that extends the <code>KernelControllerBase</code> class. This class is used as part of a Visual Studio Code extension that provides code analysis functionality. The <code>SummarizeKernel</code> class is responsible for summarizing the analysis across cells in a notebook.</p>
+<p>Here is a detailed breakdown of the code:</p>
+<ul>
+<li><p><code>SummarizeKernel</code> class has a constructor which takes several parameters including a context, an error handler, a collection of diagnostic information, and a map of kernels. The constructor calls the base class constructor and initializes a private variable <code>_kernels</code> with the passed kernels.</p>
+</li>
+<li><p>The <code>dispose</code> method is used to clean up resources when they are no longer needed. It calls the <code>dispose</code> method of the base class.</p>
+</li>
+<li><p>The <code>serviceEndpoint</code> getter returns the URL of the service endpoint based on the <code>BoostConfiguration.cloudServiceStage</code> configuration.</p>
+</li>
+<li><p>The <code>executeAll</code> method is an asynchronous method that takes several parameters including an array of source cells, a notebook document, and an authentication session. It performs the summarization of the analysis across the source cells in the notebook.</p>
+</li>
+<li><p>The <code>_summarizeCellsForKernel</code> method is an asynchronous method that takes several parameters including the output type, the kernel label, a boolean indicating whether to summarize the project, an array of source cells, a target notebook, a notebook document, an authentication session, and a boolean indicating whether to use the Boost notebook. It performs the summarization of the analysis across the cells for a specific kernel.</p>
+</li>
+<li><p>The <code>_summarizeSourceFilesAsSingleInput</code> method is an asynchronous method that takes a source folder and an output type as parameters. It returns a promise that resolves to an array of strings. It summarizes the source files as a single input.</p>
+</li>
+<li><p>The <code>getAnalysisFromNotebook</code> method is an asynchronous method that takes a notebook URI and an output type as parameters. It returns a promise that resolves to a string. It gets the analysis from the notebook.</p>
+</li>
+<li><p>The <code>_summarizeCellsAsSingleInput</code> method takes an array of source cells, a boolean indicating whether to use the Boost notebook, and an output type as parameters. It returns an array of strings. It summarizes the cells as a single input.</p>
+</li>
+<li><p>The <code>onBoostServiceRequest</code> method is an asynchronous method that takes a cell, a service endpoint, and a payload as parameters. It returns a promise that resolves to a string. It handles the request to the Boost service.</p>
+</li>
+<li><p>The <code>onKernelOutputItem</code> method takes a response, a cell, and an output type as parameters. It returns a string. It handles the output item from the kernel.</p>
+</li>
+</ul>
+<p>For more information on TypeScript classes, you can refer to this <a href="https://www.typescriptlang.org/docs/handbook/classes.html">link</a>. For more information on Visual Studio Code extensions, you can refer to this <a href="https://code.visualstudio.com/api/get-started/your-first-extension">link</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:02:11 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">    graph TD;
+    style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+    style SummarizeKernel fill:#228B22, stroke:#000000, stroke-width:4px;
+    style SummarizeKernelErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+    style KernelControllerBase fill:#228B22, stroke:#000000, stroke-width:4px;
+    style KernelControllerBaseErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+    style BoostNotebook fill:#228B22, stroke:#000000, stroke-width:4px;
+    style BoostNotebookErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+    style BoostNotebookCell fill:#228B22, stroke:#000000, stroke-width:4px;
+    style BoostNotebookCellErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+    style vscode fill:#228B22, stroke:#000000, stroke-width:4px;
+    style vscodeErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+    style fs fill:#228B22, stroke:#000000, stroke-width:4px;
+    style fsErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+    style path fill:#228B22, stroke:#000000, stroke-width:4px;
+    style pathErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+    style boostLogging fill:#228B22, stroke:#000000, stroke-width:4px;
+    style boostLoggingErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+    style getBoostFile fill:#228B22, stroke:#000000, stroke-width:4px;
+    style getBoostFileErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+    style fullPathFromSourceFile fill:#228B22
+
+```mermaid
+graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->A;
+A-->B;
+B-->C;
+C-->D;
+D-->E;
+E-->F;
+F-->G;
+G-->H;
+H-->I;
+I-->J;
+J-->K;
+K-->L;
+L-->M;
+M-->N;
+N-->O;
+O-->P;
+P-->Q;
+Q-->R;
+R-->S;
+S-->T;
+T-->U;
+U-->V;
+V-->W;
+W-->X;
+X-->Y;
+Y-->Z;
+Z-->End;</pre>
+</code></pre><p>In the above mermaid diagram, the control flow starts at the function <code>_summarizeCellsAsSingleInput</code>. It then goes through a series of steps, including conditionals and loops, before reaching the end of the function. The primary path is shown in green, while alternate non-error paths are shown in the default style. Error paths are shown in red.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:03:32 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 72</p>
+<p><strong>Bug Type</strong>: OWASP A6 - Security Misconfiguration</p>
+<p><strong>Description</strong>: The service endpoint URL is hardcoded and switches based on the environment. This could lead to potential security misconfigurations if the environment is not properly set or if a malicious actor is able to manipulate the environment setting.</p>
+<p><strong>Solution</strong>: Consider using environment variables or a configuration file to store the service endpoint URLs. This will make the application more secure and easier to maintain. For more information, refer to the OWASP guide on security misconfiguration: <a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration">https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration</a></p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 96</p>
+<p><strong>Bug Type</strong>: OWASP A10 - Insufficient Logging &amp; Monitoring</p>
+<p><strong>Description</strong>: The application does not seem to have sufficient logging and monitoring. Proper logging and monitoring is crucial for detecting and responding to security incidents.</p>
+<p><strong>Solution</strong>: Consider adding more detailed logging and monitoring to the application. This could include logging all failed authentication attempts, all access control failures, and all server-side input validation failures. For more information, refer to the OWASP guide on insufficient logging and monitoring: <a href="https://owasp.org/www-project-top-ten/2017/A10_2017-Insufficient_Logging%2526Monitoring">https://owasp.org/www-project-top-ten/2017/A10_2017-Insufficient_Logging%2526Monitoring</a></p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 154</p>
+<p><strong>Bug Type</strong>: OWASP A7 - Cross-Site Scripting (XSS)</p>
+<p><strong>Description</strong>: The application appears to be dynamically generating HTML content based on user input. This could potentially lead to Cross-Site Scripting (XSS) attacks if the user input is not properly sanitized.</p>
+<p><strong>Solution</strong>: Ensure that all user input is properly sanitized before it is used to generate dynamic HTML content. This can be achieved by using a library or framework that automatically escapes user input, or by manually escaping all user input. For more information, refer to the OWASP guide on preventing XSS: <a href="https://owasp.org/www-community/Top_10-2017_A7-Cross-Site_Scripting_(XSS)">https://owasp.org/www-community/Top_10-2017_A7-Cross-Site_Scripting_(XSS)</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:05:29 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 94</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The use of &#39;fs.existsSync&#39; can lead to blocking I/O, which can negatively impact performance.</p>
+<p><strong>Solution</strong>: Consider using &#39;fs.promises.access&#39; instead, which is non-blocking and more efficient.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 133</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The use of &#39;forEach&#39; loop can be less performant for large data sets.</p>
+<p><strong>Solution</strong>: Consider using a &#39;for...of&#39; loop or &#39;map&#39; function for better performance.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 140</p>
+<p><strong>Bug Type</strong>: Network</p>
+<p><strong>Description</strong>: The use of &#39;await&#39; inside a loop can lead to inefficient use of network resources as it waits for each request to complete before moving to the next one.</p>
+<p><strong>Solution</strong>: Consider using &#39;Promise.all&#39; to send all requests simultaneously and wait for all of them to complete.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 201</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The use of &#39;filter&#39; and &#39;forEach&#39; inside a loop can lead to high CPU usage for large data sets.</p>
+<p><strong>Solution</strong>: Consider using a single &#39;reduce&#39; function to accomplish the same task more efficiently.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 229</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The use of &#39;filter&#39; and &#39;forEach&#39; inside a loop can lead to high CPU usage for large data sets.</p>
+<p><strong>Solution</strong>: Consider using a single &#39;reduce&#39; function to accomplish the same task more efficiently.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 249</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The use of &#39;delete&#39; operator can lead to memory leaks if not used carefully.</p>
+<p><strong>Solution</strong>: Consider using &#39;Map&#39; or &#39;Set&#39; data structures that have built-in methods for deletion.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 8:08:59 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 70</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code is sending data to different endpoints based on the environment. This could potentially lead to data leaks if not properly secured, which is a violation of GDPR.</p>
+<p><strong>Solution</strong>: Ensure all endpoints are secured and data is encrypted during transmission. Implement access controls and logging to monitor data access and transfers. More info: <a href="https://gdpr-info.eu/">https://gdpr-info.eu/</a></p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 115</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The code appears to be processing data without checking if it is health-related data. This could potentially be a violation of HIPAA if it involves personal health information.</p>
+<p><strong>Solution</strong>: Implement checks to identify and handle health-related data according to HIPAA regulations. This may include encryption, access controls, and secure data storage. More info: <a href="https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html">https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html</a></p>
+</li>
+<li><p><strong>Severity</strong>: 9/10</p>
+<p><strong>Line Number</strong>: 241</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The code is sending data to a service endpoint without explicitly checking if the data includes cardholder data. This could potentially be a violation of PCI DSS.</p>
+<p><strong>Solution</strong>: Implement checks to identify and handle cardholder data according to PCI DSS regulations. This may include encryption, access controls, secure data transmission, and logging. More info: <a href="https://www.pcisecuritystandards.org/pci_security/">https://www.pcisecuritystandards.org/pci_security/</a></p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>

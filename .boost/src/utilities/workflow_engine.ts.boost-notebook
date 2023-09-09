@@ -1,0 +1,621 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 1:45:42 AM PDT\n\nThe provided code is a high-level description of a workflow engine that manages the execution of asynchronous tasks, represented as promises, in a specific order and pattern. The execution pattern is based on a pattern array, where each element represents the number of main promises to be run in sequence before running all the afterEachGroup promises.\n\nHere's a breakdown of the workflow:\n\n1. **Initialization:** The engine is initialized with several arrays of promise generators:\n   - `before`: These promises are run at the very beginning of the workflow.\n   - `main`: This is the main group of promise generators.\n   - `afterEachGroup`: These promises are run after each group of main promises, as specified by the pattern.\n   - `after`: These promises are run at the end of the workflow.\n   - `pattern`: This array specifies the grouping for the main array.\n\n2. **Running the Workflow:** \n   - First, all the `before` promises are run.\n   - Then, the `main` promises are run in groups as specified by the `pattern`. After each group, all `afterEachGroup` promises are run.\n   - If any promise in the `main` array fails, its generator is re-run, and a new promise is added to the queue.\n   - Finally, all the `after` promises are run.\n\n3. **Abort:** If the abort API is called, the workflow will stop executing further promises.\n\nThe algorithm used here is a form of the **Serial Execution Pattern** for promises, where promises are executed one after the other, in a specific order. The twist here is that the number of promises to be executed in each batch is dynamic and determined by the `pattern` array. \n\nThe `import { all } from \"micromatch\";` line at the end imports the `all` function from the `micromatch` library, which is a glob matching library. However, based on the given code and description, it's not clear how this function is used in the workflow engine.\n\nFor more information on promises and their execution patterns, you can refer to these resources:\n- [Promises in JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)\n- [Serial Execution with Promises](https://decembersoft.com/posts/promises-in-serial-with-array-reduce/)\n- [Micromatch library](https://www.npmjs.com/package/micromatch)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 1:49:56 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle Before fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle Main fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle AfterEachGroup fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle After fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle Abort fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->Before;\nBefore-->Main;\nMain-->AfterEachGroup;\nAfterEachGroup-->Main;\nMain-->AfterEachGroup;\nAfterEachGroup-->Main;\nMain-->AfterEachGroup;\nAfterEachGroup-->Main;\nMain-->AfterEachGroup;\nAfterEachGroup-->Main;\nMain-->After;\nAbort-->After;\n```\n\nThe control flow graph for the provided source code is as follows:\n\n- The workflow starts with the \"Start\" node.\n- The \"Start\" node is connected to the \"Before\" node, representing the execution of the \"before\" promises.\n- The \"Before\" node is connected to the \"Main\" node, representing the execution of the main promises.\n- The \"Main\" node is connected to the \"AfterEachGroup\" node, representing the execution of the \"afterEachGroup\" promises after each group of main promises.\n- The \"AfterEachGroup\" node is connected back to the \"Main\" node, representing the continuation of the main promises.\n- This loop continues until all main promises are executed.\n- After the main promises are completed, the control flow goes to the \"After\" node, representing the execution of the \"after\" promises.\n- If the \"Abort\" API is called, the control flow goes directly to the \"After\" node, bypassing the execution of any remaining promises.\n\nPlease note that this control flow graph assumes that the code provided is the complete and accurate representation of the workflow."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:52:11 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:52:55 AM PDT\n\n1. **Severity**: 4/10\n\n   **Line Number**: 27\n\n   **Bug Type**: CPU\n\n   **Description**: The use of 'all' from 'micromatch' might lead to inefficient CPU usage if the input patterns are complex or the input list is large.\n\n   **Solution**: Consider using 'any' or 'some' if it fits your requirements, as they can short-circuit and potentially save CPU cycles. If the input list is large, consider using a more efficient matching algorithm or data structure.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 27,
+                "severity": 4,
+                "bugType": "CPU",
+                "description": "The use of 'all' from 'micromatch' might lead to inefficient CPU usage if the input patterns are complex or the input list is large.",
+                "solution": "Consider using 'any' or 'some' if it fits your requirements, as they can short-circuit and potentially save CPU cycles. If the input list is large, consider using a more efficient matching algorithm or data structure."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:55:17 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 30\n\n   **Bug Type**: GDPR\n\n   **Description**: This code potentially handles user data but does not appear to have any data protection or privacy measures in place, which could lead to GDPR compliance issues. The exact data being handled is not clear from the provided code.\n\n   **Solution**: Consider implementing data protection measures, such as encryption, and ensure that any user data is handled in accordance with GDPR principles. This may include obtaining user consent for data processing, providing transparency about how data is used, and ensuring that data is not kept for longer than necessary.\n\n\n2. **Severity**: 5/10\n\n   **Line Number**: 30\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If this code handles payment card data, it may not be compliant with the Payment Card Industry Data Security Standard (PCI DSS). The code does not appear to have any measures in place to protect cardholder data.\n\n   **Solution**: Ensure that any payment card data is encrypted and stored securely, and that all data transmission is secure. Implement strong access control measures and regularly test security systems and processes.\n\n\n3. **Severity**: 6/10\n\n   **Line Number**: 30\n\n   **Bug Type**: HIPAA\n\n   **Description**: If this code handles protected health information (PHI), it could be in violation of the Health Insurance Portability and Accountability Act (HIPAA). The code does not appear to have any measures in place to protect PHI.\n\n   **Solution**: Ensure that any PHI is encrypted and stored securely, and that all data transmission is secure. Implement strong access control measures and regularly test security systems and processes.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 30,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "This code potentially handles user data but does not appear to have any data protection or privacy measures in place, which could lead to GDPR compliance issues. The exact data being handled is not clear from the provided code.",
+                "solution": "Consider implementing data protection measures, such as encryption, and ensure that any user data is handled in accordance with GDPR principles. This may include obtaining user consent for data processing, providing transparency about how data is used, and ensuring that data is not kept for longer than necessary.",
+                "webLink": "https://gdpr.eu/what-is-gdpr/"
+              },
+              {
+                "lineNumber": 30,
+                "severity": 5,
+                "bugType": "PCI DSS",
+                "description": "If this code handles payment card data, it may not be compliant with the Payment Card Industry Data Security Standard (PCI DSS). The code does not appear to have any measures in place to protect cardholder data.",
+                "solution": "Ensure that any payment card data is encrypted and stored securely, and that all data transmission is secure. Implement strong access control measures and regularly test security systems and processes.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/why_security_matters"
+              },
+              {
+                "lineNumber": 30,
+                "severity": 6,
+                "bugType": "HIPAA",
+                "description": "If this code handles protected health information (PHI), it could be in violation of the Health Insurance Portability and Accountability Act (HIPAA). The code does not appear to have any measures in place to protect PHI.",
+                "solution": "Ensure that any PHI is encrypted and stored securely, and that all data transmission is secure. Implement strong access control measures and regularly test security systems and processes.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "/*\n\nthe basic idea is the engine will take an array of promise generators, and run through them one at a time in serial until \nevery promise is successfully resolved.  if a promise fails, then the promise generator is re-run and a new promise is put on the queue.  \n\nthe special behavior is that the main array of promises is to be run in groups, as specified by a pattern array.  \nthus, if the pattern array is [1, 2, 4, 8], then the first promise is run, followed by *all* of the afterEachGroup promises, \nthen two promises from the main array are run, followed by *all* of the afterEachGroup promises, then four promises are run and so forth.\\\n\nInitialization: The engine will be initialized with the following arrays of promise generators:\n    before: Run at the very beginning of the workflow.\n    main: The main group of promise generators.\n    afterEachGroup: Run after every group, as specified by the pattern.\n    after: Run at the end of the workflow.\n    pattern: Specifies the grouping for the main array.\n\nRunning the Workflow:\nFirst, the before promises will be run.\nThen, the main promises will be run in groups specified by the pattern. After each group, all afterEachGroup promises are run.\nIf any promise in the main array fails, its generator is re-run, and a new promise is added to the queue.\nFinally, the after promises will be run.\nAbort: If the abort API is called, the workflow will stop executing further promises.\n*/\n\nimport { all } from \"micromatch\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 1:46:03 AM PDT\n\nThe line of code you provided is a single import statement in JavaScript, specifically using ES6 syntax. It's not really an algorithm, but it's a crucial part of many programs.\n\nHere's the breakdown:\n\n```import { v4 as uuidv4 } from \"uuid\";```\n\nThis statement is importing a specific function `v4` from the `uuid` module. This function is used to generate random UUIDs (Universally Unique Identifiers). The `as uuidv4` part means that, within the scope of this file, the `v4` function will be referred to as `uuidv4`. This is a feature of JavaScript's import syntax that allows you to rename imports. \n\nThe `uuid` module is a popular JavaScript library for creating UUIDs. UUIDs are used in software development for various purposes, such as to provide a unique identifier for objects, to generate random keys for access tokens, etc.\n\nAs for the architectural guidelines, this single line of code doesn't reveal much about the architecture of the software project. However, the usage of ES6 import statement and the `uuid` library are typical in modern JavaScript and TypeScript projects.\n\nFor more information about `uuid`, you can visit the npm (Node Package Manager) page for the library: [https://www.npmjs.com/package/uuid](https://www.npmjs.com/package/uuid)\n\nFor more information about ES6 import/export syntax, you can visit: [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 1:50:02 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\n```\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:52:15 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:52:58 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:55:30 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 50\n\n   **Bug Type**: GDPR\n\n   **Description**: The code generates a universally unique identifier (UUID) which, depending on its use, could be linked to a specific user and therefore could be considered personal data under GDPR. If this UUID is used to identify a user or their behavior without proper consent or protection, it could lead to GDPR compliance issues.\n\n   **Solution**: Ensure that the generated UUID is not used to identify a user or their behavior without obtaining the user's consent. Also, implement proper security measures to protect this data, such as encryption during storage and transmission.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 25,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The code generates a universally unique identifier (UUID) which, depending on its use, could be linked to a specific user and therefore could be considered personal data under GDPR. If this UUID is used to identify a user or their behavior without proper consent or protection, it could lead to GDPR compliance issues.",
+                "solution": "Ensure that the generated UUID is not used to identify a user or their behavior without obtaining the user's consent. Also, implement proper security measures to protect this data, such as encryption during storage and transmission."
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "import { v4 as uuidv4 } from \"uuid\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 25
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 1:46:45 AM PDT\n\nThe provided code is a TypeScript class definition for a custom error type called `WorkflowError`. This class extends the built-in JavaScript `Error` class, which means it inherits all of the properties and methods of that class, but also adds some additional functionality.\n\nHere's a detailed breakdown of the code:\n\n1. `export class WorkflowError extends Error`: This line of code is defining a new class `WorkflowError` that extends the built-in JavaScript `Error` class. The `export` keyword means that this class can be imported and used in other TypeScript or JavaScript files.\n\n2. `constructor(public type: \"retry\" | \"skip\" | \"abort\" | \"cancel\", message?: string)`: This is the constructor of the `WorkflowError` class. The constructor is a special method that gets called when a new instance of the class is created.\n\n    - `public type: \"retry\" | \"skip\" | \"abort\" | \"cancel\"`: This is defining a public instance variable `type` that can take one of four string values: \"retry\", \"skip\", \"abort\", or \"cancel\". The `public` keyword means that this variable can be accessed directly on instances of the class.\n   \n    - `message?: string`: This is defining an optional parameter `message` that can be passed when instantiating the class. The `?` after `message` indicates that this parameter is optional. If a message is provided, it will be passed to the `Error` class constructor, which will set it as the error message.\n\n3. `super(message);`: This line of code is calling the constructor of the parent `Error` class. The `super` keyword is used to call methods on a class's parent. In this case, it's passing the optional `message` parameter to the `Error` class's constructor.\n\nThis class can be used to throw custom errors in a workflow, where the type of error (retry, skip, abort, cancel) can be used to decide how to handle the error.\n\nHere's an example of how you might use this class:\n\n```typescript\ntry {\n    // Some code that might throw an error\n    throw new WorkflowError('abort', 'Something went wrong');\n} catch (error) {\n    if (error instanceof WorkflowError) {\n        switch (error.type) {\n            case 'abort':\n                // Handle abort error\n                break;\n            // Other cases...\n        }\n    } else {\n        // Handle other types of errors\n    }\n}\n```\n\nFor more information on TypeScript classes, see the [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/classes.html)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 1:50:26 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->HandleError;\n\nsubgraph HandleError\n    style HandleError fill:#228B22, stroke:#000000, stroke-width:2px;\n    HandleError-->HandleRetry;\n    HandleError-->HandleSkip;\n    HandleError-->HandleAbort;\n    HandleError-->HandleCancel;\nend\n\nsubgraph HandleRetry\n    style HandleRetry fill:#228B22, stroke:#000000, stroke-width:2px;\n    HandleRetry-->End;\nend\n\nsubgraph HandleSkip\n    style HandleSkip fill:#228B22, stroke:#000000, stroke-width:2px;\n    HandleSkip-->End;\nend\n\nsubgraph HandleAbort\n    style HandleAbort fill:#228B22, stroke:#000000, stroke-width:2px;\n    HandleAbort-->End;\nend\n\nsubgraph HandleCancel\n    style HandleCancel fill:#228B22, stroke:#000000, stroke-width:2px;\n    HandleCancel-->End;\nend\n\nsubgraph End\n    style End fill:#228B22, stroke:#000000, stroke-width:2px;\nend\n```\n\nThe control flow graph for the provided code is shown above. The code consists of a custom error class named `WorkflowError` that extends the `Error` class. The `WorkflowError` class has a constructor that takes a `type` parameter, which can be one of four values: \"retry\", \"skip\", \"abort\", or \"cancel\". The constructor also takes an optional `message` parameter.\n\nThe control flow starts at the `Start` node and then goes to the `HandleError` node. From the `HandleError` node, there are four possible paths based on the value of the `type` parameter:\n\n- If the `type` is \"retry\", the control flow goes to the `HandleRetry` node and then to the `End` node.\n- If the `type` is \"skip\", the control flow goes to the `HandleSkip` node and then to the `End` node.\n- If the `type` is \"abort\", the control flow goes to the `HandleAbort` node and then to the `End` node.\n- If the `type` is \"cancel\", the control flow goes to the `HandleCancel` node and then to the `End` node.\n\nThe `End` node represents the end of the control flow.\n\nNote: Since the code provided does not have any external library calls or non-standard function calls, the control flow graph only includes the custom error class and its constructor."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:52:19 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:53:03 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:55:33 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "\n// Custom error class for handling typed errors\nexport class WorkflowError extends Error {\n    constructor(public type: \"retry\" | \"skip\" | \"abort\" | \"cancel\", message?: string) {\n        super(message);\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 26
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 1:47:25 AM PDT\n\nThis TypeScript code is defining a series of types and an interface for a Workflow Engine. This type of code is commonly used in designing and implementing a system that processes tasks in a certain order, often with dependencies between tasks. Here is a detailed explanation:\n\n1. `PromiseGenerator`: This is a type alias for a function that returns another function, which when called, returns a Promise. Promises in JavaScript are used for asynchronous computations and can be in one of three states: pending, fulfilled, or rejected.\n\n2. `PromiseGeneratorWithInputs`: Similar to `PromiseGenerator`, but the returned function takes an array of inputs.\n\n3. `BeforeRunPromiseGenerator`, `AfterEachTaskPromiseGenerator`, `AfterEachTaskGroupPromiseGenerator`, `AfterRunPromiseGenerator`: These are simply aliases for the previously defined types. Their names suggest their intended use in a workflow engine, for example, to generate promises that should be resolved before running a task, after each task, after each group of tasks, and after all tasks have been run, respectively.\n\n4. `WorkflowEngineOptions`: This is an interface that defines a shape for an options object that can be passed to a Workflow Engine. The options include:\n   - `beforeRun`, `afterEachTask`, `afterEachTaskGroup`, `afterRun`: These are arrays of functions that return promises, which can be used to perform setup and teardown operations around tasks and groups of tasks.\n   - `pattern`: An array of numbers, possibly used to determine the order in which tasks are run.\n   - `logger`: An object used for logging, its type is not specified.\n   - `maxRetries`: The maximum number of times a task should be retried on failure.\n   - `name`: The name of the workflow.\n\nThe code does not include any specific algorithms, but it sets up the types and structures for a workflow engine that could be used to orchestrate complex asynchronous tasks. This type of engine could be used in a variety of contexts, such as processing user requests in a web server, running tasks in a build system, or orchestrating microservices in a distributed system.\n\nFor more information on Promises and asynchronous programming in JavaScript, you can refer to the following resources:\n- Promises: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise\n- Asynchronous Programming: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous\n\nFor more information on TypeScript types and interfaces, you can refer to the official TypeScript documentation:\n- TypeScript Types: https://www.typescriptlang.org/docs/handbook/basic-types.html\n- TypeScript Interfaces: https://www.typescriptlang.org/docs/handbook/interfaces.html"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 1:50:35 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle BeforeRun fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle AfterEachTask fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle AfterEachTaskGroup fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle AfterRun fill:#228B22, stroke:#000000, stroke-width:2px;\n\nStart-->BeforeRun;\nBeforeRun-->AfterEachTask;\nAfterEachTask-->AfterEachTaskGroup;\nAfterEachTaskGroup-->AfterRun;\n```\n\nThe control flow graph for the given source code is a simple linear flow from the start to the end. There are no control flow decisions or external library calls in the provided code."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:52:23 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:53:07 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:55:37 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "\nexport type PromiseGenerator = () => () => Promise<any>;\nexport type PromiseGeneratorWithInputs = () => (inputs: any[]) => Promise<any>;\nexport type BeforeRunPromiseGenerator = PromiseGenerator;\nexport type AfterEachTaskPromiseGenerator = PromiseGeneratorWithInputs;\nexport type AfterEachTaskGroupPromiseGenerator = PromiseGeneratorWithInputs;\nexport type AfterRunPromiseGenerator = PromiseGeneratorWithInputs;\n\nexport interface WorkflowEngineOptions {\n    beforeRun?: BeforeRunPromiseGenerator[];\n    afterEachTask?: AfterEachTaskPromiseGenerator[];\n    afterEachTaskGroup?: AfterEachTaskGroupPromiseGenerator[];\n    afterRun?: AfterRunPromiseGenerator[];\n    pattern?: number[];\n    logger?: any;\n    maxRetries?: number;\n    name?: string;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 33
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 1:48:01 AM PDT\n\nThe provided code is a TypeScript function named `getElapsedTime`. It calculates and returns the elapsed time, in either seconds or minutes, since a given start time.\n\nHere's a detailed breakdown of the function:\n\n1. The function `getElapsedTime` accepts one parameter, `startTime`, which is of type `number`. This parameter represents the start time in milliseconds since the UNIX epoch (January 1, 1970). \n\n2. The first line within the function calculates the elapsed time in milliseconds by subtracting the `startTime` from the current time (obtained by `Date.now()`). `Date.now()` returns the current time in milliseconds since the UNIX epoch.\n\n3. The next line converts the elapsed time from milliseconds to seconds by dividing by 1000 (since there are 1000 milliseconds in one second).\n\n4. An `if` statement checks if the elapsed time in seconds is less than 110. If it is, the function returns the elapsed time in seconds, formatted as a string with two decimal places (e.g., \"10.50 secs\"). \n\n5. If the elapsed time in seconds is 110 or more, the function calculates the elapsed time in minutes by dividing the elapsed seconds by 60 (since there are 60 seconds in one minute) and returns it as a string with two decimal places (e.g., \"1.83 mins\").\n\nThis function does not use any specific algorithms but is a simple calculation and conversion function. It uses basic arithmetic operations and control flow statements, which are fundamental building blocks in programming.\n\nThe code adheres to the architectural guidelines provided in the blueprint summary. It uses TypeScript, which aligns with the software principles of the project. The function is straightforward and does not involve any complex operations that might affect performance or security.\n\nFor more information on the methods and concepts used in this function, you can refer to the following resources:\n\n- [Date.now()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now): This link provides more information on the `Date.now()` method in JavaScript, which returns the number of milliseconds elapsed since January 1, 1970 00:00:00 UTC.\n- [toFixed()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed): This link provides more information on the `toFixed()` method in JavaScript, which formats a number using fixed-point notation.\n- [TypeScript](https://www.typescriptlang.org/docs/): This link provides more information on TypeScript, the programming language used in this code."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 1:51:11 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->A;\nA-->B;\nB-->C;\nC-->D;\nD-->E;\nE-->F;\nF-->G;\nG-->H;\nH-->I;\nI-->J;\nJ-->K;\nK-->L;\nL-->M;\nM-->N;\nN-->O;\nO-->P;\nP-->Q;\nQ-->R;\nR-->S;\nS-->T;\nT-->U;\nU-->V;\nV-->W;\nW-->X;\nX-->Y;\nY-->Z;\nZ-->End;\n\nstyle A fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle B fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle C fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle D fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle E fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle F fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle G fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle H fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle I fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle J fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle K fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle L fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle M fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle N fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle O fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle P fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle Q fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle R fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle S fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle T fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle U fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle V fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle W fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle X fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle Y fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle Z fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle End fill:#228B22, stroke:#000000, stroke-width:2px;\n```\n\nThe control flow graph for the given code is as follows:\n\n```\ngetElapsedTime-->A;\nA-->B;\nB-->C;\nC-->D;\nD-->E;\nE-->F;\nF-->G;\nG-->H;\nH-->I;\nI-->J;\nJ-->K;\nK-->L;\nL-->M;\nM-->N;\nN-->O;\nO-->P;\nP-->Q;\nQ-->R;\nR-->S;\nS-->T;\nT-->U;\nU-->V;\nV-->W;\nW-->X;\nX-->Y;\nY-->Z;\nZ-->End;\n```\n\nThis code has a linear control flow with no branching or loops. The primary path through the code is from the start of the function `getElapsedTime` to the end."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:52:27 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:53:11 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:55:41 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "\nfunction getElapsedTime(startTime: number): string {\n    const elapsedMilliseconds = Date.now() - startTime;\n    const elapsedSeconds = elapsedMilliseconds / 1000;\n\n    if (elapsedSeconds < 110) {\n        return `${elapsedSeconds.toFixed(2)} secs`;\n    } else {\n        const elapsedMinutes = elapsedSeconds / 60;\n        return `${elapsedMinutes.toFixed(2)} mins`;\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 51
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 1:48:46 AM PDT\n\nThis JavaScript function, `getFormattedDate()`, is used to get the current date and time in a specific format. It doesn't seem to use any complex algorithms, just basic JavaScript Date object methods and string manipulation methods.\n\nHere's a line by line breakdown of the code:\n\n1. `const date = new Date();` - This line creates a new Date object with the current date and time.\n\n2. `const year = date.getFullYear();` - This line gets the full year (4 digits for 4-digit years) from the Date object.\n\n3. `const month = String(date.getMonth() + 1).padStart(2, '0');` - This line gets the month from the Date object, adds 1 to it (because getMonth() returns a 0-based value, where 0 represents January), converts it to a string, and then uses the `padStart()` method to ensure it's always 2 digits long, padding with '0' if necessary.\n\n4. `const day = String(date.getDate()).padStart(2, '0');` - This line gets the day of the month from the Date object, converts it to a string, and then uses the `padStart()` method to ensure it's always 2 digits long, padding with '0' if necessary.\n\n5. `const hours = String(date.getHours()).padStart(2, '0');` - This line gets the hours from the Date object, converts it to a string, and then uses the `padStart()` method to ensure it's always 2 digits long, padding with '0' if necessary.\n\n6. `const minutes = String(date.getMinutes()).padStart(2, '0');` - This line gets the minutes from the Date object, converts it to a string, and then uses the `padStart()` method to ensure it's always 2 digits long, padding with '0' if necessary.\n\n7. `const seconds = String(date.getSeconds()).padStart(2, '0');` - This line gets the seconds from the Date object, converts it to a string, and then uses the `padStart()` method to ensure it's always 2 digits long, padding with '0' if necessary.\n\n8. `return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;` - This line returns a string with the formatted date and time in the format 'YYYY-MM-DD HH:MM:SS'.\n\nThe code follows standard JavaScript practices and does not seem to conflict with any architectural guidelines. \n\nFor more information on the JavaScript Date object and its methods, you can refer to this link: [JavaScript Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)\n\nFor more information on the `padStart()` method, you can refer to this link: [padStart()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 1:51:15 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->ExampleProcess;\n```\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:52:30 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:53:15 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:55:44 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "\nfunction getFormattedDate(): string {\n    const date = new Date();\n    const year = date.getFullYear();\n    const month = String(date.getMonth() + 1).padStart(2, '0'); // months are 0-based in JS\n    const day = String(date.getDate()).padStart(2, '0');\n    const hours = String(date.getHours()).padStart(2, '0');\n    const minutes = String(date.getMinutes()).padStart(2, '0');\n    const seconds = String(date.getSeconds()).padStart(2, '0');\n\n    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 63
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Saturday, September 9, 2023 at 1:49:27 AM PDT\n\nThis code defines a class `WorkflowEngine` that manages the execution of tasks in a workflow. The tasks are represented as promises, and the engine provides functionality for executing these tasks in a specific order and handling errors and retries.\n\nThe `WorkflowEngine` class has several private properties:\n\n- `beforeRun`, `afterEachTask`, `afterEachTaskGroup`, and `afterRun` are arrays of promise generators that represent tasks to be executed at different stages of the workflow.\n- `tasks` is an array of promises that represent the main tasks of the workflow.\n- `pattern` is an array of numbers that defines the group sizes for executing the tasks.\n- `aborted` and `canceled` are boolean flags that indicate whether the workflow has been aborted or canceled.\n- `logger` is an object used for logging.\n- `maxRetries` is the maximum number of retries for a task.\n- `retryCounts` is a map that keeps track of the number of retries for each task.\n- `id` is a unique identifier for the workflow.\n\nThe constructor initializes these properties based on the provided tasks and options.\n\nThe `run` method is the main method of the class. It executes the workflow by running the tasks in the order defined by the `pattern` array. It also handles errors and retries. If an error occurs during the execution of a task, the engine will retry the task up to `maxRetries` times. If the maximum number of retries is reached, the engine will skip the task and continue with the next one. If a task throws a `WorkflowError` with a type of \"abort\", the engine will abort the entire workflow. If the error type is \"cancel\", the engine will cancel the current task and group, but still perform end-of-group and end-of-workflow tasks.\n\nThe `executePromises` and `executePromisesWithInputs` methods are helper methods that execute an array of promise generators, optionally with inputs. They also check the `aborted` flag before each execution, and return immediately if the workflow has been aborted.\n\nThe `abort` and `cancel` methods set the `aborted` and `canceled` flags, respectively.\n\nThe `currentTaskRetries` getter returns the number of retries for the current task.\n\nThe algorithm used in this code is a kind of task scheduling algorithm, where tasks are grouped and executed in a specific order, with error handling and retries. It's a common pattern in workflow management systems.\n\nHere are some links for further reading:\n\n- [Task scheduling](https://en.wikipedia.org/wiki/Scheduling_(computing))\n- [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)\n- [Error handling in JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling)\n- [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 1:51:56 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->beforeRun;\nbeforeRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask-->afterEachTaskGroup;\nafterEachTaskGroup-->afterRun;\nafterRun-->Run;\nRun-->executePromises;\nexecutePromises-->afterEachTask;\nafterEachTask"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:52:35 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:53:52 AM PDT\n\n1. **Severity**: 6/10\n\n   **Line Number**: 152\n\n   **Bug Type**: Memory\n\n   **Description**: The `beforeRun`, `afterEachTask`, `afterEachTaskGroup`, `afterRun` arrays are stored in memory for the entire life of the `WorkflowEngine` instance. If these arrays are large, this could lead to high memory usage.\n\n   **Solution**: Consider using a data structure that allows for more efficient memory usage, such as a linked list or a generator function.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 183\n\n   **Bug Type**: CPU\n\n   **Description**: The `shift()` operation is used to remove tasks from the `tasks` array. This operation has a time complexity of O(n), which can lead to increased CPU usage when the array is large.\n\n   **Solution**: Consider using a dequeue or queue data structure for the `tasks` array to allow for constant time removal of tasks.\n\n\n3. **Severity**: 5/10\n\n   **Line Number**: 187\n\n   **Bug Type**: CPU\n\n   **Description**: The `promiseGenerator()` function is called twice, which could lead to unnecessary computation if the function is expensive.\n\n   **Solution**: Store the result of the `promiseGenerator()` function in a variable and reuse it.\n\n\n4. **Severity**: 8/10\n\n   **Line Number**: 235\n\n   **Bug Type**: Memory\n\n   **Description**: The `allResults` array stores all results from the tasks. If the results are large, this could lead to high memory usage.\n\n   **Solution**: Consider using a streaming approach or writing the results to a file or database instead of storing them all in memory.\n\n\n5. **Severity**: 7/10\n\n   **Line Number**: 223\n\n   **Bug Type**: CPU\n\n   **Description**: The retry logic can lead to a large number of retries if tasks frequently fail, which can lead to increased CPU usage.\n\n   **Solution**: Consider implementing a backoff strategy to reduce the number of retries when tasks frequently fail.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 77,
+                "severity": 6,
+                "bugType": "Memory",
+                "description": "The `beforeRun`, `afterEachTask`, `afterEachTaskGroup`, `afterRun` arrays are stored in memory for the entire life of the `WorkflowEngine` instance. If these arrays are large, this could lead to high memory usage.",
+                "solution": "Consider using a data structure that allows for more efficient memory usage, such as a linked list or a generator function."
+              },
+              {
+                "lineNumber": 108,
+                "severity": 7,
+                "bugType": "CPU",
+                "description": "The `shift()` operation is used to remove tasks from the `tasks` array. This operation has a time complexity of O(n), which can lead to increased CPU usage when the array is large.",
+                "solution": "Consider using a dequeue or queue data structure for the `tasks` array to allow for constant time removal of tasks."
+              },
+              {
+                "lineNumber": 112,
+                "severity": 5,
+                "bugType": "CPU",
+                "description": "The `promiseGenerator()` function is called twice, which could lead to unnecessary computation if the function is expensive.",
+                "solution": "Store the result of the `promiseGenerator()` function in a variable and reuse it."
+              },
+              {
+                "lineNumber": 160,
+                "severity": 8,
+                "bugType": "Memory",
+                "description": "The `allResults` array stores all results from the tasks. If the results are large, this could lead to high memory usage.",
+                "solution": "Consider using a streaming approach or writing the results to a file or database instead of storing them all in memory."
+              },
+              {
+                "lineNumber": 148,
+                "severity": 7,
+                "bugType": "CPU",
+                "description": "The retry logic can lead to a large number of retries if tasks frequently fail, which can lead to increased CPU usage.",
+                "solution": "Consider implementing a backoff strategy to reduce the number of retries when tasks frequently fail."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 1:56:17 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 150\n\n   **Bug Type**: GDPR\n\n   **Description**: The 'id' field in the WorkflowEngine class is generated using a UUID, which could potentially be used to identify a user. This could be a violation of GDPR if the 'id' is linked to a specific user and is not anonymized or pseudonymized.\n\n   **Solution**: Ensure that the 'id' is not linked to a specific user or is properly anonymized or pseudonymized. Consider using a different method for generating the 'id' that does not risk identifying a user.\n\n\n2. **Severity**: 6/10\n\n   **Line Number**: 150\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The WorkflowEngine class does not appear to have any data encryption or secure data handling methods. This could be a violation of PCI DSS if the WorkflowEngine is used to process, store, or transmit cardholder data.\n\n   **Solution**: Implement data encryption and secure data handling methods. Ensure that cardholder data is properly protected according to PCI DSS requirements.\n\n\n3. **Severity**: 8/10\n\n   **Line Number**: 150\n\n   **Bug Type**: HIPAA\n\n   **Description**: The WorkflowEngine class does not appear to have any data encryption or secure data handling methods. This could be a violation of HIPAA if the WorkflowEngine is used to process, store, or transmit protected health information (PHI).\n\n   **Solution**: Implement data encryption and secure data handling methods. Ensure that PHI is properly protected according to HIPAA requirements.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 75,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The 'id' field in the WorkflowEngine class is generated using a UUID, which could potentially be used to identify a user. This could be a violation of GDPR if the 'id' is linked to a specific user and is not anonymized or pseudonymized.",
+                "solution": "Ensure that the 'id' is not linked to a specific user or is properly anonymized or pseudonymized. Consider using a different method for generating the 'id' that does not risk identifying a user.",
+                "webLink": "https://gdpr-info.eu/art-4-gdpr/"
+              },
+              {
+                "lineNumber": 75,
+                "severity": 6,
+                "bugType": "PCI DSS",
+                "description": "The WorkflowEngine class does not appear to have any data encryption or secure data handling methods. This could be a violation of PCI DSS if the WorkflowEngine is used to process, store, or transmit cardholder data.",
+                "solution": "Implement data encryption and secure data handling methods. Ensure that cardholder data is properly protected according to PCI DSS requirements.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/maintaining_payment_security"
+              },
+              {
+                "lineNumber": 75,
+                "severity": 8,
+                "bugType": "HIPAA",
+                "description": "The WorkflowEngine class does not appear to have any data encryption or secure data handling methods. This could be a violation of HIPAA if the WorkflowEngine is used to process, store, or transmit protected health information (PHI).",
+                "solution": "Implement data encryption and secure data handling methods. Ensure that PHI is properly protected according to HIPAA requirements.",
+                "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "\nexport class WorkflowEngine {\n    private beforeRun: BeforeRunPromiseGenerator[];\n    private tasks: PromiseGenerator[];\n    private afterEachTask: AfterEachTaskPromiseGenerator[];\n    private afterEachTaskGroup: AfterEachTaskGroupPromiseGenerator[];\n    private afterRun: AfterRunPromiseGenerator[];\n    private pattern: number[];\n    private aborted: boolean = false;\n    private canceled: boolean = false;\n    private logger: any;\n    private maxRetries: number;\n    private retryCounts: Map<PromiseGenerator, number> = new Map(); // To keep track of retries for each promise generator\n    private id: string = uuidv4();\n\n    // tasks WILL be modified by the workflow engine - intentionally, enabling processing of the\n    //      tasks to be stopped and restarted across runs\n    constructor(tasks: PromiseGenerator[], options: WorkflowEngineOptions = {}) {\n        this.beforeRun = options.beforeRun || [];\n        this.tasks = tasks;\n        this.afterEachTask = options.afterEachTask || [];\n        this.afterEachTaskGroup = options.afterEachTaskGroup || [];\n        this.afterRun = options.afterRun || [];\n        this.pattern = options.pattern || [1, 2, 4, 8, 16];\n        //default to a no-op function for logger if none is provided\n        this.logger = options.logger || undefined;\n        this.maxRetries = options.maxRetries || 5;\n        this.id = options.name || this.id;\n\n        this.logger?.debug(`${getFormattedDate()}:Workflow(${this.id}):created`);\n    }\n\n    public async run() : Promise<any[]> {\n        this.aborted = false;\n        this.canceled = false;\n        const overallStartTime = Date.now();\n        let startTime = Date.now();\n        let allResults: any[] = [];\n\n        this.logger?.debug(`${getFormattedDate()}:Workflow(${this.id}):Run starting`);\n\n        try {\n            this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):beforeRun:starting`);\n\n            await this.executePromises(this.beforeRun);\n\n            this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):beforeRun:finished:success:${getElapsedTime(startTime)}`);\n\n        } catch (error) {\n\n            this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):beforeRun:finished:error:${getElapsedTime(startTime)}:${error}`);\n\n            allResults.push(error);\n            return allResults;\n        }\n\n        let patternIndex = 0;\n        let groupIndex = 0;\n        while (this.tasks.length > 0 && !this.aborted && !this.canceled) {\n            const groupSize =\n                this.pattern[patternIndex] ||\n                this.pattern[this.pattern.length - 1]; // Use the last group size if we've exceeded the pattern\n\n            const taskGroupId = `ring-${groupIndex}-size-${groupSize}`;\n\n            this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:starting`);\n\n            let groupResults: any[] = [];\n\n            for (let i = 0; i < groupSize && this.tasks.length > 0 && !this.canceled; i++) {\n                if (this.aborted) {\n                    return allResults;\n                }\n                const promiseGenerator = this.tasks.shift()!;\n                const promise = promiseGenerator();\n                if (!promise.name) {\n                    this.logger?.debug(`Workflow(${this.id}):${taskGroupId}:task-${i}:no-name`);\n                }\n                const taskId = promise.name || uuidv4();\n                try {\n                    this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:starting`);\n\n                    let result = await promise();\n\n                    this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:finished:success:${getElapsedTime(startTime)}`);\n\n                    groupResults.push(result);\n\n                    startTime = Date.now();\n                    try {\n                        this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:afterEachTask:starting`);\n            \n                        await this.executePromisesWithInputs(this.afterEachTask, [\n                            result,\n                        ]);\n\n                        if (this.retryCounts.has(promiseGenerator)) {\n                            this.logger?.info(\n                                `${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:afterEachTask:finished:success:afterRetries=${this.retryCounts.get(promiseGenerator)}:${getElapsedTime(startTime)}`);\n\n                            this.retryCounts.delete(promiseGenerator);\n                        } else {\n                            this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:afterEachTask:finished:success:${getElapsedTime(startTime)}`);\n                        }\n                        \n                    } catch (error) {\n                        this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:afterEachTask:finished:error:${getElapsedTime(startTime)}:${error}`);\n                        allResults.push(error);\n                    }\n\n                } catch (error) {\n                    // default to retry with generic error\n                    let errorType = \"retry\";\n\n                    // otherwise use the workflow specific requested retry logic\n                    if (error instanceof WorkflowError) {\n                        errorType = error.type;\n                    }\n                    \n                    switch (errorType) {\n                        case \"retry\":\n                            const currentRetries =\n                                this.retryCounts.get(promiseGenerator) || 0;\n                            if (currentRetries < this.maxRetries + 1) {\n                                this.retryCounts.set(\n                                    promiseGenerator,\n                                    currentRetries + 1\n                                );\n                                this.tasks.push(promiseGenerator);\n\n                                // we need to retry this iteration of the loop\n                                //    so we don't accidentally break out of the group\n                                i--;\n                            } else {\n\n                                // report the error (after max-retries) as the result of the operation\n                                groupResults.push(error);\n\n                                this.logger?.error(\n                                    `${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:Max retries reached; Skipping.`\n                                );\n                                this.retryCounts.delete(promiseGenerator);\n                            }\n                            break;\n                        case \"skip\":\n                            this.logger?.info(\n                                `${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:Skipping due to ${(error as Error).message}`\n                            );\n                            this.retryCounts.delete(promiseGenerator);\n\n                            groupResults.push(error);\n\n                            // Just skip and continue\n                            break;\n\n                            // abort will immediately exit the entire workflow process\n                        case \"abort\":\n                            this.logger?.error(\n                                `${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:Aborting workflow due to ${(error as Error).message}`\n                            );\n                            this.retryCounts.delete(promiseGenerator);\n                            this.abort();\n\n                            // report the error (after abort) as the result of the operation\n                            groupResults.push(error);\n                            allResults.push(groupResults);\n\n                            return allResults; // Exit the function immediately\n\n                            // cancel will only cancel the current task and group, but still perform end of group\n                            //      and end of workflow tasks\n                        case \"cancel\":\n                            this.logger?.error(\n                                `${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:Canceling tasks due to ${(error as Error).message}`\n                            );\n                            this.retryCounts.delete(promiseGenerator);\n                            this.cancel();\n\n                            // note that this task was canceled\n                            groupResults.push(error);\n                    }\n                }\n            }\n\n            startTime = Date.now();\n            try {\n                this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:afterEachTaskGroup:starting`);\n    \n                await this.executePromisesWithInputs(\n                    this.afterEachTaskGroup,\n                    groupResults\n                );\n        \n                this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:afterEachTaskGroup:finished:success:${getElapsedTime(startTime)}`);\n                \n            } catch (error) {\n                this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:afterEachTaskGroup:finished:error:${getElapsedTime(startTime)}:${error}`);\n                allResults.push(error);\n            }\n    \n            // Move to the next group size if available\n            if (patternIndex < this.pattern.length - 1) {\n                patternIndex++;\n            }\n            allResults.push(groupResults);\n            groupIndex++;\n        }\n\n        startTime = Date.now();\n        try {\n            this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):afterRun:starting`);\n\n            await this.executePromisesWithInputs(this.afterRun, allResults);\n\n            this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):afterRun:finished:success:${getElapsedTime(startTime)}`);\n            \n        } catch (error) {\n            this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):afterRun:finished:error:${getElapsedTime(startTime)}:${error}`);\n            allResults.push(error);\n        }\n\n        this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):Run ended:${getElapsedTime(overallStartTime)}`);\n\n        return allResults;\n    }\n\n    // return 0 if no retries, or the first retry count\n    // this assumes the number of active tasks is 0 or 1\n    get currentTaskRetries() : number {\n        if (this.retryCounts.size === 0) {\n            return 0;\n        } else {\n            return this.retryCounts.values().next().value;\n        }\n    }\n\n    public abort() {\n        this.aborted = true;\n    }\n\n    public cancel() {\n        this.canceled = true;\n    }\n\n    private async executePromises(promiseGenerators: PromiseGenerator[]) {\n        for (let generatorFactory of promiseGenerators) {\n            if (this.aborted) {\n                return;\n            }\n            const generator = generatorFactory();\n            await generator();\n        }\n    }\n\n    private async executePromisesWithInputs(\n        promiseGenerators: PromiseGeneratorWithInputs[],\n        inputs: any[]\n    ) {\n        for (let generatorFactory of promiseGenerators) {\n            if (this.aborted) {\n                return;\n            }\n            const generator = generatorFactory();\n            await generator(inputs);\n        }\n    }\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 75
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/utilities/workflow_engine.ts"
+  }
+}

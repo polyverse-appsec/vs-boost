@@ -1,0 +1,455 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:09:06 PM PDT\n\nThis is a very small piece of code, but I'll explain what it does.\n\nThis code is written in TypeScript, a statically typed superset of JavaScript that adds types to the language. TypeScript has become popular in large-scale JavaScript applications because it enhances code quality and understandability.\n\nThe code imports two items from the './quick_summary_controller' module:\n\n1. `BoostQuickSummaryKernelControllerBase` - This is likely a class or a function that serves as a base for a controller in the software. In software architecture, a controller is part of the Model-View-Controller (MVC) design pattern. It acts as an interface between Model and View components to process all the business logic and incoming requests, manipulate data using the Model component, and interact with the View to render the final output. In the context of this VS Code extension, this controller might be responsible for handling requests for generating quick summaries of code.\n\n2. `quickSummaryKernelNamePrefix` - This is likely a constant that represents the prefix used for naming a particular kernel. In the context of VS Code extensions, a kernel can be thought of as a computational engine that executes the code written in the notebook. The prefix might be used to distinguish kernels used for different tasks or by different extensions.\n\nThe actual algorithms or processes used by these two items cannot be determined from this small piece of code. You would need to look at the implementation of `BoostQuickSummaryKernelControllerBase` and where `quickSummaryKernelNamePrefix` is used to understand that.\n\nFor more information on TypeScript, you can refer to the [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html). For more information on the MVC design pattern, you can refer to this [Model-View-Controller (MVC) Explained](https://www.freecodecamp.org/news/model-view-controller-mvc-explained-through-ordering-drinks-at-the-bar-efcba6255053/) article."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:11:06 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle BoostQuickSummaryKernelControllerBase fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->BoostQuickSummaryKernelControllerBase;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:11:35 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:12:05 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:12:33 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "import {\n    BoostQuickSummaryKernelControllerBase,\n    quickSummaryKernelNamePrefix\n} from './quick_summary_controller';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:09:17 PM PDT\n\nThe code provided is a single line of import statement in JavaScript or TypeScript. \n\n```import { ControllerOutputType } from './controllerOutputTypes';```\n\nThis line of code is importing a specific export, `ControllerOutputType`, from a module located in the same directory called 'controllerOutputTypes'. \n\nThe `ControllerOutputType` is likely an object, function, or class that is exported from the 'controllerOutputTypes' module. The exact nature of `ControllerOutputType` can only be determined by looking at the 'controllerOutputTypes' module.\n\nThis import statement is part of the ES6 (ECMAScript 2015) module system. In this system, code is organized into separate modules, each of which can export one or more values (such as functions, objects, or primitive values). Other modules can then import these values.\n\nThe ES6 module system helps to organize code and manage dependencies. It also helps to avoid naming conflicts, because each import can be renamed in the local scope.\n\nThis line of code is consistent with the architectural blueprint provided earlier. It is a common practice in JavaScript and TypeScript projects, and it follows the principles of modular design and object-oriented design.\n\nFor more information on ES6 modules, you can refer to this link: [ES6 Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:11:10 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ControllerOutputType fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->ControllerOutputType;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:11:39 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:12:08 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:12:36 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\nimport { ControllerOutputType } from './controllerOutputTypes';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 4
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:09:43 PM PDT\n\nThis is a very simple code snippet from a Visual Studio Code (VSCode) extension written in TypeScript. It only has two lines, and it's not doing much on its own. However, it's setting up some important dependencies for the rest of the code in this file.\n\nThe first line is an import statement that brings in the entire VSCode API as an object named `vscode`. This API provides a lot of functionality for extending VSCode, such as creating new commands, interacting with the editor, and displaying messages to the user. By importing the entire API, this code can use any part of it just by referencing `vscode`.\n\nThe second line imports a specific item from another module, `analyze_function_controller`. The item it's importing is `analyzeFunctionKernelName`. This could be a variable, a function, a class, or any other exportable item. Without seeing the rest of the code, it's hard to say exactly what `analyzeFunctionKernelName` is or what it does. However, given its name, it might be a string that's used as the name for a kernel function that performs some kind of analysis.\n\nThere are no algorithms being used in this snippet. It's just setting up dependencies for the rest of the code.\n\nThe architectural guidelines provided don't give any specific constraints or requirements, so it's hard to say how this code might align with or conflict with them. However, this code does seem to follow general good practices for a VSCode extension. It's making use of the VSCode API, and it's organizing its code into separate modules, as evidenced by the import from `analyze_function_controller`.\n\nFor more information on the topics mentioned, you can refer to the following links:\n\n- [VSCode API](https://code.visualstudio.com/api/references/vscode-api)\n- [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/modules.html)\n- [VSCode Extensions](https://code.visualstudio.com/api)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:11:14 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle analyzeFunctionKernelName fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->analyzeFunctionKernelName;\n```\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:11:43 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:12:12 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:12:40 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "\nimport * as vscode from 'vscode';\nimport { analyzeFunctionKernelName } from './analyze_function_controller';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 6
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:10:09 PM PDT\n\nThe line of code you provided is an import statement in JavaScript. It's importing a named export, `DisplayGroupFriendlyName`, from a module located at `../data/userAnalysisType`.\n\nLet's break it down:\n\n- `import`: This is a keyword in JavaScript that is used to import functions, objects, or values from another module or file.\n\n- `{ DisplayGroupFriendlyName }`: This is the name of the specific function, object, or value that is being imported. The curly braces { } are used for named exports. In this case, `DisplayGroupFriendlyName` is likely a function or a constant that is exported from the `userAnalysisType` module.\n\n- `from '../data/userAnalysisType'`: This is the relative path to the module or file that contains the `DisplayGroupFriendlyName` export. The `..` means it's going up one directory level, then into a `data` directory, and then accessing the `userAnalysisType` file. The file extension is not needed when importing in JavaScript.\n\nAs for the algorithm used, it's not applicable in this context as this is just an import statement, not a function or method implementing a particular algorithm. However, the imported `DisplayGroupFriendlyName` might be used in an algorithm elsewhere in the code.\n\nIn terms of the architectural guidelines, this import statement is a common practice in modular JavaScript and TypeScript projects, and it's a good way to organize code and promote reusability. It's consistent with the guidelines mentioned in the architectural blueprint summary, particularly the use of object-oriented design and the structure of the code into modules and classes.\n\nFor more information on import and export in JavaScript, you can refer to this link: [JavaScript Modules: Import and Export](https://www.javascripttutorial.net/es6/javascript-import/)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:11:16 PM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:11:46 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:12:15 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:12:50 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 18\n\n   **Bug Type**: GDPR\n\n   **Description**: The code imports a function that seems to handle user data. If this function processes personal data of EU citizens, it may not be GDPR compliant.\n\n   **Solution**: Ensure that the 'DisplayGroupFriendlyName' function processes data in a way that respects user privacy and complies with GDPR. This may involve obtaining user consent before processing data, anonymizing data, or implementing data minimization practices.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 9,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "The code imports a function that seems to handle user data. If this function processes personal data of EU citizens, it may not be GDPR compliant.",
+                "solution": "Ensure that the 'DisplayGroupFriendlyName' function processes data in a way that respects user privacy and complies with GDPR. This may involve obtaining user consent before processing data, anonymizing data, or implementing data minimization practices.",
+                "webLink": "https://gdpr-info.eu/"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "import { DisplayGroupFriendlyName } from '../data/userAnalysisType';\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 9
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:10:30 PM PDT\n\nThe code you have provided is a single line of JavaScript code. It is exporting a constant named `quickSecuritySummaryKernelName`. This constant is the result of concatenating two other constants: `quickSummaryKernelNamePrefix` and `analyzeFunctionKernelName`.\n\nThe algorithm used here is simple string concatenation, which is a basic operation in most programming languages. In JavaScript, the `+` operator is used for string concatenation. When it is used between two strings, it joins them together into a single string.\n\nThis technique is commonly used when you need to create a unique identifier or key by combining several pieces of information. In this case, the `quickSecuritySummaryKernelName` might be used as a unique name for a specific function or feature within the software.\n\nRegarding the architectural guidelines, this line of code appears to be consistent with general best practices. It's using constants, which are a good way to avoid \"magic numbers\" or repeated literal values in your code. It's also exporting the constant, which means it can be imported and used in other parts of the software, promoting code reuse.\n\nAs for learning resources, the Mozilla Developer Network (MDN) has excellent documentation on JavaScript, including string concatenation. You can find more information here: [MDN - String concatenation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/String_concatenation)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:11:20 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle External fill:#FFA500, stroke:#000000, stroke-width:2px;\n\nStart-->External;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:11:50 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:12:19 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:12:53 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "\nexport const quickSecuritySummaryKernelName = `${quickSummaryKernelNamePrefix}${analyzeFunctionKernelName}`;\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 10
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:10:57 PM PDT\n\nThe code you provided is a TypeScript class definition for `BoostQuickSecuritySummaryKernel`. This class extends the `BoostQuickSummaryKernelControllerBase` class, which suggests that it is part of a larger system designed to analyze and summarize code in some way, likely as part of the Boost Visual Studio Code extension mentioned in the architectural blueprint.\n\nHere is a detailed breakdown of the code:\n\n1. `export class BoostQuickSecuritySummaryKernel extends BoostQuickSummaryKernelControllerBase`: This line is declaring a new class `BoostQuickSecuritySummaryKernel` that extends the `BoostQuickSummaryKernelControllerBase` class. The `export` keyword is used to make this class available to other modules in the application.\n\n2. The `constructor` is a special method for creating and initializing an object created with a class. It takes five parameters: `context`, `onServiceErrorHandler`, `otherThis`, `collection`, and `analyzeFunctionKernelName`. These are likely important resources or dependencies that the `BoostQuickSecuritySummaryKernel` needs to function.\n\n3. `super()` is a function that calls the parent class's constructor. In this case, it's calling the constructor of `BoostQuickSummaryKernelControllerBase`. The arguments passed to `super()` are the same ones received by the `BoostQuickSecuritySummaryKernel` constructor, plus some additional static values related to the type of analysis and display group.\n\n4. `dispose(): void` is a method that's often used in programming to clean up resources when they're no longer needed. In this case, it's calling the `dispose` method of the parent class, `BoostQuickSummaryKernelControllerBase`, to perform this cleanup.\n\nAs for the algorithms used, this class definition itself doesn't contain any specific algorithm. It's more of a structural piece of code that helps organize the application's functionality. The actual algorithms would be implemented in the methods of the class, which aren't shown in the provided code.\n\nYou can learn more about TypeScript classes and inheritance from the official TypeScript documentation: [TypeScript - Classes](https://www.typescriptlang.org/docs/handbook/2/classes.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:11:27 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle AnalyzeFunctionKernel fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle Dispose fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->AnalyzeFunctionKernel;\nAnalyzeFunctionKernel-->Dispose;\n```\n\nIn the code provided, the control flow starts at the `BoostQuickSecuritySummaryKernel` constructor. It then calls the `super` constructor of the `BoostQuickSummaryKernelControllerBase` class. After that, it calls the `dispose` method of the `BoostQuickSecuritySummaryKernel` class.\n\nThe primary path through the code is from the start to the `AnalyzeFunctionKernel` block, and then to the `Dispose` block."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:11:53 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:12:22 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:12:57 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "\nexport class BoostQuickSecuritySummaryKernel extends BoostQuickSummaryKernelControllerBase {\n\tconstructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection)\n        {\n        super(\n            context,\n            onServiceErrorHandler,\n            otherThis,\n            collection,\n            analyzeFunctionKernelName,\n            ControllerOutputType.analyze,\n            DisplayGroupFriendlyName.security,\n            ControllerOutputType.analyzeFunction,\n            \"Security\");\n\t}\n\n\tdispose(): void {\n\t\tsuper.dispose();\n\t}\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 12
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/controllers/quick_security_summary_controller.ts"
+  }
+}

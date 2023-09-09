@@ -13,6 +13,79 @@
             "outputType": "explainCode",
             "details": []
           }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 12:11:30 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\n```\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 12:11:49 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 12:13:30 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 12:15:00 AM PDT\n\n1. **Severity**: 2/10\n\n   **Line Number**: 4\n\n   **Bug Type**: GDPR\n\n   **Description**: The 'os' module can potentially access sensitive system information, which could be a violation of the GDPR if this information is used improperly or without user consent.\n\n   **Solution**: Ensure that any system information accessed is necessary for the functionality of the software, and that user consent is obtained if necessary. Be transparent about how this information is used.\n\n\n2. **Severity**: 3/10\n\n   **Line Number**: 8\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The 'BoostProjectData' could potentially access, process or store cardholder data, which would need to be handled in compliance with the PCI DSS.\n\n   **Solution**: Ensure that any cardholder data is handled in a secure manner, including encryption at rest and in transit, restricted access, and regular audits. Be transparent about how this data is used.\n\n\n3. **Severity**: 4/10\n\n   **Line Number**: 8\n\n   **Bug Type**: HIPAA\n\n   **Description**: The 'BoostProjectData' could potentially access, process or store protected health information (PHI), which would need to be handled in compliance with HIPAA.\n\n   **Solution**: Ensure that any PHI is handled in a secure manner, including encryption at rest and in transit, restricted access, and regular audits. Be transparent about how this data is used.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 2,
+                "severity": 2,
+                "bugType": "GDPR",
+                "description": "The 'os' module can potentially access sensitive system information, which could be a violation of the GDPR if this information is used improperly or without user consent.",
+                "solution": "Ensure that any system information accessed is necessary for the functionality of the software, and that user consent is obtained if necessary. Be transparent about how this information is used.",
+                "webLink": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 6,
+                "severity": 3,
+                "bugType": "PCI DSS",
+                "description": "The 'BoostProjectData' could potentially access, process or store cardholder data, which would need to be handled in compliance with the PCI DSS.",
+                "solution": "Ensure that any cardholder data is handled in a secure manner, including encryption at rest and in transit, restricted access, and regular audits. Be transparent about how this data is used.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 6,
+                "severity": 4,
+                "bugType": "HIPAA",
+                "description": "The 'BoostProjectData' could potentially access, process or store protected health information (PHI), which would need to be handled in compliance with HIPAA.",
+                "solution": "Ensure that any PHI is handled in a secure manner, including encryption at rest and in transit, restricted access, and regular audits. Be transparent about how this data is used.",
+                "webLink": "https://www.hhs.gov/hipaa/index.html"
+              }
+            ]
+          }
         }
       ],
       "languageId": "typescript",
@@ -36,6 +109,54 @@
           ],
           "metadata": {
             "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 12:11:33 AM PDT\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 12:11:53 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 12:13:33 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 12:15:05 AM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
             "details": []
           }
         }
@@ -62,6 +183,183 @@
           "metadata": {
             "outputType": "explainCode",
             "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Saturday, September 9, 2023 at 12:11:41 AM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExamplErrorPath-->End;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Saturday, September 9, 2023 at 12:12:47 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 41\n\n   **Bug Type**: Insecure File Handling\n\n   **Description**: The code is writing data to a file in a temporary directory using 'fs.writeFileSync'. This can be insecure as temporary directories are often world-readable. An attacker can read the sensitive data written to the file.\n\n   **Solution**: Instead of using a temporary directory, consider using a secure directory that has restricted access permissions. Also, consider using a secure method for writing data to the file. Here is a resource on secure file handling in Node.js: https://nodejs.dev/learn/writing-files-with-nodejs\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 48\n\n   **Bug Type**: Insecure File Handling\n\n   **Description**: The code is deleting a file in a temporary directory using 'fs.unlinkSync'. This can be insecure as an attacker can replace the file with a symlink to another file, and that file will be deleted instead when 'fs.unlinkSync' is called.\n\n   **Solution**: Consider checking if the file is a symbolic link before deleting it. Here is a resource on secure file deletion in Node.js: https://nodejs.dev/learn/the-nodejs-fs-module\n\n\n3. **Severity**: 6/10\n\n   **Line Number**: 67\n\n   **Bug Type**: Path Traversal\n\n   **Description**: The code is using 'path.resolve' with '__dirname' and a relative path from a resource directory. If an attacker can control the input to 'path.resolve', they can potentially access files outside of the intended directory.\n\n   **Solution**: Consider validating or sanitizing the input to 'path.resolve' to prevent path traversal attacks. Here is a resource on path traversal attacks and how to prevent them: https://owasp.org/www-community/attacks/Path_Traversal\n\n\n4. **Severity**: 6/10\n\n   **Line Number**: 89\n\n   **Bug Type**: Path Traversal\n\n   **Description**: The code is using 'path.resolve' with '__dirname' and a relative path from a resource directory. If an attacker can control the input to 'path.resolve', they can potentially access files outside of the intended directory.\n\n   **Solution**: Consider validating or sanitizing the input to 'path.resolve' to prevent path traversal attacks. Here is a resource on path traversal attacks and how to prevent them: https://owasp.org/www-community/attacks/Path_Traversal\n\n\n5. **Severity**: 6/10\n\n   **Line Number**: 111\n\n   **Bug Type**: Path Traversal\n\n   **Description**: The code is using 'path.resolve' with '__dirname' and a relative path from a resource directory. If an attacker can control the input to 'path.resolve', they can potentially access files outside of the intended directory.\n\n   **Solution**: Consider validating or sanitizing the input to 'path.resolve' to prevent path traversal attacks. Here is a resource on path traversal attacks and how to prevent them: https://owasp.org/www-community/attacks/Path_Traversal\n\n\n6. **Severity**: 6/10\n\n   **Line Number**: 135\n\n   **Bug Type**: Path Traversal\n\n   **Description**: The code is using 'path.resolve' with '__dirname' and a relative path from a resource directory. If an attacker can control the input to 'path.resolve', they can potentially access files outside of the intended directory.\n\n   **Solution**: Consider validating or sanitizing the input to 'path.resolve' to prevent path traversal attacks. Here is a resource on path traversal attacks and how to prevent them: https://owasp.org/www-community/attacks/Path_Traversal\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 30,
+                "severity": 7,
+                "bugType": "Insecure File Handling",
+                "description": "The code is writing data to a file in a temporary directory using 'fs.writeFileSync'. This can be insecure as temporary directories are often world-readable. An attacker can read the sensitive data written to the file.",
+                "solution": "Instead of using a temporary directory, consider using a secure directory that has restricted access permissions. Also, consider using a secure method for writing data to the file. Here is a resource on secure file handling in Node.js: https://nodejs.dev/learn/writing-files-with-nodejs"
+              },
+              {
+                "lineNumber": 37,
+                "severity": 7,
+                "bugType": "Insecure File Handling",
+                "description": "The code is deleting a file in a temporary directory using 'fs.unlinkSync'. This can be insecure as an attacker can replace the file with a symlink to another file, and that file will be deleted instead when 'fs.unlinkSync' is called.",
+                "solution": "Consider checking if the file is a symbolic link before deleting it. Here is a resource on secure file deletion in Node.js: https://nodejs.dev/learn/the-nodejs-fs-module"
+              },
+              {
+                "lineNumber": 56,
+                "severity": 6,
+                "bugType": "Path Traversal",
+                "description": "The code is using 'path.resolve' with '__dirname' and a relative path from a resource directory. If an attacker can control the input to 'path.resolve', they can potentially access files outside of the intended directory.",
+                "solution": "Consider validating or sanitizing the input to 'path.resolve' to prevent path traversal attacks. Here is a resource on path traversal attacks and how to prevent them: https://owasp.org/www-community/attacks/Path_Traversal"
+              },
+              {
+                "lineNumber": 78,
+                "severity": 6,
+                "bugType": "Path Traversal",
+                "description": "The code is using 'path.resolve' with '__dirname' and a relative path from a resource directory. If an attacker can control the input to 'path.resolve', they can potentially access files outside of the intended directory.",
+                "solution": "Consider validating or sanitizing the input to 'path.resolve' to prevent path traversal attacks. Here is a resource on path traversal attacks and how to prevent them: https://owasp.org/www-community/attacks/Path_Traversal"
+              },
+              {
+                "lineNumber": 100,
+                "severity": 6,
+                "bugType": "Path Traversal",
+                "description": "The code is using 'path.resolve' with '__dirname' and a relative path from a resource directory. If an attacker can control the input to 'path.resolve', they can potentially access files outside of the intended directory.",
+                "solution": "Consider validating or sanitizing the input to 'path.resolve' to prevent path traversal attacks. Here is a resource on path traversal attacks and how to prevent them: https://owasp.org/www-community/attacks/Path_Traversal"
+              },
+              {
+                "lineNumber": 124,
+                "severity": 6,
+                "bugType": "Path Traversal",
+                "description": "The code is using 'path.resolve' with '__dirname' and a relative path from a resource directory. If an attacker can control the input to 'path.resolve', they can potentially access files outside of the intended directory.",
+                "solution": "Consider validating or sanitizing the input to 'path.resolve' to prevent path traversal attacks. Here is a resource on path traversal attacks and how to prevent them: https://owasp.org/www-community/attacks/Path_Traversal"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 12:14:09 AM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 38\n\n   **Bug Type**: Disk\n\n   **Description**: Synchronous file write operation detected. This can block the event loop and degrade performance.\n\n   **Solution**: Consider using asynchronous file operations like fs.writeFile() instead of fs.writeFileSync().\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 43\n\n   **Bug Type**: Disk\n\n   **Description**: Synchronous file delete operation detected. This can block the event loop and degrade performance.\n\n   **Solution**: Consider using asynchronous file operations like fs.unlink() instead of fs.unlinkSync().\n\n\n3. **Severity**: 5/10\n\n   **Line Number**: 52\n\n   **Bug Type**: Memory\n\n   **Description**: Large JSON object is being parsed. If the size of JSON increases, it may cause memory issues.\n\n   **Solution**: Consider using a streaming JSON parser if the size of the JSON object is expected to increase.\n\n\n4. **Severity**: 6/10\n\n   **Line Number**: 68\n\n   **Bug Type**: Disk\n\n   **Description**: File loading operation detected. If the file size is large, it can degrade performance.\n\n   **Solution**: Consider using streaming file read operations if the file size is expected to be large.\n\n\n5. **Severity**: 6/10\n\n   **Line Number**: 86\n\n   **Bug Type**: Disk\n\n   **Description**: File loading operation detected. If the file size is large, it can degrade performance.\n\n   **Solution**: Consider using streaming file read operations if the file size is expected to be large.\n\n\n6. **Severity**: 6/10\n\n   **Line Number**: 104\n\n   **Bug Type**: Disk\n\n   **Description**: File loading operation detected. If the file size is large, it can degrade performance.\n\n   **Solution**: Consider using streaming file read operations if the file size is expected to be large.\n\n\n7. **Severity**: 6/10\n\n   **Line Number**: 123\n\n   **Bug Type**: Disk\n\n   **Description**: File loading operation detected. If the file size is large, it can degrade performance.\n\n   **Solution**: Consider using streaming file read operations if the file size is expected to be large.\n\n\n8. **Severity**: 5/10\n\n   **Line Number**: 170\n\n   **Bug Type**: Memory\n\n   **Description**: Large object manipulation detected. If the size of the object increases, it may cause memory issues.\n\n   **Solution**: Consider using more efficient data structures for large data manipulation.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 27,
+                "severity": 7,
+                "bugType": "Disk",
+                "description": "Synchronous file write operation detected. This can block the event loop and degrade performance.",
+                "solution": "Consider using asynchronous file operations like fs.writeFile() instead of fs.writeFileSync()."
+              },
+              {
+                "lineNumber": 32,
+                "severity": 7,
+                "bugType": "Disk",
+                "description": "Synchronous file delete operation detected. This can block the event loop and degrade performance.",
+                "solution": "Consider using asynchronous file operations like fs.unlink() instead of fs.unlinkSync()."
+              },
+              {
+                "lineNumber": 41,
+                "severity": 5,
+                "bugType": "Memory",
+                "description": "Large JSON object is being parsed. If the size of JSON increases, it may cause memory issues.",
+                "solution": "Consider using a streaming JSON parser if the size of the JSON object is expected to increase."
+              },
+              {
+                "lineNumber": 57,
+                "severity": 6,
+                "bugType": "Disk",
+                "description": "File loading operation detected. If the file size is large, it can degrade performance.",
+                "solution": "Consider using streaming file read operations if the file size is expected to be large."
+              },
+              {
+                "lineNumber": 75,
+                "severity": 6,
+                "bugType": "Disk",
+                "description": "File loading operation detected. If the file size is large, it can degrade performance.",
+                "solution": "Consider using streaming file read operations if the file size is expected to be large."
+              },
+              {
+                "lineNumber": 93,
+                "severity": 6,
+                "bugType": "Disk",
+                "description": "File loading operation detected. If the file size is large, it can degrade performance.",
+                "solution": "Consider using streaming file read operations if the file size is expected to be large."
+              },
+              {
+                "lineNumber": 112,
+                "severity": 6,
+                "bugType": "Disk",
+                "description": "File loading operation detected. If the file size is large, it can degrade performance.",
+                "solution": "Consider using streaming file read operations if the file size is expected to be large."
+              },
+              {
+                "lineNumber": 159,
+                "severity": 5,
+                "bugType": "Memory",
+                "description": "Large object manipulation detected. If the size of the object increases, it may cause memory issues.",
+                "solution": "Consider using more efficient data structures for large data manipulation."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Saturday, September 9, 2023 at 12:15:35 AM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 30\n\n   **Bug Type**: GDPR\n\n   **Description**: Writing sensitive data to a file in a temporary directory may not be GDPR compliant, as it could expose personal data if the data is not properly protected.\n\n   **Solution**: Ensure that any sensitive data written to files is properly encrypted and that access to these files is restricted. Consider using a secure method for storing data, such as a database with proper access controls. Also, ensure that data is not stored longer than necessary and is properly deleted after use.\n\n\n2. **Severity**: 5/10\n\n   **Line Number**: 39\n\n   **Bug Type**: GDPR\n\n   **Description**: Deleting sensitive data files in a temporary directory may not be GDPR compliant if the deletion is not secure. Simply deleting a file does not necessarily remove all traces of the file from the system, and the data could potentially be recovered.\n\n   **Solution**: Ensure that when deleting files containing sensitive data, the files are securely deleted so that the data cannot be recovered. This could involve overwriting the file before deletion or using a secure deletion tool.\n\n\n3. **Severity**: 7/10\n\n   **Line Number**: 49\n\n   **Bug Type**: HIPAA\n\n   **Description**: Loading sensitive data from a file may not be HIPAA compliant if the data is not properly protected during transit and at rest. This could potentially expose protected health information (PHI), which would be a violation of HIPAA.\n\n   **Solution**: Ensure that any PHI is encrypted both at rest and in transit. Use secure methods for reading and writing PHI, and limit access to PHI to only those who need it. Regularly review and update security measures as needed.\n\n\n4. **Severity**: 7/10\n\n   **Line Number**: 98\n\n   **Bug Type**: PCI DSS\n\n   **Description**: Updating sensitive data in a file may not be PCI DSS compliant if the data is not properly protected. This could potentially expose cardholder data, which would be a violation of PCI DSS.\n\n   **Solution**: Ensure that any cardholder data is encrypted and that access to this data is restricted. Use secure methods for reading and writing cardholder data, and regularly review and update security measures as needed.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 19,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "Writing sensitive data to a file in a temporary directory may not be GDPR compliant, as it could expose personal data if the data is not properly protected.",
+                "solution": "Ensure that any sensitive data written to files is properly encrypted and that access to these files is restricted. Consider using a secure method for storing data, such as a database with proper access controls. Also, ensure that data is not stored longer than necessary and is properly deleted after use."
+              },
+              {
+                "lineNumber": 28,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "Deleting sensitive data files in a temporary directory may not be GDPR compliant if the deletion is not secure. Simply deleting a file does not necessarily remove all traces of the file from the system, and the data could potentially be recovered.",
+                "solution": "Ensure that when deleting files containing sensitive data, the files are securely deleted so that the data cannot be recovered. This could involve overwriting the file before deletion or using a secure deletion tool."
+              },
+              {
+                "lineNumber": 38,
+                "severity": 7,
+                "bugType": "HIPAA",
+                "description": "Loading sensitive data from a file may not be HIPAA compliant if the data is not properly protected during transit and at rest. This could potentially expose protected health information (PHI), which would be a violation of HIPAA.",
+                "solution": "Ensure that any PHI is encrypted both at rest and in transit. Use secure methods for reading and writing PHI, and limit access to PHI to only those who need it. Regularly review and update security measures as needed."
+              },
+              {
+                "lineNumber": 87,
+                "severity": 7,
+                "bugType": "PCI DSS",
+                "description": "Updating sensitive data in a file may not be PCI DSS compliant if the data is not properly protected. This could potentially expose cardholder data, which would be a violation of PCI DSS.",
+                "solution": "Ensure that any cardholder data is encrypted and that access to this data is restricted. Use secure methods for reading and writing cardholder data, and regularly review and update security measures as needed."
+              }
+            ]
           }
         }
       ],

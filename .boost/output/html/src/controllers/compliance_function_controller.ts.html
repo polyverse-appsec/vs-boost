@@ -1,0 +1,545 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/controllers/compliance_function_controller.ts</h1>
+    <p>Date Generated: Friday, September 8, 2023 at 10:14:04 PM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:12:15 PM PDT</p>
+<p>Executive Level Report:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The project is well-structured and follows best practices for a Visual Studio Code extension. However, there is a significant architectural issue in the <code>compliance_function_controller.ts</code> file. This file directly exposes internal service URLs based on the value of <code>BoostConfiguration.cloudServiceStage</code>. This could potentially allow an attacker to manipulate the value to gain unauthorized access to other environments. This issue needs to be addressed to ensure the security of the software.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The risk associated with this issue is high. If an attacker gains unauthorized access to other environments, they could potentially access sensitive data or disrupt the service. The risk is compounded by the fact that this is the only file in the project, meaning that any issues in this file could have a significant impact on the overall project.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: If this issue is not addressed, customers could be at risk of data breaches or service disruptions. This could lead to loss of trust in the product and potential legal issues.</p>
+</li>
+<li><p><strong>Overall Issues</strong>: The overall health of the project source is concerning. The only file in the project has a high-severity issue. This means that 100% of the project files have issues of high severity.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: Based on the analysis, the overall health of the project source is at risk. The fact that the only file in the project has a high-severity issue is a significant concern. Immediate action is needed to address this issue and ensure the security and reliability of the software.</p>
+</li>
+</ol>
+<p>Highlights of the Analysis:</p>
+<ul>
+<li>The <code>compliance_function_controller.ts</code> file directly exposes internal service URLs, which could potentially allow an attacker to gain unauthorized access to other environments.</li>
+<li>The risk associated with this issue is high, as it could lead to data breaches or service disruptions.</li>
+<li>The potential customer impact is significant, as customers could lose trust in the product and there could be potential legal issues.</li>
+<li>The overall health of the project source is at risk, with 100% of the project files having high-severity issues.</li>
+<li>Immediate action is needed to address this issue and ensure the security and reliability of the software.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:13:01 PM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:14:41 PM PDT</p>
+<h2 id="executive-report-software-project-analysis">Executive Report: Software Project Analysis</h2>
+<h3 id="overview">Overview</h3>
+<p>The software project under review is a Visual Studio Code extension that provides code analysis functionality. It communicates with a remote service for code analysis and displays the results in the VS Code UI. The project is primarily written in JavaScript and TypeScript, following object-oriented design and event-driven programming principles.</p>
+<h3 id="architectural-impact-and-risk-analysis">Architectural Impact and Risk Analysis</h3>
+<ol>
+<li><p><strong>Issue Severity and Distribution:</strong> The most severe issues found in the project are categorized under GDPR, PCI DSS, and HIPAA, all of which are related to data compliance. These issues are all located in the <code>compliance_function_controller.ts</code> file. This concentration of issues in a single file suggests that the project&#39;s compliance functions may need significant revision to meet data protection standards.</p>
+</li>
+<li><p><strong>Potential Customer Impact:</strong> The identified issues, particularly those related to GDPR, could have serious implications for customers. If the service endpoints are compromised, it may result in unauthorized access to personal data, violating the GDPR&#39;s data protection principles. This could lead to legal consequences for the company and a loss of trust among customers.</p>
+</li>
+<li><p><strong>Risk Assessment:</strong> Given that all identified issues are located in a single file, the overall health of the project source appears to be good. However, the severity of the issues in the <code>compliance_function_controller.ts</code> file should not be underestimated. The project&#39;s compliance with data protection standards is a critical aspect of its overall health and viability.</p>
+</li>
+<li><p><strong>Architectural Consistency:</strong> The project follows best practices for a VS Code extension, making use of TypeScript features and the VS Code API. The code is well-structured and organized into classes. However, the hard-coding of service endpoints in the <code>compliance_function_controller.ts</code> file is a significant deviation from best practices, which recommend storing such information in a secure configuration file or environment variables.</p>
+</li>
+</ol>
+<h3 id="highlights">Highlights</h3>
+<ul>
+<li>The project&#39;s most severe issues are related to data compliance, specifically GDPR, PCI DSS, and HIPAA.</li>
+<li>All identified issues are located in the <code>compliance_function_controller.ts</code> file, suggesting a need for significant revision of the project&#39;s compliance functions.</li>
+<li>The potential customer impact of these issues is high, as they could lead to unauthorized access to personal data and legal consequences for the company.</li>
+<li>Despite the concentration of issues in a single file, the overall health of the project source appears to be good.</li>
+<li>The project&#39;s architecture is generally consistent with best practices for a VS Code extension, but the hard-coding of service endpoints is a significant deviation from these practices.</li>
+</ul>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/controllers/compliance_function_controller.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">import</span> { DiagnosticCollection, ExtensionContext } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vscode&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:07:47 PM PDT</p>
+<p>This code snippet is a TypeScript import statement that is importing two specific exports from the &#39;vscode&#39; module: <code>DiagnosticCollection</code> and <code>ExtensionContext</code>.</p>
+<p>Let&#39;s break down each part:</p>
+<ul>
+<li><p><code>import</code>: This is a keyword in JavaScript (and thus TypeScript) that is used to import functions, objects, or values from other files or modules. This helps in organizing code into separate, manageable parts and reusing code across multiple files.</p>
+</li>
+<li><p><code>{ DiagnosticCollection, ExtensionContext }</code>: This is a list of named exports to import from the &#39;vscode&#39; module. Named exports are specific items that a module exports that can be imported by their specific names.</p>
+<ul>
+<li><p><code>DiagnosticCollection</code>: This is a class in the &#39;vscode&#39; module that represents a collection of diagnostics. Diagnostics in VS Code are problems in your code that are highlighted with squiggly lines and can also show up in the Problems panel. They can represent anything from compile errors to linting issues to other types of problems. A <code>DiagnosticCollection</code> is a group of these diagnostics, typically related in some way.</p>
+</li>
+<li><p><code>ExtensionContext</code>: This is another class in the &#39;vscode&#39; module that represents a context in which an extension is running. An <code>ExtensionContext</code> contains utilities for extensions, as well as state information such as the extension&#39;s current workspace, its global and workspace state, and its extension path. This context is provided to the <code>activate</code> function of an extension when it is activated.</p>
+</li>
+</ul>
+</li>
+<li><p><code>from &#39;vscode&#39;</code>: This specifies the module to import from. In this case, it&#39;s the &#39;vscode&#39; module, which is the API module for Visual Studio Code. This module contains all the types, functions, and classes that extensions can use to interact with the VS Code editor.</p>
+</li>
+</ul>
+<p>Here are some resources for further learning:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api">VS Code API (including DiagnosticCollection and ExtensionContext)</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">JavaScript Modules</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/modules.html">TypeScript Modules</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:10:30 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre><p>The provided code does not contain any control flow.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:11:10 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:12:28 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:13:15 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/compliance_function_controller.ts line 3:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { BoostConfiguration } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../extension/boostConfiguration&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:08:17 PM PDT</p>
+<p>The provided code snippet is a single line of code in JavaScript (or TypeScript) that is used to import a module named <code>BoostConfiguration</code> from a relative path <code>&#39;../extension/boostConfiguration&#39;</code>.</p>
+<p>Here&#39;s a detailed explanation:</p>
+<ul>
+<li><p><code>import</code>: This is a keyword in JavaScript (and TypeScript) that is used to import functions, objects, or values from other modules or files into the current file. This is part of the ES6 (ECMAScript 6) module system.</p>
+</li>
+<li><p><code>{ BoostConfiguration }</code>: This is the name of the specific export from the module that we want to import into the current file. The use of curly braces <code>{}</code> indicates that we&#39;re using named imports. This means <code>BoostConfiguration</code> is not a default export, but a named export in the <code>boostConfiguration</code> module.</p>
+</li>
+<li><p><code>from</code>: This keyword is used in conjunction with <code>import</code> to specify the path of the module from which we want to import.</p>
+</li>
+<li><p><code>&#39;../extension/boostConfiguration&#39;</code>: This is the relative path to the module from which we&#39;re importing. The <code>..</code> at the beginning of the path indicates that we&#39;re going up one level in the directory structure. Then we&#39;re going into the <code>extension</code> directory and importing from the <code>boostConfiguration</code> file (the file extension is not needed when importing in JavaScript/TypeScript).</p>
+</li>
+</ul>
+<p>The <code>BoostConfiguration</code> module could contain a class, a function, an object, or any other exportable JavaScript entity. The specific details of what <code>BoostConfiguration</code> is and what it does would be contained within the <code>boostConfiguration</code> file.</p>
+<p>As for the architectural guidelines, this code snippet is quite standard and doesn&#39;t seem to conflict with any common architectural principles. The use of modules and imports is a best practice in JavaScript and TypeScript as it promotes code organization, reusability, and separation of concerns.</p>
+<p>For more information and education on JavaScript modules and imports, you can refer to the following resources:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">MDN Web Docs: import</a></li>
+<li><a href="https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/">JavaScript Modules: A Beginner’s Guide</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:10:33 PM PDT</p>
+<p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:11:14 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:12:31 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:13:22 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 4</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code imports a configuration file, which could potentially contain sensitive user data. This can be a GDPR compliance issue if user data is not properly protected.</p>
+<p><strong>Solution</strong>: Ensure that the configuration file does not contain sensitive user data. If it does, make sure it is encrypted and properly secured. Also, implement access controls to restrict who can access this data.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/compliance_function_controller.ts line 4:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { FunctionKernelControllerBase } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./function_base_controller&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:08:41 PM PDT</p>
+<p>The provided code is a single line of code written in TypeScript, which is a statically typed superset of JavaScript. It is an import statement, which is used to include functionality from another file or module into the current file.</p>
+<p>The code is importing a class named <code>FunctionKernelControllerBase</code> from a file located at <code>./function_base_controller</code>. This class is likely to be a base class for other classes that need to control or manage a kernel in some way. </p>
+<p>In the context of software, a &quot;kernel&quot; often refers to the core part of an operating system that has complete control over everything in the system. However, in this case, it&#39;s more likely to refer to a core component of the software that provides some essential functionality. </p>
+<p>The <code>FunctionKernelControllerBase</code> class is probably defined in the <code>function_base_controller</code> file, which is in the same directory as the file where this import statement is found (as indicated by the <code>./</code> at the beginning of the file path). </p>
+<p>This import statement would allow the current file to create instances of <code>FunctionKernelControllerBase</code>, or extend it to create more specialized classes.</p>
+<p>In terms of architectural guidelines, this code is consistent with common practices in JavaScript and TypeScript. It&#39;s modular, which is a key principle in software architecture. It&#39;s also likely to be part of an object-oriented design, given the use of classes.</p>
+<p>For more about TypeScript and import statements, you can check the following resources:</p>
+<ul>
+<li>TypeScript: <a href="https://www.typescriptlang.org/">https://www.typescriptlang.org/</a></li>
+<li>Understanding ES6 Modules via Their History: <a href="https://hacks.mozilla.org/2015/08/es6-in-depth-modules/">https://hacks.mozilla.org/2015/08/es6-in-depth-modules/</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:10:37 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style FunctionKernelControllerBase fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->FunctionKernelControllerBase;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:11:17 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:12:35 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:13:26 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/compliance_function_controller.ts line 5:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { complianceKernelName } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./compliance_controller&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:09:03 PM PDT</p>
+<p>The line of code you&#39;ve provided is a single statement written in JavaScript, specifically using the ES6 module system syntax. </p>
+<p>This line of code is performing an import operation. The <code>import</code> statement is used to import functions, objects or values that have been exported from an external module, another script, or another file. </p>
+<p>In this case, it is importing a specific exported member, <code>complianceKernelName</code>, from another module named <code>compliance_controller</code>. The <code>complianceKernelName</code> is likely a string constant or a function that is used elsewhere in the code where this import statement is.</p>
+<p>The file <code>compliance_controller</code> is probably responsible for controlling or managing some aspect of compliance in the larger application. The <code>complianceKernelName</code> could be a unique identifier for a specific kernel or core part of the compliance controller.</p>
+<p>As for algorithms, this line of code doesn&#39;t implement any. It&#39;s a simple import statement that doesn&#39;t perform any logic or computation. However, under the hood, the JavaScript engine will locate and load the specified module, resolve the specified export, and make it available to the code that follows.</p>
+<p>This line of code seems to align with the architectural blueprint provided earlier. It makes use of ES6 modules, which are commonly used in modern JavaScript and TypeScript projects, including VS Code extensions. It doesn&#39;t conflict with any architectural guidelines or constraints mentioned in the blueprint.</p>
+<p>Here are some resources for further reading:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">Mozilla Developer Network (MDN) guide on import statement</a></li>
+<li><a href="https://www.sitepoint.com/understanding-es6-modules/">Understanding ES6 Modules</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:10:42 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style complianceKernelName fill:#228B22, stroke:#000000, stroke-width:2px;
+complianceKernelName-->End;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:11:21 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:12:39 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:13:29 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/compliance_function_controller.ts line 6:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { ControllerOutputType } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./controllerOutputTypes&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:09:24 PM PDT</p>
+<p>The provided line of code is an import statement in JavaScript (more specifically, TypeScript). It is used to include external modules, functions, or types into the current file.</p>
+<p>In this case, <code>ControllerOutputType</code> is being imported from the module &#39;./controllerOutputTypes&#39;. The <code>ControllerOutputType</code> is likely a TypeScript type or interface that is defined in the &#39;controllerOutputTypes&#39; module. This type is used to define the structure of the controller output, which could be used in the current file to type check the data returned by a controller function.</p>
+<p>The &#39;./&#39; at the beginning of the module name indicates that the module is located in the same directory as the current file. If the module was in a subdirectory, the path might look like &#39;./subdirectory/controllerOutputTypes&#39;. If the module was in a parent directory, the path might look like &#39;../controllerOutputTypes&#39;.</p>
+<p>This line of code doesn&#39;t include any specific algorithms. It&#39;s part of the module system in JavaScript, which is a way to organize code into separate files and manage dependencies between them.</p>
+<p>This line of code is consistent with the architectural guidelines provided in the project blueprint summary. It uses TypeScript for static type checking, which helps catch many errors at compile time. It also shows that the code is organized into modules, which is a best practice for structuring code.</p>
+<p>For more information on TypeScript and its module system, you can refer to the following links:</p>
+<ul>
+<li><a href="https://www.typescriptlang.org/docs/">TypeScript Documentation</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/modules.html">TypeScript Modules</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:10:46 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ControllerOutputType fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->ControllerOutputType;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:11:24 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:12:42 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:13:32 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/compliance_function_controller.ts line 7:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { DisplayGroupFriendlyName } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../data/userAnalysisType&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:09:44 PM PDT</p>
+<p>This line of code is an import statement in JavaScript, specifically using ES6 (ECMAScript 2015) syntax. It&#39;s importing a specific item, <code>DisplayGroupFriendlyName</code>, from a module located at &#39;../data/userAnalysisType&#39;.</p>
+<p>The <code>DisplayGroupFriendlyName</code> is likely a function, class, or constant that has been exported from the module at the specified path. The exact nature and purpose of <code>DisplayGroupFriendlyName</code> would depend on its implementation in that module.</p>
+<p>The path &#39;../data/userAnalysisType&#39; indicates that the module is located in a directory named &#39;data&#39; that is a sibling to the directory containing the file with this import statement. The module&#39;s file name is &#39;userAnalysisType&#39;, and it doesn&#39;t need to include the file extension in the import statement.</p>
+<p>In terms of architecture, this line of code indicates a dependency on the &#39;userAnalysisType&#39; module. This could have implications for testing, as you may need to mock this dependency, and for deployment, as you need to ensure this module is included.</p>
+<p>For more information on ES6 modules and import/export syntax, you can refer to this resource: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">MDN Web Docs: import</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:10:49 PM PDT</p>
+<p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:11:27 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:12:46 PM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:13:41 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 12</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: Potential violation of GDPR principles. The import statement suggests that user data is being processed, potentially without explicit consent or necessary safeguards. GDPR requires that personal data of EU citizens is processed lawfully, fairly, and transparently.</p>
+<p><strong>Solution</strong>: Ensure that user data is processed in compliance with GDPR principles, including obtaining explicit consent, implementing necessary safeguards, and providing transparency about how the data is used. Consider using anonymization or pseudonymization techniques where possible.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/controllers/compliance_function_controller.ts line 8:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> complianceFunctionKernelName = complianceKernelName + <span class="hljs-string">&#x27;_function&#x27;</span>;
+<span class="hljs-keyword">const</span> complianceOutputHeader = <span class="hljs-string">&#x27;compliance&#x27;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BoostComplianceFunctionKernel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">FunctionKernelControllerBase</span> {
+
+	<span class="hljs-title function_">constructor</span>(<span class="hljs-params">context: ExtensionContext, onServiceErrorHandler: <span class="hljs-built_in">any</span>, otherThis: <span class="hljs-built_in">any</span>, collection: DiagnosticCollection</span>) {
+        <span class="hljs-variable language_">super</span>(
+            collection,
+            complianceFunctionKernelName,
+            <span class="hljs-string">&#x27;Quick source scan for data and privacy compliance issues&#x27;</span>,
+            <span class="hljs-string">&#x27;Quickly analyzes all targeted source code for data and privacy compliance issues&#x27;</span>,
+            <span class="hljs-title class_">ControllerOutputType</span>.<span class="hljs-property">complianceFunction</span>,
+            <span class="hljs-title class_">DisplayGroupFriendlyName</span>.<span class="hljs-property">compliance</span>,
+            complianceOutputHeader,
+            <span class="hljs-string">&quot;Data and Privacy Compliance Analysis&quot;</span>, 
+            context,
+            otherThis,
+            onServiceErrorHandler,
+            );
+	}
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">get</span> <span class="hljs-title function_">serviceEndpoint</span>(): <span class="hljs-built_in">string</span> {
+        <span class="hljs-keyword">switch</span> (<span class="hljs-title class_">BoostConfiguration</span>.<span class="hljs-property">cloudServiceStage</span>)
+        {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;local&quot;</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;http://127.0.0.1:8000/compliance_function&#x27;</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;dev&#x27;</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;https://t4so4gqwf5rr5fr7pvlpytvkne0prvcv.lambda-url.us-west-2.on.aws/&#x27;</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;test&quot;</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;https://obzwdrxuel32tuozt5vdafb4gy0vjpls.lambda-url.us-west-2.on.aws/&#x27;</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;staging&#x27;</span>:
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;prod&#x27;</span>:
+            <span class="hljs-attr">default</span>:
+                <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;https://srsybz6dbjz45skdwq6quou4ua0rxbnk.lambda-url.us-west-2.on.aws/&#x27;</span>;
+        }
+    }
+
+	<span class="hljs-title function_">dispose</span>(): <span class="hljs-built_in">void</span> {
+		<span class="hljs-variable language_">super</span>.<span class="hljs-title function_">dispose</span>();
+	}
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:10:13 PM PDT</p>
+<p>This code is written in TypeScript, a statically typed superset of JavaScript. It defines a class called <code>BoostComplianceFunctionKernel</code> which extends another class <code>FunctionKernelControllerBase</code>. The class is part of a Visual Studio Code extension, which performs quick source code scans for data and privacy compliance issues.</p>
+<p>The <code>BoostComplianceFunctionKernel</code> class has a constructor and two methods: <code>serviceEndpoint</code> getter method and <code>dispose</code>.</p>
+<p>The constructor is used to initialize an object of the class. It takes several parameters, including <code>context</code>, <code>onServiceErrorHandler</code>, <code>otherThis</code>, and <code>collection</code>. These parameters are passed to the constructor of the base class <code>FunctionKernelControllerBase</code> via the <code>super</code> keyword. The <code>super</code> keyword is used to call the constructor of a parent class.</p>
+<p>The <code>serviceEndpoint</code> getter method returns a string URL, which is the endpoint of the service that the extension will communicate with for code analysis. The URL is determined based on the value of <code>BoostConfiguration.cloudServiceStage</code>. Based on the value, it could be a local URL, or a URL for development, testing, staging, or production environments.</p>
+<p>The <code>dispose</code> method is used to clean up resources when they are no longer needed. It simply calls the <code>dispose</code> method of the base class.</p>
+<p>There are no specific algorithms used in this code, it&#39;s mostly about object-oriented programming and class inheritance in TypeScript. Here are some resources for more information:</p>
+<ul>
+<li><a href="https://www.typescriptlang.org/docs/handbook/2/classes.html">TypeScript Handbook: Classes</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/2/classes.html#inheritance">TypeScript Handbook: Inheritance</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/2/classes.html#getters--setters">TypeScript Handbook: Getters &amp; Setters</a></li>
+</ul>
+<p>Regarding the architectural guidelines, this code seems to align with the summary provided earlier. The code is written in TypeScript, uses object-oriented design, and communicates with a remote service for code analysis. It also includes error handling through the <code>onServiceErrorHandler</code> parameter.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:10:56 PM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style External fill:#FFA500, stroke:#000000, stroke-width:2px;
+style Error fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->Initialize;
+Initialize-->SetServiceEndpoint;
+SetServiceEndpoint-->Dispose;
+SetServiceEndpoint-->GetServiceEndpoint;
+GetServiceEndpoint-->Switch;
+Switch-->LocalEndpoint;
+Switch-->DevEndpoint;
+Switch-->TestEndpoint;
+Switch-->StagingEndpoint;
+Switch-->ProdEndpoint;
+LocalEndpoint-->Dispose;
+DevEndpoint-->Dispose;
+TestEndpoint-->Dispose;
+StagingEndpoint-->Dispose;
+ProdEndpoint-->Dispose;
+</pre>
+</code></pre><pre><code>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:11:40 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 30</p>
+<p><strong>Bug Type</strong>: Insecure Direct Object References (IDOR)</p>
+<p><strong>Description</strong>: The serviceEndpoint method directly exposes internal service URLs based on the value of BoostConfiguration.cloudServiceStage. This could potentially allow an attacker to manipulate the value to gain unauthorized access to other environments.</p>
+<p><strong>Solution</strong>: Avoid exposing internal service URLs directly. Instead, use environment variables or a configuration file that is not included in the code repository. This file should be securely managed and only accessible to authorized personnel. For more information, see the OWASP guide on IDOR: <a href="https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A4-Insecure_Direct_Object_References">https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A4-Insecure_Direct_Object_References</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:12:58 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 28</p>
+<p><strong>Bug Type</strong>: Network</p>
+<p><strong>Description</strong>: The serviceEndpoint getter method is called each time the endpoint is needed. If this occurs frequently, it could lead to performance issues due to the overhead of switch-case statement.</p>
+<p><strong>Solution</strong>: Consider storing the endpoint in a private variable during the class initialization, and then simply return this variable in the serviceEndpoint getter. This way, the switch-case statement only runs once, reducing the overhead. Here is a resource on JavaScript performance: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#performance">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#performance</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Friday, September 8, 2023 at 10:14:04 PM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 26</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The service endpoints are hard-coded in the code. If the endpoints are compromised, it may result in unauthorized access to personal data, violating the GDPR&#39;s data protection principles.</p>
+<p><strong>Solution</strong>: Move the service endpoints to a secure configuration file that is not included in the code repository. Use environment variables to store sensitive information.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 26</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: Hard-coded endpoints can lead to exposure of sensitive information, including credit card information, if the endpoints are compromised. This is in violation of PCI DSS requirements for protecting cardholder data.</p>
+<p><strong>Solution</strong>: Store the service endpoints in a secure configuration file or use environment variables. Use secure communication protocols to protect data in transit.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 26</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: Hard-coded service endpoints can lead to exposure of Protected Health Information (PHI) if the endpoints are compromised. This is in violation of HIPAA&#39;s requirements for protecting PHI.</p>
+<p><strong>Solution</strong>: Store the service endpoints in a secure configuration file or use environment variables. Use secure communication protocols and encryption to protect PHI in transit.</p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>

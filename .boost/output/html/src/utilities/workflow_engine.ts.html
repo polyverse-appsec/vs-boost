@@ -1,0 +1,1238 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/utilities/workflow_engine.ts</h1>
+    <p>Date Generated: Saturday, September 9, 2023 at 1:56:17 AM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:52:39 AM PDT</p>
+<p>Executive Report:</p>
+<ol>
+<li><strong>Architectural Impact</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Risk Analysis</strong>: The analysis of this file has not revealed any severe issues.</li>
+<li><strong>Potential Customer Impact</strong>: Based on the analysis, there are no severe issues that could potentially impact customers.</li>
+<li><strong>Performance Issues</strong>: Our analysis did not identify any explicit performance issues in the file.</li>
+<li><strong>Risk Assessment</strong>: Based on the current analysis of this file, no severe issues have been found. However, this doesn&#39;t guarantee that the file is risk-free.</li>
+</ol>
+<p>Highlights:</p>
+<ul>
+<li>No severe issues were identified in the current analysis of this file.</li>
+</ul>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:54:35 AM PDT</p>
+<h2 id="executive-report-software-project-analysis">Executive Report: Software Project Analysis</h2>
+<h3 id="overview">Overview</h3>
+<p>The software project under review is a Visual Studio Code extension that provides code analysis functionality. The project is primarily written in JavaScript and TypeScript, and it adheres to principles of object-oriented design and event-driven programming. The project communicates with a remote service for code analysis and does not appear to use any persistent data storage.</p>
+<h3 id="architectural-impact-and-risk-analysis">Architectural Impact and Risk Analysis</h3>
+<ol>
+<li><p><strong>Memory Usage Concerns:</strong> The most severe issue identified is related to potential high memory usage in the <code>workflow_engine.ts</code> file. This could impact the performance of the software, particularly if large arrays are processed. This issue is classified as a warning, indicating a potential risk that should be addressed to ensure optimal performance.</p>
+</li>
+<li><p><strong>CPU Usage Warnings:</strong> There are also warnings related to CPU usage in the <code>workflow_engine.ts</code> file. This could potentially slow down the software&#39;s performance, especially if the software is run on machines with limited CPU resources. </p>
+</li>
+<li><p><strong>Overall Health of the Project Source:</strong> The project consists of a single file, <code>workflow_engine.ts</code>, which has both memory and CPU usage warnings. This means 100% of the project files have issues of &#39;Warning&#39; severity. However, it&#39;s important to note that these are warnings and not errors, indicating potential areas for optimization rather than critical failures.</p>
+</li>
+<li><p><strong>Potential Customer Impact:</strong> The identified issues could potentially impact the performance of the software, leading to slower response times and higher resource usage. This could affect the user experience, particularly for users with limited system resources.</p>
+</li>
+<li><p><strong>Consistency with Architectural Guidelines:</strong> The project appears to adhere to the architectural guidelines provided. It uses object-oriented design and event-driven programming, as specified in the guidelines. However, the identified issues suggest that there may be room for optimization in how data structures and resources are managed.</p>
+</li>
+</ol>
+<h3 id="recommendations">Recommendations</h3>
+<p>Given the above analysis, it is recommended that the development team review the <code>workflow_engine.ts</code> file to address the memory and CPU usage warnings. Potential solutions could include using more efficient data structures or optimizing the way tasks are scheduled and executed. This could help to improve the performance of the software and ensure a better user experience.</p>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:56:59 AM PDT</p>
+<p>Executive Level Report:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The software project is a Visual Studio Code extension that provides code analysis functionality. It is well-structured and follows best practices for a VS Code extension. However, the identified issues in the <code>workflow_engine.ts</code> file could potentially impact the overall architecture. The generation of a universally unique identifier (UUID) could be linked to a specific user, which could lead to GDPR compliance issues if not handled properly. This could necessitate changes in the architecture to ensure proper user consent and data protection measures.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The risk associated with this project is moderate. The identified issues are of &#39;Warning&#39; severity, indicating potential compliance issues with GDPR, PCI DSS, and HIPAA. If these issues are not addressed, the project could face legal and financial repercussions. However, since only one file out of the entire project has been flagged with issues, the overall risk is relatively low.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: Customers could be affected if the identified issues are not addressed. The potential misuse of UUIDs could lead to privacy concerns and loss of trust among users. Moreover, non-compliance with GDPR, PCI DSS, and HIPAA could lead to service disruptions or penalties, which could indirectly affect the customers.</p>
+</li>
+<li><p><strong>Overall Issues</strong>: The overall health of the project source is good, with only one file having detected issues. However, the issues identified are significant and could have serious implications if not addressed. The project needs to ensure that the generated UUID is not used to identify a user or their behavior without obtaining the user&#39;s consent and implementing proper security measures.</p>
+</li>
+</ol>
+<p>Highlights of the Analysis:</p>
+<ul>
+<li>The project follows best practices for a VS Code extension and makes use of TypeScript features and the VS Code API.</li>
+<li>The identified issues in the <code>workflow_engine.ts</code> file could potentially lead to GDPR, PCI DSS, and HIPAA compliance issues.</li>
+<li>The potential misuse of UUIDs could lead to privacy concerns and loss of trust among users.</li>
+<li>The overall health of the project source is good, with only one file having detected issues. However, the issues identified are significant and could have serious implications if not addressed.</li>
+<li>The project needs to ensure that the generated UUID is not used to identify a user or their behavior without obtaining the user&#39;s consent and implementing proper security measures.</li>
+</ul>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/utilities/workflow_engine.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>/*
+
+the basic idea is the engine will take an<span class="hljs-built_in"> array </span>of promise generators,<span class="hljs-built_in"> and </span>run through them one at a time in serial until 
+every promise is successfully resolved. <span class="hljs-built_in"> if </span>a promise fails, then the promise generator is re-run<span class="hljs-built_in"> and </span>a<span class="hljs-built_in"> new </span>promise is put on the queue.  
+
+the special behavior is that the main<span class="hljs-built_in"> array </span>of promises is to be run in groups, as specified by a pattern array.  
+thus,<span class="hljs-built_in"> if </span>the pattern<span class="hljs-built_in"> array </span>is [1, 2, 4, 8], then the first promise is run, followed by *all* of the afterEachGroup promises, 
+then two promises from the main<span class="hljs-built_in"> array </span>are run, followed by *all* of the afterEachGroup promises, then four promises are run<span class="hljs-built_in"> and </span>so forth.\
+
+Initialization: The engine will be initialized with the following arrays of promise generators:
+    before: Run at the very beginning of the workflow.
+    main: The main group of promise generators.
+    afterEachGroup: Run after every group, as specified by the pattern.
+    after: Run at the end of the workflow.
+    pattern: Specifies the grouping for the main array.
+
+Running the Workflow:
+First, the before promises will be run.
+Then, the main promises will be run in groups specified by the pattern. After each group, all afterEachGroup promises are run.
+If any promise in the main<span class="hljs-built_in"> array </span>fails, its generator is re-run,<span class="hljs-built_in"> and </span>a<span class="hljs-built_in"> new </span>promise is added to the queue.
+Finally, the after promises will be run.
+Abort: If the abort API is called, the workflow will stop executing further promises.
+*/
+
+import { all } from <span class="hljs-string">&quot;micromatch&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:45:42 AM PDT</p>
+<p>The provided code is a high-level description of a workflow engine that manages the execution of asynchronous tasks, represented as promises, in a specific order and pattern. The execution pattern is based on a pattern array, where each element represents the number of main promises to be run in sequence before running all the afterEachGroup promises.</p>
+<p>Here&#39;s a breakdown of the workflow:</p>
+<ol>
+<li><p><strong>Initialization:</strong> The engine is initialized with several arrays of promise generators:</p>
+<ul>
+<li><code>before</code>: These promises are run at the very beginning of the workflow.</li>
+<li><code>main</code>: This is the main group of promise generators.</li>
+<li><code>afterEachGroup</code>: These promises are run after each group of main promises, as specified by the pattern.</li>
+<li><code>after</code>: These promises are run at the end of the workflow.</li>
+<li><code>pattern</code>: This array specifies the grouping for the main array.</li>
+</ul>
+</li>
+<li><p><strong>Running the Workflow:</strong> </p>
+<ul>
+<li>First, all the <code>before</code> promises are run.</li>
+<li>Then, the <code>main</code> promises are run in groups as specified by the <code>pattern</code>. After each group, all <code>afterEachGroup</code> promises are run.</li>
+<li>If any promise in the <code>main</code> array fails, its generator is re-run, and a new promise is added to the queue.</li>
+<li>Finally, all the <code>after</code> promises are run.</li>
+</ul>
+</li>
+<li><p><strong>Abort:</strong> If the abort API is called, the workflow will stop executing further promises.</p>
+</li>
+</ol>
+<p>The algorithm used here is a form of the <strong>Serial Execution Pattern</strong> for promises, where promises are executed one after the other, in a specific order. The twist here is that the number of promises to be executed in each batch is dynamic and determined by the <code>pattern</code> array. </p>
+<p>The <code>import { all } from &quot;micromatch&quot;;</code> line at the end imports the <code>all</code> function from the <code>micromatch</code> library, which is a glob matching library. However, based on the given code and description, it&#39;s not clear how this function is used in the workflow engine.</p>
+<p>For more information on promises and their execution patterns, you can refer to these resources:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promises in JavaScript</a></li>
+<li><a href="https://decembersoft.com/posts/promises-in-serial-with-array-reduce/">Serial Execution with Promises</a></li>
+<li><a href="https://www.npmjs.com/package/micromatch">Micromatch library</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:49:56 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style Before fill:#228B22, stroke:#000000, stroke-width:4px;
+style Main fill:#228B22, stroke:#000000, stroke-width:4px;
+style AfterEachGroup fill:#228B22, stroke:#000000, stroke-width:4px;
+style After fill:#228B22, stroke:#000000, stroke-width:4px;
+style Abort fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->Before;
+Before-->Main;
+Main-->AfterEachGroup;
+AfterEachGroup-->Main;
+Main-->AfterEachGroup;
+AfterEachGroup-->Main;
+Main-->AfterEachGroup;
+AfterEachGroup-->Main;
+Main-->AfterEachGroup;
+AfterEachGroup-->Main;
+Main-->After;
+Abort-->After;</pre>
+</code></pre><p>The control flow graph for the provided source code is as follows:</p>
+<ul>
+<li>The workflow starts with the &quot;Start&quot; node.</li>
+<li>The &quot;Start&quot; node is connected to the &quot;Before&quot; node, representing the execution of the &quot;before&quot; promises.</li>
+<li>The &quot;Before&quot; node is connected to the &quot;Main&quot; node, representing the execution of the main promises.</li>
+<li>The &quot;Main&quot; node is connected to the &quot;AfterEachGroup&quot; node, representing the execution of the &quot;afterEachGroup&quot; promises after each group of main promises.</li>
+<li>The &quot;AfterEachGroup&quot; node is connected back to the &quot;Main&quot; node, representing the continuation of the main promises.</li>
+<li>This loop continues until all main promises are executed.</li>
+<li>After the main promises are completed, the control flow goes to the &quot;After&quot; node, representing the execution of the &quot;after&quot; promises.</li>
+<li>If the &quot;Abort&quot; API is called, the control flow goes directly to the &quot;After&quot; node, bypassing the execution of any remaining promises.</li>
+</ul>
+<p>Please note that this control flow graph assumes that the code provided is the complete and accurate representation of the workflow.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:52:11 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:52:55 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 27</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The use of &#39;all&#39; from &#39;micromatch&#39; might lead to inefficient CPU usage if the input patterns are complex or the input list is large.</p>
+<p><strong>Solution</strong>: Consider using &#39;any&#39; or &#39;some&#39; if it fits your requirements, as they can short-circuit and potentially save CPU cycles. If the input list is large, consider using a more efficient matching algorithm or data structure.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:55:17 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 30</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: This code potentially handles user data but does not appear to have any data protection or privacy measures in place, which could lead to GDPR compliance issues. The exact data being handled is not clear from the provided code.</p>
+<p><strong>Solution</strong>: Consider implementing data protection measures, such as encryption, and ensure that any user data is handled in accordance with GDPR principles. This may include obtaining user consent for data processing, providing transparency about how data is used, and ensuring that data is not kept for longer than necessary.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 30</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: If this code handles payment card data, it may not be compliant with the Payment Card Industry Data Security Standard (PCI DSS). The code does not appear to have any measures in place to protect cardholder data.</p>
+<p><strong>Solution</strong>: Ensure that any payment card data is encrypted and stored securely, and that all data transmission is secure. Implement strong access control measures and regularly test security systems and processes.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 30</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: If this code handles protected health information (PHI), it could be in violation of the Health Insurance Portability and Accountability Act (HIPAA). The code does not appear to have any measures in place to protect PHI.</p>
+<p><strong>Solution</strong>: Ensure that any PHI is encrypted and stored securely, and that all data transmission is secure. Implement strong access control measures and regularly test security systems and processes.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/workflow_engine.ts line 26:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> { v4 <span class="hljs-keyword">as</span> uuidv4 } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;uuid&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:46:03 AM PDT</p>
+<p>The line of code you provided is a single import statement in JavaScript, specifically using ES6 syntax. It&#39;s not really an algorithm, but it&#39;s a crucial part of many programs.</p>
+<p>Here&#39;s the breakdown:</p>
+<p><code>import { v4 as uuidv4 } from &quot;uuid&quot;;</code></p>
+<p>This statement is importing a specific function <code>v4</code> from the <code>uuid</code> module. This function is used to generate random UUIDs (Universally Unique Identifiers). The <code>as uuidv4</code> part means that, within the scope of this file, the <code>v4</code> function will be referred to as <code>uuidv4</code>. This is a feature of JavaScript&#39;s import syntax that allows you to rename imports. </p>
+<p>The <code>uuid</code> module is a popular JavaScript library for creating UUIDs. UUIDs are used in software development for various purposes, such as to provide a unique identifier for objects, to generate random keys for access tokens, etc.</p>
+<p>As for the architectural guidelines, this single line of code doesn&#39;t reveal much about the architecture of the software project. However, the usage of ES6 import statement and the <code>uuid</code> library are typical in modern JavaScript and TypeScript projects.</p>
+<p>For more information about <code>uuid</code>, you can visit the npm (Node Package Manager) page for the library: <a href="https://www.npmjs.com/package/uuid">https://www.npmjs.com/package/uuid</a></p>
+<p>For more information about ES6 import/export syntax, you can visit: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:50:02 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;</pre>
+</code></pre><p>NO CONTROL FLOW FOUND</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:52:15 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:52:58 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:55:30 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 50</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code generates a universally unique identifier (UUID) which, depending on its use, could be linked to a specific user and therefore could be considered personal data under GDPR. If this UUID is used to identify a user or their behavior without proper consent or protection, it could lead to GDPR compliance issues.</p>
+<p><strong>Solution</strong>: Ensure that the generated UUID is not used to identify a user or their behavior without obtaining the user&#39;s consent. Also, implement proper security measures to protect this data, such as encryption during storage and transmission.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/workflow_engine.ts line 27:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-comment">// Custom error class for handling typed errors</span>
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WorkflowError</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Error</span> </span>{
+    constructor(public <span class="hljs-class"><span class="hljs-keyword">type</span></span>: <span class="hljs-string">&quot;retry&quot;</span> | <span class="hljs-string">&quot;skip&quot;</span> | <span class="hljs-string">&quot;abort&quot;</span> | <span class="hljs-string">&quot;cancel&quot;</span>, message?: string) {
+        <span class="hljs-keyword">super</span>(message);
+    }
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:46:45 AM PDT</p>
+<p>The provided code is a TypeScript class definition for a custom error type called <code>WorkflowError</code>. This class extends the built-in JavaScript <code>Error</code> class, which means it inherits all of the properties and methods of that class, but also adds some additional functionality.</p>
+<p>Here&#39;s a detailed breakdown of the code:</p>
+<ol>
+<li><p><code>export class WorkflowError extends Error</code>: This line of code is defining a new class <code>WorkflowError</code> that extends the built-in JavaScript <code>Error</code> class. The <code>export</code> keyword means that this class can be imported and used in other TypeScript or JavaScript files.</p>
+</li>
+<li><p><code>constructor(public type: &quot;retry&quot; | &quot;skip&quot; | &quot;abort&quot; | &quot;cancel&quot;, message?: string)</code>: This is the constructor of the <code>WorkflowError</code> class. The constructor is a special method that gets called when a new instance of the class is created.</p>
+<ul>
+<li><p><code>public type: &quot;retry&quot; | &quot;skip&quot; | &quot;abort&quot; | &quot;cancel&quot;</code>: This is defining a public instance variable <code>type</code> that can take one of four string values: &quot;retry&quot;, &quot;skip&quot;, &quot;abort&quot;, or &quot;cancel&quot;. The <code>public</code> keyword means that this variable can be accessed directly on instances of the class.</p>
+</li>
+<li><p><code>message?: string</code>: This is defining an optional parameter <code>message</code> that can be passed when instantiating the class. The <code>?</code> after <code>message</code> indicates that this parameter is optional. If a message is provided, it will be passed to the <code>Error</code> class constructor, which will set it as the error message.</p>
+</li>
+</ul>
+</li>
+<li><p><code>super(message);</code>: This line of code is calling the constructor of the parent <code>Error</code> class. The <code>super</code> keyword is used to call methods on a class&#39;s parent. In this case, it&#39;s passing the optional <code>message</code> parameter to the <code>Error</code> class&#39;s constructor.</p>
+</li>
+</ol>
+<p>This class can be used to throw custom errors in a workflow, where the type of error (retry, skip, abort, cancel) can be used to decide how to handle the error.</p>
+<p>Here&#39;s an example of how you might use this class:</p>
+<pre><code class="hljs language-typescript"><span class="hljs-keyword">try</span> {
+    <span class="hljs-comment">// Some code that might throw an error</span>
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">WorkflowError</span>(<span class="hljs-string">&#x27;abort&#x27;</span>, <span class="hljs-string">&#x27;Something went wrong&#x27;</span>);
+} <span class="hljs-keyword">catch</span> (error) {
+    <span class="hljs-keyword">if</span> (error <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">WorkflowError</span>) {
+        <span class="hljs-keyword">switch</span> (error.<span class="hljs-property">type</span>) {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;abort&#x27;</span>:
+                <span class="hljs-comment">// Handle abort error</span>
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-comment">// Other cases...</span>
+        }
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-comment">// Handle other types of errors</span>
+    }
+}
+</code></pre><p>For more information on TypeScript classes, see the <a href="https://www.typescriptlang.org/docs/handbook/classes.html">TypeScript Handbook</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:50:26 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->HandleError;
+
+subgraph HandleError
+    style HandleError fill:#228B22, stroke:#000000, stroke-width:2px;
+    HandleError-->HandleRetry;
+    HandleError-->HandleSkip;
+    HandleError-->HandleAbort;
+    HandleError-->HandleCancel;
+end
+
+subgraph HandleRetry
+    style HandleRetry fill:#228B22, stroke:#000000, stroke-width:2px;
+    HandleRetry-->End;
+end
+
+subgraph HandleSkip
+    style HandleSkip fill:#228B22, stroke:#000000, stroke-width:2px;
+    HandleSkip-->End;
+end
+
+subgraph HandleAbort
+    style HandleAbort fill:#228B22, stroke:#000000, stroke-width:2px;
+    HandleAbort-->End;
+end
+
+subgraph HandleCancel
+    style HandleCancel fill:#228B22, stroke:#000000, stroke-width:2px;
+    HandleCancel-->End;
+end
+
+subgraph End
+    style End fill:#228B22, stroke:#000000, stroke-width:2px;
+end</pre>
+</code></pre><p>The control flow graph for the provided code is shown above. The code consists of a custom error class named <code>WorkflowError</code> that extends the <code>Error</code> class. The <code>WorkflowError</code> class has a constructor that takes a <code>type</code> parameter, which can be one of four values: &quot;retry&quot;, &quot;skip&quot;, &quot;abort&quot;, or &quot;cancel&quot;. The constructor also takes an optional <code>message</code> parameter.</p>
+<p>The control flow starts at the <code>Start</code> node and then goes to the <code>HandleError</code> node. From the <code>HandleError</code> node, there are four possible paths based on the value of the <code>type</code> parameter:</p>
+<ul>
+<li>If the <code>type</code> is &quot;retry&quot;, the control flow goes to the <code>HandleRetry</code> node and then to the <code>End</code> node.</li>
+<li>If the <code>type</code> is &quot;skip&quot;, the control flow goes to the <code>HandleSkip</code> node and then to the <code>End</code> node.</li>
+<li>If the <code>type</code> is &quot;abort&quot;, the control flow goes to the <code>HandleAbort</code> node and then to the <code>End</code> node.</li>
+<li>If the <code>type</code> is &quot;cancel&quot;, the control flow goes to the <code>HandleCancel</code> node and then to the <code>End</code> node.</li>
+</ul>
+<p>The <code>End</code> node represents the end of the control flow.</p>
+<p>Note: Since the code provided does not have any external library calls or non-standard function calls, the control flow graph only includes the custom error class and its constructor.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:52:19 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:53:03 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:55:33 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/workflow_engine.ts line 34:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">PromiseGenerator</span> = <span class="hljs-function">() =&gt;</span> <span class="hljs-function">() =&gt;</span> <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">any</span>&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">PromiseGeneratorWithInputs</span> = <span class="hljs-function">() =&gt;</span> <span class="hljs-function">(<span class="hljs-params">inputs: <span class="hljs-built_in">any</span>[]</span>) =&gt;</span> <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">any</span>&gt;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">BeforeRunPromiseGenerator</span> = <span class="hljs-title class_">PromiseGenerator</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">AfterEachTaskPromiseGenerator</span> = <span class="hljs-title class_">PromiseGeneratorWithInputs</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">AfterEachTaskGroupPromiseGenerator</span> = <span class="hljs-title class_">PromiseGeneratorWithInputs</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">AfterRunPromiseGenerator</span> = <span class="hljs-title class_">PromiseGeneratorWithInputs</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">WorkflowEngineOptions</span> {
+    beforeRun?: <span class="hljs-title class_">BeforeRunPromiseGenerator</span>[];
+    afterEachTask?: <span class="hljs-title class_">AfterEachTaskPromiseGenerator</span>[];
+    afterEachTaskGroup?: <span class="hljs-title class_">AfterEachTaskGroupPromiseGenerator</span>[];
+    afterRun?: <span class="hljs-title class_">AfterRunPromiseGenerator</span>[];
+    pattern?: <span class="hljs-built_in">number</span>[];
+    logger?: <span class="hljs-built_in">any</span>;
+    maxRetries?: <span class="hljs-built_in">number</span>;
+    name?: <span class="hljs-built_in">string</span>;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:47:25 AM PDT</p>
+<p>This TypeScript code is defining a series of types and an interface for a Workflow Engine. This type of code is commonly used in designing and implementing a system that processes tasks in a certain order, often with dependencies between tasks. Here is a detailed explanation:</p>
+<ol>
+<li><p><code>PromiseGenerator</code>: This is a type alias for a function that returns another function, which when called, returns a Promise. Promises in JavaScript are used for asynchronous computations and can be in one of three states: pending, fulfilled, or rejected.</p>
+</li>
+<li><p><code>PromiseGeneratorWithInputs</code>: Similar to <code>PromiseGenerator</code>, but the returned function takes an array of inputs.</p>
+</li>
+<li><p><code>BeforeRunPromiseGenerator</code>, <code>AfterEachTaskPromiseGenerator</code>, <code>AfterEachTaskGroupPromiseGenerator</code>, <code>AfterRunPromiseGenerator</code>: These are simply aliases for the previously defined types. Their names suggest their intended use in a workflow engine, for example, to generate promises that should be resolved before running a task, after each task, after each group of tasks, and after all tasks have been run, respectively.</p>
+</li>
+<li><p><code>WorkflowEngineOptions</code>: This is an interface that defines a shape for an options object that can be passed to a Workflow Engine. The options include:</p>
+<ul>
+<li><code>beforeRun</code>, <code>afterEachTask</code>, <code>afterEachTaskGroup</code>, <code>afterRun</code>: These are arrays of functions that return promises, which can be used to perform setup and teardown operations around tasks and groups of tasks.</li>
+<li><code>pattern</code>: An array of numbers, possibly used to determine the order in which tasks are run.</li>
+<li><code>logger</code>: An object used for logging, its type is not specified.</li>
+<li><code>maxRetries</code>: The maximum number of times a task should be retried on failure.</li>
+<li><code>name</code>: The name of the workflow.</li>
+</ul>
+</li>
+</ol>
+<p>The code does not include any specific algorithms, but it sets up the types and structures for a workflow engine that could be used to orchestrate complex asynchronous tasks. This type of engine could be used in a variety of contexts, such as processing user requests in a web server, running tasks in a build system, or orchestrating microservices in a distributed system.</p>
+<p>For more information on Promises and asynchronous programming in JavaScript, you can refer to the following resources:</p>
+<ul>
+<li>Promises: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise</a></li>
+<li>Asynchronous Programming: <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous">https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous</a></li>
+</ul>
+<p>For more information on TypeScript types and interfaces, you can refer to the official TypeScript documentation:</p>
+<ul>
+<li>TypeScript Types: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html">https://www.typescriptlang.org/docs/handbook/basic-types.html</a></li>
+<li>TypeScript Interfaces: <a href="https://www.typescriptlang.org/docs/handbook/interfaces.html">https://www.typescriptlang.org/docs/handbook/interfaces.html</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:50:35 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style BeforeRun fill:#228B22, stroke:#000000, stroke-width:2px;
+style AfterEachTask fill:#228B22, stroke:#000000, stroke-width:2px;
+style AfterEachTaskGroup fill:#228B22, stroke:#000000, stroke-width:2px;
+style AfterRun fill:#228B22, stroke:#000000, stroke-width:2px;
+
+Start-->BeforeRun;
+BeforeRun-->AfterEachTask;
+AfterEachTask-->AfterEachTaskGroup;
+AfterEachTaskGroup-->AfterRun;</pre>
+</code></pre><p>The control flow graph for the given source code is a simple linear flow from the start to the end. There are no control flow decisions or external library calls in the provided code.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:52:23 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:53:07 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:55:37 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/workflow_engine.ts line 52:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">getElapsedTime</span>(<span class="hljs-params">startTime: <span class="hljs-built_in">number</span></span>): <span class="hljs-built_in">string</span> {
+    <span class="hljs-keyword">const</span> elapsedMilliseconds = <span class="hljs-title class_">Date</span>.<span class="hljs-title function_">now</span>() - startTime;
+    <span class="hljs-keyword">const</span> elapsedSeconds = elapsedMilliseconds / <span class="hljs-number">1000</span>;
+
+    <span class="hljs-keyword">if</span> (elapsedSeconds &lt; <span class="hljs-number">110</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${elapsedSeconds.toFixed(<span class="hljs-number">2</span>)}</span> secs`</span>;
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">const</span> elapsedMinutes = elapsedSeconds / <span class="hljs-number">60</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${elapsedMinutes.toFixed(<span class="hljs-number">2</span>)}</span> mins`</span>;
+    }
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:48:01 AM PDT</p>
+<p>The provided code is a TypeScript function named <code>getElapsedTime</code>. It calculates and returns the elapsed time, in either seconds or minutes, since a given start time.</p>
+<p>Here&#39;s a detailed breakdown of the function:</p>
+<ol>
+<li><p>The function <code>getElapsedTime</code> accepts one parameter, <code>startTime</code>, which is of type <code>number</code>. This parameter represents the start time in milliseconds since the UNIX epoch (January 1, 1970). </p>
+</li>
+<li><p>The first line within the function calculates the elapsed time in milliseconds by subtracting the <code>startTime</code> from the current time (obtained by <code>Date.now()</code>). <code>Date.now()</code> returns the current time in milliseconds since the UNIX epoch.</p>
+</li>
+<li><p>The next line converts the elapsed time from milliseconds to seconds by dividing by 1000 (since there are 1000 milliseconds in one second).</p>
+</li>
+<li><p>An <code>if</code> statement checks if the elapsed time in seconds is less than 110. If it is, the function returns the elapsed time in seconds, formatted as a string with two decimal places (e.g., &quot;10.50 secs&quot;). </p>
+</li>
+<li><p>If the elapsed time in seconds is 110 or more, the function calculates the elapsed time in minutes by dividing the elapsed seconds by 60 (since there are 60 seconds in one minute) and returns it as a string with two decimal places (e.g., &quot;1.83 mins&quot;).</p>
+</li>
+</ol>
+<p>This function does not use any specific algorithms but is a simple calculation and conversion function. It uses basic arithmetic operations and control flow statements, which are fundamental building blocks in programming.</p>
+<p>The code adheres to the architectural guidelines provided in the blueprint summary. It uses TypeScript, which aligns with the software principles of the project. The function is straightforward and does not involve any complex operations that might affect performance or security.</p>
+<p>For more information on the methods and concepts used in this function, you can refer to the following resources:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now">Date.now()</a>: This link provides more information on the <code>Date.now()</code> method in JavaScript, which returns the number of milliseconds elapsed since January 1, 1970 00:00:00 UTC.</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed">toFixed()</a>: This link provides more information on the <code>toFixed()</code> method in JavaScript, which formats a number using fixed-point notation.</li>
+<li><a href="https://www.typescriptlang.org/docs/">TypeScript</a>: This link provides more information on TypeScript, the programming language used in this code.</li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:51:11 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->A;
+A-->B;
+B-->C;
+C-->D;
+D-->E;
+E-->F;
+F-->G;
+G-->H;
+H-->I;
+I-->J;
+J-->K;
+K-->L;
+L-->M;
+M-->N;
+N-->O;
+O-->P;
+P-->Q;
+Q-->R;
+R-->S;
+S-->T;
+T-->U;
+U-->V;
+V-->W;
+W-->X;
+X-->Y;
+Y-->Z;
+Z-->End;
+
+style A fill:#228B22, stroke:#000000, stroke-width:4px;
+style B fill:#228B22, stroke:#000000, stroke-width:4px;
+style C fill:#228B22, stroke:#000000, stroke-width:4px;
+style D fill:#228B22, stroke:#000000, stroke-width:4px;
+style E fill:#228B22, stroke:#000000, stroke-width:4px;
+style F fill:#228B22, stroke:#000000, stroke-width:4px;
+style G fill:#228B22, stroke:#000000, stroke-width:4px;
+style H fill:#228B22, stroke:#000000, stroke-width:4px;
+style I fill:#228B22, stroke:#000000, stroke-width:4px;
+style J fill:#228B22, stroke:#000000, stroke-width:4px;
+style K fill:#228B22, stroke:#000000, stroke-width:4px;
+style L fill:#228B22, stroke:#000000, stroke-width:4px;
+style M fill:#228B22, stroke:#000000, stroke-width:4px;
+style N fill:#228B22, stroke:#000000, stroke-width:4px;
+style O fill:#228B22, stroke:#000000, stroke-width:4px;
+style P fill:#228B22, stroke:#000000, stroke-width:4px;
+style Q fill:#228B22, stroke:#000000, stroke-width:4px;
+style R fill:#228B22, stroke:#000000, stroke-width:4px;
+style S fill:#228B22, stroke:#000000, stroke-width:4px;
+style T fill:#228B22, stroke:#000000, stroke-width:4px;
+style U fill:#228B22, stroke:#000000, stroke-width:4px;
+style V fill:#228B22, stroke:#000000, stroke-width:4px;
+style W fill:#228B22, stroke:#000000, stroke-width:4px;
+style X fill:#228B22, stroke:#000000, stroke-width:4px;
+style Y fill:#228B22, stroke:#000000, stroke-width:4px;
+style Z fill:#228B22, stroke:#000000, stroke-width:4px;
+style End fill:#228B22, stroke:#000000, stroke-width:2px;</pre>
+</code></pre><p>The control flow graph for the given code is as follows:</p>
+<pre><code>getElapsedTime--&gt;A;
+A--&gt;B;
+B--&gt;C;
+C--&gt;D;
+D--&gt;E;
+E--&gt;F;
+F--&gt;G;
+G--&gt;H;
+H--&gt;I;
+I--&gt;J;
+J--&gt;K;
+K--&gt;L;
+L--&gt;M;
+M--&gt;N;
+N--&gt;O;
+O--&gt;P;
+P--&gt;Q;
+Q--&gt;R;
+R--&gt;S;
+S--&gt;T;
+T--&gt;U;
+U--&gt;V;
+V--&gt;W;
+W--&gt;X;
+X--&gt;Y;
+Y--&gt;Z;
+Z--&gt;End;
+</code></pre><p>This code has a linear control flow with no branching or loops. The primary path through the code is from the start of the function <code>getElapsedTime</code> to the end.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:52:27 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:53:11 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:55:41 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/workflow_engine.ts line 64:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getFormattedDate</span>(<span class="hljs-params"></span>): <span class="hljs-title">string</span> </span>{
+    <span class="hljs-keyword">const</span> <span class="hljs-built_in">date</span> = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
+    <span class="hljs-keyword">const</span> year = <span class="hljs-built_in">date</span>.getFullYear();
+    <span class="hljs-keyword">const</span> month = <span class="hljs-built_in">String</span>(<span class="hljs-built_in">date</span>.getMonth() + <span class="hljs-number">1</span>).padStart(<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;0&#x27;</span>); <span class="hljs-comment">// months are 0-based in JS</span>
+    <span class="hljs-keyword">const</span> day = <span class="hljs-built_in">String</span>(<span class="hljs-built_in">date</span>.getDate()).padStart(<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;0&#x27;</span>);
+    <span class="hljs-keyword">const</span> hours = <span class="hljs-built_in">String</span>(<span class="hljs-built_in">date</span>.getHours()).padStart(<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;0&#x27;</span>);
+    <span class="hljs-keyword">const</span> minutes = <span class="hljs-built_in">String</span>(<span class="hljs-built_in">date</span>.getMinutes()).padStart(<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;0&#x27;</span>);
+    <span class="hljs-keyword">const</span> seconds = <span class="hljs-built_in">String</span>(<span class="hljs-built_in">date</span>.getSeconds()).padStart(<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;0&#x27;</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${year}</span>-<span class="hljs-subst">${month}</span>-<span class="hljs-subst">${day}</span> <span class="hljs-subst">${hours}</span>:<span class="hljs-subst">${minutes}</span>:<span class="hljs-subst">${seconds}</span>`</span>;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:48:46 AM PDT</p>
+<p>This JavaScript function, <code>getFormattedDate()</code>, is used to get the current date and time in a specific format. It doesn&#39;t seem to use any complex algorithms, just basic JavaScript Date object methods and string manipulation methods.</p>
+<p>Here&#39;s a line by line breakdown of the code:</p>
+<ol>
+<li><p><code>const date = new Date();</code> - This line creates a new Date object with the current date and time.</p>
+</li>
+<li><p><code>const year = date.getFullYear();</code> - This line gets the full year (4 digits for 4-digit years) from the Date object.</p>
+</li>
+<li><p><code>const month = String(date.getMonth() + 1).padStart(2, &#39;0&#39;);</code> - This line gets the month from the Date object, adds 1 to it (because getMonth() returns a 0-based value, where 0 represents January), converts it to a string, and then uses the <code>padStart()</code> method to ensure it&#39;s always 2 digits long, padding with &#39;0&#39; if necessary.</p>
+</li>
+<li><p><code>const day = String(date.getDate()).padStart(2, &#39;0&#39;);</code> - This line gets the day of the month from the Date object, converts it to a string, and then uses the <code>padStart()</code> method to ensure it&#39;s always 2 digits long, padding with &#39;0&#39; if necessary.</p>
+</li>
+<li><p><code>const hours = String(date.getHours()).padStart(2, &#39;0&#39;);</code> - This line gets the hours from the Date object, converts it to a string, and then uses the <code>padStart()</code> method to ensure it&#39;s always 2 digits long, padding with &#39;0&#39; if necessary.</p>
+</li>
+<li><p><code>const minutes = String(date.getMinutes()).padStart(2, &#39;0&#39;);</code> - This line gets the minutes from the Date object, converts it to a string, and then uses the <code>padStart()</code> method to ensure it&#39;s always 2 digits long, padding with &#39;0&#39; if necessary.</p>
+</li>
+<li><p><code>const seconds = String(date.getSeconds()).padStart(2, &#39;0&#39;);</code> - This line gets the seconds from the Date object, converts it to a string, and then uses the <code>padStart()</code> method to ensure it&#39;s always 2 digits long, padding with &#39;0&#39; if necessary.</p>
+</li>
+<li><p><code>return </code>${year}-${month}-${day} ${hours}:${minutes}:${seconds}<code>;</code> - This line returns a string with the formatted date and time in the format &#39;YYYY-MM-DD HH:MM:SS&#39;.</p>
+</li>
+</ol>
+<p>The code follows standard JavaScript practices and does not seem to conflict with any architectural guidelines. </p>
+<p>For more information on the JavaScript Date object and its methods, you can refer to this link: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">JavaScript Date</a></p>
+<p>For more information on the <code>padStart()</code> method, you can refer to this link: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart">padStart()</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:51:15 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->ExampleProcess;</pre>
+</code></pre><pre><code>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:52:30 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:53:15 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:55:44 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/workflow_engine.ts line 76:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+export <span class="hljs-keyword">class</span> <span class="hljs-title class_">WorkflowEngine</span> {
+    <span class="hljs-keyword">private</span> beforeRun: BeforeRunPromiseGenerator[];
+    <span class="hljs-keyword">private</span> tasks: PromiseGenerator[];
+    <span class="hljs-keyword">private</span> afterEachTask: AfterEachTaskPromiseGenerator[];
+    <span class="hljs-keyword">private</span> afterEachTaskGroup: AfterEachTaskGroupPromiseGenerator[];
+    <span class="hljs-keyword">private</span> afterRun: AfterRunPromiseGenerator[];
+    <span class="hljs-keyword">private</span> pattern: number[];
+    <span class="hljs-keyword">private</span> aborted: boolean = <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">private</span> canceled: boolean = <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">private</span> logger: any;
+    <span class="hljs-keyword">private</span> maxRetries: number;
+    <span class="hljs-keyword">private</span> retryCounts: Map&lt;PromiseGenerator, number&gt; = new Map(); <span class="hljs-comment">// To keep track of retries for each promise generator</span>
+    <span class="hljs-keyword">private</span> id: string = uuidv4();
+
+    <span class="hljs-comment">// tasks WILL be modified by the workflow engine - intentionally, enabling processing of the</span>
+    <span class="hljs-comment">//      tasks to be stopped and restarted across runs</span>
+    <span class="hljs-keyword">constructor</span>(tasks: PromiseGenerator[], options: WorkflowEngineOptions = {}) {
+        <span class="hljs-keyword">this</span>.beforeRun = options.beforeRun || [];
+        <span class="hljs-keyword">this</span>.tasks = tasks;
+        <span class="hljs-keyword">this</span>.afterEachTask = options.afterEachTask || [];
+        <span class="hljs-keyword">this</span>.afterEachTaskGroup = options.afterEachTaskGroup || [];
+        <span class="hljs-keyword">this</span>.afterRun = options.afterRun || [];
+        <span class="hljs-keyword">this</span>.pattern = options.pattern || [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">8</span>, <span class="hljs-number">16</span>];
+        <span class="hljs-comment">//default to a no-op function for logger if none is provided</span>
+        <span class="hljs-keyword">this</span>.logger = options.logger || undefined;
+        <span class="hljs-keyword">this</span>.maxRetries = options.maxRetries || <span class="hljs-number">5</span>;
+        <span class="hljs-keyword">this</span>.id = options.name || <span class="hljs-keyword">this</span>.id;
+
+        <span class="hljs-keyword">this</span>.logger?.debug(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):created`);
+    }
+
+    <span class="hljs-keyword">public</span> async run() : Promise&lt;any[]&gt; {
+        <span class="hljs-keyword">this</span>.aborted = <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">this</span>.canceled = <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">const</span> overallStartTime = Date.now();
+        let startTime = Date.now();
+        let allResults: any[] = [];
+
+        <span class="hljs-keyword">this</span>.logger?.debug(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):Run starting`);
+
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">this</span>.logger?.info(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):beforeRun:starting`);
+
+            await <span class="hljs-keyword">this</span>.executePromises(<span class="hljs-keyword">this</span>.beforeRun);
+
+            <span class="hljs-keyword">this</span>.logger?.info(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):beforeRun:finished:success:${getElapsedTime(startTime)}`);
+
+        } <span class="hljs-keyword">catch</span> (error) {
+
+            <span class="hljs-keyword">this</span>.logger?.error(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):beforeRun:finished:error:${getElapsedTime(startTime)}:${error}`);
+
+            allResults.push(error);
+            <span class="hljs-keyword">return</span> allResults;
+        }
+
+        let patternIndex = <span class="hljs-number">0</span>;
+        let groupIndex = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">while</span> (<span class="hljs-keyword">this</span>.tasks.length &gt; <span class="hljs-number">0</span> &amp;&amp; !<span class="hljs-keyword">this</span>.aborted &amp;&amp; !<span class="hljs-keyword">this</span>.canceled) {
+            <span class="hljs-keyword">const</span> groupSize =
+                <span class="hljs-keyword">this</span>.pattern[patternIndex] ||
+                <span class="hljs-keyword">this</span>.pattern[<span class="hljs-keyword">this</span>.pattern.length - <span class="hljs-number">1</span>]; <span class="hljs-comment">// Use the last group size if we&#x27;ve exceeded the pattern</span>
+
+            <span class="hljs-keyword">const</span> taskGroupId = `ring-${groupIndex}-size-${groupSize}`;
+
+            <span class="hljs-keyword">this</span>.logger?.info(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):${taskGroupId}:starting`);
+
+            let groupResults: any[] = [];
+
+            <span class="hljs-keyword">for</span> (let i = <span class="hljs-number">0</span>; i &lt; groupSize &amp;&amp; <span class="hljs-keyword">this</span>.tasks.length &gt; <span class="hljs-number">0</span> &amp;&amp; !<span class="hljs-keyword">this</span>.canceled; i++) {
+                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.aborted) {
+                    <span class="hljs-keyword">return</span> allResults;
+                }
+                <span class="hljs-keyword">const</span> promiseGenerator = <span class="hljs-keyword">this</span>.tasks.shift()!;
+                <span class="hljs-keyword">const</span> promise = promiseGenerator();
+                <span class="hljs-keyword">if</span> (!promise.name) {
+                    <span class="hljs-keyword">this</span>.logger?.debug(`Workflow(${<span class="hljs-keyword">this</span>.id}):${taskGroupId}:task-${i}:no-name`);
+                }
+                <span class="hljs-keyword">const</span> taskId = promise.name || uuidv4();
+                <span class="hljs-keyword">try</span> {
+                    <span class="hljs-keyword">this</span>.logger?.info(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):${taskGroupId}:task-${taskId}:starting`);
+
+                    let result = await promise();
+
+                    <span class="hljs-keyword">this</span>.logger?.info(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):${taskGroupId}:task-${taskId}:finished:success:${getElapsedTime(startTime)}`);
+
+                    groupResults.push(result);
+
+                    startTime = Date.now();
+                    <span class="hljs-keyword">try</span> {
+                        <span class="hljs-keyword">this</span>.logger?.info(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):${taskGroupId}:task-${taskId}:afterEachTask:starting`);
+            
+                        await <span class="hljs-keyword">this</span>.executePromisesWithInputs(<span class="hljs-keyword">this</span>.afterEachTask, [
+                            result,
+                        ]);
+
+                        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.retryCounts.has(promiseGenerator)) {
+                            <span class="hljs-keyword">this</span>.logger?.info(
+                                `${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):${taskGroupId}:task-${taskId}:afterEachTask:finished:success:afterRetries=${<span class="hljs-keyword">this</span>.retryCounts.<span class="hljs-keyword">get</span>(promiseGenerator)}:${getElapsedTime(startTime)}`);
+
+                            <span class="hljs-keyword">this</span>.retryCounts.delete(promiseGenerator);
+                        } <span class="hljs-keyword">else</span> {
+                            <span class="hljs-keyword">this</span>.logger?.info(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):${taskGroupId}:task-${taskId}:afterEachTask:finished:success:${getElapsedTime(startTime)}`);
+                        }
+                        
+                    } <span class="hljs-keyword">catch</span> (error) {
+                        <span class="hljs-keyword">this</span>.logger?.error(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):${taskGroupId}:task-${taskId}:afterEachTask:finished:error:${getElapsedTime(startTime)}:${error}`);
+                        allResults.push(error);
+                    }
+
+                } <span class="hljs-keyword">catch</span> (error) {
+                    <span class="hljs-comment">// default to retry with generic error</span>
+                    let errorType = <span class="hljs-string">&quot;retry&quot;</span>;
+
+                    <span class="hljs-comment">// otherwise use the workflow specific requested retry logic</span>
+                    <span class="hljs-keyword">if</span> (error instanceof WorkflowError) {
+                        errorType = error.type;
+                    }
+                    
+                    switch (errorType) {
+                        case <span class="hljs-string">&quot;retry&quot;</span>:
+                            <span class="hljs-keyword">const</span> currentRetries =
+                                <span class="hljs-keyword">this</span>.retryCounts.<span class="hljs-keyword">get</span>(promiseGenerator) || <span class="hljs-number">0</span>;
+                            <span class="hljs-keyword">if</span> (currentRetries &lt; <span class="hljs-keyword">this</span>.maxRetries + <span class="hljs-number">1</span>) {
+                                <span class="hljs-keyword">this</span>.retryCounts.<span class="hljs-keyword">set</span>(
+                                    promiseGenerator,
+                                    currentRetries + <span class="hljs-number">1</span>
+                                );
+                                <span class="hljs-keyword">this</span>.tasks.push(promiseGenerator);
+
+                                <span class="hljs-comment">// we need to retry this iteration of the loop</span>
+                                <span class="hljs-comment">//    so we don&#x27;t accidentally break out of the group</span>
+                                i--;
+                            } <span class="hljs-keyword">else</span> {
+
+                                <span class="hljs-comment">// report the error (after max-retries) as the result of the operation</span>
+                                groupResults.push(error);
+
+                                <span class="hljs-keyword">this</span>.logger?.error(
+                                    `${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):${taskGroupId}:task-${taskId}:Max retries reached; Skipping.`
+                                );
+                                <span class="hljs-keyword">this</span>.retryCounts.delete(promiseGenerator);
+                            }
+                            <span class="hljs-keyword">break</span>;
+                        case <span class="hljs-string">&quot;skip&quot;</span>:
+                            <span class="hljs-keyword">this</span>.logger?.info(
+                                `${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):${taskGroupId}:task-${taskId}:Skipping due to ${(error <span class="hljs-keyword">as</span> Error).message}`
+                            );
+                            <span class="hljs-keyword">this</span>.retryCounts.delete(promiseGenerator);
+
+                            groupResults.push(error);
+
+                            <span class="hljs-comment">// Just skip and continue</span>
+                            <span class="hljs-keyword">break</span>;
+
+                            <span class="hljs-comment">// abort will immediately exit the entire workflow process</span>
+                        case <span class="hljs-string">&quot;abort&quot;</span>:
+                            <span class="hljs-keyword">this</span>.logger?.error(
+                                `${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):${taskGroupId}:task-${taskId}:Aborting workflow due to ${(error <span class="hljs-keyword">as</span> Error).message}`
+                            );
+                            <span class="hljs-keyword">this</span>.retryCounts.delete(promiseGenerator);
+                            <span class="hljs-keyword">this</span>.abort();
+
+                            <span class="hljs-comment">// report the error (after abort) as the result of the operation</span>
+                            groupResults.push(error);
+                            allResults.push(groupResults);
+
+                            <span class="hljs-keyword">return</span> allResults; <span class="hljs-comment">// Exit the function immediately</span>
+
+                            <span class="hljs-comment">// cancel will only cancel the current task and group, but still perform end of group</span>
+                            <span class="hljs-comment">//      and end of workflow tasks</span>
+                        case <span class="hljs-string">&quot;cancel&quot;</span>:
+                            <span class="hljs-keyword">this</span>.logger?.error(
+                                `${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):${taskGroupId}:task-${taskId}:Canceling tasks due to ${(error <span class="hljs-keyword">as</span> Error).message}`
+                            );
+                            <span class="hljs-keyword">this</span>.retryCounts.delete(promiseGenerator);
+                            <span class="hljs-keyword">this</span>.cancel();
+
+                            <span class="hljs-comment">// note that this task was canceled</span>
+                            groupResults.push(error);
+                    }
+                }
+            }
+
+            startTime = Date.now();
+            <span class="hljs-keyword">try</span> {
+                <span class="hljs-keyword">this</span>.logger?.info(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):${taskGroupId}:afterEachTaskGroup:starting`);
+    
+                await <span class="hljs-keyword">this</span>.executePromisesWithInputs(
+                    <span class="hljs-keyword">this</span>.afterEachTaskGroup,
+                    groupResults
+                );
+        
+                <span class="hljs-keyword">this</span>.logger?.info(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):${taskGroupId}:afterEachTaskGroup:finished:success:${getElapsedTime(startTime)}`);
+                
+            } <span class="hljs-keyword">catch</span> (error) {
+                <span class="hljs-keyword">this</span>.logger?.error(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):${taskGroupId}:afterEachTaskGroup:finished:error:${getElapsedTime(startTime)}:${error}`);
+                allResults.push(error);
+            }
+    
+            <span class="hljs-comment">// Move to the next group size if available</span>
+            <span class="hljs-keyword">if</span> (patternIndex &lt; <span class="hljs-keyword">this</span>.pattern.length - <span class="hljs-number">1</span>) {
+                patternIndex++;
+            }
+            allResults.push(groupResults);
+            groupIndex++;
+        }
+
+        startTime = Date.now();
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">this</span>.logger?.info(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):afterRun:starting`);
+
+            await <span class="hljs-keyword">this</span>.executePromisesWithInputs(<span class="hljs-keyword">this</span>.afterRun, allResults);
+
+            <span class="hljs-keyword">this</span>.logger?.info(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):afterRun:finished:success:${getElapsedTime(startTime)}`);
+            
+        } <span class="hljs-keyword">catch</span> (error) {
+            <span class="hljs-keyword">this</span>.logger?.error(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):afterRun:finished:error:${getElapsedTime(startTime)}:${error}`);
+            allResults.push(error);
+        }
+
+        <span class="hljs-keyword">this</span>.logger?.info(`${getFormattedDate()}:Workflow(${<span class="hljs-keyword">this</span>.id}):Run ended:${getElapsedTime(overallStartTime)}`);
+
+        <span class="hljs-keyword">return</span> allResults;
+    }
+
+    <span class="hljs-comment">// return 0 if no retries, or the first retry count</span>
+    <span class="hljs-comment">// this assumes the number of active tasks is 0 or 1</span>
+    <span class="hljs-keyword">get</span> currentTaskRetries() : number {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.retryCounts.size === <span class="hljs-number">0</span>) {
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.retryCounts.values().next().value;
+        }
+    }
+
+    <span class="hljs-keyword">public</span> abort() {
+        <span class="hljs-keyword">this</span>.aborted = <span class="hljs-literal">true</span>;
+    }
+
+    <span class="hljs-keyword">public</span> cancel() {
+        <span class="hljs-keyword">this</span>.canceled = <span class="hljs-literal">true</span>;
+    }
+
+    <span class="hljs-keyword">private</span> async executePromises(promiseGenerators: PromiseGenerator[]) {
+        <span class="hljs-keyword">for</span> (let generatorFactory of promiseGenerators) {
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.aborted) {
+                <span class="hljs-keyword">return</span>;
+            }
+            <span class="hljs-keyword">const</span> generator = generatorFactory();
+            await generator();
+        }
+    }
+
+    <span class="hljs-keyword">private</span> async executePromisesWithInputs(
+        promiseGenerators: PromiseGeneratorWithInputs[],
+        inputs: any[]
+    ) {
+        <span class="hljs-keyword">for</span> (let generatorFactory of promiseGenerators) {
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.aborted) {
+                <span class="hljs-keyword">return</span>;
+            }
+            <span class="hljs-keyword">const</span> generator = generatorFactory();
+            await generator(inputs);
+        }
+    }
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:49:27 AM PDT</p>
+<p>This code defines a class <code>WorkflowEngine</code> that manages the execution of tasks in a workflow. The tasks are represented as promises, and the engine provides functionality for executing these tasks in a specific order and handling errors and retries.</p>
+<p>The <code>WorkflowEngine</code> class has several private properties:</p>
+<ul>
+<li><code>beforeRun</code>, <code>afterEachTask</code>, <code>afterEachTaskGroup</code>, and <code>afterRun</code> are arrays of promise generators that represent tasks to be executed at different stages of the workflow.</li>
+<li><code>tasks</code> is an array of promises that represent the main tasks of the workflow.</li>
+<li><code>pattern</code> is an array of numbers that defines the group sizes for executing the tasks.</li>
+<li><code>aborted</code> and <code>canceled</code> are boolean flags that indicate whether the workflow has been aborted or canceled.</li>
+<li><code>logger</code> is an object used for logging.</li>
+<li><code>maxRetries</code> is the maximum number of retries for a task.</li>
+<li><code>retryCounts</code> is a map that keeps track of the number of retries for each task.</li>
+<li><code>id</code> is a unique identifier for the workflow.</li>
+</ul>
+<p>The constructor initializes these properties based on the provided tasks and options.</p>
+<p>The <code>run</code> method is the main method of the class. It executes the workflow by running the tasks in the order defined by the <code>pattern</code> array. It also handles errors and retries. If an error occurs during the execution of a task, the engine will retry the task up to <code>maxRetries</code> times. If the maximum number of retries is reached, the engine will skip the task and continue with the next one. If a task throws a <code>WorkflowError</code> with a type of &quot;abort&quot;, the engine will abort the entire workflow. If the error type is &quot;cancel&quot;, the engine will cancel the current task and group, but still perform end-of-group and end-of-workflow tasks.</p>
+<p>The <code>executePromises</code> and <code>executePromisesWithInputs</code> methods are helper methods that execute an array of promise generators, optionally with inputs. They also check the <code>aborted</code> flag before each execution, and return immediately if the workflow has been aborted.</p>
+<p>The <code>abort</code> and <code>cancel</code> methods set the <code>aborted</code> and <code>canceled</code> flags, respectively.</p>
+<p>The <code>currentTaskRetries</code> getter returns the number of retries for the current task.</p>
+<p>The algorithm used in this code is a kind of task scheduling algorithm, where tasks are grouped and executed in a specific order, with error handling and retries. It&#39;s a common pattern in workflow management systems.</p>
+<p>Here are some links for further reading:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Scheduling_(computing)">Task scheduling</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling">Error handling in JavaScript</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">UUID</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:51:56 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->beforeRun;
+beforeRun-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask-->afterEachTaskGroup;
+afterEachTaskGroup-->afterRun;
+afterRun-->Run;
+Run-->executePromises;
+executePromises-->afterEachTask;
+afterEachTask</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:52:35 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:53:52 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 152</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The <code>beforeRun</code>, <code>afterEachTask</code>, <code>afterEachTaskGroup</code>, <code>afterRun</code> arrays are stored in memory for the entire life of the <code>WorkflowEngine</code> instance. If these arrays are large, this could lead to high memory usage.</p>
+<p><strong>Solution</strong>: Consider using a data structure that allows for more efficient memory usage, such as a linked list or a generator function.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 183</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The <code>shift()</code> operation is used to remove tasks from the <code>tasks</code> array. This operation has a time complexity of O(n), which can lead to increased CPU usage when the array is large.</p>
+<p><strong>Solution</strong>: Consider using a dequeue or queue data structure for the <code>tasks</code> array to allow for constant time removal of tasks.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 187</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The <code>promiseGenerator()</code> function is called twice, which could lead to unnecessary computation if the function is expensive.</p>
+<p><strong>Solution</strong>: Store the result of the <code>promiseGenerator()</code> function in a variable and reuse it.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 235</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The <code>allResults</code> array stores all results from the tasks. If the results are large, this could lead to high memory usage.</p>
+<p><strong>Solution</strong>: Consider using a streaming approach or writing the results to a file or database instead of storing them all in memory.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 223</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The retry logic can lead to a large number of retries if tasks frequently fail, which can lead to increased CPU usage.</p>
+<p><strong>Solution</strong>: Consider implementing a backoff strategy to reduce the number of retries when tasks frequently fail.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 1:56:17 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 150</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;id&#39; field in the WorkflowEngine class is generated using a UUID, which could potentially be used to identify a user. This could be a violation of GDPR if the &#39;id&#39; is linked to a specific user and is not anonymized or pseudonymized.</p>
+<p><strong>Solution</strong>: Ensure that the &#39;id&#39; is not linked to a specific user or is properly anonymized or pseudonymized. Consider using a different method for generating the &#39;id&#39; that does not risk identifying a user.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 150</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The WorkflowEngine class does not appear to have any data encryption or secure data handling methods. This could be a violation of PCI DSS if the WorkflowEngine is used to process, store, or transmit cardholder data.</p>
+<p><strong>Solution</strong>: Implement data encryption and secure data handling methods. Ensure that cardholder data is properly protected according to PCI DSS requirements.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 150</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The WorkflowEngine class does not appear to have any data encryption or secure data handling methods. This could be a violation of HIPAA if the WorkflowEngine is used to process, store, or transmit protected health information (PHI).</p>
+<p><strong>Solution</strong>: Implement data encryption and secure data handling methods. Ensure that PHI is properly protected according to HIPAA requirements.</p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>

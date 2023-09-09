@@ -13,6 +13,69 @@
             "outputType": "explainCode",
             "details": []
           }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 10:26:58 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->ExampleProcess;\n```\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:27:05 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:27:26 PM PDT\n\n1. **Severity**: 3/10\n\n   **Line Number**: 2\n\n   **Bug Type**: CPU\n\n   **Description**: The test timeout is set to be 20 seconds. This could potentially slow down the entire test suite if each test is allowed to run for this long.\n\n   **Solution**: Consider reducing the test timeout or use a more efficient test design to ensure tests complete within a reasonable time frame.\n\n\n2. **Severity**: 2/10\n\n   **Line Number**: 5\n\n   **Bug Type**: CPU\n\n   **Description**: The use of `console.warn` could potentially slow down the execution of the test, especially if the output is large or if the console output is redirected to a slow device.\n\n   **Solution**: Consider using a logging framework that can handle large amounts of data more efficiently, or only log necessary information.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 3,
+                "severity": 3,
+                "bugType": "CPU",
+                "description": "The test timeout is set to be 20 seconds. This could potentially slow down the entire test suite if each test is allowed to run for this long.",
+                "solution": "Consider reducing the test timeout or use a more efficient test design to ensure tests complete within a reasonable time frame."
+              },
+              {
+                "lineNumber": 6,
+                "severity": 2,
+                "bugType": "CPU",
+                "description": "The use of `console.warn` could potentially slow down the execution of the test, especially if the output is large or if the console output is redirected to a slow device.",
+                "solution": "Consider using a logging framework that can handle large amounts of data more efficiently, or only log necessary information."
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 10:27:38 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
         }
       ],
       "languageId": "typescript",

@@ -1,0 +1,81 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 6:18:18 PM PDT\n\nThe code you provided is written in TypeScript, which is a statically typed superset of JavaScript that adds types to the language. \n\nThis code defines a custom exception class named `IncompatibleVersionException` that extends the built-in `Error` class in JavaScript. Custom exceptions are useful for creating specific error types that can be caught and handled separately from other errors.\n\nHere's a breakdown of the code:\n\n- `export class IncompatibleVersionException extends Error`: This line is declaring a class named `IncompatibleVersionException` that inherits from the `Error` class. The `export` keyword is used to make this class available to other modules in the application.\n\n- `constructor(message?: string, expectedVersion?: string, actualVersion?: string)`: This is the constructor of the class, which is a special method that is used to create and initialize an object created from a class. It takes three optional parameters: `message`, `expectedVersion`, and `actualVersion`. The `?` after each parameter name indicates that the parameter is optional.\n\n- `super(message);`: This line is calling the constructor of the parent `Error` class with the `message` parameter. The `super` keyword is used to call methods on a parent class.\n\n- `this.name = 'IncompatibleVersionException';`: This line is setting the `name` property of the error to the string `'IncompatibleVersionException'`. This can be useful when logging or handling errors, as it allows you to determine the type of the error.\n\n- `this.expectedVersion = expectedVersion?expectedVersion:\"\";`: This line is setting the `expectedVersion` property of the error. If `expectedVersion` is provided, it will be used; otherwise, the property will be set to an empty string.\n\n- `this.actualVersion = actualVersion?actualVersion:\"\";`: This line is setting the `actualVersion` property of the error in the same way.\n\n- `expectedVersion: string; actualVersion: string;`: These lines are declaring two string properties on the class: `expectedVersion` and `actualVersion`.\n\nThis code does not appear to conflict with any architectural guidelines. It follows best practices for defining custom exceptions in TypeScript.\n\nFor more information about classes in TypeScript, you can refer to this link: [TypeScript Classes](https://www.typescriptlang.org/docs/handbook/2/classes.html) \n\nAnd for more information about errors and exceptions in JavaScript, you can refer to this link: [JavaScript Errors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 6:18:27 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExampleErrorPath-->End;\n```\n\nThe code provided does not have any control flow."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:18:34 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:18:43 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:18:54 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "export class IncompatibleVersionException extends Error {\n    constructor(\n        message?: string,\n        expectedVersion?: string,\n        actualVersion?: string) {\n      super(message);\n      this.name = 'IncompatibleVersionException';\n      this.expectedVersion = expectedVersion?expectedVersion:\"\";\n      this.actualVersion = actualVersion?actualVersion:\"\";\n    }\n    expectedVersion: string;\n    actualVersion: string;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/data/incompatibleVersionException.ts"
+  }
+}

@@ -1,0 +1,1883 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; mermaid.initialize({ startOnLoad: true });</script>
+    <style>
+        @page {
+            margin: 2cm;
+            size: letter;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            border-bottom: 2px solid #666;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.0;
+            overflow-x: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        /* Use this class for analysis sections */
+        .analysis-section {
+            padding-top: 16px;
+            margin-top: 24px;
+            font-size: 12px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .new-page-section {
+            page-break-before: always;
+        }
+
+        .analysis-section h1, .analysis-section h2 {
+            color: #444;
+        }
+
+        .analysis-section p {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Polyverse Boost Source Analysis Details: ./src/utilities/files.ts</h1>
+    <p>Date Generated: Saturday, September 9, 2023 at 5:21:23 AM PDT</p>
+    <div class="><hr>
+<h3 id="boost-architectural-quick-summary-security-report">Boost Architectural Quick Summary Security Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:12:54 AM PDT</p>
+<p>Executive Level Report:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The software project is primarily composed of a single file, <code>src/utilities/files.ts</code>, which has been flagged with several security and performance issues. These issues, such as Insecure File Handling and Insecure Direct Object References, could potentially impact the integrity and reliability of the software, and may require architectural changes to address.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The risk associated with these issues is high, given that they are present in the only file in the project. The Insecure File Handling issue, for instance, could potentially allow unauthorized access to sensitive data, while the Insecure Direct Object References could lead to unauthorized actions being performed. These risks could be mitigated by implementing secure coding practices and thorough testing.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: If left unaddressed, these issues could lead to a negative customer experience, including potential data breaches and performance issues. This could result in loss of customer trust and potential legal implications.</p>
+</li>
+<li><p><strong>Overall Issues</strong>: The overall health of the project is concerning, given that 100% of the project files have been flagged with issues. The most severe issues are related to security and performance, which are critical aspects of any software project.</p>
+</li>
+</ol>
+<p>Risk Assessment:</p>
+<ul>
+<li><strong>Health of the Project Source</strong>: The fact that all project files have been flagged with issues is a significant concern. This suggests that there may be systemic issues with the codebase, which could require substantial effort to address.</li>
+</ul>
+<p>Highlights of the Analysis:</p>
+<ol>
+<li><p><strong>Single File Project</strong>: The project consists of a single file, <code>src/utilities/files.ts</code>, which has been flagged with multiple issues. This could indicate a lack of modularization and separation of concerns in the codebase.</p>
+</li>
+<li><p><strong>High Severity Issues</strong>: The issues identified are of high severity, including Insecure File Handling and Insecure Direct Object References. These could potentially lead to serious security breaches if exploited.</p>
+</li>
+<li><p><strong>100% of Files with Issues</strong>: All files in the project have been flagged with issues, indicating a need for a comprehensive review and potential refactoring of the codebase.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: The issues identified could lead to a negative customer experience, including potential data breaches and performance issues. This could result in loss of customer trust and potential legal implications.</p>
+</li>
+<li><p><strong>No Additional Architectural Guidelines</strong>: The project does not have any additional architectural guidelines or constraints, which could provide flexibility in addressing the identified issues. However, it also suggests a potential lack of architectural oversight in the project&#39;s development.</p>
+</li>
+</ol>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-performance-report">Boost Architectural Quick Summary Performance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:17:03 AM PDT</p>
+<h2 id="executive-report-software-project-analysis">Executive Report: Software Project Analysis</h2>
+<p>Based on the analysis of the software project, the following key points have been identified:</p>
+<ol>
+<li><p><strong>Architectural Impact</strong>: The project is well-structured and follows best practices for a Visual Studio Code extension. It uses asynchronous programming for potentially long-running tasks, which should keep the VS Code UI responsive. However, there are some areas of concern. For instance, the use of &#39;fs.existsSync&#39;, a synchronous call that blocks the event loop, in &#39;src/utilities/files.ts&#39; could negatively impact the performance of the application. This could be mitigated by replacing it with &#39;fs.promises.access&#39; to perform the operation asynchronously.</p>
+</li>
+<li><p><strong>Risk Analysis</strong>: The project has a few high-severity issues, particularly in &#39;src/utilities/files.ts&#39;. These issues, if not addressed, could lead to performance degradation and potential bugs. For example, the &#39;findIndex&#39; method inside the &#39;for&#39; loop can be expensive as it iterates over the &#39;paths&#39; array for each &#39;prioritizedFileList&#39; element. This results in a time complexity of O(n^2), which can be problematic for large datasets. A possible solution is to use a &#39;Map&#39; or &#39;Set&#39; to store the &#39;paths&#39; for O(1) lookup time, reducing the overall time complexity to O(n).</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: The identified issues could lead to a slower, less responsive user experience, particularly for large datasets. This could potentially impact customer satisfaction and usage of the software. However, the issues are not likely to cause data loss or security vulnerabilities, which would have a more severe impact on customers.</p>
+</li>
+<li><p><strong>Overall Health of the Project</strong>: The project appears to be in good health overall, with only one file (&#39;src/utilities/files.ts&#39;) having detected issues. This represents a small percentage of the total project files, suggesting that the majority of the project is well-written and free of major issues. However, the issues in &#39;src/utilities/files.ts&#39; are high-severity and should be addressed promptly to maintain the overall health of the project.</p>
+</li>
+</ol>
+<p>In conclusion, while the project is generally well-structured and follows best practices, there are some high-severity issues that need to be addressed to ensure optimal performance and customer satisfaction. The project team should prioritize these issues in their development backlog.</p>
+</div><p></p><div class="new-page-section><hr>
+<h3 id="boost-architectural-quick-summary-compliance-report">Boost Architectural Quick Summary Compliance Report</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:22:05 AM PDT</p>
+<h2 id="executive-report">Executive Report</h2>
+<h3 id="architectural-impact-and-risk-analysis">Architectural Impact and Risk Analysis</h3>
+<ol>
+<li><p><strong>Issue Severity and Distribution</strong>: The file <code>src/utilities/files.ts</code> has been identified as having the highest number of severe issues, with 12 GDPR, 4 Data Compliance, 4 PCI DSS, and 3 HIPAA issues. This file appears to be a critical part of the project, handling file operations. The issues identified could potentially impact the overall architecture of the project, as they may require significant changes to ensure compliance with data protection regulations.</p>
+</li>
+<li><p><strong>Potential Customer Impact</strong>: The identified issues, particularly those related to GDPR, PCI DSS, and HIPAA, could have serious implications for customers. Non-compliance with these regulations could lead to data breaches, resulting in loss of customer trust and potential legal repercussions. It is crucial to address these issues promptly to mitigate these risks.</p>
+</li>
+<li><p><strong>Overall Project Health</strong>: The analysis indicates that the project has a significant number of issues, particularly in the <code>src/utilities/files.ts</code> file. However, it&#39;s important to note that this is only one file out of the entire project. The overall health of the project would depend on the severity and distribution of issues across all files, which is not provided in the current data.</p>
+</li>
+<li><p><strong>Risk Assessment</strong>: Based on the current data, the project appears to have a high risk due to the severity and number of issues in the <code>src/utilities/files.ts</code> file. However, without data on the total number of files in the project, it&#39;s difficult to accurately assess the overall risk. If this file represents a large portion of the project, the risk would be higher than if it&#39;s a small part of a larger codebase.</p>
+</li>
+</ol>
+<h3 id="highlights">Highlights</h3>
+<ul>
+<li>The <code>src/utilities/files.ts</code> file has the highest number of severe issues, indicating that it may require significant architectural changes to address these issues.</li>
+<li>The identified issues could have serious implications for customers, potentially leading to data breaches and loss of trust.</li>
+<li>The overall health of the project is difficult to assess without data on the total number of files and the distribution of issues across these files.</li>
+<li>The project appears to have a high risk based on the current data, but a more accurate assessment would require additional information.</li>
+</ul>
+</div><p></p>
+    <h1>Detailed Analysis</h1><div>
+                    <h2>./src/utilities/files.ts :</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> micromatch <span class="hljs-keyword">from</span> &quot;micromatch&quot;;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> vscode <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vscode&#x27;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;fs&#x27;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-type">path</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;path&#x27;</span>;
+
+<span class="hljs-keyword">import</span> {
+    boostLogging
+} <span class="hljs-keyword">from</span> &quot;./boostLogging&quot;;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:00:26 AM PDT</p>
+<p>This code snippet is written in TypeScript, a statically typed superset of JavaScript. It&#39;s a simple import statement block that includes various modules that will be used in the rest of the code.</p>
+<p>Here is a breakdown of each import statement:</p>
+<ol>
+<li><p><code>import * as micromatch from &quot;micromatch&quot;;</code></p>
+<p>This line imports the <code>micromatch</code> library. Micromatch is a minimal matching library that uses glob patterns. Glob patterns are like simplified regular expressions used in the command line shell. They can be used to match and filter filenames or other strings. The <code>*</code> means that all exports from the micromatch module are imported and can be accessed through the <code>micromatch</code> object.</p>
+<p>More about micromatch can be found here: <a href="https://www.npmjs.com/package/micromatch">Micromatch</a></p>
+</li>
+<li><p><code>import * as vscode from &#39;vscode&#39;;</code></p>
+<p>This line imports the <code>vscode</code> module, which is the API for interacting with Visual Studio Code. This module provides various functionalities like commands, windows, notifications, etc., which can be used to interact with the VS Code editor. The <code>*</code> again means that all exports from the vscode module are imported and can be accessed through the <code>vscode</code> object.</p>
+<p>More about vscode module can be found here: <a href="https://code.visualstudio.com/api/references/vscode-api">VS Code API</a></p>
+</li>
+<li><p><code>import * as fs from &#39;fs&#39;;</code></p>
+<p>This line imports the <code>fs</code> module, which is a built-in Node.js module for working with the file system. It provides functions for reading and writing to files, among other things.</p>
+<p>More about fs module can be found here: <a href="https://nodejs.org/api/fs.html">Node.js fs module</a></p>
+</li>
+<li><p><code>import * as path from &#39;path&#39;;</code></p>
+<p>This line imports the <code>path</code> module, another built-in Node.js module. It provides utilities for working with file and directory paths.</p>
+<p>More about path module can be found here: <a href="https://nodejs.org/api/path.html">Node.js path module</a></p>
+</li>
+<li><p><code>import { boostLogging } from &quot;./boostLogging&quot;;</code></p>
+<p>This line imports the <code>boostLogging</code> object from the local module <code>boostLogging</code>. Unlike the previous import statements, this one is using named imports. This means that only the <code>boostLogging</code> export is imported from the <code>boostLogging</code> module.</p>
+<p>More about import/export in JavaScript/TypeScript can be found here: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">JavaScript Modules</a></p>
+</li>
+</ol>
+<p>The code snippet does not contain any algorithms. It is simply setting up the environment by importing necessary modules for the rest of the code.</p>
+<p>As for architectural guidelines, this code snippet seems to adhere to common practices. It is modular, as it uses imports to include functionality from different modules. This makes the code easier to read and maintain. There are no conflicts with the provided guidelines.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:06:08 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:09:46 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:13:09 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:17:51 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 1</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;micromatch&#39; library is used for matching strings against globbing patterns. If this library is used to process personal data, it may not be GDPR compliant if the data is not anonymized or pseudonymized.</p>
+<p><strong>Solution</strong>: Ensure that any personal data processed with &#39;micromatch&#39; is anonymized or pseudonymized. If this is not possible, consider using a GDPR compliant alternative.</p>
+</li>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 1</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;vscode&#39; library is used for interacting with the Visual Studio Code editor. If this library is used to process personal data, it may not be GDPR compliant if the data is not anonymized or pseudonymized.</p>
+<p><strong>Solution</strong>: Ensure that any personal data processed with &#39;vscode&#39; is anonymized or pseudonymized. If this is not possible, consider using a GDPR compliant alternative.</p>
+</li>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 2</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;fs&#39; library is used for interacting with the file system. If this library is used to process personal data, it may not be GDPR compliant if the data is not anonymized or pseudonymized.</p>
+<p><strong>Solution</strong>: Ensure that any personal data processed with &#39;fs&#39; is anonymized or pseudonymized. If this is not possible, consider using a GDPR compliant alternative.</p>
+</li>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 3</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;path&#39; library is used for handling and transforming file paths. If this library is used to process personal data, it may not be GDPR compliant if the data is not anonymized or pseudonymized.</p>
+<p><strong>Solution</strong>: Ensure that any personal data processed with &#39;path&#39; is anonymized or pseudonymized. If this is not possible, consider using a GDPR compliant alternative.</p>
+</li>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 7</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The &#39;boostLogging&#39; module is used for logging. If this module is used to log personal data, it may not be GDPR compliant if the data is not anonymized or pseudonymized.</p>
+<p><strong>Solution</strong>: Ensure that any personal data logged with &#39;boostLogging&#39; is anonymized or pseudonymized. If this is not possible, consider using a GDPR compliant alternative.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/files.ts line 9:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">import</span> {
+    buildBoostOnlyPatterns
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./boostOnly&quot;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:00:55 AM PDT</p>
+<p>The provided code is a JavaScript ES6 import statement. The import statement is used to import functions, objects, or values from other modules into the current file. In this case, it imports a function named <code>buildBoostOnlyPatterns</code> from another module named <code>boostOnly</code>.</p>
+<p>The <code>buildBoostOnlyPatterns</code> function is not defined in this file, it&#39;s defined in another file named <code>boostOnly.js</code> (or <code>boostOnly.ts</code> if the project uses TypeScript). The exact location of this file is not clear from the provided code, but it would be in the same directory as the current file or in a directory specified in a <code>jsconfig.json</code> or <code>tsconfig.json</code> file.</p>
+<p>Here&#39;s a brief explanation of what each part of the import statement does:</p>
+<ul>
+<li><code>import</code>: This keyword begins the import statement.</li>
+<li><code>{ buildBoostOnlyPatterns }</code>: This is a list of the items to import from the module. Each item is enclosed in curly braces. In this case, only one item, <code>buildBoostOnlyPatterns</code>, is being imported. If multiple items were being imported, they would be separated by commas.</li>
+<li><code>from</code>: This keyword indicates that the items are being imported from another module.</li>
+<li><code>&quot;./boostOnly&quot;</code>: This is the path to the module that the items are being imported from. The <code>./</code> indicates that the module is in the same directory as the current file.</li>
+</ul>
+<p>The <code>buildBoostOnlyPatterns</code> function is likely to be used later in the code to perform some sort of operation or computation. Without more code or context, it&#39;s hard to say exactly what the function does or how it fits into the larger application.</p>
+<p>For more information about ES6 import and export, you can refer to this link: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">JavaScript ES6 import and export</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:06:13 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style buildBoostOnlyPatterns fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->buildBoostOnlyPatterns;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:09:51 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:13:13 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:18:05 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 16</p>
+<p><strong>Bug Type</strong>: Data Compliance</p>
+<p><strong>Description</strong>: There&#39;s no direct data or privacy compliance issue in the provided code snippet. The code only imports a function from another module. However, depending on how the imported function &#39;buildBoostOnlyPatterns&#39; is used in the later part of the code, there might be potential issues.</p>
+<p><strong>Solution</strong>: Ensure that the function &#39;buildBoostOnlyPatterns&#39; does not process or store personal data, financial data, or health-related data without proper data handling and protection measures. If it does, make sure it complies with GDPR, PCI DSS, and HIPAA regulations. Review the function for potential data compliance issues.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/files.ts line 13:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">import</span> { ControllerOutputType } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../controllers/controllerOutputTypes&#x27;</span>;
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:01:28 AM PDT</p>
+<p>This line of code is an import statement in JavaScript, specifically in TypeScript which is a statically typed superset of JavaScript. It is importing a specific exported member from another module.</p>
+<p>Let&#39;s break down the components of this statement:</p>
+<ol>
+<li><p><code>import</code>: This is a keyword in JavaScript that is used to import functions, objects, or values from another module.</p>
+</li>
+<li><p><code>{ ControllerOutputType }</code>: The curly braces are used to import specific exports from a module. In this case, <code>ControllerOutputType</code> is an exported member that is being imported. It could be a function, a class, an object, a type, an interface, etc. The exact nature of <code>ControllerOutputType</code> would be defined in the module it&#39;s being imported from.</p>
+</li>
+<li><p><code>from</code>: This is another keyword used in the import statement. It specifies the path to the module from which to import.</p>
+</li>
+<li><p><code>&#39;../controllers/controllerOutputTypes&#39;</code>: This is the relative path to the module from which <code>ControllerOutputType</code> is being imported. The <code>..</code> indicates to go up one directory level, then it navigates into the <code>controllers</code> directory and imports from the <code>controllerOutputTypes</code> module.</p>
+</li>
+</ol>
+<p>As for algorithms, this line of code doesn&#39;t really involve any. It&#39;s more about code organization and modularity. By splitting code into modules and importing/exporting members between them, you can create more organized and maintainable code.</p>
+<p>The architectural guidelines provided do not specify any constraints or requirements that would apply to this line of code. It&#39;s a standard import statement that is commonly used in JavaScript and TypeScript projects.</p>
+<p>For more information about <code>import</code> and <code>export</code> in JavaScript, you can refer to the Mozilla Developer Network (MDN) documentation:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">import</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export">export</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:06:18 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ControllerOutputType fill:#228B22, stroke:#000000, stroke-width:2px;
+
+Start-->ControllerOutputType;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:09:55 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:13:17 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:18:09 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/files.ts line 15:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+import {
+<span class="hljs-built_in">    getBoostFile,</span>
+<span class="hljs-built_in">    BoostFileType,</span>
+<span class="hljs-built_in">    findCellByKernel,</span>
+} from <span class="hljs-string">&quot;../extension/extension&quot;</span><span class="hljs-comment">;</span>
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:01:57 AM PDT</p>
+<p>This is a short piece of JavaScript code, specifically an import statement. In JavaScript, an import statement is used to import functions, objects, or values from another module or file. This allows you to break up your code into multiple files for better organization and maintainability.</p>
+<p>The code is importing three items: <code>getBoostFile</code>, <code>BoostFileType</code>, and <code>findCellByKernel</code> from a module located at <code>&quot;../extension/extension&quot;</code>.</p>
+<p>Let&#39;s break down each of these imported items:</p>
+<ol>
+<li><p><code>getBoostFile</code>: This is likely a function that retrieves a specific file related to the Boost system. The exact behavior would depend on the implementation in the <code>&quot;../extension/extension&quot;</code> module.</p>
+</li>
+<li><p><code>BoostFileType</code>: This could be an object, a class, or a type (if using TypeScript) that represents the type of a Boost file. This could be used to enforce type safety or to provide IntelliSense (auto-complete suggestions) when working with Boost files.</p>
+</li>
+<li><p><code>findCellByKernel</code>: This is likely a function that finds a specific cell in a Boost file based on a given kernel. The term &quot;cell&quot; is often used in the context of notebook-like programming environments (like Jupyter notebooks), where code is organized into &quot;cells&quot; that can be run independently. The term &quot;kernel&quot; often refers to the computational engine that runs the code in these cells.</p>
+</li>
+</ol>
+<p>The <code>&quot;../extension/extension&quot;</code> path indicates that the module being imported is located in a directory named &quot;extension&quot; one level up from the current file&#39;s directory. The exact location would depend on the file structure of your project.</p>
+<p>The import statement itself does not use any specific algorithm, but the imported functions might. The details would depend on their implementation in the <code>&quot;../extension/extension&quot;</code> module.</p>
+<p>For more information on JavaScript imports, you can check out this <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">MDN Web Docs link</a>.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:06:25 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style getBoostFile fill:#228B22, stroke:#000000, stroke-width:2px;
+style BoostFileType fill:#228B22, stroke:#000000, stroke-width:2px;
+style findCellByKernel fill:#228B22, stroke:#000000, stroke-width:2px;
+
+getBoostFile-->BoostFileType;
+getBoostFile-->findCellByKernel;</pre>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:09:58 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:13:43 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 28</p>
+<p><strong>Bug Type</strong>: Disk</p>
+<p><strong>Description</strong>: The &#39;getBoostFile&#39; function might be reading files from disk. If this operation is performed frequently, it could lead to high disk I/O, especially for large files.</p>
+<p><strong>Solution</strong>: Consider caching the file contents in memory after the first read, or use a more efficient file reading library or method if the file size is large. Also, consider using asynchronous file operations to prevent blocking the event loop.</p>
+</li>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 29</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The &#39;BoostFileType&#39; seems to be an enumeration. If a large number of instances of this type are created, it can consume a significant amount of memory.</p>
+<p><strong>Solution</strong>: Enumerations are usually not a problem, but if you&#39;re creating a large number of instances, consider if there&#39;s a more memory-efficient data structure you could use.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 30</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The &#39;findCellByKernel&#39; function might be performing a search operation. If the data set being searched is large, this could be a CPU-intensive operation.</p>
+<p><strong>Solution</strong>: Consider using a more efficient search algorithm, or a data structure with faster search capabilities, such as a hash table or a binary search tree. If the data set is large and the search operation is performed frequently, consider using an indexing service.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:18:39 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 28</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The import of &#39;getBoostFile&#39; function could potentially lead to GDPR compliance issues if it&#39;s used to access and process personal data without explicit user consent.</p>
+<p><strong>Solution</strong>: Ensure that &#39;getBoostFile&#39; function is not used to access or process personal data without user consent. If it does, implement a mechanism to obtain user consent before processing their data.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 29</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The import of &#39;BoostFileType&#39; could potentially lead to GDPR compliance issues if it&#39;s used to classify personal data without explicit user consent.</p>
+<p><strong>Solution</strong>: Ensure that &#39;BoostFileType&#39; is not used to classify personal data without user consent. If it does, implement a mechanism to obtain user consent before classifying their data.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 30</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The import of &#39;findCellByKernel&#39; function could potentially lead to GDPR compliance issues if it&#39;s used to access and process personal data without explicit user consent.</p>
+<p><strong>Solution</strong>: Ensure that &#39;findCellByKernel&#39; function is not used to access or process personal data without user consent. If it does, implement a mechanism to obtain user consent before processing their data.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/files.ts line 21:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> boostnb <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../data/jupyter_notebook&quot;</span>;
+
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">fullPathFromSourceFile</span>(<span class="hljs-params">sourceFile: <span class="hljs-built_in">string</span></span>): vscode.<span class="hljs-property">Uri</span> {
+    <span class="hljs-keyword">let</span> <span class="hljs-attr">baseFolder</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-keyword">let</span> fullPath = sourceFile;
+    <span class="hljs-keyword">if</span> (vscode.<span class="hljs-property">workspace</span>.<span class="hljs-property">workspaceFolders</span>) {
+        <span class="hljs-keyword">if</span> (sourceFile.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">&quot;./&quot;</span>)) {
+            <span class="hljs-keyword">const</span> workspaceFolder = vscode.<span class="hljs-property">workspace</span>.<span class="hljs-property">workspaceFolders</span>[<span class="hljs-number">0</span>]; <span class="hljs-comment">// Get the first workspace folder</span>
+            baseFolder = workspaceFolder.<span class="hljs-property">uri</span>.<span class="hljs-property">fsPath</span>;
+            fullPath = path.<span class="hljs-title function_">join</span>(baseFolder, sourceFile);
+            <span class="hljs-keyword">const</span> normalizedFullPath = path.<span class="hljs-title function_">normalize</span>(fullPath);
+            fullPath = normalizedFullPath;
+        }
+    }
+    <span class="hljs-keyword">return</span> vscode.<span class="hljs-property">Uri</span>.<span class="hljs-title function_">parse</span>(fullPath);
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:02:38 AM PDT</p>
+<p>The provided code is written in TypeScript, a statically typed superset of JavaScript, and is used in a Visual Studio Code extension. It imports a module named <code>boostnb</code> from a relative path <code>../data/jupyter_notebook</code>. The actual content or functionality of <code>boostnb</code> is not shown in the provided code.</p>
+<p>The function <code>fullPathFromSourceFile</code> is exported from this module. This function takes a <code>sourceFile</code> parameter of type <code>string</code> and returns a <code>vscode.Uri</code> object. The <code>vscode.Uri</code> object represents a Uniform Resource Identifier, a string of characters that identifies a name or a resource on the Internet.</p>
+<p>The function <code>fullPathFromSourceFile</code> is used to calculate the full file path of a source file given its relative path. This is typically used in the context of a workspace in Visual Studio Code. </p>
+<p>Here is a detailed breakdown of the function:</p>
+<ol>
+<li><p>It initializes a <code>baseFolder</code> variable and a <code>fullPath</code> variable with the <code>sourceFile</code> as its value.</p>
+</li>
+<li><p>It checks if there are any workspace folders open in Visual Studio Code using <code>vscode.workspace.workspaceFolders</code>. If there are, it proceeds with the next steps.</p>
+</li>
+<li><p>It checks if the <code>sourceFile</code> string starts with <code>./</code>, which means it&#39;s a relative path.</p>
+</li>
+<li><p>If the <code>sourceFile</code> is a relative path, it gets the first workspace folder using <code>vscode.workspace.workspaceFolders[0]</code>.</p>
+</li>
+<li><p>It gets the file system path of the workspace folder using <code>workspaceFolder.uri.fsPath</code> and assigns it to <code>baseFolder</code>.</p>
+</li>
+<li><p>It joins the <code>baseFolder</code> and <code>sourceFile</code> to get the full path of the source file using <code>path.join(baseFolder, sourceFile)</code>.</p>
+</li>
+<li><p>It normalizes the <code>fullPath</code> using <code>path.normalize(fullPath)</code>. This method normalizes a string path, taking care of &#39;..&#39; and &#39;.&#39; parts.</p>
+</li>
+<li><p>Finally, it returns a <code>vscode.Uri</code> object created from the <code>fullPath</code> string using <code>vscode.Uri.parse(fullPath)</code>.</p>
+</li>
+</ol>
+<p>This function uses the path module from Node.js, which provides utilities for working with file and directory paths. It also uses the vscode module, which provides the API for interacting with Visual Studio Code.</p>
+<p>For more information about the path module in Node.js, you can visit: <a href="https://nodejs.org/api/path.html">Node.js path module</a></p>
+<p>For more information about the vscode module and the Uri class, you can visit: <a href="https://code.visualstudio.com/api/references/vscode-api#Uri">VS Code API</a></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:06:30 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+
+Start-->ExampleProcess;</pre>
+</code></pre><pre><code>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:10:17 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 45</p>
+<p><strong>Bug Type</strong>: Insecure Direct Object References (IDOR)</p>
+<p><strong>Description</strong>: The function fullPathFromSourceFile uses user-supplied input in file paths without properly validating or sanitizing it. This can lead to Insecure Direct Object References (IDOR) vulnerabilities, where an attacker can manipulate the path to access unauthorized files.</p>
+<p><strong>Solution</strong>: To prevent this, it is recommended to validate and sanitize user-supplied input before using it in file paths. One way to do this is by using a library like &#39;path&#39; to normalize paths and remove any &#39;..&#39; sequences. Additionally, you could implement access control checks to ensure that the user is authorized to access the requested file. For more information, you can refer to the OWASP guide on preventing IDOR vulnerabilities: <a href="https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/05-Authorization_Testing/04-Testing_for_Insecure_Direct_Object_References">https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/05-Authorization_Testing/04-Testing_for_Insecure_Direct_Object_References</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:13:56 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 49</p>
+<p><strong>Bug Type</strong>: Disk</p>
+<p><strong>Description</strong>: The code is reading the entire workspace folder, which can be resource-intensive for large projects. It&#39;s also normalizing the path every time, which can be redundant if the path is already normalized.</p>
+<p><strong>Solution</strong>: Consider using a caching mechanism to store the workspace folder and check if the path is already normalized before normalizing it. You can also use the &#39;vscode.workspace.asRelativePath&#39; method to convert an absolute path to a relative path based on the workspace folders.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 50</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The &#39;startsWith&#39; method is being used to check if the source file path starts with &#39;./&#39;. This is a CPU-intensive operation that could be optimized.</p>
+<p><strong>Solution</strong>: Instead of using &#39;startsWith&#39;, consider using a regular expression to perform the check. This will be more efficient and less CPU-intensive.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:19:06 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 48</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The software is accessing the filesystem without explicit user consent. This could potentially lead to unauthorized access to personal data, violating GDPR principles.</p>
+<p><strong>Solution</strong>: Ensure that the user is informed and has given consent before accessing their filesystem. You can use the vscode API to request user permission before accessing the filesystem.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 48</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: If the filesystem contains cardholder data, this could potentially violate PCI DSS requirements. The software is not ensuring the protection of stored cardholder data.</p>
+<p><strong>Solution</strong>: Ensure that cardholder data, if any, is properly encrypted when stored. You should also consider implementing access controls to limit who can access this data.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 48</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The software may be accessing files that contain Protected Health Information (PHI) without proper safeguards, potentially violating HIPAA rules.</p>
+<p><strong>Solution</strong>: Implement proper safeguards for PHI, such as encryption and access controls. Also, ensure that PHI is only accessed on a need-to-know basis.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/files.ts line 39:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+export <span class="hljs-keyword">function</span> get<span class="hljs-constructor">PrioritizedFileList()</span> : <span class="hljs-built_in">string</span><span class="hljs-literal">[]</span> {
+    <span class="hljs-keyword">let</span> prioritizedFilelist : <span class="hljs-built_in">string</span><span class="hljs-literal">[]</span> = <span class="hljs-literal">[]</span>;
+
+    const summaryNotebookUri = get<span class="hljs-constructor">BoostFile(<span class="hljs-params">undefined</span>, { <span class="hljs-params">format</span>: BoostFileType.<span class="hljs-params">summary</span>, <span class="hljs-params">showUI</span>: <span class="hljs-params">false</span> })</span>;
+    <span class="hljs-keyword">if</span> (!fs.exists<span class="hljs-constructor">Sync(<span class="hljs-params">summaryNotebookUri</span>.<span class="hljs-params">fsPath</span>)</span>) {
+        return prioritizedFilelist;
+    }
+
+    const summaryNotebook = <span class="hljs-keyword">new</span> boostnb.<span class="hljs-constructor">BoostNotebook()</span>;
+    summaryNotebook.load(summaryNotebookUri.fsPath);
+    const blueprint = find<span class="hljs-constructor">CellByKernel(<span class="hljs-params">summaryNotebook</span>, ControllerOutputType.<span class="hljs-params">blueprint</span>)</span> <span class="hljs-keyword">as</span> boostnb.BoostNotebookCell;
+    <span class="hljs-keyword">if</span> (!blueprint?.outputs) {
+        return prioritizedFilelist;
+    }
+
+    const quickBlueprintOutput = blueprint.outputs.filter((output) =&gt; {
+        return output.metadata.outputType<span class="hljs-operator"> === </span><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">ControllerOutputType</span>.</span></span>blueprint;
+    });
+
+    <span class="hljs-keyword">if</span> (quickBlueprintOutput.length<span class="hljs-operator"> === </span><span class="hljs-number">0</span>) {
+        return prioritizedFilelist;
+    }
+
+    prioritizedFilelist = quickBlueprintOutput<span class="hljs-literal">[<span class="hljs-number">0</span>]</span>.metadata.details.prioritizedListOfSourceFilesToAnalyze;
+    return prioritizedFilelist?prioritizedFilelist:<span class="hljs-literal">[]</span>;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:03:20 AM PDT</p>
+<p>This is a TypeScript function that returns a prioritized list of files. It&#39;s part of a larger software project, likely a Visual Studio Code extension based on the context provided. Here&#39;s a detailed breakdown of what the function does:</p>
+<ol>
+<li><p>It first initializes an empty array <code>prioritizedFilelist</code> which will hold the list of prioritized files.</p>
+</li>
+<li><p>It then calls the <code>getBoostFile</code> function with parameters to get the URI of a summary file. This function is not shown, but based on its usage, it likely returns a URI for a file based on the provided parameters.</p>
+</li>
+<li><p>It checks if the summary file exists using Node.js&#39;s <code>fs.existsSync</code> method. If the file does not exist, it returns the empty <code>prioritizedFilelist</code>.</p>
+</li>
+<li><p>If the file does exist, it creates a new instance of <code>BoostNotebook</code> (presumably a class in the <code>boostnb</code> module) and loads the summary file into it.</p>
+</li>
+<li><p>It then attempts to find a cell in the notebook that matches the <code>ControllerOutputType.blueprint</code> type using the <code>findCellByKernel</code> function. This function is not shown, but based on its usage, it likely searches through the cells of a notebook and returns the first one that matches the provided criteria.</p>
+</li>
+<li><p>If no such cell or its outputs exist, it returns the empty <code>prioritizedFilelist</code>.</p>
+</li>
+<li><p>If such a cell does exist, it filters the cell&#39;s outputs to keep only those with a metadata output type that matches <code>ControllerOutputType.blueprint</code>.</p>
+</li>
+<li><p>If no such outputs exist, it returns the empty <code>prioritizedFilelist</code>.</p>
+</li>
+<li><p>If such outputs do exist, it sets <code>prioritizedFilelist</code> to the <code>prioritizedListOfSourceFilesToAnalyze</code> property of the first output&#39;s metadata.</p>
+</li>
+<li><p>Finally, it returns the <code>prioritizedFilelist</code>. If <code>prioritizedFilelist</code> is undefined or null, it returns an empty array.</p>
+</li>
+</ol>
+<p>This function uses a simple algorithm to find and return a prioritized list of source files to analyze. It uses features of TypeScript (like optional chaining and type annotations), Node.js (like the <code>fs</code> module), and presumably a custom <code>boostnb</code> module.</p>
+<p>For more information on TypeScript, you can visit this link: <a href="https://www.typescriptlang.org/docs/">TypeScript</a></p>
+<p>For more information on Node.js and its <code>fs</code> module, you can visit these links: <a href="https://nodejs.org/en/docs/">Node.js</a>, <a href="https://nodejs.org/api/fs.html">fs module</a></p>
+<p>The specific details of the <code>boostnb</code> module and the <code>getBoostFile</code> and <code>findCellByKernel</code> functions are not provided, but you would likely find more information in the project&#39;s documentation or source code.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:06:50 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->A;
+A-->B;
+B-->C;
+C-->D;
+D-->E;
+E-->F;
+F-->G;
+G-->H;
+H-->I;
+I-->J;
+J-->K;
+K-->L;
+L-->M;
+M-->N;
+N-->O;
+O-->P;
+P-->Q;
+Q-->R;
+R-->S;
+S-->T;
+T-->U;
+U-->V;
+V-->W;
+W-->X;
+X-->Y;
+Y-->Z;
+Z-->End;
+</pre>
+</code></pre><p>In the above control flow graph, the primary path is represented by the colored flow blocks, while the non-error paths are represented by the default non-colored flow blocks. The error path is represented by the red flow block.</p>
+<p>The control flow starts at the function <code>getPrioritizedFileList</code>. It then proceeds through the following steps:</p>
+<ol>
+<li>A: Check if the <code>summaryNotebookUri</code> file exists.</li>
+<li>B: Load the <code>summaryNotebook</code> from the <code>summaryNotebookUri</code> file.</li>
+<li>C: Find the <code>blueprint</code> cell in the <code>summaryNotebook</code>.</li>
+<li>D: Check if the <code>blueprint</code> cell has outputs.</li>
+<li>E: Filter the <code>blueprint</code> cell outputs to get the <code>quickBlueprintOutput</code>.</li>
+<li>F: Check if the <code>quickBlueprintOutput</code> is empty.</li>
+<li>G: Get the <code>prioritizedListOfSourceFilesToAnalyze</code> from the <code>quickBlueprintOutput</code> metadata.</li>
+<li>H: Check if the <code>prioritizedListOfSourceFilesToAnalyze</code> is defined.</li>
+<li>I: Return the <code>prioritizedListOfSourceFilesToAnalyze</code> if it is defined, otherwise return an empty array.</li>
+<li>J: End of the control flow.</li>
+</ol>
+<p>Note: The external library or non-standard function calls are not shown in the diagram as distinct flow blocks, as there are no such calls in the provided code.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:10:56 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 81</p>
+<p><strong>Bug Type</strong>: Insecure File Handling</p>
+<p><strong>Description</strong>: The function &#39;fs.existsSync&#39; is used to check if a file exists before opening it. This can lead to a Time-of-check to time-of-use (TOCTOU) race condition, where the file might be deleted or modified between the check and the use of the file. This can lead to security issues if an attacker is able to manipulate the file in this window. More about this issue can be read at: <a href="https://owasp.org/www-community/vulnerabilities/Time_of_check_to_time_of_use">https://owasp.org/www-community/vulnerabilities/Time_of_check_to_time_of_use</a></p>
+<p><strong>Solution</strong>: Instead of checking if a file exists before opening it, just try to open it and handle the error if it doesn&#39;t exist. This avoids the race condition. Use try-catch block to handle the error.</p>
+</li>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 87</p>
+<p><strong>Bug Type</strong>: Insecure Direct Object Reference (IDOR)</p>
+<p><strong>Description</strong>: The function &#39;findCellByKernel&#39; is used to find a cell by its kernel. If an attacker is able to manipulate the kernel, they could potentially access or modify data they are not supposed to. More about this issue can be read at: <a href="https://owasp.org/www-community/attacks/Insecure_Direct_Object_References">https://owasp.org/www-community/attacks/Insecure_Direct_Object_References</a></p>
+<p><strong>Solution</strong>: Implement proper access control checks before allowing actions on objects. Don&#39;t rely on user-supplied input to find objects.</p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 98</p>
+<p><strong>Bug Type</strong>: Insecure Data Handling</p>
+<p><strong>Description</strong>: The function &#39;quickBlueprintOutput[0].metadata.details.prioritizedListOfSourceFilesToAnalyze&#39; directly uses the output of a previous operation. If an attacker is able to manipulate this output, they could potentially control the data being returned by the function. More about this issue can be read at: <a href="https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure</a></p>
+<p><strong>Solution</strong>: Always validate and sanitize data before using it. Consider using a safe data handling library.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:14:25 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 80</p>
+<p><strong>Bug Type</strong>: Disk</p>
+<p><strong>Description</strong>: The &#39;fs.existsSync&#39; function is a synchronous call that blocks the event loop, which can negatively impact the performance of the application.</p>
+<p><strong>Solution</strong>: Replace &#39;fs.existsSync&#39; with &#39;fs.promises.access&#39; to perform the operation asynchronously and prevent blocking of the event loop. For more information, refer to the Node.js documentation: <a href="https://nodejs.org/api/fs.html#fs_fspromises_access_path_mode">https://nodejs.org/api/fs.html#fs_fspromises_access_path_mode</a></p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 84</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The &#39;load&#39; method of the &#39;BoostNotebook&#39; class might be memory-intensive if the notebook is large, as it loads the entire notebook into memory.</p>
+<p><strong>Solution</strong>: Consider using a streaming approach to load the notebook in chunks, if possible. This would reduce the memory footprint. For more information on streaming in Node.js, refer to the Node.js documentation: <a href="https://nodejs.org/api/stream.html">https://nodejs.org/api/stream.html</a></p>
+</li>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 93</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The &#39;filter&#39; function is used to find blueprint outputs, which could be inefficient if there are many outputs. This is because &#39;filter&#39; goes through every element in the array, even after it finds a match.</p>
+<p><strong>Solution</strong>: Replace the &#39;filter&#39; function with the &#39;find&#39; function, which stops as soon as it finds a match. This could improve performance when dealing with large arrays. For more information on the &#39;find&#39; function, refer to the Mozilla Developer Network documentation: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:19:35 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 82</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The function <code>getPrioritizedFileList</code> may be processing user data without explicit consent. This could potentially violate GDPR regulations which require explicit user consent for data processing.</p>
+<p><strong>Solution</strong>: Ensure that user consent is obtained before processing user data. This could be done by adding a user consent prompt before data processing occurs.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 87</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The function <code>getPrioritizedFileList</code> may be handling sensitive health information without proper safeguards. This could potentially violate HIPAA regulations which require specific safeguards for handling Protected Health Information (PHI).</p>
+<p><strong>Solution</strong>: Implement proper safeguards for handling PHI as specified by HIPAA regulations. This could include encrypting the data, implementing access controls, and regularly auditing data access.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 96</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The function <code>getPrioritizedFileList</code> may be handling cardholder data without proper security measures. This could potentially violate PCI DSS regulations which require specific security measures for handling cardholder data.</p>
+<p><strong>Solution</strong>: Implement proper security measures for handling cardholder data as specified by PCI DSS regulations. This could include encrypting the data, implementing access controls, and regularly auditing data access.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/files.ts line 66:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">getAllProjectFiles</span>(<span class="hljs-params">
+    useRelativePaths: <span class="hljs-built_in">boolean</span> = <span class="hljs-literal">false</span>,
+    targetFolder : vscode.Uri | <span class="hljs-literal">undefined</span> = <span class="hljs-literal">undefined</span>
+</span>): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">string</span>[]&gt; {
+    <span class="hljs-keyword">if</span> (!targetFolder) {
+        <span class="hljs-keyword">if</span> (vscode.<span class="hljs-property">workspace</span>.<span class="hljs-property">workspaceFolders</span>) {
+            targetFolder = vscode.<span class="hljs-property">workspace</span>.<span class="hljs-property">workspaceFolders</span>![<span class="hljs-number">0</span>].<span class="hljs-property">uri</span>;
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;No workspace folders found. Please load a Project folder first&quot;</span>);
+        }
+    }
+
+    <span class="hljs-keyword">const</span> prioritizedFileList = targetFolder?<span class="hljs-title function_">getPrioritizedFileList</span>():[];
+
+    <span class="hljs-keyword">const</span> boostOnlyPatterns = <span class="hljs-title function_">buildBoostOnlyPatterns</span>(targetFolder);
+
+    <span class="hljs-keyword">const</span> searchPattern = <span class="hljs-keyword">new</span> vscode.<span class="hljs-title class_">RelativePattern</span>(
+        targetFolder.<span class="hljs-property">fsPath</span>,
+        boostOnlyPatterns.<span class="hljs-property">length</span> ? <span class="hljs-string">`{<span class="hljs-subst">${boostOnlyPatterns.join(<span class="hljs-string">&#x27;,&#x27;</span>)}</span>}`</span> : <span class="hljs-string">&quot;**/**&quot;</span>
+    );
+
+    <span class="hljs-keyword">const</span> ignorePatterns = <span class="hljs-title function_">buildVSCodeIgnorePattern</span>(targetFolder, <span class="hljs-literal">true</span>);
+    <span class="hljs-keyword">const</span> files = <span class="hljs-keyword">await</span> vscode.<span class="hljs-property">workspace</span>.<span class="hljs-title function_">findFiles</span>(
+        searchPattern,
+        ignorePatterns
+    );
+
+    <span class="hljs-keyword">let</span> <span class="hljs-attr">paths</span>: <span class="hljs-built_in">string</span>[] = [];
+    files.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">file</span>) =&gt;</span> {
+        <span class="hljs-keyword">const</span> pathToAdd = useRelativePaths ? vscode.<span class="hljs-property">workspace</span>.<span class="hljs-title function_">asRelativePath</span>(file) : file.<span class="hljs-property">fsPath</span>;
+        paths.<span class="hljs-title function_">push</span>(pathToAdd);
+    });
+
+    <span class="hljs-keyword">let</span> <span class="hljs-attr">prioritizedPaths</span>: <span class="hljs-built_in">string</span>[] = [];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> relativeFile <span class="hljs-keyword">of</span> prioritizedFileList) {
+        <span class="hljs-keyword">const</span> absoluteFile = vscode.<span class="hljs-property">Uri</span>.<span class="hljs-title function_">joinPath</span>(targetFolder, relativeFile).<span class="hljs-property">fsPath</span>;
+        <span class="hljs-keyword">const</span> index = paths.<span class="hljs-title function_">findIndex</span>(<span class="hljs-function"><span class="hljs-params">p</span> =&gt;</span> {
+            <span class="hljs-keyword">const</span> comparePath = useRelativePaths ? vscode.<span class="hljs-property">workspace</span>.<span class="hljs-title function_">asRelativePath</span>(p) : p;
+            <span class="hljs-keyword">return</span> comparePath === absoluteFile;
+        });
+        
+        <span class="hljs-keyword">if</span> (index !== -<span class="hljs-number">1</span>) {
+            prioritizedPaths.<span class="hljs-title function_">push</span>(paths[index]);
+            paths.<span class="hljs-title function_">splice</span>(index, <span class="hljs-number">1</span>);
+        }
+    }
+
+    <span class="hljs-keyword">if</span> (paths.<span class="hljs-property">length</span> &gt; <span class="hljs-number">0</span>) {
+        boostLogging.<span class="hljs-title function_">debug</span>(<span class="hljs-string">`Source files deprioritized to bottom due to unspecified order: <span class="hljs-subst">${paths.length}</span>`</span>);
+        prioritizedPaths = [...prioritizedPaths, ...paths];
+    }
+
+    <span class="hljs-keyword">return</span> prioritizedPaths;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:03:48 AM PDT</p>
+<p>The function <code>getAllProjectFiles</code> is an asynchronous function that retrieves all the files in a project, with options to use relative paths and to target a specific folder. The function returns a promise that resolves to an array of strings, each string being a path to a file in the project.</p>
+<p>The function takes two parameters: <code>useRelativePaths</code> which is a boolean value that defaults to <code>false</code>, and <code>targetFolder</code> which is an optional <code>vscode.Uri</code> object.</p>
+<ol>
+<li><p>If no <code>targetFolder</code> is provided, the function checks if there are any workspace folders open in Visual Studio Code. If there are, it sets the first workspace folder as the <code>targetFolder</code>. If no workspace folders are found, it throws an error.</p>
+</li>
+<li><p>It then calls <code>getPrioritizedFileList()</code> with <code>targetFolder</code> as the argument and assigns the return value to <code>prioritizedFileList</code>.</p>
+</li>
+<li><p>It builds a list of file patterns to include in the search by calling <code>buildBoostOnlyPatterns</code> with <code>targetFolder</code> as the argument and assigns the return value to <code>boostOnlyPatterns</code>.</p>
+</li>
+<li><p>It creates a <code>vscode.RelativePattern</code> object that represents the search pattern. The pattern is created using the <code>fsPath</code> of the <code>targetFolder</code> and the <code>boostOnlyPatterns</code>. If no <code>boostOnlyPatterns</code> are provided, it defaults to the pattern &quot;<strong>/</strong>&quot;, which includes all files and directories.</p>
+</li>
+<li><p>It builds a list of file patterns to ignore in the search by calling <code>buildVSCodeIgnorePattern</code> with <code>targetFolder</code> and <code>true</code> as arguments and assigns the return value to <code>ignorePatterns</code>.</p>
+</li>
+<li><p>It then calls <code>vscode.workspace.findFiles</code> with the <code>searchPattern</code> and <code>ignorePatterns</code> as arguments. This returns a promise that resolves to an array of <code>vscode.Uri</code> objects representing the files found. It awaits this promise and assigns the result to <code>files</code>.</p>
+</li>
+<li><p>It then iterates over <code>files</code>, converting each <code>vscode.Uri</code> object to a path string and adding it to the <code>paths</code> array. The path is relative if <code>useRelativePaths</code> is <code>true</code>, and absolute otherwise.</p>
+</li>
+<li><p>It then creates a <code>prioritizedPaths</code> array. It iterates over <code>prioritizedFileList</code>, converting each relative file path to an absolute path and checking if it exists in <code>paths</code>. If it does, it removes it from <code>paths</code> and adds it to <code>prioritizedPaths</code>.</p>
+</li>
+<li><p>If there are still paths in <code>paths</code>, it logs a debug message and adds the remaining paths to <code>prioritizedPaths</code>.</p>
+</li>
+<li><p>Finally, it returns <code>prioritizedPaths</code>.</p>
+</li>
+</ol>
+<p>This function uses the following algorithms and concepts:</p>
+<ul>
+<li>Error handling: It throws an error if no workspace folders are found.</li>
+<li>Asynchronous programming: It uses <code>await</code> to wait for promises to resolve.</li>
+<li>Array manipulation: It uses methods like <code>forEach</code>, <code>push</code>, <code>findIndex</code>, and <code>splice</code> to manipulate arrays.</li>
+<li>String manipulation: It uses methods like <code>join</code> to manipulate strings.</li>
+</ul>
+<p>Here are some useful links for further reading:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api">VS Code API</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous">Asynchronous Programming in JavaScript</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array Methods in JavaScript</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String Methods in JavaScript</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:08:40 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;
+ExampleProcess-->End;
+ExampleErrorPath-->End;</pre>
+</code></pre><p>The control flow graph for the provided source code is as follows:</p>
+<pre><code>getAllProjectFiles --&gt; targetFolder
+getAllProjectFiles --&gt; vscode.workspace.workspaceFolders
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace.workspaceFolders
+vscode.workspace.workspaceFolders --&gt; targetFolder
+targetFolder --&gt; vscode.workspace
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:11:00 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:14:37 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 143</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The &#39;findIndex&#39; method inside the &#39;for&#39; loop can be expensive as it iterates over the &#39;paths&#39; array for each &#39;prioritizedFileList&#39; element. This results in a time complexity of O(n^2), which can be problematic for large datasets.</p>
+<p><strong>Solution</strong>: Consider using a &#39;Map&#39; or &#39;Set&#39; to store the &#39;paths&#39; for O(1) lookup time. This would reduce the overall time complexity to O(n).</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 148</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The &#39;splice&#39; method is used inside a loop, which can be costly as it involves shifting all elements to the left of the spliced element. This can result in poor performance for large arrays.</p>
+<p><strong>Solution</strong>: Consider using a different data structure or approach that avoids the need to splice inside a loop. For instance, you could use a &#39;filter&#39; method to remove the element from the array, which would be more efficient.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 157</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The spread operator is used to concatenate two arrays, which can lead to high memory usage for large arrays.</p>
+<p><strong>Solution</strong>: Consider using the &#39;Array.prototype.concat&#39; method instead of the spread operator for concatenating arrays as it is more memory efficient.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:19:51 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 130</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The function getAllProjectFiles is accessing files from the user&#39;s workspace. If any of these files contain personal data, this could potentially be a GDPR compliance issue.</p>
+<p><strong>Solution</strong>: Ensure that any personal data accessed is necessary for the function and is handled in accordance with GDPR principles. This includes obtaining user consent, ensuring data minimization, and implementing appropriate security measures.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 154</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The function is accessing and potentially altering files without logging these actions. This could be a PCI DSS compliance issue if any of these files contain cardholder data.</p>
+<p><strong>Solution</strong>: Implement a logging mechanism to record all access and alterations to files. This should include the identity of the individual accessing the data, the date and time, and the accessed data.</p>
+</li>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 130</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: If any of the accessed files contain health information, the function could be in violation of HIPAA. HIPAA requires that access to health information be limited to the minimum necessary to accomplish the intended purpose.</p>
+<p><strong>Solution</strong>: Review the function to ensure that it only accesses the minimum necessary amount of data. Implement appropriate access controls and security measures to protect any accessed health information.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/files.ts line 121:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">getBoostIgnoreFile</span>(<span class="hljs-params"></span>): vscode.<span class="hljs-property">Uri</span> | <span class="hljs-literal">undefined</span> {
+    <span class="hljs-keyword">const</span> <span class="hljs-attr">workspaceFolder</span>: vscode.<span class="hljs-property">Uri</span> | <span class="hljs-literal">undefined</span> =
+        vscode.<span class="hljs-property">workspace</span>.<span class="hljs-property">workspaceFolders</span>?.[<span class="hljs-number">0</span>]?.<span class="hljs-property">uri</span>;
+
+    <span class="hljs-comment">// if no workspace root folder, bail</span>
+    <span class="hljs-keyword">if</span> (!workspaceFolder) {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>;
+    }
+
+    <span class="hljs-comment">// path to the the .boostignore file</span>
+    <span class="hljs-keyword">const</span> boostignoreFile = vscode.<span class="hljs-property">Uri</span>.<span class="hljs-title function_">joinPath</span>(
+        workspaceFolder,
+        <span class="hljs-string">&quot;.boostignore&quot;</span>
+    );
+    <span class="hljs-keyword">return</span> boostignoreFile;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:04:11 AM PDT</p>
+<p>This code is written in TypeScript and is a part of a Visual Studio Code extension. The function <code>getBoostIgnoreFile</code> is exported, meaning it can be imported and used in other modules.</p>
+<p>The function <code>getBoostIgnoreFile</code> returns a Uri (Uniform Resource Identifier) of a file named &quot;.boostignore&quot; in the root of the current workspace. If no workspace is opened in Visual Studio Code, the function returns <code>undefined</code>.</p>
+<p>Here&#39;s a step-by-step explanation of the function:</p>
+<ol>
+<li><p>The function <code>getBoostIgnoreFile</code> is declared and exported. It doesn&#39;t take any parameters and its return type is <code>vscode.Uri | undefined</code>. This means that the function will either return a Uri object or <code>undefined</code>.</p>
+</li>
+<li><p>The constant <code>workspaceFolder</code> is declared. It is of type <code>vscode.Uri | undefined</code>. The value of <code>workspaceFolder</code> is set to the Uri of the first workspace folder. If no workspace is opened in Visual Studio Code, <code>workspaceFolder</code> will be <code>undefined</code>.</p>
+</li>
+<li><p>A check is performed to see if <code>workspaceFolder</code> is <code>undefined</code>. If it is, the function immediately returns <code>undefined</code> and stops executing.</p>
+</li>
+<li><p>If <code>workspaceFolder</code> is not <code>undefined</code>, the function continues to execute. The constant <code>boostignoreFile</code> is declared. Its value is set to the Uri of the file &quot;.boostignore&quot; in the root of the workspace. This is done by calling the <code>vscode.Uri.joinPath</code> method with <code>workspaceFolder</code> and &quot;.boostignore&quot; as arguments.</p>
+</li>
+<li><p>The function returns <code>boostignoreFile</code>.</p>
+</li>
+</ol>
+<p>The algorithm used in this function is straightforward. It checks if a workspace is opened in Visual Studio Code, and if it is, it returns the Uri of the &quot;.boostignore&quot; file in the root of the workspace. If no workspace is opened, it returns <code>undefined</code>.</p>
+<p>Here are some resources for more information:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api#Uri">VS Code API - Uri</a></li>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api#workspace">VS Code API - Workspace</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/functions.html">TypeScript - Function</a></li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/unions-and-intersections.html#union-types">TypeScript - Union Types</a></li>
+</ul>
+</div'><div class='output-item'><p>Output Type: application/vnd.code.notebook.error</p><p>{&quot;name&quot;:&quot;BoostAuthenticationException&quot;,&quot;message&quot;:&quot;Boost Flow Diagram failed: Unable to use the Boost Service. Your account is suspended and is not currently enabled. Please use the Account portal to update your account.&quot;}</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:11:04 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:14:50 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 240</p>
+<p><strong>Bug Type</strong>: Disk</p>
+<p><strong>Description</strong>: This function reads the .boostignore file from disk every time it is called. If this function is called frequently, it could lead to high disk usage.</p>
+<p><strong>Solution</strong>: Consider caching the .boostignore file in memory after the first read, and only re-reading it from disk if it has changed. This can be achieved by using a file watcher, such as the one provided by the &#39;chokidar&#39; package.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:20:23 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 244</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code accesses the user&#39;s file system to get the .boostignore file. This could be a potential GDPR violation if the user&#39;s consent has not been obtained before accessing their data.</p>
+<p><strong>Solution</strong>: Ensure that the user&#39;s consent is obtained before accessing their file system. This can be done by providing a clear and concise notification to the user about what data will be accessed, why it is being accessed, and how it will be used.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 244</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: If the .boostignore file or any other files in the user&#39;s workspace contain Protected Health Information (PHI), accessing them without proper authorization could be a potential HIPAA violation.</p>
+<p><strong>Solution</strong>: Ensure that the user&#39;s authorization is obtained before accessing their files. Also, implement proper safeguards to protect any PHI that might be accessed.</p>
+</li>
+<li><p><strong>Severity</strong>: 1/10</p>
+<p><strong>Line Number</strong>: 244</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The code does not seem to handle any payment card data, so it does not appear to be in violation of PCI DSS.</p>
+<p><strong>Solution</strong>: No action needed unless the scope of the application changes to involve payment card data.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/files.ts line 138:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">updateBoostIgnoreForTarget</span>(<span class="hljs-params">
+    targetFilepath: <span class="hljs-built_in">string</span>,
+    absolutePath: <span class="hljs-built_in">boolean</span> = <span class="hljs-literal">true</span>
+</span>) {
+    <span class="hljs-comment">// we&#x27;re going to assume this is a UI-based action, so we&#x27;ll show a warning</span>
+    <span class="hljs-keyword">const</span> showUI = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">const</span> boostignoreFile = <span class="hljs-title function_">getBoostIgnoreFile</span>();
+    <span class="hljs-keyword">if</span> (!boostignoreFile) {
+        <span class="hljs-keyword">return</span>;
+    }
+
+    <span class="hljs-keyword">let</span> patterns = <span class="hljs-title function_">_extractIgnorePatternsFromFile</span>(boostignoreFile.<span class="hljs-property">fsPath</span>);
+
+    <span class="hljs-comment">// Convert path to relative path</span>
+    <span class="hljs-keyword">let</span> <span class="hljs-attr">targetRelativePath</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-keyword">if</span> (absolutePath) {
+        targetRelativePath = vscode.<span class="hljs-property">workspace</span>.<span class="hljs-title function_">asRelativePath</span>(
+            vscode.<span class="hljs-property">Uri</span>.<span class="hljs-title function_">parse</span>(targetFilepath),
+            <span class="hljs-literal">false</span>
+        );
+    } <span class="hljs-keyword">else</span> {
+        targetRelativePath = targetFilepath;
+        <span class="hljs-keyword">const</span> workspaceRoot = vscode.<span class="hljs-property">workspace</span>.<span class="hljs-property">workspaceFolders</span>?.[<span class="hljs-number">0</span>]?.<span class="hljs-property">uri</span>;
+        <span class="hljs-keyword">if</span> (!workspaceRoot) {
+            boostLogging.<span class="hljs-title function_">warn</span>(<span class="hljs-string">`Please load a Project folder first`</span>, showUI);
+            <span class="hljs-keyword">return</span>;
+        }
+        targetFilepath = vscode.<span class="hljs-property">Uri</span>.<span class="hljs-title function_">joinPath</span>(
+            workspaceRoot,
+            targetFilepath
+        ).<span class="hljs-property">fsPath</span>;
+    }
+
+    <span class="hljs-keyword">if</span> (!fs.<span class="hljs-title function_">existsSync</span>(targetFilepath)) {
+        boostLogging.<span class="hljs-title function_">warn</span>(<span class="hljs-string">`Unable to determine existence of file: <span class="hljs-subst">${targetFilepath}</span>`</span>, showUI);
+        <span class="hljs-keyword">return</span>;
+    }
+    <span class="hljs-comment">// search if the new target is already excluded in the existing patterns</span>
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (
+        patterns.<span class="hljs-title function_">some</span>(<span class="hljs-function">(<span class="hljs-params">pattern</span>) =&gt;</span>
+            micromatch.<span class="hljs-title function_">isMatch</span>(targetRelativePath, pattern)
+        )
+    ) {
+        boostLogging.<span class="hljs-title function_">warn</span>(<span class="hljs-string">`<span class="hljs-subst">${targetRelativePath}</span> is already excluded in <span class="hljs-subst">${boostignoreFile.fsPath}</span>`</span>, <span class="hljs-literal">false</span>);
+        <span class="hljs-keyword">return</span>;
+    }
+
+    <span class="hljs-comment">// otherwise need to exclude the target in the ignore file</span>
+    <span class="hljs-comment">// Check if the target is a directory or a file</span>
+    <span class="hljs-keyword">const</span> stats = fs.<span class="hljs-title function_">statSync</span>(targetFilepath);
+    <span class="hljs-keyword">if</span> (stats.<span class="hljs-title function_">isDirectory</span>()) {
+        patterns.<span class="hljs-title function_">push</span>(targetRelativePath + <span class="hljs-string">&quot;/**&quot;</span>); <span class="hljs-comment">// Add glob to match all files/folders under the directory</span>
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (stats.<span class="hljs-title function_">isFile</span>()) {
+        patterns.<span class="hljs-title function_">push</span>(targetRelativePath); <span class="hljs-comment">// If it&#x27;s a file, just add the file path</span>
+    }
+
+    fs.<span class="hljs-title function_">writeFileSync</span>(boostignoreFile.<span class="hljs-property">fsPath</span>, patterns.<span class="hljs-title function_">join</span>(<span class="hljs-string">&quot;\n&quot;</span>));
+
+    boostLogging.<span class="hljs-title function_">info</span>(
+        <span class="hljs-string">`<span class="hljs-subst">${targetRelativePath}</span> has been added to <span class="hljs-subst">${boostignoreFile.fsPath}</span>`</span>,
+        <span class="hljs-literal">false</span>
+    );
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:04:33 AM PDT</p>
+<p>This JavaScript function <code>updateBoostIgnoreForTarget</code> is part of a Visual Studio Code (VS Code) extension. It updates a <code>.boostignore</code> file to ignore a specified target file or directory during code analysis. This is similar to a <code>.gitignore</code> file in a git repository, which specifies intentionally untracked files that git should ignore.</p>
+<p>The function takes two parameters:</p>
+<ul>
+<li><code>targetFilepath</code>: The path of the file or directory that you want to ignore.</li>
+<li><code>absolutePath</code>: A boolean value specifying whether <code>targetFilepath</code> is an absolute path. If <code>absolutePath</code> is <code>false</code>, <code>targetFilepath</code> is considered as a relative path to the workspace root. The default value is <code>true</code>.</li>
+</ul>
+<p>Let&#39;s break down the function:</p>
+<ol>
+<li><p>The function first checks if the <code>.boostignore</code> file exists by calling <code>getBoostIgnoreFile()</code>. If it doesn&#39;t exist, the function returns and does nothing.</p>
+</li>
+<li><p>The function extracts existing ignore patterns from the <code>.boostignore</code> file by calling <code>_extractIgnorePatternsFromFile(boostignoreFile.fsPath)</code>.</p>
+</li>
+<li><p>The function converts the <code>targetFilepath</code> to a relative path. If <code>absolutePath</code> is <code>true</code>, the function uses the <code>vscode.workspace.asRelativePath</code> method to convert the absolute path to a relative path. If <code>absolutePath</code> is <code>false</code>, the function assumes <code>targetFilepath</code> is a relative path to the workspace root. </p>
+</li>
+<li><p>The function checks if the target file or directory exists. If it doesn&#39;t exist, the function logs a warning message and returns.</p>
+</li>
+<li><p>The function checks if the target file or directory is already included in the existing ignore patterns using the <code>micromatch.isMatch</code> function. If it&#39;s already included, the function logs a warning message and returns.</p>
+</li>
+<li><p>If the target is not already included in the ignore patterns, the function checks if the target is a directory or a file. If it&#39;s a directory, the function adds a glob pattern (<code>targetRelativePath + &quot;/**&quot;</code>) to the ignore patterns to match all files and directories under the target directory. If it&#39;s a file, the function adds the relative path of the file to the ignore patterns.</p>
+</li>
+<li><p>The function writes the updated ignore patterns back to the <code>.boostignore</code> file.</p>
+</li>
+<li><p>Finally, the function logs an info message indicating that the target has been added to the <code>.boostignore</code> file.</p>
+</li>
+</ol>
+<p>This function uses the following libraries and VS Code API:</p>
+<ul>
+<li><code>fs</code>: Node.js file system module for reading and writing files.</li>
+<li><code>vscode</code>: VS Code API for interacting with the VS Code editor.</li>
+<li><code>micromatch</code>: A glob matching library to check if a file or directory matches a glob pattern.</li>
+</ul>
+<p>Here are some resources for further learning:</p>
+<ul>
+<li><a href="https://nodejs.org/api/fs.html">Node.js fs module</a></li>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api">VS Code API</a></li>
+<li><a href="https://www.npmjs.com/package/micromatch">micromatch</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:09:06 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->ExampleProcess;
+Start-->ExampleErrorPath;
+ExampleProcess-->End;
+ExampleErrorPath-->End;
+</pre>
+</code></pre><p>In the mermaid code syntax, do not use parenthesis, invalid or special characters. If no control flow is present in the code (for example, the code is just comments), return the string &quot;NO CONTROL FLOW FOUND&quot;.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:11:37 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 288</p>
+<p><strong>Bug Type</strong>: Insecure File Handling</p>
+<p><strong>Description</strong>: The function &#39;fs.existsSync&#39; is used to check if a file exists before opening it. This can lead to a time-of-check-time-of-use (TOCTOU) race condition, where the file is deleted or altered after the check but before the use. This could lead to unexpected behavior or security vulnerabilities. More info can be found here: <a href="https://owasp.org/www-community/vulnerabilities/Time_of_check_to_time_of_use">https://owasp.org/www-community/vulnerabilities/Time_of_check_to_time_of_use</a></p>
+<p><strong>Solution</strong>: Instead of checking if the file exists and then opening it, just try to open it and handle the error if it doesn&#39;t exist. This can be done using a try-catch block.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 306</p>
+<p><strong>Bug Type</strong>: Insecure File Handling</p>
+<p><strong>Description</strong>: The function &#39;fs.statSync&#39; is used to retrieve file statistics synchronously, which can block the event loop if the file is large or the file system is slow. This could lead to performance issues. More info can be found here: <a href="https://nodejs.org/en/knowledge/file-system/security/introduction/">https://nodejs.org/en/knowledge/file-system/security/introduction/</a></p>
+<p><strong>Solution</strong>: Consider using the asynchronous version &#39;fs.stat&#39; to avoid blocking the event loop.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 317</p>
+<p><strong>Bug Type</strong>: Insecure File Handling</p>
+<p><strong>Description</strong>: The function &#39;fs.writeFileSync&#39; is used to write data to a file. If the data is not properly validated, this could lead to file injection attacks. More info can be found here: <a href="https://owasp.org/www-community/attacks/File_Injection">https://owasp.org/www-community/attacks/File_Injection</a></p>
+<p><strong>Solution</strong>: Ensure that the data being written to the file is properly validated and sanitized. Consider using a library or framework that provides automatic escaping and encoding of data.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:15:30 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 286</p>
+<p><strong>Bug Type</strong>: Disk</p>
+<p><strong>Description</strong>: The function &#39;fs.existsSync&#39; is a synchronous operation that can block the event loop if the file check takes a long time, causing the application to become unresponsive.</p>
+<p><strong>Solution</strong>: Replace &#39;fs.existsSync&#39; with its asynchronous version &#39;fs.exists&#39; and handle the result in a callback or use the &#39;async/await&#39; syntax. Refer to this resource: <a href="https://nodejs.dev/learn/the-nodejs-fs-module">https://nodejs.dev/learn/the-nodejs-fs-module</a></p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 297</p>
+<p><strong>Bug Type</strong>: Disk</p>
+<p><strong>Description</strong>: The function &#39;fs.statSync&#39; is a synchronous operation that can block the event loop if the file check takes a long time, causing the application to become unresponsive.</p>
+<p><strong>Solution</strong>: Replace &#39;fs.statSync&#39; with its asynchronous version &#39;fs.stat&#39; and handle the result in a callback or use the &#39;async/await&#39; syntax. Refer to this resource: <a href="https://nodejs.dev/learn/the-nodejs-fs-module">https://nodejs.dev/learn/the-nodejs-fs-module</a></p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 305</p>
+<p><strong>Bug Type</strong>: Disk</p>
+<p><strong>Description</strong>: The function &#39;fs.writeFileSync&#39; is a synchronous operation that can block the event loop if the file write takes a long time, causing the application to become unresponsive.</p>
+<p><strong>Solution</strong>: Replace &#39;fs.writeFileSync&#39; with its asynchronous version &#39;fs.writeFile&#39; and handle the result in a callback or use the &#39;async/await&#39; syntax. Refer to this resource: <a href="https://nodejs.dev/learn/the-nodejs-fs-module">https://nodejs.dev/learn/the-nodejs-fs-module</a></p>
+</li>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 279</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The function &#39;patterns.some&#39; with &#39;micromatch.isMatch&#39; inside can be inefficient for large datasets as it checks each pattern until it finds a match.</p>
+<p><strong>Solution</strong>: If the number of patterns is large, consider using a more efficient algorithm for pattern matching or reducing the number of patterns. Refer to this resource for efficient pattern matching algorithms: <a href="https://en.wikipedia.org/wiki/String_searching_algorithm">https://en.wikipedia.org/wiki/String_searching_algorithm</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:20:52 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 279</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The function &#39;updateBoostIgnoreForTarget&#39; is reading file paths without any checks for personal data. If these files contain personal data, it could be a violation of GDPR.</p>
+<p><strong>Solution</strong>: Ensure that any personal data in these files is adequately protected. This could include anonymization or pseudonymization of personal data. Also, consider adding user consent for processing personal data.</p>
+</li>
+<li><p><strong>Severity</strong>: 8/10</p>
+<p><strong>Line Number</strong>: 296</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The function &#39;updateBoostIgnoreForTarget&#39; is writing to a file without any checks for sensitive data. If this file contains cardholder data, it could be a violation of PCI DSS.</p>
+<p><strong>Solution</strong>: Ensure that any cardholder data is adequately protected. This could include encryption of cardholder data. Also, consider implementing access control measures to restrict access to cardholder data.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 281</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The function &#39;updateBoostIgnoreForTarget&#39; is processing file paths without any checks for health information. If these files contain protected health information, it could be a violation of HIPAA.</p>
+<p><strong>Solution</strong>: Ensure that any protected health information is adequately protected. This could include encryption of health information. Also, consider implementing access control measures to restrict access to health information.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/files.ts line 202:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">buildVSCodeIgnorePattern</span>(<span class="hljs-params">
+    targetFolder: vscode.Uri,
+    ignoreBoostFolder: <span class="hljs-built_in">boolean</span> = <span class="hljs-literal">true</span>
+</span>): vscode.<span class="hljs-property">RelativePattern</span> | <span class="hljs-literal">null</span> {
+    <span class="hljs-keyword">let</span> <span class="hljs-attr">workspaceFolder</span>: vscode.<span class="hljs-property">Uri</span> | <span class="hljs-literal">undefined</span> =
+        vscode.<span class="hljs-property">workspace</span>.<span class="hljs-property">workspaceFolders</span>?.[<span class="hljs-number">0</span>]?.<span class="hljs-property">uri</span>;
+    <span class="hljs-comment">// if no workspace root folder, bail</span>
+    <span class="hljs-keyword">if</span> (!workspaceFolder) {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    }
+
+    <span class="hljs-keyword">const</span> <span class="hljs-attr">patterns</span>: <span class="hljs-built_in">string</span>[] = [];
+
+    <span class="hljs-comment">// read the .vscodeignore file</span>
+    <span class="hljs-keyword">let</span> vscignoreFile = vscode.<span class="hljs-property">Uri</span>.<span class="hljs-title function_">joinPath</span>(workspaceFolder, <span class="hljs-string">&quot;.vscodeignore&quot;</span>);
+    <span class="hljs-keyword">const</span> vscodeIgnorePatterns = <span class="hljs-title function_">_extractIgnorePatternsFromFile</span>(
+        vscignoreFile.<span class="hljs-property">fsPath</span>
+    );
+    patterns.<span class="hljs-title function_">push</span>(...vscodeIgnorePatterns);
+
+    <span class="hljs-comment">// read the .gitignore file</span>
+    <span class="hljs-keyword">let</span> gitignoreFile = vscode.<span class="hljs-property">Uri</span>.<span class="hljs-title function_">joinPath</span>(workspaceFolder, <span class="hljs-string">&quot;.gitignore&quot;</span>);
+    <span class="hljs-keyword">const</span> gitIgnorePatterns = <span class="hljs-title function_">_extractIgnorePatternsFromFile</span>(
+        gitignoreFile.<span class="hljs-property">fsPath</span>
+    );
+    patterns.<span class="hljs-title function_">push</span>(...gitIgnorePatterns);
+
+    <span class="hljs-keyword">const</span> boostIgnoreFile = <span class="hljs-title function_">getBoostIgnoreFile</span>();
+    <span class="hljs-keyword">if</span> (!boostIgnoreFile) {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    }
+    patterns.<span class="hljs-title function_">push</span>(
+        ...patterns.<span class="hljs-title function_">concat</span>(
+            <span class="hljs-title function_">_extractIgnorePatternsFromFile</span>(boostIgnoreFile.<span class="hljs-property">fsPath</span>)
+        )
+    );
+
+    <span class="hljs-comment">// never include the .boost folder - since that&#x27;s where we store our notebooks</span>
+    <span class="hljs-keyword">if</span> (
+        ignoreBoostFolder &amp;&amp;
+        !patterns.<span class="hljs-title function_">find</span>(<span class="hljs-function">(<span class="hljs-params">pattern</span>) =&gt;</span> pattern === <span class="hljs-string">&quot;**/.boost/**&quot;</span>)
+    ) {
+        patterns.<span class="hljs-title function_">push</span>(<span class="hljs-string">&quot;**/.boost/**&quot;</span>);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!ignoreBoostFolder) {
+        patterns.<span class="hljs-title function_">splice</span>(patterns.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&quot;**/.boost/**&quot;</span>), <span class="hljs-number">1</span>);
+    }
+
+    <span class="hljs-comment">// never include the .boostignore file since that&#x27;s where we store our ignore patterns</span>
+    <span class="hljs-keyword">if</span> (!patterns.<span class="hljs-title function_">find</span>(<span class="hljs-function">(<span class="hljs-params">pattern</span>) =&gt;</span> pattern === <span class="hljs-string">&quot;**/.boostignore&quot;</span>)) {
+        patterns.<span class="hljs-title function_">push</span>(<span class="hljs-string">&quot;**/.boostignore&quot;</span>);
+    }
+    <span class="hljs-comment">// add common binary file types to the exclude patterns</span>
+    <span class="hljs-keyword">const</span> binaryFilePatterns = [
+        <span class="hljs-string">&quot;**/*.jpg&quot;</span>,
+        <span class="hljs-string">&quot;**/*.jpeg&quot;</span>,
+        <span class="hljs-string">&quot;**/*.png&quot;</span>,
+        <span class="hljs-string">&quot;**/*.gif&quot;</span>,
+        <span class="hljs-string">&quot;**/*.bmp&quot;</span>,
+        <span class="hljs-string">&quot;**/*.tiff&quot;</span>,
+        <span class="hljs-string">&quot;**/*.ico&quot;</span>,
+        <span class="hljs-string">&quot;**/*.pdf&quot;</span>,
+        <span class="hljs-string">&quot;**/*.zip&quot;</span>,
+        <span class="hljs-string">&quot;**/*.tar&quot;</span>,
+        <span class="hljs-string">&quot;**/*.gz&quot;</span>,
+        <span class="hljs-string">&quot;**/*.rar&quot;</span>,
+        <span class="hljs-string">&quot;**/*.7z&quot;</span>,
+        <span class="hljs-string">&quot;**/*.exe&quot;</span>,
+        <span class="hljs-string">&quot;**/*.dll&quot;</span>,
+        <span class="hljs-string">&quot;**/*.so&quot;</span>,
+        <span class="hljs-string">&quot;**/*.bin&quot;</span>,
+        <span class="hljs-string">&quot;**/*.ppt&quot;</span>,
+        <span class="hljs-string">&quot;**/*.pptx&quot;</span>,
+        <span class="hljs-string">&quot;**/*.doc&quot;</span>,
+        <span class="hljs-string">&quot;**/*.docx&quot;</span>,
+        <span class="hljs-string">&quot;**/*.xls&quot;</span>,
+        <span class="hljs-string">&quot;**/*.xlsx&quot;</span>,
+        <span class="hljs-string">&quot;**/*.psd&quot;</span>,
+        <span class="hljs-string">&quot;**/*.ai&quot;</span>,
+        <span class="hljs-string">&quot;**/*.flv&quot;</span>,
+        <span class="hljs-string">&quot;**/*.mp4&quot;</span>,
+        <span class="hljs-string">&quot;**/*.avi&quot;</span>,
+        <span class="hljs-string">&quot;**/*.mkv&quot;</span>,
+        <span class="hljs-string">&quot;**/*.mpeg&quot;</span>,
+        <span class="hljs-string">&quot;**/*.mp3&quot;</span>,
+        <span class="hljs-string">&quot;**/*.wav&quot;</span>,
+        <span class="hljs-string">&quot;**/*.flac&quot;</span>,
+        <span class="hljs-string">&quot;**/*.aac&quot;</span>,
+        <span class="hljs-string">&quot;**/*.ogg&quot;</span>,
+        <span class="hljs-string">&quot;**/*.iso&quot;</span>,
+        <span class="hljs-string">&quot;**/*.dmg&quot;</span>,
+        <span class="hljs-string">&quot;**/*.jar&quot;</span>,
+        <span class="hljs-string">&quot;**/*.war&quot;</span>,
+        <span class="hljs-string">&quot;**/*.ear&quot;</span>,
+        <span class="hljs-string">&quot;**/*.pyc&quot;</span>,
+        <span class="hljs-string">&quot;**/*.pyo&quot;</span>,
+        <span class="hljs-string">&quot;**/*.class&quot;</span>,
+        <span class="hljs-string">&quot;**/*.sqlite&quot;</span>,
+        <span class="hljs-string">&quot;**/*.db&quot;</span>,
+        <span class="hljs-string">&quot;**/*.ttf&quot;</span>,
+        <span class="hljs-string">&quot;**/*.otf&quot;</span>,
+        <span class="hljs-string">&quot;**/*.ipynb_checkpoints&quot;</span>,
+        <span class="hljs-string">&quot;**/*.ipynb_checkpoints/**&quot;</span>,
+        <span class="hljs-string">&quot;**/*.git&quot;</span>,
+        <span class="hljs-string">&quot;**/*.svn&quot;</span>,
+        <span class="hljs-string">&quot;**/*.hg&quot;</span>,
+        <span class="hljs-string">&quot;**/*.bz2&quot;</span>,
+        <span class="hljs-string">&quot;**/*.app&quot;</span>,
+        <span class="hljs-string">&quot;**/*.appx&quot;</span>,
+        <span class="hljs-string">&quot;**/*.appxbundle&quot;</span>,
+        <span class="hljs-string">&quot;**/*.msi&quot;</span>,
+        <span class="hljs-string">&quot;**/*.deb&quot;</span>,
+        <span class="hljs-string">&quot;**/*.rpm&quot;</span>,
+        <span class="hljs-string">&quot;**/*.elf&quot;</span>,
+        <span class="hljs-string">&quot;**/*.sys&quot;</span>,
+        <span class="hljs-string">&quot;**/*.odt&quot;</span>,
+        <span class="hljs-string">&quot;**/*.ods&quot;</span>,
+        <span class="hljs-string">&quot;**/*.odp&quot;</span>,
+    ];
+
+    <span class="hljs-keyword">const</span> textFilePatterns = [
+        <span class="hljs-string">&quot;**/*.svg&quot;</span>,
+        <span class="hljs-string">&quot;**/*.*ignore&quot;</span>,
+        <span class="hljs-string">&quot;**/*.gitignore&quot;</span>,
+        <span class="hljs-string">&quot;**/*.gitattributes&quot;</span>,
+        <span class="hljs-string">&quot;**/*.log&quot;</span>,
+        <span class="hljs-string">&quot;**/*.out&quot;</span>,
+        <span class="hljs-string">&quot;**/*.dockerignore&quot;</span>,
+        <span class="hljs-string">&quot;**/*.gitkeep&quot;</span>,
+        <span class="hljs-string">&quot;**/*.gitmodules&quot;</span>,
+        <span class="hljs-string">&quot;**/*.gitconfig&quot;</span>,
+    ];
+
+    <span class="hljs-keyword">const</span> potentiallyUsefulTextFiles = [
+        <span class="hljs-string">&quot;**/*.ipynb&quot;</span>, <span class="hljs-comment">// Jupyter notebooks</span>
+        <span class="hljs-string">&quot;**/*.sql&quot;</span>, <span class="hljs-comment">// SQL scripts</span>
+        <span class="hljs-string">&quot;**/*.rtf&quot;</span>, <span class="hljs-comment">// Rich text files</span>
+        <span class="hljs-string">&quot;**/*.csv&quot;</span>, <span class="hljs-comment">// Data files that might be read by scripts</span>
+        <span class="hljs-string">&quot;**/*.tsv&quot;</span>, <span class="hljs-comment">// Data files that might be read by scripts</span>
+        <span class="hljs-string">&quot;**/*.dist&quot;</span>, <span class="hljs-comment">// Often used for distribution config files</span>
+    ];
+
+    patterns.<span class="hljs-title function_">push</span>(
+        ...binaryFilePatterns,
+        ...textFilePatterns,
+        ...potentiallyUsefulTextFiles
+    );
+
+    <span class="hljs-comment">// const exclude = &#x27;{**/node_modules/**,**/bower_components/**}&#x27;;</span>
+    <span class="hljs-keyword">const</span> ignorePatterns = <span class="hljs-string">&quot;{&quot;</span> + patterns.<span class="hljs-title function_">join</span>(<span class="hljs-string">&quot;,&quot;</span>) + <span class="hljs-string">&quot;}&quot;</span>;
+    <span class="hljs-comment">//    boostLogging.debug( &quot;Skipping source files of pattern: &quot; + (ignorePatterns ?? &quot;none&quot;) );</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> vscode.<span class="hljs-title class_">RelativePattern</span>(targetFolder, ignorePatterns);
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:04:56 AM PDT</p>
+<p>This function, <code>buildVSCodeIgnorePattern</code>, is used to build a pattern for files and directories that should be ignored by Visual Studio Code (VS Code). This is typically useful for files that do not need to be displayed in the VS Code editor or files that should not be included in searches. </p>
+<p>The function takes two parameters: <code>targetFolder</code> which is a URI representing the folder for which the ignore pattern is being built, and <code>ignoreBoostFolder</code> which is a boolean indicating whether the <code>.boost</code> folder should be ignored. </p>
+<p>Here is a detailed breakdown of the function:</p>
+<ol>
+<li><p>A <code>workspaceFolder</code> is retrieved from the <code>vscode.workspace.workspaceFolders</code> API. If no workspace folder is found, the function returns null.</p>
+</li>
+<li><p>An empty array <code>patterns</code> is initialized to hold the ignore patterns.</p>
+</li>
+<li><p>The function reads the <code>.vscodeignore</code> file located in the workspace folder, extracts the ignore patterns from the file using the <code>_extractIgnorePatternsFromFile</code> function, and adds them to the <code>patterns</code> array.</p>
+</li>
+<li><p>The function repeats the same process for the <code>.gitignore</code> file.</p>
+</li>
+<li><p>The function gets the boost ignore file using the <code>getBoostIgnoreFile</code> function. If no boost ignore file is found, the function returns null. Otherwise, it extracts the ignore patterns from the boost ignore file and adds them to the <code>patterns</code> array.</p>
+</li>
+<li><p>If the <code>ignoreBoostFolder</code> flag is set to true and the <code>.boost</code> folder is not already in the <code>patterns</code> array, the function adds the <code>.boost</code> folder to the <code>patterns</code> array. If the <code>ignoreBoostFolder</code> flag is set to false, the function removes the <code>.boost</code> folder from the <code>patterns</code> array.</p>
+</li>
+<li><p>The function adds the <code>.boostignore</code> file to the <code>patterns</code> array if it is not already there.</p>
+</li>
+<li><p>The function adds common binary file types, text file patterns, and potentially useful text files to the <code>patterns</code> array.</p>
+</li>
+<li><p>The function joins all the patterns in the <code>patterns</code> array into a single string, with each pattern separated by a comma. This string is then wrapped in curly braces to form the final ignore pattern.</p>
+</li>
+<li><p>The function returns a new <code>vscode.RelativePattern</code> object, with the <code>targetFolder</code> and the final ignore pattern as parameters.</p>
+</li>
+</ol>
+<p>This function uses the concept of <a href="https://code.visualstudio.com/api/references/vscode-api#GlobPattern">Glob Patterns</a> to define the files to be ignored. Glob patterns are used by VS Code to specify sets of filenames with wildcard characters.</p>
+<p>The <code>_extractIgnorePatternsFromFile</code> function and <code>getBoostIgnoreFile</code> function are not defined in the provided code, but they presumably read the respective ignore files and return the ignore patterns found in them.</p>
+<p>For further reading on VS Code API used in the code, you can refer to the following links:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api">VS Code API</a></li>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api#workspace.workspaceFolders">VS Code Extension Examples</a></li>
+</ul>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:09:22 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->A;
+A-->B;
+B-->C;
+C-->D;
+D-->E;
+E-->F;
+F-->G;
+G-->H;
+H-->I;
+I-->J;
+J-->K;
+K-->L;
+L-->M;
+M-->N;
+N-->O;
+O-->P;
+P-->Q;
+Q-->R;
+R-->S;
+S-->T;
+T-->U;
+U-->V;
+V-->W;
+W-->X;
+X-->Y;
+Y-->Z;
+Z-->End;
+</pre>
+</code></pre><p>In the above control flow graph, the primary path is represented by the colored flow blocks, while the non-error paths are represented by the default non-colored flow blocks. The error path is represented by the red flow block.</p>
+<p>The control flow starts at the function <code>buildVSCodeIgnorePattern</code> and follows the path A -&gt; B -&gt; C -&gt; D -&gt; E -&gt; F -&gt; G -&gt; H -&gt; I -&gt; J -&gt; K -&gt; L -&gt; M -&gt; N -&gt; O -&gt; P -&gt; Q -&gt; R -&gt; S -&gt; T -&gt; U -&gt; V -&gt; W -&gt; X -&gt; Y -&gt; Z -&gt; End.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:11:40 AM PDT</p>
+<p><strong>No bugs found</strong></p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:16:02 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 408</p>
+<p><strong>Bug Type</strong>: Disk</p>
+<p><strong>Description</strong>: The function &#39;_extractIgnorePatternsFromFile&#39; is called three times to read ignore patterns from different files. This could potentially lead to high disk I/O operations if these files are large.</p>
+<p><strong>Solution</strong>: Consider loading these files asynchronously or in parallel to reduce the blocking time. Node.js has built-in support for asynchronous file operations.</p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 435</p>
+<p><strong>Bug Type</strong>: Memory</p>
+<p><strong>Description</strong>: The array &#39;patterns&#39; is being continuously expanded with the &#39;push&#39; method. This could potentially lead to high memory usage if the number of patterns is large.</p>
+<p><strong>Solution</strong>: Consider using a more memory-efficient data structure to store the patterns, such as a Set or a Map. These data structures also provide faster lookup times compared to arrays.</p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 435</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The function &#39;push&#39; is called multiple times to add patterns to the array. This could potentially lead to high CPU usage if the number of patterns is large.</p>
+<p><strong>Solution</strong>: Consider adding all patterns at once using the spread operator, or use a more efficient data structure like a Set or a Map.</p>
+</li>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 439</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The function &#39;find&#39; is called twice to check for the existence of certain patterns. This could potentially lead to high CPU usage if the number of patterns is large.</p>
+<p><strong>Solution</strong>: Consider using a more efficient data structure for pattern lookup, such as a Set or a Map. These data structures provide O(1) lookup time compared to O(n) for arrays.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:21:09 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 4/10</p>
+<p><strong>Line Number</strong>: 420</p>
+<p><strong>Bug Type</strong>: GDPR</p>
+<p><strong>Description</strong>: The code reads data from .vscodeignore and .gitignore files which could potentially contain sensitive information. If this data is not handled properly, it could lead to GDPR compliance issues.</p>
+<p><strong>Solution</strong>: Ensure that the data read from these files is only used for the intended purpose and is not stored or transmitted in a way that could compromise user privacy. Implement proper data handling and protection measures.</p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 444</p>
+<p><strong>Bug Type</strong>: HIPAA</p>
+<p><strong>Description</strong>: The code excludes certain file types from analysis, including .pdf, .doc, .docx, .xls, and .xlsx files. These file types could potentially contain health information, and excluding them from analysis could lead to HIPAA compliance issues.</p>
+<p><strong>Solution</strong>: Consider including these file types in the analysis, or implement a separate process for handling potentially sensitive files to ensure HIPAA compliance.</p>
+</li>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 444</p>
+<p><strong>Bug Type</strong>: PCI DSS</p>
+<p><strong>Description</strong>: The code excludes certain file types from analysis, including .pdf, .doc, .docx, .xls, .xlsx, .zip, .rar, .7z files. These file types could potentially contain financial data, and excluding them from analysis could lead to PCI DSS compliance issues.</p>
+<p><strong>Solution</strong>: Consider including these file types in the analysis, or implement a separate process for handling potentially sensitive files to ensure PCI DSS compliance.</p>
+</li>
+</ol>
+</div'></div><div class="new-page-section">
+                    <h2>./src/utilities/files.ts line 356:</h2>
+                    <p>Programming Language: typescript</p>
+                    <pre><code>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">_extractIgnorePatternsFromFile</span>(<span class="hljs-params">ignoreFile: <span class="hljs-built_in">string</span></span>): <span class="hljs-built_in">string</span>[] {
+    <span class="hljs-comment">// if no ignore file, bail</span>
+    <span class="hljs-keyword">if</span> (!fs.<span class="hljs-title function_">existsSync</span>(ignoreFile)) {
+        <span class="hljs-keyword">return</span> [];
+    }
+
+    <span class="hljs-keyword">const</span> ignoreFileContent = fs.<span class="hljs-title function_">readFileSync</span>(ignoreFile, <span class="hljs-string">&quot;utf-8&quot;</span>);
+    <span class="hljs-keyword">const</span> patterns = ignoreFileContent.<span class="hljs-title function_">split</span>(<span class="hljs-regexp">/\r?\n/</span>).<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">line</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> line.<span class="hljs-title function_">trim</span>() !== <span class="hljs-string">&quot;&quot;</span> &amp;&amp; !line.<span class="hljs-title function_">startsWith</span>(<span class="hljs-string">&quot;#&quot;</span>);
+    });
+    <span class="hljs-keyword">return</span> patterns;
+}
+</code></pre>
+                </div><div class='analysis-section'><div class='output-item'><hr>
+<h3 id="boost-code-explanation">Boost Code Explanation</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:05:44 AM PDT</p>
+<p>The function <code>_extractIgnorePatternsFromFile</code> takes in a string parameter <code>ignoreFile</code>, which is expected to be a path to a file. This function reads the file and extracts the &quot;ignore patterns&quot; from it.</p>
+<p>Here&#39;s a line-by-line explanation:</p>
+<ol>
+<li><p><code>function _extractIgnorePatternsFromFile(ignoreFile: string): string[] {</code>: The function declaration. It takes a string <code>ignoreFile</code> as a parameter and returns an array of strings.</p>
+</li>
+<li><p><code>if (!fs.existsSync(ignoreFile)) { return []; }</code>: The function uses the <code>fs.existsSync</code> method to check if the file at the path <code>ignoreFile</code> exists. If the file doesn&#39;t exist, the function returns an empty array and ends.</p>
+</li>
+<li><p><code>const ignoreFileContent = fs.readFileSync(ignoreFile, &quot;utf-8&quot;);</code>: If the file does exist, the function reads the file&#39;s contents using <code>fs.readFileSync</code>, specifying the encoding as &quot;utf-8&quot;. The contents of the file are stored in <code>ignoreFileContent</code>.</p>
+</li>
+<li><p><code>const patterns = ignoreFileContent.split(/\r?\n/).filter((line) =&gt; { return line.trim() !== &quot;&quot; &amp;&amp; !line.startsWith(&quot;#&quot;); });</code>: The function then splits the file content into lines using the regular expression <code>/\r?\n/</code>. This regex matches both Windows-style (<code>\r\n</code>) and Unix-style (<code>\n</code>) line endings. The <code>filter</code> function is used to remove any lines that are empty or start with a <code>#</code> (commonly used for comments in ignore files). The resulting array of strings is stored in <code>patterns</code>.</p>
+</li>
+<li><p><code>return patterns;</code>: Finally, the function returns the <code>patterns</code> array.</p>
+</li>
+</ol>
+<p>The primary algorithm used in this function is linear scanning, which is used when the function reads the file, splits it into lines, and filters those lines.</p>
+<p>For more information on the <code>fs</code> (file system) module in Node.js, you can read the <a href="https://nodejs.org/api/fs.html">official documentation</a>. For more information on regular expressions and the <code>split</code> and <code>filter</code> functions, you can read about them on <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions">Mozilla Developer Network</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">JavaScript Array documentation</a>. </p>
+<p>In terms of architectural guidelines, this function follows good practices for file handling and data processing in a Node.js environment. It checks for the existence of the file before attempting to read it, and uses standard JavaScript methods for processing the file&#39;s contents.</p>
+</div'><div class='output-item'><hr>
+<h3 id="boost-flow-diagram">Boost Flow Diagram</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:09:31 AM PDT</p>
+<pre><code class="hljs language-mermaid"><pre class="mermaid">graph TD;
+style Start fill:#228B22, stroke:#000000, stroke-width:2px;
+style ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;
+style ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;
+
+Start-->CheckIgnoreFile;
+CheckIgnoreFile-->ReadIgnoreFile;
+CheckIgnoreFile-->ReturnEmptyArray;
+ReadIgnoreFile-->SplitIgnoreFileContent;
+SplitIgnoreFileContent-->FilterEmptyLines;
+SplitIgnoreFileContent-->FilterCommentLines;
+FilterEmptyLines-->ReturnPatterns;
+FilterCommentLines-->ReturnPatterns;
+ReturnEmptyArray-->ReturnEmptyArray;
+ReturnPatterns-->ReturnPatterns;
+</pre>
+</code></pre><pre><code>
+</code></pre></div'><div class='output-item'><hr>
+<h3 id="boost-source-level-security-analysis">Boost Source-Level Security Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:12:04 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 715</p>
+<p><strong>Bug Type</strong>: Insecure File Operations</p>
+<p><strong>Description</strong>: The function &#39;_extractIgnorePatternsFromFile&#39; uses &#39;fs.readFileSync&#39; to read the content of a file. This is a blocking operation that can lead to denial of service if the file is large or if the file system is slow.</p>
+<p><strong>Solution</strong>: Consider using the asynchronous version &#39;fs.readFile&#39; instead, which will not block the entire process. More details can be found here: <a href="https://nodejs.org/api/fs.html#fs_fs_readfile_path_options_callback">https://nodejs.org/api/fs.html#fs_fs_readfile_path_options_callback</a></p>
+</li>
+<li><p><strong>Severity</strong>: 6/10</p>
+<p><strong>Line Number</strong>: 712</p>
+<p><strong>Bug Type</strong>: Insecure File Operations</p>
+<p><strong>Description</strong>: The function &#39;_extractIgnorePatternsFromFile&#39; uses &#39;fs.existsSync&#39; to check if a file exists before reading it. This can lead to race conditions where the file might be deleted or changed after the check but before the read.</p>
+<p><strong>Solution</strong>: Consider reading the file directly without checking if it exists. If the file does not exist, &#39;fs.readFileSync&#39; will throw an error that you can handle. More details can be found here: <a href="https://nodejs.org/api/fs.html#fs_fs_readfilesync_path_options">https://nodejs.org/api/fs.html#fs_fs_readfilesync_path_options</a></p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-performance-analysis">Boost Source-Level Performance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:16:23 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 713</p>
+<p><strong>Bug Type</strong>: Disk</p>
+<p><strong>Description</strong>: The function fs.existsSync is synchronous and can block the event loop if the file system operation takes a long time.</p>
+<p><strong>Solution</strong>: Consider using asynchronous methods like fs.exists, which do not block the event loop.</p>
+</li>
+<li><p><strong>Severity</strong>: 7/10</p>
+<p><strong>Line Number</strong>: 716</p>
+<p><strong>Bug Type</strong>: Disk</p>
+<p><strong>Description</strong>: The function fs.readFileSync is synchronous and can block the event loop if the file system operation takes a long time. This can lead to poor performance especially when dealing with large files.</p>
+<p><strong>Solution</strong>: Consider using asynchronous methods like fs.readFile, which do not block the event loop.</p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 717</p>
+<p><strong>Bug Type</strong>: CPU</p>
+<p><strong>Description</strong>: The use of split and filter methods in sequence can lead to two full iterations over the data. This can be inefficient for large data sets.</p>
+<p><strong>Solution</strong>: Consider combining the operations into a single loop using a for loop or a reduce method.</p>
+</li>
+</ol>
+</div'><div class='output-item'><hr>
+<h3 id="boost-source-level-data-and-privacy-compliance-analysis">Boost Source-Level Data and Privacy Compliance Analysis</h3>
+<p>Last Updated: Saturday, September 9, 2023 at 5:21:23 AM PDT</p>
+<ol>
+<li><p><strong>Severity</strong>: 5/10</p>
+<p><strong>Line Number</strong>: 714</p>
+<p><strong>Bug Type</strong>: Data Compliance</p>
+<p><strong>Description</strong>: The code reads a file from the file system without any checks for permissions or ownership. This could lead to unauthorized access to sensitive data, violating GDPR, PCI DSS, and HIPAA regulations.</p>
+<p><strong>Solution</strong>: Implement proper access controls and permission checks before reading files. Use secure coding practices to avoid potential data breaches.</p>
+</li>
+<li><p><strong>Severity</strong>: 3/10</p>
+<p><strong>Line Number</strong>: 716</p>
+<p><strong>Bug Type</strong>: Data Compliance</p>
+<p><strong>Description</strong>: The code does not handle potential errors when reading the file which could lead to unhandled exceptions and potential data leaks.</p>
+<p><strong>Solution</strong>: Implement proper error handling when reading files. This should include catching and properly handling any exceptions that may occur.</p>
+</li>
+<li><p><strong>Severity</strong>: 2/10</p>
+<p><strong>Line Number</strong>: 717</p>
+<p><strong>Bug Type</strong>: Data Compliance</p>
+<p><strong>Description</strong>: The code does not validate the content of the file before processing it. This could lead to processing of malicious or unexpected data, potentially leading to security vulnerabilities.</p>
+<p><strong>Solution</strong>: Implement input validation to ensure that the file content is as expected before processing it. This should include checking for malicious or unexpected data.</p>
+</li>
+</ol>
+</div'></div>
+</body>
+</html>

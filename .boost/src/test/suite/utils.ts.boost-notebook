@@ -5,13 +5,86 @@
         {
           "items": [
             {
-              "mime": "application/vnd.code.notebook.error",
-              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:52:45 PM PDT\n\nThis code is written in TypeScript, which is a statically typed superset of JavaScript. It's a common language choice for Visual Studio Code extensions, as VS Code itself is built with TypeScript.\n\nThe code is importing several modules:\n\n1. `vscode`: This is the API for interacting with Visual Studio Code. It provides functions and objects for interacting with the editor, such as opening files, displaying messages, and so on. More info can be found in the [VS Code API documentation](https://code.visualstudio.com/api/references/vscode-api).\n\n2. `path`: This is a built-in Node.js module for manipulating file and directory paths. It provides utilities for working with file and directory paths. For example, it can join paths, resolve paths to absolute paths, get the extension of a file, etc. More info can be found in the [Node.js path documentation](https://nodejs.org/api/path.html).\n\n3. `fs`: This is a built-in Node.js module for file system operations. It provides functions for reading and writing files, creating directories, and so on. More info can be found in the [Node.js fs documentation](https://nodejs.org/api/fs.html).\n\n4. `console`: The `debug` function from the `console` module is being imported. This is a built-in Node.js module for printing debugging messages. The `debug` function is a console method which outputs a message to the console in the 'debug' level. The message will be written to `stderr`, and includes a stack trace. More info can be found in the [Node.js console documentation](https://nodejs.org/api/console.html#console_console_debug_data_args).\n\nThe code does not contain any algorithms or complex logic at this point. It's just setting up the module dependencies for the rest of the code. The actual logic would presumably be in the code that follows these import statements. \n\nAs for the architectural guidelines, this code is consistent with the guidelines provided. It uses modules from the Node.js standard library, which is common in JavaScript and TypeScript projects. It also uses the VS Code API, which is necessary for a VS Code extension. There are no conflicts between the code and the guidelines provided."
             }
           ],
           "metadata": {
             "outputType": "explainCode",
             "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:54:24 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExampleErrorPath-->End;\n```\n\nNO CONTROL FLOW FOUND"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:54:57 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:55:59 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:57:43 PM PDT\n\n1. **Severity**: 5/10\n\n   **Line Number**: 6\n\n   **Bug Type**: GDPR\n\n   **Description**: The 'fs' module is used which can read or write files. If it's used to process personal data, it could potentially lead to GDPR compliance issues.\n\n   **Solution**: Ensure that any data read or written using the 'fs' module is anonymized and that user consent is obtained if personal data is processed. If storing personal data, it should be encrypted at rest.\n\n\n2. **Severity**: 6/10\n\n   **Line Number**: 6\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The 'fs' module can read or write files. If it's used to process cardholder data, it could lead to PCI DSS compliance issues.\n\n   **Solution**: Ensure that any cardholder data processed using the 'fs' module is encrypted and that appropriate access controls are in place. Cardholder data should never be stored unless it's necessary.\n\n\n3. **Severity**: 7/10\n\n   **Line Number**: 6\n\n   **Bug Type**: HIPAA\n\n   **Description**: The 'fs' module can read or write files. If it's used to process protected health information (PHI), it could lead to HIPAA compliance issues.\n\n   **Solution**: Ensure that any PHI processed using the 'fs' module is encrypted and that appropriate access controls are in place. PHI should never be stored unless it's necessary and it should be encrypted at rest.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 3,
+                "severity": 5,
+                "bugType": "GDPR",
+                "description": "The 'fs' module is used which can read or write files. If it's used to process personal data, it could potentially lead to GDPR compliance issues.",
+                "solution": "Ensure that any data read or written using the 'fs' module is anonymized and that user consent is obtained if personal data is processed. If storing personal data, it should be encrypted at rest.",
+                "weblink": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 3,
+                "severity": 6,
+                "bugType": "PCI DSS",
+                "description": "The 'fs' module can read or write files. If it's used to process cardholder data, it could lead to PCI DSS compliance issues.",
+                "solution": "Ensure that any cardholder data processed using the 'fs' module is encrypted and that appropriate access controls are in place. Cardholder data should never be stored unless it's necessary.",
+                "weblink": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 3,
+                "severity": 7,
+                "bugType": "HIPAA",
+                "description": "The 'fs' module can read or write files. If it's used to process protected health information (PHI), it could lead to HIPAA compliance issues.",
+                "solution": "Ensure that any PHI processed using the 'fs' module is encrypted and that appropriate access controls are in place. PHI should never be stored unless it's necessary and it should be encrypted at rest.",
+                "weblink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
           }
         }
       ],
@@ -30,13 +103,123 @@
         {
           "items": [
             {
-              "mime": "application/vnd.code.notebook.error",
-              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:53:25 PM PDT\n\nThe given code is written in TypeScript, which is a statically typed superset of JavaScript. It exports a function called `getRandomTestSourceFile` that returns a random test source file from a specific directory, and two constants `seconds` and `minutes` that are used for time conversion.\n\nHere's a detailed explanation of the code:\n\n1. The `seconds` and `minutes` constants are exported for use in other modules. They are defined as `1000` and `60 * seconds` respectively, presumably representing the number of milliseconds in a second and minute.\n\n2. The `getRandomTestSourceFile` function is also exported. This function doesn't take any arguments and returns a string.\n\n3. The `getRandomTestSourceFile` function starts by defining a path to a folder that contains test code files. It uses the `path.resolve` method to create an absolute path from the current directory (`__dirname`) and the relative path to the resources folder (`../resources/`).\n\n4. It then defines an array of supported file extensions for code files.\n\n5. The `fs.readdirSync` method is used to read the contents of the test code folder synchronously, and the result is stored in the `allFiles` array.\n\n6. The `allFiles` array is filtered to exclude files with unsupported extensions. This is done using the `Array.filter` method, which creates a new array with all elements that pass a test provided by a callback function. The callback function checks if the extension of each file is included in the `supportedExtensions` array.\n\n7. The function then checks if a file named `targetTestInput.json` exists in the test code folder. If it does, it reads the file, parses its JSON content, and uses the filename specified in the JSON to select the test source file. If the `targetTestInput.json` file doesn't exist, the function selects a random file from the `filteredFiles` array.\n\n8. The function logs the selected source file for debugging purposes and then returns its path.\n\nThe algorithm used in this code is fairly straightforward. It reads and filters files from a directory based on their extensions, and then selects a file based on the content of a JSON file or randomly if the JSON file doesn't exist.\n\nHere are some links for further reading:\n\n- [File System | Node.js v16.9.1 Documentation](https://nodejs.org/api/fs.html)\n- [Path | Node.js v16.9.1 Documentation](https://nodejs.org/api/path.html)\n- [Array.prototype.filter() - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)\n- [Math.random() - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random)"
             }
           ],
           "metadata": {
             "outputType": "explainCode",
             "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:54:29 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\nExampleProcess-->End;\nExampleErrorPath-->End;\n```\n\nThe code provided does not have any control flow."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:55:15 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 29\n\n   **Bug Type**: Insecure File Handling\n\n   **Description**: The code uses fs.readFileSync to read files without validating the input file name. This could lead to Path Traversal attacks, allowing an attacker to read files outside of the intended directory.\n\n   **Solution**: Validate the input file name to ensure it is within the intended directory. Use a library like 'path' to resolve file paths and check if the resolved path starts with the intended directory. More information: https://owasp.org/www-community/attacks/Path_Traversal\n\n\n2. **Severity**: 6/10\n\n   **Line Number**: 33\n\n   **Bug Type**: Insecure Randomness\n\n   **Description**: The code uses Math.random() to select a random file. Math.random() is not cryptographically secure and can be predictable, which could lead to security vulnerabilities if an attacker can predict the selected file.\n\n   **Solution**: Use a cryptographically secure random number generator instead of Math.random(). In Node.js, you can use crypto.randomInt(). More information: https://nodejs.org/api/crypto.html#crypto_crypto_randomint_min_max_callback\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": [
+              {
+                "lineNumber": 21,
+                "severity": 7,
+                "bugType": "Insecure File Handling",
+                "description": "The code uses fs.readFileSync to read files without validating the input file name. This could lead to Path Traversal attacks, allowing an attacker to read files outside of the intended directory.",
+                "solution": "Validate the input file name to ensure it is within the intended directory. Use a library like 'path' to resolve file paths and check if the resolved path starts with the intended directory. More information: https://owasp.org/www-community/attacks/Path_Traversal"
+              },
+              {
+                "lineNumber": 25,
+                "severity": 6,
+                "bugType": "Insecure Randomness",
+                "description": "The code uses Math.random() to select a random file. Math.random() is not cryptographically secure and can be predictable, which could lead to security vulnerabilities if an attacker can predict the selected file.",
+                "solution": "Use a cryptographically secure random number generator instead of Math.random(). In Node.js, you can use crypto.randomInt(). More information: https://nodejs.org/api/crypto.html#crypto_crypto_randomint_min_max_callback"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:56:21 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 21\n\n   **Bug Type**: Disk\n\n   **Description**: The readdirSync function is used to read the contents of a directory synchronously, which can block the event loop and degrade the performance of your application if the directory contains a large number of files.\n\n   **Solution**: Replace readdirSync with the asynchronous version, readdir. This will prevent blocking of the event loop. Here is an example: https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 33\n\n   **Bug Type**: Disk\n\n   **Description**: The existsSync function is used to check if a file exists synchronously, which can block the event loop and degrade the performance of your application.\n\n   **Solution**: Replace existsSync with the asynchronous version, exists. This will prevent blocking of the event loop. Here is an example: https://nodejs.org/api/fs.html#fs_fs_exists_path_callback\n\n\n3. **Severity**: 7/10\n\n   **Line Number**: 34\n\n   **Bug Type**: Disk\n\n   **Description**: The readFileSync function is used to read a file synchronously, which can block the event loop and degrade the performance of your application if the file is large.\n\n   **Solution**: Replace readFileSync with the asynchronous version, readFile. This will prevent blocking of the event loop. Here is an example: https://nodejs.org/api/fs.html#fs_fs_readfile_path_options_callback\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 13,
+                "severity": 7,
+                "bugType": "Disk",
+                "description": "The readdirSync function is used to read the contents of a directory synchronously, which can block the event loop and degrade the performance of your application if the directory contains a large number of files.",
+                "solution": "Replace readdirSync with the asynchronous version, readdir. This will prevent blocking of the event loop. Here is an example: https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback"
+              },
+              {
+                "lineNumber": 25,
+                "severity": 7,
+                "bugType": "Disk",
+                "description": "The existsSync function is used to check if a file exists synchronously, which can block the event loop and degrade the performance of your application.",
+                "solution": "Replace existsSync with the asynchronous version, exists. This will prevent blocking of the event loop. Here is an example: https://nodejs.org/api/fs.html#fs_fs_exists_path_callback"
+              },
+              {
+                "lineNumber": 26,
+                "severity": 7,
+                "bugType": "Disk",
+                "description": "The readFileSync function is used to read a file synchronously, which can block the event loop and degrade the performance of your application if the file is large.",
+                "solution": "Replace readFileSync with the asynchronous version, readFile. This will prevent blocking of the event loop. Here is an example: https://nodejs.org/api/fs.html#fs_fs_readfile_path_options_callback"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:58:05 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 30\n\n   **Bug Type**: GDPR\n\n   **Description**: The code reads a file without checking for sensitive data. This could potentially lead to the unintentional processing of personal data, which would be a violation of GDPR principles.\n\n   **Solution**: Implement a data classification system to identify and protect sensitive data. Always check whether data is classified as sensitive before processing it. \n\n\n2. **Severity**: 6/10\n\n   **Line Number**: 21\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The code reads all files in a directory without checking their content. If any of these files contain cardholder data, this could be a violation of PCI DSS.\n\n   **Solution**: Ensure that cardholder data is stored securely and only accessible to authorized personnel. Implement access control measures to prevent unauthorized access to files containing sensitive data.\n\n\n3. **Severity**: 8/10\n\n   **Line Number**: 30\n\n   **Bug Type**: HIPAA\n\n   **Description**: The code reads a file without checking for protected health information (PHI). If any PHI is processed, this would be a violation of HIPAA.\n\n   **Solution**: Implement a data classification system to identify and protect PHI. Always check whether data is classified as PHI before processing it. \n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 22,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The code reads a file without checking for sensitive data. This could potentially lead to the unintentional processing of personal data, which would be a violation of GDPR principles.",
+                "solution": "Implement a data classification system to identify and protect sensitive data. Always check whether data is classified as sensitive before processing it. ",
+                "reference": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 13,
+                "severity": 6,
+                "bugType": "PCI DSS",
+                "description": "The code reads all files in a directory without checking their content. If any of these files contain cardholder data, this could be a violation of PCI DSS.",
+                "solution": "Ensure that cardholder data is stored securely and only accessible to authorized personnel. Implement access control measures to prevent unauthorized access to files containing sensitive data.",
+                "reference": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 22,
+                "severity": 8,
+                "bugType": "HIPAA",
+                "description": "The code reads a file without checking for protected health information (PHI). If any PHI is processed, this would be a violation of HIPAA.",
+                "solution": "Implement a data classification system to identify and protect PHI. Always check whether data is classified as PHI before processing it. ",
+                "reference": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+              }
+            ]
           }
         }
       ],
@@ -55,12 +238,75 @@
         {
           "items": [
             {
-              "mime": "application/vnd.code.notebook.error",
-              "data": "Error: Boost Code Explanation failed: Boost Cloud Service could not be resolved. Please check your internet connection, and try again."
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 9:54:08 PM PDT\n\nThis function's purpose is to select a file in the Visual Studio Code (VS Code) file explorer. It's implemented in TypeScript and uses the VS Code Extension API. The function is asynchronous, which means it can perform potentially long-running operations without blocking the rest of the program.\n\nHere is a line-by-line explanation of the function:\n\n1. `async function selectFileInExplorer(filePath: string): Promise<void> {`: This line declares an asynchronous function named `selectFileInExplorer` that takes a single argument `filePath` of type `string`. This function returns a `Promise` that resolves to `void`, which means it doesn't return any meaningful value. The `async` keyword indicates that the function will contain `await` expressions and will return a `Promise`.\n\n2. `const uri = vscode.Uri.file(filePath);`: This line creates a `Uri` object from the `filePath` string. The `Uri` object represents a Uniform Resource Identifier, a string of characters that identify a name or a resource on the Internet.\n\n3. `const resource = await vscode.workspace.fs.stat(uri);`: This line uses the `stat` method of the `vscode.workspace.fs` object to get the file stats of the `uri`. The `await` keyword is used to pause the execution of the function until the `Promise` returned by `stat` is resolved. This is a non-blocking operation, meaning that other code can still run while waiting for this operation to complete.\n\n4. `if (resource) {`: This line checks if the `resource` object exists. If it does, it means that a file or directory at the `uri` exists.\n\n5. `await vscode.commands.executeCommand('workbench.files.action.focusFilesExplorer');`: This line executes a VS Code command to focus the file explorer. The `executeCommand` method takes a string that represents the command to execute. The `await` keyword is used to pause and wait for the command to complete.\n\n6. `await vscode.commands.executeCommand('revealInExplorer', uri);`: This line executes a VS Code command to reveal the file represented by `uri` in the file explorer.\n\n7. `}`: This line closes the `if` statement.\n\n8. `}`: This line closes the function.\n\nThe algorithm used in this function is quite straightforward: it creates a `Uri` from the file path, checks if the file exists, and if it does, focuses the file explorer and reveals the file in it.\n\nFor more information on the concepts used in this function, you can refer to these resources:\n\n- [VS Code Extension API](https://code.visualstudio.com/api/references/vscode-api)\n- [Async functions and the await keyword](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)\n- [Uri in VS Code API](https://code.visualstudio.com/api/references/vscode-api#Uri)\n- [File System API in VS Code](https://code.visualstudio.com/api/references/vscode-api#FileSystem)"
             }
           ],
           "metadata": {
             "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 9:54:41 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->A;\nA-->B;\nB-->C;\nC-->D;\nD-->E;\nE-->F;\nF-->G;\nG-->H;\nH-->I;\nI-->End;\n\nstyle A fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle B fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle C fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle D fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle E fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle F fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle G fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle H fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle I fill:#B22222, stroke:#000000, stroke-width:2px;\nstyle End fill:#228B22, stroke:#000000, stroke-width:2px;\n```\n\nThe control flow graph for the provided code is as follows:\n\n```\nselectFileInExplorer-->A;\nA-->B;\nB-->C;\nC-->D;\nD-->E;\nE-->F;\nF-->G;\nG-->H;\nH-->I;\nI-->End;\n```\n\nThe primary path through the code is from `selectFileInExplorer` to `End`."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:55:19 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:56:38 PM PDT\n\n1. **Severity**: 3/10\n\n   **Line Number**: 81\n\n   **Bug Type**: Disk\n\n   **Description**: The function calls vscode.workspace.fs.stat(uri) to check if the file exists before revealing it in the explorer. This could lead to unnecessary disk I/O if the file does not exist.\n\n   **Solution**: Consider checking if the file exists before calling stat. This can be done using the exists method in the fs module. Here is an example: if (fs.existsSync(filePath)) { /* ... */ }\n\n\n2. **Severity**: 2/10\n\n   **Line Number**: 82\n\n   **Bug Type**: CPU\n\n   **Description**: The function calls two separate commands to focus the explorer and reveal the file. This could lead to extra CPU usage as each command may trigger separate UI updates.\n\n   **Solution**: Consider combining these commands into a single command if possible. If not, consider using a debounce or throttle function to limit the frequency of command execution. Here is a link to a guide on how to implement such functions: https://css-tricks.com/debouncing-throttling-explained-examples/\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": [
+              {
+                "lineNumber": 42,
+                "severity": 3,
+                "bugType": "Disk",
+                "description": "The function calls vscode.workspace.fs.stat(uri) to check if the file exists before revealing it in the explorer. This could lead to unnecessary disk I/O if the file does not exist.",
+                "solution": "Consider checking if the file exists before calling stat. This can be done using the exists method in the fs module. Here is an example: if (fs.existsSync(filePath)) { /* ... */ }"
+              },
+              {
+                "lineNumber": 43,
+                "severity": 2,
+                "bugType": "CPU",
+                "description": "The function calls two separate commands to focus the explorer and reveal the file. This could lead to extra CPU usage as each command may trigger separate UI updates.",
+                "solution": "Consider combining these commands into a single command if possible. If not, consider using a debounce or throttle function to limit the frequency of command execution. Here is a link to a guide on how to implement such functions: https://css-tricks.com/debouncing-throttling-explained-examples/"
+              }
+            ]
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 9:58:08 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
             "details": []
           }
         }

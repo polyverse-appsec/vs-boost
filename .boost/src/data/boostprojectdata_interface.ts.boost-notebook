@@ -1,0 +1,1147 @@
+{
+  "cells": [
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 6:01:09 PM PDT\n\nThis code snippet is very short and doesn't contain any algorithms. However, I can explain what it does and what each part of it means.\n\n```js\n//IMPORTANT!!  This file is shared with webviews, which are packaged separately.\n//do not import any depdencies or use any code that is not available in the webview\n```\nThese two lines are comments. They don't affect the functionality of the code, but they provide important information to developers who might be reading or modifying this code. The comments are warning that this file is shared with webviews, which are packaged separately. This means that any dependencies or code that are not available in the webview should not be imported or used in this file.\n\n```js\nimport { ControllerOutputType } from \"../controllers/controllerOutputTypes\";\n```\nThis line is importing a specific export (`ControllerOutputType`) from another module (`../controllers/controllerOutputTypes`). This means that `ControllerOutputType` can now be used in this file. The `ControllerOutputType` is likely an enumerated type (enum) or a type alias that is used to specify the type of output that a controller can produce.\n\nThe `../` in the path means that the module is located in a directory one level up from the current directory. The `controllers` directory is then within that directory, and `controllerOutputTypes` is a file within the `controllers` directory.\n\nAs for the architectural guidelines, this code seems to be consistent with general good practices. It's modular (importing only what it needs from another module), and the comments provide useful information about how this module should be used.\n\nFor more information about imports in JavaScript, you can refer to this link: [JavaScript Modules: Importing and Exporting](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 6:07:39 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle Import fill:#228B22, stroke:#000000, stroke-width:2px;\n\nStart-->Import;\n```\n\nThe control flow graph for the provided source code is very simple. It consists of a single node representing the start of the code, which then imports the `ControllerOutputType` from the `../controllers/controllerOutputTypes` module."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:09:02 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:10:04 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:12:07 PM PDT\n\n1. **Severity**: 7/10\n\n   **Line Number**: 3\n\n   **Bug Type**: GDPR\n\n   **Description**: The import statement may lead to data transfer between different systems or components which may not comply with GDPR data transfer rules.\n\n   **Solution**: Ensure that any data transferred as a result of this import statement is in compliance with GDPR. This may involve ensuring that any data transferred is necessary for the service being provided, that it is transferred securely, and that appropriate consent has been obtained if personal data is involved.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 3,
+                "severity": 7,
+                "bugType": "GDPR",
+                "description": "The import statement may lead to data transfer between different systems or components which may not comply with GDPR data transfer rules.",
+                "solution": "Ensure that any data transferred as a result of this import statement is in compliance with GDPR. This may involve ensuring that any data transferred is necessary for the service being provided, that it is transferred securely, and that appropriate consent has been obtained if personal data is involved.",
+                "webLink": "https://gdpr-info.eu/issues/data-transfer/"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "//IMPORTANT!!  This file is shared with webviews, which are packaged separately.\n//do not import any depdencies or use any code that is not available in the webview\n\nimport { ControllerOutputType } from \"../controllers/controllerOutputTypes\";\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 6:01:39 PM PDT\n\nThis TypeScript code snippet is defining some constant messages and an enumeration. \n\n1. **Constant Messages:** The first three exports are constant string messages that the system can use to inform the user about certain situations. \n   - `noProjectOpenMessage`: This message is likely displayed when there is no project open in the Visual Studio Code editor but the user tries to interact with the Boost AI.\n   - `extensionNotFullyActivated`: This message is likely displayed when the Boost extension is still initializing and not all features are available yet.\n   - `extensionFailedToActivate`: This message is likely displayed when there is an error during the startup of the Boost extension.\n\n2. **Enumeration (enum):** The `AnalysisState` enum represents the different states that a code analysis process can be in. \n   - `quiescent`: This state likely means that the analysis process is currently inactive.\n   - `preparing`: This state likely means that the analysis process is preparing to start or is in the process of starting.\n   - `analyzing`: This state likely means that the analysis process is currently analyzing code.\n\nEnumerations are a way of creating a new type in TypeScript (and other languages with similar features) that can have one of a set of predefined values. They are used to make code more readable and less error-prone. \n\nNo specific algorithms are used in this code snippet. It's just defining some constant values and an enumeration that will likely be used elsewhere in the program.\n\nAs for the architectural guidelines, this code snippet seems to be consistent with the guidelines provided in the blueprint summary. It uses TypeScript, which is mentioned in the programming languages, and it appears to follow object-oriented design principles by using an enumeration to encapsulate a set of related values.\n\nFor more information on TypeScript enums, you can visit this link: [TypeScript Enums](https://www.typescriptlang.org/docs/handbook/enums.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 6:07:45 PM PDT\n\n```mermaid\ngraph TD;\nstyle noProjectOpenMessage fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle extensionNotFullyActivated fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle extensionFailedToActivate fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle AnalysisState fill:#228B22, stroke:#000000, stroke-width:2px;\n\nnoProjectOpenMessage-->extensionNotFullyActivated;\nextensionNotFullyActivated-->extensionFailedToActivate;\nextensionNotFullyActivated-->AnalysisState;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:09:05 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:10:08 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:12:11 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\nexport const noProjectOpenMessage =\n    \"Please open a project to chat with Sara, the Boost AI, about your project or analyze your project code.\";\nexport const extensionNotFullyActivated =\n    \"Boost has not fully initialized. Some features may not be fully available yet. Please wait before using Boost Chat AI and analyzing your project.\";\nexport const extensionFailedToActivate =\n    \"Boost encountered an error during startup. Please restart Visual Studio Code and try again. If the problem persists, please contact Polyverse Boost Support\";\n\nexport enum AnalysisState {\n    quiescent = \"quiescent\",\n    preparing = \"preparing\",\n    analyzing = \"analyzing\"\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 4
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 6:01:55 PM PDT\n\nThe provided code is written in TypeScript, a statically typed superset of JavaScript. It defines an interface named `SummaryViewState`. In TypeScript, an interface is a way to define a contract on a function or object to define the shape of the values. The interface also helps in getting the benefits of type-checking and autocompletion.\n\nHere's a breakdown of the code:\n\n1. `export`: This keyword is used to expose this interface for other modules to import and use. Without this keyword, other modules won't be able to import this interface.\n\n2. `interface SummaryViewState`: This line is declaring an interface called `SummaryViewState`. The interface is a structure that defines the contract in your application. It defines the syntax for classes to follow, meaning a class that implements an interface must adhere to the structure the interface prescribes.\n\n3. `analysisTypesState: AnalysisTypesState;`: This line defines a property `analysisTypesState` of the `SummaryViewState` interface. The type of this property is `AnalysisTypesState`, which is likely another interface or type defined elsewhere in the code. This property represents the state of the analysis types.\n\n4. `analysisMode: string;`: This line defines a property `analysisMode` of the `SummaryViewState` interface. The type of this property is `string`. This property likely represents the mode of analysis (for example, \"full\", \"incremental\", etc.).\n\nThe code does not include any specific algorithms. It's a simple interface definition in TypeScript.\n\nThis code seems to be consistent with the general architectural guidelines mentioned in the summary. It uses TypeScript and object-oriented design principles. However, without a broader context or specific architectural guidelines, it's hard to say if there are any conflicts.\n\nFor more information about TypeScript interfaces, you can visit this link: [TypeScript Handbook: Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 6:07:49 PM PDT\n\n```mermaid\ngraph TD;\nstyle SummaryViewState fill:#228B22, stroke:#000000, stroke-width:2px;\n\nSummaryViewState-->analysisTypesState;\nSummaryViewState-->analysisMode;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:09:09 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:10:12 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:12:15 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "2",
+      "value": "\nexport interface SummaryViewState {\n    analysisTypesState: AnalysisTypesState;\n    analysisMode: string;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 17
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 6:02:20 PM PDT\n\nThe code you provided is written in TypeScript, which is a statically typed superset of JavaScript that adds types to the language. This piece of code is defining an interface.\n\nAn interface in TypeScript is a way of defining a contract for a certain structure of an object. This means that any object that claims to implement this interface must have properties that match the names and types specified in the interface.\n\nHere's a breakdown of the code:\n\n- `export`: This keyword is used to make the interface available to other modules in the application. By using `export`, other parts of the application can import and use the `AnalysisTypesState` interface.\n\n- `interface`: This keyword is used to declare a TypeScript interface.\n\n- `AnalysisTypesState`: This is the name of the interface.\n\n- Inside the curly braces `{}` are the properties that any object implementing this interface must have. In this case, there are three boolean properties: `security`, `compliance`, and `documentation`. \n\nThis interface might be used in an application that performs different types of analysis on code or documents. An object implementing this interface could be used to keep track of which types of analysis are currently enabled.\n\nIn terms of algorithms, there are none present in this code snippet. It's simply a data structure definition.\n\nFor more information on TypeScript and interfaces, you can refer to the official TypeScript documentation: [TypeScript Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html) \n\nRegarding the architectural guidelines you provided, this code snippet seems to be consistent with them. It's a simple, clean, and clear interface definition that doesn't appear to conflict with any architectural guidelines or constraints."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 6:07:53 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle AnalysisTypesState fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->AnalysisTypesState;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:09:13 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:10:15 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:12:19 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "3",
+      "value": "\nexport interface AnalysisTypesState {\n    security: boolean;\n    compliance: boolean;\n    documentation: boolean;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 22
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 6:02:41 PM PDT\n\nThe given code is a simple TypeScript interface definition. TypeScript is a statically typed superset of JavaScript that adds types to the language. An interface in TypeScript is a way to define a contract for a certain structure of an object. It can be used to describe the shape of an object, ensuring that the object has certain properties.\n\nIn the provided code, an interface named `ActivityBarState` is being defined. This interface has one property, `summaryViewState`, which is of the type `SummaryViewState`. The type `SummaryViewState` is not defined in the provided code, but it is likely another interface or type defined elsewhere in the codebase.\n\nThis interface might be used as a type for an object that represents the state of an activity bar in a user interface, with the `summaryViewState` property representing the state of a summary view within that activity bar. This is a common pattern in state management in modern web development, particularly in frameworks and libraries such as React and Vue.js.\n\nThe code doesn't contain any algorithms. It's a simple data structure definition. \n\nFor more information on TypeScript interfaces, you can refer to the official TypeScript documentation here: [TypeScript Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html).\n\nIn terms of architectural guidelines, this code is consistent with common practices in TypeScript and in state management in modern web development. It doesn't appear to conflict with any general architectural guidelines. However, without specific guidelines or constraints for this software project, it's hard to say definitively."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 6:07:58 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\n```\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:09:17 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:10:19 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:12:22 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "4",
+      "value": "\nexport interface ActivityBarState {\n    summaryViewState: SummaryViewState;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 28
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 6:03:09 PM PDT\n\nThe provided code is written in TypeScript, which is a statically typed superset of JavaScript that adds types to the language. This code defines an interface for an object that will be used to remember the state of the user interface (UI).\n\nLet's break it down:\n\n1. `export interface UIState`: This line is declaring an interface named `UIState`. The `export` keyword means that this interface is not only defined here, but can also be used in other TypeScript files in the same project. An interface in TypeScript is a way to define a contract for a certain structure of an object. It specifies how an object should look like, in terms of the properties it should have and the type of those properties.\n\n2. `analysisState: AnalysisState;`: This line is declaring a property of the `UIState` interface named `analysisState`. The type of this property is `AnalysisState`, which is presumably another interface or type defined elsewhere in the project. The `analysisState` property is expected to hold the state of the analysis part of the user interface.\n\n3. `activityBarState: ActivityBarState;`: Similarly, this line is declaring a property of the `UIState` interface named `activityBarState`. The type of this property is `ActivityBarState`, which is presumably another interface or type defined elsewhere in the project. The `activityBarState` property is expected to hold the state of the activity bar part of the user interface.\n\nThe purpose of this `UIState` interface is to provide a structure for an object that will hold the state of the user interface. This state can then be used to remember and restore the state of the user interface as needed, such as after a page refresh or when navigating between different parts of the application. \n\nThis is a common pattern in modern web development, especially in applications that use libraries or frameworks like React or Vue.js, which are based on the concept of maintaining and manipulating the state of the application.\n\nFor more information on TypeScript interfaces, you can refer to the [official TypeScript documentation](https://www.typescriptlang.org/docs/handbook/interfaces.html)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 6:08:02 PM PDT\n\n```mermaid\ngraph TD;\nstyle UIState fill:#228B22, stroke:#000000, stroke-width:2px;\n\nUIState-->AnalysisState;\nUIState-->ActivityBarState;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:09:20 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:10:23 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:12:26 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "5",
+      "value": "\n//this is where we should remember UI state like which analysis were selected, etc. \nexport interface UIState {\n    analysisState: AnalysisState;\n    activityBarState: ActivityBarState;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 32
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 6:03:40 PM PDT\n\nThis code defines an interface in TypeScript named `AccountStatus`. An interface in TypeScript is a syntactical contract that an entity should conform to. They are used to define the shape of an object, ensuring that the object has certain properties with specific types.\n\nHere's a breakdown of what each property in the `AccountStatus` interface represents:\n\n- `refreshed`: A boolean indicating whether the account status has been recently updated or not.\n- `enabled`: A boolean indicating whether the account is enabled or not.\n- `status`: A string that holds the status of the account. This could be values like 'active', 'inactive', 'suspended', etc.\n- `trialRemaining`: A number that represents how many days are left in a trial account.\n- `usageThisMonth`: A number that represents the usage of the account for the current month.\n- `discountedUsage`: A number that represents the usage of the account that was discounted.\n- `balanceDue`: A number that represents the amount due on the account.\n- `couponType`: A string that represents the type of coupon applied to the account.\n- `created`: A string that represents the date when the account was created.\n- `creditCardLinked`: A boolean indicating whether a credit card is linked to the account or not.\n- `org`: A string that represents the organization associated with the account.\n- `owner`: A string that represents the owner of the account.\n\nThis interface does not use any specific algorithms; it is a structure used to define objects in the codebase. \n\nThe `AccountStatus` interface ensures that any object that claims to be of type `AccountStatus` has all these properties with the corresponding types. This is useful for maintaining consistency and integrity in the codebase, reducing the likelihood of bugs due to mismatched or missing properties.\n\nFor more information about TypeScript interfaces, you can refer to the [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/interfaces.html)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 6:08:06 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\n```\nThe control flow starts at the beginning of the code."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:09:23 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:10:26 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:12:56 PM PDT\n\n1. **Severity**: 8/10\n\n   **Line Number**: 82\n\n   **Bug Type**: GDPR\n\n   **Description**: The 'creditCardLinked' field indicates whether a credit card is linked to the account. This can be considered as processing personal data.\n\n   **Solution**: Instead of directly indicating whether a credit card is linked, consider using a tokenization system where the actual card data is replaced with a non-sensitive equivalent, known as a token, that has no extrinsic or exploitable meaning or value.\n\n\n2. **Severity**: 9/10\n\n   **Line Number**: 85\n\n   **Bug Type**: GDPR\n\n   **Description**: The 'owner' field likely contains personal data and must be handled according to GDPR regulations.\n\n   **Solution**: Ensure this data is being processed lawfully, fairly, and in a transparent manner. It should be collected for specified, explicit, and legitimate purposes and not further processed in a manner that is incompatible with those purposes.\n\n\n3. **Severity**: 8/10\n\n   **Line Number**: 84\n\n   **Bug Type**: HIPAA\n\n   **Description**: The 'org' field may contain information about a healthcare organization, which could potentially be considered Protected Health Information (PHI) under HIPAA if it can be used to identify an individual.\n\n   **Solution**: Ensure that this data is de-identified according to HIPAA standards, or if it must be identifiable, ensure it is securely encrypted both at rest and in transit.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 44,
+                "severity": 8,
+                "bugType": "GDPR",
+                "description": "The 'creditCardLinked' field indicates whether a credit card is linked to the account. This can be considered as processing personal data.",
+                "solution": "Instead of directly indicating whether a credit card is linked, consider using a tokenization system where the actual card data is replaced with a non-sensitive equivalent, known as a token, that has no extrinsic or exploitable meaning or value.",
+                "link": "https://gdpr-info.eu/issues/credit-card-data/"
+              },
+              {
+                "lineNumber": 47,
+                "severity": 9,
+                "bugType": "GDPR",
+                "description": "The 'owner' field likely contains personal data and must be handled according to GDPR regulations.",
+                "solution": "Ensure this data is being processed lawfully, fairly, and in a transparent manner. It should be collected for specified, explicit, and legitimate purposes and not further processed in a manner that is incompatible with those purposes.",
+                "link": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 46,
+                "severity": 8,
+                "bugType": "HIPAA",
+                "description": "The 'org' field may contain information about a healthcare organization, which could potentially be considered Protected Health Information (PHI) under HIPAA if it can be used to identify an individual.",
+                "solution": "Ensure that this data is de-identified according to HIPAA standards, or if it must be identifiable, ensure it is securely encrypted both at rest and in transit.",
+                "link": "https://www.hhs.gov/hipaa/for-professionals/privacy/special-topics/de-identification/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "6",
+      "value": "\nexport interface AccountStatus {\n    refreshed: boolean;\n    enabled: boolean;\n    status: string;\n    trialRemaining: number;\n    usageThisMonth: number;\n    discountedUsage: number;\n    balanceDue: number;\n    couponType: string;\n    created: string;\n    creditCardLinked: boolean;\n    org: string;\n    owner: string;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 38
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 6:04:11 PM PDT\n\nThis code is written in TypeScript, a statically typed superset of JavaScript that adds types to the language. The code defines an interface named `Summary`. In TypeScript, an interface is a way to define a contract for a certain structure of an object. It's a powerful way to define and ensure the shape of the objects in your code.\n\nThe `Summary` interface contains five properties:\n\n1. `projectName`: This is a string that presumably holds the name of the project that the summary pertains to.\n\n2. `summaryUrl`: Another string, this one presumably contains a URL where more detailed summary information can be found.\n\n3. `filesToAnalyze`: This is a number, likely representing the total number of files that are to be analyzed in the project.\n\n4. `filesAnalyzed`: Another number, this one likely representing the number of files that have already been analyzed.\n\n5. `issues`: This is an optional property (denoted by the `?` after the property name), which if present, will be an array of any type. This property is likely meant to hold a list of issues that were found during the analysis of the project. The `any` type in TypeScript is a flexible type that can hold a value of any type, providing maximum flexibility but also minimal type safety.\n\nThis code doesn't contain any algorithms, it's a simple data structure definition. But it's a crucial part of the software architecture, as it defines the shape of the data that will flow through the system.\n\nThe code is consistent with general software architecture principles, as it uses TypeScript's static typing to enforce a certain structure on the data, which can help catch errors at compile time. It doesn't conflict with the provided architectural guidelines, as there are no special constraints or guidelines provided.\n\nFor more information on TypeScript interfaces, you can refer to the TypeScript Handbook's section on interfaces: [TypeScript Handbook - Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 6:08:11 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->ExampleProcess;\nStart-->ExampleErrorPath;\n```\n\nThe code provided does not contain any control flow."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:09:27 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:10:29 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:13:06 PM PDT\n\n1. **Severity**: 3/10\n\n   **Line Number**: 114\n\n   **Bug Type**: Data Privacy\n\n   **Description**: The 'issues' field in the 'Summary' interface could potentially contain sensitive data. If this data is not properly protected, it could lead to a violation of GDPR, PCI DSS, and HIPAA regulations.\n\n   **Solution**: Ensure that any sensitive data stored in the 'issues' field is properly encrypted and that access to this data is controlled. Regularly audit the data stored in this field to ensure compliance with data protection regulations.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 61,
+                "severity": 3,
+                "bugType": "Data Privacy",
+                "description": "The 'issues' field in the 'Summary' interface could potentially contain sensitive data. If this data is not properly protected, it could lead to a violation of GDPR, PCI DSS, and HIPAA regulations.",
+                "solution": "Ensure that any sensitive data stored in the 'issues' field is properly encrypted and that access to this data is controlled. Regularly audit the data stored in this field to ensure compliance with data protection regulations."
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "7",
+      "value": "\nexport interface Summary {\n    projectName: string;\n    summaryUrl: string;\n    filesToAnalyze: number;\n    filesAnalyzed: number;\n    //an optional issues arrary for *Boost* issues\n    issues?: Array<any>;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 53
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 6:04:39 PM PDT\n\nThis code snippet is written in TypeScript, a statically typed superset of JavaScript. It defines an enumeration, which is a special kind of value type with a set of named constants. \n\nThe enumeration is named `BoostProcessingStatus` and it has four members: `completed`, `incomplete`, `processing`, and `notStarted`. Each of these members is associated with a string value: \"completed\", \"incomplete\", \"processing\", and \"not-started\" respectively.\n\nEnumerations in TypeScript are used to create user-defined types that help to manage and use sets of constants throughout the codebase. They can improve clarity and reduce errors by enforcing that variables and parameters are only assigned these specific enumerated values.\n\nIn this case, the `BoostProcessingStatus` enumeration could be used to represent the status of a code analysis operation. The operation could be in one of four states: not started, processing, incomplete (perhaps due to an error), or completed. Using an enumeration instead of raw string values can make the code easier to understand and less prone to errors.\n\nHere's an example of how it might be used:\n\n```typescript\nlet currentStatus: BoostProcessingStatus = BoostProcessingStatus.notStarted;\n\n// Later in the code...\nif (currentStatus === BoostProcessingStatus.completed) {\n    console.log(\"Analysis is complete!\");\n}\n```\n\nIn the above example, `currentStatus` is a variable of type `BoostProcessingStatus`. It's initially set to `BoostProcessingStatus.notStarted`. Later, we check if `currentStatus` is `BoostProcessingStatus.completed` to determine if the analysis is complete.\n\nFor more information on TypeScript enumerations, you can refer to the TypeScript handbook's page on Enums: [TypeScript Enums](https://www.typescriptlang.org/docs/handbook/enums.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 6:08:16 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->completed;\nStart-->incomplete;\nStart-->processing;\nStart-->notStarted;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:09:30 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:11:23 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:13:10 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "8",
+      "value": "\nexport enum BoostProcessingStatus {\n    completed = \"completed\",\n    incomplete = \"incomplete\",\n    processing = \"processing\",\n    notStarted = \"not-started\",\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 8,
+        "type": "originalCode",
+        "lineNumberBase": 62
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 6:05:12 PM PDT\n\nThis code is written in TypeScript, which is a statically typed superset of JavaScript. It defines an interface named `SectionSummary`. An interface in TypeScript is a way of defining a contract for a certain structure of an object. It's like a blueprint for the object and it defines the shape of the object.\n\nThe `SectionSummary` interface has the following properties:\n\n- `analysisType`: This property is of type `string`. It represents the type of analysis that is being performed.\n\n- `status`: This property is of type `BoostProcessingStatus`. `BoostProcessingStatus` is presumably another interface or type defined elsewhere in the code. It represents the current status of the processing.\n\n- `errorCells`: This property is of type `number`. It represents the number of cells (a term generally used in spreadsheet-like data) that have encountered errors during the analysis.\n\n- `completedCells`: This property is of type `number`. It represents the number of cells that have completed the analysis.\n\n- `totalCells`: This property is of type `number`. It represents the total number of cells that are to be analyzed.\n\n- `issueCells`: This property is of type `number`. It represents the number of cells that have issues found during the analysis.\n\n- `filesAnalyzed`: This property is of type `number`. It represents the number of files that have been analyzed.\n\n- `details`: This is an optional property (denoted by the `?`), which, if present, is an array of any type. This means that the array can contain elements of any type. The comment suggests that for some sections like security and compliance, this property will have a list of issues.\n\nThis interface doesn't include any algorithms, but it sets up a structure that can be used to hold data related to the summary of a section of analysis.\n\nAs for architectural guidelines, this code seems to align well with the principles of object-oriented design, as it uses an interface to define a structure for objects. It doesn't directly relate to the other principles mentioned in the project blueprint, such as event-driven programming or asynchronous programming.\n\nFor more information on TypeScript interfaces, you can check this link: [TypeScript Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html)"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 6:08:22 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle SectionSummary fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle SectionSummaryError fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->SectionSummary;\nSectionSummary-->End;\n```\n\nThe control flow graph for the provided code is a simple linear flow. The code starts at the `Start` node and then flows to the `SectionSummary` node. There are no alternate paths or error paths in this code."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:09:33 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:11:26 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:13:36 PM PDT\n\n1. **Severity**: 8/10\n\n   **Line Number**: 144\n\n   **Bug Type**: GDPR\n\n   **Description**: The 'details' field may contain personal data which could violate GDPR regulations if not properly handled.\n\n   **Solution**: Ensure that any personal data stored in the 'details' field is anonymized or pseudonymized, and that explicit consent is obtained from the user for the collection and processing of this data.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 144\n\n   **Bug Type**: PCI DSS\n\n   **Description**: If the 'details' field contains cardholder data, it could be in violation of PCI DSS standards.\n\n   **Solution**: Ensure that cardholder data is not stored in the 'details' field or, if it is, that it is encrypted and properly secured according to PCI DSS standards.\n\n\n3. **Severity**: 9/10\n\n   **Line Number**: 144\n\n   **Bug Type**: HIPAA\n\n   **Description**: If the 'details' field contains Protected Health Information (PHI), it could be in violation of HIPAA regulations.\n\n   **Solution**: Ensure that PHI is not stored in the 'details' field or, if it is, that it is encrypted and properly secured according to HIPAA regulations.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 75,
+                "severity": 8,
+                "bugType": "GDPR",
+                "description": "The 'details' field may contain personal data which could violate GDPR regulations if not properly handled.",
+                "solution": "Ensure that any personal data stored in the 'details' field is anonymized or pseudonymized, and that explicit consent is obtained from the user for the collection and processing of this data.",
+                "webLink": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 75,
+                "severity": 7,
+                "bugType": "PCI DSS",
+                "description": "If the 'details' field contains cardholder data, it could be in violation of PCI DSS standards.",
+                "solution": "Ensure that cardholder data is not stored in the 'details' field or, if it is, that it is encrypted and properly secured according to PCI DSS standards.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 75,
+                "severity": 9,
+                "bugType": "HIPAA",
+                "description": "If the 'details' field contains Protected Health Information (PHI), it could be in violation of HIPAA regulations.",
+                "solution": "Ensure that PHI is not stored in the 'details' field or, if it is, that it is encrypted and properly secured according to HIPAA regulations.",
+                "webLink": "https://www.hhs.gov/hipaa/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "9",
+      "value": "\nexport interface SectionSummary {\n    analysisType: string;\n    status: BoostProcessingStatus;\n    errorCells: number;\n    completedCells: number;\n    totalCells: number;\n    issueCells: number;\n    filesAnalyzed: number;\n    details?: Array<any>; // some sections, like security and compliance, will have a list of issues in the details section\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 9,
+        "type": "originalCode",
+        "lineNumberBase": 69
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 6:05:43 PM PDT\n\nThe code you've provided is a TypeScript interface definition. Interfaces in TypeScript are a powerful way to define contracts within your code and define custom types. They are not included in the JavaScript that is compiled from TypeScript, they exist purely for type-checking during development.\n\nThis particular interface, `FileSummaryItem`, appears to be used to summarize the state of a file in a software project. It has the following properties:\n\n1. `sourceRelFile`: This is a string that likely represents the path to the source file relative to the project root.\n2. `notebookRelFile`: This is a string that likely represents the path to a notebook file (possibly a Jupyter notebook) relative to the project root.\n3. `totalCells`: This is a number, likely representing the total number of cells in the notebook file. In a Jupyter notebook, a cell is a block of code or text.\n4. `completedCells`: This is a number, likely representing the number of cells that have been completed or executed successfully.\n5. `errorCells`: This is a number, likely representing the number of cells that have encountered an error during execution.\n6. `issueCells`: This is a number, likely representing the number of cells that have some sort of issue, perhaps a warning or a non-critical error.\n7. `sections`: This is an object where the keys are strings and the values are of type `SectionSummary`. The keys likely represent different output types, and the `SectionSummary` type would summarize the state of each section.\n\nThe specific algorithm or algorithms used by this interface would depend on how it's used in the rest of the codebase, which is not provided here. However, the interface itself does not use any algorithms. It's a data structure that defines a type.\n\nThis code is consistent with the architectural blueprint provided, which indicates that the project uses TypeScript and object-oriented design. The `FileSummaryItem` interface is a good example of both of these principles.\n\nFor more information on TypeScript interfaces, you can refer to the [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/interfaces.html)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 6:08:26 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle FileSummaryItem fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->FileSummaryItem;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:09:37 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:11:30 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:13:40 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "10",
+      "value": "\nexport interface FileSummaryItem {\n    sourceRelFile: string;\n    notebookRelFile: string;\n    totalCells: number;\n    completedCells: number;\n    errorCells: number;\n    issueCells: number;\n    sections: { [outputType: string]: SectionSummary };\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 10,
+        "type": "originalCode",
+        "lineNumberBase": 80
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 6:06:10 PM PDT\n\nThis code is written in TypeScript, which is a statically-typed superset of JavaScript. It defines a type alias called `JobStatus`. \n\n`JobStatus` is an object type where the keys are strings (`relFile`) and the values are objects with a specific shape. These objects have two properties: `status` and `jobs`.\n\nThe `status` property is a string that can only take one of three values: \"processing\", \"queued\", or \"completed\". This is known as a string literal type, and it's a way of defining a type that can only take a specific set of string values. It's a way to represent a finite state machine in TypeScript, where the state of a job can only be one of the three defined states.\n\nThe `jobs` property is an array of strings. The purpose of this array isn't clear from the provided code, but it might represent a list of jobs associated with a specific file, given the `relFile` key in the parent object.\n\nThis code doesn't contain any algorithms, it's just a type definition. The structure of this type suggests that it might be used to track the status of some sort of jobs associated with specific files, but without more context, it's hard to say for sure.\n\nIn terms of architectural guidelines, this type definition is consistent with common practices in TypeScript. It uses features of the language to define a precise type that can help catch errors at compile time. \n\nFor more information about TypeScript's type system, you can refer to the [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html). For more information about finite state machines, which this type seems to represent, you can refer to [this article](https://www.smashingmagazine.com/2018/01/rise-state-machines/)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 6:08:30 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle ExampleProcess fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ExampleErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->End;\n```"
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:09:40 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:11:33 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:13:43 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": []
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "11",
+      "value": "export type JobStatus = {\n    [relFile: string]: {\n        status: \"processing\" | \"queued\" | \"completed\";\n        jobs: string[];\n    };\n};\n",
+      "kind": 2,
+      "metadata": {
+        "id": 11,
+        "type": "originalCode",
+        "lineNumberBase": 90
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 6:06:41 PM PDT\n\nThis code defines an interface in TypeScript named `IBoostProjectData`. An interface in TypeScript is a way of defining a contract for a particular structure of an object. This interface is expected to be used as a data model for the Boost project.\n\nHere's a breakdown of the properties:\n\n- `dataFormatVersion`: This is a string that represents the version of the data format being used. This could be useful for handling backward compatibility or migrations.\n- `summary`: This is a property of type `Summary`, which is not defined in this snippet, but it's likely a different interface or type that encapsulates some summary information about the Boost project.\n- `sectionSummary`: This is an object where the keys are strings and the values are of type `SectionSummary`. This could be used to store a summary of different sections of the project.\n- `files`: This is an object where the keys are strings and the values are of type `FileSummaryItem`. This could be used to store a summary of different files in the project.\n- `jobStatus`: This is a property of type `JobStatus`, which likely represents the status of a job or task in the project.\n- `account`: This is a property of type `AccountStatus`, which likely represents the status of a user account.\n- `uiState`: This is a property of type `UIState`, which likely represents the state of the user interface.\n\nThe types `Summary`, `SectionSummary`, `FileSummaryItem`, `JobStatus`, `AccountStatus`, and `UIState` are not defined in the provided code. These are likely defined elsewhere in the codebase.\n\nThis interface does not use any specific algorithms. It's a data structure that provides a blueprint for objects that hold Boost project data. It's consistent with the architectural guidelines mentioned in the blueprint summary. It uses TypeScript's static typing for better error checking and autocompletion, and it's organized into an interface for better structure and readability.\n\nFor more on TypeScript interfaces, you can refer to the TypeScript handbook: [TypeScript Handbook - Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html)."
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 6:08:40 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle IBoostProjectData fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle Summary fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle SectionSummary fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle FileSummaryItem fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle JobStatus fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle AccountStatus fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle UIState fill:#228B22, stroke:#000000, stroke-width:4px;\n\nStart-->IBoostProjectData;\nIBoostProjectData-->Summary;\nIBoostProjectData-->SectionSummary;\nIBoostProjectData-->FileSummaryItem;\nIBoostProjectData-->JobStatus;\nIBoostProjectData-->AccountStatus;\nIBoostProjectData-->UIState;\n```\n\nThe control flow graph for the provided code is a simple graph with the `IBoostProjectData` interface as the starting point. It has multiple outgoing edges to the `Summary`, `SectionSummary`, `FileSummaryItem`, `JobStatus`, `AccountStatus`, and `UIState` nodes. This represents the structure of the `IBoostProjectData` interface and its relationships with other interfaces or types in the code."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:09:43 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:11:37 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:14:09 PM PDT\n\n1. **Severity**: 8/10\n\n   **Line Number**: 198\n\n   **Bug Type**: GDPR\n\n   **Description**: The 'account' field could potentially contain personally identifiable information (PII) which could be a violation of GDPR if it's not handled properly.\n\n   **Solution**: Ensure that PII in the 'account' field is anonymized or pseudonymized where possible, and that explicit consent is obtained for the processing of this data. Implement data encryption to protect sensitive data during transmission and storage.\n\n\n2. **Severity**: 7/10\n\n   **Line Number**: 197\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The 'jobStatus' field could potentially contain sensitive payment card data which would be a violation of PCI DSS if it's not properly protected.\n\n   **Solution**: Ensure that payment card data is never stored in plaintext and is encrypted during transmission and storage. Implement strong access controls and authentication mechanisms to protect this data.\n\n\n3. **Severity**: 9/10\n\n   **Line Number**: 198\n\n   **Bug Type**: HIPAA\n\n   **Description**: The 'account' field could potentially contain protected health information (PHI) which would be a violation of HIPAA if it's not properly protected.\n\n   **Solution**: Ensure that PHI is never stored in plaintext and is encrypted during transmission and storage. Implement strong access controls and authentication mechanisms to protect this data. Ensure that users can request and obtain a copy of their PHI, and can request that their PHI be corrected or deleted.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 102,
+                "severity": 8,
+                "bugType": "GDPR",
+                "description": "The 'account' field could potentially contain personally identifiable information (PII) which could be a violation of GDPR if it's not handled properly.",
+                "solution": "Ensure that PII in the 'account' field is anonymized or pseudonymized where possible, and that explicit consent is obtained for the processing of this data. Implement data encryption to protect sensitive data during transmission and storage.",
+                "moreInfo": "https://gdpr.eu/data-privacy/"
+              },
+              {
+                "lineNumber": 101,
+                "severity": 7,
+                "bugType": "PCI DSS",
+                "description": "The 'jobStatus' field could potentially contain sensitive payment card data which would be a violation of PCI DSS if it's not properly protected.",
+                "solution": "Ensure that payment card data is never stored in plaintext and is encrypted during transmission and storage. Implement strong access controls and authentication mechanisms to protect this data.",
+                "moreInfo": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 102,
+                "severity": 9,
+                "bugType": "HIPAA",
+                "description": "The 'account' field could potentially contain protected health information (PHI) which would be a violation of HIPAA if it's not properly protected.",
+                "solution": "Ensure that PHI is never stored in plaintext and is encrypted during transmission and storage. Implement strong access controls and authentication mechanisms to protect this data. Ensure that users can request and obtain a copy of their PHI, and can request that their PHI be corrected or deleted.",
+                "moreInfo": "https://www.hhs.gov/hipaa/for-professionals/security/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "12",
+      "value": "\nexport interface IBoostProjectData {\n    dataFormatVersion: string;\n    summary: Summary;\n    sectionSummary: {\n        [key: string]: SectionSummary;\n    };\n    files: {\n        [key: string]: FileSummaryItem;\n    };\n    jobStatus: JobStatus;\n    account: AccountStatus;\n    uiState: UIState;\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 12,
+        "type": "originalCode",
+        "lineNumberBase": 96
+      }
+    },
+    {
+      "outputs": [
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Code Explanation\n\nLast Updated: Friday, September 8, 2023 at 6:07:21 PM PDT\n\nThis code is written in TypeScript and it exports a constant object called `emptyProjectData` that implements the `IBoostProjectData` interface. This object serves as the initial state or the default values for a project data in the Boost application. Let's break down the various parts of this object:\n\n1. `dataFormatVersion`: This property represents the version of the data format used. It is set to \"0.0.0\" by default, indicating that no version has been set yet.\n\n2. `summary`: This is an object that holds summary information about the project. It includes properties like `projectName`, `summaryUrl`, `filesToAnalyze` and `filesAnalyzed`, all of which are initialized with default values.\n\n3. `sectionSummary`: This object holds a summary of the analysis performed. It includes properties like `analysisType`, `status`, `completedCells`, `errorCells`, `issueCells`, `totalCells`, and `filesAnalyzed`. These are all initialized with default values.\n\n4. `files`: This is an empty object which will likely hold information about the files in the project.\n\n5. `jobStatus`: This is another empty object which will likely hold information about the status of jobs related to the project.\n\n6. `account`: This object holds account-related information such as `refreshed`, `enabled`, `status`, `trialRemaining`, `usageThisMonth`, `discountedUsage`, `balanceDue`, `couponType`, `org`, `owner`, `created`, `creditCardLinked`. All of these properties are initialized with either default values or empty strings.\n\n7. `uiState`: This object holds the state of the user interface. It includes properties like `analysisState` and `activityBarState`. The `activityBarState` itself is an object with properties `summaryViewState` and `analysisTypesState`.\n\nIn terms of algorithms, this code doesn't really include any. It's simply defining an object with a specific structure and default values.\n\nThis code is consistent with the architectural guidelines provided. It is well-structured, making use of TypeScript's static typing to define the structure of the `emptyProjectData` object. This can help catch many errors at compile time.\n\nFor more information, you may want to look into the following topics:\n\n- [TypeScript Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html)\n- [JavaScript Objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects)\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "explainCode",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Flow Diagram\n\nLast Updated: Friday, September 8, 2023 at 6:08:48 PM PDT\n\n```mermaid\ngraph TD;\nstyle Start fill:#228B22, stroke:#000000, stroke-width:2px;\nstyle Controller fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle RemoteService fill:#228B22, stroke:#000000, stroke-width:4px;\nstyle ErrorPath fill:#B22222, stroke:#000000, stroke-width:2px;\n\nStart-->Controller;\nController-->RemoteService;\nRemoteService-->End;\n```\n\nThe control flow graph for the provided source code is as follows:\n\n1. The flow starts at the `Start` node.\n2. The flow then goes to the `Controller` node.\n3. From the `Controller` node, the flow goes to the `RemoteService` node.\n4. Finally, the flow ends at the `End` node.\n\nNote that there are no error paths in the provided code, so the graph does not include any error paths."
+            }
+          ],
+          "metadata": {
+            "outputType": "flowDiagram",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Security Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:09:47 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "bugAnalysisList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Performance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:11:40 PM PDT\n\n**No bugs found**"
+            }
+          ],
+          "metadata": {
+            "outputType": "performanceList",
+            "details": []
+          }
+        },
+        {
+          "items": [
+            {
+              "mime": "text/markdown",
+              "data": "\n\n---\n\n### Boost Source-Level Data and Privacy Compliance Analysis\n\nLast Updated: Friday, September 8, 2023 at 6:14:38 PM PDT\n\n1. **Severity**: 8/10\n\n   **Line Number**: 240\n\n   **Bug Type**: GDPR\n\n   **Description**: The 'account' object contains sensitive user data, including payment and account status information. This data could be exposed if not properly handled and secured, violating GDPR regulations.\n\n   **Solution**: Ensure that all sensitive user data is encrypted both at rest and in transit, and only accessible by authorized individuals. Implement proper access controls and use secure methods for handling and storing sensitive data.\n\n\n2. **Severity**: 9/10\n\n   **Line Number**: 240\n\n   **Bug Type**: PCI DSS\n\n   **Description**: The 'creditCardLinked' field in the 'account' object indicates that credit card information may be handled by the application. If this data is not properly secured, it could violate PCI DSS regulations.\n\n   **Solution**: Ensure that credit card data is properly encrypted and securely stored. Implement strong access controls and regularly audit your application for security vulnerabilities. Consider using a third-party payment processor to limit the amount of credit card data your application needs to handle.\n\n\n3. **Severity**: 7/10\n\n   **Line Number**: 240\n\n   **Bug Type**: HIPAA\n\n   **Description**: While there's no direct indication of handling medical data, if the 'account' object is used to handle or store any health-related data, it could violate HIPAA regulations unless it's properly secured.\n\n   **Solution**: Ensure that any health-related data is properly encrypted and securely stored. Implement strong access controls and regularly audit your application for security vulnerabilities. Be aware that HIPAA regulations apply to any system that handles health-related data, not just those in the healthcare industry.\n\n\n"
+            }
+          ],
+          "metadata": {
+            "outputType": "complianceCodeList",
+            "details": [
+              {
+                "lineNumber": 130,
+                "severity": 8,
+                "bugType": "GDPR",
+                "description": "The 'account' object contains sensitive user data, including payment and account status information. This data could be exposed if not properly handled and secured, violating GDPR regulations.",
+                "solution": "Ensure that all sensitive user data is encrypted both at rest and in transit, and only accessible by authorized individuals. Implement proper access controls and use secure methods for handling and storing sensitive data.",
+                "webLink": "https://gdpr-info.eu/"
+              },
+              {
+                "lineNumber": 130,
+                "severity": 9,
+                "bugType": "PCI DSS",
+                "description": "The 'creditCardLinked' field in the 'account' object indicates that credit card information may be handled by the application. If this data is not properly secured, it could violate PCI DSS regulations.",
+                "solution": "Ensure that credit card data is properly encrypted and securely stored. Implement strong access controls and regularly audit your application for security vulnerabilities. Consider using a third-party payment processor to limit the amount of credit card data your application needs to handle.",
+                "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+              },
+              {
+                "lineNumber": 130,
+                "severity": 7,
+                "bugType": "HIPAA",
+                "description": "While there's no direct indication of handling medical data, if the 'account' object is used to handle or store any health-related data, it could violate HIPAA regulations unless it's properly secured.",
+                "solution": "Ensure that any health-related data is properly encrypted and securely stored. Implement strong access controls and regularly audit your application for security vulnerabilities. Be aware that HIPAA regulations apply to any system that handles health-related data, not just those in the healthcare industry.",
+                "webLink": "https://www.hhs.gov/hipaa/index.html"
+              }
+            ]
+          }
+        }
+      ],
+      "languageId": "typescript",
+      "id": "13",
+      "value": "\nexport const emptyProjectData: IBoostProjectData = {\n    dataFormatVersion: \"0.0.0\",\n    summary: {\n        projectName: \"\",\n        summaryUrl: \"\",\n        filesToAnalyze: 0,\n        filesAnalyzed: 0,\n    },\n    sectionSummary: {\n        summary: {\n            analysisType: ControllerOutputType.summary,\n            status: BoostProcessingStatus.notStarted,\n            completedCells: 0,\n            errorCells: 0,\n            issueCells: 0,\n            totalCells: 0,\n            filesAnalyzed: 0,\n        },\n    },\n    files: {},\n    jobStatus: {},\n    account: {\n        refreshed: false,\n        enabled: false,\n        status: \"\",\n        trialRemaining: 0,\n        usageThisMonth: 0,\n        discountedUsage: 0,\n        balanceDue: 0,\n        couponType: \"\",\n        org: \"\",\n        owner: \"\",\n        created: \"\",\n        creditCardLinked: false,\n    },\n    uiState: {\n        analysisState: AnalysisState.quiescent,\n        activityBarState: {\n            summaryViewState: {\n                analysisMode: \"analyze-all-mode\",\n                analysisTypesState: {\n                    security: true,\n                    compliance: true,\n                    documentation: true,\n                }\n            },\n        },\n    },\n};\n",
+      "kind": 2,
+      "metadata": {
+        "id": 13,
+        "type": "originalCode",
+        "lineNumberBase": 110
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/data/boostprojectdata_interface.ts"
+  }
+}

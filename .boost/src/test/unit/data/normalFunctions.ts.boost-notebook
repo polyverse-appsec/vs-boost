@@ -1,0 +1,32 @@
+{
+  "cells": [
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "0",
+      "value": "\nfunction testFunc() {\n    console.log(\"Hello, World!\");\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "typescript",
+      "id": "1",
+      "value": "\nfunction testFunc2() {\n    console.log(\"Goodbye, World!\");\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 4
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./src/test/unit/data/normalFunctions.ts"
+  }
+}
