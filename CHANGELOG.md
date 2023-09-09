@@ -9,7 +9,7 @@ Polyverse Boost Automatic Application Modernization
 - N/A
 
 ### Enhancements
-- N/A
+- Change Diagnostic Problems to Warning by default when Analysis of source code is not successful to avoid blocking user code build
 
 ### Bug Fixes
 - N/A

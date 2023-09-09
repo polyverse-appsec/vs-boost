@@ -865,8 +865,8 @@ export class KernelControllerBase extends BoostServiceHelper {
         cell: vscode.NotebookCell | BoostNotebookCell,
         // error should be the Error object that was thrown
         error: Error,
-        // severity of the problem
-        severity: vscode.DiagnosticSeverity = vscode.DiagnosticSeverity.Error,
+        // severity of the problem (default is Warning to avoid blocking builds)
+        severity: vscode.DiagnosticSeverity = vscode.DiagnosticSeverity.Warning,
         // cellPosition should be the problematic range of the Cell in the Notebook
         cellRange: vscode.Range = new vscode.Range(0, 0, 0, 0),
         // (optional) relatedUri should be the Uri of the original source file
@@ -917,7 +917,8 @@ export class KernelControllerBase extends BoostServiceHelper {
             }
         }
         if (!severity) {
-            severity = vscode.DiagnosticSeverity.Error;
+            // we set the diagnostic to a warning (not an Error) to avoid blocking builds of customer code
+            severity = vscode.DiagnosticSeverity.Warning;
         }
         if (!cellRange) {
             cellRange = new vscode.Range(0, 0, 0, 0);
