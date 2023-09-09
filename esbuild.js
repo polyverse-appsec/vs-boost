@@ -6,123 +6,95 @@ const { build } = require("esbuild");
 
 /** @type BuildOptions */
 const baseConfig = {
-  bundle: true,
-  minify: process.env.NODE_ENV === "production",
-  sourcemap: process.env.NODE_ENV !== "production",
+    bundle: true,
+    minify: process.env.NODE_ENV === "production",
+    sourcemap: process.env.NODE_ENV !== "production",
 };
+
+console.log(
+    "Source Mapping is " +
+        (process.env.NODE_ENV !== "production" ? "enabled" : "disabled") +
+        "\n"
+);
 
 // Config for extension source code (to be run in a Node-based context)
 /** @type BuildOptions */
 const extensionConfig = {
-  ...baseConfig,
-  platform: "node",
-  mainFields: ["module", "main"],
-  format: "cjs",
-  entryPoints: ["./src/extension/extension.ts"],
-  outfile: "./out/extension.js",
-  external: ["vscode"],
-};
-
-// Config for webview source code (to be run in a web-based context)
-/** @type BuildOptions */
-const summaryConfig = {
-  ...baseConfig,
-  target: "es2020",
-  format: "esm",
-  entryPoints: ["./src/dashboard/summary/main.ts"],
-  outfile: "./out/dashboard/summary/main.js",
-};
-
-// Config for webview source code (to be run in a web-based context)
-/** @type BuildOptions */
-const chatConfig = {
-  ...baseConfig,
-  target: "es2020",
-  format: "esm",
-  entryPoints: ["./src/dashboard/chat/main.ts"],
-  outfile: "./out/dashboard/chat/main.js",
-};
-
-// Config for webview source code (to be run in a web-based context)
-/** @type BuildOptions */
-const startConfig = {
-  ...baseConfig,
-  target: "es2020",
-  format: "esm",
-  entryPoints: ["./src/dashboard/start/main.ts"],
-  outfile: "./out/dashboard/start/main.js",
-};
-
-// Config for webview source code (to be run in a web-based context)
-/** @type BuildOptions */
-const markdownConfig = {
-  ...baseConfig,
-  target: "es2020",
-  format: "esm",
-  entryPoints: ["./src/dashboard/markdown/main.ts"],
-  outfile: "./out/dashboard/markdown/main.js",
+    ...baseConfig,
+    platform: "node",
+    mainFields: ["module", "main"],
+    format: "cjs",
+    entryPoints: ["./src/extension/extension.ts"],
+    outfile: "./out/extension.js",
+    external: ["vscode"],
 };
 
 // This watch config adheres to the conventions of the esbuild-problem-matchers
 // extension (https://github.com/connor4312/esbuild-problem-matchers#esbuild-via-js)
 /** @type BuildOptions */
 const watchConfig = {
-  watch: {
-    onRebuild(error, result) {
-      console.log("[watch] build started");
-      if (error) {
-        error.errors.forEach((error) =>
-          console.error(
-            `> ${error.location.file}:${error.location.line}:${error.location.column}: error: ${error.text}`
-          )
-        );
-      } else {
-        console.log("[watch] build finished");
-      }
+    watch: {
+        onRebuild(error, result) {
+            console.log("[watch] build started");
+            if (error) {
+                error.errors.forEach((error) =>
+                    console.error(
+                        `> ${error.location.file}:${error.location.line}:${error.location.column}: error: ${error.text}`
+                    )
+                );
+            } else {
+                console.log("[watch] build finished");
+            }
+        },
     },
-  },
 };
+
+const dashboardConfigs = [
+    "dashboard/chat/main",
+    "dashboard/summary/main",
+    "dashboard/markdown/main",
+    "dashboard/start/main",
+].map((entry) => ({
+    ...baseConfig,
+    target: "es2020",
+    format: "esm",
+    entryPoints: [`./src/${entry}.ts`],
+    outfile: `./out/${entry}.js`,
+}));
 
 // Build script
 (async () => {
-  const args = process.argv.slice(2);
-  try {
-    if (args.includes("--watch")) {
-      // Build and watch extension and webview code
-      console.log("[watch] build started");
-      await build({
-        ...extensionConfig,
-        ...watchConfig,
-      });
-      await build({
-        ...summaryConfig,
-        ...watchConfig,
-      });
-      await build({
-        ...chatConfig,
-        ...watchConfig
-      });
-      await build({
-        ...startConfig,
-        ...watchConfig
-      });
-      await build({
-        ...markdownConfig,
-        ...watchConfig
-      });
-      console.log("[watch] build finished");
-    } else {
-      // Build extension and webview code
-      await build(extensionConfig);
-      await build(summaryConfig);
-      await build(chatConfig);
-      await build(startConfig);
-      await build(markdownConfig);
-      
-      console.log("build complete");
+    const args = process.argv.slice(2);
+    try {
+        if (args.includes("--watch")) {
+            // Build and watch extension and webview code
+            console.log("[WATCH] Build Started");
+            await build({
+                ...extensionConfig,
+                ...watchConfig,
+            });
+
+            for (const config of dashboardConfigs) {
+                await build({
+                    ...config,
+                    ...watchConfig,
+                });
+            }
+
+            console.log("[WATCH] Build Finished");
+        } else {
+            // Build extension
+            await build(extensionConfig);
+            console.log("Extension Build Complete");
+
+            // Build webview code
+            for (const config of dashboardConfigs) {
+                await build(config);
+            }
+            console.log("Webview Build Complete");
+        }
+    } catch (err) {
+        process.stderr.write(err.message + "\n" + err.stack);
+        process.exit(1);
     }
-  } catch (err) {
-    process.stderr.write(err.stderr);
-    process.exit(1);
-  }
 })();
