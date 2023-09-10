@@ -821,7 +821,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         );
         if (existingOutput) {
             execution.replaceOutputItems(outputItems, existingOutput);
-            //udpate existingOutput.metadata with details, replacing any existing details
+            // update existingOutput.metadata with details, replacing any existing details
             if (existingOutput.metadata?.details) {
                 delete existingOutput.metadata.details;
             }
