@@ -462,7 +462,7 @@ export class BoostExtension {
                 resolve();
             } catch (error) {
                 boostLogging.error(
-                    `Error refreshing Boost Project data: ${error}`
+                    `Error refreshing Boost Project data: ${errorToString(error)}`
                 );
                 reject(error);
             }
@@ -612,10 +612,10 @@ export class BoostExtension {
             });
         } catch (error) {
             boostLogging.debug(
-                `Error refreshing Boost Project data for ${workspaceFolder.fsPath}: ${error}`
+                `Error refreshing Boost Project data for ${workspaceFolder.fsPath}: ${errorToString(error)}`
             );
             issues.push(
-                `Error refreshing Boost Project data for ${workspaceFolder.fsPath}: ${error}`
+                `Error refreshing Boost Project data for ${workspaceFolder.fsPath}: ${errorToString(error)}`
             );
         } finally {
             // store the total number of issues no matter what happened
@@ -1061,10 +1061,14 @@ export class BoostExtension {
                     //put the framework in the metadata
                     if (currentNotebook) {
                         const edit = new vscode.WorkspaceEdit();
+                        // get the metadata for the current notebook
+                        const metadata = currentNotebook.metadata;
+                        // now add or update the test Framework. the metadata object needs to be
+                        // cloned first, as it's a read only object
+                        let newMetadata = Object.assign({}, metadata);
+                        newMetadata.testFramework = framework;
                         edit.set(currentNotebook.uri, [
-                            vscode.NotebookEdit.updateNotebookMetadata({
-                                testFramework: framework,
-                            }),
+                            vscode.NotebookEdit.updateNotebookMetadata(newMetadata),
                         ]);
                         await vscode.workspace.applyEdit(edit);
                     }
@@ -1101,10 +1105,10 @@ export class BoostExtension {
                         vscode.window.activeNotebookEditor?.notebook;
                     if (currentNotebook) {
                         const edit = new vscode.WorkspaceEdit();
-                        //get the metadata for the current notebook
+                        // get the metadata for the current notebook
                         const metadata = currentNotebook.metadata;
-                        //now add or udpate the output language. the metadata object needs to be
-                        //cloned first, as it's a read only object
+                        // now add or update the output language. the metadata object needs to be
+                        // cloned first, as it's a read only object
                         let newMetadata = Object.assign({}, metadata);
                         newMetadata.outputLanguage = language;
                         edit.set(currentNotebook.uri, [
@@ -1374,7 +1378,7 @@ export class BoostExtension {
                         );
                     } catch (error) {
                         boostLogging.error(
-                            `Unable to Boost file:[${fileUri[0].fsPath.toString()} due to error:${error}`,
+                            `Unable to Boost file:[${fileUri[0].fsPath.toString()} due to error:${errorToString(error)}`,
                             true
                         );
                     }

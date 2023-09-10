@@ -6,6 +6,7 @@ import * as path from "path";
 import * as boostnb from "../data/jupyter_notebook";
 
 import { BoostContentSerializer } from "../utilities/serializer";
+import { errorToString } from "../utilities/error";
 import { parseFunctions } from "../utilities/split";
 import { BoostConfiguration } from "./boostConfiguration";
 import { boostLogging } from "../utilities/boostLogging";
@@ -76,7 +77,7 @@ export async function activate(context: vscode.ExtensionContext) {
         const extension = new BoostExtension(context);
     } catch (error) {
         boostLogging.error(
-            `Unable to activate Boost Notebook Extension due to error:${error}. Please retry launching, check your Boost configuration, or contact Polyverse Boost Support`,
+            `Unable to activate Boost Notebook Extension due to error:${errorToString(error)}. Please retry launching, check your Boost configuration, or contact Polyverse Boost Support`,
             true
         );
     }
@@ -146,7 +147,7 @@ export function getBoostFile(
             fs.mkdirSync(boostFolder, { recursive: true });
         } catch (error) {
             throw new Error(
-                `Failed to create Boost folder at ${boostFolder} due to Error: ${error} - possible permission issue`
+                `Failed to create Boost folder at ${boostFolder} due to Error: ${errorToString(error)} - possible permission issue`
             );
         }
     }
@@ -251,7 +252,7 @@ export function getBoostFile(
                     fs.mkdirSync(outputFolder, { recursive: true });
                 } catch (error) {
                     throw new Error(
-                        `Failed to create Boost Output folder at ${outputFolder} due to Error: ${error} - possible permission issue`
+                        `Failed to create Boost Output folder at ${outputFolder} due to Error: ${errorToString(error)} - possible permission issue`
                     );
                 }
             }
@@ -268,6 +269,13 @@ export function getBoostFile(
 
             const nonNormalizedOutputFilePath = path.join(outputFolder, sourceFilePathRelative) + "." + outputType;
             const outputFilePath = path.normalize(nonNormalizedOutputFilePath);
+
+            // proactively create the output sub-folder if it doesn't exist, so we can write it
+            const outputFileParentFolder = path.dirname(outputFilePath);
+            if (!fs.existsSync(outputFileParentFolder)) {
+                fs.mkdirSync(outputFileParentFolder, { recursive: true });
+            }
+            
             return vscode.Uri.parse(outputFilePath);
 
         case BoostFileType.notebook:

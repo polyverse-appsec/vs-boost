@@ -24,6 +24,7 @@ Abort: If the abort API is called, the workflow will stop executing further prom
 
 import { all } from "micromatch";
 import { v4 as uuidv4 } from "uuid";
+import { errorToString } from "./error";
 
 // Custom error class for handling typed errors
 export class WorkflowError extends Error {
@@ -123,7 +124,7 @@ export class WorkflowEngine {
 
         } catch (error) {
 
-            this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):beforeRun:finished:error:${getElapsedTime(startTime)}:${error}`);
+            this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):beforeRun:finished:error:${getElapsedTime(startTime)}:${errorToString(error)}`);
 
             allResults.push(error);
             return allResults;
@@ -179,7 +180,7 @@ export class WorkflowEngine {
                         }
                         
                     } catch (error) {
-                        this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:afterEachTask:finished:error:${getElapsedTime(startTime)}:${error}`);
+                        this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:afterEachTask:finished:error:${getElapsedTime(startTime)}:${errorToString(error)}`);
                         allResults.push(error);
                     }
 
@@ -219,7 +220,7 @@ export class WorkflowEngine {
                             break;
                         case "skip":
                             this.logger?.info(
-                                `${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:Skipping due to ${(error as Error).message}`
+                                `${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:Skipping due to ${errorToString(error)}`
                             );
                             this.retryCounts.delete(promiseGenerator);
 
@@ -231,7 +232,7 @@ export class WorkflowEngine {
                             // abort will immediately exit the entire workflow process
                         case "abort":
                             this.logger?.error(
-                                `${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:Aborting workflow due to ${(error as Error).message}`
+                                `${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:Aborting workflow due to ${errorToString(error)}`
                             );
                             this.retryCounts.delete(promiseGenerator);
                             this.abort();
@@ -246,7 +247,7 @@ export class WorkflowEngine {
                             //      and end of workflow tasks
                         case "cancel":
                             this.logger?.error(
-                                `${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:Canceling tasks due to ${(error as Error).message}`
+                                `${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:task-${taskId}:Canceling tasks due to ${errorToString(error)}`
                             );
                             this.retryCounts.delete(promiseGenerator);
                             this.cancel();
@@ -269,7 +270,7 @@ export class WorkflowEngine {
                 this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:afterEachTaskGroup:finished:success:${getElapsedTime(startTime)}`);
                 
             } catch (error) {
-                this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:afterEachTaskGroup:finished:error:${getElapsedTime(startTime)}:${error}`);
+                this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:afterEachTaskGroup:finished:error:${getElapsedTime(startTime)}:${errorToString(error)}`);
                 allResults.push(error);
             }
     
@@ -290,7 +291,7 @@ export class WorkflowEngine {
             this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):afterRun:finished:success:${getElapsedTime(startTime)}`);
             
         } catch (error) {
-            this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):afterRun:finished:error:${getElapsedTime(startTime)}:${error}`);
+            this.logger?.error(`${getFormattedDate()}:Workflow(${this.id}):afterRun:finished:error:${getElapsedTime(startTime)}:${errorToString(error)}`);
             allResults.push(error);
         }
 

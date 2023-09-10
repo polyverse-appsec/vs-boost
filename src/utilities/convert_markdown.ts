@@ -65,12 +65,6 @@ async function generateMarkdownFromJson(
                 }
             );
 
-            // Save the Markdown to a file, creating the directory if necessary
-            const dir = path.dirname(outputPath);
-
-            if (!fs.existsSync(dir)) {
-                fs.mkdirSync(dir, { recursive: true });
-            }
             fs.writeFileSync(outputPath, markdown);
             resolve();
         } catch (error) {
@@ -95,7 +89,7 @@ async function generateMarkdownFromObject(
     const timestamp = stats.mtime;
     const fileStamp = formatDateTime(timestamp);
 
-    const sourceFile = boostNotebook.metadata["sourceFile"] as string;
+    const sourceFile = boostNotebook.metadata["sourceFile"]?boostNotebook.metadata["sourceFile"] as string:"UNKNOWN-SOURCE-FILE";
 
     const projectLevel = sourceFile === "./";
     const analysisType = projectLevel ? "Project" : "Source";

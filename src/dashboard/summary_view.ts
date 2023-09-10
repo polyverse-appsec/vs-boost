@@ -7,6 +7,7 @@ import { BoostExtension } from "../extension/BoostExtension";
 import { aiName } from "./chat_view";
 
 import { WorkflowEngine, WorkflowError } from "../utilities/workflow_engine";
+import { errorToString } from "../utilities/error";
 
 import { getKernelName } from "../extension/extensionUtilities";
 import {
@@ -935,7 +936,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     }
                 } catch (error) {
                     boostLogging.error(
-                        `Error while running ${key} analysis:: ${error}`,
+                        `Error while running ${key} analysis:: ${errorToString(error)}`,
                         true
                     );
                 }
