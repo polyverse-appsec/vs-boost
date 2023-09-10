@@ -9,6 +9,7 @@ import { boostLogging } from '../utilities/boostLogging';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
+import { errorMimeType } from './base_controller';
 
 export const convertKernelName = 'convert';
 const convertOutputHeader = `Code Conversion`;
@@ -16,6 +17,8 @@ const convertOutputHeader = `Code Conversion`;
 const markdownCodeMarker = '```';
 
 export class BoostConvertKernel extends KernelControllerBase {
+    public outputLanguage: string;
+
 	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
@@ -30,6 +33,7 @@ export class BoostConvertKernel extends KernelControllerBase {
             context,
             otherThis,
             onServiceErrorHandler);
+        this.outputLanguage = BoostConfiguration.defaultOutputLanguage;
 	}
 
 	dispose(): void {
@@ -145,6 +149,7 @@ export class BoostConvertKernel extends KernelControllerBase {
             (vscode.window.activeNotebookEditor?.notebook.metadata.outputLanguage) ??
             BoostConfiguration.defaultOutputLanguage;
 
+        this.outputLanguage = outputLanguage;
         // now take the summary and using axios send it to Boost web service with the summary
         //      in a json object summary=summary
         //    dynamically add extra payload properties
@@ -180,7 +185,9 @@ export class BoostConvertKernel extends KernelControllerBase {
             if (usingBoostNotebook) {
                 const outputItems : SerializedNotebookCellOutput[] = [ {
                     items: [ { mime: mimetypeCode, data : header } ],
-                    metadata : { outputType: this.outputType} } ];
+                    metadata : { 
+                        outputType: this.outputType,
+                        outputLanguage: outputLanguage } } ];
                 
                 cell.updateOutputItem(this.outputType, outputItems[0]);
             } else {
@@ -189,7 +196,7 @@ export class BoostConvertKernel extends KernelControllerBase {
                 // we will have one NotebookCellOutput per type of output.
                 // first scan the existing outputs of the cell and see if we already have an output of this type
                 // if so, replace it
-                const existingOutput = cell.outputs.find(output => output.metadata?.outputType === this.outputType);
+                const existingOutput = cell.outputs.find(output => (output.metadata?.outputType === this.outputType && output.metadata?.outputLanguage === outputLanguage));
                 if (existingOutput) {
                     execution.replaceOutputItems(outputItemsCode, existingOutput);
                 } else {
@@ -214,5 +221,37 @@ export class BoostConvertKernel extends KernelControllerBase {
         }
 
         return true;
+    }
+
+    //override the BaseController implementation so that we will generate new cells if the outputLanguage is different
+    isCellOutputMissingOrError(
+        cell: vscode.NotebookCell | BoostNotebookCell
+    ): boolean {
+        if (cell.outputs.length === 0) {
+            // if we have no outputs, then we need to run it
+            return true;
+        }
+
+        // Check if the cell has any error output
+        const hasErrorOutput = cell.outputs.some((output: any) => {
+            // ignore outputs that aren't our output type
+            if (output.metadata?.outputType !== this.outputType) {
+                return false;
+            }
+            for (const item of output.items) {
+                return item.mime === errorMimeType;
+            }
+        });
+
+        // if an error, just run it
+        if (hasErrorOutput) {
+            return true;
+        }
+        // Check if the cell has existing analysis (e.g. not missing)
+        return !cell.outputs.some((output: any) => {
+            // ignore outputs that aren't our output type
+            return (output.metadata?.outputType === this.outputType && 
+                output.metadata?.outputLanguage === this.outputLanguage);
+        });
     }
 }

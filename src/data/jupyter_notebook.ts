@@ -88,9 +88,15 @@ export class BoostNotebookCell /*implements nbformat.ICell */ {
         this.metadata = newData;
     }
 
-    updateOutputItem(outputType: string, newOutput: SerializedNotebookCellOutput) {
+    updateOutputItem(outputType: string, newOutput: SerializedNotebookCellOutput, outputLanguage?: string) {
         // Check if any existing output item has the same outputType
-        const existingItemIndex = this.outputs.findIndex(item => item.metadata?.outputType === outputType);
+        let existingItemIndex = -1;
+        // if there is an outputLanguage, then we need to check for that as well
+        if (outputLanguage) {
+            existingItemIndex = this.outputs.findIndex(item => item.metadata?.outputType === outputType && item.metadata?.outputLanguage === outputLanguage);
+        } else {
+            existingItemIndex = this.outputs.findIndex(item => item.metadata?.outputType === outputType);
+        }
 
         if (!newOutput.metadata || !newOutput.metadata.outputType) {
             throw new Error('Output metadata must contain an outputType');
