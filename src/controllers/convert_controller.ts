@@ -223,35 +223,19 @@ export class BoostConvertKernel extends KernelControllerBase {
         return true;
     }
 
-    //override the BaseController implementation so that we will generate new cells if the outputLanguage is different
-    isCellOutputMissingOrError(
-        cell: vscode.NotebookCell | BoostNotebookCell
-    ): boolean {
-        if (cell.outputs.length === 0) {
-            // if we have no outputs, then we need to run it
+    // specialize cell search to include the outputLanguage
+    isCellOutputMissingOrError(cell: vscode.NotebookCell | BoostNotebookCell): boolean {
+        // Get result from base class
+        if (super.isCellOutputMissingOrError(cell)) {
             return true;
         }
-
-        // Check if the cell has any error output
-        const hasErrorOutput = cell.outputs.some((output: any) => {
-            // ignore outputs that aren't our output type
-            if (output.metadata?.outputType !== this.outputType) {
-                return false;
-            }
-            for (const item of output.items) {
-                return item.mime === errorMimeType;
-            }
-        });
-
-        // if an error, just run it
-        if (hasErrorOutput) {
-            return true;
-        }
-        // Check if the cell has existing analysis (e.g. not missing)
+    
+        // Additional logic specific to derived class: Check if the cell has the correct outputLanguage
+        // If the output language doesn't match, it means the output is "missing" for the derived class's purposes.
         return !cell.outputs.some((output: any) => {
-            // ignore outputs that aren't our output type
             return (output.metadata?.outputType === this.outputType && 
                 output.metadata?.outputLanguage === this.outputLanguage);
         });
     }
+    
 }
