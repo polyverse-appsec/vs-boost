@@ -68,7 +68,7 @@ const dashboardConfigs = [
     try {
         if (args.includes("--watch")) {
             // Build and watch extension and webview code
-            console.log("[WATCH] Build Started");
+            console.log("[watch] build started");
             await build({
                 ...extensionConfig,
                 ...watchConfig,
@@ -81,7 +81,7 @@ const dashboardConfigs = [
                 });
             }
 
-            console.log("[WATCH] Build Finished");
+            console.log("[watch] build finished");
         } else {
             // Build extension
             await build(extensionConfig);
