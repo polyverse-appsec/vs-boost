@@ -88,7 +88,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         notebook: vscode.NotebookDocument | boostnb.BoostNotebook) : any {
 
         //if the details exists, then we will use that as the output as an object
-        if (!details || details.length === 0) {
+        if (!details || Object.keys(details).length === 0) {
             return {};
         }
         //now add the bugs to the issue collection
