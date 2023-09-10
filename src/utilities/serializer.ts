@@ -4,6 +4,7 @@ import { boostLogging } from '../utilities/boostLogging';
 import { BoostConfiguration } from '../extension/boostConfiguration';
 import * as boostnb from '../data/jupyter_notebook';
 import { errorMimeType } from '../controllers/base_controller';
+import { errorToString } from './error';
 /**
  * An ultra-minimal sample provider that lets the user type in JSON, and then
  * outputs JSON cells. The outputs are transient and not saved to notebook file on disk.
@@ -39,7 +40,7 @@ export class BoostContentSerializer implements vscode.NotebookSerializer {
         try {
             raw = <RawNotebookData>JSON.parse(contents);
         } catch (err) {
-            boostLogging.error(`Boost error parsing JSON file contents: ${(err as Error).toString()}`, false);
+            boostLogging.error(`Boost error parsing JSON file contents: ${errorToString(err)}`, false);
             raw = { cells: [] };
         }
 

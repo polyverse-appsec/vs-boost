@@ -6,6 +6,7 @@ import { fetchUserOrganizationsServiceRequest } from "../controllers/user_organi
 import { getExtensionMode } from "../extension/extension_state";
 
 import { exec } from "child_process";
+import { errorToString } from "./error";
 
 function getGithubToken(): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -20,8 +21,8 @@ function getGithubToken(): Promise<string> {
         // Execute the command to get the token status.
         exec("gh auth status --show-token", (error, stdout, stderr) => {
             if (error) {
-                boostLogging.error(`GitHub CLI (gh) failed authorization: ${error}`);
-                reject(new Error("GitHub CLI (gh) failed authorization: ${error}"));
+                boostLogging.error(`GitHub CLI (gh) failed authorization: ${errorToString(error)}`);
+                reject(new Error(`GitHub CLI (gh) failed authorization: ${errorToString(error)}`));
                 return;
             }
 

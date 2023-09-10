@@ -1378,7 +1378,7 @@ export class BoostExtension {
                         );
                     } catch (error) {
                         boostLogging.error(
-                            `Unable to Boost file:[${fileUri[0].fsPath.toString()} due to error:${error}`,
+                            `Unable to Boost file:[${fileUri[0].fsPath.toString()} due to error:${errorToString(error)}`,
                             true
                         );
                     }

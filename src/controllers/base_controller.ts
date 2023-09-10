@@ -429,7 +429,7 @@ export class KernelControllerBase extends BoostServiceHelper {
                       )
             );
             boostLogging.error(
-                `Error executing cell ${cellId}: ${(err as Error).message}`,
+                `Error executing cell ${cellId}: ${errorToString(err)}`,
                 false
             );
             if (!usingBoostNotebook) {

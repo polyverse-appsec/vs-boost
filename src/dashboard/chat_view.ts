@@ -22,6 +22,7 @@ import {
 } from "../data/boostprojectdata_interface";
 import sanitizeHtml from "sanitize-html";
 import { ICellMetadata } from "@jupyterlab/nbformat";
+import { errorToString } from "../utilities/error";
 
 export const aiName = "Sara";
 
@@ -243,7 +244,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
             this._addResponse(prompt, chatOutput);
         } catch (error) {
             boostLogging.error(
-                `Chat requested could not complete due to ${error}`,
+                `Chat requested could not complete due to ${errorToString(error)}`,
                 showUI
             );
             this._addResponse(prompt, "");
@@ -361,7 +362,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
             return JSON.parse(data);
         } catch (err) {
             boostLogging.error(
-                `Boost failed to load Chat history: ${(err as Error).message}`,
+                `Boost failed to load Chat history: ${errorToString(err)}`,
                 true
             );
             return undefined;
