@@ -526,7 +526,7 @@
         "prepackage:pretest": "npm run pretest:github:check && npm run clean && npm run prepublish:build && npm run copy:test-data",
         "prepackage:test": "npm run test",
         "prepackage:login": "vsce login polyversecorporation",
-        "package": "vsce package --allow-missing-repository --baseContentUrl \"https://polyverse.com\" --baseImagesUrl \"https://polyverse.com/images\" --out ./out/",
+        "package": "node scripts/packageAndCheckSize.js",
         "publish": "vsce publish --allow-missing-repository --baseContentUrl \"https://polyverse.com\" --baseImagesUrl \"https://polyverse.com/images\""
     },
     "devDependencies": {
