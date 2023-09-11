@@ -1,23 +1,23 @@
 import {
     KernelControllerBase,
-    markdownMimeType
+    markdownMimeType,
+    codeMimeType,
+    markdownCodeMarker,
+    textMimeType
     } from './base_controller';
 import * as vscode from 'vscode';
 import { BoostConfiguration } from '../extension/boostConfiguration';
-import { BoostNotebookCell, SerializedNotebookCellOutput, BoostNotebook } from '../data/jupyter_notebook';
+import { BoostNotebookCell, BoostNotebook } from '../data/jupyter_notebook';
 import { boostLogging } from '../utilities/boostLogging';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
+import { explainOutputHeader, getExplainEndpoint } from './explain_controller';
 
 export const convertKernelName = 'convert';
 const convertOutputHeader = `Code Conversion`;
 
-const markdownCodeMarker = '```';
-
 export class BoostConvertKernel extends KernelControllerBase {
-    public outputLanguage: string;
-
 	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
@@ -32,7 +32,6 @@ export class BoostConvertKernel extends KernelControllerBase {
             context,
             otherThis,
             onServiceErrorHandler);
-        this.outputLanguage = BoostConfiguration.defaultOutputLanguage;
 	}
 
 	dispose(): void {
@@ -59,23 +58,11 @@ export class BoostConvertKernel extends KernelControllerBase {
         return this.serviceEndpoint;
     }
 
-    // NOTE: This code is duplicated in explain_controller.cs
     get explainEndpoint(): string {
-        switch (BoostConfiguration.cloudServiceStage)
-        {
-            case "local":
-                return 'http://127.0.0.1:8000/explain';
-            case 'dev':
-                return 'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
-            case "test":
-                return 'https://r5s6cjvc43jsrqdq3axrhrceya0cumft.lambda-url.us-west-2.on.aws/';
-            case 'staging':
-            case 'prod':
-            default:
-                return 'https://vdcg2nzj2jtzmtzzcmfwbvg4ey0jxghj.lambda-url.us-west-2.on.aws/';
-        }
+        return getExplainEndpoint(BoostConfiguration.cloudServiceStage);
     }
 
+    // override onProcessServiceRequest, since we are making two service requests (explain then generate)
     async onProcessServiceRequest(
         execution: vscode.NotebookCellExecution,
         notebook : vscode.NotebookDocument | BoostNotebook,
@@ -84,53 +71,28 @@ export class BoostConvertKernel extends KernelControllerBase {
         serviceEndpoint: string = this.serviceEndpoint
         ): Promise<boolean> {
 
-        const usingBoostNotebook = "value" in cell; // if the cell has a value property, then it's a BoostNotebookCell
+        const usingBoostNotebook = "value" in cell;
 
-        // make Boost service request to get explanation of code in english (lingua franca cross-translate),
-        //      preparing for conversion
-        const response = await this.makeBoostServiceRequest(cell, this.explainEndpoint, payload);
-        if (response instanceof Error) {
-            let throwErr = response as Error;
-            throw throwErr;
-        } else if (response.data instanceof Error) {
-            let throwErr = response.data as Error;
-            throw throwErr;
-        }
-
-        const summarydata = response;
-        const outputText = generateCellOutputWithHeader(`Code Explanation`, summarydata.explanation);
-
-        // we will have one NotebookCellOutput per type of output.
-        // first scan the existing outputs of the cell and see if we already have an output of this type
-        // if so, replace it
-        let successfullyCompleted = false;
-        let startTime = Date.now();
         const cellId = usingBoostNotebook?
             (cell as BoostNotebookCell).id:
             (cell as vscode.NotebookCell).document.uri.toString();
+
+                // First, get the explanation of the code
+        let startTime = Date.now();
+        let successfullyCompleted = false;
+        let explainResponse;
         try {
-            if (usingBoostNotebook) {
-                const outputItems : SerializedNotebookCellOutput[] = [ {
-                    items: [ { mime: markdownMimeType, data : outputText } ],
-                    metadata : { outputType: ControllerOutputType.explain} } ];
-                
-                cell.updateOutputItem(ControllerOutputType.explain, outputItems[0]);
-            } else {
-                const outputItems: vscode.NotebookCellOutputItem[] = [ vscode.NotebookCellOutputItem.text(outputText, markdownMimeType) ];
-
-                let existingOutput = cell.outputs.find(output => output.metadata?.outputType === ControllerOutputType.explain);
-
-                if (existingOutput) {
-                    execution.replaceOutputItems(outputItems, existingOutput);
-                } else {
-                    // create a new NotebookCellOutput with the outputItems array
-                    const output = new vscode.NotebookCellOutput(outputItems, { outputType: ControllerOutputType.explain });
-                    execution.appendOutput(output);
-                }
+            const rawExplainResponse = await super.performServiceRequest(cell, this.explainEndpoint, payload);
+            if (rawExplainResponse instanceof Error) {
+                throw rawExplainResponse;
+            } else if (rawExplainResponse.explanation === undefined) {
+                throw new Error("Unexpected missing explanation data from Boost Service");
             }
+
+            let mimetype = { str: markdownMimeType };
+            explainResponse = super.handleServiceResponse(rawExplainResponse, cell, ControllerOutputType.explain, usingBoostNotebook, mimetype, notebook, execution);
             successfullyCompleted = true;
         } finally {
-
             const duration = Date.now() - startTime;
             const minutes = Math.floor(duration / 60000);
             const seconds = ((duration % 60000) / 1000).toFixed(0);
@@ -144,67 +106,27 @@ export class BoostConvertKernel extends KernelControllerBase {
 
         // now we need to generate the code
         // if not specified on the notebook metadata, then default to the setting in the Extension User Settings
-        let outputLanguage = usingBoostNotebook? BoostConfiguration.defaultOutputLanguage:
-            (vscode.window.activeNotebookEditor?.notebook.metadata.outputLanguage) ??
-            BoostConfiguration.defaultOutputLanguage;
+        let outputLanguage = this.getOutputLanguage(notebook);
 
-        this.outputLanguage = outputLanguage;
         // now take the summary and using axios send it to Boost web service with the summary
         //      in a json object summary=summary
         //    dynamically add extra payload properties
-        payload.explanation = summarydata.explanation;
+        payload.explanation = explainResponse.explanation;
         payload.language = outputLanguage;
 
         successfullyCompleted = false;
         startTime = Date.now();
         try {
-            const generatedCode = await this.makeBoostServiceRequest(cell, this.generateEndpoint, payload);
-            if (generatedCode instanceof Error) {
-                let throwErr = generatedCode as Error;
-                throw throwErr;
-            } else if (generatedCode === undefined) {
-                throw new Error("Unexpected empty result from Boost Service");
-            } else if (generatedCode.data instanceof Error) {
-                let throwErr = generatedCode.data as Error;
-                throw throwErr;
-            } else if (generatedCode.code === undefined) {
-                throw new Error("Unexpected missing data from Boost Service");
+            const rawConvertResponse = await super.performServiceRequest(cell, this.generateEndpoint, payload);
+            if (rawConvertResponse instanceof Error) {
+                throw rawConvertResponse;
+            } else if (rawConvertResponse.code === undefined) {
+                throw new Error("Unexpected missing code data from Boost Service");
             }
 
-            //quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
-            let mimetypeCode = 'text/x-' + outputLanguage;
-            let header = '';
-            if(generatedCode.code.includes(markdownCodeMarker)){
-                mimetypeCode = markdownMimeType;
-                header = generateCellOutputWithHeader(this.outputHeader, generatedCode.code);
-            } else {
-                header = generatedCode.code;
-            }
-
-            if (usingBoostNotebook) {
-                const outputItems : SerializedNotebookCellOutput[] = [ {
-                    items: [ { mime: mimetypeCode, data : header } ],
-                    metadata : { 
-                        outputType: this.outputType,
-                        outputLanguage: outputLanguage } } ];
-                
-                cell.updateOutputItem(this.outputType, outputItems[0]);
-            } else {
-                const outputItemsCode: vscode.NotebookCellOutputItem[] = [ vscode.NotebookCellOutputItem.text(header, mimetypeCode) ];
-
-                // we will have one NotebookCellOutput per type of output.
-                // first scan the existing outputs of the cell and see if we already have an output of this type
-                // if so, replace it
-                const existingOutput = cell.outputs.find(output => (output.metadata?.outputType === this.outputType && output.metadata?.outputLanguage === outputLanguage));
-                if (existingOutput) {
-                    execution.replaceOutputItems(outputItemsCode, existingOutput);
-                } else {
-                    // create a new NotebookCellOutput with the outputItems array
-                    const output = new vscode.NotebookCellOutput(outputItemsCode, { outputType: this.outputType });
-
-                    execution.appendOutput(output);
-                }
-            }
+            // if the returned string has three backwards apostrophes, then it's in markdown format
+            let mimetypeCode = { str: rawConvertResponse.code.includes(markdownCodeMarker)?markdownMimeType:'text/x-' + outputLanguage };
+            explainResponse = super.handleServiceResponse(rawConvertResponse, cell, ControllerOutputType.convert, usingBoostNotebook, mimetypeCode, notebook, execution);
             successfullyCompleted = true;
         }
         finally {
@@ -222,6 +144,32 @@ export class BoostConvertKernel extends KernelControllerBase {
         return true;
     }
 
+    onKernelOutputItem(
+        response: any,
+        notebook : vscode.NotebookDocument | BoostNotebook,
+        cell : vscode.NotebookCell | BoostNotebookCell,
+        mimetype : any) : string {
+        if (response.explanation) {
+            mimetype.str = markdownMimeType;
+            return generateCellOutputWithHeader(explainOutputHeader, response.explanation);
+        } else if (response.code) {
+            if(response.code.includes(markdownCodeMarker)){
+                mimetype.str = markdownMimeType;
+                return generateCellOutputWithHeader(this.outputHeader, response.code);
+            } else {
+                let outputLanguage = this.getOutputLanguage(notebook);
+                if (outputLanguage === 'cpp' || outputLanguage === 'c') {
+                    mimetype.str = textMimeType;
+                } else {
+                    mimetype.str = codeMimeType(outputLanguage);
+                }
+                return response.code;
+            }
+        } else {
+            throw new Error("Unexpected missing data from Boost Service");
+        }
+    }
+
     // specialize cell search to include the outputLanguage
     isCellOutputMissingOrError(
         notebook : vscode.NotebookDocument | BoostNotebook,
@@ -230,13 +178,26 @@ export class BoostConvertKernel extends KernelControllerBase {
         if (super.isCellOutputMissingOrError(notebook, cell)) {
             return true;
         }
-    
+
         // Additional logic specific to derived class: Check if the cell has the correct outputLanguage
         // If the output language doesn't match, it means the output is "missing" for the derived class's purposes.
         return !cell.outputs.some((output: any) => {
             return (output.metadata?.outputType === this.outputType && 
-                output.metadata?.outputLanguage === this.outputLanguage);
+                output.metadata?.outputLanguage === this.getOutputLanguage(notebook));
         });
+    }
+
+    getOutputLanguage(notebook: vscode.NotebookDocument | BoostNotebook) : string {
+
+        const usingBoostNotebook = notebook instanceof BoostNotebook;
+
+        // now we need to generate the code
+        // if not specified on the notebook metadata, then default to the setting in the Extension User Settings
+        let outputLanguage = usingBoostNotebook?
+            (notebook.metadata.outputLanguage?notebook.metadata.outputLanguage:BoostConfiguration.defaultOutputLanguage):
+            (notebook.metadata.outputLanguage?notebook.metadata.outputLanguage:BoostConfiguration.defaultOutputLanguage);
+
+        return outputLanguage;
     }
     
 }

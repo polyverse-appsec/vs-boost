@@ -434,7 +434,8 @@ export class KernelControllerBase extends BoostServiceHelper {
                       )
                     : vscode.NotebookCellOutputItem.error(
                           this.localizeError(err as Error)
-                      )
+                      ),
+                this.outputType
             );
             boostLogging.error(
                 `Error executing cell ${cellId}: ${errorToString(err)}`,
@@ -714,6 +715,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         };
     }
 
+    // process a single service request and update the cell output with the results
     async onProcessServiceRequest(
         execution: vscode.NotebookCellExecution | undefined,
         notebook: vscode.NotebookDocument | BoostNotebook,
@@ -721,38 +723,47 @@ export class KernelControllerBase extends BoostServiceHelper {
         payload: any,
         serviceEndpoint: string = this.serviceEndpoint
     ): Promise<any> {
-        let successfullyCompleted = true;
-        const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
-
-        // using axios, make a web POST call to Boost Service with the code as in a json object code=code
-        let response;
-        let serviceError: Error = new Error();
+        const usingBoostNotebook = "value" in cell;
+    
+        const response = await this.performServiceRequest(cell, serviceEndpoint, payload);
+        let mimetype = { str: markdownMimeType };
+        return this.handleServiceResponse(response, cell, this.outputType, usingBoostNotebook, mimetype, notebook, execution);
+    }
+    
+    protected async performServiceRequest(
+        cell: vscode.NotebookCell | BoostNotebookCell,
+        serviceEndpoint: string,
+        payload: any
+    ): Promise<any> {
         try {
-            response = await this.makeBoostServiceRequest(
-                cell,
-                serviceEndpoint,
-                payload
-            );
-        } catch (err: any) {
-            successfullyCompleted = false;
-            serviceError = err;
-        }
-        if (successfullyCompleted) {
+            const response = await this.makeBoostServiceRequest(cell, serviceEndpoint, payload);
+
             if (response instanceof Error) {
-                successfullyCompleted = false;
-                serviceError = response as Error;
+                return response;
             } else if (response === undefined) {
                 throw new Error("Unexpected empty result from Boost Service");
             } else if (response.data instanceof Error) {
-                successfullyCompleted = false;
-                serviceError = response.data as Error;
+                return response.data as Error;
             }
+            return response;
+        } catch (err: any) {
+            return err;
         }
+    }
+    
+    handleServiceResponse(
+        response: any,
+        cell: any,
+        outputType : ControllerOutputType,
+        usingBoostNotebook: boolean,
+        mimetype: any,
+        notebook: BoostNotebook | vscode.NotebookDocument,
+        execution: vscode.NotebookCellExecution | undefined): any {
 
-        // we wrap mimeTypes in an object so that we can pass it by reference and change it
-        let mimetype = { str: markdownMimeType };
-
-        let outputItem;
+        let successfullyCompleted = !(response instanceof Error);
+    
+        let outputItem : any;
+    
         if (usingBoostNotebook) {
             outputItem = successfullyCompleted
                 ? this._getBoostNotebookCellOutput(
@@ -760,7 +771,7 @@ export class KernelControllerBase extends BoostServiceHelper {
                       mimetype.str
                   )
                 : this._getBoostNotebookCellOutputError(
-                      this.localizeError(serviceError as Error)
+                      this.localizeError(response as Error)
                   );
         } else {
             outputItem = successfullyCompleted
@@ -769,7 +780,7 @@ export class KernelControllerBase extends BoostServiceHelper {
                       mimetype.str
                   )
                 : vscode.NotebookCellOutputItem.error(
-                      this.localizeError(serviceError as Error)
+                      this.localizeError(response as Error)
                   );
         }
     
@@ -780,19 +791,19 @@ export class KernelControllerBase extends BoostServiceHelper {
         );
 
         // extend the outputItem.metadata field with the results of a call to onKernelOutputItemDetails
-        this.updateCellOutput(execution, cell, details, outputItem);
-        if (!successfullyCompleted) {
-            const cellId = usingBoostNotebook
-                ? cell.id
-                : cell.document.uri.toString();
-            boostLogging.error(
-                `Error in cell ${cellId}: ${serviceError.message}`,
-                false
-            );
-            this.addDiagnosticProblem(notebook, cell, serviceError as Error);
-
-            response = serviceError;
+        this.updateCellOutput(execution, cell, details, outputItem, outputType);
+        if (successfullyCompleted) {
+            return response;
         }
+
+        const cellId = usingBoostNotebook
+            ? cell.id
+            : cell.document.uri.toString();
+        boostLogging.error(
+            `Error in cell ${cellId}: ${response.message}`,
+            false
+        );
+        this.addDiagnosticProblem(notebook, cell, response as Error);
 
         return response;
     }
@@ -801,7 +812,8 @@ export class KernelControllerBase extends BoostServiceHelper {
         execution: vscode.NotebookCellExecution | undefined,
         cell: vscode.NotebookCell | BoostNotebookCell,
         details: [],
-        outputItem: vscode.NotebookCellOutputItem | SerializedNotebookCellOutput
+        outputItem: vscode.NotebookCellOutputItem | SerializedNotebookCellOutput,
+        outputType: ControllerOutputType
     ) {
         const usingBoostNotebook = "value" in cell; // look for the value property to see if its a BoostNotebookCell
 
@@ -813,7 +825,7 @@ export class KernelControllerBase extends BoostServiceHelper {
                 ...boostOutput.metadata,
                 details: details,
             };
-            boostCell.updateOutputItem(this.outputType, boostOutput);
+            boostCell.updateOutputItem(outputType, boostOutput);
             return;
         }
 
@@ -826,7 +838,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         // if so, replace it
         let existingOutputs = cell.outputs;
         let existingOutput = existingOutputs.find(
-            (output) => output.metadata?.outputType === this.outputType
+            (output) => output.metadata?.outputType === outputType
         );
         if (existingOutput) {
             execution.replaceOutputItems(outputItems, existingOutput);
@@ -841,7 +853,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         } else {
             // create a new NotebookCellOutput with the outputItems array
             let metadata = {
-                outputType: this.outputType,
+                outputType: outputType,
                 details: details,
             };
             const output = new vscode.NotebookCellOutput(outputItems, metadata);
