@@ -5,8 +5,8 @@ import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from '../extension/boostConfiguration';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
+import { ControllerOutputType } from './controllerOutputTypes';
 
-export const flowDiagramOutputType = 'flowDiagram';
 export const flowDiagramKernelName = 'flowdiagram';
 const flowDiagramOutputHeader = `Flow Diagram`;
 
@@ -17,7 +17,7 @@ export class BoostFlowDiagramKernel extends KernelControllerBase {
             flowDiagramKernelName,
             'Create Flow Diagrams',
             'Creates a flow diagram from the code',
-            flowDiagramOutputType,
+            ControllerOutputType.flowDiagram,
             DisplayGroupFriendlyName.documentation,
             flowDiagramOutputHeader,
             false,
