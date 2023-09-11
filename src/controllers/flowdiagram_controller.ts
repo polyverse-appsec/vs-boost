@@ -5,6 +5,8 @@ import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from '../extension/boostConfiguration';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
+import { NotebookCell, NotebookDocument } from 'vscode';
+import { BoostNotebook, BoostNotebookCell } from '../data/jupyter_notebook';
 import { ControllerOutputType } from './controllerOutputTypes';
 
 export const flowDiagramKernelName = 'flowdiagram';
@@ -48,7 +50,11 @@ export class BoostFlowDiagramKernel extends KernelControllerBase {
         
     }
     
-    onKernelOutputItem(response: any, mimetype : any): string {
+    onKernelOutputItem(
+        response: any,
+        notebook : NotebookDocument | BoostNotebook,
+        cell : NotebookCell | BoostNotebookCell,
+        mimetype : any) : string {
         if (response.analysis === undefined) {
             throw new Error("Unexpected missing data from Boost Service");
         }

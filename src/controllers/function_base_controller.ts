@@ -9,6 +9,7 @@ import { boostLogging } from '../utilities/boostLogging';
 import { fullPathFromSourceFile } from '../utilities/files';
 import { lineNumberBaseFromCell } from '../extension/vscodeUtilities';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
+import { ControllerOutputType } from './controllerOutputTypes';
 
 export class FunctionKernelControllerBase extends KernelControllerBase {
 
@@ -19,7 +20,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         kernelId: string,
         kernelLabel: string,
         description: string,
-        outputType: string,
+        outputType: ControllerOutputType,
         displayGroup: DisplayGroupFriendlyName,
         collectionType: string,
         outputHeader: string,
@@ -52,6 +53,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
 
     onKernelOutputItem(
         response: any,
+        notebook : vscode.NotebookDocument | boostnb.BoostNotebook,
         cell : vscode.NotebookCell | boostnb.BoostNotebookCell,
         _ : any) : string {
 

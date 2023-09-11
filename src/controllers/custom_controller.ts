@@ -8,8 +8,8 @@ import { boostLogging } from '../utilities/boostLogging';
 import { BoostNotebookCell, BoostNotebook } from '../data/jupyter_notebook';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
+import { ControllerOutputType } from './controllerOutputTypes';
 
-export const customProcessCellMarker = 'customProcessCode';
 export const customProcessKernelName = 'custom';
 const customProcessOutputHeader = `Custom Code Analysis`;
 
@@ -47,7 +47,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
             'custom',
             'Custom Process Code',
             'Uses a custom prompt from user to process the targeted source code',
-            customProcessCellMarker,
+            ControllerOutputType.customProcess,
             DisplayGroupFriendlyName.deepcode,
             customProcessOutputHeader,
             false,
@@ -67,6 +67,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
     
     onKernelOutputItem(
         response: any,
+        notebook : vscode.NotebookDocument | BoostNotebook,
         cell : vscode.NotebookCell | BoostNotebookCell,
         mimetype : any) : string {
 

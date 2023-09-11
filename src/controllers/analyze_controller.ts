@@ -1,9 +1,12 @@
 import {
     KernelControllerBase
  } from './base_controller';
-import { DiagnosticCollection, ExtensionContext, NotebookCell } from 'vscode';
+import { DiagnosticCollection, ExtensionContext, NotebookCell, NotebookDocument } from 'vscode';
 import { BoostConfiguration } from '../extension/boostConfiguration';
-import { BoostNotebookCell } from '../data/jupyter_notebook';
+import {
+    BoostNotebookCell,
+    BoostNotebook
+} from '../data/jupyter_notebook';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
@@ -50,6 +53,7 @@ export class BoostAnalyzeKernel extends KernelControllerBase {
 
     onKernelOutputItem(
         response: any,
+        notebook : NotebookDocument | BoostNotebook,
         _ : NotebookCell | BoostNotebookCell,
         __ : any) : string {
 

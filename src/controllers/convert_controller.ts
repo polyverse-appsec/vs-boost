@@ -9,7 +9,6 @@ import { boostLogging } from '../utilities/boostLogging';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
-import { errorMimeType } from './base_controller';
 
 export const convertKernelName = 'convert';
 const convertOutputHeader = `Code Conversion`;
@@ -224,9 +223,11 @@ export class BoostConvertKernel extends KernelControllerBase {
     }
 
     // specialize cell search to include the outputLanguage
-    isCellOutputMissingOrError(cell: vscode.NotebookCell | BoostNotebookCell): boolean {
+    isCellOutputMissingOrError(
+        notebook : vscode.NotebookDocument | BoostNotebook,
+        cell: vscode.NotebookCell | BoostNotebookCell): boolean {
         // Get result from base class
-        if (super.isCellOutputMissingOrError(cell)) {
+        if (super.isCellOutputMissingOrError(notebook, cell)) {
             return true;
         }
     

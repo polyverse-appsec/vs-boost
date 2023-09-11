@@ -1,15 +1,31 @@
 import {
     KernelControllerBase
  } from './base_controller';
-import { DiagnosticCollection, ExtensionContext, NotebookCell } from 'vscode';
+import { DiagnosticCollection, ExtensionContext, NotebookCell, NotebookDocument } from 'vscode';
 import { BoostConfiguration } from '../extension/boostConfiguration';
-import { BoostNotebookCell } from '../data/jupyter_notebook';
+import { BoostNotebook, BoostNotebookCell } from '../data/jupyter_notebook';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const explainKernelName = 'explain';
-const explainOutputHeader = 'Code Explanation';
+export const explainOutputHeader = 'Code Explanation';
+
+export function getExplainEndpoint(cloudServiceStage: string): string {
+    switch (BoostConfiguration.cloudServiceStage)
+    {
+        case "local":
+            return 'http://127.0.0.1:8000/explain';
+        case 'dev':
+            return 'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
+        case "test":
+            return 'https://r5s6cjvc43jsrqdq3axrhrceya0cumft.lambda-url.us-west-2.on.aws/';
+        case 'staging':
+        case 'prod':
+        default:
+            return 'https://vdcg2nzj2jtzmtzzcmfwbvg4ey0jxghj.lambda-url.us-west-2.on.aws/';
+    }
+}
 
 export class BoostExplainKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: DiagnosticCollection) {
@@ -33,23 +49,12 @@ export class BoostExplainKernel extends KernelControllerBase {
 	}
 
     public get serviceEndpoint(): string {
-        switch (BoostConfiguration.cloudServiceStage)
-        {
-            case "local":
-                return 'http://127.0.0.1:8000/explain';
-            case 'dev':
-                return 'https://jorsb57zbzwcxcjzl2xwvah45i0mjuxs.lambda-url.us-west-2.on.aws/';
-            case "test":
-                return 'https://r5s6cjvc43jsrqdq3axrhrceya0cumft.lambda-url.us-west-2.on.aws/';
-            case 'staging':
-            case 'prod':
-            default:
-                return 'https://vdcg2nzj2jtzmtzzcmfwbvg4ey0jxghj.lambda-url.us-west-2.on.aws/';
-        }
+        return getExplainEndpoint(BoostConfiguration.cloudServiceStage);
     }
 
     onKernelOutputItem(
         response: any,
+        notebook : NotebookDocument | BoostNotebook,
         cell : NotebookCell | BoostNotebookCell,
         mimetype : any) : string {
         if (response.explanation === undefined) {

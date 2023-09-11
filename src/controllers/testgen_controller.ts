@@ -3,7 +3,10 @@ import {
     } from './base_controller';
 import * as vscode from 'vscode';
 import { BoostConfiguration } from '../extension/boostConfiguration';
-import { BoostNotebookCell } from '../data/jupyter_notebook';
+import {
+    BoostNotebookCell,
+    BoostNotebook
+} from '../data/jupyter_notebook';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
@@ -80,6 +83,7 @@ export class BoostTestgenKernel extends KernelControllerBase {
 
     onKernelOutputItem(
         response: any,
+        notebook : vscode.NotebookDocument | BoostNotebook,
         cell : vscode.NotebookCell | BoostNotebookCell,
         mimetype : any) : string {
 

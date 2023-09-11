@@ -232,7 +232,8 @@ export class SummarizeKernel extends KernelControllerBase {
                      "analysis_type": outputType,
                      // eslint-disable-next-line @typescript-eslint/naming-convention
                      "analysis_label": kernelLabel},
-                     targetCell,
+                    notebook,
+                    targetCell,
                     outputType);
         }
 
@@ -368,6 +369,7 @@ export class SummarizeKernel extends KernelControllerBase {
 
     onKernelOutputItem(
         response: any,
+        notebook : vscode.NotebookDocument | BoostNotebook,
         _ : vscode.NotebookCell | BoostNotebookCell,
         __ : any) : string {
 

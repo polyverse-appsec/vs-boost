@@ -15,9 +15,17 @@ import { DisplayGroupFriendlyName } from "../data/userAnalysisType";
 import { getKernelName } from "../extension/extensionUtilities";
 import { fullPathFromSourceFile } from "../utilities/files";
 import { errorToString } from "../utilities/error";
+import { ControllerOutputType } from "./controllerOutputTypes";
 
 export const errorMimeType = "application/vnd.code.notebook.error";
 export const markdownMimeType = "text/markdown";
+export const textMimeType = 'text/plain';
+
+export const markdownCodeMarker = '```';
+
+export function codeMimeType(language: string): string {
+    return `text/x-${language}`;
+}
 
 export const boostUriSchema = "boost-notebook"; // vscode.env.uriScheme;
 
@@ -41,7 +49,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         kernelId: string,
         kernelLabel: string,
         description: string,
-        outputType: string,
+        outputType: ControllerOutputType,
         displayCategory: DisplayGroupFriendlyName,
         outputHeader: string,
         useGeneratedCodeCellOptimization: boolean,
@@ -213,7 +221,7 @@ export class KernelControllerBase extends BoostServiceHelper {
             // if this cell has output, then skip it unless we're forcing analysis
             if (
                 !forceAnalysisRefresh &&
-                !this.isCellOutputMissingOrError(cell)
+                !this.isCellOutputMissingOrError(notebook, cell)
             ) {
                 boostLogging.info(
                     `NO-Force-Refresh: Skipping re-analysis ${this.command} of Notebook ${notebook.metadata["sourceFile"]}` +
@@ -477,6 +485,7 @@ export class KernelControllerBase extends BoostServiceHelper {
     }
 
     isCellOutputMissingOrError(
+        notebook: vscode.NotebookDocument | BoostNotebook,
         cell: vscode.NotebookCell | BoostNotebookCell
     ): boolean {
         if (cell.outputs.length === 0) {
@@ -747,7 +756,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         if (usingBoostNotebook) {
             outputItem = successfullyCompleted
                 ? this._getBoostNotebookCellOutput(
-                      this.onKernelOutputItem(response, cell, mimetype),
+                      this.onKernelOutputItem(response, notebook, cell, mimetype),
                       mimetype.str
                   )
                 : this._getBoostNotebookCellOutputError(
@@ -756,14 +765,14 @@ export class KernelControllerBase extends BoostServiceHelper {
         } else {
             outputItem = successfullyCompleted
                 ? vscode.NotebookCellOutputItem.text(
-                      this.onKernelOutputItem(response, cell, mimetype),
+                      this.onKernelOutputItem(response, notebook, cell, mimetype),
                       mimetype.str
                   )
                 : vscode.NotebookCellOutputItem.error(
                       this.localizeError(serviceError as Error)
                   );
         }
-
+    
         let details = this.onKernelProcessResponseDetails(
             response?.details,
             cell,
@@ -843,6 +852,7 @@ export class KernelControllerBase extends BoostServiceHelper {
 
     onKernelOutputItem(
         response: any,
+        notebook: vscode.NotebookDocument | BoostNotebook,
         cell: vscode.NotebookCell | BoostNotebookCell,
         mimetype: any
     ): string {

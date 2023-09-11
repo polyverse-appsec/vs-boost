@@ -3,7 +3,7 @@ import {
  } from './base_controller';
 import { BoostConfiguration } from '../extension/boostConfiguration';
 import * as vscode from 'vscode';
-import { BoostNotebookCell } from '../data/jupyter_notebook';
+import { BoostNotebookCell, BoostNotebook } from '../data/jupyter_notebook';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import {
     ControllerOutputType
@@ -57,6 +57,7 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
 
     onKernelOutputItem(
         response: any,
+        notebook : vscode.NotebookDocument | BoostNotebook,
         cell : vscode.NotebookCell | BoostNotebookCell,
         mimetype : any) : string {
 

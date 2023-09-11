@@ -349,6 +349,7 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
 
     onKernelOutputItem(
         response: any,
+        notebook: vscode.NotebookDocument | BoostNotebook,
         cell: vscode.NotebookCell | BoostNotebookCell,
         mimetype: any
     ): string {

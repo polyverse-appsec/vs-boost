@@ -334,6 +334,7 @@ Highlights:
     
     onKernelOutputItem(
         response: any,
+        notebook : vscode.NotebookDocument | BoostNotebook,
         _ : vscode.NotebookCell | BoostNotebookCell,
         __ : any) : string {
 
