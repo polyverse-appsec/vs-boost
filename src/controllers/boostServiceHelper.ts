@@ -16,6 +16,7 @@ import { boostLogging } from "../utilities/boostLogging";
 import { fetchGithubSession, getCurrentOrganization } from "../utilities/authorization";
 import { BoostAuthenticationException } from "../controllers/customerPortal";
 import { IAnalysisContextData } from "../data/IAnalysisContextData";
+import { ControllerOutputType } from "./controllerOutputTypes";
 
 // we can get timeouts and other errors from both openai and lambda. This is a generic handler for those
 // conditions to attempt a retry.
@@ -29,7 +30,7 @@ const queue = new PQueue({ concurrency: 1 });
 export class BoostServiceHelper {
     private dynamicInputKey: string; // name of the input parameter
     command: string;
-    _outputType: string;
+    _outputType: ControllerOutputType;
 
     hostExtension: any;
 
@@ -37,7 +38,7 @@ export class BoostServiceHelper {
 
     constructor(
         command: string,
-        outputType: string,
+        outputType: ControllerOutputType,
         hostExtension: any,
         dynamicInputKey: string = "",
         onServiceError: any = undefined
@@ -53,7 +54,7 @@ export class BoostServiceHelper {
         throw new Error("serviceEndpoint not implemented");
     }
 
-    get outputType(): string {
+    get outputType(): ControllerOutputType {
         return this._outputType;
     }
 
