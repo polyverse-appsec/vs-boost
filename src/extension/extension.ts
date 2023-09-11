@@ -541,6 +541,11 @@ export async function parseFunctionsFromFile(
 export function newErrorFromItemData(data: Uint8Array): Error {
     const errorJson = new TextDecoder().decode(data);
 
+    // workaround for malformed Error objects - from old convert_controller code
+    if (errorJson.startsWith("Error: ")) {
+        return new Error(errorJson);
+    }
+
     const errorObject = JSON.parse(errorJson, (key, value) => {
         if (key === "") {
             const error = new Error();
