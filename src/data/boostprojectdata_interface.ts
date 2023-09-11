@@ -57,7 +57,7 @@ export interface Summary {
     summaryUrl: string;
     filesToAnalyze: number;
     filesAnalyzed: number;
-    //an optional issues arrary for *Boost* issues
+    // an optional issues array for *Boost* issues
     issues?: Array<any>;
 }
 
