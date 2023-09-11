@@ -132,7 +132,6 @@ import {
 } from "../controllers/blueprint_controller";
 import {
     BoostCustomProcessKernel,
-    customProcessCellMarker,
     customProcessKernelName,
 } from "../controllers/custom_controller";
 import {
@@ -2996,7 +2995,7 @@ export class BoostExtension {
             case testgenKernelName:
             case performanceKernelName:
             case performanceFunctionKernelName:
-            case customProcessCellMarker:
+            case customProcessKernelName:
                 return BoostUserAnalysisType.blueprint;
             default:
                 return kernelName;
