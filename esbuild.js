@@ -35,6 +35,7 @@ const extensionConfig = {
 const watchConfig = {
     watch: {
         onRebuild(error, result) {
+            // this casing cannot be changed, it is a convention of the esbuild-problem-matchers extension
             console.log("[watch] build started");
             if (error) {
                 error.errors.forEach((error) =>
@@ -43,6 +44,7 @@ const watchConfig = {
                     )
                 );
             } else {
+                // this casing cannot be changed, it is a convention of the esbuild-problem-matchers extension
                 console.log("[watch] build finished");
             }
         },
@@ -68,6 +70,7 @@ const dashboardConfigs = [
     try {
         if (args.includes("--watch")) {
             // Build and watch extension and webview code
+            // this casing cannot be changed, it is a convention of the esbuild-problem-matchers extension
             console.log("[watch] build started");
             await build({
                 ...extensionConfig,
@@ -81,6 +84,7 @@ const dashboardConfigs = [
                 });
             }
 
+            // this casing cannot be changed, it is a convention of the esbuild-problem-matchers extension
             console.log("[watch] build finished");
         } else {
             // Build extension
