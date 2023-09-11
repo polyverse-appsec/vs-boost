@@ -15,6 +15,7 @@ export enum ControllerOutputType {
     chat = 'chat',
     codeGuidelines = 'guidelinesCode',
     convert = 'generatedCode',
+    customProcess = 'customProcessCode',
     customQuickScanFunction = 'customQuickScanCode' + functionOutputTypeExtension,
 }
 
