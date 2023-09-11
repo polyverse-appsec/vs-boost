@@ -1,13 +1,11 @@
 {
-  "dataFormatVersion": "1.5.0",
+  "dataFormatVersion": "1.5.1",
   "summary": {
     "projectName": "vs-boost",
     "summaryUrl": ".boost/vs-boost.summary.boost-notebook",
-    "filesToAnalyze": 137,
+    "filesToAnalyze": 145,
     "filesAnalyzed": 134,
-    "issues": [
-      "Error refreshing Boost Project data for /Users/alexgo/code/vs-boost: SyntaxError: Unexpected token 'E', \"Error: Boo\"... is not valid JSON"
-    ]
+    "issues": []
   },
   "sectionSummary": {
     "summary": {
@@ -22,29 +20,29 @@
     "explainCode": {
       "analysisType": "explainCode",
       "status": "incomplete",
-      "completedCells": 690,
+      "completedCells": 757,
       "errorCells": 83,
       "issueCells": 0,
-      "totalCells": 775,
-      "filesAnalyzed": 143
+      "totalCells": 842,
+      "filesAnalyzed": 146
     },
     "flowDiagram": {
       "analysisType": "flowDiagram",
       "status": "incomplete",
-      "completedCells": 607,
+      "completedCells": 674,
       "errorCells": 3,
       "issueCells": 0,
-      "totalCells": 610,
-      "filesAnalyzed": 96
+      "totalCells": 677,
+      "filesAnalyzed": 99
     },
     "bugAnalysisList": {
       "analysisType": "bugAnalysisList",
       "status": "incomplete",
-      "completedCells": 608,
+      "completedCells": 675,
       "errorCells": 2,
       "issueCells": 0,
-      "totalCells": 610,
-      "filesAnalyzed": 96
+      "totalCells": 677,
+      "filesAnalyzed": 99
     },
     "bugAnalysis": {
       "analysisType": "bugAnalysis",
@@ -58,11 +56,11 @@
     "performanceList": {
       "analysisType": "performanceList",
       "status": "incomplete",
-      "completedCells": 596,
+      "completedCells": 663,
       "errorCells": 2,
       "issueCells": 0,
-      "totalCells": 598,
-      "filesAnalyzed": 95
+      "totalCells": 665,
+      "filesAnalyzed": 98
     },
     "performance": {
       "analysisType": "performance",
@@ -76,11 +74,11 @@
     "complianceCodeList": {
       "analysisType": "complianceCodeList",
       "status": "incomplete",
-      "completedCells": 591,
-      "errorCells": 7,
+      "completedCells": 656,
+      "errorCells": 9,
       "issueCells": 1,
-      "totalCells": 598,
-      "filesAnalyzed": 95,
+      "totalCells": 665,
+      "filesAnalyzed": 98,
       "details": [
         {
           "lineNumber": 23,
@@ -18091,28 +18089,1624 @@
       "sourceRelFile": "./src/extension/extension_state.ts",
       "notebookRelFile": ".boost/src/extension/extension_state.ts.boost-notebook",
       "totalCells": 2,
-      "completedCells": 0,
+      "completedCells": 2,
       "errorCells": 0,
       "issueCells": 0,
-      "sections": {}
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 2,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        },
+        "flowDiagram": {
+          "analysisType": "flowDiagram",
+          "status": "completed",
+          "completedCells": 2,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        },
+        "bugAnalysisList": {
+          "analysisType": "bugAnalysisList",
+          "status": "completed",
+          "completedCells": 2,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        },
+        "performanceList": {
+          "analysisType": "performanceList",
+          "status": "completed",
+          "completedCells": 2,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        },
+        "complianceCodeList": {
+          "analysisType": "complianceCodeList",
+          "status": "completed",
+          "completedCells": 2,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 2,
+          "filesAnalyzed": 1
+        }
+      }
     },
     "src/extension/BoostExtension.ts": {
       "sourceRelFile": "./src/extension/BoostExtension.ts",
       "notebookRelFile": ".boost/src/extension/BoostExtension.ts.boost-notebook",
       "totalCells": 53,
-      "completedCells": 0,
-      "errorCells": 0,
-      "issueCells": 0,
-      "sections": {}
+      "completedCells": 53,
+      "errorCells": 2,
+      "issueCells": 30,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 53,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 53,
+          "filesAnalyzed": 1
+        },
+        "flowDiagram": {
+          "analysisType": "flowDiagram",
+          "status": "completed",
+          "completedCells": 53,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 53,
+          "filesAnalyzed": 1
+        },
+        "bugAnalysisList": {
+          "analysisType": "bugAnalysisList",
+          "status": "completed",
+          "completedCells": 53,
+          "errorCells": 0,
+          "issueCells": 1,
+          "totalCells": 53,
+          "filesAnalyzed": 1,
+          "details": [
+            {
+              "lineNumber": 196,
+              "severity": 3,
+              "bugType": "Insecure direct object references (IDOR)",
+              "description": "The method 'registerUriHandler' allows for the registration of a URI handler without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before registering a URI handler. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 225,
+              "severity": 5,
+              "bugType": "Insecure Direct Object References (IDOR)",
+              "description": "The method 'registerOpenCodeFile' allows for the opening of a code file without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before opening a code file. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 231,
+              "severity": 5,
+              "bugType": "Insecure Direct Object References (IDOR)",
+              "description": "The method 'registerProjectLevelCommands' allows for the registration of project level commands without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before registering project level commands. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 237,
+              "severity": 5,
+              "bugType": "Insecure Direct Object References (IDOR)",
+              "description": "The method 'registerFileExplorerRightClickAnalysisSelectionCommands' allows for the registration of file explorer right click analysis selection commands without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before registering file explorer right click analysis selection commands. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 243,
+              "severity": 5,
+              "bugType": "Insecure Direct Object References (IDOR)",
+              "description": "The method 'registerFileRightClickAnalyzeCommand' allows for the registration of file right click analyze commands without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before registering file right click analyze commands. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 249,
+              "severity": 5,
+              "bugType": "Insecure Direct Object References (IDOR)",
+              "description": "The method 'registerFolderRightClickAnalyzeCommand' allows for the registration of folder right click analyze commands without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before registering folder right click analyze commands. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 255,
+              "severity": 5,
+              "bugType": "Insecure Direct Object References (IDOR)",
+              "description": "The method 'registerFileExplorerRightClickOutputCommands' allows for the registration of file explorer right click output commands without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before registering file explorer right click output commands. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 261,
+              "severity": 5,
+              "bugType": "Insecure Direct Object References (IDOR)",
+              "description": "The method 'registerSourceCodeRightClickCommands' allows for the registration of source code right click commands without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before registering source code right click commands. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 267,
+              "severity": 5,
+              "bugType": "Insecure Direct Object References (IDOR)",
+              "description": "The method 'registerShowGuidelinesCommand' allows for the registration of show guidelines commands without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before registering show guidelines commands. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 289,
+              "severity": 3,
+              "bugType": "Insecure direct object references (IDOR)",
+              "description": "The method 'updateAccountInfo' updates the account information without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before updating the account information. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 311,
+              "severity": 3,
+              "bugType": "Insecure direct object references (IDOR)",
+              "description": "The method 'refreshProjectDataCacheForWorkspaceFolder' refreshes the project data cache for a workspace folder without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before refreshing the project data cache for a workspace folder. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 354,
+              "severity": 3,
+              "bugType": "Insecure direct object references (IDOR)",
+              "description": "The method 'refreshProjectData' refreshes the project data without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before refreshing the project data. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 381,
+              "severity": 3,
+              "bugType": "Insecure direct object references (IDOR)",
+              "description": "The method 'initializeFromWorkspaceFolder' initializes from a workspace folder without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before initializing from a workspace folder. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 408,
+              "severity": 3,
+              "bugType": "Insecure direct object references (IDOR)",
+              "description": "The method 'getBoostProjectData' gets the Boost project data without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before getting the Boost project data. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 423,
+              "severity": 3,
+              "bugType": "Insecure direct object references (IDOR)",
+              "description": "The method 'getBoostFilesForFolder' gets the Boost files for a folder without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before getting the Boost files for a folder. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 460,
+              "severity": 3,
+              "bugType": "Insecure direct object references (IDOR)",
+              "description": "The method 'loadAllSourceLevelErrorsFromNotebook' loads all source level errors from a notebook without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before loading all source level errors from a notebook. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 501,
+              "severity": 3,
+              "bugType": "Insecure direct object references (IDOR)",
+              "description": "The method 'loadAllAnalysisErrorsFromNotebook' loads all analysis errors from a notebook without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before loading all analysis errors from a notebook. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 529,
+              "severity": 3,
+              "bugType": "Insecure direct object references (IDOR)",
+              "description": "The method '_setupDiagnosticProblems' sets up diagnostic problems without any checks for permissions or authorization. This could potentially allow for unauthorized access to resources.",
+              "solution": "Implement checks for permissions or authorization before setting up diagnostic problems. More information can be found at: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 290,
+              "severity": 5,
+              "bugType": "Improper Input Validation",
+              "description": "The function `setupKernelCommandPicker` does not properly validate the user's selection of a kernel command. If a user selects an invalid kernel command, the system will attempt to use it and potentially fail.",
+              "solution": "Add validation to ensure that the selected kernel command is valid and available before using it. If it's not, return an error message to the user. Refer to the OWASP Input Validation Cheat Sheet (https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html) for more information on how to implement proper input validation."
+            },
+            {
+              "lineNumber": 195,
+              "severity": 3,
+              "bugType": "Cross-Site Scripting (XSS)",
+              "description": "The function `setupOutputLanguagePicker` uses the `showQuickPick` method to let the user select a language. If an attacker can manipulate this input, they could potentially inject malicious scripts that could be executed in the context of the application.",
+              "solution": "Sanitize the user's input before using it to prevent potential XSS attacks. Consider using a library that provides this functionality, such as DOMPurify (https://github.com/cure53/DOMPurify). Refer to the OWASP XSS Prevention Cheat Sheet (https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html) for more information on how to prevent XSS attacks."
+            },
+            {
+              "lineNumber": 354,
+              "severity": 4,
+              "bugType": "Insecure Direct Object References (IDOR)",
+              "description": "The function `registerOpenCodeFile` opens a file based on the user's selection. If an attacker can manipulate this input, they could potentially access unauthorized files.",
+              "solution": "Add validation to ensure that the user is authorized to access the selected file before opening it. Refer to the OWASP Access Control Cheat Sheet (https://cheatsheetseries.owasp.org/cheatsheets/Access_Control_Cheat_Sheet.html) for more information on how to implement proper access control."
+            },
+            {
+              "lineNumber": 252,
+              "severity": 5,
+              "bugType": "Insecure Direct Object References (IDOR)",
+              "description": "The function `getActiveTabFilenames()` retrieves active tab files without any access control checks. This can lead to unauthorized access to files if the function is invoked by an unauthorized user.",
+              "solution": "Implement access control checks to ensure that only authorized users can access the files. Consider using a library or framework that handles access control. More information can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Access_Control_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 415,
+              "severity": 7,
+              "bugType": "Insecure File Handling",
+              "description": "The function `getBoostSummaryAnalysisContext()` directly uses the `fileTarget` parameter to access a file. This can lead to path traversal attacks if an attacker can control the `fileTarget` parameter.",
+              "solution": "Sanitize the `fileTarget` parameter before using it to access a file. Consider using a library or framework that handles path sanitization. More information can be found here: https://cheatsheetseries.owasp.org/cheatsheets/File_System_Security_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 468,
+              "severity": 7,
+              "bugType": "Insecure File Handling",
+              "description": "The function `getActiveTabFilenames()` directly uses the `editor.document.uri.fsPath` and `notebook.notebook.uri.fsPath` to access a file. This can lead to path traversal attacks if an attacker can control these parameters.",
+              "solution": "Sanitize the `editor.document.uri.fsPath` and `notebook.notebook.uri.fsPath` parameters before using them to access a file. Consider using a library or framework that handles path sanitization. More information can be found here: https://cheatsheetseries.owasp.org/cheatsheets/File_System_Security_Cheat_Sheet.html"
+            }
+          ]
+        },
+        "performanceList": {
+          "analysisType": "performanceList",
+          "status": "completed",
+          "completedCells": 53,
+          "errorCells": 0,
+          "issueCells": 3,
+          "totalCells": 53,
+          "filesAnalyzed": 1,
+          "details": [
+            {
+              "lineNumber": 77,
+              "severity": 2,
+              "bugType": "Disk",
+              "description": "The import of the 'instructions.json' file can be a performance issue if the file is large or if it's read frequently.",
+              "solution": "Consider using a streaming, asynchronous method to read the file if it is large. If the file is read frequently, consider caching the contents in memory after the first read."
+            },
+            {
+              "lineNumber": 81,
+              "severity": 1,
+              "bugType": "Memory",
+              "description": "Importing all exports from '../controllers/base_controller' could lead to unnecessary memory usage if not all exports are used.",
+              "solution": "Consider importing only the individual exports that you need from '../controllers/base_controller' to reduce memory usage."
+            },
+            {
+              "lineNumber": 175,
+              "severity": 7,
+              "bugType": "Disk",
+              "description": "The method 'openNotebookDocument' is used which opens the notebook document from the disk. This can be disk-intensive for large notebook files.",
+              "solution": "Consider loading the notebook file in chunks or using a streaming API if available."
+            },
+            {
+              "lineNumber": 176,
+              "severity": 5,
+              "bugType": "CPU",
+              "description": "The method 'showNotebookDocument' is used which renders the notebook document in the UI. This can be CPU-intensive for large notebook files.",
+              "solution": "Consider rendering the notebook document in a virtualized list, which only renders the visible parts of the document in the UI."
+            },
+            {
+              "lineNumber": 183,
+              "severity": 2,
+              "bugType": "Memory",
+              "description": "The method 'fire' is used which triggers a change event. If there are a lot of listeners to this event, it can be memory-intensive.",
+              "solution": "Consider using a more efficient event handling mechanism, like an event queue or a pub-sub model, which can handle a large number of listeners more efficiently."
+            },
+            {
+              "lineNumber": 196,
+              "severity": 7,
+              "bugType": "Memory",
+              "description": "The 'BoostExtension' class is holding onto a lot of state in memory. This can lead to high memory usage, especially if multiple instances of this class are created.",
+              "solution": "Consider offloading some of this state to disk or a database, or use a caching strategy to limit the amount of data held in memory at once."
+            },
+            {
+              "lineNumber": 279,
+              "severity": 6,
+              "bugType": "Disk",
+              "description": "The 'refreshBoostProjectsData' method is reading all project files from disk every time it's called. This could lead to high disk I/O and slow down the application, especially if there are many or large files.",
+              "solution": "Consider using a file watcher to only read files when they are created or modified. This can be achieved with libraries such as chokidar in Node.js."
+            },
+            {
+              "lineNumber": 335,
+              "severity": 7,
+              "bugType": "CPU",
+              "description": "The 'getBoostFilesForFolder' method is doing a deep scan of all files in a folder. This is a CPU-intensive operation and could slow down the application, especially if there are many or large files.",
+              "solution": "Consider using a more efficient algorithm to scan files, or offloading this work to a background thread or process. This can be achieved with libraries such as fast-glob in Node.js."
+            },
+            {
+              "lineNumber": 337,
+              "severity": 8,
+              "bugType": "Disk",
+              "description": "The 'loadAllSourceLevelErrorsFromNotebook' and 'loadAllAnalysisErrorsFromNotebook' methods are loading all errors from a notebook file every time they're called. This could lead to high disk I/O and slow down the application, especially if there are many or large notebooks.",
+              "solution": "Consider using a caching strategy to limit the amount of data read from disk at once, or only load errors when they are needed."
+            },
+            {
+              "lineNumber": 363,
+              "severity": 6,
+              "bugType": "Memory",
+              "description": "The '_setupDiagnosticProblems' method is creating a new DiagnosticCollection every time it's called. This could lead to high memory usage, especially if there are many problems.",
+              "solution": "Consider reusing a single DiagnosticCollection, or use a more memory-efficient data structure to store problems."
+            },
+            {
+              "lineNumber": 196,
+              "severity": 7,
+              "bugType": "Memory",
+              "description": "The code is using a Map to store problems, and this Map is being traversed multiple times within event listeners. If the number of problems is large, this could lead to high memory usage and CPU usage.",
+              "solution": "Consider using a more efficient data structure such as a Set or a WeakMap if possible. Also, consider optimizing the code to reduce the number of times the Map is traversed."
+            },
+            {
+              "lineNumber": 232,
+              "severity": 4,
+              "bugType": "CPU",
+              "description": "The code is looping through all the changes of a notebook document every time there is a change. This could be CPU-intensive if there are many changes.",
+              "solution": "Consider optimizing the code to only process the relevant changes. For example, you could use an event-driven approach where you only process the changes that trigger the event."
+            },
+            {
+              "lineNumber": 344,
+              "severity": 6,
+              "bugType": "Memory",
+              "description": "The code is creating an array of availableKernelItems for every invocation of the function, which could lead to high memory usage if the function is called frequently.",
+              "solution": "Consider optimizing the code to reuse the array if possible, or to clean up the array after it is no longer needed."
+            },
+            {
+              "lineNumber": 344,
+              "severity": 6,
+              "bugType": "CPU",
+              "description": "The code is looping through all the kernels every time the function is called, which could be CPU-intensive if there are many kernels and the function is called frequently.",
+              "solution": "Consider optimizing the code to only loop through the kernels when necessary, or to cache the results if the kernels do not change frequently."
+            },
+            {
+              "lineNumber": 500,
+              "severity": 5,
+              "bugType": "Memory",
+              "description": "The code is creating a new instance of BoostContentSerializer for every invocation of the function, which could lead to high memory usage if the function is called frequently.",
+              "solution": "Consider optimizing the code to reuse the instance if possible, or to clean up the instance after it is no longer needed."
+            },
+            {
+              "lineNumber": 500,
+              "severity": 5,
+              "bugType": "CPU",
+              "description": "The code is looping through all the kernelTypes every time the function is called, which could be CPU-intensive if there are many kernelTypes and the function is called frequently.",
+              "solution": "Consider optimizing the code to only loop through the kernelTypes when necessary, or to cache the results if the kernelTypes do not change frequently."
+            },
+            {
+              "lineNumber": 196,
+              "severity": 3,
+              "bugType": "CPU",
+              "description": "The code contains multiple asynchronous operations that are awaited sequentially, which can lead to inefficient CPU usage.",
+              "solution": "Consider using Promise.all() to execute these operations concurrently, if possible and if they are not dependent on each other."
+            },
+            {
+              "lineNumber": 196,
+              "severity": 2,
+              "bugType": "Memory",
+              "description": "Repeatedly generating relative paths can increase memory usage.",
+              "solution": "Consider generating the relative paths once and reusing them, or using absolute paths if possible."
+            },
+            {
+              "lineNumber": 196,
+              "severity": 3,
+              "bugType": "Disk",
+              "description": "The code generates output files for each file in the current folder, which can lead to high disk usage.",
+              "solution": "Consider using a more efficient data structure or algorithm to generate the output files, or limit the number of output files generated."
+            },
+            {
+              "lineNumber": 196,
+              "severity": 2,
+              "bugType": "Network",
+              "description": "The code communicates with a remote service for code analysis, which can lead to high network usage.",
+              "solution": "Consider using a local service for code analysis if possible, or optimize the communication with the remote service."
+            },
+            {
+              "lineNumber": 211,
+              "severity": 7,
+              "bugType": "Disk",
+              "description": "The function fs.existsSync is used in a synchronous manner which can block the event loop and lead to performance issues.",
+              "solution": "Consider using fs.promises API or fs.exists in a non-blocking manner with async/await."
+            },
+            {
+              "lineNumber": 254,
+              "severity": 5,
+              "bugType": "CPU",
+              "description": "The function setTimeout is used in a recursive manner which can lead to event loop blockage and high CPU usage.",
+              "solution": "Consider using a different approach such as setImmediate or process.nextTick, or refactor the recursive logic."
+            },
+            {
+              "lineNumber": 304,
+              "severity": 6,
+              "bugType": "Disk",
+              "description": "The function fs.existsSync is used in a synchronous manner which can block the event loop and lead to performance issues.",
+              "solution": "Consider using fs.promises API or fs.exists in a non-blocking manner with async/await."
+            },
+            {
+              "lineNumber": 460,
+              "severity": 7,
+              "bugType": "Disk",
+              "description": "The function fs.existsSync is used in a synchronous manner which can block the event loop and lead to performance issues.",
+              "solution": "Consider using fs.promises API or fs.exists in a non-blocking manner with async/await."
+            },
+            {
+              "lineNumber": 495,
+              "severity": 7,
+              "bugType": "Disk",
+              "description": "The function fs.existsSync is used in a synchronous manner which can block the event loop and lead to performance issues.",
+              "solution": "Consider using fs.promises API or fs.exists in a non-blocking manner with async/await."
+            },
+            {
+              "lineNumber": 205,
+              "severity": 5,
+              "bugType": "Disk",
+              "description": "The code uses synchronous file system operations (`fs.statSync`). This can block the Node.js event loop, leading to performance issues.",
+              "solution": "Replace `fs.statSync` with its asynchronous counterpart `fs.stat`, which is non-blocking. Use async/await syntax to handle the Promise returned by `fs.stat`."
+            },
+            {
+              "lineNumber": 225,
+              "severity": 6,
+              "bugType": "CPU",
+              "description": "The code uses `setTimeout` to delay the processing of files. This could lead to inefficient CPU usage if the delay is significant.",
+              "solution": "Consider using a more efficient job scheduling or rate-limiting mechanism that doesn't rely on `setTimeout`. This could include using a library like `bottleneck` or `fast-ratelimiter`."
+            },
+            {
+              "lineNumber": 225,
+              "severity": 3,
+              "bugType": "Memory",
+              "description": "The code creates a new Promise for each file. If the number of files is large, this could lead to high memory usage.",
+              "solution": "Consider using a more memory-efficient approach, such as processing the files in batches using `Promise.allSettled` with a limited concurrency."
+            },
+            {
+              "lineNumber": 271,
+              "severity": 4,
+              "bugType": "Network",
+              "description": "The code sends a network request for each file. If the number of files is large, this could lead to high network usage and potential throttling.",
+              "solution": "Consider using a more efficient approach to handle network requests, such as batching the requests or using a rate-limiter."
+            },
+            {
+              "lineNumber": 233,
+              "severity": 7,
+              "bugType": "Memory",
+              "description": "The method `getActiveNotebookSurroundingLines` is potentially memory-intensive as it generates a large amount of string data. If the notebook is large, this could lead to high memory usage.",
+              "solution": "Consider using a streaming approach or processing the notebook in chunks. Alternatively, limit the size of the notebook that can be processed."
+            },
+            {
+              "lineNumber": 209,
+              "severity": 6,
+              "bugType": "Memory",
+              "description": "The method `getActiveEditorSurroundingLines` is potentially memory-intensive as it generates a large amount of string data. If the document is large, this could lead to high memory usage.",
+              "solution": "Consider using a streaming approach or processing the document in chunks. Alternatively, limit the size of the document that can be processed."
+            },
+            {
+              "lineNumber": 423,
+              "severity": 6,
+              "bugType": "Disk",
+              "description": "The method `getBoostSummaryAnalysisContext` reads from the file system synchronously. This could potentially block the event loop and slow down the application, especially if the file is large or the disk I/O is slow.",
+              "solution": "Consider using asynchronous file system operations to avoid blocking the event loop."
+            },
+            {
+              "lineNumber": 318,
+              "severity": 5,
+              "bugType": "CPU",
+              "description": "The method `getActiveTabAnalysis` contains a loop that could potentially be CPU-intensive, especially if the number of `activeTabFiles` is large.",
+              "solution": "Consider optimizing the loop, or using a more efficient data structure or algorithm if possible."
+            },
+            {
+              "lineNumber": 233,
+              "severity": 4,
+              "bugType": "CPU",
+              "description": "The method `getActiveNotebookSurroundingLines` contains nested loops that could potentially be CPU-intensive, especially if the notebook is large.",
+              "solution": "Consider optimizing the nested loops, or using a more efficient data structure or algorithm if possible."
+            }
+          ]
+        },
+        "complianceCodeList": {
+          "analysisType": "complianceCodeList",
+          "status": "incomplete",
+          "completedCells": 51,
+          "errorCells": 2,
+          "issueCells": 30,
+          "totalCells": 53,
+          "filesAnalyzed": 1,
+          "details": [
+            {
+              "lineNumber": 1,
+              "severity": 6,
+              "bugType": "GDPR",
+              "description": "The import of 'fs' module allows file system level access. If personal data is stored in files, this can lead to GDPR compliance issues if not properly handled.",
+              "solution": "Ensure that any personal data stored in files is properly protected, including encryption and access controls. If possible, avoid storing personal data in files.",
+              "link": "https://gdpr-info.eu/"
+            },
+            {
+              "lineNumber": 4,
+              "severity": 7,
+              "bugType": "HIPAA",
+              "description": "The import of 'boostnb' module, which is a Jupyter notebook module, might lead to HIPAA compliance issues if it is used to process or store protected health information (PHI).",
+              "solution": "Be sure to implement proper access controls, encryption, and other security measures when dealing with PHI. Consider using a HIPAA-compliant database service.",
+              "link": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+            },
+            {
+              "lineNumber": 5,
+              "severity": 6,
+              "bugType": "PCI DSS",
+              "description": "The import of 'analysis' module might lead to PCI DSS compliance issues if it is used to process or store credit card data.",
+              "solution": "Ensure that any credit card data is properly protected, including encryption and access controls. Consider using a PCI-compliant payment gateway to limit the amount of credit card data you need to handle.",
+              "link": "https://www.pcisecuritystandards.org/pci_security/"
+            },
+            {
+              "lineNumber": 11,
+              "severity": 7,
+              "bugType": "Potential Data Compliance Issue",
+              "description": "The function 'boostNotebookToFileSummaryItem' imports data from the 'BoostProjectData' module. If this data includes personal, financial, or health-related information, it could potentially lead to GDPR, PCI DSS, and HIPAA compliance issues.",
+              "solution": "Ensure that the 'BoostProjectData' module does not contain any sensitive data, or that it is properly encrypted and handled according to GDPR, PCI DSS, and HIPAA regulations. Consider using a third-party payment processor to handle financial data, and anonymize or pseudonymize personal data where possible."
+            },
+            {
+              "lineNumber": 13,
+              "severity": 7,
+              "bugType": "Data Compliance",
+              "description": "The import of 'getCustomerStatus' could potentially lead to GDPR, PCI DSS, and HIPAA compliance issues if it is used to access sensitive customer data without proper authorization or data protection measures.",
+              "solution": "Ensure that 'getCustomerStatus' is used in a way that respects the privacy rights of customers. This includes obtaining proper consent before accessing their data, using secure methods to transmit and store their data, and providing them with the ability to access, correct, and delete their data."
+            },
+            {
+              "lineNumber": 13,
+              "severity": 8,
+              "bugType": "Data Compliance",
+              "description": "The import of 'BoostAuthenticationException' could potentially lead to GDPR, PCI DSS, and HIPAA compliance issues if it is used to handle authentication errors in a way that exposes sensitive customer data.",
+              "solution": "Ensure that 'BoostAuthenticationException' does not expose any sensitive customer data when handling authentication errors. This includes not logging or displaying any sensitive data such as passwords or security questions."
+            },
+            {
+              "lineNumber": 17,
+              "severity": 5,
+              "bugType": "GDPR",
+              "description": "The code imports functions that deal with file operations, which may involve processing personal data. However, there is no clear indication of any data protection measures in place, which may lead to violations of the GDPR.",
+              "solution": "Implement data protection measures such as encryption and access controls to ensure that personal data is processed in accordance with the GDPR. Also, ensure that data subjects are informed about the processing of their data and that their consent is obtained where necessary.",
+              "reference": "https://gdpr-info.eu/art-25-gdpr/"
+            },
+            {
+              "lineNumber": 17,
+              "severity": 5,
+              "bugType": "PCI DSS",
+              "description": "The code imports functions that deal with file operations, which may involve processing payment card data. However, there is no clear indication of any data protection measures in place, which may lead to violations of the PCI DSS.",
+              "solution": "Implement data protection measures such as encryption and access controls to ensure that payment card data is processed in accordance with the PCI DSS. Also, ensure that cardholder data is not stored unless it is necessary for the business.",
+              "reference": "https://www.pcisecuritystandards.org/pci_security/"
+            },
+            {
+              "lineNumber": 17,
+              "severity": 5,
+              "bugType": "HIPAA",
+              "description": "The code imports functions that deal with file operations, which may involve processing health information. However, there is no clear indication of any data protection measures in place, which may lead to violations of the HIPAA.",
+              "solution": "Implement data protection measures such as encryption and access controls to ensure that health information is processed in accordance with the HIPAA. Also, ensure that individuals are informed about the processing of their health information and that their consent is obtained where necessary.",
+              "reference": "https://www.hhs.gov/hipaa/for-professionals/security/index.html"
+            },
+            {
+              "lineNumber": 23,
+              "severity": 7,
+              "bugType": "GDPR",
+              "description": "The function setUserOrganization may be storing user information without explicit user consent, which is a violation of the GDPR.",
+              "solution": "Ensure that explicit user consent is obtained before storing any personal data and that users have the ability to view, update, and delete their data at any time.",
+              "link": "https://gdpr.eu/what-is-gdpr/"
+            },
+            {
+              "lineNumber": 24,
+              "severity": 5,
+              "bugType": "HIPAA",
+              "description": "The function promptUserForOrganization may prompt users for sensitive information, which could be a violation of HIPAA if it includes health-related information.",
+              "solution": "Ensure that the function does not prompt users for any health-related information, or if it does, that it is properly encrypted and stored securely.",
+              "link": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+            },
+            {
+              "lineNumber": 33,
+              "severity": 5,
+              "bugType": "GDPR",
+              "description": "The code imports functions that add and remove data from a 'boostOnly' object. If this object contains personal data, it could violate GDPR principles if not handled properly.",
+              "solution": "Ensure that personal data is handled according to GDPR principles, including obtaining user consent, providing transparency, and implementing data minimization and purpose limitation. If necessary, anonymize or pseudonymize personal data to further protect user privacy.",
+              "webLink": "https://gdpr-info.eu/"
+            },
+            {
+              "lineNumber": 33,
+              "severity": 5,
+              "bugType": "PCI DSS",
+              "description": "If the 'boostOnly' object contains cardholder data, the code could violate PCI DSS requirements if the data is not properly protected.",
+              "solution": "Ensure that cardholder data is protected according to PCI DSS requirements, including encrypting the data during transmission and storage, implementing strong access controls, and regularly monitoring and testing security systems and processes.",
+              "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+            },
+            {
+              "lineNumber": 33,
+              "severity": 5,
+              "bugType": "HIPAA",
+              "description": "If the 'boostOnly' object contains protected health information (PHI), the code could violate HIPAA regulations if the PHI is not properly protected.",
+              "solution": "Ensure that PHI is protected according to HIPAA regulations, including implementing safeguards to protect the confidentiality, integrity, and availability of PHI, ensuring that PHI is only disclosed to authorized individuals, and regularly reviewing and updating security measures as needed.",
+              "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+            },
+            {
+              "lineNumber": 35,
+              "severity": 5,
+              "bugType": "GDPR",
+              "description": "The import of 'getOrCreateGuideline' function could potentially lead to GDPR compliance issues if it is used to create or retrieve user-specific guidelines without proper consent or data protection measures.",
+              "solution": "Ensure that the 'getOrCreateGuideline' function implements proper consent mechanisms and data protection measures when handling user-specific data. Consider using anonymized data whenever possible."
+            },
+            {
+              "lineNumber": 36,
+              "severity": 4,
+              "bugType": "PCI DSS",
+              "description": "The import of 'getBoostFile' could potentially lead to PCI DSS compliance issues if it is used to retrieve files containing sensitive cardholder data without proper security measures.",
+              "solution": "Ensure that the 'getBoostFile' function implements strong access controls and encryption when handling files containing cardholder data. Consider implementing a secure file storage solution."
+            },
+            {
+              "lineNumber": 37,
+              "severity": 6,
+              "bugType": "HIPAA",
+              "description": "The import of 'parseFunctionsFromFile' could potentially lead to HIPAA compliance issues if it is used to parse functions from files containing protected health information without proper security measures.",
+              "solution": "Ensure that the 'parseFunctionsFromFile' function implements strong access controls and encryption when handling files containing protected health information. Consider implementing a secure file storage solution."
+            },
+            {
+              "lineNumber": 49,
+              "severity": 5,
+              "bugType": "Privacy",
+              "description": "The function 'cleanCellOutput' may be used to sanitize or remove sensitive data before output. If this function is not implemented correctly, it could lead to data leakage or privacy violations.",
+              "solution": "Ensure the 'cleanCellOutput' function is thoroughly tested and properly removes all sensitive data. Consider using a well-tested library for data sanitization instead of implementing your own solution."
+            },
+            {
+              "lineNumber": 51,
+              "severity": 7,
+              "bugType": "GDPR",
+              "description": "The code imports a function that appears to obtain the full path from a source file. This could potentially lead to the exposure of sensitive filesystem information, which is a violation of GDPR's principle of data minimization.",
+              "solution": "Ensure that any filesystem information obtained is strictly necessary for the operation of the software. If possible, avoid storing or transmitting full file paths. Instead, consider using relative paths or identifiers that do not reveal information about the underlying filesystem.",
+              "webLink": "https://gdpr-info.eu/issues/data-minimization/"
+            },
+            {
+              "lineNumber": 56,
+              "severity": 7,
+              "bugType": "GDPR",
+              "description": "The import statement suggests that user data is being used in this file. If this data includes personal information, it may be subject to GDPR regulations. The use of personal data needs to be justified, minimized, and protected.",
+              "solution": "Ensure that any personal data used is necessary for the functionality of the app and that users have given their explicit consent for its use. Implement appropriate security measures to protect this data.",
+              "link": "https://gdpr-info.eu/"
+            },
+            {
+              "lineNumber": 56,
+              "severity": 7,
+              "bugType": "HIPAA",
+              "description": "If the user data includes health information, it may be subject to HIPAA regulations. Under HIPAA, protected health information (PHI) must be securely stored and only disclosed under certain conditions.",
+              "solution": "Ensure that any health information is securely stored and that it is only disclosed under conditions that comply with HIPAA. Consider implementing encryption for at-rest and in-transit data.",
+              "link": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+            },
+            {
+              "lineNumber": 56,
+              "severity": 7,
+              "bugType": "PCI DSS",
+              "description": "If the user data includes payment card information, it may be subject to PCI DSS regulations. PCI DSS requires that cardholder data be securely stored and transmitted.",
+              "solution": "Ensure that any cardholder data is securely stored and transmitted. Consider using a third-party payment processor to limit the amount of cardholder data your app needs to handle.",
+              "link": "https://www.pcisecuritystandards.org/pci_security/"
+            },
+            {
+              "lineNumber": 57,
+              "severity": 5,
+              "bugType": "Data Compliance",
+              "description": "The BoostContentSerializer may not be properly sanitizing and encrypting sensitive data before serialization, which can lead to data leakage and non-compliance with GDPR, PCI DSS, and HIPAA.",
+              "solution": "Ensure that BoostContentSerializer sanitizes and encrypts sensitive data before serialization. Use secure encryption algorithms and manage encryption keys securely. Regularly update and rotate encryption keys for better security."
+            },
+            {
+              "lineNumber": 59,
+              "severity": 5,
+              "bugType": "Data Compliance",
+              "description": "The import of 'BoostConfiguration' does not specify how data is handled, potentially leading to non-compliance with GDPR, PCI DSS, and HIPAA regulations. The data compliance of the app, server or system could be compromised if personal, financial, or health-related data is not appropriately secured, anonymized, or encrypted.",
+              "solution": "Ensure that the 'BoostConfiguration' module properly handles data in accordance with GDPR, PCI DSS, and HIPAA regulations. This may include data encryption, anonymization, or other security measures."
+            },
+            {
+              "lineNumber": 61,
+              "severity": 7,
+              "bugType": "Data Compliance",
+              "description": "The function 'updateBoostStatusColors' is being imported from './portal'. Without seeing the function's implementation, it's unclear what data this function is processing. If this function is processing personal, financial, or health-related data, it could potentially be in violation of GDPR, PCI DSS, or HIPAA.",
+              "solution": "Ensure that 'updateBoostStatusColors' does not process sensitive data, or if it does, that it does so in a way that is compliant with GDPR, PCI DSS, and HIPAA. This may involve encrypting data, obtaining user consent, or implementing other data protection measures."
+            },
+            {
+              "lineNumber": 65,
+              "severity": 7,
+              "bugType": "Data Privacy",
+              "description": "The function 'generatePDFforNotebook' may be processing user data and converting it into a PDF. This could potentially involve the handling of sensitive personal data, which can lead to GDPR, PCI DSS, and HIPAA compliance issues if not properly managed.",
+              "solution": "Ensure that any data processed by 'generatePDFforNotebook' is anonymized, encrypted, and handled according to GDPR, PCI DSS, and HIPAA guidelines. Consider implementing a data privacy impact assessment (DPIA) to identify and mitigate any potential privacy risks.",
+              "moreInfo": "https://gdpr.eu/what-is-gdpr/"
+            },
+            {
+              "lineNumber": 66,
+              "severity": 3,
+              "bugType": "GDPR",
+              "description": "The code imports a function that generates Markdown for a notebook. If the notebook contains personal data of EU citizens, this could potentially violate GDPR if the data is not properly anonymized or if the data subject's consent was not obtained.",
+              "solution": "Ensure that any personal data is properly anonymized before it is converted to Markdown. Also, make sure to obtain the data subject's consent before processing their personal data. If possible, avoid storing or processing personal data unless absolutely necessary.",
+              "webLink": "https://gdpr-info.eu/"
+            },
+            {
+              "lineNumber": 66,
+              "severity": 4,
+              "bugType": "PCI DSS",
+              "description": "If the notebook contains credit card data, converting it to Markdown and possibly storing or transmitting it could violate PCI DSS. Credit card data should never be stored unless it is properly encrypted and secured.",
+              "solution": "Avoid storing or processing credit card data unless absolutely necessary. If you must store credit card data, make sure it is encrypted and stored securely, and limit access to this data.",
+              "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+            },
+            {
+              "lineNumber": 66,
+              "severity": 5,
+              "bugType": "HIPAA",
+              "description": "If the notebook contains protected health information (PHI), converting it to Markdown and possibly storing or transmitting it could violate HIPAA. PHI should always be encrypted and stored securely, and access to this data should be strictly controlled.",
+              "solution": "Avoid storing or processing PHI unless absolutely necessary. If you must store PHI, make sure it is encrypted and stored securely, and limit access to this data.",
+              "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+            },
+            {
+              "lineNumber": 67,
+              "severity": 7,
+              "bugType": "Data Compliance",
+              "description": "The function 'generateHTMLforNotebook' might be processing and generating HTML content from a notebook which could contain sensitive data. This could lead to potential data exposure or leakage if not handled properly.",
+              "solution": "Ensure that any sensitive data within the notebook is redacted or encrypted before processing. Also, ensure that the generated HTML is securely stored and transmitted. It's also recommended to implement access control mechanisms to restrict who can access the generated HTML.",
+              "source": "https://gdpr.eu/data-processing-principles/"
+            },
+            {
+              "lineNumber": 68,
+              "severity": 8,
+              "bugType": "GDPR",
+              "description": "The code imports a module that may contain personal data. If this data is not properly anonymized, it could lead to GDPR non-compliance.",
+              "solution": "Ensure that any personal data is properly anonymized before it is processed. Alternatively, obtain explicit consent from the user before processing their data.",
+              "reference": "https://gdpr-info.eu/"
+            },
+            {
+              "lineNumber": 68,
+              "severity": 8,
+              "bugType": "PCI DSS",
+              "description": "The code imports a module that may contain credit card data. If this data is not properly encrypted, it could lead to PCI DSS non-compliance.",
+              "solution": "Ensure that any credit card data is properly encrypted before it is processed. Alternatively, use a third-party payment processor to handle credit card data.",
+              "reference": "https://www.pcisecuritystandards.org/pci_security/"
+            },
+            {
+              "lineNumber": 68,
+              "severity": 8,
+              "bugType": "HIPAA",
+              "description": "The code imports a module that may contain health-related data. If this data is not properly secured, it could lead to HIPAA non-compliance.",
+              "solution": "Ensure that any health-related data is properly secured before it is processed. Alternatively, obtain explicit consent from the user before processing their data.",
+              "reference": "https://www.hhs.gov/hipaa/index.html"
+            },
+            {
+              "lineNumber": 69,
+              "severity": 3,
+              "bugType": "GDPR",
+              "description": "This line of code imports a custom exception class which may be used to handle version incompatibility issues. If this exception is used to log or transmit personal data without proper consent or security measures, it could potentially violate GDPR regulations.",
+              "solution": "Ensure that any personal data logged or transmitted as part of this exception is anonymized or pseudonymized, and that necessary consent has been obtained. Implement appropriate security measures such as encryption to protect this data during transmission or storage.",
+              "webLink": "https://gdpr-info.eu/"
+            },
+            {
+              "lineNumber": 69,
+              "severity": 2,
+              "bugType": "PCI DSS",
+              "description": "If this IncompatibleVersionException is used to log or transmit cardholder data without proper security measures, it could potentially violate PCI DSS requirements.",
+              "solution": "Ensure that any cardholder data logged or transmitted as part of this exception is encrypted and that necessary security measures are in place. Do not log sensitive authentication data under any circumstances.",
+              "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+            },
+            {
+              "lineNumber": 69,
+              "severity": 3,
+              "bugType": "HIPAA",
+              "description": "If this IncompatibleVersionException is used to log or transmit Protected Health Information (PHI) without proper security measures, it could potentially violate HIPAA regulations.",
+              "solution": "Ensure that any PHI logged or transmitted as part of this exception is encrypted and that necessary security measures are in place. Implement a system for obtaining necessary consent from patients before their PHI is used.",
+              "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/index.html"
+            },
+            {
+              "lineNumber": 70,
+              "severity": 7,
+              "bugType": "GDPR",
+              "description": "The code imports a function that initializes an empty project data object. If this object is used to store personal data of EU citizens, it may be in violation of GDPR if data is not properly anonymized or if user consent is not obtained.",
+              "solution": "Ensure that any personal data stored in the project data object is properly anonymized and that user consent is obtained before storing personal data. Consider implementing a data privacy policy that clearly states how personal data will be used.",
+              "link": "https://gdpr.eu/data-privacy/"
+            },
+            {
+              "lineNumber": 70,
+              "severity": 8,
+              "bugType": "PCI DSS",
+              "description": "If the project data object is used to store cardholder data, it may be in violation of PCI DSS. Cardholder data must be encrypted and access to it must be restricted.",
+              "solution": "Ensure that any cardholder data stored in the project data object is encrypted and that access to it is restricted. Consider using a third-party payment processor to limit the amount of cardholder data your application needs to handle.",
+              "link": "https://www.pcisecuritystandards.org/pci_security/"
+            },
+            {
+              "lineNumber": 70,
+              "severity": 9,
+              "bugType": "HIPAA",
+              "description": "If the project data object is used to store protected health information (PHI), it may be in violation of HIPAA. PHI must be encrypted and access to it must be restricted.",
+              "solution": "Ensure that any PHI stored in the project data object is encrypted and that access to it is restricted. Consider implementing a secure, HIPAA-compliant database for storing PHI.",
+              "link": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+            },
+            {
+              "lineNumber": 74,
+              "severity": 3,
+              "bugType": "GDPR",
+              "description": "The code imports a module that provides a summary view of data. If this data includes personal data of EU citizens, it may not be compliant with the GDPR's data minimization principle.",
+              "solution": "Ensure that the data displayed in the summary view does not include unnecessary personal data. If personal data is necessary, ensure that it is properly anonymized or pseudonymized. More information can be found at https://gdpr-info.eu/art-5-gdpr/"
+            },
+            {
+              "lineNumber": 75,
+              "severity": 1,
+              "bugType": "GDPR",
+              "description": "There is no direct violation of GDPR, PCI DSS, or HIPAA compliance in this line of code. However, the BoostStartViewProvider class might handle user data, which could potentially lead to compliance issues if not properly handled.",
+              "solution": "Ensure that the BoostStartViewProvider class follows data protection principles such as data minimization, purpose limitation, and security of processing. More details can be found at https://gdpr-info.eu/art-5-gdpr/"
+            },
+            {
+              "lineNumber": 76,
+              "severity": 7,
+              "bugType": "GDPR",
+              "description": "The BoostChatViewProvider may be handling personal data of users. If this data is not properly anonymized, encrypted and managed, it may lead to GDPR compliance issues.",
+              "solution": "Ensure that all personal data handled by the BoostChatViewProvider is anonymized, encrypted, and managed according to GDPR regulations. Also, ensure that users are able to access, rectify, and erase their data upon request.",
+              "webLink": "https://gdpr-info.eu/"
+            },
+            {
+              "lineNumber": 76,
+              "severity": 7,
+              "bugType": "PCI DSS",
+              "description": "If the BoostChatViewProvider handles payment information, it must comply with PCI DSS standards. Non-compliance can lead to data breaches and severe penalties.",
+              "solution": "Ensure that payment data is securely handled and that the system is regularly tested for security vulnerabilities. Consider using a third-party payment processor to minimize the amount of sensitive data handled by the system.",
+              "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+            },
+            {
+              "lineNumber": 76,
+              "severity": 8,
+              "bugType": "HIPAA",
+              "description": "If the BoostChatViewProvider handles health-related data, it must comply with HIPAA regulations. Non-compliance can lead to data breaches and severe penalties.",
+              "solution": "Ensure that health-related data is securely handled and that the system is regularly tested for security vulnerabilities. Implement strong access controls and train staff in data privacy and security best practices.",
+              "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/index.html"
+            },
+            {
+              "lineNumber": 77,
+              "severity": 8,
+              "bugType": "GDPR",
+              "description": "The import statement for 'instructions.json' could potentially involve processing of personal data, which may be non-compliant with GDPR if not handled correctly.",
+              "solution": "Ensure that any personal data in 'instructions.json' is processed in a manner compliant with GDPR. This may involve obtaining the user's consent before processing their data, anonymizing the data, or ensuring that the data is securely stored and transmitted. Refer to the GDPR guidelines for more information: https://gdpr-info.eu/",
+              "educationLink": "https://gdpr-info.eu/"
+            },
+            {
+              "lineNumber": 81,
+              "severity": 6,
+              "bugType": "PCI DSS",
+              "description": "The import statement for 'base_controller' could potentially involve processing of cardholder data, which may be non-compliant with PCI DSS if not handled correctly.",
+              "solution": "Ensure that any cardholder data in 'base_controller' is processed in a manner compliant with PCI DSS. This may involve encrypting the data, restricting access to the data, or ensuring that the data is securely stored and transmitted. Refer to the PCI DSS guidelines for more information: https://www.pcisecuritystandards.org/pci_security/",
+              "educationLink": "https://www.pcisecuritystandards.org/pci_security/"
+            },
+            {
+              "lineNumber": 81,
+              "severity": 7,
+              "bugType": "HIPAA",
+              "description": "The import statement for 'base_controller' could potentially involve processing of protected health information (PHI), which may be non-compliant with HIPAA if not handled correctly.",
+              "solution": "Ensure that any PHI in 'base_controller' is processed in a manner compliant with HIPAA. This may involve anonymizing the data, restricting access to the data, or ensuring that the data is securely stored and transmitted. Refer to the HIPAA guidelines for more information: https://www.hhs.gov/hipaa/for-professionals/security/guidance/index.html",
+              "educationLink": "https://www.hhs.gov/hipaa/for-professionals/security/guidance/index.html"
+            },
+            {
+              "lineNumber": 104,
+              "severity": 7,
+              "bugType": "GDPR",
+              "description": "The import statement could potentially lead to a violation of the data minimization principle of GDPR. If the imported modules 'BoostTestgenKernel' or 'testgenKernelName' process or store any personal data, it should be ensured that only the necessary data is processed.",
+              "solution": "Review the 'BoostTestgenKernel' and 'testgenKernelName' modules to ensure compliance with the data minimization principle. Data should be anonymized or pseudonymized where possible and data processing should be limited to what is necessary for the intended purpose. For more information, refer to Article 5(1)(c) of the GDPR: https://gdpr-info.eu/art-5-gdpr/"
+            },
+            {
+              "lineNumber": 128,
+              "severity": 5,
+              "bugType": "GDPR",
+              "description": "The code imports a module that controls blueprint data. If this data contains any personal data, it could potentially be in violation of GDPR compliance rules.",
+              "solution": "Ensure that any personal data handled by the blueprint_controller module is processed in accordance with GDPR rules. This includes obtaining consent, allowing for data portability, and providing the right to erasure. Consider implementing pseudonymization or anonymization techniques to further protect personal data.",
+              "webLink": "https://gdpr.eu/what-is-gdpr/"
+            },
+            {
+              "lineNumber": 128,
+              "severity": 6,
+              "bugType": "PCI DSS",
+              "description": "If the blueprint_controller module processes, stores, or transmits any cardholder data, it could potentially be in violation of PCI DSS compliance rules.",
+              "solution": "Ensure that cardholder data is processed in a secure environment. Implement strong access control measures and regularly test security systems and processes. Consider tokenization or encryption of cardholder data.",
+              "webLink": "https://www.pcisecuritystandards.org/pci_security/"
+            },
+            {
+              "lineNumber": 128,
+              "severity": 6,
+              "bugType": "HIPAA",
+              "description": "If the blueprint_controller module handles any Protected Health Information (PHI), it could potentially be in violation of HIPAA compliance rules.",
+              "solution": "Ensure that PHI is processed in a secure environment. Implement strong access control measures and regularly test security systems and processes. Consider encryption of PHI data.",
+              "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/index.html"
+            },
+            {
+              "lineNumber": 132,
+              "severity": 7,
+              "bugType": "GDPR",
+              "description": "The import of 'BoostCustomProcessKernel' could potentially indicate processing of personal data without explicit consent, which is a violation of GDPR.",
+              "solution": "Ensure that any personal data processed by 'BoostCustomProcessKernel' is done so with explicit user consent. Implement mechanisms to obtain and record user consent for data processing.",
+              "source": "https://gdpr-info.eu/"
+            },
+            {
+              "lineNumber": 133,
+              "severity": 5,
+              "bugType": "PCI DSS",
+              "description": "The import of 'customProcessCellMarker' could indicate handling of payment card data without proper security measures, which is a violation of PCI DSS.",
+              "solution": "Ensure that 'customProcessCellMarker' doesn't process or store cardholder data. If it does, implement strong access control measures and secure coding practices to protect cardholder data.",
+              "source": "https://www.pcisecuritystandards.org/pci_security/"
+            },
+            {
+              "lineNumber": 134,
+              "severity": 6,
+              "bugType": "HIPAA",
+              "description": "The import of 'customProcessKernelName' could potentially indicate processing of protected health information (PHI), which is a violation of HIPAA.",
+              "solution": "Ensure that any PHI processed by 'customProcessKernelName' is done so in accordance with HIPAA's Security Rule. Implement mechanisms to protect PHI, such as encryption and access controls.",
+              "source": "https://www.hhs.gov/hipaa/for-professionals/security/index.html"
+            },
+            {
+              "lineNumber": 145,
+              "severity": 5,
+              "bugType": "GDPR",
+              "description": "The import statement does not in itself violate GDPR, PCI DSS, or HIPAA. However, without knowing the details of the BoostQuickBlueprintKernel and quickBlueprintKernelName, it's not possible to determine if there are any compliance issues.",
+              "solution": "Review the BoostQuickBlueprintKernel and quickBlueprintKernelName for any data handling that may violate GDPR, PCI DSS, or HIPAA. Ensure that any personal data is collected, processed, and stored in a manner that complies with these regulations.",
+              "link": "https://gdpr.eu/what-is-gdpr/"
+            },
+            {
+              "lineNumber": 162,
+              "severity": 3,
+              "bugType": "Import Risk",
+              "description": "The import statement could potentially cause data compliance issues if the imported module 'BoostCustomQuickScanFunctionKernel' from '../controllers/customquickscan_function_controller' is not properly handling data in compliance with GDPR, PCI DSS, and HIPAA.",
+              "solution": "Ensure that the 'BoostCustomQuickScanFunctionKernel' module and all its dependencies are handling data in a way that is compliant with GDPR, PCI DSS, and HIPAA. This includes not storing sensitive data unnecessarily, encrypting sensitive data, and providing mechanisms for data subjects to exercise their rights under these regulations.",
+              "reference": "https://gdpr.eu/data-privacy/"
+            },
+            {
+              "lineNumber": 178,
+              "severity": 7,
+              "bugType": "GDPR",
+              "description": "The function 'provideTextDocumentContent' opens a notebook document without any explicit user consent or checks for data privacy. This could potentially lead to unauthorized access or exposure of personal data.",
+              "solution": "Ensure explicit user consent is obtained before accessing their data. Implement checks to ensure data privacy is not compromised. Use encryption where necessary to protect sensitive data."
+            },
+            {
+              "lineNumber": 178,
+              "severity": 6,
+              "bugType": "HIPAA",
+              "description": "The function 'provideTextDocumentContent' may be handling health-related data, if such data is stored in the notebook document. There are no checks in place to ensure the data is handled in a HIPAA-compliant manner.",
+              "solution": "Implement checks to ensure data privacy and security. Use encryption for storing and transmitting health-related data. Ensure access to such data is strictly controlled and logged."
+            },
+            {
+              "lineNumber": 178,
+              "severity": 5,
+              "bugType": "PCI DSS",
+              "description": "If the notebook document contains credit card data or other sensitive financial information, the function 'provideTextDocumentContent' may be violating PCI DSS compliance by not securely handling this data.",
+              "solution": "Implement secure handling of financial data, including encryption and access controls. Consider using a third-party payment processor to limit the amount of credit card data the application needs to handle."
+            },
+            {
+              "lineNumber": 216,
+              "severity": 7,
+              "bugType": "GDPR",
+              "description": "The variable '_accountInfo' is storing user data which may include personal identifiable information. This could potentially violate GDPR compliance.",
+              "solution": "Ensure that personal data is being processed lawfully, transparently, and for a specific purpose. Once that purpose is fulfilled and the data is no longer required, it should be deleted as per GDPR guidelines."
+            },
+            {
+              "lineNumber": 216,
+              "severity": 6,
+              "bugType": "HIPAA",
+              "description": "The variable '_accountInfo' may contain health-related data, which could lead to HIPAA compliance issues if not properly handled.",
+              "solution": "Ensure that health-related data is securely stored and transmitted, and that access to such data is limited to authorized individuals."
+            },
+            {
+              "lineNumber": 216,
+              "severity": 7,
+              "bugType": "PCI DSS",
+              "description": "The variable '_accountInfo' may contain sensitive cardholder data, which could lead to PCI DSS compliance issues if not properly handled.",
+              "solution": "Ensure that cardholder data is securely stored and transmitted, and that access to such data is limited to authorized individuals."
+            },
+            {
+              "lineNumber": 904,
+              "severity": 6,
+              "bugType": "GDPR",
+              "description": "The method 'updateAccountInfo' updates user data, which may include personal identifiable information. This could potentially violate GDPR compliance.",
+              "solution": "Ensure that personal data is being processed lawfully, transparently, and for a specific purpose. Once that purpose is fulfilled and the data is no longer required, it should be deleted as per GDPR guidelines."
+            },
+            {
+              "lineNumber": 904,
+              "severity": 5,
+              "bugType": "HIPAA",
+              "description": "The method 'updateAccountInfo' updates user data, which may include health-related data, which could lead to HIPAA compliance issues if not properly handled.",
+              "solution": "Ensure that health-related data is securely stored and transmitted, and that access to such data is limited to authorized individuals."
+            },
+            {
+              "lineNumber": 904,
+              "severity": 6,
+              "bugType": "PCI DSS",
+              "description": "The method 'updateAccountInfo' updates user data, which may include sensitive cardholder data, which could lead to PCI DSS compliance issues if not properly handled.",
+              "solution": "Ensure that cardholder data is securely stored and transmitted, and that access to such data is limited to authorized individuals."
+            },
+            {
+              "lineNumber": 275,
+              "severity": 8,
+              "bugType": "GDPR",
+              "description": "The code is storing user-selected kernel command without explicit user consent, which might contain personally identifiable information (PII). This is a violation of the GDPR's requirement for explicit user consent before storing or processing their data.",
+              "solution": "Ensure to obtain explicit consent from the user before storing their selected kernel command. You can do this by informing the user about what data will be stored and why, and asking them to agree before proceeding. Also, provide an option for the user to withdraw their consent at any time.",
+              "link": "https://gdpr.eu/data-processing-consent/"
+            },
+            {
+              "lineNumber": 275,
+              "severity": 7,
+              "bugType": "HIPAA",
+              "description": "The code is storing user-selected kernel command without ensuring data encryption, which might contain health-related information. This is a violation of the HIPAA's requirement for data encryption.",
+              "solution": "Ensure to encrypt any data that is stored, especially if it can contain health-related information. You can use standard encryption algorithms like AES for this purpose. Also, ensure that the encryption keys are securely managed.",
+              "link": "https://www.hhs.gov/hipaa/for-professionals/security/guidance/index.html"
+            },
+            {
+              "lineNumber": 275,
+              "severity": 6,
+              "bugType": "PCI DSS",
+              "description": "The code is storing user-selected kernel command without ensuring data encryption, which might contain cardholder data. This is a violation of the PCI DSS's requirement for protecting stored cardholder data.",
+              "solution": "Ensure to encrypt any stored cardholder data using strong cryptography. You can use industry-standard encryption algorithms like AES for this purpose. Also, ensure that the encryption keys are securely managed.",
+              "link": "https://www.pcisecuritystandards.org/pci_security/why_security_matters"
+            },
+            {
+              "lineNumber": 389,
+              "severity": 8,
+              "bugType": "GDPR",
+              "description": "The code is storing user-selected test framework without explicit user consent, which might contain personally identifiable information (PII). This is a violation of the GDPR's requirement for explicit user consent before storing or processing their data.",
+              "solution": "Ensure to obtain explicit consent from the user before storing their selected test framework. You can do this by informing the user about what data will be stored and why, and asking them to agree before proceeding. Also, provide an option for the user to withdraw their consent at any time.",
+              "link": "https://gdpr.eu/data-processing-consent/"
+            },
+            {
+              "lineNumber": 389,
+              "severity": 7,
+              "bugType": "HIPAA",
+              "description": "The code is storing user-selected test framework without ensuring data encryption, which might contain health-related information. This is a violation of the HIPAA's requirement for data encryption.",
+              "solution": "Ensure to encrypt any data that is stored, especially if it can contain health-related information. You can use standard encryption algorithms like AES for this purpose. Also, ensure that the encryption keys are securely managed.",
+              "link": "https://www.hhs.gov/hipaa/for-professionals/security/guidance/index.html"
+            },
+            {
+              "lineNumber": 389,
+              "severity": 6,
+              "bugType": "PCI DSS",
+              "description": "The code is storing user-selected test framework without ensuring data encryption, which might contain cardholder data. This is a violation of the PCI DSS's requirement for protecting stored cardholder data.",
+              "solution": "Ensure to encrypt any stored cardholder data using strong cryptography. You can use industry-standard encryption algorithms like AES for this purpose. Also, ensure that the encryption keys are securely managed.",
+              "link": "https://www.pcisecuritystandards.org/pci_security/why_security_matters"
+            },
+            {
+              "lineNumber": 268,
+              "severity": 3,
+              "bugType": "GDPR",
+              "description": "The software is logging errors, which could potentially include personal data. This could be a violation of GDPR if the data is not properly anonymized or if user consent has not been obtained.",
+              "solution": "Ensure that any logged data is properly anonymized and that user consent has been obtained, if necessary. Consider implementing a system for managing and tracking user consent."
+            },
+            {
+              "lineNumber": 387,
+              "severity": 3,
+              "bugType": "GDPR",
+              "description": "The software is logging information, which could potentially include personal data. This could be a violation of GDPR if the data is not properly anonymized or if user consent has not been obtained.",
+              "solution": "Ensure that any logged data is properly anonymized and that user consent has been obtained, if necessary. Consider implementing a system for managing and tracking user consent."
+            },
+            {
+              "lineNumber": 484,
+              "severity": 4,
+              "bugType": "GDPR",
+              "description": "The software is accessing the user's workspace, which could potentially include personal data. This could be a violation of GDPR if the data is not properly handled and if user consent has not been obtained.",
+              "solution": "Ensure that any accessed data is properly handled, that user consent has been obtained, and that the user has the ability to revoke consent. Consider implementing a system for managing and tracking user consent."
+            },
+            {
+              "lineNumber": 657,
+              "severity": 5,
+              "bugType": "PCI DSS",
+              "description": "The software is accessing a customer portal URL, which could potentially include sensitive financial data. This could be a violation of PCI DSS if the data is not properly secured.",
+              "solution": "Ensure that any accessed data is properly secured, in compliance with PCI DSS requirements. This could include using encryption, implementing strong access controls, and regularly auditing the application for security vulnerabilities."
+            },
+            {
+              "lineNumber": 721,
+              "severity": 3,
+              "bugType": "HIPAA",
+              "description": "The software is logging errors, which could potentially include health-related data. This could be a violation of HIPAA if the data is not properly anonymized or if user consent has not been obtained.",
+              "solution": "Ensure that any logged data is properly anonymized and that user consent has been obtained, if necessary. Consider implementing a system for managing and tracking user consent."
+            },
+            {
+              "lineNumber": 213,
+              "severity": 5,
+              "bugType": "GDPR",
+              "description": "The active text editor may contain user input or sensitive data. Make sure you're not logging or processing this data in a way that could violate GDPR.",
+              "solution": "Always anonymize or pseudonymize user data where possible. Never store or log raw user input or sensitive data."
+            },
+            {
+              "lineNumber": 213,
+              "severity": 5,
+              "bugType": "HIPAA",
+              "description": "The active text editor may contain health-related data. Ensure this data is securely handled and not logged or processed in a way that could violate HIPAA.",
+              "solution": "Always anonymize or pseudonymize health-related data. Never store or log raw health-related data."
+            },
+            {
+              "lineNumber": 249,
+              "severity": 7,
+              "bugType": "PCI DSS",
+              "description": "The code is potentially processing user input or sensitive data and may be violating PCI DSS if it involves cardholder data.",
+              "solution": "Ensure that all cardholder data is properly encrypted and securely handled. Never log raw cardholder data."
+            },
+            {
+              "lineNumber": 249,
+              "severity": 7,
+              "bugType": "GDPR",
+              "description": "The code is potentially processing user input or sensitive data and may be violating GDPR.",
+              "solution": "Always anonymize or pseudonymize user data where possible. Never store or log raw user input or sensitive data."
+            },
+            {
+              "lineNumber": 249,
+              "severity": 7,
+              "bugType": "HIPAA",
+              "description": "The code is potentially processing health-related data and may be violating HIPAA.",
+              "solution": "Always anonymize or pseudonymize health-related data. Never store or log raw health-related data."
+            },
+            {
+              "lineNumber": 204,
+              "severity": 6,
+              "bugType": "GDPR",
+              "description": "The code might be logging sensitive data. The 'fsPath' of 'file' is logged, which might contain sensitive user data.",
+              "solution": "Make sure to remove or obfuscate sensitive data before logging. If the data is necessary for debugging, consider implementing user consent or a more secure way to handle it.",
+              "link": "https://gdpr-info.eu/"
+            },
+            {
+              "lineNumber": 231,
+              "severity": 6,
+              "bugType": "GDPR",
+              "description": "The code might be logging sensitive data. The 'fsPath' of 'file' is logged, which might contain sensitive user data.",
+              "solution": "Make sure to remove or obfuscate sensitive data before logging. If the data is necessary for debugging, consider implementing user consent or a more secure way to handle it.",
+              "link": "https://gdpr-info.eu/"
+            },
+            {
+              "lineNumber": 276,
+              "severity": 6,
+              "bugType": "GDPR",
+              "description": "The code might be logging sensitive data. The 'fsPath' of 'file' is logged, which might contain sensitive user data.",
+              "solution": "Make sure to remove or obfuscate sensitive data before logging. If the data is necessary for debugging, consider implementing user consent or a more secure way to handle it.",
+              "link": "https://gdpr-info.eu/"
+            },
+            {
+              "lineNumber": 228,
+              "severity": 8,
+              "bugType": "PCI DSS",
+              "description": "The application may not handle errors securely. Errors are directly passed to the 'reject' function without any sanitization or specific handling.",
+              "solution": "Implement proper error handling that does not expose sensitive information and that handles different types of errors appropriately. Do not propagate raw errors to the client/user.",
+              "link": "https://www.pcisecuritystandards.org/pci_security/"
+            },
+            {
+              "lineNumber": 275,
+              "severity": 8,
+              "bugType": "PCI DSS",
+              "description": "The application may not handle errors securely. Errors are directly passed to the 'reject' function without any sanitization or specific handling.",
+              "solution": "Implement proper error handling that does not expose sensitive information and that handles different types of errors appropriately. Do not propagate raw errors to the client/user.",
+              "link": "https://www.pcisecuritystandards.org/pci_security/"
+            },
+            {
+              "lineNumber": 204,
+              "severity": 7,
+              "bugType": "HIPAA",
+              "description": "The code might be logging sensitive data. If the 'fsPath' of 'file' contains any health-related information, this would be a violation of HIPAA.",
+              "solution": "Ensure that any health-related information is not logged or is properly de-identified before logging. Implement user consent or a more secure way to handle it if necessary.",
+              "link": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+            },
+            {
+              "lineNumber": 231,
+              "severity": 7,
+              "bugType": "HIPAA",
+              "description": "The code might be logging sensitive data. If the 'fsPath' of 'file' contains any health-related information, this would be a violation of HIPAA.",
+              "solution": "Ensure that any health-related information is not logged or is properly de-identified before logging. Implement user consent or a more secure way to handle it if necessary.",
+              "link": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+            },
+            {
+              "lineNumber": 276,
+              "severity": 7,
+              "bugType": "HIPAA",
+              "description": "The code might be logging sensitive data. If the 'fsPath' of 'file' contains any health-related information, this would be a violation of HIPAA.",
+              "solution": "Ensure that any health-related information is not logged or is properly de-identified before logging. Implement user consent or a more secure way to handle it if necessary.",
+              "link": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+            },
+            {
+              "lineNumber": 207,
+              "severity": 7,
+              "bugType": "GDPR",
+              "description": "The code is collecting information from the user's active notebook and potentially sending it to a remote service. This could include sensitive personal data.",
+              "solution": "Ensure that any data collected is anonymized and that the user has given their consent for their data to be collected and processed. Implement a data protection impact assessment (DPIA) to evaluate and mitigate the risks.",
+              "link": "https://gdpr-info.eu/art-35-gdpr/"
+            },
+            {
+              "lineNumber": 228,
+              "severity": 7,
+              "bugType": "GDPR",
+              "description": "The code is collecting information from the user's active editor and potentially sending it to a remote service. This could include sensitive personal data.",
+              "solution": "Ensure that any data collected is anonymized and that the user has given their consent for their data to be collected and processed. Implement a data protection impact assessment (DPIA) to evaluate and mitigate the risks.",
+              "link": "https://gdpr-info.eu/art-35-gdpr/"
+            },
+            {
+              "lineNumber": 252,
+              "severity": 7,
+              "bugType": "GDPR",
+              "description": "The code is collecting information from the user's active source tab and potentially sending it to a remote service. This could include sensitive personal data.",
+              "solution": "Ensure that any data collected is anonymized and that the user has given their consent for their data to be collected and processed. Implement a data protection impact assessment (DPIA) to evaluate and mitigate the risks.",
+              "link": "https://gdpr-info.eu/art-35-gdpr/"
+            },
+            {
+              "lineNumber": 276,
+              "severity": 7,
+              "bugType": "GDPR",
+              "description": "The code is collecting information from the user's active tabs and potentially sending it to a remote service. This could include sensitive personal data.",
+              "solution": "Ensure that any data collected is anonymized and that the user has given their consent for their data to be collected and processed. Implement a data protection impact assessment (DPIA) to evaluate and mitigate the risks.",
+              "link": "https://gdpr-info.eu/art-35-gdpr/"
+            },
+            {
+              "lineNumber": 301,
+              "severity": 7,
+              "bugType": "GDPR",
+              "description": "The code is collecting information from the user's active tab analysis and potentially sending it to a remote service. This could include sensitive personal data.",
+              "solution": "Ensure that any data collected is anonymized and that the user has given their consent for their data to be collected and processed. Implement a data protection impact assessment (DPIA) to evaluate and mitigate the risks.",
+              "link": "https://gdpr-info.eu/art-35-gdpr/"
+            },
+            {
+              "lineNumber": 334,
+              "severity": 6,
+              "bugType": "PCI DSS",
+              "description": "The code is collecting information from the user's active text editor and potentially sending it to a remote service. If this includes credit card data, this could be a violation of PCI DSS.",
+              "solution": "Ensure that credit card data is not being collected or transmitted without proper security measures. This could include encryption, tokenization, or other methods of data obfuscation.",
+              "link": "https://www.pcisecuritystandards.org/pci_security/"
+            },
+            {
+              "lineNumber": 360,
+              "severity": 6,
+              "bugType": "PCI DSS",
+              "description": "The code is collecting information from the user's active notebook and potentially sending it to a remote service. If this includes credit card data, this could be a violation of PCI DSS.",
+              "solution": "Ensure that credit card data is not being collected or transmitted without proper security measures. This could include encryption, tokenization, or other methods of data obfuscation.",
+              "link": "https://www.pcisecuritystandards.org/pci_security/"
+            },
+            {
+              "lineNumber": 390,
+              "severity": 8,
+              "bugType": "HIPAA",
+              "description": "The code is collecting information from the user's active editor and potentially sending it to a remote service. If this includes health information, this could be a violation of HIPAA.",
+              "solution": "Ensure that health information is not being collected or transmitted without proper security measures. This could include encryption, de-identification, or other methods of data obfuscation.",
+              "link": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+            },
+            {
+              "lineNumber": 415,
+              "severity": 8,
+              "bugType": "HIPAA",
+              "description": "The code is collecting information from the user's active notebook and potentially sending it to a remote service. If this includes health information, this could be a violation of HIPAA.",
+              "solution": "Ensure that health information is not being collected or transmitted without proper security measures. This could include encryption, de-identification, or other methods of data obfuscation.",
+              "link": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
+            }
+          ]
+        }
+      }
     },
     "src/dashboard/chat_view.ts": {
       "sourceRelFile": "./src/dashboard/chat_view.ts",
       "notebookRelFile": ".boost/src/dashboard/chat_view.ts.boost-notebook",
       "totalCells": 12,
-      "completedCells": 0,
+      "completedCells": 12,
       "errorCells": 0,
-      "issueCells": 0,
-      "sections": {}
+      "issueCells": 8,
+      "sections": {
+        "explainCode": {
+          "analysisType": "explainCode",
+          "status": "completed",
+          "completedCells": 12,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 12,
+          "filesAnalyzed": 1
+        },
+        "flowDiagram": {
+          "analysisType": "flowDiagram",
+          "status": "completed",
+          "completedCells": 12,
+          "errorCells": 0,
+          "issueCells": 0,
+          "totalCells": 12,
+          "filesAnalyzed": 1
+        },
+        "bugAnalysisList": {
+          "analysisType": "bugAnalysisList",
+          "status": "completed",
+          "completedCells": 12,
+          "errorCells": 0,
+          "issueCells": 2,
+          "totalCells": 12,
+          "filesAnalyzed": 1,
+          "details": [
+            {
+              "lineNumber": 32,
+              "severity": 4,
+              "bugType": "Insecure Logging",
+              "description": "The application is logging sensitive information to the console. This could potentially expose sensitive information in logs.",
+              "solution": "Avoid logging sensitive information. If it is necessary to log such information for debugging purposes, make sure to properly sanitize and anonymize the data before logging. Also, ensure logs are properly secured and access is restricted. More on this can be found here: https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 70,
+              "severity": 7,
+              "bugType": "Cross-Site Scripting (XSS)",
+              "description": "The code is using a static nonce value for the Content Security Policy in the webview. This can lead to Cross-Site Scripting (XSS) attacks if an attacker can inject malicious scripts that match this nonce.",
+              "solution": "Generate a secure random nonce for each new session or request. Here is a resource to understand more about it: https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html#use-of-nonce-to-mitigate-dom-xss"
+            },
+            {
+              "lineNumber": 93,
+              "severity": 8,
+              "bugType": "Insecure Data Processing",
+              "description": "The code uses the 'fs' module to read files synchronously which can lead to blocking the event loop if the file is large, leading to potential Denial of Service (DoS) attacks.",
+              "solution": "Use the asynchronous version of 'fs.readFile' instead of 'fs.readFileSync'. Here is a resource on Node.js best practices: https://nodejs.dev/learn/the-nodejs-fs-module"
+            },
+            {
+              "lineNumber": 157,
+              "severity": 6,
+              "bugType": "Insecure File Handling",
+              "description": "The code writes to a file in the temp directory without validating or sanitizing the data. This can lead to potential security risks if the data is manipulated before it's written to the file.",
+              "solution": "Validate and sanitize the data before writing it to a file. Consider using a library like 'validator.js' for validation and 'sanitize-html' for sanitization. Here is a resource to understand more about it: https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html"
+            },
+            {
+              "lineNumber": 173,
+              "severity": 8,
+              "bugType": "Insecure Data Processing",
+              "description": "The code uses 'fs.readFileSync' to read data from a file. This is a blocking operation and can lead to potential Denial of Service (DoS) attacks if the file is large.",
+              "solution": "Use the asynchronous version 'fs.readFile' instead of 'fs.readFileSync'. Here is a resource on Node.js best practices: https://nodejs.dev/learn/the-nodejs-fs-module"
+            }
+          ]
+        },
+        "performanceList": {
+          "analysisType": "performanceList",
+          "status": "completed",
+          "completedCells": 12,
+          "errorCells": 0,
+          "issueCells": 3,
+          "totalCells": 12,
+          "filesAnalyzed": 1,
+          "details": [
+            {
+              "lineNumber": 1,
+              "severity": 2,
+              "bugType": "Memory",
+              "description": "Importing the entire 'vscode' module can lead to increased memory usage if not all of its functionalities are used.",
+              "solution": "Import only the necessary functionalities from the 'vscode' module to optimize memory usage. For example: `import { workspace, commands } from 'vscode';`"
+            },
+            {
+              "lineNumber": 2,
+              "severity": 2,
+              "bugType": "Memory",
+              "description": "Importing the entire 'fs' module can lead to increased memory usage if not all of its functionalities are used.",
+              "solution": "Import only the necessary functionalities from the 'fs' module to optimize memory usage. For example: `import { readFile, writeFile } from 'fs';`"
+            },
+            {
+              "lineNumber": 3,
+              "severity": 2,
+              "bugType": "Memory",
+              "description": "Importing the entire 'path' module can lead to increased memory usage if not all of its functionalities are used.",
+              "solution": "Import only the necessary functionalities from the 'path' module to optimize memory usage. For example: `import { join, resolve } from 'path';`"
+            },
+            {
+              "lineNumber": 4,
+              "severity": 3,
+              "bugType": "Memory",
+              "description": "Importing the entire 'lodash' library can lead to increased memory usage if not all of its functionalities are used.",
+              "solution": "Import only the necessary functionalities from the 'lodash' library to optimize memory usage. For example: `import { map, filter } from 'lodash';`"
+            },
+            {
+              "lineNumber": 5,
+              "severity": 2,
+              "bugType": "Memory",
+              "description": "Importing the entire 'os' module can lead to increased memory usage if not all of its functionalities are used.",
+              "solution": "Import only the necessary functionalities from the 'os' module to optimize memory usage. For example: `import { platform, homedir } from 'os';`"
+            },
+            {
+              "lineNumber": 6,
+              "severity": 1,
+              "bugType": "Memory",
+              "description": "Importing the 'BoostExtension' module might increase memory usage if not all of its functionalities are used.",
+              "solution": "Import only the necessary functionalities from the 'BoostExtension' module to optimize memory usage. For example: `import { activate, deactivate } from '../extension/BoostExtension';`"
+            },
+            {
+              "lineNumber": 32,
+              "severity": 3,
+              "bugType": "CPU",
+              "description": "The hljs.highlight function is CPU-intensive, as it involves parsing and highlighting the code. This could slow down the application, especially for large inputs.",
+              "solution": "Consider using a more efficient library for code highlighting, or use web workers to offload this heavy task from the main thread. Also, consider caching results for repeated inputs."
+            },
+            {
+              "lineNumber": 33,
+              "severity": 2,
+              "bugType": "Memory",
+              "description": "The console.log statement is storing the original input in memory, which may not be necessary and could lead to memory leaks if the input is large and the function is called many times.",
+              "solution": "Remove the console.log statement, or replace it with a more memory-efficient logging solution. Consider using a logging library that can handle large inputs and manage memory usage, such as Winston or Bunyan."
+            },
+            {
+              "lineNumber": 52,
+              "severity": 7,
+              "bugType": "Disk",
+              "description": "The code reads a file synchronously, which can block the main thread and degrade performance.",
+              "solution": "Consider reading the file asynchronously using fs.readFile() instead of fs.readFileSync()."
+            },
+            {
+              "lineNumber": 100,
+              "severity": 5,
+              "bugType": "Disk",
+              "description": "The code writes to a file synchronously, which can block the main thread and degrade performance.",
+              "solution": "Consider writing to the file asynchronously using fs.writeFile() instead of fs.writeFileSync()."
+            },
+            {
+              "lineNumber": 108,
+              "severity": 7,
+              "bugType": "Disk",
+              "description": "The code checks if a file exists synchronously, which can block the main thread and degrade performance.",
+              "solution": "Consider checking if the file exists asynchronously using fs.access() instead of fs.existsSync()."
+            },
+            {
+              "lineNumber": 114,
+              "severity": 7,
+              "bugType": "Disk",
+              "description": "The code reads a file synchronously, which can block the main thread and degrade performance.",
+              "solution": "Consider reading the file asynchronously using fs.readFile() instead of fs.readFileSync()."
+            },
+            {
+              "lineNumber": 69,
+              "severity": 5,
+              "bugType": "CPU",
+              "description": "The code uses a template function from lodash to generate HTML content. This could be CPU-intensive for large inputs.",
+              "solution": "Consider using a more efficient templating library or optimizing the template to reduce computation."
+            },
+            {
+              "lineNumber": 64,
+              "severity": 5,
+              "bugType": "Memory",
+              "description": "The code uses the marked library to parse markdown text to HTML. This could be memory-intensive for large inputs.",
+              "solution": "Consider using a more efficient markdown parser or optimizing the input to reduce memory usage."
+            }
+          ]
+        },
+        "complianceCodeList": {
+          "analysisType": "complianceCodeList",
+          "status": "completed",
+          "completedCells": 12,
+          "errorCells": 0,
+          "issueCells": 8,
+          "totalCells": 12,
+          "filesAnalyzed": 1,
+          "details": [
+            {
+              "lineNumber": 1,
+              "severity": 3,
+              "bugType": "Data Privacy",
+              "description": "The 'vscode' module provides access to VS Code's API, which can be used to access and manipulate user data. If not properly handled, this could lead to GDPR, PCI DSS, and HIPAA compliance issues.",
+              "solution": "Ensure that any user data accessed through the 'vscode' module is handled in a manner compliant with GDPR, PCI DSS, and HIPAA. This includes obtaining user consent before collecting or processing personal data, encrypting sensitive data, and ensuring that data is only used for the purpose for which it was collected. More information can be found at: https://code.visualstudio.com/api/working-with-extensions/publishing-extension#personal-data-and-gdpr"
+            },
+            {
+              "lineNumber": 2,
+              "severity": 5,
+              "bugType": "Data Privacy",
+              "description": "The 'fs' module provides access to the file system, which could potentially be used to access and manipulate sensitive user data. If not properly handled, this could lead to GDPR, PCI DSS, and HIPAA compliance issues.",
+              "solution": "Ensure that any sensitive data accessed or manipulated through the 'fs' module is handled in a manner compliant with GDPR, PCI DSS, and HIPAA. This includes ensuring that data is encrypted at rest, access to data is properly controlled and logged, and data is only used for the purpose for which it was collected. More information can be found at: https://nodejs.org/api/fs.html"
+            },
+            {
+              "lineNumber": 4,
+              "severity": 2,
+              "bugType": "Data Privacy",
+              "description": "The 'lodash' library is a utility library that could potentially be used to manipulate user data. If not properly handled, this could lead to GDPR, PCI DSS, and HIPAA compliance issues.",
+              "solution": "Ensure that any user data manipulated with 'lodash' is handled in a manner compliant with GDPR, PCI DSS, and HIPAA. This includes ensuring that data is only used for the purpose for which it was collected, access to data is properly controlled and logged, and sensitive data is encrypted. More information can be found at: https://lodash.com/docs/"
+            },
+            {
+              "lineNumber": 5,
+              "severity": 5,
+              "bugType": "Data Privacy",
+              "description": "The 'os' module provides methods for working with operating system-related utility methods and properties. This could potentially be used to access and manipulate sensitive user data. If not properly handled, this could lead to GDPR, PCI DSS, and HIPAA compliance issues.",
+              "solution": "Ensure that any sensitive data accessed or manipulated through the 'os' module is handled in a manner compliant with GDPR, PCI DSS, and HIPAA. This includes ensuring that data is encrypted at rest, access to data is properly controlled and logged, and data is only used for the purpose for which it was collected. More information can be found at: https://nodejs.org/api/os.html"
+            },
+            {
+              "lineNumber": 7,
+              "severity": 7,
+              "bugType": "Data Privacy",
+              "description": "The function 'cleanCellOutput' may lead to improper handling of sensitive data. If the function is used to clean output from a cell that contains sensitive data, it could potentially result in the exposure of such data.",
+              "solution": "Ensure that the function 'cleanCellOutput' is designed to handle sensitive data appropriately. This could include anonymizing or encrypting the data, or ensuring that it is not included in the output at all. Also, the function should be thoroughly tested to ensure that it behaves as expected in all cases.",
+              "webLink": "https://gdpr-info.eu/"
+            },
+            {
+              "lineNumber": 10,
+              "severity": 8,
+              "bugType": "GDPR",
+              "description": "The import of 'BoostNotebook' and 'BoostNotebookCell' from 'jupyter_notebook' indicates that the code could be handling personal data. If any of the data being handled includes personal data of EU citizens, this could be a violation of the General Data Protection Regulation (GDPR).",
+              "solution": "Ensure that any personal data is handled in compliance with GDPR. This could include obtaining proper consent before collecting personal data, anonymizing the data, and ensuring that data subjects can exercise their rights under GDPR. It's also important to ensure that any third parties that process the data are also in compliance with GDPR.",
+              "source": "https://gdpr-info.eu/"
+            },
+            {
+              "lineNumber": 10,
+              "severity": 7,
+              "bugType": "PCI DSS",
+              "description": "If the 'BoostNotebook' and 'BoostNotebookCell' data includes payment card information, this could be a violation of the Payment Card Industry Data Security Standard (PCI DSS).",
+              "solution": "Ensure that any payment card data is handled in compliance with PCI DSS. This could include encrypting the data, limiting who has access to it, and regularly testing the system for security vulnerabilities. If possible, consider using a third-party payment processor to limit the amount of card data the application needs to handle.",
+              "source": "https://www.pcisecuritystandards.org/pci_security/"
+            },
+            {
+              "lineNumber": 10,
+              "severity": 8,
+              "bugType": "HIPAA",
+              "description": "If the 'BoostNotebook' and 'BoostNotebookCell' data includes health information, this could be a violation of the Health Insurance Portability and Accountability Act (HIPAA).",
+              "solution": "Ensure that any health information is handled in compliance with HIPAA. This could include encrypting the data, limiting who has access to it, and implementing strong access controls. It's also important to ensure that any third parties that process the data are also in compliance with HIPAA.",
+              "source": "https://www.hhs.gov/hipaa/index.html"
+            },
+            {
+              "lineNumber": 15,
+              "severity": 1,
+              "bugType": "GDPR",
+              "description": "The code does not seem to handle personal data, so it does not appear to have any GDPR compliance issues.",
+              "solution": "No action needed."
+            },
+            {
+              "lineNumber": 15,
+              "severity": 1,
+              "bugType": "PCI DSS",
+              "description": "The code does not seem to handle credit card or payment data, so it does not appear to have any PCI DSS compliance issues.",
+              "solution": "No action needed."
+            },
+            {
+              "lineNumber": 15,
+              "severity": 1,
+              "bugType": "HIPAA",
+              "description": "The code does not seem to handle health information, so it does not appear to have any HIPAA compliance issues.",
+              "solution": "No action needed."
+            },
+            {
+              "lineNumber": 16,
+              "severity": 2,
+              "bugType": "GDPR",
+              "description": "The import statement may be importing a module that handles personal data. If this data is not properly anonymized or pseudonymized, it could lead to GDPR compliance issues.",
+              "solution": "Ensure that the 'chatKernelName' module handles personal data in a way that is compliant with GDPR, including anonymization and pseudonymization of personal data. Consider using a GDPR compliance library or tool to help ensure compliance.",
+              "link": "https://gdpr-info.eu/"
+            },
+            {
+              "lineNumber": 22,
+              "severity": 2,
+              "bugType": "GDPR",
+              "description": "This code imports the 'sanitize-html' library, which is used to sanitize user input to prevent Cross-Site Scripting (XSS) attacks. However, it does not inherently protect against data leakage. If sensitive data is included in the user input, it could still be leaked, even if it is sanitized.",
+              "solution": "Consider implementing additional measures to ensure sensitive data is not included in user input. This could include data masking or tokenization techniques.",
+              "educationLink": "https://gdpr-info.eu"
+            },
+            {
+              "lineNumber": 23,
+              "severity": 3,
+              "bugType": "PCI DSS",
+              "description": "The code imports the 'ICellMetadata' interface from the '@jupyterlab/nbformat' library. The 'ICellMetadata' interface could potentially include fields that contain cardholder data. If this data is not properly protected, it could lead to PCI DSS compliance issues.",
+              "solution": "Ensure that cardholder data is properly protected at all times, including during transmission and storage. Consider using encryption and other security measures.",
+              "educationLink": "https://www.pcisecuritystandards.org"
+            },
+            {
+              "lineNumber": 23,
+              "severity": 4,
+              "bugType": "HIPAA",
+              "description": "The 'ICellMetadata' interface could potentially include fields that contain protected health information (PHI). If this data is not properly protected, it could lead to HIPAA compliance issues.",
+              "solution": "Ensure that PHI is properly protected at all times, including during transmission and storage. Consider using encryption and other security measures.",
+              "educationLink": "https://www.hhs.gov/hipaa"
+            },
+            {
+              "lineNumber": 24,
+              "severity": 2,
+              "bugType": "GDPR",
+              "description": "The global variable 'aiName' is defined but not used anywhere. This could potentially lead to unnecessary data processing, which violates GDPR's principle of data minimization.",
+              "solution": "Consider removing the 'aiName' variable if it's not used, or ensure it's used in a way that complies with data minimization principles. More information can be found here: https://gdpr-info.eu/art-5-gdpr/"
+            },
+            {
+              "lineNumber": 34,
+              "severity": 4,
+              "bugType": "GDPR",
+              "description": "The code logs the original input, which could potentially include personal data. This could violate GDPR's principles if the logs are not properly managed and protected.",
+              "solution": "Ensure that any logging of personal data is necessary, limited to the minimum required, and that logs are properly protected. Consider anonymizing or pseudonymizing data where possible. More information can be found here: https://gdpr-info.eu/art-6-gdpr/"
+            },
+            {
+              "lineNumber": 45,
+              "severity": 7,
+              "bugType": "GDPR",
+              "description": "The '_chats' variable may contain personal data but is not encrypted or anonymized. This could lead to GDPR non-compliance.",
+              "solution": "Encrypt or anonymize any personal data stored in '_chats'."
+            },
+            {
+              "lineNumber": 129,
+              "severity": 8,
+              "bugType": "HIPAA",
+              "description": "The 'updatePrompt' function sends potentially sensitive data to a remote service without proper encryption. This could lead to HIPAA non-compliance.",
+              "solution": "Encrypt any sensitive data before sending it to a remote service."
+            },
+            {
+              "lineNumber": 219,
+              "severity": 7,
+              "bugType": "PCI DSS",
+              "description": "The '_saveJsonData' function saves potentially sensitive data to a file without proper encryption. This could lead to PCI DSS non-compliance.",
+              "solution": "Encrypt any sensitive data before saving it to a file."
+            },
+            {
+              "lineNumber": 231,
+              "severity": 7,
+              "bugType": "GDPR",
+              "description": "The '_loadJsonData' function loads potentially personal data from a file without proper encryption. This could lead to GDPR non-compliance.",
+              "solution": "Encrypt any personal data before loading it from a file."
+            }
+          ]
+        }
+      }
     },
     "src/extension/boostConfiguration.ts": {
       "sourceRelFile": "./src/extension/boostConfiguration.ts",
@@ -18228,20 +19822,20 @@
     "enabled": true,
     "status": "paid",
     "trialRemaining": 0,
-    "usageThisMonth": 300.16,
-    "discountedUsage": 100,
-    "balanceDue": 200.16,
-    "couponType": "Polyverse Boost Free Trial",
+    "usageThisMonth": 0,
+    "discountedUsage": 0,
+    "balanceDue": 0,
+    "couponType": "None",
     "org": "polyverse-appsec",
     "owner": "alex@polyverse.io",
-    "created": "2023-05-06",
+    "created": "2023-05-02",
     "creditCardLinked": false
   },
   "uiState": {
-    "analysisState": "analyzing",
+    "analysisState": "quiescent",
     "activityBarState": {
       "summaryViewState": {
-        "analysisMode": "top5-mode",
+        "analysisMode": "analyze-all-mode",
         "analysisTypesState": {
           "security": true,
           "compliance": true,
