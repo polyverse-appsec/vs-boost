@@ -1,5 +1,9 @@
 import {
-    KernelControllerBase
+    KernelControllerBase,
+    codeMimeType,
+    markdownMimeType,
+    textMimeType,
+    markdownCodeMarker
     } from './base_controller';
 import * as vscode from 'vscode';
 import { BoostConfiguration } from '../extension/boostConfiguration';
@@ -89,8 +93,8 @@ export class BoostTestgenKernel extends KernelControllerBase {
 
         const usingBoostNotebook = "value" in cell; // if the cell has a value property, then it's a BoostNotebookCell
 
-        //get the outputLanguage from the language set on the cell, NOT the language set on the notebook
-        let outputLanguage = usingBoostNotebook?cell.languageId:cell.document.languageId ??
+        // get the outputLanguage from the language set on the cell, NOT the language set on the notebook
+        let testLanguage = usingBoostNotebook?cell.languageId:cell.document.languageId ??
             BoostConfiguration.defaultOutputLanguage;
 
         if (response.testcode === undefined) {
@@ -98,15 +102,15 @@ export class BoostTestgenKernel extends KernelControllerBase {
         }
 
             //quick hack. if the returned string has three backwards apostrophes, then it's in markdown format
-        if(response.testcode.includes('```')){
-            mimetype = 'text/markdown';
+        if(response.testcode.includes(markdownCodeMarker)){
+            mimetype.str = markdownMimeType;
             return generateCellOutputWithHeader(this.outputHeader, response.testcode);
         }
         else {
-            if (outputLanguage === 'cpp' || outputLanguage === 'c') {
-                mimetype.str = 'text/plain';
+            if (testLanguage === 'cpp' || testLanguage === 'c') {
+                mimetype.str = textMimeType;
             } else {
-                mimetype.str = 'text/x-' + outputLanguage;
+                mimetype.str = codeMimeType(testLanguage);
             }
             return response.testcode;
         }        

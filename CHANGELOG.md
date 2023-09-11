@@ -14,6 +14,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Bug Fixes
 - Fixed issue preventing output generation when Notebook conversion language or test framework is changed via UI toolbar
+- Fix issue in Test Generation with markdown output generation
 
 ## Version 1.5.0: September 7th, 2023
 
