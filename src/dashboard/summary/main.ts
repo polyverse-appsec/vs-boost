@@ -352,7 +352,7 @@ function refreshProgressText(statusData: StatusViewData) {
     //get the current text of the progress text
     let existingText = progressText.innerText;
 
-    if (statusData.busy === true) {
+    if (statusData.busy) {
         if (statusData.minutesRemaining > 60) {
             remaining = `${Math.round(statusData.minutesRemaining / 60)} hours`;
         } else {
@@ -366,7 +366,7 @@ function refreshProgressText(statusData: StatusViewData) {
                 : `processing ${statusData.jobsRunning} ${filesText}`;
         text = `Sara (the Boost AI) is ${processingText} right now, with ${statusData.jobsQueued} ${queuesText} queued. ETA ${remaining}. You can continue to use Visual Studio Code in the meantime.`;
         //if there is no existing text, type it in
-        if (existingText === "" || existingText === undefined) {
+        if (!existingText) {
             typewriter.typeString(text).start();
         } else {
             progressText.innerText = text;
