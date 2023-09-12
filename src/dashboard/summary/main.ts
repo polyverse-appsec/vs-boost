@@ -421,10 +421,10 @@ function refreshAnalysisState(analysisState: AnalysisState) {
     const progressText = document.getElementById(
         "progress-text"
     ) as HTMLElement;
-    //get the current text of the progress text, delete it if it exists
-    let existingText = progressText.innerText;
 
-    if (existingText !== "" || existingText !== undefined) {
+    // get the current text of the progress text, delete it if it exists
+    let existingText = progressText.innerText;
+    if (existingText) {
         typewriter.deleteAll(1).pauseFor(300).start();
     }
     typewriter
