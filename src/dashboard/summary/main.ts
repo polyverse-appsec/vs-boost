@@ -402,18 +402,31 @@ function refreshPrediction(statusData: StatusViewData, existingText: string) {
     // if the text is the same, don't do anything
     if (existingText && existingText === newText) {
         return;
+/* disabled code since existingText is not accurate reflection of current typewriter state
+    } else if (existingText.startsWith(predictionStart)) {
+        // if the text starts with the prediction start, just update the prediction finish
+        typewriter
+            .changeDeleteSpeed(1)
+            .deleteChars(existingText.length - predictionStart.length)
+            .pauseFor(100)
+            .typeString("...")
+            .pauseFor(500)
+            .deleteChars(3)
+            .typeString(predictionFinish)
+            .start();
+*/
+    } else {
+        typewriter.
+            deleteAll(1)
+            .pauseFor(300)
+            .typeString(predictionStart)
+            .pauseFor(100)
+            .typeString("...")
+            .pauseFor(500)
+            .deleteChars(3)
+            .typeString(predictionFinish)
+            .start();
     }
-
-    typewriter.
-        deleteAll(1)
-        .pauseFor(300)
-        .typeString(predictionStart)
-        .pauseFor(100)
-        .typeString("...")
-        .pauseFor(500)
-        .deleteChars(3)
-        .typeString(predictionFinish)
-        .start();
 }
 
 function refreshAnalysisState(analysisState: AnalysisState) {
