@@ -371,8 +371,8 @@ function refreshProgressText(statusData: StatusViewData) {
         } else {
             progressText.innerText = text;
         }
-    } else if (existingText !== "" || existingText !== undefined) {
-        //if we are not busy, and there is text, clear it out slowly to avoid ui jitty
+    } else if (existingText) {
+        // if we are not busy, and there is text, clear it out slowly to avoid ui jitty
         typewriter.deleteAll(1).pauseFor(300).start();
         refreshPrediction(statusData);
     } else {
