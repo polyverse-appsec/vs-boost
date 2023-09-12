@@ -132,6 +132,14 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         const boostProjectData = this._boostExtension.getBoostProjectData()!;
                         boostProjectData.toggleAnalysisTypeEnabled(data.analysisType, data.checked);
                         boostProjectData.flushToFS();
+
+                        // we need to queue a UI refresh since we just queued a checkbox change
+                        //     we need to refresh UI AFTER the checkbox change is processed
+                        const payload = {
+                            command: "refreshUI",
+                            boostprojectdata: boostProjectData,
+                        };
+                        this._view?.webview.postMessage(payload);
                     }
                     break;
                 case "analyze_mode_changed":
