@@ -32,9 +32,15 @@ export function summaryEnter(enter: any) {
                 if (match && match[1]) {
                     const analysisType = match[1];
                     analysisTypeCheckboxChanged(analysisType, target.checked);
-                }                
 
-                refreshUI(boostprojectdata);
+                    // we need to queue a UI refresh since we just queued a checkbox change
+                    //     we need to refresh UI AFTER the checkbox change is processed
+                    const payload = {
+                        command: "refreshUI",
+                        boostprojectdata: boostprojectdata,
+                    };
+                    this._view?.webview.postMessage(payload);
+                }                
             });
         });
     const cell2 = row
