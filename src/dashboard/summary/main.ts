@@ -32,7 +32,6 @@ import {
     IBoostProjectData,
     AnalysisState,
     AnalysisTypesState,
-    emptyProjectData,
 } from "../../data/boostprojectdata_interface";
 import Typewritter from "typewriter-effect/dist/core";
 import { BoostUserAnalysisType } from "../../data/userAnalysisType";
@@ -372,13 +371,11 @@ function refreshProgressText(statusData: StatusViewData) {
             progressText.innerText = text;
         }
     } else {
-        // if we are not busy, and there is text, clear it out slowly to avoid ui jitty
-        typewriter.deleteAll(1).pauseFor(300).start();
-        refreshPrediction(statusData);
+        refreshPrediction(statusData, existingText);
     }
 }
 
-function refreshPrediction(statusData: StatusViewData) {
+function refreshPrediction(statusData: StatusViewData, existingText: string) {
     if (!statusData.accountRefreshed) {
         return;
     }
@@ -401,7 +398,15 @@ function refreshPrediction(statusData: StatusViewData) {
         )} used already).`;
     }
 
-    typewriter
+    const newText = `${predictionStart}${predictionFinish}`;
+    // if the text is the same, don't do anything
+    if (existingText && existingText === newText) {
+        return;
+    }
+
+    typewriter.
+        deleteAll(1)
+        .pauseFor(300)
         .typeString(predictionStart)
         .pauseFor(100)
         .typeString("...")
