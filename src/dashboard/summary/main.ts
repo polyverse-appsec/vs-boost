@@ -139,9 +139,7 @@ function setupListeners() {
         button.addEventListener("change", (event) => {
             const target = event.target as HTMLInputElement;
             if (target?.checked) {
-                setTimeout(() => {
-                    handleAnalyzeModeCheck(target.id, boostprojectdata);
-                }, 100);
+                handleAnalyzeModeCheck(target.id, boostprojectdata);
             }
         });
     });
