@@ -16,6 +16,7 @@ Polyverse Boost Automatic Application Modernization
 - Fixed issue preventing output generation when Notebook conversion language or test framework is changed via UI toolbar
 - Fix issue in Test Generation with markdown output generation
 - Fix issue with Code Conversion service error handling that can cause Extension startup errors
+- Fix issue with Analysis Type checkbox resetting to true after restart
 
 ## Version 1.5.0: September 7th, 2023
 

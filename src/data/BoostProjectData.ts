@@ -149,12 +149,11 @@ export class BoostProjectData implements IBoostProjectData {
     deepMerge(target: any, source: any) {
         for (const key in source) {
             if (
-                source[key] instanceof Object &&
-                key in target &&
+                source[key] instanceof Object && 
                 target[key] instanceof Object
             ) {
                 this.deepMerge(target[key], source[key]);
-            } else if (source[key] !== undefined) {
+            } else if (target[key] === undefined) { // Only merge if target[key] doesn't exist
                 target[key] = source[key];
             }
         }
