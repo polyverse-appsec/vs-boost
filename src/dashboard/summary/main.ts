@@ -381,34 +381,36 @@ function refreshProgressText(statusData: StatusViewData) {
 }
 
 function refreshPrediction(statusData: StatusViewData) {
-    if (statusData.accountRefreshed) {
-        let predictionStart = `Sara expects the analysis to cost between`;
-        let predictionFinish =
-            ` $${statusData.spendLowerBound.toFixed(
-                2
-            )} and $${statusData.spendUpperBound.toFixed(2)}.` +
-            ` Your account is ${
-                statusData.accountStatus
-            } and you have spent $${statusData.currentSpend.toFixed(
-                2
-            )} so far this month.`;
-        if (statusData.couponRemaining > 0) {
-            predictionFinish += ` You have $${statusData.couponRemaining.toFixed(
-                2
-            )} of a free trial remaining ($${statusData.discountedUsage.toFixed(
-                2
-            )} used already).`;
-        }
-
-        typewriter
-            .typeString(predictionStart)
-            .pauseFor(100)
-            .typeString("...")
-            .pauseFor(500)
-            .deleteChars(3)
-            .typeString(predictionFinish)
-            .start();
+    if (!statusData.accountRefreshed) {
+        return;
     }
+
+    let predictionStart = `Sara expects the analysis to cost between`;
+    let predictionFinish =
+        ` $${statusData.spendLowerBound.toFixed(
+            2
+        )} and $${statusData.spendUpperBound.toFixed(2)}.` +
+        ` Your account is ${
+            statusData.accountStatus
+        } and you have spent $${statusData.currentSpend.toFixed(
+            2
+        )} so far this month.`;
+    if (statusData.couponRemaining > 0) {
+        predictionFinish += ` You have $${statusData.couponRemaining.toFixed(
+            2
+        )} of a free trial remaining ($${statusData.discountedUsage.toFixed(
+            2
+        )} used already).`;
+    }
+
+    typewriter
+        .typeString(predictionStart)
+        .pauseFor(100)
+        .typeString("...")
+        .pauseFor(500)
+        .deleteChars(3)
+        .typeString(predictionFinish)
+        .start();
 }
 
 function refreshAnalysisState(analysisState: AnalysisState) {
