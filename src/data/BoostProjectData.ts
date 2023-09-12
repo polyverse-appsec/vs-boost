@@ -364,12 +364,10 @@ export class BoostProjectData implements IBoostProjectData {
             this.uiState.activityBarState.summaryViewState
                 .analysisTypesState as any
         )[analysisType] = enabled;
-        this.flushToFS();
     }
 
     setAnalysisMode(choice: string) {
         this.uiState.activityBarState.summaryViewState.analysisMode = choice;
-        this.flushToFS();
     }
 
     static get default(): BoostProjectData {

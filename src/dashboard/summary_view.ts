@@ -126,21 +126,22 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     {
                         await this.analyzeAll(data.analysisTypes, data.fileLimit);
                     }
-
                     break;
                 case "analysis_type_changed":
                     {
-                        this._boostExtension.getBoostProjectData()!.toggleAnalysisTypeEnabled(
-                            data.analysisType, data.checked);
-                        }
+                        const boostProjectData = this._boostExtension.getBoostProjectData()!;
+                        boostProjectData.toggleAnalysisTypeEnabled(data.analysisType, data.checked);
+                        boostProjectData.flushToFS();
+                    }
                     break;
                 case "analyze_mode_changed":
                     {
-                        this._boostExtension.getBoostProjectData()!.setAnalysisMode(
-                            data.choice);
+                        const boostProjectData = this._boostExtension.getBoostProjectData()!;
+                        boostProjectData.setAnalysisMode(data.choice);
+                        boostProjectData.flushToFS();
                         const payload = {
                             command: "refreshUI",
-                            boostprojectdata: this._boostExtension.getBoostProjectData(),
+                            boostprojectdata: boostProjectData,
                         };
                         this._view?.webview.postMessage(payload);
                     }
