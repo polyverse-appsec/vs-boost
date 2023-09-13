@@ -367,6 +367,10 @@ export class BoostProjectData implements IBoostProjectData {
     }
 
     setAnalysisMode(choice: string) {
+        if (this.uiState.activityBarState.summaryViewState.analysisMode === choice) {
+            return;
+        }
+        
         this.uiState.activityBarState.summaryViewState.analysisMode = choice;
     }
 
