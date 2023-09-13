@@ -418,11 +418,14 @@ function refreshPrediction(statusData: StatusViewData) {
         return;
         
 /* disabled code since existingText is not accurate reflection of current typewriter state
-    } else if (existingText.startsWith(predictionStart)) {
+    } else if (currentProgressText.startsWith(predictionStart) &&
+               newText.startsWith(predictionStart)) {
         // if the text starts with the prediction start, just update the prediction finish
         typewriter
-            .changeDeleteSpeed(1)
-            .deleteChars(existingText.length - predictionStart.length)
+            .stop()
+            .deleteAll(1)
+            .pasteString(predictionStart)
+            .start()
             .pauseFor(100)
             .typeString("...")
             .pauseFor(500)
