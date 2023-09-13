@@ -1,6 +1,5 @@
 import {
     analysisTypeCheckboxChanged,
-    refreshUI,
 } from "./main";
 
 import { IBoostProjectData } from "../../data/boostprojectdata_interface";
