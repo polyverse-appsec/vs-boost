@@ -129,34 +129,45 @@ function setupListeners() {
         link.addEventListener("click", showDashboardTab);
     });
 
-    const analyzeAllMode = document.getElementById("analyze-all-mode") as HTMLElement;
-    const top5Mode = document.getElementById("top5-mode") as HTMLElement;
+    const analyzeAllMode = document.getElementById("analyze-all-mode") as HTMLInputElement;
+    const top5Mode = document.getElementById("top5-mode") as HTMLInputElement;
 
     const analysisModeButtons : HTMLElement[] = [analyzeAllMode, top5Mode];
     analysisModeButtons.forEach((button) => {
         // Attach event listeners to both radio buttons to detect changes
         button.addEventListener("change", (event) => {
-            const target = event.target as HTMLInputElement;
-            if (target?.checked) {
+            requestAnimationFrame(() => {
+                const target = event.target as HTMLInputElement;
+                if (!target?.checked) {
+                    return;
+                }
+
                 handleAnalyzeModeCheck(target.id, boostprojectdata);
-            }
+
+            });
         });
     });
 }
 
 function showDashboardTab() {
-    //we just need to set the 'activeid' of the panel equal to "tab-dashboard"
-    const vscodePanels = document.querySelector("#main_panel") as HTMLElement;
-    //set the attribute activeid
-    vscodePanels.setAttribute("activeid", "tab-dashboard");
+    requestAnimationFrame(() => {
+        //we just need to set the 'activeid' of the panel equal to "tab-dashboard"
+        const vscodePanels = document.querySelector("#main_panel") as HTMLElement;
+        //set the attribute activeid
+        vscodePanels.setAttribute("activeid", "tab-dashboard");
+    });
 }
 
 // Define a function to check if the vscode-panels element is rendered
 const checkDashboardWideEnough = (): void => {
-    const vscodePanels: HTMLElement | null =
-        document.querySelector("vscode-panels");
+    requestAnimationFrame(() => {
+        const vscodePanels: HTMLElement | null =
+            document.querySelector("vscode-panels");
 
-    if (vscodePanels) {
+        if (!vscodePanels) {
+            return;
+        }
+
         const resizeAlert: HTMLElement | null =
             document.querySelector("#resize_alert");
         if (vscodePanels.scrollWidth > vscodePanels.clientWidth) {
@@ -170,7 +181,7 @@ const checkDashboardWideEnough = (): void => {
                 resizeAlert.style.display = "none";
             }
         }
-    }
+    });
 };
 
 export function analysisTypeCheckboxChanged(analysisType: string, checked: boolean) {
@@ -257,7 +268,7 @@ function getAnalysisTypes(analysisTypesState: AnalysisTypesState): Array<string>
     return analysisTypes;
 }
 
-export function refreshUI(boostprojectdata: IBoostProjectData) {
+function refreshUI(boostprojectdata: IBoostProjectData) {
     const analysisTypes = getAnalysisTypes(boostprojectdata.uiState.activityBarState.summaryViewState.analysisTypesState);
     let skipFilter: string[] = [];
 
@@ -457,6 +468,6 @@ function setAnalysisMode(boostprojectdata: IBoostProjectData) {
     const checkedMode = document.getElementById(
         defaultAnalysisMode? defaultAnalysisMode : "top5-mode"
         ) as HTMLInputElement;
-    checkedMode.checked = true;
-}
 
+    checkedMode.setAttribute('current-checked', 'true');
+}
