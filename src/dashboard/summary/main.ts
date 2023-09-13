@@ -348,6 +348,8 @@ function refreshSpinner(analysisState: AnalysisState) {
     }
 }
 
+let currentProgressText = "";
+
 function refreshProgressText(statusData: StatusViewData) {
     if (statusData.analysisState === AnalysisState.preparing) {
         return refreshAnalysisState(statusData.analysisState);
@@ -359,34 +361,35 @@ function refreshProgressText(statusData: StatusViewData) {
     let remaining = "";
     let text = "";
 
-    //get the current text of the progress text
-    let existingText = progressText.innerText;
+    if (!statusData.busy) {
+        refreshPrediction(statusData);
+        return;
+    }
 
-    if (statusData.busy) {
-        if (statusData.minutesRemaining > 60) {
-            remaining = `${Math.round(statusData.minutesRemaining / 60)} hours`;
-        } else {
-            remaining = `${statusData.minutesRemaining} minutes`;
-        }
-        let filesText = statusData.jobsRunning === 1 ? "file" : "files";
-        let queuesText = statusData.jobsQueued === 1 ? "file" : "files";
-        let processingText =
-            statusData.jobsRunning === 0
-                ? "preparing its analysis"
-                : `processing ${statusData.jobsRunning} ${filesText}`;
-        text = `Sara (the Boost AI) is ${processingText} right now, with ${statusData.jobsQueued} ${queuesText} queued. ETA ${remaining}. You can continue to use Visual Studio Code in the meantime.`;
-        //if there is no existing text, type it in
-        if (!existingText) {
-            typewriter.typeString(text).start();
-        } else {
-            progressText.innerText = text;
-        }
+    if (statusData.minutesRemaining > 60) {
+        remaining = `${Math.round(statusData.minutesRemaining / 60)} hours`;
     } else {
-        refreshPrediction(statusData, existingText);
+        remaining = `${statusData.minutesRemaining} minutes`;
+    }
+    let filesText = statusData.jobsRunning === 1 ? "file" : "files";
+    let queuesText = statusData.jobsQueued === 1 ? "file" : "files";
+    let processingText =
+        statusData.jobsRunning === 0
+            ? "preparing its analysis"
+            : `processing ${statusData.jobsRunning} ${filesText}`;
+    text = `Sara (the Boost AI) is ${processingText} right now, with ${statusData.jobsQueued} ${queuesText} queued. ETA ${remaining}. You can continue to use Visual Studio Code in the meantime.`;
+
+    // if there is no existing text, type it in
+    if (!currentProgressText) {
+        currentProgressText = text;
+        typewriter.typeString(text).start();
+    } else {
+        currentProgressText = text;
+        progressText.innerText = text;
     }
 }
 
-function refreshPrediction(statusData: StatusViewData, existingText: string) {
+function refreshPrediction(statusData: StatusViewData) {
     if (!statusData.accountRefreshed) {
         return;
     }
@@ -411,8 +414,9 @@ function refreshPrediction(statusData: StatusViewData, existingText: string) {
 
     const newText = `${predictionStart}${predictionFinish}`;
     // if the text is the same, don't do anything
-    if (existingText && existingText === newText) {
+    if (currentProgressText === newText) {
         return;
+        
 /* disabled code since existingText is not accurate reflection of current typewriter state
     } else if (existingText.startsWith(predictionStart)) {
         // if the text starts with the prediction start, just update the prediction finish
@@ -427,6 +431,7 @@ function refreshPrediction(statusData: StatusViewData, existingText: string) {
             .start();
 */
     } else {
+        currentProgressText = newText;
         typewriter.
             deleteAll(1)
             .pauseFor(300)
@@ -452,8 +457,7 @@ function refreshAnalysisState(analysisState: AnalysisState) {
     ) as HTMLElement;
 
     // get the current text of the progress text, delete it if it exists
-    let existingText = progressText.innerText;
-    if (existingText) {
+    if (currentProgressText) {
         typewriter.deleteAll(1).pauseFor(300).start();
     }
     typewriter
