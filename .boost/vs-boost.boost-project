@@ -3,8 +3,8 @@
   "summary": {
     "projectName": "vs-boost",
     "summaryUrl": ".boost/vs-boost.summary.boost-notebook",
-    "filesToAnalyze": 145,
-    "filesAnalyzed": 134,
+    "filesToAnalyze": 166,
+    "filesAnalyzed": 156,
     "issues": []
   },
   "sectionSummary": {
@@ -114,6 +114,15 @@
       "issueCells": 0,
       "totalCells": 3,
       "filesAnalyzed": 1
+    },
+    "generatedCode": {
+      "analysisType": "generatedCode",
+      "status": "not-started",
+      "completedCells": 0,
+      "errorCells": 2,
+      "issueCells": 0,
+      "totalCells": 14,
+      "filesAnalyzed": 2
     }
   },
   "files": {
@@ -7819,7 +7828,7 @@
       "notebookRelFile": ".boost/src/controllers/customerPortal.ts.boost-notebook",
       "totalCells": 7,
       "completedCells": 7,
-      "errorCells": 0,
+      "errorCells": 1,
       "issueCells": 5,
       "sections": {
         "explainCode": {
@@ -8022,6 +8031,15 @@
               "webLink": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html"
             }
           ]
+        },
+        "generatedCode": {
+          "analysisType": "generatedCode",
+          "status": "not-started",
+          "completedCells": 0,
+          "errorCells": 1,
+          "issueCells": 0,
+          "totalCells": 7,
+          "filesAnalyzed": 1
         }
       }
     },
@@ -19822,9 +19840,9 @@
     "enabled": true,
     "status": "paid",
     "trialRemaining": 0,
-    "usageThisMonth": 0,
+    "usageThisMonth": 21.82,
     "discountedUsage": 0,
-    "balanceDue": 0,
+    "balanceDue": 21.82,
     "couponType": "None",
     "org": "polyverse-appsec",
     "owner": "alex@polyverse.io",
