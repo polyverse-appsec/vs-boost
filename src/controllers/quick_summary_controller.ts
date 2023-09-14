@@ -1,4 +1,5 @@
 import * as path from 'path';
+import * as fs from 'fs';
 
 import {
     KernelControllerBase,
@@ -20,7 +21,7 @@ import {
     NotebookCellKind,
     SerializedNotebookCellOutput } from '../data/jupyter_notebook';
 import { boostLogging } from '../utilities/boostLogging';
-import { findCellByKernel } from '../extension/extension';
+import { BoostFileOptions, BoostFileType, findCellByKernel, getBoostFile } from '../extension/extension';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { getCurrentOrganization } from "../utilities/authorization";
 import { ControllerOutputType } from './controllerOutputTypes';
@@ -90,7 +91,13 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
         forceAnalysisRefresh = true;
 
         if (!usingBoostNotebook) {
-            throw new Error("Quick Summary can only be run on offline Notebooks");
+            const summaryUri = getBoostFile((notebook as vscode.NotebookDocument).uri, { format: BoostFileType.summary } as BoostFileOptions);
+            if (!fs.existsSync(summaryUri.fsPath)) {
+                boostLogging.error(`Quick ${this.displayCategory} Summary can only refresh existing Summary files`, true);
+                return false;
+            }    
+            notebook = new BoostNotebook();
+            notebook.load(summaryUri.fsPath);
         }
 
         // are we analyzing a source file or a project?
@@ -107,20 +114,25 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
             organization: organization,
         };
     
-        boostLogging.info(`Starting ${this.command} of Notebook ${notebook.fsPath}`, false);
+        boostLogging.info(`Starting ${this.command} of Notebook ${(notebook as BoostNotebook).fsPath}`, false);
 
-        let successfullyCompleted = true;
+        const relativePath = vscode.workspace.asRelativePath((notebook as BoostNotebook).fsPath);
         try
         {
-            await this._runQuickSummary(notebook, authPayload, projectWideAnalysis);
+            await this._runQuickSummary(notebook as BoostNotebook, authPayload, projectWideAnalysis);
 
         } catch (rethrow) {
-            successfullyCompleted = false;
-            boostLogging.error(`Error during ${this.command} of ${projectWideAnalysis?"Project":"Source"}-level Notebook at ${new Date().toLocaleTimeString()}`, false);
+            boostLogging.error(`Error during ${this.command} of ${projectWideAnalysis?"Project":"Source"}-level Notebook (${relativePath}) at ${new Date().toLocaleTimeString()}`, false);
             throw rethrow;
         }
         finally {
-            boostLogging.info(`Finished ${this.command} of ${projectWideAnalysis?"Project":"Source"}-level Notebook at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
+            boostLogging.info(`Finished ${this.command} of ${projectWideAnalysis?"Project":"Source"}-level Notebook (${relativePath}) at ${new Date().toLocaleTimeString()}`, !usingBoostNotebook);
+        }
+        if (!usingBoostNotebook) {
+            const summaryNotebook = await vscode.workspace.openNotebookDocument(
+                vscode.Uri.parse((notebook as BoostNotebook).fsPath)
+            );
+            await vscode.window.showNotebookDocument(summaryNotebook);
         }
         return true;
     }
@@ -175,9 +187,10 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
             } else if (
                 existingSummaryCell.metadata.summaryType === "quick"
             ) {
+                const relativePath = vscode.workspace.asRelativePath(notebook.fsPath);
                 boostLogging.info(
                     `Rebuilding ${this.command} of ${projectWideAnalysis?"Project":"Source"}-level Notebook ` +
-                        `from last quick summary`, false
+                        `(${relativePath}) from last quick summary`, false
                 );
             }
         }
