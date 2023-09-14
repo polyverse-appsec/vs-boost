@@ -12,6 +12,7 @@ Polyverse Boost Automatic Application Modernization
 - Change Diagnostic Problems to Warning by default when Analysis of source code is not successful to avoid blocking user code build
 - Use .boostignore and .gitignore files only for source exclusion - and stop using .vscodeignore (which is specific to Extension development)
 - Reduce redundant status updates and flicker
+- Source-level problems include the display category (e.g. Compliance, Security, etc.) for easier filtering
 
 ### Bug Fixes
 - Fixed issue preventing output generation when Notebook conversion language or test framework is changed via UI toolbar
