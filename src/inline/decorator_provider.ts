@@ -132,13 +132,24 @@ export class DecoratorProvider {
             return;
         }
 
+        // only show inline analysis for file-backed documents
+        if (!this.activeEditor.document.fileName ||
+            this.activeEditor.document.uri.scheme !== "file") {
+            return;
+        }
+
+        // don't show inline analysis for Boost notebooks - analysis is present in outputs anyway
+        if (this.activeEditor.document.fileName.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
+            return;
+        }
+
         const boostUri = getBoostFile(this.activeEditor.document.uri);
         if (!boostUri) {
             return;
         }
-        //now load the notebook
-        const boostNotebook = new boostnb.BoostNotebook();
         if (fs.existsSync(boostUri.fsPath)) {
+            //now load the notebook
+            const boostNotebook = new boostnb.BoostNotebook();
             boostNotebook.load(boostUri.fsPath);
             this._activeEditorBoostNotebookShadow = boostNotebook;
         } else {

@@ -20,6 +20,7 @@ Polyverse Boost Automatic Application Modernization
 - Fix issue with Code Conversion service error handling that can cause Extension startup errors
 - Fix issue with Analysis Type checkbox resetting to true after restart
 - Fix issue with analysis mode (Sample or All Files) being set incorrectly
+- Reduce Output window error messages when accessing inline Editor analysis results
 
 ## Version 1.5.0: September 7th, 2023
 
