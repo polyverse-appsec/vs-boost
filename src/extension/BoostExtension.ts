@@ -905,6 +905,7 @@ export class BoostExtension {
             }
 
             event.getCells().forEach((cell) => {
+/*
                 problems.forEach((value, key) => {
                     boostLogging.debug(
                         `Evaluating ${
@@ -912,6 +913,7 @@ export class BoostExtension {
                         } against ${cell.document.uri.toString()}`
                     );
                 });
+*/
                 problems.delete(cell.document.uri);
             });
         });
@@ -3596,7 +3598,7 @@ export class BoostExtension {
                 if (uri === undefined) {
                     if (!summary) {
                         boostLogging.warn(
-                            `Unable to identify an active file to process ${this.kernelCommand}`
+                            `Unable to identify an active file to build ${this.kernelCommand}`
                         );
                         reject(new Error("No active file found"));
                         return;
