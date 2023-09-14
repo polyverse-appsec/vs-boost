@@ -1,0 +1,20 @@
+{
+  "cells": [
+    {
+      "outputs": [],
+      "languageId": "html",
+      "id": "0",
+      "value": "<table style=\"font-size:10px; width:100%; padding: 10px\">\n    <tr>\n        <td style=\"text-align:left; width:25%!important;\">\n            <span class=\"date\"></span>\n        </td>\n        <td style=\"text-align:center; width: 50%\">\n            <span>Polyverse Boost: https://www.polyverse.com</span>\n        </td>\n        <td style=\"text-align:right; width:25%!important;\">\n            <span class=\"pageNumber\"></span> of <span class=\"totalPages\"></span>\n        </td>\n    </tr>\n</table>\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./resources/export/pdf_footer.html"
+  }
+}

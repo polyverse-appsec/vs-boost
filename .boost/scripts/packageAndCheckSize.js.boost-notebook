@@ -1,0 +1,32 @@
+{
+  "cells": [
+    {
+      "outputs": [],
+      "languageId": "javascript",
+      "id": "0",
+      "value": "const { execSync } = require('child_process');\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "javascript",
+      "id": "1",
+      "value": "\nconst maximumPackageSize = 3.00;\n\n// Run the vsce package command and capture the output\nconst output = execSync('vsce package --allow-missing-repository --baseContentUrl \"https://polyverse.com\" --baseImagesUrl \"https://polyverse.com/images\" --out ./out/').toString();\n\nconsole.log(output);  // Print the original output\n\n// Extract the size of the package from the output\nconst match = output.match(/(\\d+\\.\\d+)MB/);\nif (match && match[1]) {\n    const size = parseFloat(match[1]);\n    const maxSize = maximumPackageSize; // The maximum allowable size\n    if (size > maxSize) {\n        console.error('\\x1b[31mERROR: Package size exceeds the threshold: (${size}MB > ${maxSize}MB)\\n' +\n        'Check package contents for unexpected files.\\n' + \n        'Or increase maximum threshoold size in build script.\\x1b[0m');\n        process.exit(1); // Fail the process\n    }\n} else {\n    console.error('\\x1b[31mFailed to determine package size from vsce output.\\x1b[0m');\n    process.exit(1); // Fail the process because of inability to parse the size\n}\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 1
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./scripts/packageAndCheckSize.js"
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "cells": [
+    {
+      "outputs": [],
+      "languageId": "html",
+      "id": "0",
+      "value": "<html>\n<head>\n    <link rel=\"stylesheet\" href=\"<%= cellStyleSheet %>\">\n    <script type=\"module\">import mermaid from \"<%= mermaidScript %>\"; mermaid.initialize({ startOnLoad: true });</script>\n",
+      "kind": 2,
+      "metadata": {
+        "id": 0,
+        "type": "originalCode",
+        "lineNumberBase": 0
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "html",
+      "id": "1",
+      "value": "    <style>\n        @page {\n            margin: 2cm;\n            size: letter;\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 1,
+        "type": "originalCode",
+        "lineNumberBase": 4
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "html",
+      "id": "2",
+      "value": "        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');\n        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');\n\n        body {\n            font-family: 'Open Sans', sans-serif;\n            line-height: 1.6;\n            color: #333;\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 2,
+        "type": "originalCode",
+        "lineNumberBase": 9
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "html",
+      "id": "3",
+      "value": "\n        h1, h2, h3, h4, h5, h6 {\n            font-family: 'Merriweather', serif;\n            margin-top: 24px;\n            margin-bottom: 16px;\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 3,
+        "type": "originalCode",
+        "lineNumberBase": 17
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "html",
+      "id": "4",
+      "value": "\n        h1 {\n            font-size: 24px;\n            border-bottom: 2px solid #666;\n            padding-bottom: 8px;\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 4,
+        "type": "originalCode",
+        "lineNumberBase": 23
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "html",
+      "id": "5",
+      "value": "\n        h2 {\n            font-size: 20px;\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 5,
+        "type": "originalCode",
+        "lineNumberBase": 29
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "html",
+      "id": "6",
+      "value": "\n        h3 {\n            font-size: 18px;\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 6,
+        "type": "originalCode",
+        "lineNumberBase": 33
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "html",
+      "id": "7",
+      "value": "\n        ul, ol {\n            padding-left: 20px;\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 7,
+        "type": "originalCode",
+        "lineNumberBase": 37
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "html",
+      "id": "8",
+      "value": "\n        li {\n            margin-bottom: 8px;\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 8,
+        "type": "originalCode",
+        "lineNumberBase": 41
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "html",
+      "id": "9",
+      "value": "\n        pre {\n            background-color: #f5f5f5;\n            padding: 15px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            font-family: 'Courier New', Courier, monospace;\n            line-height: 1.0;\n            overflow-x: auto;\n            margin-top: 10px;\n            margin-bottom: 10px;\n            font-size: 10px;\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 9,
+        "type": "originalCode",
+        "lineNumberBase": 45
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "html",
+      "id": "10",
+      "value": "\n        code {\n            font-family: 'Courier New', Courier, monospace;\n            background-color: #f0f0f0;\n            padding: 2px 4px;\n            border-radius: 3px;\n            font-size: 10px;\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 10,
+        "type": "originalCode",
+        "lineNumberBase": 58
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "html",
+      "id": "11",
+      "value": "\n        /* Use this class for analysis sections */\n        .analysis-section {\n            padding-top: 16px;\n            margin-top: 24px;\n            font-size: 12px;\n            padding-left: 5px;\n            padding-right: 5px;\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 11,
+        "type": "originalCode",
+        "lineNumberBase": 66
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "html",
+      "id": "12",
+      "value": "\n        .new-page-section {\n            page-break-before: always;\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 12,
+        "type": "originalCode",
+        "lineNumberBase": 75
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "html",
+      "id": "13",
+      "value": "\n        .analysis-section h1, .analysis-section h2 {\n            color: #444;\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 13,
+        "type": "originalCode",
+        "lineNumberBase": 79
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "html",
+      "id": "14",
+      "value": "\n        .analysis-section p {\n            margin-bottom: 16px;\n        }\n",
+      "kind": 2,
+      "metadata": {
+        "id": 14,
+        "type": "originalCode",
+        "lineNumberBase": 83
+      }
+    },
+    {
+      "outputs": [],
+      "languageId": "html",
+      "id": "15",
+      "value": "    </style>\n</head>\n<body>\n    <h1><%= pageTitle %></h1>\n    <p>Date Generated: <%= fileStamp %></p>\n    <%= summaryContent.join('') %>\n    <%= cellsHtml.join('') %>\n</body>\n</html>\n",
+      "kind": 2,
+      "metadata": {
+        "id": 15,
+        "type": "originalCode",
+        "lineNumberBase": 87
+      }
+    }
+  ],
+  "metadata": {
+    "defaultDir": ".boost",
+    "sourceFile": "./resources/export/notebook_html.html"
+  }
+}
