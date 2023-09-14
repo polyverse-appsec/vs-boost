@@ -104,6 +104,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         } else {
             sourceFile = fullPathFromSourceFile(notebook.metadata.sourceFile).fsPath;
         }
+        const relativeFile = notebook.metadata.sourceFile?notebook.metadata.sourceFile:"unknown";
         const lineNumberBase = lineNumberBaseFromCell(cell);
         const linesOfText = (usingBoostNotebook?cell.value:cell.document.getText()).split('\n').length;
 
@@ -114,12 +115,13 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         let diagnostics: vscode.Diagnostic[] = [];
         details.forEach((bug: any, _: number) => {
             if (bug.lineNumber < 1) {
-                boostLogging.debug(`${this.id} - Diagnostic Problem reported in negative line number ` +
-                                 `(lineNumberBase=${lineNumberBase}, bug line=${bug.lineNumber}). Setting to 1.`);
+                boostLogging.debug(`${this.command}:${relativeFile} - Problem reported in negative line number ` +
+                                 `(base=${lineNumberBase}, bug line=${bug.lineNumber}). Setting to 1.`);
                 bug.lineNumber = 1;
             } else if (bug.lineNumber > lineNumberBase + linesOfText) {
-                boostLogging.debug(`${this.id} - Diagnostic Problem reported in line number greater than the number of lines in the cell ` +
-                                 `(lineNumberBase=${lineNumberBase}, bug line=${bug.lineNumber}).`);
+                boostLogging.debug(
+                    `${this.command}:${relativeFile} - Problem reported in line number(${bug.lineNumber}) greater than cell lines ` +
+                    `(base=${lineNumberBase}, count=${linesOfText}, last line=${lineNumberBase + linesOfText})`);
             }
         
             // for now we're hardcoding the following range:
