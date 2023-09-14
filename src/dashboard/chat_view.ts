@@ -63,7 +63,7 @@ export class BoostChatViewProvider implements vscode.WebviewViewProvider {
         this._boostExtension = boostExtension;
         this.chatService = new BoostServiceHelper(
             "chatService",
-            "chat",
+            ControllerOutputType.chat,
             boostExtension
         );
     }
