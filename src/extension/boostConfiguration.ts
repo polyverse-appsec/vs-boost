@@ -55,11 +55,6 @@ export class BoostConfiguration {
             Defaults.serializationOfCellsContainingErrorsValue;
     }
 
-    public static get useSourceFileForProblems(): boolean {
-        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.useSourceFileForProblemsName) as boolean)??
-            Defaults.useSourceFileForProblemsValue;
-    }
-
     public static get defaultOrganization(): string {
         let command = workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.defaultOrganizationName) as any;
         if (command) {
@@ -208,9 +203,6 @@ class Defaults {
     // specify 0-100 for the % of service requests to randomly fail at runtime
     public static readonly serviceFaultInjectionName = "serviceFaultInjection";
     public static readonly serviceFaultInjectionValue = "0";
-
-    public static readonly useSourceFileForProblemsName = "useSourceFileForProblems";
-    public static readonly useSourceFileForProblemsValue = true;
     
     public static readonly serializationOfCellsContainingErrorsName = "serializationOfCellsContainingErrors";
     public static readonly serializationOfCellsContainingErrorsValue = true;

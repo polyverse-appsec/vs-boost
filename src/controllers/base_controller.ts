@@ -923,7 +923,7 @@ export class KernelControllerBase extends BoostServiceHelper {
             return;
         }
 
-        if (!relatedUri && BoostConfiguration.useSourceFileForProblems) {
+        if (!relatedUri) {
             if (
                 usingBoostNotebook
                     ? !cell?.metadata?.sourceFile
