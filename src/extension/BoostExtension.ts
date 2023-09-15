@@ -1153,11 +1153,12 @@ export class BoostExtension {
             BoostQuickSecuritySummaryKernel,
             BoostQuickPerformanceSummaryKernel,
             BoostChatKernel,
+            BoostCustomQuickScanFunctionKernel,
         ];
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
             // register the dev only kernels
-            const devKernelTypes: any[] = [BoostCustomQuickScanFunctionKernel];
+            const devKernelTypes: any[] = [];
             kernelTypes = kernelTypes.concat(devKernelTypes);
         }
         // constructor and save all kernels
