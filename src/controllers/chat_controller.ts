@@ -46,13 +46,13 @@ export class BoostChatKernel extends KernelControllerBase {
             case "local":
                 return 'http://127.0.0.1:8000/chat';
             case 'dev':
-                return '';
+                return 'https://o6pn7utohv362ubwb6h4ie3jgm0zleqb.lambda-url.us-west-2.on.aws/';
             case "test":
-                return '';
+                return 'https://kgxpjivjoe5uns4huzpck5kvle0zfbpg.lambda-url.us-west-2.on.aws/';
             case 'staging':
             case 'prod':
             default:
-                return '';
+                return 'https://jafvcriv55gxoadjlma4yicdgy0yfyrg.lambda-url.us-west-2.on.aws/';
         }
     }
 

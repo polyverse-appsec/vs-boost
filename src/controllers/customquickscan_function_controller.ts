@@ -50,11 +50,11 @@ export class BoostCustomQuickScanFunctionKernel extends FunctionKernelController
             case 'dev':
                 return 'https://pko6t3libouikzl6o3f2ur4fji0czvcm.lambda-url.us-west-2.on.aws/';
             case "test":
-                throw new Error('Custom Quick Scan Function not available in test stage');
+                return 'https://ear7zbbzjdhyboybscfqqd36pi0rmzeg.lambda-url.us-west-2.on.aws/';
             case 'staging':
             case 'prod':
             default:
-                throw new Error('Custom Quick Scan Function not available in production stage');
+                return 'https://fqnbmk77mgyz5hokcmbbibb4jy0tjrcc.lambda-url.us-west-2.on.aws/';
         }
     }
 
