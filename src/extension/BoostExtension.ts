@@ -3415,15 +3415,19 @@ export class BoostExtension {
                         switch (targetedKernel.command) {
                             case quickBlueprintKernelName:
                                 this.blueprint?.refresh();
+                                this.summary?.refresh();
                                 break;
                             case quickComplianceSummaryKernelName:
                                 this.compliance?.refresh();
+                                this.summary?.refresh();
                                 break;
                             case quickSecuritySummaryKernelName:
                                 this.security?.refresh();
+                                this.summary?.refresh();
                                 break;
                             case quickPerformanceSummaryKernelName:
                                 this.performance?.refresh();
+                                this.summary?.refresh();
                                 break;
                             default:
                                 throw new Error(

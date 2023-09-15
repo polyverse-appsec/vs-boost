@@ -151,9 +151,9 @@ function setupListeners() {
 
 function showDashboardTab() {
     requestAnimationFrame(() => {
-        //we just need to set the 'activeid' of the panel equal to "tab-dashboard"
+        // we just need to set the 'activeid' of the panel equal to "tab-dashboard"
         const vscodePanels = document.querySelector("#main_panel") as HTMLElement;
-        //set the attribute activeid
+        // set the attribute activeid
         vscodePanels.setAttribute("activeid", "tab-dashboard");
     });
 }

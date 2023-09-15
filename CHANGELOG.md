@@ -22,6 +22,7 @@ Polyverse Boost Automatic Application Modernization
 - Fix issue with Analysis Type checkbox resetting to true after restart
 - Fix issue with analysis mode (Sample or All Files) being set incorrectly
 - Reduce Output window error messages when accessing inline Editor analysis results
+- Fix refresh issue with Architectural Blueprint and Project-level Summaries for Security and Compliance
 
 ## Version 1.5.0: September 7th, 2023
 
