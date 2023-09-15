@@ -3432,8 +3432,11 @@ export class BoostExtension {
                                 break;
                         }
 
+                        const relativeProjectPath = vscode.workspace.asRelativePath(
+                            projectBoostFile.fsPath
+                        );
                         boostLogging.info(
-                            `Saved Updated Notebook for ${kernelCommand} in file:[${projectBoostFile.fsPath}]`,
+                            `Saved Updated Notebook for ${kernelCommand} in file:[${relativeProjectPath}]`,
                             likelyViaUI
                         );
 
@@ -3456,8 +3459,8 @@ export class BoostExtension {
                             return;
                         }
 
-                        //if we don't have a boostignore file, then do the update and create one
-                        //if we have one, then already generated it and skip this step.
+                        // if we don't have a boostignore file, then do the update and create one
+                        // if we have one, then already generated it and skip this step.
                         const boostIgnoreFile = getBoostIgnoreFile();
                         if (
                             boostIgnoreFile === undefined ||
@@ -3483,15 +3486,19 @@ export class BoostExtension {
                                 );
                             });
                         } else {
+                            const relativeBoostIgnorePath = vscode.workspace.asRelativePath(
+                                boostIgnoreFile.fsPath
+                            );
                             boostLogging.log(
-                                `Skipping automatic AI generation of [${boostIgnoreFile.fsPath}] as it already exists`
+                                `Skipping automatic AI generation of [${relativeBoostIgnorePath}] as it already exists`
                             );
                         }
                     })
                     .catch((error) => {
+                        const relativeProjectPath = vscode.workspace.asRelativePath(projectBoostFile.fsPath);
                         boostLogging.warn(
                             `Skipping Notebook save - due to Error Processing ${kernelCommand} on file:[${
-                                projectBoostFile.fsPath
+                                relativeProjectPath
                             }] due to error:${errorToString(error)}`,
                             likelyViaUI
                         );
