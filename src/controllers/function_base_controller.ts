@@ -153,7 +153,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
             let range = new vscode.Range(bug.lineNumber, 0, bug.lineNumber, 0);
             let diagnostic = new vscode.Diagnostic(
                 range,
-                `${this.displayCategory} ${severityToString[thisSeverity]}: ${bug.description}`,
+                `${this.displayCategory} ${severityToString[thisSeverity]}(${thisSeverity}): ${bug.description}`,
 
                 // to prevent builds from being blocked, we're going to lower all severities by one level
                 loweredSeverity);
