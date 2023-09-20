@@ -54,6 +54,7 @@ import { getOrCreateBlueprintUri, getOrCreateGuideline } from "../extension/exte
 import * as boostnb from "../data/jupyter_notebook";
 import { quickPerformanceSummaryKernelName } from "../controllers/quick_performance_summary_controller";
 import { codeGuidelinesKernelName } from "../controllers/codeguidelines_controller";
+import { addBoostToProjectExtensions } from "../extension/vscodeUtilities";
 
 export const summaryViewType = "polyverse-boost-summary-view";
 
@@ -596,8 +597,15 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                         BoostCommands.processProject,
                         getKernelName(quickBlueprintKernelName)
                     );
+
                     this.checkAccountEnabledBeforeContinuingAnalysis();
+
+                    // since we've added Boost analysis to the project,
+                    //      let's ensure that future opens of the project source
+                    //      can use Boost if user approves install
+                    addBoostToProjectExtensions();
                 }
+                addBoostToProjectExtensions();
 
                 await prepareFileList();
 

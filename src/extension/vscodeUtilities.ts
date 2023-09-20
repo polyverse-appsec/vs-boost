@@ -1,4 +1,7 @@
 import * as vscode from 'vscode';
+import * as fs from 'fs';
+import * as path from 'path';
+
 import * as boostnb from '../data/jupyter_notebook';
 
 import { ControllerOutputType, functionOutputTypeExtension } from '../controllers/controllerOutputTypes';
@@ -6,8 +9,12 @@ import { KernelControllerBase, errorMimeType } from '../controllers/base_control
 import { fullPathFromSourceFile } from '../utilities/files';
 import { BoostExtension } from './BoostExtension';
 import { FunctionKernelControllerBase } from '../controllers/function_base_controller';
-import { stringify } from 'querystring';
-import { any } from 'micromatch';
+import { BoostConfiguration, extensionId } from './boostConfiguration';
+import { boostLogging } from '../utilities/boostLogging';
+import { errorToString } from '../utilities/error';
+
+export const vscodeFolderName = ".vscode";
+export const extensionsJsonFileName = "extensions.json";
 
 export function lineNumberBaseFromCell(cell: vscode.NotebookCell | boostnb.BoostNotebookCell): number {
     let lineNumberBase: any;
@@ -238,3 +245,77 @@ export function generateSingleLineSummaryForAnalysisData(
 
     return `${analysisReport}`;
 }
+
+export const defaultBoostRecommendationExtensionJsonFile : string =
+`{
+    "recommendations": [
+        "polyversecorporation.polyverse-boost-notebook"
+    ]
+}`;
+
+export function addBoostToProjectExtensions(): boolean {
+    const projectPath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+    if (!projectPath) {
+        return false;
+    }
+    const baseProjectFolder = path.basename(projectPath);
+
+    if (!BoostConfiguration.addBoostToAnalyzedProjects) {
+        boostLogging.debug(`Skipping adding Boost to ${baseProjectFolder} Project Extensions per global configuration`);
+        return false;
+    }
+
+    const extensionsJsonFullPath = path.normalize(path.join(projectPath, vscodeFolderName, extensionsJsonFileName));
+
+    // if the extension file doesn't exist, create it (and folder if necessary)
+    if (!fs.existsSync(extensionsJsonFullPath)) {
+        const extensionsJsonFolder = path.dirname(extensionsJsonFullPath);
+        if (!fs.existsSync(extensionsJsonFolder)) {
+            fs.mkdirSync(extensionsJsonFolder, { recursive: true });
+            boostLogging.info(`Created ${extensionsJsonFolder} folder for Boost Extension recommendation`, false);
+        }
+
+        fs.writeFileSync(extensionsJsonFullPath, defaultBoostRecommendationExtensionJsonFile, { encoding: "utf8" });
+        boostLogging.info(`Created ${extensionsJsonFullPath} file for Boost Extension recommendation`, false);
+        return true;
+    }
+
+    return updateExtensionRecommendations(extensionsJsonFullPath);
+}
+
+/**
+ * Add or verify an extension recommendation in a `.vscode/extensions.json` file.
+ * @param filePath Path to the `.vscode/extensions.json` file.
+ */
+function updateExtensionRecommendations(filePath: string): boolean {
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
+    let jsonContent;
+
+    try {
+        jsonContent = JSON.parse(fileContent);
+    } catch (error) {
+        boostLogging.error(`Skipping Boost Extension Recommendation addition - due to JSON parsing failure in ${filePath}: ${errorToString(error)}`, false);
+        return false;
+    }
+
+    if (!jsonContent.recommendations) {
+        jsonContent.recommendations = [extensionId];
+        boostLogging.info(`Added Boost Extension Recommendation for Project file: ${filePath}.`);
+    } else if (!jsonContent.recommendations.includes(extensionId)) {
+        jsonContent.recommendations.push(extensionId);
+        boostLogging.info(`Updated Existing Project Extension Recommendations with Boost in Project file: ${filePath}.`);
+    } else {
+        boostLogging.debug(`Boost Extension recommendation already found in Project file: ${filePath}.`);
+        return false; // Return early as no update is required.
+    }
+
+    // Write the updated JSON back to the file.
+    try {
+        fs.writeFileSync(filePath, JSON.stringify(jsonContent, null, 4));
+    } catch (error) {
+        boostLogging.error(`Failed to add Boost Extension Recommendation to ${filePath} due to error: ${errorToString(error)}`, false);
+        return false;
+    }
+    return true;
+}
+

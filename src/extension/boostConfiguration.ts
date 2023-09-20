@@ -94,6 +94,16 @@ export class BoostConfiguration {
             .update(Defaults.currentKernelCommandName, value, ConfigurationTarget.Global);
     }
 
+
+    public static get addBoostToAnalyzedProjects(): boolean {
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.addBoostToAnalyzedProjectsName) as boolean)??
+            Defaults.addBoostToAnalyzedProjectsValue;
+    }
+    public static set addBoostToAnalyzedProjectsName(value: string) {
+        workspace.getConfiguration(NOTEBOOK_TYPE, null)
+            .update(Defaults.addBoostToAnalyzedProjectsName, value, ConfigurationTarget.Global);
+    }
+
     public static get logLevel(): string {
         return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.logLevelName) as string)??
             Defaults.logLevelValue;
@@ -245,6 +255,9 @@ class Defaults {
 
     public static readonly processFilesInGroupsName : string = "processFilesInGroups";
     public static readonly processFilesInGroupsValue : boolean = true;
+
+    public static readonly addBoostToAnalyzedProjectsName : string = "advanced.addBoostToAnalyzedProjects";
+    public static readonly addBoostToAnalyzedProjectsValue : boolean = true;
 
     // enables targeting a specific kernel for analysis when using run all in UX
     // for example, if you want to run only security analysis with source id and no summary, use:
