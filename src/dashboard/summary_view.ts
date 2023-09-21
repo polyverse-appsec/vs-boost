@@ -174,13 +174,15 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
     }
 
     async _refresh() {
-        if (this._view) {
-            this._view.webview.html = this._getHtmlForWebview(
-                this._view.webview,
-                this._boostExtension.getBoostProjectData()!
-            );
-            this._view.show?.(true);
+        if (!this._view) {
+            return;
         }
+        
+        this._view.webview.html = this._getHtmlForWebview(
+            this._view.webview,
+            this._boostExtension.getBoostProjectData()!
+        );
+        this._view.show?.(true);
     }
 
     private _getHtmlForWebview(
@@ -605,7 +607,6 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
                     //      can use Boost if user approves install
                     addBoostToProjectExtensions();
                 }
-                addBoostToProjectExtensions();
 
                 await prepareFileList();
 
