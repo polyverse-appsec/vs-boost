@@ -12,7 +12,7 @@ Polyverse Boost Automatic Application Modernization
 - N/A
 
 ### Bug Fixes
-- N/A
+- Fix for Analysis Estimate not refreshing after analysis completes 
 
 ## Version 1.5.1: September 15th, 2023
 

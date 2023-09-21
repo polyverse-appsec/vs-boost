@@ -213,17 +213,14 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
     const message = event.data; // The JSON data our extension sent
 
     switch (message.command) {
+        case "finishAllJobs":
+            // this could just be refreshUI, but keeping the command
+            // in here for now in case we ever need to do something different
+            // when all jobs are finished.
+
         case "refreshUI":
             boostprojectdata = message.boostprojectdata;
             slowRefreshUI(message.boostprojectdata);
-            break;
-
-        case "finishAllJobs":
-            //this could just be refreshUI, but keeping the command
-            //in here for now in case we ever need to do something different
-            //when all jobs are finished.
-            boostprojectdata = message.boostprojectdata;
-            slowRefreshUI(boostprojectdata);
             break;
     }
 }
@@ -359,10 +356,13 @@ function refreshProgressText(statusData: StatusViewData) {
         "progress-text"
     ) as HTMLElement;
     let remaining = "";
-    let text = "";
 
     if (!statusData.busy) {
+        const oldText = currentProgressText;
         refreshPrediction(statusData);
+        if (oldText !== currentProgressText) {
+            vscode.postMessage({ command: "refreshUI"});
+        }
         return;
     }
 
@@ -375,17 +375,17 @@ function refreshProgressText(statusData: StatusViewData) {
     let queuesText = statusData.jobsQueued === 1 ? "file" : "files";
     let processingText =
         statusData.jobsRunning === 0
-            ? "preparing its analysis"
+            ? "preparing her analysis"
             : `processing ${statusData.jobsRunning} ${filesText}`;
-    text = `Sara (the Boost AI) is ${processingText} right now, with ${statusData.jobsQueued} ${queuesText} queued. ETA ${remaining}. You can continue to use Visual Studio Code in the meantime.`;
+    const text = `Sara (the Boost AI) is ${processingText} right now, with ${statusData.jobsQueued} ${queuesText} queued. ETA ${remaining}. You can continue to use Visual Studio Code in the meantime.`;
+
+    currentProgressText = text;
 
     // if there is no existing text, type it in
     if (!currentProgressText) {
-        currentProgressText = text;
         typewriter.typeString(text).start();
     } else {
-        currentProgressText = text;
-        progressText.innerText = text;
+        typewriter.pasteString(text).start();
     }
 }
 
@@ -461,11 +461,13 @@ function refreshAnalysisState(analysisState: AnalysisState) {
 
     // get the current text of the progress text, delete it if it exists
     if (currentProgressText) {
+        currentProgressText = "";
         typewriter.deleteAll(1).pauseFor(300).start();
     }
+    currentProgressText = "Sara is preparing the analysis. This may take a few minutes.";
     typewriter
         .typeString(
-            "Sara is preparing the analysis. This may take a few minutes."
+            currentProgressText
         )
         .start();
 }
