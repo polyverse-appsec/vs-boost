@@ -326,9 +326,9 @@ export function statusViewData(
     let jobsQueued = 0;
     const numAnalyses = analysisTypes.length;
 
-    //if we have a job status, then we are busy
+    // if we have a job status, then we are busy
     if (boostprojectdata.jobStatus) {
-        //now go through the job status and see if any of the jobs not completed
+        // now go through the job status and see if any of the jobs not completed
         Object.keys(boostprojectdata.jobStatus).forEach((key) => {
             if (boostprojectdata.jobStatus[key].status !== "completed") {
                 busy = true;
