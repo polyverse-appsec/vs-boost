@@ -41,39 +41,36 @@ export class DecoratorProvider {
             opacity: '0.5'
         });
 
-        this.activeEditor = vscode.window.activeTextEditor;
+        this.updateEditor(vscode.window.activeTextEditor);
+
+        vscode.window.onDidChangeActiveTextEditor(this.updateEditor.bind(this), null, context.subscriptions);
+        vscode.workspace.onDidChangeTextDocument(this.onTextDocumentChanged.bind(this), null, context.subscriptions);
+        vscode.window.onDidChangeTextEditorSelection(this.onTextEditorSelectionChanged.bind(this), null, context.subscriptions);
+    }
+
+    private onTextDocumentChanged(event: vscode.TextDocumentChangeEvent): void {
+        if (this.activeEditor && event.document === this.activeEditor.document) {
+            this.updateShadowNotebook();
+            this.triggerUpdateDecorations(true);
+        }
+    }
+
+    private onTextEditorSelectionChanged(event: vscode.TextEditorSelectionChangeEvent): void {
+        if (event.textEditor === this.activeEditor) {
+            this.updateDecorations();
+        }
+    }        
+
+    private updateEditor(editor: vscode.TextEditor | undefined): void {
+        this.activeEditor = editor;
 
         this.updateShadowNotebook();
-        this.updateDecorations();
-
-        vscode.window.onDidChangeActiveTextEditor(editor => {
-            this.activeEditor = editor;
-            if (editor) {
-                this.updateShadowNotebook();
-                this.triggerUpdateDecorations();
-            }
-        }, null, context.subscriptions);
-
-        vscode.workspace.onDidChangeTextDocument(event => {
-            if (this.activeEditor && event.document === this.activeEditor.document) {
-                this.updateShadowNotebook();
-                this.triggerUpdateDecorations(true);
-            }
-        }, null, context.subscriptions);
-
-        vscode.window.onDidChangeTextEditorSelection(
-            (event) => {
-                if (event.textEditor === this.activeEditor) {
-                    this.updateDecorations();
-                }
-            },
-            null,
-            context.subscriptions
-        );
+        this.triggerUpdateDecorations();
     }
 
     private updateDecorations() {
         if (!this.activeEditor || !this._activeEditorBoostNotebookShadow) {
+            this.activeEditor?.setDecorations(this.boostLineSelectDecoration, []); // Clear old decorations
             return;
         }
 
@@ -111,7 +108,7 @@ export class DecoratorProvider {
                 decorations.push(decoration);
             }
         }
-    
+
         this.activeEditor.setDecorations(this.boostLineSelectDecoration, decorations);
     }
 
@@ -129,6 +126,7 @@ export class DecoratorProvider {
 
     private updateShadowNotebook() {
         if (!this.activeEditor) {
+            this._activeEditorBoostNotebookShadow = undefined;
             return;
         }
 
