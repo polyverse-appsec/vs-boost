@@ -23,20 +23,27 @@ describe('Go Parse Unit', () => {
                 firstFunction,
                 secondFunction
             ],
-            [1, 5]
+            [1, 8]
         ];
 
-        const result = parseGoFunctions(code);
-        result[0].forEach((str, i) => {
-            const expected = expectedOutput[0][i];
-            const actual = str;
-            expect(actual).to.equal(expected);
-        });
-        result[1].forEach((num, i) => {
-            expect(num).to.equal(expectedOutput[1][i]);
-        });
-        
-        expect(result).to.deep.equal(expectedOutput);
+        try {
+            languageParserSettings.useNewParser = true;
+
+            const result = parseGoFunctions(code);
+            result[0].forEach((str, i) => {
+                const expected = expectedOutput[0][i];
+                const actual = str;
+                expect(actual).to.equal(expected);
+            });
+            result[1].forEach((num, i) => {
+                expect(num).to.equal(expectedOutput[1][i]);
+            });
+            
+            expect(result).to.deep.equal(expectedOutput);
+        } finally {
+            languageParserSettings.useNewParser = false;
+        }
+
     });
 
     it('aggregator work in normal case', function(this: Context) { 

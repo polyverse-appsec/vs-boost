@@ -111,16 +111,27 @@ function parseBracketyLanguage(
 }
 
 export function parsePerlFunctions(code: string): [string[], number[]] {
+    if (languageParserSettings.useNewParser) {
+        return parseCode("perl", code);
+    }
+
     const [functions, lineNumbers] = parseBracketyLanguage(code, "sub");
     return [functions, lineNumbers];
 }
 
 export function parsePhpFunctions(code: string): [string[], number[]] {
+    if (languageParserSettings.useNewParser) {
+        return parseCode("php", code);
+    }
     const [functions, lineNumbers] = parseBracketyLanguage(code, "function");
     return [functions, lineNumbers];
 }
 
 export function parseGoFunctions(code: string): [string[], number[]] {
+    if (languageParserSettings.useNewParser) {
+        return parseCode("go", code);
+    }
+
     const [functions, lineNumbers] = parseBracketyLanguage(code, "func");
     return [functions, lineNumbers];
 }
@@ -333,7 +344,16 @@ interface LanguageConfig {
 }
 
 const languageConfigs: Record<string, LanguageConfig> = {
-    javascript: { startKeywords: [], endKeywords: [], braceBased: true },
+    go: {
+        startKeywords: ["func"],
+        endKeywords: [],
+        braceBased: true,
+    },
+    javascript: {
+        startKeywords: [],
+        endKeywords: [],
+        braceBased: true,
+    },
     vb: {
         startKeywords: ["Function", "Sub"],
         endKeywords: ["End Function", "End Sub"],
@@ -361,6 +381,16 @@ const languageConfigs: Record<string, LanguageConfig> = {
         ],
         endKeywords: ["end"],
         braceBased: false,
+    },
+    perl: {
+        startKeywords: ["sub"],
+        endKeywords: [],
+        braceBased: true,
+    },
+    php: {
+        startKeywords: ["function"],
+        endKeywords: [],
+        braceBased: true,
     },
     python: {
         startKeywords: ["def"],
