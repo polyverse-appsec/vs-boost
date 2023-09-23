@@ -1,4 +1,4 @@
-import { parseFunctions } from '../../utilities/split';
+import { parseFunctions } from '../../utilities/sourceLoader';
 import { expect } from 'chai';
 import path from 'path';
 import fs from 'fs';

@@ -1,4 +1,5 @@
-import { splitCode, splitCodeWithAggregation } from '../../utilities/split';
+import { splitCode } from '../../utilities/languageParsers';
+import { splitCodeWithAggregation } from '../../utilities/splitWithAggregation';
 import { expect } from 'chai';
 import path from 'path';
 import fs from 'fs';

@@ -1,4 +1,5 @@
-import { parsePythonFunctions, parseFunctions } from '../../utilities/split';
+import { parsePythonFunctions } from '../../utilities/languageParsers';
+import { parseFunctions } from '../../utilities/sourceLoader';
 import { expect } from 'chai';
 import path from 'path';
 import fs from 'fs';

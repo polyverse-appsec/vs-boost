@@ -7,7 +7,7 @@ import * as boostnb from "../data/jupyter_notebook";
 
 import { BoostContentSerializer } from "../utilities/serializer";
 import { errorToString } from "../utilities/error";
-import { parseFunctions } from "../utilities/split";
+import { parseFunctions } from "../utilities/sourceLoader";
 import { BoostConfiguration } from "./boostConfiguration";
 import { boostLogging } from "../utilities/boostLogging";
 import { TextDecoder } from "util";
