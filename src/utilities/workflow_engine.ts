@@ -22,7 +22,6 @@ Finally, the after promises will be run.
 Abort: If the abort API is called, the workflow will stop executing further promises.
 */
 
-import { all } from "micromatch";
 import { v4 as uuidv4 } from "uuid";
 import { errorToString } from "./error";
 
