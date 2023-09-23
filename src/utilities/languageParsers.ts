@@ -1,7 +1,10 @@
-const useNewParser = false;
+export const languageParserSettings = {
+    useNewParser: false,
+    useNewParserForPython: true,
+};
 
 export function defaultCodeSplitter(code: string): [string[], number[]] {
-    if (useNewParser) {
+    if (languageParserSettings.useNewParser) {
         return parseCode("javascript", code);
     }
 
@@ -123,7 +126,7 @@ export function parseGoFunctions(code: string): [string[], number[]] {
 }
 
 export function parseVbFunctions(code: string): [string[], number[]] {
-    if (useNewParser) {
+    if (languageParserSettings.useNewParser) {
         return parseCode("vb", code);
     }
     
@@ -177,7 +180,7 @@ export function parseVbFunctions(code: string): [string[], number[]] {
 }
 
 export function parseObjCMethods(code: string): [string[], number[]] {
-    if (useNewParser) {
+    if (languageParserSettings.useNewParser) {
         return parseCode("objective-c", code);
     }
 
@@ -234,7 +237,7 @@ export function parseObjCMethods(code: string): [string[], number[]] {
 }
 
 export function parseRubyFunctions(code: string): [string[], number[]] {
-    if (useNewParser) {
+    if (languageParserSettings.useNewParser) {
         return parseCode("ruby", code);
     }
 
@@ -288,10 +291,8 @@ export function parseRubyFunctions(code: string): [string[], number[]] {
     return [blocks, lineNumbers];
 }
 
-const useNewParserForPython = true;
-
 export function parsePythonFunctions(code: string): [string[], number[]] {
-    if (useNewParser || useNewParserForPython) {
+    if (languageParserSettings.useNewParser || languageParserSettings.useNewParserForPython) {
         return parseCode("python", code);
     }
 

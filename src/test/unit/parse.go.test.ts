@@ -1,21 +1,22 @@
 import {
-    parsePythonFunctions,
+    parseGoFunctions,
     languageParserSettings
 } from '../../utilities/languageParsers';
+
 import { parseFunctions } from '../../utilities/sourceLoader';
 import { expect } from 'chai';
 import path from 'path';
 import fs from 'fs';
 import { Context } from 'mocha';
 
-describe('Python Parse Unit', () => {
+describe('Go Parse Unit', () => {
 
     const dataFolder = __dirname + "/data/";
 
     it('should work in normal case', () => {
-        const code = fs.readFileSync(path.join(dataFolder, 'normalFunctions.py'), 'utf8');
-        const firstFunction = fs.readFileSync(path.join(dataFolder, 'normalFunctions.first.py'), 'utf8');
-        const secondFunction = fs.readFileSync(path.join(dataFolder, 'normalFunctions.second.py'), 'utf8');
+        const code = fs.readFileSync(path.join(dataFolder, 'normalFunctions.go'), 'utf8');
+        const firstFunction = fs.readFileSync(path.join(dataFolder, 'normalFunctions.first.go'), 'utf8');
+        const secondFunction = fs.readFileSync(path.join(dataFolder, 'normalFunctions.second.go'), 'utf8');
 
         const expectedOutput: [string[], number[]] = [
             [
@@ -25,7 +26,7 @@ describe('Python Parse Unit', () => {
             [1, 5]
         ];
 
-        const result = parsePythonFunctions(code);
+        const result = parseGoFunctions(code);
         result[0].forEach((str, i) => {
             const expected = expectedOutput[0][i];
             const actual = str;
@@ -39,7 +40,7 @@ describe('Python Parse Unit', () => {
     });
 
     it('aggregator work in normal case', function(this: Context) { 
-        const code = fs.readFileSync(path.join(dataFolder, 'normalFunctions.py'), 'utf8');
+        const code = fs.readFileSync(path.join(dataFolder, 'normalFunctions.go'), 'utf8');
     
         const expectedOutput: [string[], number[]] = [
             [
@@ -51,15 +52,14 @@ describe('Python Parse Unit', () => {
         try {
             languageParserSettings.useNewParser = true;          
 
-            const result = parseFunctions('normalFunctions.py', code, true);
-        
-            if (!languageParserSettings.useNewParser &&
-                !languageParserSettings.useNewParserForPython) {
+            const result = parseFunctions('normalFunctions.go', code, true);
+
+            if (!languageParserSettings.useNewParser) {
                 // Assuming some condition here. If it returns true, then the test will be skipped.
                 this.skip();
             }
 
-            expect(result[0]).to.equal('python');
+            expect(result[0]).to.equal('go');
 
             result[1].forEach((str, i) => {
                 expect(str.trimEnd()).to.equal(expectedOutput[0][i].trimEnd());
@@ -72,7 +72,6 @@ describe('Python Parse Unit', () => {
         } finally {
             languageParserSettings.useNewParser = false;
         }
-
     });
 
 });
