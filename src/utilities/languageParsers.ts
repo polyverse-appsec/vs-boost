@@ -1,6 +1,6 @@
 const useNewParser = false;
 
-export function splitCode(code: string): [string[], number[]] {
+export function defaultCodeSplitter(code: string): [string[], number[]] {
     if (useNewParser) {
         return parseCode("javascript", code);
     }

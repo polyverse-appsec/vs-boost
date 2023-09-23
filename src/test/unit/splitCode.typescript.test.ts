@@ -1,4 +1,4 @@
-import { splitCode } from '../../utilities/languageParsers';
+import { defaultCodeSplitter } from '../../utilities/languageParsers';
 import { splitCodeWithAggregation } from '../../utilities/splitWithAggregation';
 import { expect } from 'chai';
 import path from 'path';
@@ -22,7 +22,7 @@ describe('TypeScript Parse Unit', () => {
             [1, 5]
         ];
 
-        const result = splitCode(code);
+        const result = defaultCodeSplitter(code);
         result[0].forEach((str, i) => {
             const expected = expectedOutput[0][i];
             const actual = str;
@@ -45,7 +45,7 @@ describe('TypeScript Parse Unit', () => {
             [1]
         ];
     
-        const result = splitCodeWithAggregation(splitCode, code);
+        const result = splitCodeWithAggregation(defaultCodeSplitter, code);
     
         // Assuming some condition here. If it returns true, then the test will be skipped.
         this.skip();
@@ -70,7 +70,7 @@ describe('TypeScript Parse Unit', () => {
             [1]
         ];
 
-        const result = splitCode(code);
+        const result = defaultCodeSplitter(code);
 
         result[0].forEach((str, i) => {
             const expected = expectedOutput[0][i];
@@ -103,7 +103,7 @@ function testFunc2() {
             [1, 5]
         ];
 
-        const result = splitCode(code);
+        const result = defaultCodeSplitter(code);
 
         expect(result).to.deep.equal(expectedOutput);
     

@@ -10,7 +10,7 @@ import {
     parseGoFunctions,
 } from "./languageParsers";
 
-import { splitCode } from "./languageParsers";
+import { defaultCodeSplitter } from "./languageParsers";
 import { splitCodeWithAggregation } from "./splitWithAggregation";
 
 function getFileExtension(filename: string): string {
@@ -99,6 +99,10 @@ function getVSCodeLanguageId(filename: string): string {
     return languageMappings[fileExtension] || "plaintext";
 }
 
+export function plainTextParser(code: string): [string[], number[]] {
+    return [[code], [0]];
+}
+
 export function parseFunctions(
     filename: string,
     code: string,
@@ -114,36 +118,20 @@ export function parseFunctions(
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "objective-c": parseObjCMethods,
         go: parseGoFunctions,
+        c: defaultCodeSplitter,
+        cpp: defaultCodeSplitter,
+        javascript: defaultCodeSplitter,
+        typescript: defaultCodeSplitter,
+        swift: defaultCodeSplitter,
+        coffeescript: defaultCodeSplitter,
+        plaintext: plainTextParser,
     };
 
-    const cStyleLanguages = new Set([
-        "c",
-        "cpp",
-        "javascript",
-        "typescript",
-        "swift",
-        "coffeescript",
-    ]);
+    const selectedParser = parsers[languageId] || defaultCodeSplitter;
 
-    const parser = cStyleLanguages.has(languageId)
-        ? splitCode
-        : parsers[languageId];
+    const [parsedCode, lineNumbers] = aggregationEnabled
+        ? splitCodeWithAggregation(selectedParser, code)
+        : selectedParser(code);
 
-    // if we have a known parser, use it
-    if (parser) {
-        const [parsedCode, lineNumbers] = aggregationEnabled
-            ? splitCodeWithAggregation(parser, code)
-            : splitCode(code);
-        return [languageId, parsedCode, lineNumbers];
-        // if the language is unknown, treat it as plaintext, and don't parse it
-        //  send one big chunk and presume its small enough to be processed
-    } else if (languageId === "plaintext") {
-        return [languageId, [code], [0]];
-        // otherwise split the code based on default bracket parsing
-    } else {
-        const [splitCodeResult, lineNumbers] = aggregationEnabled
-            ? splitCodeWithAggregation(splitCode, code)
-            : splitCode(code);
-        return [languageId, splitCodeResult, lineNumbers];
-    }
+    return [languageId, parsedCode, lineNumbers];
 }
