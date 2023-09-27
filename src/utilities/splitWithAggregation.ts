@@ -32,17 +32,21 @@ export function splitCodeWithAggregation(
             }
             currentString = aggregatedString;
         } else {
-            newSplitResults[0].push(currentString);
-            newSplitResults[1].push(currentLineNumber);
+            if (currentString) {
+                newSplitResults[0].push(currentString);
+                newSplitResults[1].push(currentLineNumber);
+            }
 
             currentString = originalString;
             currentLineNumber = originalLineNumber;
 
             const currentStringTokenCount = enc.encode(currentString).length;
             if (currentStringTokenCount > maxTokenAggregationLength) {
-                newSplitResults[0].push(currentString);
-                newSplitResults[1].push(originalLineNumber);
-                currentString = "";
+                if (currentString) {
+                    newSplitResults[0].push(currentString);
+                    newSplitResults[1].push(currentLineNumber);
+                    currentString = "";
+                }
                 currentLineNumber = originalLineNumber;
             }
         }

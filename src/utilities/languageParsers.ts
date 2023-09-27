@@ -417,8 +417,12 @@ export function parseCode(
 
     for (let lineno = 0; lineno < lines.length; lineno++) {
         const line = lines[lineno];
+        // Only add a newline if it's not the start of a new chunk.
+        if (currentChunk !== "") {
+            currentChunk += "\n";
+        }
+        currentChunk += line;
         const trimmedLine = line.trim();
-        currentChunk += line + "\n";
 
         if (config.indentationBased) {
             const indentation = line.search(/\S/);
@@ -430,10 +434,8 @@ export function parseCode(
             } else if (
                 indentation <= currentIndentation &&
                 inNest &&
-                !config.startKeywords.some((keyword) =>
-                trimmedLine.startsWith(keyword))
-            )
-            {
+                !config.startKeywords.some((keyword) => trimmedLine.startsWith(keyword))
+            ) {
                 nestingCount--;
             }
         } else {
@@ -472,18 +474,10 @@ export function parseCode(
             nestingCount = 0;
         }
         if (nestingCount === 0 && currentChunk.trim() !== "" && inNest) {
-            if (config.indentationBased) {
-                chunks.push(currentChunk.slice(0, -1));
-            } else {
-                chunks.push(currentChunk);
-            }
+            chunks.push(currentChunk);
             lineNumbers.push(chunkStartLine + 1);
             chunkStartLine = lineno + 1;
-            if (config.indentationBased) {
-                currentChunk = "\n";
-            } else {
-                currentChunk = "";
-            }
+            currentChunk = "";
             inNest = false;
         }
     }
@@ -492,6 +486,11 @@ export function parseCode(
     if (currentChunk.trim() !== "") {
         chunks.push(currentChunk.trim());
         lineNumbers.push(chunkStartLine + 1);
+    }
+
+    // And add this block at the end to append newline to each chunk except the last one
+    for (let i = 0; i < chunks.length; i++) {
+        chunks[i] += "\n";
     }
 
     return [chunks, lineNumbers];
