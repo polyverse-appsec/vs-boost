@@ -55,13 +55,11 @@ describe('TypeScript Parse Unit', () => {
             }
 
             result[0].forEach((str, i) => {
-                expect(str.trimEnd()).to.equal(expectedOutput[0][i].trimEnd());
+                expect(str).to.equal(expectedOutput[0][i]);
             });
             result[1].forEach((num, i) => {
                 expect(num).to.equal(expectedOutput[1][i]);
             });
-        
-            expect(result).to.deep.equal(expectedOutput);
         } finally {
             languageParserSettings.useNewParser = false;
         }

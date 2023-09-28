@@ -62,17 +62,84 @@ describe('Python Parse Unit', () => {
             expect(result[0]).to.equal('python');
 
             result[1].forEach((str, i) => {
-                expect(str.trimEnd()).to.equal(expectedOutput[0][i].trimEnd());
+                expect(str).to.equal(expectedOutput[0][i]);
             });
             result[2].forEach((num, i) => {
                 expect(num).to.equal(expectedOutput[1][i]);
             });
-        
-            expect(result).to.deep.equal(expectedOutput);
         } finally {
             languageParserSettings.useNewParser = false;
         }
 
     });
 
+    it('aggregator work with leading whitespace', function(this: Context) { 
+        const code = fs.readFileSync(path.join(dataFolder, 'normalFunctions.leadingWhitespace.py'), 'utf8');
+    
+        const expectedOutput: [string[], number[]] = [
+            [
+                code,
+            ],
+            [1]
+        ];
+    
+        try {
+            languageParserSettings.useNewParser = true;          
+
+            const result = parseFunctions('normalFunctions.leadingWhitespace.py', code, true);
+        
+            if (!languageParserSettings.useNewParser &&
+                !languageParserSettings.useNewParserForPython) {
+                // Assuming some condition here. If it returns true, then the test will be skipped.
+                this.skip();
+            }
+
+            expect(result[0]).to.equal('python');
+
+            result[1].forEach((str, i) => {
+                expect(str).to.equal(expectedOutput[0][i]);
+            });
+            result[2].forEach((num, i) => {
+                expect(num).to.equal(expectedOutput[1][i]);
+            });
+        } finally {
+            languageParserSettings.useNewParser = false;
+        }
+
+    });
+
+    it('aggregator work with no inbetween space', function(this: Context) { 
+        const code = fs.readFileSync(path.join(dataFolder, 'normalFunctions.noInbetweenSpace.py'), 'utf8');
+    
+        const expectedOutput: [string[], number[]] = [
+            [
+                code,
+            ],
+            [1]
+        ];
+    
+        try {
+            languageParserSettings.useNewParser = true;          
+
+            const result = parseFunctions('normalFunctions.noInbetweenSpace.py', code, true);
+        
+            if (!languageParserSettings.useNewParser &&
+                !languageParserSettings.useNewParserForPython) {
+                // Assuming some condition here. If it returns true, then the test will be skipped.
+                this.skip();
+            }
+
+            expect(result[0]).to.equal('python');
+
+            result[1].forEach((str, i) => {
+                expect(str).to.equal(expectedOutput[0][i]);
+            });
+            result[2].forEach((num, i) => {
+                expect(num).to.equal(expectedOutput[1][i]);
+            });
+        } finally {
+            languageParserSettings.useNewParser = false;
+        }
+
+    });
 });
