@@ -50,9 +50,21 @@ Welcome aboard! Boost isn’t just another Visual Studio Code extension. It's yo
 
 From analyzing code for potential pitfalls, to transforming your old code to a fresh new modern code — Boost is packed with features. Explore, experiment, and elevate your coding game!
 
-Got questions or hit a snag? Our [Polyverse Boost page](https://polyverse.com/pages/boost-visual-studio) is packed with info and friendly folks to help you out.
+### Boost Frequently Asked Questions
 
-**Happy coding, and may the Boost be with you!**
+**Q: How do I start analysis? Or where is status reported when analysis is running?**
+
+A: You can start analysis by clicking on the Boost icon in the left extension panel and selecting "Run Selected Analyses". The real-time status of analysis will be reported in the "Dashboard" tab of the Boost "Activity Bar"
+
+**Q: I restarted Visual Studio Code, installed, upgraded or uninstalled an Extension. My analysis stopped?**
+
+A: Don't worry! All your analysis progress has NOT been lost! You can press the "Run Selected Analysis" button again and pickup right where you left off.
+The reason your analysis may have paused is that Boost analysis is tied to the Visual Studio Code workspace. If you restart Visual Studio Code, install, upgrade or uninstall an extension, analysis and all other Visual Studio Code functions are stopped.
+
+**Another Question?**
+Got questions or hit a snag? Our [Polyverse Boost page](https://polyverse.com/pages/boost-visual-studio) has more videos, screenshots and info about the product.
+
+**Enjoy your Boosted Coding!**
 
 ## About Polyverse
 
