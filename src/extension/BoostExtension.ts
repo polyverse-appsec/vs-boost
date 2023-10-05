@@ -1133,17 +1133,14 @@ export class BoostExtension {
                 { transientOutputs: false }
             )
         );
-        let kernelTypes = [
+        let kernelTypes : any[] = [
             BoostConvertKernel,
             BoostExplainKernel,
             BoostAnalyzeKernel,
             BoostTestgenKernel,
             BoostComplianceKernel,
-            BoostCodeGuidelinesKernel,
-            BoostArchitectureBlueprintKernel,
             BoostFlowDiagramKernel,
             BoostCustomProcessKernel,
-            SummarizeKernel,
             BoostAnalyzeFunctionKernel,
             BoostComplianceFunctionKernel,
             BoostPerformanceFunctionKernel,
@@ -1155,10 +1152,14 @@ export class BoostExtension {
             BoostChatKernel,
             BoostCustomQuickScanFunctionKernel,
         ];
+        const devKernelTypes: any[] = [
+            BoostArchitectureBlueprintKernel,
+            BoostCodeGuidelinesKernel,
+            SummarizeKernel,
+        ];
         // if in dev mode, register all dev only kernels
         if (BoostConfiguration.enableDevOnlyKernels) {
             // register the dev only kernels
-            const devKernelTypes: any[] = [];
             kernelTypes = kernelTypes.concat(devKernelTypes);
         }
         // constructor and save all kernels
@@ -1167,8 +1168,7 @@ export class BoostExtension {
                 context,
                 updateBoostStatusColors.bind(this),
                 this,
-                collection,
-                this.kernels
+                collection
             );
             this.kernels.set(kernel.command, kernel);
             // ensure all kernels are registered as subscriptions for disposal on exit
