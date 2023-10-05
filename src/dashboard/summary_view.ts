@@ -55,33 +55,16 @@ import * as boostnb from "../data/jupyter_notebook";
 import { quickPerformanceSummaryKernelName } from "../controllers/quick_performance_summary_controller";
 import { codeGuidelinesKernelName } from "../controllers/codeguidelines_controller";
 import { addBoostToProjectExtensions } from "../extension/vscodeUtilities";
+import { BaseWebviewViewProvider } from "./BaseWebviewViewProvider";
 
 export const summaryViewType = "polyverse-boost-summary-view";
 
-export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
-    private _view?: vscode.WebviewView;
-    private _context: vscode.ExtensionContext;
+export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
 
-    constructor(
-        private readonly context: vscode.ExtensionContext,
-        private _boostExtension: BoostExtension
+    constructor(context: vscode.ExtensionContext,
+                boostExtension: BoostExtension
     ) {
-        this._context = context;
-    }
-
-    public async resolveWebviewView(
-        webviewView: vscode.WebviewView,
-        context: vscode.WebviewViewResolveContext,
-        _token: vscode.CancellationToken
-    ) {
-        try {
-            this._resolveWebviewView(webviewView, context, _token);
-        } catch (e) {
-            boostLogging.error(
-                `Could not load Boost Summary View due to ${e}`,
-                false
-            );
-        }
+        super(context, boostExtension, "Summary");
     }
 
     async _resolveWebviewView(
@@ -89,14 +72,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         context: vscode.WebviewViewResolveContext,
         _token: vscode.CancellationToken
     ) {
-        this._view = webviewView;
-
-        webviewView.webview.options = {
-            // Allow scripts in the webview
-            enableScripts: true,
-
-            localResourceRoots: [this.context.extensionUri],
-        };
+        super._resolveWebviewView(webviewView, context, _token);
 
         webviewView.webview.html = this._getHtmlForWebview(
             webviewView.webview,
@@ -162,41 +138,23 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         });
     }
 
-    public refresh() {
-        try {
-            this._refresh();
-        } catch (e) {
-            boostLogging.error(
-                `Could not refresh Boost Summary View due to ${e}`,
-                false
-            );
-        }
-    }
-
-    async _refresh() {
-        if (!this._view) {
-            return;
-        }
-        
-        this._view.webview.html = this._getHtmlForWebview(
-            this._view.webview,
-            this._boostExtension.getBoostProjectData()!
-        );
-        this._view.show?.(true);
-    }
-
-    private _getHtmlForWebview(
+    protected _getHtmlForWebview(
         webview: vscode.Webview,
         boostprojectdata: BoostProjectData
     ) {
+        const message = super._getHtmlForWebview(webview, boostprojectdata);
+        if (message) {
+            return message;
+        }
+
         const htmlPathOnDisk = vscode.Uri.joinPath(
-            this.context.extensionUri,
+            this._context.extensionUri,
             "resources",
             "dashboard",
             "summary.html"
         );
         const jsPathOnDisk = vscode.Uri.joinPath(
-            this.context.extensionUri,
+            this._context.extensionUri,
             "out",
             "dashboard",
             "summary",
@@ -206,22 +164,6 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         const nonce = "nonce-123456"; // TODO: add a real nonce here
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, "utf8");
 
-        let message;
-        if (!this._boostExtension.finishedActivation) {
-            if (!vscode.workspace.workspaceFolders) {
-                message = noProjectOpenMessage;
-            } else {
-                message = extensionNotFullyActivated;
-            }
-        } else if (!this._boostExtension.successfullyActivated) {
-            message = extensionFailedToActivate;
-        } else if (!boostprojectdata || !vscode.workspace.workspaceFolders) {
-            message = noProjectOpenMessage;
-        }
-
-        if (message) {
-            return `<html><body><h3>Project Status</h3><p>${message}</p></body></html>`;
-        }
         const convert = marked.parse;
         const blueprintFile = boostprojectdata.summary.summaryUrl;
         const guidelinesFile = getBoostFile(
@@ -316,7 +258,7 @@ export class BoostSummaryViewProvider implements vscode.WebviewViewProvider {
         let docAbsolutePath: string;
         if (relativePath === boostprojectdata.summary.summaryUrl) {
             targetNotebookUri = await getOrCreateBlueprintUri(
-                this.context,
+                this._context,
                 relativePath
             );
             docAbsolutePath = targetNotebookUri.fsPath;

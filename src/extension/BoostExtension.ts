@@ -3839,6 +3839,14 @@ export class BoostExtension {
         }
     }
 
+    getProductDocumentation() {
+        if (this?.summary?.visible) {
+            return instructions.markdown;
+        } else {
+            return "";
+        }
+    }
+
     public getBackgroundContext(
         commandId?: string
     ): analysis.IAnalysisContextData[] {
@@ -3985,6 +3993,15 @@ export class BoostExtension {
                 if (activeTabAnalysis.length > 0) {
                     analysisContext.push(...activeTabAnalysis);
                 }
+
+                const productDocumentation = this.getProductDocumentation();
+                if (productDocumentation && productDocumentation.length > 0) {
+                    analysisContext.push({
+                        type: analysis.AnalysisContextType.related,
+                        data: productDocumentation,
+                        name: "productDocumentation",
+                    });
+                } 
 
                 break;
 

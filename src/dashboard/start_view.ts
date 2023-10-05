@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as _ from 'lodash';
-import { BoostExtension } from '../extension/BoostExtension';
 import {
     getOrCreateBlueprintUri,
     getOrCreateGuideline,
@@ -11,51 +10,26 @@ import {
 import { boostLogging } from '../utilities/boostLogging';
 import { summaryViewType } from './summary_view';
 import { aiName } from './chat_view';
-import {
-    noProjectOpenMessage,
-    extensionNotFullyActivated,
-    extensionFailedToActivate
-} from '../data/boostprojectdata_interface';
 
 
-export class BoostStartViewProvider implements vscode.WebviewViewProvider {
+import { BaseWebviewViewProvider } from './BaseWebviewViewProvider';
+
+export class BoostStartViewProvider extends BaseWebviewViewProvider {
+
+    constructor(context: vscode.ExtensionContext,
+                boostExtension: any
+    ) {
+        super(context, boostExtension, "Start");
+    }
 
     public static readonly viewType = 'polyverse-boost-start-view';
-
-    private _view?: vscode.WebviewView;
-
-    constructor(
-        private readonly context: vscode.ExtensionContext,
-        private _boostExtension: BoostExtension
-    ) { }
-
-    public resolveWebviewView(
-        webviewView: vscode.WebviewView,
-        _: vscode.WebviewViewResolveContext,
-        _token: vscode.CancellationToken,
-    ) {
-        try {
-            this._resolveWebviewView(webviewView, _, _token);
-        } catch (e) {
-            boostLogging.error(`Could not load Boost Start View due to ${e}`, false);
-        }
-    }
 
     _resolveWebviewView(
         webviewView: vscode.WebviewView,
         _: vscode.WebviewViewResolveContext,
         _token: vscode.CancellationToken,
     ) {
-        this._view = webviewView;
-
-        webviewView.webview.options = {
-            // Allow scripts in the webview
-            enableScripts: true,
-
-            localResourceRoots: [
-                this.context.extensionUri
-            ]
-        };
+        super._resolveWebviewView(webviewView, _, _token);
 
         webviewView.webview.html = this._getHtmlForWebview(webviewView.webview, this._boostExtension.getBoostProjectData());
 
@@ -82,7 +56,7 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
         try {
             let targetNotebookUri;
             if (filename === boostprojectdata.summary.summaryUrl) {
-                targetNotebookUri = await getOrCreateBlueprintUri(this.context, filename);
+                targetNotebookUri = await getOrCreateBlueprintUri(this._context, filename);
             } else {
                 targetNotebookUri = getBoostFile(undefined, { format: BoostFileType.guidelines });
                 getOrCreateGuideline(targetNotebookUri, BoostFileType.guidelines);
@@ -94,45 +68,16 @@ export class BoostStartViewProvider implements vscode.WebviewViewProvider {
         }
     }
 
-    public refresh() {
-        try {
-            this._refresh();
-        } catch (e) {
-            boostLogging.error(`Could not refresh Boost Start View due to ${e}`, false);
+    protected _getHtmlForWebview(webview: vscode.Webview, boostprojectdata: any) : string {
+        const message = super._getHtmlForWebview(webview, boostprojectdata);
+        if (message) {
+            return message;
         }
-    }
 
-    _refresh() {
-        if (this._view) {
-            this._view.webview.html = this._getHtmlForWebview(this._view.webview, this._boostExtension.getBoostProjectData());
-            this._view.show?.(true);
-        }
-    }
-
-    private _getHtmlForWebview(webview: vscode.Webview, boostprojectdata: any) {
-
-        const htmlPathOnDisk = vscode.Uri.joinPath(this.context.extensionUri, 'resources', 'dashboard', 'start.html');
-        const jsPathOnDisk = vscode.Uri.joinPath(this.context.extensionUri, 'out', 'dashboard', 'start', 'main.js');
+        const htmlPathOnDisk = vscode.Uri.joinPath(this._context.extensionUri, 'resources', 'dashboard', 'start.html');
+        const jsPathOnDisk = vscode.Uri.joinPath(this._context.extensionUri, 'out', 'dashboard', 'start', 'main.js');
         const jsSrc = webview.asWebviewUri(jsPathOnDisk);
         const nonce = 'nonce-123456'; // TODO: add a real nonce here
-
-
-        let message;
-        if (!this._boostExtension.finishedActivation) {
-            if (!vscode.workspace.workspaceFolders) {
-                message = noProjectOpenMessage;
-            } else {
-                message = extensionNotFullyActivated;
-            }
-        } else if (!this._boostExtension.successfullyActivated) {
-            message = extensionFailedToActivate;
-        } else if (!boostprojectdata || !vscode.workspace.workspaceFolders) {
-            message = noProjectOpenMessage;
-        }
-        
-        if (message) {
-            return `<html><body><h3>Project Start</h3><p>${message}</p></body></html>`;
-        }
 
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
 

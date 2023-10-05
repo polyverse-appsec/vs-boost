@@ -3,10 +3,11 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 1.5.2: September 22nd, 2023
+## Version 1.6.0: September 22nd, 2023
 
 ### New Features
 - Automatically add Boost extension recommendation to any project that is analyzed (can be disabled by global advanced configuration setting)
+- Added searchable product help documentation to the Boost Activity Bar Chat window
 
 ### Enhancements
 - N/A
