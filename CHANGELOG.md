@@ -12,6 +12,8 @@ Polyverse Boost Automatic Application Modernization
 ### Enhancements
 - Disabled by default legal analysis kernels: Single function blueprint, Coding Guidelines, Function Summary
     - Quick Blueprint and Custom Scan have replaced these for most scenarios
+- Removed legacy analysis picker from status bar - replaced by Activity Bar
+- Enable direct Analysis selection when right-clicking source for analysis
 
 ### Bug Fixes
 - Fix for Analysis Estimate not refreshing after analysis completes

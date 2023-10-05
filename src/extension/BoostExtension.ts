@@ -254,7 +254,10 @@ export class BoostExtension {
             // register the select language command
             this.setupKernelCommandPicker(context);
 
-            this.setupKernelStatus(context);
+            // only show status-bar based kernel picker in dev mode
+            if (BoostConfiguration.enableDevOnlyKernels) {
+                this.setupKernelStatus(context);
+            }
 
             // register the select language command
             this.setupOutputLanguagePicker(context);
@@ -999,6 +1002,7 @@ export class BoostExtension {
                     if (this.kernelStatusBar) {
                         this.kernelStatusBar.text = `Boost Command: ${kernelChoice.label}`;
                     }
+                    return BoostConfiguration.currentKernelCommand;
                 }
             )
         );
@@ -2426,12 +2430,30 @@ export class BoostExtension {
 
                     await this.waitForActivationToFinish();
 
-                    const targetedKernel = this.getCurrentKernel(
-                        BoostConfiguration.currentKernelCommand
-                    );
+                    let targetCommand : string | undefined = undefined;
+                    // if we're not in dev mode, then user will need to select a kernel
+                    //      each time they want to analyze source code
+                    if (!BoostConfiguration.enableDevOnlyKernels) {
+                        // ask user to select a kernel manually
+                        targetCommand = await vscode.commands.executeCommand(boostnb.NOTEBOOK_TYPE + ".selectKernelCommand");
+                    } else {
+                        targetCommand = BoostConfiguration.currentKernelCommand;
+                    }
+                    if (!targetCommand) {
+                        if (BoostConfiguration.enableDevOnlyKernels) {
+                            boostLogging.warn(
+                                `Please select an Analysis command type via Boost Status Bar at bottom of screen`,
+                                true
+                            );
+                        }
+                        // do nothing if no target command available
+                        return;
+                    }
+                    
+                    const targetedKernel = this.getCurrentKernel(targetCommand);
                     if (targetedKernel === undefined) {
                         boostLogging.warn(
-                            `Please select an Analysis command type via Boost Status Bar at bottom of screen`,
+                            `Please select a valid Kernel type for source analysis`,
                             true
                         );
                         return;
