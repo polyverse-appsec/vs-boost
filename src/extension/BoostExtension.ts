@@ -4020,7 +4020,7 @@ export class BoostExtension {
                 if (productDocumentation && productDocumentation.length > 0) {
                     analysisContext.push({
                         type: analysis.AnalysisContextType.related,
-                        data: productDocumentation,
+                        data: `Boost Product Documentation is:\n\n${productDocumentation}`,
                         name: "productDocumentation",
                     });
                 } 
