@@ -80,6 +80,13 @@
                             "Error logging only"
                         ],
                         "markdownDescription": "Select the logging level for Polyverse Boost Notebook extension."
+                    },
+                    "polyverse-boost-notebook.problemSeverityFilter": {
+                        "type": "integer",
+                        "default": 7,
+                        "minimum": 0,
+                        "maximum": 10,
+                        "description": "Set the base severity for all Problems filters. Anything below this severity level will be hidden from Problems. This does not affect report generation."
                     }
                 }
             },

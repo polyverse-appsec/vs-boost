@@ -10,6 +10,7 @@ import { fullPathFromSourceFile } from '../utilities/files';
 import { lineNumberBaseFromCell } from '../extension/vscodeUtilities';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 import { ControllerOutputType } from './controllerOutputTypes';
+import { BoostConfiguration } from '../extension/boostConfiguration';
 
 export class FunctionKernelControllerBase extends KernelControllerBase {
 
@@ -113,6 +114,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         const existingDiagnostics = this.sourceLevelIssueCollection.get(sourceUri);
 
         let diagnostics: vscode.Diagnostic[] = [];
+        let severityFilteredIssues : number = 0;
         details.forEach((bug: any, _: number) => {
             if (bug.lineNumber < 1) {
                 boostLogging.debug(`${this.command}:${relativeFile} - Problem reported in negative line number ` +
@@ -122,6 +124,13 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
                 boostLogging.debug(
                     `${this.command}:${relativeFile} - Problem reported in line number(${bug.lineNumber}) greater than cell lines ` +
                     `(base=${lineNumberBase}, count=${linesOfText}, last line=${lineNumberBase + linesOfText})`);
+            }
+
+            // don't generate problems for bugs that are below the severity filter
+            if (bug.severity < BoostConfiguration.problemSeverityFilter) {
+                severityFilteredIssues++;
+                boostLogging.debug(`${this.command}:${relativeFile} - Problem excluded due to low severity (${bug.severity}): ${bug.description}`);
+                return;
             }
         
             // for now we're hardcoding the following range:
@@ -193,6 +202,10 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         const mergedDiagnostics = [...filteredDiagnostics, ...diagnostics];
         
         this.sourceLevelIssueCollection.set(sourceUri, mergedDiagnostics);
+
+        if (severityFilteredIssues > 0) {
+            boostLogging.info(`${this.command}:${relativeFile} - ${severityFilteredIssues} Problems excluded below severity filter (${BoostConfiguration.problemSeverityFilter})`);
+        }
 
         return super.onKernelProcessResponseDetails(details, cell, notebook);
     }
