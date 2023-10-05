@@ -158,6 +158,11 @@ export class BoostConfiguration {
             Defaults.alwaysRunSummaryValue;
     }
 
+    public static get problemSeverityFilter(): number {
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.problemSeverityFilterName) as number)??
+            Defaults.problemSeverityFilterValue;
+    }
+
     public static get simulateServiceCalls(): boolean {
         return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.simulateServiceCallsName) as boolean)??
             Defaults.simulateServiceCallsValue;
@@ -240,6 +245,9 @@ class Defaults {
 
     public static readonly analysisModelName : string = "analysisModel";
     public static readonly analysisModelValue : string = "";
+
+    public static readonly problemSeverityFilterName : string = "problemSeverityFilter";
+    public static readonly problemSeverityFilterValue : number = 7;
 
     public static readonly refreshAnalysisAlwaysName : string = "advanced.refreshAnalysisAlways";
     public static readonly refreshAnalysisAlwaysValue : boolean = false;
