@@ -319,3 +319,7 @@ function updateExtensionRecommendations(filePath: string): boolean {
     return true;
 }
 
+export function setGlobalContextData(key: string, data: any) {
+    // we prepend boost to the key just to avoid conflicts with other extensions
+    vscode.commands.executeCommand('setContext', `boost:${key}`, data);
+}

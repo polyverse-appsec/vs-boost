@@ -53,6 +53,7 @@ import { fullPathFromSourceFile } from "../utilities/files";
 import {
     generateSingleLineSummaryForAnalysisData,
     getAnalysisForSourceTarget,
+    setGlobalContextData,
 } from "./vscodeUtilities";
 import { BoostUserAnalysisType } from "../data/userAnalysisType";
 
@@ -231,6 +232,18 @@ export class BoostExtension {
         context.subscriptions.push(boostLogging);
         this._context = context;
 
+        // report DevMode for feature changes
+        if (BoostConfiguration.enableDevOnlyKernels) {
+            boostLogging.info(
+                "Boost Dev Mode enabled - activating pre-release and development features",
+                true
+            );
+        } else {
+            boostLogging.debug(
+                "Boost Dev Mode disabled - ONLY stable features will be enabled",
+            );
+        }
+
         this._setupBoostProjectDataLifecycle(context);
 
         this.problems = this._setupDiagnosticProblems(context);
@@ -256,6 +269,8 @@ export class BoostExtension {
 
             // only show status-bar based kernel picker in dev mode
             if (BoostConfiguration.enableDevOnlyKernels) {
+                setGlobalContextData("devMode", true);
+
                 this.setupKernelStatus(context);
             }
 

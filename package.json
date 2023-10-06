@@ -431,17 +431,17 @@
             "notebook/toolbar": [
                 {
                     "command": "polyverse-boost-notebook.loadCodeFile",
-                    "when": "notebookType == 'polyverse-boost-notebook'",
+                    "when": "notebookType == 'polyverse-boost-notebook' && boost:devMode",
                     "group": "navigation@1"
                 },
                 {
                     "command": "polyverse-boost-notebook.selectOutputLanguage",
-                    "when": "notebookType == 'polyverse-boost-notebook'",
+                    "when": "notebookType == 'polyverse-boost-notebook' && boost:devMode",
                     "group": "navigation@2"
                 },
                 {
                     "command": "polyverse-boost-notebook.selectTestFramework",
-                    "when": "notebookType == 'polyverse-boost-notebook'",
+                    "when": "notebookType == 'polyverse-boost-notebook' && boost:devMode",
                     "group": "navigation@3"
                 }
             ],
