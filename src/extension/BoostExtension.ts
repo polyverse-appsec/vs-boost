@@ -2417,6 +2417,7 @@ export class BoostExtension {
                     }
 
                     // get the user's selected text
+                    const dataSource = editor.document.uri.scheme === "file"?vscode.workspace.asRelativePath(editor.document.uri):editor.document.uri.toString();
                     const selectedText = editor.document.getText(
                         editor.selection
                     );
@@ -2450,7 +2451,7 @@ export class BoostExtension {
                         return;
                     }
                     
-                    const targetedKernel = this.getCurrentKernel(targetCommand);
+                    const targetedKernel : KernelControllerBase | undefined = this.getCurrentKernel(targetCommand);
                     if (targetedKernel === undefined) {
                         boostLogging.warn(
                             `Please select a valid Kernel type for source analysis`,
@@ -2460,9 +2461,10 @@ export class BoostExtension {
                     }
 
                     // analyze the source code
-                    await this.analyzeSourceCode(selectedText)
+                    await this.analyzeSourceCode(selectedText, dataSource)
                         .then((analysisResults: string) => {
-                            boostLogging.info(analysisResults, true);
+                            boostLogging.debug(
+                                `Result of Source Editor Analyze(${targetedKernel.outputHeader}:${dataSource}): ${analysisResults}`);
                         })
                         .catch((error: any) => {
                             boostLogging.error(
@@ -2631,7 +2633,7 @@ export class BoostExtension {
         }
     }
 
-    async analyzeSourceCode(selectedText: string): Promise<string> {
+    async analyzeSourceCode(selectedText: string, dataSource: string): Promise<string> {
         return new Promise(async (resolve, reject) => {
             try {
                 if (selectedText === undefined || selectedText === "") {
@@ -2669,22 +2671,36 @@ export class BoostExtension {
                 }; // fast-processing model
                 notebook.cells[0].initializeMetadata(cellMetadata);
 
+                // make the Activity Bar visible
                 await vscode.commands.executeCommand(
                     `workbench.view.extension.${boostActivityBarId}`
                 );
 
-                await targetedKernel
-                    .executeAllWithAuthorization(notebook.cells, notebook)
-                    .then(() => {
-                        resolve(
-                            cleanCellOutput(
-                                notebook.cells[0].outputs[0].items[0].data
-                            )
-                        );
-                    })
-                    .catch((error) => {
-                        reject(error);
+                const prompt = `Please run ${targetedKernel.outputHeader} to analyze the selected text from ${dataSource}.`;
+                this.chat?.postMessage({
+                    command: "chat-send-button-click",
+                    externalPromptData: prompt
+                });
+
+                let response : string = ""; // empty string is an error response in the chat display
+                try {
+                    await targetedKernel
+                        .executeAllWithAuthorization(notebook.cells, notebook)
+                        .then(() => {
+                            response = cleanCellOutput(notebook.cells[0].outputs[0].items[0].data);
+                            resolve(response);
+                        })
+                        .catch((error) => {
+                            reject(error);
+                        });
+                } finally {
+                    this.chat?.postMessage({
+                        command: "new-prompt",
+                        prompt: prompt,
+                        showUI: true,
+                        externalResponse: response,
                     });
+                }
             } catch (error) {
                 reject(error as Error);
             }

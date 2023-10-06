@@ -42,6 +42,10 @@ export abstract class BaseWebviewViewProvider implements vscode.WebviewViewProvi
         return this._view?.visible ?? false;
     }
 
+    public postMessage(message: any): Thenable<boolean> {
+        return this._view?.webview.postMessage(message) ?? Promise.resolve(false);
+    }
+
     protected _resolveWebviewView(
         webviewView: vscode.WebviewView,
         context: vscode.WebviewViewResolveContext,

@@ -15,6 +15,7 @@ Polyverse Boost Automatic Application Modernization
     - Quick Blueprint and Custom Scan have replaced these for most scenarios
 - Removed legacy analysis picker from status bar - replaced by Activity Bar
 - Enable direct Analysis selection when right-clicking source for analysis
+- Inline Source Analysis results are shown in the Chat window
 
 ### Bug Fixes
 - Fix for Analysis Estimate not refreshing after analysis completes

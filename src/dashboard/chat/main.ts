@@ -21,6 +21,9 @@ const vscode = acquireVsCodeApi();
 // or toolkit components
 window.addEventListener("load", main);
 
+// Listen for the simulated send event to from an external processor
+window.addEventListener("message", handleIncomingChatMessage);
+
 // Main function that gets executed once the webview DOM loads
 function main() {
     // To get improved type annotations/IntelliSense the associated class for
@@ -38,7 +41,24 @@ function main() {
     //add a listener for the add button
     const addButton = document.getElementById("tab-add-button") as Button;
     addButton?.addEventListener("click", handleAddClick);
+}
 
+function handleIncomingChatMessage(event: MessageEvent) {
+    const message = event.data; // The JSON data our extension sent
+
+    switch (message.command) {
+        case "chat-send-button-click": {
+            updateChatButtonForProcessing(event.data.externalPromptData);
+            break;
+        }
+        case "new-prompt": {
+            vscode.postMessage({
+                command: "new-prompt",
+                ...event.data
+            });
+            break;
+        }
+    }
 }
 
 function handleAddClick() {
@@ -64,7 +84,12 @@ function handleCloseClick(event: Event) {
 }
 
 // Callback function that is executed when the howdy button is clicked
+//      or when called from an external message source
 function handleSendClick() {
+    updateChatButtonForProcessing();
+}
+
+function updateChatButtonForProcessing(externalPromptData? : string) {
     // get the value of the radio button
     const chatGroup = document.getElementById("chat-group") as HTMLElement;
     const chatid = chatGroup.getAttribute("activeid");
@@ -74,21 +99,31 @@ function handleSendClick() {
     const progressRing = document.getElementById("progress") as HTMLElement;
     const promptBox = document.getElementById("prompt") as HTMLTextAreaElement;
 
+    if (externalPromptData && promptBox) {
+        promptBox.value = externalPromptData;
+    }
     const promptData = promptBox?.value;
     if (!promptData) {
         return;
     }
 
-    //disable the button and show the progress ring by adding/removing the hidden attribute
+    // disable the button and show the progress ring by adding/removing the hidden attribute
     sendButton.setAttribute("hidden", "");
     promptBox.setAttribute("disabled", "");
 
     progressRing.removeAttribute("hidden");
 
+    // if processing in external code, then just returm without
+    //  sending the prompt to this service
+    if (externalPromptData) {
+        return;
+    }
+
     vscode.postMessage({
+        command: "new-prompt",
         chatindex: chatindex,
-        command: "newprompt",
         showUI: true,
-        prompt: promptData 
+        prompt: promptData,
+        externalProcessing: externalPromptData !== undefined
     });
 }
