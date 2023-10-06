@@ -14,7 +14,7 @@ Polyverse Boost Automatic Application Modernization
 - Disabled by default legal analysis kernels: Single function blueprint, Coding Guidelines, Function Summary
     - Quick Blueprint and Custom Scan have replaced these for most scenarios
 - Removed legacy analysis picker from status bar - replaced by Activity Bar
-- Removed legacy Notebook toolbar - Test Framework, Output Language and Load Source File buttons (replaced by Activity Bar, and commands still accessible)
+- Removed legacy Notebook toolbar - Test Framework, Output Language and Load Source File buttons (replaced by Activity Bar, and commands still accessible via Command Palette)
 - Enable direct Analysis selection when right-clicking source for analysis
 - Inline Source Analysis results are shown in the Chat window
 
