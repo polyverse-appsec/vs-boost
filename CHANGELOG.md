@@ -10,6 +10,7 @@ Polyverse Boost Automatic Application Modernization
 - Added searchable product help documentation to the Boost Activity Bar Chat window
 
 ### Enhancements
+- Inline source analysis hover includes clearer Boost logo, buttons and access to more analysis details
 - Severity filter can be set in Workspace configuration - any Problems below the filter will be hidden (default is 7 / Error)
 - Disabled by default legal analysis kernels: Single function blueprint, Coding Guidelines, Function Summary
     - Quick Blueprint and Custom Scan have replaced these for most scenarios

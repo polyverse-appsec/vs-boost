@@ -87,13 +87,14 @@ export class DecoratorProvider {
             const line = this.activeEditor.document.lineAt(endLine);
             const endPos = new vscode.Position(endLine, line.text.length);
 
-            const md = new vscode.MarkdownString(
-                `[Run command](command:${boostnb.NOTEBOOK_TYPE + "." + BoostCommands.showGuidelines}) *Hello* from Boost!`
-            );
-            md.isTrusted = true;
+            const hoverHeaderMarkdown = this.buildHoverHeaderMarkdown();
+            const hoverMessages : vscode.MarkdownString[] = [
+                hoverHeaderMarkdown,
+                new vscode.MarkdownString(results.join('\n\n\n'))
+            ];
             const decoration = {
                 range: new vscode.Range(endPos, endPos),
-                hoverMessage: new vscode.MarkdownString(results.join('\n')),
+                hoverMessage: hoverMessages,
                 renderOptions: {
                     after: {
                         contentText: `   Boost Analysis: ${lineSummary}`,
@@ -106,6 +107,54 @@ export class DecoratorProvider {
         }
 
         this.activeEditor.setDecorations(this.boostLineSelectDecoration, decorations);
+    }
+
+    private buildHoverHeaderMarkdown() : vscode.MarkdownString {
+
+        const polyverseLogoPath = vscode.Uri.joinPath(
+            vscode.Uri.parse(this._context.extensionPath),
+            'resources',
+            'polyverse_vs_boost_logo_decorator.jpg'); // 285x250
+
+        const boostLogoPath = vscode.Uri.joinPath(
+            vscode.Uri.parse(this._context.extensionPath),
+            'resources',
+            'polyverse_boost_name_decorator.jpg'); // 1100x414
+
+        const brandedImagesMarkdown =
+            `![Polyverse](${polyverseLogoPath.toString()}) ` +
+            `![Boost](${boostLogoPath.toString()}) ` +
+            `__Analysis Results for ${vscode.workspace.asRelativePath(this.activeEditor!.document.fileName)}__`;
+
+        const brandedImagesMDString = new vscode.MarkdownString(
+            brandedImagesMarkdown
+        );
+        brandedImagesMDString.isTrusted = true;
+
+        const createTrustedMarkdownCommand = (command : string, displayText: string) => {
+            const markdownString = new vscode.MarkdownString(
+                `[*${displayText}*](command:${boostnb.NOTEBOOK_TYPE + "." + command})`
+            );
+            markdownString.isTrusted = true;
+            return markdownString;
+        };
+        
+        const openSummaryNotebookCommand = createTrustedMarkdownCommand(BoostCommands.loadSummaryFile, "Open Summary");
+        
+        const openDetailsNotebookCommand = createTrustedMarkdownCommand(BoostCommands.loadCurrentFile, "Open Details");
+
+        const hoverHeaderMarkdown = new vscode.MarkdownString(
+            "--- \n"
+        );
+        hoverHeaderMarkdown.appendMarkdown(brandedImagesMDString.value);
+        hoverHeaderMarkdown.appendMarkdown("\n\n");
+        hoverHeaderMarkdown.appendMarkdown(openSummaryNotebookCommand.value);
+        hoverHeaderMarkdown.appendMarkdown(" | ");
+        hoverHeaderMarkdown.appendMarkdown(openDetailsNotebookCommand.value);
+//        hoverHeaderMarkdown.appendMarkdown("\n --- \n");
+
+        hoverHeaderMarkdown.isTrusted = true;
+        return hoverHeaderMarkdown;
     }
 
     private triggerUpdateDecorations(throttle = false) {
