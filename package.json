@@ -324,7 +324,7 @@
             },
             {
                 "command": "polyverse-boost-notebook.analyzeSourceCode",
-                "title": "Boost: Analyze Source Code",
+                "title": "Boost: Ask Sara to...",
                 "icon": "$(search)"
             },
             {
