@@ -115,7 +115,16 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
 
         let diagnostics: vscode.Diagnostic[] = [];
         let severityFilteredIssues : number = 0;
-        details.forEach((bug: any, _: number) => {
+
+        interface BoostBug {
+            lineNumber: number;
+            severity: number;
+            bugType: string;
+            description: string;
+            solution: string;
+        }
+
+        details.forEach((bug: BoostBug, _: number) => {
             if (bug.lineNumber < 1) {
                 boostLogging.debug(`${this.command}:${relativeFile} - Problem reported in negative line number ` +
                                  `(base=${lineNumberBase}, bug line=${bug.lineNumber}). Setting to 1.`);
@@ -129,7 +138,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
             // don't generate problems for bugs that are below the severity filter
             if (bug.severity < BoostConfiguration.problemSeverityFilter) {
                 severityFilteredIssues++;
-                boostLogging.debug(`${this.command}:${relativeFile} - Problem excluded due to low severity (${bug.severity}): ${bug.description}`);
+                boostLogging.debug(`${this.displayCategory}:${relativeFile}(${bug.lineNumber}) - Problem excluded due to low severity (${bug.severity}): ${bug.description}`);
                 return;
             }
         
@@ -162,7 +171,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
             let range = new vscode.Range(bug.lineNumber, 0, bug.lineNumber, 0);
             let diagnostic = new vscode.Diagnostic(
                 range,
-                `${this.displayCategory} ${severityToString[thisSeverity]}(${thisSeverity}): ${bug.description}`,
+                `${this.displayCategory} ${severityToString[thisSeverity]}(${bug.severity}): ${bug.description}`,
 
                 // to prevent builds from being blocked, we're going to lower all severities by one level
                 loweredSeverity);
@@ -204,7 +213,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         this.sourceLevelIssueCollection.set(sourceUri, mergedDiagnostics);
 
         if (severityFilteredIssues > 0) {
-            boostLogging.info(`${this.command}:${relativeFile} - ${severityFilteredIssues} Problems excluded below severity filter (${BoostConfiguration.problemSeverityFilter})`);
+            boostLogging.info(`${this.displayCategory}:${relativeFile} - ${severityFilteredIssues} Problems excluded below severity filter (${BoostConfiguration.problemSeverityFilter})`);
         }
 
         return super.onKernelProcessResponseDetails(details, cell, notebook);
