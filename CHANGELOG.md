@@ -20,6 +20,7 @@ Polyverse Boost Automatic Application Modernization
 ### Bug Fixes
 - Fix for Analysis Estimate not refreshing after analysis completes
 - Ensure hover analysis is only shown in source code windows (avoiding stale analysis in Problems or Output windows)
+- Fix issue causing multiple hover decorators to appear on every line of a source selection with the same or similar analysis results
 
 ## Version 1.5.1: September 15th, 2023
 

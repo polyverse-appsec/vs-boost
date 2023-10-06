@@ -77,7 +77,6 @@ export class DecoratorProvider {
         const decorations: vscode.DecorationOptions[] = [];
 
         for (const selection of this.activeEditor.selections) {
-            const startLine = selection.start.line;
             const endLine = selection.end.line;
             const results = getAnalysisForSourceTarget(this._activeEditorBoostNotebookShadow, undefined, selection, [ ControllerOutputType.flowDiagram]);
             const lineSummary = generateSingleLineSummaryForAnalysisData(this._extension, this._activeEditorBoostNotebookShadow, selection);
@@ -85,28 +84,25 @@ export class DecoratorProvider {
             if( !results || results.length === 0 ) {
                 continue;
             }
-            for (let lineNum = startLine; lineNum <= endLine; lineNum++) {
-                const line = this.activeEditor.document.lineAt(lineNum);
-                const startPos = new vscode.Position(lineNum, line.text.length);
-                const endPos = new vscode.Position(lineNum, line.text.length);
+            const line = this.activeEditor.document.lineAt(endLine);
+            const endPos = new vscode.Position(endLine, line.text.length);
 
-                const md = new vscode.MarkdownString(
-                    `[Run command](command:${boostnb.NOTEBOOK_TYPE + "." + BoostCommands.showGuidelines}) *Hello* from Boost!`
-                );
-                md.isTrusted = true;
-                const decoration = {
-                    range: new vscode.Range(startPos, endPos),
-                    hoverMessage: new vscode.MarkdownString(results.join('\n')),
-                    renderOptions: {
-                        after: {
-                            contentText: `   Boost Analysis: ${lineSummary}`,
-                            color: 'rgba(150, 150, 150, 0.5)'  // grayed out with 50% transparency
-                        }
+            const md = new vscode.MarkdownString(
+                `[Run command](command:${boostnb.NOTEBOOK_TYPE + "." + BoostCommands.showGuidelines}) *Hello* from Boost!`
+            );
+            md.isTrusted = true;
+            const decoration = {
+                range: new vscode.Range(endPos, endPos),
+                hoverMessage: new vscode.MarkdownString(results.join('\n')),
+                renderOptions: {
+                    after: {
+                        contentText: `   Boost Analysis: ${lineSummary}`,
+                        color: 'rgba(150, 150, 150, 0.5)'  // grayed out with 50% transparency
                     }
-                };
+                }
+            };
 
-                decorations.push(decoration);
-            }
+            decorations.push(decoration);
         }
 
         this.activeEditor.setDecorations(this.boostLineSelectDecoration, decorations);
