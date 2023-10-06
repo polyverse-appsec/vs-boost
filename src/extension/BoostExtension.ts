@@ -3610,14 +3610,14 @@ export class BoostExtension {
             async (uri: vscode.Uri) => {
                 await this.waitForActivationToFinish();
 
-                const boostFile = getBoostFile(uri, {
+                const boostSummaryFile = getBoostFile(uri, {
                     format: BoostFileType.summary,
                 });
                 // create the Boost file, if it doesn't exist
-                if (!fs.existsSync(boostFile.fsPath)) {
+                if (!fs.existsSync(boostSummaryFile.fsPath)) {
                     if (
-                        !(await this.loadCurrentFile(boostFile, context)) ||
-                        !fs.existsSync(boostFile.fsPath)
+                        !(await this.loadCurrentFile(boostSummaryFile, context)) ||
+                        !fs.existsSync(boostSummaryFile.fsPath)
                     ) {
                         boostLogging.warn(
                             `Unable to open Boost Summary Notebook for file:[${uri.fsPath}]; check the Polyverse Boost Output channel for details`,
@@ -3627,7 +3627,7 @@ export class BoostExtension {
                     }
                 }
                 const boostDoc = await vscode.workspace.openNotebookDocument(
-                    boostFile
+                    boostSummaryFile
                 );
                 vscode.window.showNotebookDocument(boostDoc);
             }
