@@ -6,15 +6,17 @@
 	<title>Polyverse Boost Start Panel</title>
 </head>
 <body>
-	<p>Welcome to Polyverse Boost!</p>
-	<p>Boost will automatically document the <%= boostprojectdata.summary.filesToAnalyze %> files in <%= boostprojectdata.summary.projectName %> and analyze them for security and compliance issues.</p>
-	<p>The <vscode-link id="blueprint-link" href="<%= blueprintFile %>"> Boost Architectural Summary </vscode-link> is an automatically generated file with high-level analysis of all aspects of your project code.</p>
-    <p></p>
-	<p>You can customize your <%= boostprojectdata.summary.projectName %> project goals, and set guidelines for analysis by editing the <vscode-link id="guidelines-link" href="<%= guidelinesFile %>"> Boost Project Guidelines </vscode-link>. Guidelines can be written in free form natural language, and will be used to specialize all analysis across your </p>
-    <p>You can also ask <%= aiName %>, the Boost AI, for advice and recommendations about your project in the <%= aiName %> Chat window below.</p>
-	<div align="center">
-    	<vscode-button align="center" id="analyze_all">Show Boost Analysis Controls</vscode-button>
-	</div>
+	<p>Boost Settings for <%= boostprojectdata.summary.projectName %></p>
+	<p>&nbsp</p>
+	<p><%= aiName %> (Boost AI) will analyze and assist you with your Project Architecture, performance, security, data compliance, documentation, testing, new features and sustaining.
+    <p><%= aiName %> is analyzing </p> the <%= boostprojectdata.summary.filesToAnalyze %> files in your project.</p>
+	<p>&nbsp</p>
+	<p><ul>
+        <li><vscode-link id="blueprint-link" href="<%= blueprintFile %>"> Boost Architectural Summary </vscode-link>: Automatically-generated Overview of your Project</li>
+        <li><vscode-link id="guidelines-link" href="<%= guidelinesFile %>"> Boost Project Guidelines </vscode-link>: Your guidelines (written in natural language) for how <%= aiName %> helps you, including analysis guidelines and requirements for your project</li>
+    </ul>
+	<p>&nbsp</p>
+    <p>You can also ask <%= aiName %> for help with Boost, along with advice and recommendations about your project, in the Chat window below.</p>
 	<p>&nbsp</p>
     <script src="<%= jsSrc %>" type="module"> </script>
 
