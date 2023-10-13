@@ -22,6 +22,8 @@ import {
 import * as boostnb from "../data/jupyter_notebook";
 
 
+const boostIgnoreFilename = ".boostignore";
+
 export function fullPathFromSourceFile(sourceFile: string): vscode.Uri {
     let baseFolder: string;
     let fullPath = sourceFile;
@@ -131,17 +133,18 @@ export function getBoostIgnoreFile(): vscode.Uri | undefined {
     // path to the the .boostignore file
     const boostignoreFile = vscode.Uri.joinPath(
         workspaceFolder,
-        ".boostignore"
+        boostIgnoreFilename
     );
     return boostignoreFile;
 }
 
 export function updateBoostIgnoreForTarget(
     targetFilepath: string,
-    absolutePath: boolean = true
-) {
+    absolutePath: boolean = true,
+    warnIfDoesntExist: boolean = true,
     // we're going to assume this is a UI-based action, so we'll show a warning
-    const showUI = true;
+    showUI: boolean = true
+) {
     const boostignoreFile = getBoostIgnoreFile();
     if (!boostignoreFile) {
         return;
@@ -170,7 +173,9 @@ export function updateBoostIgnoreForTarget(
     }
 
     if (!fs.existsSync(targetFilepath)) {
-        boostLogging.warn(`Unable to determine existence of file: ${targetFilepath}`, showUI);
+        if (warnIfDoesntExist) {
+            boostLogging.warn(`Unable to determine existence of file: ${targetFilepath}`, showUI);
+        }
         return;
     }
     // search if the new target is already excluded in the existing patterns
@@ -198,6 +203,37 @@ export function updateBoostIgnoreForTarget(
         `${targetRelativePath} has been added to ${boostignoreFile.fsPath}`,
         false
     );
+}
+
+const defaultIgnorePaths = [
+    '.vscode',
+    '.gitignore',
+    '.boostignore',
+];
+
+export async function createDefaultBoostIgnoreFile() {
+    const boostIgnoreFileUri = getBoostIgnoreFile();
+    if (!boostIgnoreFileUri) {
+        return;
+    }
+
+    if (fs.existsSync(boostIgnoreFileUri.fsPath))
+    {
+        boostLogging.debug(`Existing ${vscode.workspace.asRelativePath(boostIgnoreFileUri)} found; skipping default creation`);
+    }
+
+    const files = await vscode.workspace.findFiles('**/.*');
+    if (files) {
+        const relativePaths = files.map(f => vscode.workspace.asRelativePath(f));
+        relativePaths.forEach((ignorePath) => {
+            updateBoostIgnoreForTarget(ignorePath, false, false, false);
+        });
+    }
+
+    defaultIgnorePaths.forEach((ignorePath) => {
+        updateBoostIgnoreForTarget(ignorePath, false, false, false);
+    });
+
 }
 
 function buildProjectSourceCodeIgnorePattern(
@@ -241,8 +277,8 @@ function buildProjectSourceCodeIgnorePattern(
     }
 
     // never include the .boostignore file since that's where we store our ignore patterns
-    if (!patterns.find((pattern) => pattern === "**/.boostignore")) {
-        patterns.push("**/.boostignore");
+    if (!patterns.find((pattern) => pattern === `**/{${boostIgnoreFilename}`)) {
+        patterns.push(`**/{${boostIgnoreFilename}`);
     }
     // add common binary file types to the exclude patterns
     const binaryFilePatterns = [

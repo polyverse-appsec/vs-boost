@@ -3538,6 +3538,8 @@ export class BoostExtension {
                                     (filename: string) => {
                                         updateBoostIgnoreForTarget(
                                             filename,
+                                            false,
+                                            false,
                                             false
                                         );
                                     }

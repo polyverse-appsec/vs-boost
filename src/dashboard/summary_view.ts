@@ -12,6 +12,7 @@ import { errorToString } from "../utilities/error";
 import { getKernelName } from "../extension/extensionUtilities";
 import {
     getAllProjectFiles,
+    createDefaultBoostIgnoreFile,
 } from "../utilities/files";
 
 import { NOTEBOOK_TYPE } from "../data/jupyter_notebook";
@@ -30,9 +31,6 @@ import { performanceFunctionKernelName } from "../controllers/performance_functi
 import { BoostProjectData } from "../data/BoostProjectData";
 import {
     FileSummaryItem,
-    noProjectOpenMessage,
-    extensionNotFullyActivated,
-    extensionFailedToActivate,
     AnalysisState,
 } from "../data/boostprojectdata_interface";
 import { quickBlueprintKernelName } from "../controllers/quick_blueprint_controller";
@@ -529,6 +527,9 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
  
         const beforeRun = [
             () => async () => {
+                // refresh ignore targets - to ensure we don't analyze files that should be ignored
+                createDefaultBoostIgnoreFile();
+                
                 if (BoostConfiguration.simulateServiceCalls) {
                     boostLogging.debug(`Simulate:executeCommand: processProject(${getKernelName(quickBlueprintKernelName)})`);
                 } else {

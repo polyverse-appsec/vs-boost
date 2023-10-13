@@ -9,7 +9,7 @@ Polyverse Boost Automatic Application Modernization
 - N/A
 
 ### Enhancements
-- N/A
+- Boost analysis will ignore .gitignore, .vscode folder and any files or folders in Workspace root that start with "." by default - via .boostignore file
 
 ### Bug Fixes
 - Remove unnecessary logged error when skipping analysis by user request 
