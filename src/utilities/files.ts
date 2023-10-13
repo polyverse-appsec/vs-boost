@@ -207,6 +207,7 @@ export function updateBoostIgnoreForTarget(
 
 const defaultIgnorePaths = [
     '.vscode',
+    'node_modules',
     '.gitignore',
     '.boostignore',
 ];
