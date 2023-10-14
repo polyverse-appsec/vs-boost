@@ -87,7 +87,7 @@ export async function getAllProjectFiles(
         boostOnlyPatterns.length ? `{${boostOnlyPatterns.join(',')}}` : "**/**"
     );
 
-    const ignorePatterns = buildProjectSourceCodeIgnorePattern(targetFolder, true);
+    const ignorePatterns = await buildProjectSourceCodeIgnorePattern(targetFolder, true);
     const files = await vscode.workspace.findFiles(
         searchPattern,
         ignorePatterns
@@ -241,10 +241,10 @@ export async function createDefaultBoostIgnoreFile() {
 
 export const boostFolderDefaultName = ".boost";
 
-function buildProjectSourceCodeIgnorePattern(
+async function buildProjectSourceCodeIgnorePattern(
     targetFolder: vscode.Uri,
     ignoreBoostFolder: boolean = true
-): vscode.RelativePattern | null {
+): Promise<vscode.RelativePattern | null> {
     let workspaceFolder: vscode.Uri | undefined =
         vscode.workspace.workspaceFolders?.[0]?.uri;
     // if no workspace root folder, bail
@@ -254,12 +254,26 @@ function buildProjectSourceCodeIgnorePattern(
 
     const patterns: string[] = [];
 
-    // read the .gitignore file
-    let gitignoreFile = vscode.Uri.joinPath(workspaceFolder, gitIgnoreFilename);
-    const gitIgnorePatterns = _extractIgnorePatternsFromFile(
-        gitignoreFile.fsPath
-    );
-    patterns.push(...gitIgnorePatterns);
+    // Find all .gitignore files in the workspace
+    const gitignoreFiles = await vscode.workspace.findFiles('**/.gitignore', '**/node_modules/**');
+    for (const gitignoreFile of gitignoreFiles) {
+        const relativeDir = path.relative(workspaceFolder.fsPath, path.dirname(gitignoreFile.fsPath));
+        
+        const gitIgnorePatterns = _extractIgnorePatternsFromFile(gitignoreFile.fsPath);
+
+        // Adjust the paths to be relative to the root of the workspace
+        const adjustedPatterns = gitIgnorePatterns.map(pattern => {
+            // If it's an absolute path or it starts with a special pattern (e.g. **/), don't modify it
+            if (pattern.startsWith('/')) {
+                return pattern;
+            }
+
+            // Prepend the relative directory path to the pattern
+            return path.normalize(path.join(relativeDir, pattern));
+        });
+        
+        patterns.push(...adjustedPatterns);
+    }
 
     const boostIgnoreFile = getBoostIgnoreFile();
     if (!boostIgnoreFile) {
