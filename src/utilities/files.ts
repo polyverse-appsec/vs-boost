@@ -205,10 +205,12 @@ export function updateBoostIgnoreForTarget(
     );
 }
 
+const gitIgnoreFilename = ".gitignore";
+
 const defaultIgnorePaths = [
     '.vscode',
     'node_modules',
-    '.gitignore',
+    gitIgnoreFilename,
     '.boostignore',
 ];
 
@@ -237,6 +239,8 @@ export async function createDefaultBoostIgnoreFile() {
 
 }
 
+export const boostFolderDefaultName = ".boost";
+
 function buildProjectSourceCodeIgnorePattern(
     targetFolder: vscode.Uri,
     ignoreBoostFolder: boolean = true
@@ -251,7 +255,7 @@ function buildProjectSourceCodeIgnorePattern(
     const patterns: string[] = [];
 
     // read the .gitignore file
-    let gitignoreFile = vscode.Uri.joinPath(workspaceFolder, ".gitignore");
+    let gitignoreFile = vscode.Uri.joinPath(workspaceFolder, gitIgnoreFilename);
     const gitIgnorePatterns = _extractIgnorePatternsFromFile(
         gitignoreFile.fsPath
     );
@@ -270,16 +274,16 @@ function buildProjectSourceCodeIgnorePattern(
     // never include the .boost folder - since that's where we store our notebooks
     if (
         ignoreBoostFolder &&
-        !patterns.find((pattern) => pattern === "**/.boost/**")
+        !patterns.find((pattern) => pattern === `**/${boostFolderDefaultName}/**`)
     ) {
-        patterns.push("**/.boost/**");
+        patterns.push(`**/${boostFolderDefaultName}/**`);
     } else if (!ignoreBoostFolder) {
-        patterns.splice(patterns.indexOf("**/.boost/**"), 1);
+        patterns.splice(patterns.indexOf(`**/${boostFolderDefaultName}/**`), 1);
     }
 
     // never include the .boostignore file since that's where we store our ignore patterns
-    if (!patterns.find((pattern) => pattern === `**/{${boostIgnoreFilename}`)) {
-        patterns.push(`**/{${boostIgnoreFilename}`);
+    if (!patterns.find((pattern) => pattern === `**/${boostIgnoreFilename}`)) {
+        patterns.push(`**/${boostIgnoreFilename}`);
     }
     // add common binary file types to the exclude patterns
     const binaryFilePatterns = [
@@ -377,9 +381,15 @@ function buildProjectSourceCodeIgnorePattern(
         ...potentiallyUsefulTextFiles
     );
 
-    // const exclude = '{**/node_modules/**,**/bower_components/**}';
-    const ignorePatterns = "{" + patterns.join(",") + "}";
-    //    boostLogging.debug( "Skipping source files of pattern: " + (ignorePatterns ?? "none") );
+    const invalidPatterns = patterns.filter(pattern => pattern.includes('{') || pattern.includes('}'));
+
+    if (invalidPatterns.length > 0) {
+        boostLogging.warn(`The following patterns have brackets and were removed: ${invalidPatterns.join(", ")}`, false);
+    }
+    
+    const cleanedPatterns = patterns.filter(pattern => !pattern.includes('{') && !pattern.includes('}'));
+    
+    const ignorePatterns = "{" + cleanedPatterns.join(",") + "}";
 
     return new vscode.RelativePattern(targetFolder, ignorePatterns);
 }
