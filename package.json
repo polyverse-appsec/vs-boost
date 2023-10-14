@@ -381,6 +381,11 @@
                 "command": "polyverse-boost-notebook.analysisSummaryForSourceCode",
                 "title": "Boost: Summarize Analysis for Source Code",
                 "icon": "$(search)"
+            },
+            {
+                "command": "polyverse-boost-notebook.cleanBoostFiles",
+                "title": "Boost: Cleanup Unneeded Boost Files",
+                "icon": "$(search)"
             }
         ],
         "notebooks": [

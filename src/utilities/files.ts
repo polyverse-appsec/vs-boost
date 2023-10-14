@@ -420,3 +420,74 @@ function _extractIgnorePatternsFromFile(ignoreFile: string): string[] {
     });
     return patterns;
 }
+
+export async function removeOldBoostFiles() {
+    let workspaceFolder: vscode.Uri | undefined =
+        vscode.workspace.workspaceFolders?.[0]?.uri;
+    // if no workspace root folder, bail
+    if (!workspaceFolder) {
+        return null;
+    }
+
+    // cleanup Notebook Summary files
+    // cleanup Notebook files
+    // cleanup Markdown files
+    // cleanup HTML files
+    // cleanup PDF files
+    const cleanupPatterns = [
+        "html",
+        "pdf",
+        "md",
+        boostnb.NOTEBOOK_EXTENSION.substring(1),
+        boostnb.NOTEBOOK_SUMMARY_EXTENSION.substring(1),
+    ];
+
+    // Search for all Notebooks HTML, Markdown, and PDF files within the ".boost" sub-folder
+    const searchPattern = `${boostFolderDefaultName}/**/*.{${cleanupPatterns.join(",")}}`;
+
+    const projectName = path.basename(workspaceFolder.fsPath);
+    const allFiles = await getAllProjectFiles();
+    allFiles.push(workspaceFolder.fsPath);
+    const setOfAllFiles = new Set(allFiles);
+
+    const boostFiles = await vscode.workspace.findFiles(searchPattern);
+    const setOfFilesToTrash = new Set<vscode.Uri>();
+    boostFiles.forEach((targetFileForCleanup : vscode.Uri) => {
+        // get the extension first
+        let extName = path.extname(targetFileForCleanup.fsPath);
+        if (extName === boostnb.NOTEBOOK_EXTENSION && targetFileForCleanup.fsPath.endsWith(boostnb.NOTEBOOK_SUMMARY_EXTENSION)) {
+            extName = boostnb.NOTEBOOK_SUMMARY_EXTENSION;
+        }
+
+        // then strip off the leading .boost folder and the extension
+        const sourceFileWithExtension = vscode.workspace.asRelativePath(targetFileForCleanup.fsPath);
+        let sourceFile = sourceFileWithExtension.substring(
+            boostFolderDefaultName.length + path.sep.length,
+            sourceFileWithExtension.length - extName.length);
+        // if source file is an output file then strip that leading folder off too
+        if (sourceFile.startsWith(`output${path.sep}`)) {
+            sourceFile = sourceFile.substring(`output${path.sep}${extName.substring(1)}${path.sep}`.length);
+        }
+
+        // if its a normal file in our expected project list, then keep it
+        if (setOfAllFiles.has(vscode.Uri.joinPath(workspaceFolder!, (sourceFile === projectName)?"":sourceFile).fsPath)) {
+            return;
+        } else {
+            setOfFilesToTrash.add(targetFileForCleanup);
+        }
+    });
+
+    // trash the files
+    setOfFilesToTrash.forEach((fileToTrash: vscode.Uri) => {
+        try {
+            // this causes a user prompt - which we don't want in automated mode
+//            boostLogging.info(`Removing old Boost file to Trash: ${fileToTrash.fsPath}`, false);
+//            vscode.commands.executeCommand('moveFileToTrash', fileToTrash);
+            fs.unlinkSync(fileToTrash.fsPath);
+        } catch (error) {
+            boostLogging.warn(`Unable to remove old Boost file to Trash: ${fileToTrash.fsPath}`, false);
+            return;
+        }
+        boostLogging.info(`Removed old Boost file to Trash: ${fileToTrash.fsPath}`, false);
+    });
+}

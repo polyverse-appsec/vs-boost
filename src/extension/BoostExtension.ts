@@ -20,6 +20,7 @@ import {
     updateBoostIgnoreForTarget,
     getBoostIgnoreFile,
     getAllProjectFiles,
+    removeOldBoostFiles,
 } from "../utilities/files";
 
 import {
@@ -258,7 +259,7 @@ export class BoostExtension {
 
             this.registerCreateNotebookCommand(context, this.problems);
 
-            this.registerRefreshProjectDataCommands(context);
+            this.registerProjectCommands(context);
 
             this.registerCustomerPortalCommand(context);
 
@@ -2245,8 +2246,8 @@ export class BoostExtension {
         context.subscriptions.push(disposable);
     }
 
-    registerRefreshProjectDataCommands(context: vscode.ExtensionContext) {
-        let disposable = vscode.commands.registerCommand(
+    registerProjectCommands(context: vscode.ExtensionContext) {
+        context.subscriptions.push(vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData,
             async () => {
                 await this.refreshBoostProjectsData()
@@ -2265,8 +2266,23 @@ export class BoostExtension {
                         );
                     });
             }
-        );
-        context.subscriptions.push(disposable);
+        ));
+
+        context.subscriptions.push(vscode.commands.registerCommand(
+            boostnb.NOTEBOOK_TYPE + "." + BoostCommands.cleanBoostFiles,
+            async () => {
+                try {
+                    await removeOldBoostFiles();
+                } catch (error) {
+                    boostLogging.error(
+                        `Unable to clean Boost files due to error ${errorToString(
+                            error as Error
+                        )}`,
+                        true
+                    );
+                }
+            }
+        ));
     }
 
     async preflightCheckForCustomerStatus(

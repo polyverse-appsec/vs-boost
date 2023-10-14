@@ -437,9 +437,9 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
                 boostLogging.info(`Processing only ${limitedFiles.length} files by request`);
             }
 
-            //compute the ControllerOutputTypes for the analysisTypes by looking at the ringSummaryAnalysisMap
-            //with the analysisTypes, turn into an array. the map returns an array of contollers, we
-            // get the outputtype with controller.outputType
+            // compute the ControllerOutputTypes for the analysisTypes by looking at the ringSummaryAnalysisMap
+            //    with the analysisTypes, turn into an array. the map returns an array of contollers, we
+            //    get the outputtype with controller.outputType
 
             const controllerOutputTypes = analysisTypes.map((analysisType) => {
                 const outputTypes = this.ringFileAnalysisOutputMap.get(analysisType as BoostUserAnalysisType);
@@ -529,6 +529,15 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
             () => async () => {
                 // refresh ignore targets - to ensure we don't analyze files that should be ignored
                 createDefaultBoostIgnoreFile();
+
+                if (BoostConfiguration.cleanupUnusedBoostFilesAutomatically) {
+                    // clean up any previous analysis
+                    await vscode.commands.executeCommand(
+                        NOTEBOOK_TYPE + "." + BoostCommands.cleanBoostFiles
+                    );
+                } else {
+                    boostLogging.info(`Skipping cleanup of unneeded analysis files - per Configuration Setting`);
+                }
                 
                 if (BoostConfiguration.simulateServiceCalls) {
                     boostLogging.debug(`Simulate:executeCommand: processProject(${getKernelName(quickBlueprintKernelName)})`);

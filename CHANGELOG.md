@@ -6,7 +6,7 @@ Polyverse Boost Automatic Application Modernization
 ## Version 1.6.1: October 13th, 2023
 
 ### New Features
-- N/A
+- Added Clean Command (automatically run during analysis prep) to remove any old unused Boost Notebooks and output files - e.g. from renamed or deleted source files. Can be disabled via Configuration setting.
 
 ### Enhancements
 - Boost analysis will ignore .gitignore, .vscode folder and any files or folders in Workspace root that start with "." by default - via .boostignore file

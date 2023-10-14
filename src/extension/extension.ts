@@ -52,6 +52,7 @@ export enum BoostCommands {
     analysisSummaryForSourceCode = "analysisSummaryForSourceCode",
 
     refreshProjectData = "refreshProjectData",
+    cleanBoostFiles = "cleanBoostFiles",
 
     showGuidelines = "showGuidelines",
 
