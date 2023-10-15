@@ -4065,15 +4065,6 @@ export class BoostExtension {
                     analysisContext.push(...activeTabAnalysis);
                 }
 
-                const productDocumentation = this.getProductDocumentation();
-                if (productDocumentation && productDocumentation.length > 0) {
-                    analysisContext.push({
-                        type: analysis.AnalysisContextType.related,
-                        data: `Boost Product Documentation is:\n\n${productDocumentation}`,
-                        name: "productDocumentation",
-                    });
-                } 
-
                 break;
 
             default:
