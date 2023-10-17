@@ -6,9 +6,7 @@ CHANGELOG.md
 internal_readme.md
 LICENSE
 build_instructions.sh
-
 src/test/**
-
 out/**
 .vscode/**
 .vscode-test/**
@@ -18,3 +16,7 @@ node_modules/**
 node_modules/@types/**
 **/*.map
 **/**.vsix
+.eslintignore
+.boostignore
+.gitignore
+.vscodeignore
