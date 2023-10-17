@@ -529,15 +529,6 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
             () => async () => {
                 // refresh ignore targets - to ensure we don't analyze files that should be ignored
                 createDefaultBoostIgnoreFile();
-
-                if (BoostConfiguration.cleanupUnusedBoostFilesAutomatically) {
-                    // clean up any previous analysis
-                    await vscode.commands.executeCommand(
-                        NOTEBOOK_TYPE + "." + BoostCommands.cleanBoostFiles
-                    );
-                } else {
-                    boostLogging.info(`Skipping cleanup of unneeded analysis files - per Configuration Setting`);
-                }
                 
                 if (BoostConfiguration.simulateServiceCalls) {
                     boostLogging.debug(`Simulate:executeCommand: processProject(${getKernelName(quickBlueprintKernelName)})`);
@@ -558,6 +549,15 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
                     //      let's ensure that future opens of the project source
                     //      can use Boost if user approves install
                     addBoostToProjectExtensions();
+                }
+
+                if (BoostConfiguration.cleanupUnusedBoostFilesAutomatically) {
+                    // clean up any previous analysis
+                    await vscode.commands.executeCommand(
+                        NOTEBOOK_TYPE + "." + BoostCommands.cleanBoostFiles
+                    );
+                } else {
+                    boostLogging.info(`Skipping cleanup of unneeded analysis files - per Configuration Setting`);
                 }
 
                 await prepareFileList();

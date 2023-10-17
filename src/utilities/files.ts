@@ -448,7 +448,7 @@ export async function removeOldBoostFiles() {
     const projectName = path.basename(workspaceFolder.fsPath);
     const allFiles = await getAllProjectFiles();
     allFiles.push(workspaceFolder.fsPath);
-    const setOfAllFiles = new Set(allFiles);
+    const setOfAllFiles : Set<string> = new Set(allFiles);
 
     const boostFiles = await vscode.workspace.findFiles(searchPattern);
     const setOfFilesToTrash = new Set<vscode.Uri>();
