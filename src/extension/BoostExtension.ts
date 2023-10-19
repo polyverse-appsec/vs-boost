@@ -168,6 +168,7 @@ import {
 } from "../controllers/chat_controller";
 
 import { InlineBoostAnnotations } from "../inline/inline";
+import { ProjectContextData } from "../data/ProjectContextData";
 
 export class BoostNotebookContentProvider
     implements vscode.TextDocumentContentProvider
@@ -4065,6 +4066,12 @@ export class BoostExtension {
                     analysisContext.push(...activeTabAnalysis);
                 }
 
+                const currentProjectStatus: analysis.IAnalysisContextData[] =
+                    this.getCurrentProjectStatusAnalysisContext();
+                if (currentProjectStatus.length > 0) {
+                    analysisContext.push(...currentProjectStatus);
+                }
+
                 break;
 
             default:
@@ -4470,6 +4477,102 @@ export class BoostExtension {
         return analysisContext;
     }
 
+    getCurrentProjectStatusAnalysisContext() : analysis.IAnalysisContextData[] {
+        const projectContextData : analysis.IAnalysisContextData[] = [];
+
+        const projectData : BoostProjectData = this.getBoostProjectData()!;
+
+        const rawProjectContextData = this.convertProjectDataToContextData(projectData);
+
+        projectContextData.push({
+            type: analysis.AnalysisContextType.projectSummary,
+            data: JSON.stringify(rawProjectContextData.projectSummary, null, 2),
+            name: "projectSummary"
+        });
+
+        projectContextData.push({
+            type: analysis.AnalysisContextType.related,
+            data: JSON.stringify(rawProjectContextData.account, null, 2),
+            name: "accountInfo"
+        });
+
+        projectContextData.push({
+            type: analysis.AnalysisContextType.projectSummary,
+            data: JSON.stringify(rawProjectContextData.analysisSummary, null, 2),
+            name: "analysisSummary"
+        });
+
+        return projectContextData;
+    }
+
+    convertProjectDataToContextData(projectData: BoostProjectData) : ProjectContextData
+    {
+        const compressedData: ProjectContextData = {
+            projectSummary: {
+                project: projectData.summary?.projectName || null,
+                files: {
+                    total: projectData.summary?.filesToAnalyze || null,
+                    analyzed: projectData.summary?.filesAnalyzed || null,
+                    ignored: null, // projectData.summary?.filesIgnored || null,
+                },
+                analysisState: projectData.uiState?.analysisState || null,
+                analysisMode: projectData.uiState.activityBarState?.summaryViewState?.analysisMode || null,
+                types: projectData.uiState.activityBarState.summaryViewState?.analysisTypesState || null,
+                issues: projectData.summary?.issues || []
+            },
+            account: projectData.account || null,
+            analysisSummary: {
+                keys: ["status", "blocksCompleted", "analysisErrors", "blocksWithIssues", "totalBlocks", "filesAnalyzed"]
+            },
+            fileDetails: {}
+        };
+    
+        // Compress sectionSummary
+        for (let section in projectData.sectionSummary) {
+            if (["summary", "bugAnalysis", "complianceCode", "performance", "flowDiagram"].includes(section)) continue;
+            let values = projectData.sectionSummary[section];
+            compressedData.analysisSummary[section] = [
+                values.status || null,
+                values.completedCells || null,
+                values.errorCells || null,
+                values.issueCells || null,
+                values.totalCells || null,
+                values.filesAnalyzed || null
+            ];
+        }
+    
+        // Compress files
+        for (let fileName in projectData.files) {
+            let statusSet = new Set<string>();
+    
+            for (let section in projectData.files[fileName].sections) {
+                if ([ControllerOutputType.summary,
+                    ControllerOutputType.analyze,
+                    ControllerOutputType.compliance,
+                    ControllerOutputType.performance,
+                    ControllerOutputType.flowDiagram].includes(
+                        ControllerOutputType[section as keyof typeof ControllerOutputType])) {
+                    continue;
+                }
+    
+                statusSet.add(projectData.files[fileName].sections[section].status || "");
+            }
+    
+            let finalStatus: string;
+            if (statusSet.size === 0) {
+                finalStatus = "not-started";
+            } else if (statusSet.size === 1 && statusSet.has("completed")) {
+                finalStatus = "completed";
+            } else {
+                finalStatus = "incomplete";
+            }
+    
+            compressedData.fileDetails[fileName] = finalStatus;
+        }
+    
+        return compressedData;
+    }
+    
     syncProblemsInCell(
         cell: vscode.NotebookCell | boostnb.BoostNotebookCell,
         problems: vscode.DiagnosticCollection,

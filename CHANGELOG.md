@@ -6,6 +6,17 @@ Polyverse Boost Automatic Application Modernization
 ## Version 1.6.1: October 15th, 2023
 
 ### New Features
+- N/A
+
+### Enhancements
+- Sara Chat requests can answer queries about customer account status, project analysis and individial file analysis
+
+### Bug Fixes
+- N/A
+
+## Version 1.6.1: October 15th, 2023
+
+### New Features
 - Added Clean Command (automatically run during analysis prep) to remove any old unused Boost Notebooks and output files - e.g. from renamed or deleted source files. Can be disabled via Configuration setting.
 
 ### Enhancements
