@@ -10,6 +10,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Enhancements
 - Sara Chat requests can answer queries about customer account status, project analysis and individial file analysis
+- Cost per Analysis or Chat Request provided in log output
 
 ### Bug Fixes
 - N/A

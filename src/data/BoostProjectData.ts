@@ -183,6 +183,19 @@ export class BoostProjectData implements IBoostProjectData {
         this.account.enabled = accountStatus.enabled;
         this.account.org = accountStatus.org;
 
+        if (accountStatus.operation_cost !== undefined) {
+            // Convert the value to an integer, representing tenths of cents
+            let intCost = Math.round(accountStatus.operation_cost * 1000);
+            
+            // Convert the integer to a string
+            let strCost = intCost.toString();
+        
+            // Insert a decimal point in the appropriate place
+            let formattedCost = `${strCost.slice(0, -3)}.${strCost.slice(-3)}`;
+        
+            boostLogging.info(`Boost Last Operation Cost: $${formattedCost}`, false);
+        }
+        
         // we may have been passed minimal account info if there's an account lookup error
         //  so only set the fields if they're present
         // alternatively - we can clear all the unset fields, but for now, we'll just leave them
