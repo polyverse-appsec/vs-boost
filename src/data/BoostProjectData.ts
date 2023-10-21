@@ -194,6 +194,15 @@ export class BoostProjectData implements IBoostProjectData {
             let formattedCost = `${strCost.slice(0, -3)}.${strCost.slice(-3)}`;
         
             boostLogging.info(`Boost Last Operation Cost: $${formattedCost}`, false);
+            
+            // store the operation cost
+            this.account.lastOperationCost = parseFloat(accountStatus.operation_cost);
+
+            // if the value is missing then let's initialize it
+            if (!this.account.batchOperationCost) {
+                this.account.batchOperationCost = 0;
+            }
+            this.account.batchOperationCost += this.account.lastOperationCost;
         }
         
         // we may have been passed minimal account info if there's an account lookup error

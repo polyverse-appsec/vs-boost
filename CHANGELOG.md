@@ -10,7 +10,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Enhancements
 - Sara Chat requests can answer queries about customer account status, project analysis and individial file analysis
-- Cost per Analysis or Chat Request provided in log output
+- Cost per Analysis or Chat Request or "Run Analyses" batch operations provided in log output
 - Automatically exclude .(dot) folders and files from analysis (e.g. .git, .vscode, .DS_Store, etc.) - can be overridden by editing .boostignore
 - Automatically exclude txt files from analysis - can be overridden by editing .boostignore
 

@@ -50,6 +50,8 @@ export interface AccountStatus {
     creditCardLinked: boolean;
     org: string;
     owner: string;
+    lastOperationCost: number;
+    batchOperationCost: number;
 }
 
 export interface Summary {
@@ -137,6 +139,8 @@ export const emptyProjectData: IBoostProjectData = {
         trialRemaining: 0,
         usageThisMonth: 0,
         discountedUsage: 0,
+        lastOperationCost: 0,
+        batchOperationCost: 0,
         balanceDue: 0,
         couponType: "",
         org: "",
