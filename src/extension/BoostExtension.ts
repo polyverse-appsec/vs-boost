@@ -4529,7 +4529,9 @@ export class BoostExtension {
     
         // Compress sectionSummary
         for (let section in projectData.sectionSummary) {
-            if (["summary", "bugAnalysis", "complianceCode", "performance", "flowDiagram"].includes(section)) continue;
+            if (["summary", "bugAnalysis", "complianceCode", "performance", "flowDiagram"].includes(section)) {
+                continue;
+            }
             let values = projectData.sectionSummary[section];
             compressedData.analysisSummary[section] = [
                 values.status || null,
