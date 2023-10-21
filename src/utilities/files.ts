@@ -2,6 +2,7 @@ import * as micromatch from "micromatch";
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as promises from 'fs/promises';
 
 import {
     boostLogging
@@ -152,55 +153,59 @@ export function updateBoostIgnoreForTarget(
 
     let patterns = _extractIgnorePatternsFromFile(boostignoreFile.fsPath);
 
-    // Convert path to relative path
-    let targetRelativePath: string;
-    if (absolutePath) {
-        targetRelativePath = vscode.workspace.asRelativePath(
-            vscode.Uri.parse(targetFilepath),
-            false
-        );
+    if (targetFilepath.startsWith("*")) {
+        patterns.push(targetFilepath);
     } else {
-        targetRelativePath = targetFilepath;
-        const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri;
-        if (!workspaceRoot) {
-            boostLogging.warn(`Please load a Project folder first`, showUI);
+        // Convert path to relative path
+        let targetRelativePath: string;
+        if (absolutePath) {
+            targetRelativePath = vscode.workspace.asRelativePath(
+                vscode.Uri.parse(targetFilepath),
+                false
+            );
+        } else {
+            targetRelativePath = targetFilepath;
+            const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri;
+            if (!workspaceRoot) {
+                boostLogging.warn(`Please load a Project folder first`, showUI);
+                return;
+            }
+            targetFilepath = vscode.Uri.joinPath(
+                workspaceRoot,
+                targetFilepath
+            ).fsPath;
+        }
+
+        if (!fs.existsSync(targetFilepath)) {
+            if (warnIfDoesntExist) {
+                boostLogging.warn(`Unable to determine existence of file: ${targetFilepath}`, showUI);
+            }
             return;
         }
-        targetFilepath = vscode.Uri.joinPath(
-            workspaceRoot,
-            targetFilepath
-        ).fsPath;
-    }
-
-    if (!fs.existsSync(targetFilepath)) {
-        if (warnIfDoesntExist) {
-            boostLogging.warn(`Unable to determine existence of file: ${targetFilepath}`, showUI);
+        // search if the new target is already excluded in the existing patterns
+        else if (
+            patterns.some((pattern) =>
+                micromatch.isMatch(targetRelativePath, pattern)
+            )
+        ) {
+            boostLogging.warn(`${targetRelativePath} is already excluded in ${boostignoreFile.fsPath}`, false);
+            return;
         }
-        return;
-    }
-    // search if the new target is already excluded in the existing patterns
-    else if (
-        patterns.some((pattern) =>
-            micromatch.isMatch(targetRelativePath, pattern)
-        )
-    ) {
-        boostLogging.warn(`${targetRelativePath} is already excluded in ${boostignoreFile.fsPath}`, false);
-        return;
-    }
 
-    // otherwise need to exclude the target in the ignore file
-    // Check if the target is a directory or a file
-    const stats = fs.statSync(targetFilepath);
-    if (stats.isDirectory()) {
-        patterns.push(targetRelativePath + "/**"); // Add glob to match all files/folders under the directory
-    } else if (stats.isFile()) {
-        patterns.push(targetRelativePath); // If it's a file, just add the file path
+        // otherwise need to exclude the target in the ignore file
+        // Check if the target is a directory or a file
+        const stats = fs.statSync(targetFilepath);
+        if (stats.isDirectory()) {
+            patterns.push(targetRelativePath + "/**"); // Add glob to match all files/folders under the directory
+        } else if (stats.isFile()) {
+            patterns.push(targetRelativePath); // If it's a file, just add the file path
+        }
     }
 
     fs.writeFileSync(boostignoreFile.fsPath, patterns.join("\n"));
 
     boostLogging.info(
-        `${targetRelativePath} has been added to ${boostignoreFile.fsPath}`,
+        `${targetFilepath} has been added to ${boostignoreFile.fsPath}`,
         false
     );
 }
@@ -210,8 +215,15 @@ const gitIgnoreFilename = ".gitignore";
 const defaultIgnorePaths = [
     '.vscode',
     'node_modules',
+
     gitIgnoreFilename,
-    '.boostignore',
+    boostIgnoreFilename,
+
+    '**/*.txt', // exclude all text files by default
+];
+
+const defaultIgnoredFolders = [
+    '**/node_modules/**',
 ];
 
 export async function createDefaultBoostIgnoreFile() {
@@ -223,20 +235,60 @@ export async function createDefaultBoostIgnoreFile() {
     if (fs.existsSync(boostIgnoreFileUri.fsPath))
     {
         boostLogging.debug(`Existing ${vscode.workspace.asRelativePath(boostIgnoreFileUri)} found; skipping default creation`);
+        return;
     }
 
-    const files = await vscode.workspace.findFiles('**/.*');
+    const initialFilesToIgnore = new Set<string>(defaultIgnorePaths);
+
+    const files = await findExclusionItems();
     if (files) {
         const relativePaths = files.map(f => vscode.workspace.asRelativePath(f));
-        relativePaths.forEach((ignorePath) => {
-            updateBoostIgnoreForTarget(ignorePath, false, false, false);
-        });
+        relativePaths.forEach(path => initialFilesToIgnore.add(path));
     }
 
-    defaultIgnorePaths.forEach((ignorePath) => {
+    initialFilesToIgnore.forEach((ignorePath) => {
         updateBoostIgnoreForTarget(ignorePath, false, false, false);
     });
 
+}
+
+async function findExclusionItems(baseDir: string = vscode.workspace.workspaceFolders![0].uri.fsPath): Promise<string[]> {
+    const results: string[] = [];
+
+    async function search(directory: string) {
+        let items: string[] = [];
+        try {
+            items = await promises.readdir(directory);
+        } catch (err) {
+            boostLogging.debug(`Failed to read directory: ${directory}`);
+            return;
+        }
+
+        for (const item of items) {
+            // skip these hidden Mac folders since they won't be used for analysis anyway
+            if (item === '.DS_Store' || item === '.git') {
+                continue;
+            }
+
+            const fullPath = path.join(directory, item);
+            if (item.startsWith('.')) {
+                results.push(fullPath);
+
+                const stat = await promises.stat(fullPath);
+                if (stat.isDirectory()) {
+                    continue; // No need to search inside, since parent is already excluded
+                }
+            } else {
+                const stat = await promises.stat(fullPath);
+                if (stat.isDirectory()) {
+                    await search(fullPath);
+                }
+            }
+        }
+    }
+
+    await search(baseDir);
+    return results;
 }
 
 export const boostFolderDefaultName = ".boost";
@@ -254,8 +306,10 @@ async function buildProjectSourceCodeIgnorePattern(
 
     const patterns: string[] = [];
 
+    const ignoredFolders = `{${defaultIgnoredFolders.join(",")}}`;
+
     // Find all .gitignore files in the workspace
-    const gitignoreFiles = await vscode.workspace.findFiles('**/.gitignore', '**/node_modules/**');
+    const gitignoreFiles = await vscode.workspace.findFiles(`**/${gitIgnoreFilename}`, ignoredFolders);
     for (const gitignoreFile of gitignoreFiles) {
         const relativeDir = path.relative(workspaceFolder.fsPath, path.dirname(gitignoreFile.fsPath));
         
@@ -403,7 +457,7 @@ async function buildProjectSourceCodeIgnorePattern(
     
     const cleanedPatterns = patterns.filter(pattern => !pattern.includes('{') && !pattern.includes('}'));
     
-    const ignorePatterns = "{" + cleanedPatterns.join(",") + "}";
+    const ignorePatterns = `{${cleanedPatterns.join(",")}}`;
 
     return new vscode.RelativePattern(targetFolder, ignorePatterns);
 }
