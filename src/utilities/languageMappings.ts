@@ -9,6 +9,15 @@ export const languageMappings: { [key: string]: string } = {
     // Razor support
     cshtml: "html",
 
+    // React support
+    jsx: "javascript",
+    tsx: "typescript",
+
+    // Cobol support
+    cob: "plaintext",
+    cbl: "plaintext",
+    cpl: "plaintext",
+
     css: "css",
     json: "json",
     xml: "xml",
