@@ -13,6 +13,7 @@ Polyverse Boost Automatic Application Modernization
 - Cost per Analysis or Chat Request or "Run Analyses" batch operations provided in log output
 - Automatically exclude .(dot) folders and files from analysis (e.g. .git, .vscode, .DS_Store, etc.) - can be overridden by editing .boostignore
 - Automatically exclude txt files from analysis - can be overridden by editing .boostignore
+- Enable Explorer right-click on all file types - including TSX, JSX, Cobol, etc.
 
 ### Bug Fixes
 - N/A
