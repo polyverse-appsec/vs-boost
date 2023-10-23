@@ -16,7 +16,7 @@ Polyverse Boost Automatic Application Modernization
 - Enable Explorer right-click on all file types - including TSX, JSX, Cobol, etc.
 
 ### Bug Fixes
-- N/A
+- Fix potential rendering issue with some code conversion and test generation output - affecting source files with no file extension
 
 ## Version 1.6.1: October 15th, 2023
 

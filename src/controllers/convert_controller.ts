@@ -125,7 +125,7 @@ export class BoostConvertKernel extends KernelControllerBase {
             }
 
             // if the returned string has three backwards apostrophes, then it's in markdown format
-            let mimetypeCode = { str: rawConvertResponse.code.includes(markdownCodeMarker)?markdownMimeType:'text/x-' + outputLanguage };
+            let mimetypeCode = { str: rawConvertResponse.code.includes(markdownCodeMarker)?markdownMimeType:codeMimeType(outputLanguage) };
             explainResponse = super.handleServiceResponse(rawConvertResponse, cell, ControllerOutputType.convert, usingBoostNotebook, mimetypeCode, notebook, execution);
             successfullyCompleted = true;
         }
@@ -160,6 +160,8 @@ export class BoostConvertKernel extends KernelControllerBase {
                 let outputLanguage = this.getOutputLanguage(notebook);
                 if (outputLanguage === 'cpp' || outputLanguage === 'c') {
                     mimetype.str = textMimeType;
+                } else if (outputLanguage === 'plaintext') {
+                    mimetype.str = codeMimeType(textMimeType);
                 } else {
                     mimetype.str = codeMimeType(outputLanguage);
                 }

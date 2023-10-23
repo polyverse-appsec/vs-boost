@@ -109,6 +109,8 @@ export class BoostTestgenKernel extends KernelControllerBase {
         else {
             if (testLanguage === 'cpp' || testLanguage === 'c') {
                 mimetype.str = textMimeType;
+            } else if (testLanguage === 'plaintext') {
+                mimetype.str = codeMimeType(textMimeType);
             } else {
                 mimetype.str = codeMimeType(testLanguage);
             }
