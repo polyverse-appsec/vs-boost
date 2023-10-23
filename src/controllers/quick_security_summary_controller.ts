@@ -12,11 +12,11 @@ import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 export const quickSecuritySummaryKernelName = `${quickSummaryKernelNamePrefix}${analyzeFunctionKernelName}`;
 
 export class BoostQuickSecuritySummaryKernel extends BoostQuickSummaryKernelControllerBase {
-	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection)
+	constructor(context: vscode.ExtensionContext, onServiceResponseHandler: any, otherThis : any, collection: vscode.DiagnosticCollection)
         {
         super(
             context,
-            onServiceErrorHandler,
+            onServiceResponseHandler,
             otherThis,
             collection,
             analyzeFunctionKernelName,

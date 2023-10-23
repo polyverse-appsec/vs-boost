@@ -30,7 +30,7 @@ import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 export const quickSummaryKernelNamePrefix = `quick_summary_`;
 
 export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase {
-	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection,
+	constructor(context: vscode.ExtensionContext, onServiceResponseHandler: any, otherThis : any, collection: vscode.DiagnosticCollection,
             kernelName: string,
             outputType: ControllerOutputType,
             displayGroup: DisplayGroupFriendlyName,
@@ -49,7 +49,7 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
             false,
             context,
             otherThis,
-            onServiceErrorHandler);
+            onServiceResponseHandler);
         this._coreOutputType = coreOutputType;
 
         // tap the parent controller to get it initialized for any potential config or init errors

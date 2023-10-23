@@ -15,7 +15,7 @@ export const analyzeKernelName = 'analyze';
 const analysisOutputHeader = 'Code Analysis';
 
 export class BoostAnalyzeKernel extends KernelControllerBase {
-	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis: any, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceResponseHandler: any, otherThis: any, collection: DiagnosticCollection) {
         super(
             collection,
             analyzeKernelName,
@@ -28,7 +28,7 @@ export class BoostAnalyzeKernel extends KernelControllerBase {
             true, 
             context,
             otherThis,
-            onServiceErrorHandler);
+            onServiceResponseHandler);
 	}
 
     public get serviceEndpoint(): string {

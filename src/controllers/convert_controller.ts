@@ -18,7 +18,7 @@ export const convertKernelName = 'convert';
 const convertOutputHeader = `Code Conversion`;
 
 export class BoostConvertKernel extends KernelControllerBase {
-	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection) {
+	constructor(context: vscode.ExtensionContext, onServiceResponseHandler: any, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
             convertKernelName,
@@ -31,7 +31,7 @@ export class BoostConvertKernel extends KernelControllerBase {
             true,
             context,
             otherThis,
-            onServiceErrorHandler);
+            onServiceResponseHandler);
 	}
 
 	dispose(): void {

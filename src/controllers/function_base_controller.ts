@@ -27,7 +27,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         outputHeader: string,
         context: vscode.ExtensionContext,
         otherThis: any,
-        onServiceErrorHandler: any
+        onServiceResponseHandler: any
         ) {
 
         super(
@@ -42,7 +42,7 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
             true, 
             context,
             otherThis,
-            onServiceErrorHandler);
+            onServiceResponseHandler);
 
         this.outputHeader = outputHeader;
         this.sourceLevelIssueCollection = vscode.languages.createDiagnosticCollection(boostnb.NOTEBOOK_TYPE + collectionType);

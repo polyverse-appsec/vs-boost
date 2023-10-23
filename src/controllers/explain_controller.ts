@@ -28,7 +28,7 @@ export function getExplainEndpoint(cloudServiceStage: string): string {
 }
 
 export class BoostExplainKernel extends KernelControllerBase {
-	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceResponseHandler: any, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
             explainKernelName,
@@ -41,7 +41,7 @@ export class BoostExplainKernel extends KernelControllerBase {
             false,
             context,
             otherThis,
-            onServiceErrorHandler);
+            onServiceResponseHandler);
 	}
 
 	dispose(): void {

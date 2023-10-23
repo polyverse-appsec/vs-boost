@@ -12,11 +12,11 @@ import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 export const quickComplianceSummaryKernelName = `${quickSummaryKernelNamePrefix}${complianceFunctionKernelName}`;
 
 export class BoostQuickComplianceSummaryKernel extends BoostQuickSummaryKernelControllerBase {
-	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection)
+	constructor(context: vscode.ExtensionContext, onServiceResponseHandler: any, otherThis : any, collection: vscode.DiagnosticCollection)
         {
         super(
             context,
-            onServiceErrorHandler,
+            onServiceResponseHandler,
             otherThis,
             collection,
             complianceFunctionKernelName,

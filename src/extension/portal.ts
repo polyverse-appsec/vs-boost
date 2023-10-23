@@ -30,10 +30,13 @@ export async function updateBoostStatusColors(
         closure.updateAccountInfo(callerAccountInfo);
     }
 
-    // then do a deep update to get more details of the account
-    const accountInfo = await getCustomerStatus(context);
+    // if the service produced an error, then do a deep update to get more details of the account status
+    const accountInfo = (extraData instanceof Error)?
+        await getCustomerStatus(context):
+        // otherwise, just update the account status as healthy with basic account info
+        callerAccountInfo;
 
-    if (accountInfo === undefined || accountInfo instanceof Error) {
+    if (!accountInfo || accountInfo instanceof Error) {
         if (!accountInfo) {
             boostLogging.log(`Unable to retrieve current customer status.`);
         } else {
@@ -41,20 +44,31 @@ export async function updateBoostStatusColors(
                 `Unable to retrieve current customer status. ${accountInfo}`
             );
         }
-        closure.statusBar.color = new vscode.ThemeColor(
-            "statusBarItem.errorForeground"
-        );
-        closure.statusBar.backgroundColor = new vscode.ThemeColor(
-            "statusBarItem.errorBackground"
-        );
-        closure.statusBar.tooltip = gitHubAuthorizationFailureToolTip;
+
+        // if the service error'ed but we can't find account info, then we'll report the
+        //     account in error state (presumbaly due to git auth error)
+        if (extraData instanceof Error) {
+            closure.statusBar.color = new vscode.ThemeColor(
+                "statusBarItem.errorForeground"
+            );
+            closure.statusBar.backgroundColor = new vscode.ThemeColor(
+                "statusBarItem.errorBackground"
+            );
+            closure.statusBar.tooltip = gitHubAuthorizationFailureToolTip;
+        }
+
         if (!accountInfo) {
             return "unknown";
         } else {
             return accountInfo.message;
         }
     } else {
-        closure.updateAccountInfo(accountInfo);
+        // if we retrived deep account data, then store it
+        if (accountInfo !== callerAccountInfo) {
+            closure.updateAccountInfo(accountInfo);
+        }
+
+        // update the status bar on the first (error or successful) service completion with account data
         switch (accountInfo["status"]) {
             case "unregistered":
                 closure.statusBar.color = new vscode.ThemeColor(

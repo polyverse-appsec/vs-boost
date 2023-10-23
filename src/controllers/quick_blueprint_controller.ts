@@ -29,7 +29,7 @@ const quickBlueprintOutputHeader = `Architectural Quick Blueprint`;
 export class BoostQuickBlueprintKernel extends KernelControllerBase {
     constructor(
         context: vscode.ExtensionContext,
-        onServiceErrorHandler: any,
+        onServiceResponseHandler: any,
         otherThis: any,
         collection: vscode.DiagnosticCollection
     ) {
@@ -45,7 +45,7 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
             false,
             context,
             otherThis,
-            onServiceErrorHandler
+            onServiceResponseHandler
         );
     }
 

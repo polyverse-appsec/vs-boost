@@ -21,7 +21,7 @@ const testgenOutputHeader = `Test Generation`;
 export class BoostTestgenKernel extends KernelControllerBase {
 	constructor(
         context: vscode.ExtensionContext,
-        onServiceErrorHandler: any,
+        onServiceResponseHandler: any,
         otherThis : any,
         collection: vscode.DiagnosticCollection) {
 
@@ -37,7 +37,7 @@ export class BoostTestgenKernel extends KernelControllerBase {
             true,
             context,
             otherThis,
-            onServiceErrorHandler);
+            onServiceResponseHandler);
 	}
 
 	dispose(): void {

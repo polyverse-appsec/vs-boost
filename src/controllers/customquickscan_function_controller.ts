@@ -27,7 +27,7 @@ export class BoostCustomQuickScanFunctionKernel extends FunctionKernelController
     customScanCategories : string = 'ResourceLeak, UnsafeResource, Deadlock, Livelock, MissingSync';
     _customScanCategories : string = this.customScanCategories;
 
-	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis: any, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceResponseHandler: any, otherThis: any, collection: DiagnosticCollection) {
         super(
             collection,
             customQuickScanFunctionKernelName,
@@ -39,7 +39,7 @@ export class BoostCustomQuickScanFunctionKernel extends FunctionKernelController
             "Custom Quick Scan", 
             context,
             otherThis,
-            onServiceErrorHandler);
+            onServiceResponseHandler);
 	}
 
     public get serviceEndpoint(): string {

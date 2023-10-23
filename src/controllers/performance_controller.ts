@@ -12,7 +12,7 @@ export const performanceKernelName = 'performance';
 const performanceOutputHeader = `Performance Analysis`;
 
 export class BoostPerformanceKernel extends KernelControllerBase {
-	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceResponseHandler: any, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
             performanceKernelName,
@@ -25,7 +25,7 @@ export class BoostPerformanceKernel extends KernelControllerBase {
             false,
             context,
             otherThis,
-            onServiceErrorHandler);
+            onServiceResponseHandler);
 	}
 
 	dispose(): void {

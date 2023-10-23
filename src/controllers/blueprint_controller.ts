@@ -16,7 +16,7 @@ export const blueprintKernelName = 'blueprint';
 const blueprintOutputHeader = 'Architectural Blueprint';
 
 export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
-	constructor(context: vscode.ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: vscode.DiagnosticCollection) {
+	constructor(context: vscode.ExtensionContext, onServiceResponseHandler: any, otherThis : any, collection: vscode.DiagnosticCollection) {
         super(
             collection,
             blueprintKernelName,
@@ -29,7 +29,7 @@ export class BoostArchitectureBlueprintKernel extends KernelControllerBase {
             false,
             context,
             otherThis,
-            onServiceErrorHandler);
+            onServiceResponseHandler);
 	}
 
 	dispose(): void {

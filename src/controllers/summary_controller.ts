@@ -28,7 +28,7 @@ export class SummarizeKernel extends KernelControllerBase {
     _kernels : Map<string, KernelControllerBase>;
 	constructor(
         context: ExtensionContext,
-        onServiceErrorHandler: any,
+        onServiceResponseHandler: any,
         otherThis : any,
         collection: DiagnosticCollection,
         kernels : Map<string, KernelControllerBase>) {
@@ -45,7 +45,7 @@ export class SummarizeKernel extends KernelControllerBase {
             false,
             context,
             otherThis,
-            onServiceErrorHandler,
+            onServiceResponseHandler,
             "inputs");
 
         this._kernels = kernels;

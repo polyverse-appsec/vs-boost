@@ -40,19 +40,22 @@ export class BoostServiceHelper {
     hostExtension: any;
 
     onServiceError: any;
+    onServiceSuccess: any;
 
     constructor(
         command: string,
         outputType: ControllerOutputType,
         hostExtension: any,
         dynamicInputKey: string = "",
-        onServiceError: any = undefined
+        onServiceError: any = undefined,
+        onServiceSuccess: any = undefined,
     ) {
         this.dynamicInputKey = dynamicInputKey;
         this.command = command;
         this._outputType = outputType;
         this.hostExtension = hostExtension;
         this.onServiceError = onServiceError;
+        this.onServiceSuccess = onServiceSuccess;
     }
 
     get serviceEndpoint(): string {
@@ -336,6 +339,14 @@ export class BoostServiceHelper {
                     if (asyncResult instanceof Promise) {
                         await asyncResult;
                     }
+                }
+            // otherwise notify clients of successful results
+            } else if (this.onServiceSuccess) {
+                const asyncResult = this.onServiceSuccess(result);
+
+                // if the handler is asynchronous, wait for it to complete before continuing
+                if (asyncResult instanceof Promise) {
+                    await asyncResult;
                 }
             }
 

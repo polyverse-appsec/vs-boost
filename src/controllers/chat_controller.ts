@@ -15,7 +15,7 @@ export const chatKernelName = 'chat';
 const chatOutputHeader = 'Analysis Query';
 
 export class BoostChatKernel extends KernelControllerBase {
-	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceResponseHandler: any, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
             chatKernelName,
@@ -28,7 +28,7 @@ export class BoostChatKernel extends KernelControllerBase {
             false,
             context,
             otherThis,
-            onServiceErrorHandler,
+            onServiceResponseHandler,
             "query");
 	}
 

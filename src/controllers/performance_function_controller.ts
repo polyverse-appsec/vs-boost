@@ -9,7 +9,7 @@ export const performanceFunctionKernelName = performanceKernelName + '_function'
 
 export class BoostPerformanceFunctionKernel extends FunctionKernelControllerBase {
 
-	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis: any, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceResponseHandler: any, otherThis: any, collection: DiagnosticCollection) {
         super(
             collection,
             performanceFunctionKernelName,
@@ -21,7 +21,7 @@ export class BoostPerformanceFunctionKernel extends FunctionKernelControllerBase
             "Performance Analysis", 
             context,
             otherThis,
-            onServiceErrorHandler);
+            onServiceResponseHandler);
 	}
 
     public get serviceEndpoint(): string {

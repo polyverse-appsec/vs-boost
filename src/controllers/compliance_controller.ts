@@ -12,7 +12,7 @@ export const complianceKernelName = 'compliance';
 const complianceOutputHeader = `Data Compliance Check`;
 
 export class BoostComplianceKernel extends KernelControllerBase {
-	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceResponseHandler: any, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
             complianceKernelName,
@@ -25,7 +25,7 @@ export class BoostComplianceKernel extends KernelControllerBase {
             false,
             context,
             otherThis,
-            onServiceErrorHandler);
+            onServiceResponseHandler);
 	}
 
 	dispose(): void {

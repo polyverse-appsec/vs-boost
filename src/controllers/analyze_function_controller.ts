@@ -9,7 +9,7 @@ export const analyzeFunctionKernelName = analyzeKernelName + '_function';
 
 export class BoostAnalyzeFunctionKernel extends FunctionKernelControllerBase {
 
-	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis: any, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceResponseHandler: any, otherThis: any, collection: DiagnosticCollection) {
         super(
             collection,
             analyzeFunctionKernelName,
@@ -21,7 +21,7 @@ export class BoostAnalyzeFunctionKernel extends FunctionKernelControllerBase {
             "Security Analysis",
             context,
             otherThis,
-            onServiceErrorHandler,
+            onServiceResponseHandler,
             );
 	}
 

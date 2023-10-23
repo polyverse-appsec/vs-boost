@@ -56,18 +56,35 @@ export class KernelControllerBase extends BoostServiceHelper {
         useOriginalCodeCheck: boolean,
         context: vscode.ExtensionContext,
         otherThis: any,
-        onServiceErrorHandler: any,
+        onServiceResponseHandler: any,
         dynamicInputKey: string = "code"
     ) {
-        super(kernelId, outputType, otherThis, dynamicInputKey, (err: any) => {
-            if (onServiceErrorHandler !== undefined) {
-                onServiceErrorHandler(
-                    this.context,
-                    err as Error,
-                    this.hostExtension
-                );
+        super(kernelId, outputType, otherThis, dynamicInputKey,
+            (err: any) => {
+                if (onServiceResponseHandler !== undefined) {
+                    onServiceResponseHandler(
+                        this.context,
+                        err as Error,
+                        this.hostExtension
+                    );
+                }
+            },
+            (result: any) => {
+                if (onServiceResponseHandler !== undefined) {
+                    onServiceResponseHandler(
+                        this.context,
+                        // create a wrapper object with the response (since we aren't passing
+                        //  the raw response data to the handler)
+                        {
+                            response: {
+                                data: result,
+                            }
+                        },
+                        this.hostExtension
+                    );
+                }
             }
-        });
+        );
 
         this._problemsCollection = problemsCollection;
         this.id = getKernelName(kernelId);

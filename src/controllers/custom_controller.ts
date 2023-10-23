@@ -41,7 +41,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
 
     _customPrompt : string = this.defaultPrompt;
 
-	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceResponseHandler: any, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
             'custom',
@@ -54,7 +54,7 @@ export class BoostCustomProcessKernel extends KernelControllerBase {
             false,
             context,
             otherThis,
-            onServiceErrorHandler);
+            onServiceResponseHandler);
 	}
 
 	dispose(): void {

@@ -13,7 +13,7 @@ export const flowDiagramKernelName = 'flowdiagram';
 const flowDiagramOutputHeader = `Flow Diagram`;
 
 export class BoostFlowDiagramKernel extends KernelControllerBase {
-	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis : any, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceResponseHandler: any, otherThis : any, collection: DiagnosticCollection) {
         super(
             collection,
             flowDiagramKernelName,
@@ -26,7 +26,7 @@ export class BoostFlowDiagramKernel extends KernelControllerBase {
             false,
             context,
             otherThis,
-            onServiceErrorHandler);
+            onServiceResponseHandler);
 	}
 
 	dispose(): void {

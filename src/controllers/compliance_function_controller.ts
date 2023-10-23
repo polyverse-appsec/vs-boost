@@ -11,7 +11,7 @@ const complianceOutputHeader = 'compliance';
 
 export class BoostComplianceFunctionKernel extends FunctionKernelControllerBase {
 
-	constructor(context: ExtensionContext, onServiceErrorHandler: any, otherThis: any, collection: DiagnosticCollection) {
+	constructor(context: ExtensionContext, onServiceResponseHandler: any, otherThis: any, collection: DiagnosticCollection) {
         super(
             collection,
             complianceFunctionKernelName,
@@ -23,7 +23,7 @@ export class BoostComplianceFunctionKernel extends FunctionKernelControllerBase 
             "Data and Privacy Compliance Analysis", 
             context,
             otherThis,
-            onServiceErrorHandler,
+            onServiceResponseHandler,
             );
 	}
 
