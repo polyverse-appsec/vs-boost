@@ -22,14 +22,6 @@ function serviceEndpoint(): string {
     }
 }
 
-export class BoostAuthenticationException extends Error {
-    constructor(message?: string) {
-        super(message);
-        this.name = "BoostAuthenticationException";
-    }
-}
-
-
 export async function getCustomerStatus(
     context: vscode.ExtensionContext
 ): Promise<any> {

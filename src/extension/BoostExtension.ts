@@ -7,12 +7,12 @@ import * as boostnb from "../data/jupyter_notebook";
 import * as analysis from "../data/IAnalysisContextData";
 
 import { errorToString } from "../utilities/error";
+import { BoostAuthenticationException } from "../utilities/BoostException";
 
 import { ControllerOutputType } from "../controllers/controllerOutputTypes";
 
 import { boostNotebookToFileSummaryItem } from "../data/BoostProjectData";
 import {
-    BoostAuthenticationException,
     getCustomerStatus
 } from "../controllers/customerPortal";
 

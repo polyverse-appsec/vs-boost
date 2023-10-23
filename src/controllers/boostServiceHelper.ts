@@ -3,18 +3,23 @@ import * as fs from "fs";
 import axios from "axios";
 import axiosRetry from "axios-retry";
 import PQueue from "p-queue";
-import { mapError } from "../utilities/error";
+
+import { errorToString, mapError } from "../utilities/error";
+import {
+    BoostAuthenticationException,
+    BoostNetworkException
+} from "../utilities/BoostException";
 
 import {
     BoostNotebook,
     BoostNotebookCell,
     NOTEBOOK_GUIDELINES_PRE_EXTENSION,
 } from "../data/jupyter_notebook";
+
 import { getBoostFile, BoostFileType } from "../extension/extension";
 import { BoostConfiguration } from "../extension/boostConfiguration";
 import { boostLogging } from "../utilities/boostLogging";
 import { fetchGithubSession, getCurrentOrganization } from "../utilities/authorization";
-import { BoostAuthenticationException } from "../controllers/customerPortal";
 import { IAnalysisContextData } from "../data/IAnalysisContextData";
 import { ControllerOutputType } from "./controllerOutputTypes";
 
@@ -311,11 +316,13 @@ export class BoostServiceHelper {
                 // the account is in error - we'll assume that's the cause
                 nonThrownError = new BoostAuthenticationException(
                     `Unable to use the Boost Service. Your account is ${result.account['status']} and is not currently enabled.` +
-                    ` Please use the Account portal to update your account.`);
+                    ` Please use the Account portal to update your account.`,
+                    result);
             } else if (result.error) {
                 // if we have an error, throw it - this is generally happens with the local service shim
-                nonThrownError = new Error(
-                    `Boost Service failed with a network error: ${result.error}`
+                nonThrownError = new BoostNetworkException(
+                    `Boost Service failed with a network error: ${errorToString(result.error)}`,
+                    result
                 );
             }
 
