@@ -218,10 +218,14 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
         this._view?.webview.postMessage(payload);
     }
 
-    public finishAllJobs(boostprojectdata: BoostProjectData) {
-        boostprojectdata.finishAllJobs();
+    public startBatchJob(boostprojectdata: BoostProjectData) {
+        boostprojectdata.startBatchJob();
+    }
+
+    public finishBatchJob(boostprojectdata: BoostProjectData) {
+        boostprojectdata.finishBatchJob();
         const payload = {
-            command: "finishAllJobs",
+            command: "finishBatchJob",
             boostprojectdata: boostprojectdata,
         };
         this._view?.webview.postMessage(payload);
@@ -297,7 +301,9 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
     }
 
     private async analyzeAll(analysisTypes: string[], fileLimit: number) {
-        this._boostExtension.getBoostProjectData()?.setAnalysisState(AnalysisState.preparing);
+        this.startBatchJob(this._boostExtension.getBoostProjectData()!);
+        this.refresh();
+
         try
         {
             if (BoostConfiguration.processFilesInGroups) {
@@ -309,7 +315,7 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
             boostLogging.error(`Run Selected Analysis failed: ${e}`, true);
         } finally {
             // make sure we always restore the analysis state to quiescent after finishing analysis
-            this.finishAllJobs(this._boostExtension.getBoostProjectData()!);
+            this.finishBatchJob(this._boostExtension.getBoostProjectData()!);
             this.refresh();
         }
     }
@@ -743,7 +749,7 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
             }
 
         } finally {
-            this.finishAllJobs(this._boostExtension.getBoostProjectData()!);
+            this.finishBatchJob(this._boostExtension.getBoostProjectData()!);
             this.refresh();
         }
     }
@@ -940,7 +946,7 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
             await vscode.commands.executeCommand(
                 NOTEBOOK_TYPE + "." + BoostCommands.refreshProjectData
             );
-            this.finishAllJobs(this._boostExtension.getBoostProjectData()!);
+            this.finishBatchJob(this._boostExtension.getBoostProjectData()!);
             this.refresh();
         }
     }

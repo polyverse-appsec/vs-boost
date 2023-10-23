@@ -557,7 +557,7 @@ export class BoostExtension {
                 // if this is the first time we're loading this project cache,
                 //      then reset it to idle
                 if (firstCacheLoad) {
-                    boostProjectData.finishAllJobs();
+                    boostProjectData.finishBatchJob();
                 }
             }
 

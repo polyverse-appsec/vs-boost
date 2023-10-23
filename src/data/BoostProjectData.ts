@@ -355,7 +355,12 @@ export class BoostProjectData implements IBoostProjectData {
         }
     }
 
-    finishAllJobs() {
+    startBatchJob() {
+        this.setAnalysisState(AnalysisState.preparing);
+        this.account.batchOperationCost = 0;
+    }
+
+    finishBatchJob() {
         this.jobStatus = { ...emptyProjectData.jobStatus };
         this.setAnalysisState(AnalysisState.quiescent);
     }
