@@ -306,25 +306,40 @@ export class BoostServiceHelper {
                 serviceEndpoint,
                 payload
             );
+            let nonThrownError = undefined;
             if (result.account && !result.account['enabled']) {
                 // the account is in error - we'll assume that's the cause
-                return new BoostAuthenticationException(
+                nonThrownError = new BoostAuthenticationException(
                     `Unable to use the Boost Service. Your account is ${result.account['status']} and is not currently enabled.` +
                     ` Please use the Account portal to update your account.`);
             } else if (result.error) {
                 // if we have an error, throw it - this is generally happens with the local service shim
-                return new Error(
+                nonThrownError = new Error(
                     `Boost Service failed with a network error: ${result.error}`
                 );
             }
+
+            // if we captured an error packaged in the result, then inform clients and return it (without throwing)
+            if (nonThrownError) {
+                result = nonThrownError;
+                if (this.onServiceError) {
+                    const asyncResult = this.onServiceError(nonThrownError);
+
+                    // if the handler is asynchronous, wait for it to complete before continuing
+                    if (asyncResult instanceof Promise) {
+                        await asyncResult;
+                    }
+                }
+            }
+
             return result;
         } catch (err: any) {
             if (this.onServiceError) {
-                const result = this.onServiceError(err);
+                const asyncResult = this.onServiceError(err);
 
                 // if the handler is asynchronous, wait for it to complete before continuing
-                if (result instanceof Promise) {
-                    await result;
+                if (asyncResult instanceof Promise) {
+                    await asyncResult;
                 }
             }
             return mapError(err);
