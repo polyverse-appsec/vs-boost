@@ -4569,7 +4569,7 @@ export class BoostExtension {
                 finalStatus = "incomplete";
             }
     
-            compressedData.fileDetails[fileName] = finalStatus;
+            compressedData.analyzedFiles[fileName] = finalStatus;
         }
     
         return compressedData;

@@ -19,7 +19,7 @@ export interface ProjectContextData {
         keys: string[];
         [key: string]: (string | number | null)[] | string[];
     };
-    fileDetails: {
+    analyzedFiles: {
         [fileName: string]: string;
     };
 }
