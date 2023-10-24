@@ -494,6 +494,7 @@ export async function removeOldBoostFiles() {
         "md",
         boostnb.NOTEBOOK_EXTENSION.substring(1),
         boostnb.NOTEBOOK_SUMMARY_EXTENSION.substring(1),
+        boostnb.NOTEBOOK_GUIDELINES_EXTENSION.substring(1),
     ];
 
     // Search for all Notebooks HTML, Markdown, and PDF files within the ".boost" sub-folder
@@ -509,8 +510,11 @@ export async function removeOldBoostFiles() {
     boostFiles.forEach((targetFileForCleanup : vscode.Uri) => {
         // get the extension first
         let extName = path.extname(targetFileForCleanup.fsPath);
+        // ensure we check guidelines and summary files correctly
         if (extName === boostnb.NOTEBOOK_EXTENSION && targetFileForCleanup.fsPath.endsWith(boostnb.NOTEBOOK_SUMMARY_EXTENSION)) {
             extName = boostnb.NOTEBOOK_SUMMARY_EXTENSION;
+        } else if (extName === boostnb.NOTEBOOK_EXTENSION && targetFileForCleanup.fsPath.endsWith(boostnb.NOTEBOOK_GUIDELINES_EXTENSION)) {
+            extName = boostnb.NOTEBOOK_GUIDELINES_EXTENSION;
         }
 
         // then strip off the leading .boost folder and the extension
