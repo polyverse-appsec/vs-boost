@@ -4522,7 +4522,7 @@ export class BoostExtension {
             },
             account: projectData.account || null,
             analysisSummary: {
-                keys: ["status", "blocksCompleted", "analysisErrors", "blocksWithIssues", "totalBlocks", "filesAnalyzed"]
+                keys: ["status", "blocksCompleted", "analysisErrors", "blocksWithIssues", "totalBlocks", "analyzedFiles"]
             },
             analyzedFiles: {}
         };
