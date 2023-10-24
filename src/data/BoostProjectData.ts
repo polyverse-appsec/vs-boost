@@ -196,7 +196,7 @@ export class BoostProjectData implements IBoostProjectData {
             boostLogging.info(`Boost Last Operation Cost: $${formattedCost}`, false);
             
             // store the operation cost
-            this.account.lastOperationCost = parseFloat(accountStatus.operation_cost);
+            this.account.lastOperationCost = parseFloat(formattedCost);
 
             // if the value is missing then let's initialize it
             if (!this.account.batchOperationCost) {
