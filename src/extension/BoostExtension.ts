@@ -4524,7 +4524,7 @@ export class BoostExtension {
             analysisSummary: {
                 keys: ["status", "blocksCompleted", "analysisErrors", "blocksWithIssues", "totalBlocks", "filesAnalyzed"]
             },
-            fileDetails: {}
+            analyzedFiles: {}
         };
     
         // Compress sectionSummary
