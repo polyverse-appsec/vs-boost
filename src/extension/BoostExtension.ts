@@ -4485,7 +4485,7 @@ export class BoostExtension {
         const rawProjectContextData = this.convertProjectDataToContextData(projectData);
 
         projectContextData.push({
-            type: analysis.AnalysisContextType.projectSummary,
+            type: analysis.AnalysisContextType.related,
             data: JSON.stringify(rawProjectContextData.projectSummary, null, 2),
             name: "projectSummary"
         });
@@ -4497,9 +4497,15 @@ export class BoostExtension {
         });
 
         projectContextData.push({
-            type: analysis.AnalysisContextType.projectSummary,
+            type: analysis.AnalysisContextType.related,
             data: JSON.stringify(rawProjectContextData.analysisSummary, null, 2),
             name: "analysisSummary"
+        });
+
+        projectContextData.push({
+            type: analysis.AnalysisContextType.related,
+            data: JSON.stringify(rawProjectContextData.analyzedFiles, null, 2),
+            name: "analyzedFiles"
         });
 
         return projectContextData;
@@ -4522,7 +4528,14 @@ export class BoostExtension {
             },
             account: projectData.account || null,
             analysisSummary: {
-                keys: ["status", "blocksCompleted", "analysisErrors", "blocksWithIssues", "totalBlocks", "analyzedFiles"]
+                keys: [
+                    "status",
+                    "analysisModeGroup",
+                    "SourceCodeBlocksCompletelyAnalyzed",
+                    "errorsWhileRunningAnalysis",
+                    "issuesFoundInSourceCode",
+                    "totalSourceCodeBlocksToAnalyze",
+                    "analyzedFiles"]
             },
             analyzedFiles: {}
         };
@@ -4533,8 +4546,22 @@ export class BoostExtension {
                 continue;
             }
             let values = projectData.sectionSummary[section];
-            compressedData.analysisSummary[section] = [
+
+            let userFriendlySectionName = section;
+            let sectionGroupName = section;
+
+            for (const kernel of this.kernels.values()) {
+                if (kernel.outputType !== section) {
+                    continue;
+                }
+                userFriendlySectionName = kernel.outputHeader;
+                sectionGroupName = kernel.displayCategory;
+                break; // exit the loop as soon as you've found the kernel
+            }
+
+            compressedData.analysisSummary[userFriendlySectionName] = [
                 values.status || null,
+                sectionGroupName,
                 values.completedCells || null,
                 values.errorCells || null,
                 values.issueCells || null,
