@@ -220,6 +220,7 @@ const defaultIgnorePaths = [
     boostIgnoreFilename,
 
     '**/*.txt', // exclude all text files by default
+    '**/*.md', // exclude all markdown files by default
 ];
 
 const defaultIgnoredFolders = [
