@@ -685,6 +685,7 @@ export class BoostExtension {
         boostProjectData: BoostProjectData,
         deepScan: boolean = false
     ): Promise<boostnb.BoostNotebook[]> {
+        const setOfAllFiles : Set<string> = new Set<string>();
         const files = (await getAllProjectFiles(false, workspaceFolder)).map(
             (file) => {
                 return vscode.Uri.file(file);
@@ -699,6 +700,7 @@ export class BoostExtension {
             total++;
             const boostFileUri = getBoostFile(file);
             const fileExists = fs.existsSync(boostFileUri.fsPath);
+            setOfAllFiles.add(vscode.workspace.asRelativePath(file.fsPath));
 
             if (!fileExists) {
                 continue;
@@ -711,19 +713,27 @@ export class BoostExtension {
             boostNotebook.load(boostFileUri.fsPath);
             boostNotebooks.push(boostNotebook);
 
-            //get the summary of the notebook file
+            // get the summary of the notebook file
             const filesummary = boostNotebookToFileSummaryItem(
                 workspaceFolder.fsPath,
                 boostNotebook
             );
 
-            //now add it to boostprojectdata
+            // now add it to boostprojectdata
             let relativePath = path.relative(
                 workspaceFolder.fsPath,
                 file.fsPath
             );
             boostProjectData.updateWithFileSummary(filesummary, relativePath);
         }
+
+        // cleanup stale or deleted/ignored files from project cache
+        for (const fileName of Object.keys(boostProjectData.files)) {
+            if (!setOfAllFiles.has(fileName)) {
+                delete boostProjectData.files[fileName];
+            }
+        }
+
         boostProjectData.summary.filesToAnalyze = total;
         boostProjectData.summary.filesAnalyzed = exists;
         return boostNotebooks;
@@ -4397,7 +4407,7 @@ export class BoostExtension {
 
                             analysisContext.push({
                                 type: analysis.AnalysisContextType.userFocus,
-                                data: `I am currently focused on this summary analysis for the code:\n\n\`\`\`${analysisCell.value
+                                data: `Summary analysis for the code:\n\n\`\`\`${analysisCell.value
                                     .split("\n")
                                     .join("\n\t")}\`\`\``,
                                 name: "activeNotebook",
@@ -4447,7 +4457,7 @@ export class BoostExtension {
 
                             analysisContext.push({
                                 type: analysis.AnalysisContextType.userFocus,
-                                data: `I am currently focused on this ${analysisType} analysis for the code:\n\n\`\`\`${analyzedCellData.join(
+                                data: `${analysisType} analysis for the code:\n\n\`\`\`${analyzedCellData.join(
                                     "\n\t"
                                 )}\`\`\``,
                                 name: "activeNotebook",

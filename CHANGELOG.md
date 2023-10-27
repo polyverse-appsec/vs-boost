@@ -18,6 +18,7 @@ Polyverse Boost Automatic Application Modernization
 ### Bug Fixes
 - Fix potential rendering issue with some code conversion and test generation output - affecting source files with no file extension
 - Fix potential deletion of guidelines files during project cleanup
+- Ensure ignored or deleted source files are not listed in Analyzed files UI or summary
 
 ## Version 1.6.1: October 15th, 2023
 

@@ -311,8 +311,9 @@ export class BoostProjectData implements IBoostProjectData {
         const previous = this.files[relativePath];
         this.addFileSummaryToSectionSummaries(fileSummary, previous);
         this.files[relativePath] = fileSummary;
-        //now update the overall summary
-        //if it's a new file i.e. no previous), then we update the filesAnalyzed count
+
+        // now update the overall summary
+        // if it's a new file i.e. no previous), then we update the filesAnalyzed count
         if (!previous) {
             this.summary.filesAnalyzed += 1;
         }
@@ -321,7 +322,7 @@ export class BoostProjectData implements IBoostProjectData {
     addJobs(job: string, relFiles: [string]) {
         this.setAnalysisState(AnalysisState.analyzing);
         relFiles.forEach((file: string) => {
-            //create the jobs set if necessary then add message.job to it
+            // create the jobs set if necessary then add message.job to it
             if (!this.jobStatus[file]) {
                 this.jobStatus[file] = {
                     status: "processing",
@@ -341,15 +342,15 @@ export class BoostProjectData implements IBoostProjectData {
         summary: FileSummaryItem | null,
         error: Error | null
     ) {
-        //update the file list
+        // update the file list
         if (summary) {
             this.updateWithFileSummary(summary, relFile);
         }
-        //first remove the job from the list
+        // first remove the job from the list
         this.jobStatus[relFile].jobs = this.jobStatus[relFile].jobs.filter(
             (j) => j !== job
         );
-        //if there are no more jobs, then remove the job from the jobStatus object.
+        // if there are no more jobs, then remove the job from the jobStatus object.
         if (this.jobStatus[relFile].jobs?.length === 0) {
             delete this.jobStatus[relFile];
         }
