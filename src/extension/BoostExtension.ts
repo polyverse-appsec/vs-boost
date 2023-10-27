@@ -1562,7 +1562,7 @@ export class BoostExtension {
 
                 updateBoostIgnoreForTarget(uri.fsPath);
                 removeFromBoostOnly(uri.fsPath);
-                await this.refreshBoostProjectsData().then(() => {
+                await this.refreshProjectDataCacheForWorkspaceFolder(vscode.workspace.workspaceFolders![0]).then(() => {
                     this.start?.refresh();
                     this.summary?.refresh();
                 });
@@ -1585,7 +1585,7 @@ export class BoostExtension {
 
                 updateBoostIgnoreForTarget(uri.fsPath);
                 removeFromBoostOnly(uri.fsPath);
-                await this.refreshBoostProjectsData().then(() => {
+                await this.refreshProjectDataCacheForWorkspaceFolder(vscode.workspace.workspaceFolders![0]).then(() => {
                     this.start?.refresh();
                     this.summary?.refresh();
                 });
@@ -3490,7 +3490,7 @@ export class BoostExtension {
                 notebook.load(projectBoostFile.fsPath);
                 return targetedKernel
                     .executeAllWithAuthorization(notebook.cells, notebook, true)
-                    .then(() => {
+                    .then(async () => {
                         // ensure we save the notebook if we successfully processed it
                         notebook.flushToFS();
                         switch (targetedKernel.command) {
@@ -3572,6 +3572,12 @@ export class BoostExtension {
                                     }
                                 );
                             });
+
+                            await this.refreshProjectDataCacheForWorkspaceFolder(vscode.workspace.workspaceFolders![0]).then(() => {
+                                this.start?.refresh();
+                                this.summary?.refresh();
+                            });
+            
                         } else {
                             const relativeBoostIgnorePath = vscode.workspace.asRelativePath(
                                 boostIgnoreFile.fsPath
