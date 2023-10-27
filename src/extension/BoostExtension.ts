@@ -2284,6 +2284,16 @@ export class BoostExtension {
             async () => {
                 try {
                     await removeOldBoostFiles();
+
+                    const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+                    if (!workspaceFolder) {
+                        return;
+                    }
+
+                    this.refreshProjectDataCacheForWorkspaceFolder(workspaceFolder).then(() => {
+                        this.start?.refresh();
+                        this.summary?.refresh();
+                    });
                 } catch (error) {
                     boostLogging.error(
                         `Unable to clean Boost files due to error ${errorToString(
