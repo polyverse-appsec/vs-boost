@@ -445,7 +445,10 @@ export class BoostExtension {
         if (boostdata) {
             boostdata.updateAccountStatusFromService(accountInfo);
 
-            //and if we have boostdata, go ahead and refresh the dashboard
+            // make sure we write the updated account info to disk
+            boostdata.flushToFS();
+
+            // and if we have boostdata, go ahead and refresh the dashboard
             this.summary?.refresh();
         }
     }
@@ -2322,13 +2325,10 @@ export class BoostExtension {
         ) {
             return;
         } else {
-            boostLogging.error(
-                `Unable to access Boost Cloud Service due to account status. Please check your account settings.`,
-                false
-            );
-            throw new BoostAuthenticationException(
-                `Unable to access Boost Cloud Service due to account status. Please check your account settings.`
-            );
+            const errorMessage = 
+                `Unable to access Boost Cloud Service due to account status ${accountStatus?accountStatus:"unknown"}. Please check your account settings or contact Polyverse Boost Support.`;
+            boostLogging.error(errorMessage, false);
+            throw new BoostAuthenticationException(errorMessage);
         }
     }
 
