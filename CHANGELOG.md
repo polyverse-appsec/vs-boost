@@ -3,7 +3,7 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 1.7.0: November 2nd, 2023
+## Version 1.6.3: October 27th, 2023
 
 ### New Features
 - N/A
@@ -12,7 +12,7 @@ Polyverse Boost Automatic Application Modernization
 - N/A
 
 ### Bug Fixes
-- N/A
+- Fixed account lookup issue for some new paid accounts when launching Analysis from Activity Bar UI
 
 ## Version 1.6.2: October 26th, 2023
 

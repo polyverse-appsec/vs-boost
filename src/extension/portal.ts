@@ -30,8 +30,9 @@ export async function updateBoostStatusColors(
         closure.updateAccountInfo(callerAccountInfo);
     }
 
-    // if the service produced an error, then do a deep update to get more details of the account status
-    const accountInfo = (extraData instanceof Error)?
+    // if the service produced an error or we don't have any account data,
+    //    then do a deep update to get more details of the account status
+    const accountInfo = (extraData instanceof Error || !callerAccountInfo)?
         await getCustomerStatus(context):
         // otherwise, just update the account status as healthy with basic account info
         callerAccountInfo;
@@ -63,7 +64,7 @@ export async function updateBoostStatusColors(
             return accountInfo.message;
         }
     } else {
-        // if we retrived deep account data, then store it
+        // if we retrieved deep account data, then store it
         if (accountInfo !== callerAccountInfo) {
             closure.updateAccountInfo(accountInfo);
         }
