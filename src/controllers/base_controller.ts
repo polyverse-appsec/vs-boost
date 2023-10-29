@@ -151,7 +151,7 @@ export class KernelControllerBase extends BoostServiceHelper {
 
                 //if not authorized, give up
                 if (!session) {
-                    return;
+                    return false;
                 }
 
                 const refreshed = await this.executeAll(
