@@ -3,6 +3,17 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 1.6.4: November 1st, 2023
+
+### New Features
+- N/A
+
+### Enhancements
+- N/A
+
+### Bug Fixes
+- Ensure UI feedback (via popup window) when Sara Chat request encounters an error
+
 ## Version 1.6.3: October 27th, 2023
 
 ### New Features

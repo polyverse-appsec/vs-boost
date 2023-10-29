@@ -191,10 +191,20 @@ export class BoostChatViewProvider extends BaseWebviewViewProvider {
             chatNotebook.addCell(tempProcessingCell);
 
             const chatKernel = (this._boostExtension as BoostExtension).kernels.get(chatKernelName)!;
-            const success = await chatKernel.executeAllWithAuthorization(chatNotebook.cells, chatNotebook, true);
-            const chatOutput = success?cleanCellOutput(tempProcessingCell.outputs[0]?.items[0]?.data):"";
-
-            this._addResponse(prompt, chatOutput);
+            const success = await chatKernel.executeAllWithAuthorization(chatNotebook.cells, chatNotebook, true).
+                then((success) => {
+                    if (!success) {
+                        boostLogging.error(
+                            `Chat requested could not complete due to server error. Please try again.`,
+                            showUI
+                        );
+                        this._addResponse(prompt, "");
+                    } else {
+                        const chatOutput = cleanCellOutput(tempProcessingCell.outputs[0]?.items[0]?.data);
+                        this._addResponse(prompt, chatOutput);
+                    }
+                    return success;
+                });
         } catch (error) {
             boostLogging.error(
                 `Chat requested could not complete due to ${errorToString(error)}`,
