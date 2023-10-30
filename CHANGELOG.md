@@ -6,7 +6,7 @@ Polyverse Boost Automatic Application Modernization
 ## Version 1.6.4: November 1st, 2023
 
 ### New Features
-- N/A
+- Improve Sara chat responses by clicking on responses that are most desirable (e.g. selected for AI training)
 
 ### Enhancements
 - All Chat data moved under Boost Chat folder in Project Workspace - can be excluded from Git by via

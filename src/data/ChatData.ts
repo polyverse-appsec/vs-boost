@@ -9,6 +9,7 @@ export enum ChatMessageRole {
     assistant = "assistant",
     system = "system",
     error = "error",
+    ignore = "ignore",
 }
 
 export interface Message {
@@ -86,6 +87,16 @@ export class ChatData {
 
     closeChat(chatindex: number): void {
         this.chats.splice(chatindex, 1);
+        this.flushToFS();
+    }
+
+    toggleChatStatus(messageIndex: number): void {
+        const message = this.chats[this.activeid].messages[messageIndex];
+        if (message.role === ChatMessageRole.assistant) {
+            message.role = ChatMessageRole.ignore;
+        } else if (message.role === ChatMessageRole.ignore) {
+            message.role = ChatMessageRole.assistant;
+        }
         this.flushToFS();
     }
 

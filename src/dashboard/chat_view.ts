@@ -92,6 +92,10 @@ export class BoostChatViewProvider extends BaseWebviewViewProvider {
                         this.chatData.closeChat(data.chatindex);
                         break;
                     }
+                    case "toggle-chat-status": {
+                        this.chatData.toggleChatStatus(data.messageIndex);
+                        break;
+                    }
                     default: {
                         refresh = false;
                         break;

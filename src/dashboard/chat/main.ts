@@ -41,6 +41,30 @@ function main() {
     //add a listener for the add button
     const addButton = document.getElementById("tab-add-button") as Button;
     addButton?.addEventListener("click", handleAddClick);
+
+    // Add event listeners for the message divs
+    let idx : number = 0;
+    while (true) {
+
+        const messageDiv = document.getElementById(`chat-message-${idx}`);
+        if (!messageDiv) {
+            break;
+        }
+
+        // create a closure around currentIdx so that it is captured
+        (function(currentIdx) {
+            messageDiv.addEventListener("click", () => handleDivClick(currentIdx));
+        })(idx);
+
+        idx++;
+    }
+}
+
+function handleDivClick(messageIndex : number) {
+    vscode.postMessage({
+        command: "toggle-chat-status",
+        messageIndex: messageIndex
+    });
 }
 
 function handleIncomingChatMessage(event: MessageEvent) {
@@ -54,6 +78,13 @@ function handleIncomingChatMessage(event: MessageEvent) {
         case "new-prompt": {
             vscode.postMessage({
                 command: "new-prompt",
+                ...event.data
+            });
+            break;
+        }
+        case "toggle-chat-status": {
+            vscode.postMessage({
+                command: "toggle-chat-status",
                 ...event.data
             });
             break;
