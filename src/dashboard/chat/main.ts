@@ -110,7 +110,7 @@ function handleCloseClick(event: Event) {
     }
     vscode.postMessage({
         command: "close-chat",
-        chatindex: id.split("-")[1]
+        chatindex: id.split("-")[2]
     });
 }
 
