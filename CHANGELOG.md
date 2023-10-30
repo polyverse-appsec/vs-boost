@@ -7,6 +7,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### New Features
 - Improve Sara chat responses by clicking on responses that are most desirable (e.g. selected for AI training)
+- Rolling debug logs for the Boost Client are stored in the installation folder - 7 day rollover with 20mb max per file
 
 ### Enhancements
 - All Chat data moved under Boost Chat folder in Project Workspace - can be excluded from Git by via
