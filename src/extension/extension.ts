@@ -9,7 +9,7 @@ import { BoostContentSerializer } from "../utilities/serializer";
 import { errorToString } from "../utilities/error";
 import { parseFunctions } from "../utilities/sourceLoader";
 import { BoostConfiguration } from "./boostConfiguration";
-import { boostLogging } from "../utilities/boostLogging";
+import { boostLogging, activateLogging } from "../utilities/boostLogging";
 import { TextDecoder } from "util";
 import { PROJECT_EXTENSION } from "../data/BoostProjectData";
 import { BoostExtension } from "./BoostExtension";
@@ -72,6 +72,7 @@ export interface ProcessCurrentFolderOptions {
 
 export async function activate(context: vscode.ExtensionContext) {
     try {
+        activateLogging(context);
         // we use a friendly name for the channel as this will be displayed to the user in the output pane
         boostLogging.log("Activating Boost Notebook Extension");
 

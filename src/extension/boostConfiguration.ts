@@ -1,5 +1,6 @@
 import { NOTEBOOK_TYPE } from "../data/jupyter_notebook";
 import { workspace, extensions, ConfigurationTarget } from "vscode";
+import { rollingLogger } from "../utilities/boostLogging";
 
 export const extensionId = 'polyversecorporation.polyverse-boost-notebook';
 
@@ -120,6 +121,8 @@ export class BoostConfiguration {
     public static set logLevel(value: string) {
         workspace.getConfiguration(NOTEBOOK_TYPE, null)
             .update(Defaults.logLevelName, value, ConfigurationTarget.Global);
+        rollingLogger.level = (BoostConfiguration.logLevel.toLowerCase() in ['warn', 'error']) ? 'info' :
+            BoostConfiguration.logLevel;
     }
 
     public static get analysisTemperature(): string {

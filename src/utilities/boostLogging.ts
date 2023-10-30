@@ -1,6 +1,41 @@
-import { OutputChannel, Disposable, window } from "vscode";
+import { OutputChannel, Disposable, window, ExtensionContext } from "vscode";
+import * as fs from 'fs';
+import * as path from 'path';
+import winston from 'winston';
+import 'winston-daily-rotate-file';
 
 import { BoostConfiguration } from "../extension/boostConfiguration";
+
+
+export let rollingLogger : winston.Logger;
+
+export function activateLogging(context: ExtensionContext) {
+    const logDirectory = path.join(context.extensionPath, 'logs');
+    
+    if (!fs.existsSync(logDirectory)){
+        fs.mkdirSync(logDirectory, { recursive: true });
+    }
+
+    const transport = new winston.transports.DailyRotateFile({
+        filename: path.join(logDirectory, 'boost-%DATE%.log'),
+        datePattern: 'YYYY-MM-DD-HH',
+        zippedArchive: true,
+        maxSize: '20m',
+        maxFiles: '7d'
+    });
+
+    rollingLogger = winston.createLogger({
+        level: (BoostConfiguration.logLevel.toLowerCase() in ['warn', 'error']) ? 'info' :
+            BoostConfiguration.logLevel,
+        format: winston.format.combine(
+            winston.format.timestamp(),
+            winston.format.json()
+        ),
+        transports: [
+            transport
+        ]
+    });
+}
 
 export class BoostLogger extends Disposable {
     private _outputChannel: OutputChannel | undefined;
@@ -20,8 +55,6 @@ export class BoostLogger extends Disposable {
                 break;
             }
         }
-
-        this.log("Boost Logging starting...");
     }
 
     debug(message: string) {
@@ -30,9 +63,15 @@ export class BoostLogger extends Disposable {
         }
 
         this.log("DEBUG: " + message);
+        rollingLogger.debug(message);
     }
 
     log(message: string) {
+        this._log(message);
+        rollingLogger.info(message);
+    }
+
+    _log(message: string) {
         this._outputChannel?.appendLine(message);
     }
 
@@ -41,7 +80,8 @@ export class BoostLogger extends Disposable {
             return;
         }
 
-        this.log("INFO: " + message);
+        this._log("INFO: " + message);
+        rollingLogger.info(message);
         if (showUI) {
             window.showInformationMessage(message);
         }
@@ -52,7 +92,8 @@ export class BoostLogger extends Disposable {
             return;
         }
 
-        this.log("WARNING: " + message);
+        this._log("WARNING: " + message);
+        rollingLogger.warn(message);
         if (showUI) {
             window.showWarningMessage(message);
         }
@@ -63,7 +104,8 @@ export class BoostLogger extends Disposable {
             return;
         }
 
-        this.log("ERROR: " + message);
+        this._log("ERROR: " + message);
+        rollingLogger.error(message);
         if (showUI) {
             window.showErrorMessage(message);
         }

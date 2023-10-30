@@ -592,6 +592,8 @@
         "puppeteer": "^20.2.1",
         "sanitize-html": "^2.11.0",
         "typewriter-effect": "^2.20.1",
-        "uuid": "^9.0.0"
+        "uuid": "^9.0.0",
+        "winston": "^3.11.0",
+        "winston-daily-rotate-file": "^4.7.1"
     }
 }
