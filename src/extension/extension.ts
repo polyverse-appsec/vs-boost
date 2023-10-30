@@ -22,6 +22,7 @@ export enum BoostFileType {
     status = "status",
     guidelines = "guidelines",
     output = "output",
+    chat = "chat",
 }
 
 export const boostActivityBarId = "polyverse-boost-explorer";
@@ -226,6 +227,33 @@ export function getBoostFile(
 
                 return vscode.Uri.file(normalizedAbsoluteBoostNotebookFile);
             }
+        case BoostFileType.chat:
+            const chatFolder = path.join(
+                boostFolder,
+                BoostFileType.chat.toString()
+            );
+            const absoluteChatFile = path.join(
+                chatFolder,
+                relativePath + ".json"
+            );
+            const normalizedAbsoluteChatFile = path.normalize(
+                absoluteChatFile
+            );
+
+            let chatFile = vscode.Uri.file(
+                normalizedAbsoluteChatFile
+            );
+            // create chat folder if not found
+            if (!fs.existsSync(chatFolder)) {
+                try {
+                    fs.mkdirSync(chatFolder, { recursive: true });
+                } catch (error) {
+                    throw new Error(
+                        `Failed to create Boost Chat folder at ${chatFolder} due to Error: ${errorToString(error)} - possible permission issue`
+                    );
+                }
+            }
+            return chatFile;
         case BoostFileType.status:
             const absoluteboostProjectDataFile = path.join(
                 boostFolder,

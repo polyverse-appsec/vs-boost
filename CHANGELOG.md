@@ -9,7 +9,7 @@ Polyverse Boost Automatic Application Modernization
 - N/A
 
 ### Enhancements
-- N/A
+- All Chat data moved under Boost Chat folder in Project Workspace - can be excluded from Git by via 
 
 ### Bug Fixes
 - Ensure UI feedback (via popup window) when Sara Chat request encounters an error

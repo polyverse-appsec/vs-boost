@@ -1211,30 +1211,51 @@ export class BoostExtension {
     }
 
     setupDashboard(context: vscode.ExtensionContext) {
-        this.summary = new BoostSummaryViewProvider(context, this);
-        this.chat = new BoostChatViewProvider(context, this);
-        this.start = new BoostStartViewProvider(context, this);
+        try {
+            this.summary = new BoostSummaryViewProvider(context, this);
+        
+            context.subscriptions.push(
+                vscode.window.registerWebviewViewProvider(
+                    summaryViewType,
+                    this.summary
+                )
+            );
+        } catch (error) {
+            boostLogging.error(
+                `Error creating Boost Summary View: ${errorToString(error)}`,
+                true
+            );
+        }
+        try {
+            this.chat = new BoostChatViewProvider(context, this);
 
-        context.subscriptions.push(
-            vscode.window.registerWebviewViewProvider(
-                summaryViewType,
-                this.summary
-            )
-        );
+            context.subscriptions.push(
+                vscode.window.registerWebviewViewProvider(
+                    BoostChatViewProvider.viewType,
+                    this.chat
+                )
+            );
+        } catch (error) {
+            boostLogging.error(
+                `Error creating Boost Chat View: ${errorToString(error)}`,
+                true
+            );
+        }
+        try {
+            this.start = new BoostStartViewProvider(context, this);
 
-        context.subscriptions.push(
-            vscode.window.registerWebviewViewProvider(
-                BoostChatViewProvider.viewType,
-                this.chat
-            )
-        );
-
-        context.subscriptions.push(
-            vscode.window.registerWebviewViewProvider(
-                BoostStartViewProvider.viewType,
-                this.start
-            )
-        );
+            context.subscriptions.push(
+                vscode.window.registerWebviewViewProvider(
+                    BoostStartViewProvider.viewType,
+                    this.start
+                )
+            );
+        } catch (error) {
+            boostLogging.error(
+                `Error creating Boost Start View: ${errorToString(error)}`,
+                true
+            );
+        }
 
         this.docs = new BoostMarkdownViewProvider(context, this, "docxw");
 

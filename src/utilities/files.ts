@@ -139,6 +139,35 @@ export function getBoostIgnoreFile(): vscode.Uri | undefined {
     return boostignoreFile;
 }
 
+export function getGitIgnoreFile(): vscode.Uri | undefined {
+    const workspaceFolder: vscode.Uri | undefined =
+        vscode.workspace.workspaceFolders?.[0]?.uri;
+
+    // if no workspace root folder, bail
+    if (!workspaceFolder) {
+        return undefined;
+    }
+
+    // path to the the .gitignore file
+    const gitIgnoreUri = vscode.Uri.joinPath(
+        workspaceFolder,
+        gitIgnoreFilename
+    );
+    return gitIgnoreUri;
+}
+
+export function updateGitIgnoreForTarget(
+    targetFilepath: string,
+    warnIfDoesntExist: boolean = true,
+) {
+    const gitignoreFile = getBoostIgnoreFile();
+    if (!gitignoreFile) {
+        return;
+    }
+
+    let patterns = _extractIgnorePatternsFromFile(gitignoreFile.fsPath);
+}
+
 export function updateBoostIgnoreForTarget(
     targetFilepath: string,
     absolutePath: boolean = true,
@@ -212,7 +241,7 @@ export function updateBoostIgnoreForTarget(
 
 const gitIgnoreFilename = ".gitignore";
 
-const defaultIgnorePaths = [
+const defaultBoostIgnorePaths = [
     '.vscode',
     'node_modules',
 
@@ -221,6 +250,8 @@ const defaultIgnorePaths = [
 
     '**/*.txt', // exclude all text files by default
     '**/*.md', // exclude all markdown files by default
+
+    'chat/**', // exclude all chat files by default
 ];
 
 const defaultIgnoredFolders = [
@@ -239,7 +270,7 @@ export async function createDefaultBoostIgnoreFile() {
         return;
     }
 
-    const initialFilesToIgnore = new Set<string>(defaultIgnorePaths);
+    const initialFilesToIgnore = new Set<string>(defaultBoostIgnorePaths);
 
     const files = await findExclusionItems();
     if (files) {

@@ -9,7 +9,7 @@ import {
 } from '../extension/extension';
 import { boostLogging } from '../utilities/boostLogging';
 import { summaryViewType } from './summary_view';
-import { aiName } from './chat_view';
+import { aiName } from '../data/ChatData';
 
 
 import { BaseWebviewViewProvider } from './BaseWebviewViewProvider';

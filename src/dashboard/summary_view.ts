@@ -4,7 +4,7 @@ import * as path from "path";
 import * as _ from "lodash";
 
 import { BoostExtension } from "../extension/BoostExtension";
-import { aiName } from "./chat_view";
+import { aiName } from "../data/ChatData";
 
 import { WorkflowEngine, WorkflowError } from "../utilities/workflow_engine";
 import { errorToString } from "../utilities/error";
