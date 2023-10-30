@@ -8,6 +8,7 @@ export enum ChatMessageRole {
     user = "user",
     assistant = "assistant",
     system = "system",
+    error = "error",
 }
 
 export interface Message {
@@ -55,7 +56,10 @@ export class ChatData {
         }
     }
 
-    addResponse(prompt: string, response: string): void {
+    addResponse(
+        prompt: string,
+        response: string,
+        responseType : ChatMessageRole = ChatMessageRole.assistant): void {
         this.chats[this.activeid].messages.push({
             role: ChatMessageRole.user,
             content: prompt,
@@ -63,7 +67,7 @@ export class ChatData {
 
         if (response) {
             this.chats[this.activeid].messages.push({
-                role: ChatMessageRole.assistant,
+                role: responseType,
                 content: response,
             });
         }

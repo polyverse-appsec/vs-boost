@@ -9,7 +9,8 @@ Polyverse Boost Automatic Application Modernization
 - N/A
 
 ### Enhancements
-- All Chat data moved under Boost Chat folder in Project Workspace - can be excluded from Git by via 
+- All Chat data moved under Boost Chat folder in Project Workspace - can be excluded from Git by via
+- Sara Chat status is shown in color - Blue for available, Yellow for Busy/Incomplete, and Red for Error
 
 ### Bug Fixes
 - Ensure UI feedback (via popup window) when Sara Chat request encounters an error

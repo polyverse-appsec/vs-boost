@@ -10,29 +10,36 @@
 		import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"; +
 		mermaid.initialize({ startOnLoad: true });
 	</script>
-	<style>
-        .user {
-            padding: 5px;
-            border-radius: 5px;
-            border-left: 10px solid #0078D4;  /* Visual Studio Code Blue */
-        }
+<style>
+    .user {
+        padding: 5px;
+        border-radius: 5px;
+        border-left: 10px solid #0078D4;  /* Static Visual Studio Code Blue */
+    }
 
-        .red {
-            padding: 5px;
-            border-radius: 5px;
-            border-left: 10px solid #FF0000;  /* Red */
-        }
+    .error {
+        padding: 5px;
+        border-radius: 5px;
+        border-left: 10px solid var(--vscode-statusBarItem-errorBackground);  /* Error Red from VSCode theme */
+    }
 
-        .yellow {
-            padding: 5px;
-            border-radius: 5px;
-            border-left: 10px solid #FFFF00;  /* Yellow */
-        }
+    .incomplete {
+        padding: 5px;
+        border-radius: 5px;
+        border-left: 10px solid var(--vscode-statusBarItem-warningForeground);  /* Warning Yellow from VSCode theme */
+    }
 
-        .system {
-            border-color: aqua;
-        }
-	</style>
+    .assistant {
+        padding: 5px;
+        border-radius: 5px;
+        border-left: 10px solid var(--vscode-statusBarItem-remoteBackground);  /* Any color from VSCode theme */
+    }
+
+    .system {
+        border-color: aqua; /* Consider using a VSCode variable for this too */
+    }
+</style>
+
 </head>
 <body>
 	<p>Ask <%= aiName %> questions about <%= projectName %></p>
@@ -52,18 +59,23 @@
 			</vscode-button></vscode-panel-tab>
 		<% } %>
 		<% chats.forEach((chat, index) => { %>
-			<vscode-panel-view id="view-<%= index%>" <% if(index != activeid) { %> hidden <% } %> >
-				<div class="chat-container">
-					<% chat.messages.forEach((message) => { %>
-						<% if (message.role !== 'system' && message.content) { %>
-							<div class="<%= message.role  %>">
-								<%= convert(message.content) %>
-							</div>
-						<% } %>
-					<% }) %>
-				</div>
-			</vscode-panel-view>
-		<% }); %>
+            <vscode-panel-view id="view-<%= index%>" <% if(index != activeid) { %> hidden <% } %> >
+                <div class="chat-container">
+                    <% chat.messages.forEach((message, idx) => { %>
+                        <% 
+                        let nextMessage = chat.messages[idx + 1];
+                        let useIncompleteClass = (message.role === 'user') && (!nextMessage || nextMessage.role === 'user');
+                        let divClass = useIncompleteClass ? 'incomplete' : message.role;
+                        %>
+                        <% if (message.role !== 'system' && message.content) { %>
+                            <div class="<%= divClass %>">
+                                <%= convert(message.content) %>
+                            </div>
+                        <% } %>
+                    <% }) %>
+                </div>
+            </vscode-panel-view>
+        <% }); %>
 		/* IMPORTANT: the number of labels has to match the number of tabs otherwise the UI will break */
 		<% if( chats.length < 5 ) { %>
 			<vscode-panel-view id="view-add" hidden>

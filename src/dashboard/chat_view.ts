@@ -206,11 +206,12 @@ export class BoostChatViewProvider extends BaseWebviewViewProvider {
                     return success;
                 });
         } catch (error) {
+            const message = errorToString(error);
             boostLogging.error(
-                `Chat requested could not complete due to ${errorToString(error)}`,
+                `Chat requested could not complete due to ${message}`,
                 showUI
             );
-            this.chatData.addResponse(prompt, "");
+            this.chatData.addResponse(prompt, message, ChatMessageRole.error);
         }
     }
 }
