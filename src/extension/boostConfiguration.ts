@@ -105,13 +105,13 @@ export class BoostConfiguration {
             .update(Defaults.addBoostToAnalyzedProjectsName, value, ConfigurationTarget.Global);
     }
 
-    public static get cleanupUnusedBoostFilesAutomatically(): boolean {
-        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.cleanupUnusedBoostFilesAutomaticallyName) as boolean)??
-            Defaults.cleanupUnusedBoostFilesAutomaticallyValue;
+    public static get projectCleanupMethod(): string {
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.projectCleanupMethodValue) as string)??
+            Defaults.projectCleanupMethodValue;
     }
     public static set cleanupUnusedBoostFilesAutomatically(value: string) {
         workspace.getConfiguration(NOTEBOOK_TYPE, null)
-            .update(Defaults.cleanupUnusedBoostFilesAutomaticallyName, value, ConfigurationTarget.Global);
+            .update(Defaults.projectCleanupMethodName, value, ConfigurationTarget.Global);
     }
 
     public static get logLevel(): string {
@@ -279,8 +279,8 @@ class Defaults {
     public static readonly addBoostToAnalyzedProjectsName : string = "advanced.addBoostToAnalyzedProjects";
     public static readonly addBoostToAnalyzedProjectsValue : boolean = true;
 
-    public static readonly cleanupUnusedBoostFilesAutomaticallyName : string = "advanced.cleanupUnusedBoostFilesAutomatically";
-    public static readonly cleanupUnusedBoostFilesAutomaticallyValue : boolean = true;
+    public static readonly projectCleanupMethodName : string = "advanced.projectCleanupMethod";
+    public static readonly projectCleanupMethodValue : string = "SystemTrash";
 
     // enables targeting a specific kernel for analysis when using run all in UX
     // for example, if you want to run only security analysis with source id and no summary, use:

@@ -220,6 +220,23 @@
                         "type": "boolean",
                         "default": false,
                         "description": "Force analysis refresh when existing Cell analysis is available"
+                    },
+                    "polyverse-boost-notebook.advanced.projectCleanupMethod": {
+                        "type": "string",
+                        "default": "SystemTrash",
+                        "enum": [
+                            "SystemTrash",
+                            "LocalTrash",
+                            "PermanentlyDelete",
+                            "NoCleanup"
+                        ],
+                        "enumDescriptions": [
+                            "Send files to the system trash or Recyle Bin (default)",
+                            "Send files to a local Boost trash folder",
+                            "Permanently delete files",
+                            "Do not delete files"
+                        ],
+                        "markdownDescription": "Where to send files during *Project cleanup*"
                     }
                 }
             }

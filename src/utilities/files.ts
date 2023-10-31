@@ -23,6 +23,7 @@ import {
 } from "../extension/extension";
 
 import * as boostnb from "../data/jupyter_notebook";
+import { errorToString } from "./error";
 
 export function fullPathFromSourceFile(sourceFile: string): vscode.Uri {
     let baseFolder: string;
@@ -88,9 +89,13 @@ export async function getAllProjectFiles(
 
     const boostOnlyPatterns = buildBoostOnlyPatterns(targetFolder);
 
-    const searchPattern = new vscode.RelativePattern(
+    const boostOnlySearchPattern = new vscode.RelativePattern(
         targetFolder.fsPath,
-        boostOnlyPatterns.length ? `{${boostOnlyPatterns.join(',')}}` : "**/**"
+        `{${boostOnlyPatterns.join(',')}}`
+    );
+    const searchAllFilesPattern = new vscode.RelativePattern(
+        targetFolder.fsPath,
+        "**/*"
     );
 
     const ignoredPatternsByCategory = await buildProjectSourceCodeIgnorePattern(targetFolder, true);
@@ -101,7 +106,7 @@ export async function getAllProjectFiles(
 
             boostLogging.log(`\tSource files ignored by Category ${cp.category}: ${files.length}`);
             if (boostLogging.shouldLog("debug")) {
-                files.forEach(f => boostLogging.debug(`\t\tIgnored: ${f.fsPath}`));
+                files.forEach(f => boostLogging.debug(`\t\tIgnored: ${vscode.workspace.asRelativePath(f.fsPath)}`));
             }
         }
     }
@@ -110,7 +115,18 @@ export async function getAllProjectFiles(
 
     const allIgnoredPatterns = new vscode.RelativePattern(targetFolder, ignorePatterns);
 
-    const files = await vscode.workspace.findFiles( searchPattern, allIgnoredPatterns);
+    const files = boostOnlyPatterns.length?
+                await vscode.workspace.findFiles( boostOnlySearchPattern, allIgnoredPatterns):
+                await vscode.workspace.findFiles( searchAllFilesPattern, allIgnoredPatterns);
+    if (options?.debugFileCounts && boostOnlyPatterns.length) {
+        const totalFiles = await vscode.workspace.findFiles( searchAllFilesPattern, allIgnoredPatterns);
+        boostLogging.log(`Source files excluded by Boost Only: ${totalFiles.length - files.length}`);
+        if (boostLogging.shouldLog("debug")) {
+            const excludedFiles : Set<string> = new Set(totalFiles.map(f => f.fsPath));
+            files.forEach(f => excludedFiles.delete(f.fsPath));
+            excludedFiles.forEach(f => boostLogging.debug(`\tExcluded: ${vscode.workspace.asRelativePath(f)}`));
+        }
+    }
 
     let paths: string[] = [];
     files.forEach((file) => {
@@ -504,16 +520,68 @@ export async function removeOldBoostFiles() {
     });
 
     // trash the files
-    setOfFilesToTrash.forEach((fileToTrash: vscode.Uri) => {
-        try {
-            // this causes a user prompt - which we don't want in automated mode
-//            boostLogging.info(`Removing old Boost file to Trash: ${fileToTrash.fsPath}`, false);
-//            vscode.commands.executeCommand('moveFileToTrash', fileToTrash);
-            fs.unlinkSync(fileToTrash.fsPath);
-        } catch (error) {
-            boostLogging.warn(`Unable to remove old Boost file to Trash: ${fileToTrash.fsPath}`, false);
-            return;
+    moveFilesToTrash([...setOfFilesToTrash]);
+}
+
+enum DeleteOption {
+    permanentlyDelete = "PermanentlyDelete",
+    systemTrash = "SystemTrash",
+    localTrash = "LocalTrash",
+    noCleanup = "NoCleanup",
+}
+
+
+async function moveFilesToTrash(
+    filesToTrash: vscode.Uri[], deleteMethod = DeleteOption.systemTrash) {
+
+    boostLogging.info(`Boost Cleanup Setinng: ${deleteMethod}`, false);
+
+    for (const fileToTrash of filesToTrash) {
+        if (deleteMethod === DeleteOption.noCleanup) {
+            boostLogging.warn(`Keeping old Boost file: ${fileToTrash.fsPath}`, false);
+            continue;
         }
-        boostLogging.info(`Removed old Boost file to Trash: ${fileToTrash.fsPath}`, false);
-    });
+
+        // this causes a user prompt - which we don't want in automated mode
+        boostLogging.info(`Removing old Boost file: ${fileToTrash.fsPath}`, false);
+        try {
+            switch (deleteMethod) {
+                case DeleteOption.permanentlyDelete:
+                    fs.unlinkSync(fileToTrash.fsPath);
+                    break;
+                case DeleteOption.localTrash:
+                    await moveFileToBoostTrash(fileToTrash);
+                    break;
+                case DeleteOption.systemTrash:
+                default:
+                    const we = new vscode.WorkspaceEdit();
+                    we.deleteFile(fileToTrash);
+                    await vscode.workspace.applyEdit(we);
+                    break;
+            }
+        } catch (error) {
+            boostLogging.error(`Unable to remove old Boost file: ${fileToTrash.fsPath} - ${errorToString(error)}`, false);
+            continue;
+        }
+        boostLogging.warn(`Removed old Boost file to Trash: ${fileToTrash.fsPath}`, false);
+    }
+}
+
+async function moveFileToBoostTrash(fileToTrash: vscode.Uri) {
+    const boostTrashFolder = vscode.Uri.joinPath(
+        vscode.workspace.workspaceFolders![0].uri,
+        boostFolderDefaultName,
+        constants.boostTrashFolder);
+
+    let relativePath = vscode.workspace.asRelativePath(fileToTrash.fsPath);
+
+    // Remove the first directory segment
+    const pathSegments = relativePath.split(path.sep);
+    pathSegments.shift();
+    relativePath = pathSegments.join(path.sep);
+
+    const trashFile = vscode.Uri.joinPath(boostTrashFolder, relativePath);
+    const folderOfTrashFile = path.dirname(trashFile.fsPath);
+    await promises.mkdir(folderOfTrashFile, { recursive: true });
+    await promises.rename(fileToTrash.fsPath, trashFile.fsPath);
 }

@@ -108,3 +108,5 @@ export const textFilePatterns = [
     "**/*.gitmodules",
     "**/*.gitconfig",
 ];
+
+export const boostTrashFolder = ".trash";
