@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
+import * as _ from "lodash";
 
 // Boost specific imports
 import * as boostnb from "../data/jupyter_notebook";
@@ -379,6 +380,8 @@ export class BoostExtension {
         );
         context.subscriptions.push(disposable);
     }
+
+    slowConfigurationChanged = _.debounce(this.refreshBoostProjectsData, 5000, { leading: true });
 
     async configurationChanged() {
         // debounce configuration changes so we don't refresh too often
