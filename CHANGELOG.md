@@ -14,6 +14,7 @@ Polyverse Boost Automatic Application Modernization
 - Sara Chat status is shown in color - Blue for available, Yellow for Busy/Incomplete, and Red for Error
 - Default Boost Ignore adds SQL, RTF, CSV, etc. files to ignore list - can be overriden with by editing .boostignore
 - Small performance improvement on startup when loading a default project, or making multiple file/folder changes
+- Log # of Ignored or Skipped files in Output window for Activity Bar Run Analysis; under Debug logging, all filenames are logged as well
 
 ### Bug Fixes
 - Ensure UI feedback (via popup window) when Sara Chat request encounters an error

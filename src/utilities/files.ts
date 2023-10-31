@@ -4,6 +4,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as promises from 'fs/promises';
 
+import * as constants from "./fileConstants";
+
 import {
     boostLogging
 } from "./boostLogging";
@@ -21,9 +23,6 @@ import {
 } from "../extension/extension";
 
 import * as boostnb from "../data/jupyter_notebook";
-
-
-const boostIgnoreFilename = ".boostignore";
 
 export function fullPathFromSourceFile(sourceFile: string): vscode.Uri {
     let baseFolder: string;
@@ -94,11 +93,24 @@ export async function getAllProjectFiles(
         boostOnlyPatterns.length ? `{${boostOnlyPatterns.join(',')}}` : "**/**"
     );
 
-    const ignorePatterns = await buildProjectSourceCodeIgnorePattern(targetFolder, true);
-    const files = await vscode.workspace.findFiles(
-        searchPattern,
-        ignorePatterns
-    );
+    const ignoredPatternsByCategory = await buildProjectSourceCodeIgnorePattern(targetFolder, true);
+    if (options?.debugFileCounts) {
+        boostLogging.log(`Source files ignored by Category:`);
+        for (const cp of ignoredPatternsByCategory!) {
+            const files = await vscode.workspace.findFiles( cp.relativePattern);
+
+            boostLogging.log(`\tSource files ignored by Category ${cp.category}: ${files.length}`);
+            if (boostLogging.shouldLog("debug")) {
+                files.forEach(f => boostLogging.debug(`\t\tIgnored: ${f.fsPath}`));
+            }
+        }
+    }
+
+    const ignorePatterns = `{${ignoredPatternsByCategory!.flatMap(cp => cp.patterns) ?? [].join(",")}}`;
+
+    const allIgnoredPatterns = new vscode.RelativePattern(targetFolder, ignorePatterns);
+
+    const files = await vscode.workspace.findFiles( searchPattern, allIgnoredPatterns);
 
     let paths: string[] = [];
     files.forEach((file) => {
@@ -121,7 +133,12 @@ export async function getAllProjectFiles(
     }
 
     if (paths.length > 0) {
-        boostLogging.debug(`Source files deprioritized to bottom due to unspecified order: ${paths.length}`);
+        if (options?.debugFileCounts) {
+            boostLogging.log(`Source files deprioritized to bottom due to unspecified order: ${paths.length}`);
+            paths.forEach(p => boostLogging.debug(`\tDeprioritized: ${p}`));
+        } else {
+            boostLogging.debug(`Source files deprioritized to bottom due to unspecified order: ${paths.length}`);
+        }
         prioritizedPaths = [...prioritizedPaths, ...paths];
     }
 
@@ -140,7 +157,7 @@ export function getBoostIgnoreFile(): vscode.Uri | undefined {
     // path to the the .boostignore file
     const boostignoreFile = vscode.Uri.joinPath(
         workspaceFolder,
-        boostIgnoreFilename
+        constants.boostIgnoreFilename
     );
     return boostignoreFile;
 }
@@ -157,7 +174,7 @@ export function getGitIgnoreFile(): vscode.Uri | undefined {
     // path to the the .gitignore file
     const gitIgnoreUri = vscode.Uri.joinPath(
         workspaceFolder,
-        gitIgnoreFilename
+        constants.gitIgnoreFilename
     );
     return gitIgnoreUri;
 }
@@ -245,33 +262,6 @@ export function updateBoostIgnoreForTarget(
     );
 }
 
-const gitIgnoreFilename = ".gitignore";
-
-const defaultBoostIgnorePaths = [
-    '.vscode',
-    'node_modules',
-
-    gitIgnoreFilename,
-    boostIgnoreFilename,
-
-    'chat/**', // exclude all chat files by default
-];
-
-const potentiallyUsefulTextFiles = [
-    '**/*.md', // exclude all markdown files by default
-    '**/*.txt', // exclude all text files by default
-    "**/*.ipynb", // Jupyter notebooks
-    "**/*.sql", // SQL scripts
-    "**/*.rtf", // Rich text files
-    "**/*.csv", // Data files that might be read by scripts
-    "**/*.tsv", // Data files that might be read by scripts
-    "**/*.dist", // Often used for distribution config files
-];
-
-const defaultIgnoredFolders = [
-    '**/node_modules/**',
-];
-
 export async function createDefaultBoostIgnoreFile() {
     const boostIgnoreFileUri = getBoostIgnoreFile();
     if (!boostIgnoreFileUri) {
@@ -284,8 +274,8 @@ export async function createDefaultBoostIgnoreFile() {
         return;
     }
 
-    const initialFilesToIgnore = new Set<string>(defaultBoostIgnorePaths);
-    potentiallyUsefulTextFiles.forEach((ignorePath) => {
+    const initialFilesToIgnore = new Set<string>(constants.defaultBoostIgnorePaths);
+    constants.potentiallyUsefulTextFiles.forEach((ignorePath) => {
         initialFilesToIgnore.add(ignorePath);
     });
 
@@ -342,10 +332,16 @@ async function findExclusionItems(baseDir: string = vscode.workspace.workspaceFo
 
 export const boostFolderDefaultName = ".boost";
 
+interface CategorizedPatterns {
+    category: string;
+    patterns: string[];
+    relativePattern: vscode.RelativePattern;
+}
+
 async function buildProjectSourceCodeIgnorePattern(
     targetFolder: vscode.Uri,
     ignoreBoostFolder: boolean = true
-): Promise<vscode.RelativePattern | null> {
+): Promise<CategorizedPatterns[] | null> {
     let workspaceFolder: vscode.Uri | undefined =
         vscode.workspace.workspaceFolders?.[0]?.uri;
     // if no workspace root folder, bail
@@ -353,12 +349,12 @@ async function buildProjectSourceCodeIgnorePattern(
         return null;
     }
 
-    const patterns: string[] = [];
+    const categorizedPatterns: any [] = [];
 
-    const ignoredFolders = `{${defaultIgnoredFolders.join(",")}}`;
+    const ignoredFolders = `{${constants.defaultIgnoredFolders.join(",")}}`;
 
     // Find all .gitignore files in the workspace
-    const gitignoreFiles = await vscode.workspace.findFiles(`**/${gitIgnoreFilename}`, ignoredFolders);
+    const gitignoreFiles = await vscode.workspace.findFiles(`**/${constants.gitIgnoreFilename}`, ignoredFolders);
     for (const gitignoreFile of gitignoreFiles) {
         const relativeDir = path.relative(workspaceFolder.fsPath, path.dirname(gitignoreFile.fsPath));
         
@@ -375,130 +371,63 @@ async function buildProjectSourceCodeIgnorePattern(
             return path.normalize(path.join(relativeDir, pattern));
         });
         
-        patterns.push(...adjustedPatterns);
+        categorizedPatterns.push(
+            {category: ".gitignore", patterns: adjustedPatterns});
     }
 
     const boostIgnoreFile = getBoostIgnoreFile();
     if (!boostIgnoreFile) {
         return null;
     }
-    patterns.push(
-        ...patterns.concat(
-            _extractIgnorePatternsFromFile(boostIgnoreFile.fsPath)
-        )
-    );
+    categorizedPatterns.push(
+        {category: ".boostignore", patterns:
+            _extractIgnorePatternsFromFile(boostIgnoreFile.fsPath)});
+
+    // Get all patterns from all categories for further checks and operations
+    const allPatterns = categorizedPatterns.flatMap(cp => cp.patterns);
 
     // never include the .boost folder - since that's where we store our notebooks
     if (
         ignoreBoostFolder &&
-        !patterns.find((pattern) => pattern === `**/${boostFolderDefaultName}/**`)
+        !allPatterns.find((pattern) => pattern === `**/${boostFolderDefaultName}/**`)
     ) {
-        patterns.push(`**/${boostFolderDefaultName}/**`);
+        categorizedPatterns.push(
+            {category: "Boost Folder", patterns: [`**/${boostFolderDefaultName}/**`]});
     } else if (!ignoreBoostFolder) {
-        patterns.splice(patterns.indexOf(`**/${boostFolderDefaultName}/**`), 1);
+        // remove the boost folder pattern if we're not ignoring it
+        categorizedPatterns.forEach((cp : CategorizedPatterns) => {
+            const index = cp.patterns.indexOf(`**/${boostFolderDefaultName}/**`);
+            if (index !== -1) {
+                cp.patterns.splice(index, 1);
+            }
+        });
     }
 
     // never include the .boostignore file since that's where we store our ignore patterns
-    if (!patterns.find((pattern) => pattern === `**/${boostIgnoreFilename}`)) {
-        patterns.push(`**/${boostIgnoreFilename}`);
+    if (!allPatterns.find((pattern) => pattern === `**/${constants.boostIgnoreFilename}`)) {
+        categorizedPatterns.push(
+            {category: "Boost Ignore File", patterns: [`**/${constants.boostIgnoreFilename}`]});
     }
-    // add common binary file types to the exclude patterns
-    const binaryFilePatterns = [
-        "**/*.jpg",
-        "**/*.jpeg",
-        "**/*.png",
-        "**/*.gif",
-        "**/*.bmp",
-        "**/*.tiff",
-        "**/*.ico",
-        "**/*.pdf",
-        "**/*.zip",
-        "**/*.tar",
-        "**/*.gz",
-        "**/*.rar",
-        "**/*.7z",
-        "**/*.exe",
-        "**/*.dll",
-        "**/*.so",
-        "**/*.bin",
-        "**/*.ppt",
-        "**/*.pptx",
-        "**/*.doc",
-        "**/*.docx",
-        "**/*.xls",
-        "**/*.xlsx",
-        "**/*.psd",
-        "**/*.ai",
-        "**/*.flv",
-        "**/*.mp4",
-        "**/*.avi",
-        "**/*.mkv",
-        "**/*.mpeg",
-        "**/*.mp3",
-        "**/*.wav",
-        "**/*.flac",
-        "**/*.aac",
-        "**/*.ogg",
-        "**/*.iso",
-        "**/*.dmg",
-        "**/*.jar",
-        "**/*.war",
-        "**/*.ear",
-        "**/*.pyc",
-        "**/*.pyo",
-        "**/*.class",
-        "**/*.sqlite",
-        "**/*.db",
-        "**/*.ttf",
-        "**/*.otf",
-        "**/*.ipynb_checkpoints",
-        "**/*.ipynb_checkpoints/**",
-        "**/*.git",
-        "**/*.svn",
-        "**/*.hg",
-        "**/*.bz2",
-        "**/*.app",
-        "**/*.appx",
-        "**/*.appxbundle",
-        "**/*.msi",
-        "**/*.deb",
-        "**/*.rpm",
-        "**/*.elf",
-        "**/*.sys",
-        "**/*.odt",
-        "**/*.ods",
-        "**/*.odp",
-    ];
 
-    const textFilePatterns = [
-        "**/*.svg",
-        "**/*.*ignore",
-        "**/*.gitignore",
-        "**/*.gitattributes",
-        "**/*.log",
-        "**/*.out",
-        "**/*.dockerignore",
-        "**/*.gitkeep",
-        "**/*.gitmodules",
-        "**/*.gitconfig",
-    ];
+    categorizedPatterns.push(
+        {category: "Binary Image/Build Files (e.g. mp4, jpg, gif, jar, elf, etc.)", patterns: constants.binaryFilePatterns});
+    categorizedPatterns.push(
+        {category: "Text Files (e.g. log, out, git, svg, etc.)", patterns: constants.textFilePatterns});
 
-    patterns.push(
-        ...binaryFilePatterns,
-        ...textFilePatterns,
-    );
+    categorizedPatterns.forEach((cp : CategorizedPatterns) => {
+        const invalidPatterns = cp.patterns.filter(pattern => pattern.includes('{') || pattern.includes('}'));
+        if (invalidPatterns.length > 0) {
+            boostLogging.warn(`The following patterns have brackets and were removed: ${invalidPatterns.join(", ")}`, false);
+        }
+        
+        const cleanedPatterns = cp.patterns.filter(pattern => !pattern.includes('{') && !pattern.includes('}'));
+        cp.patterns = cleanedPatterns;
 
-    const invalidPatterns = patterns.filter(pattern => pattern.includes('{') || pattern.includes('}'));
+        const ignorePatterns = `{${cleanedPatterns.join(",")}}`;
+        cp.relativePattern = new vscode.RelativePattern(targetFolder, ignorePatterns);        
+    });
 
-    if (invalidPatterns.length > 0) {
-        boostLogging.warn(`The following patterns have brackets and were removed: ${invalidPatterns.join(", ")}`, false);
-    }
-    
-    const cleanedPatterns = patterns.filter(pattern => !pattern.includes('{') && !pattern.includes('}'));
-    
-    const ignorePatterns = `{${cleanedPatterns.join(",")}}`;
-
-    return new vscode.RelativePattern(targetFolder, ignorePatterns);
+    return categorizedPatterns;
 }
 
 function _extractIgnorePatternsFromFile(ignoreFile: string): string[] {

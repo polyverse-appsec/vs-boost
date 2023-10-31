@@ -433,7 +433,7 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
         //      blueprint
         const prepareFileList = async () => {
             // get the entire list of files to analyze
-            const allFiles = await getAllProjectFiles();
+            const allFiles = await getAllProjectFiles( { debugFileCounts: true });
             boostLogging.info(`Total Project is ${allFiles.length} files`);
     
             // get the requested # of files only
