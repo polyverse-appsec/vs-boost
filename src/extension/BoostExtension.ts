@@ -381,8 +381,8 @@ export class BoostExtension {
     }
 
     async configurationChanged() {
-        // wait, so we don't have overlapping config refreshes
-        await this.refreshBoostProjectsData();
+        // debounce configuration changes so we don't refresh too often
+        this.slowConfigurationChanged();
     }
 
     private _setupNotebookChangedLifecycle(context: vscode.ExtensionContext) {
@@ -689,7 +689,7 @@ export class BoostExtension {
         deepScan: boolean = false
     ): Promise<boostnb.BoostNotebook[]> {
         const setOfAllFiles : Set<string> = new Set<string>();
-        const files = (await getAllProjectFiles(false, workspaceFolder)).map(
+        const files = (await getAllProjectFiles( { targetFolder: workspaceFolder })).map(
             (file) => {
                 return vscode.Uri.file(file);
             }
@@ -1448,7 +1448,7 @@ export class BoostExtension {
         targetFolder: vscode.Uri,
         context: vscode.ExtensionContext
     ) {
-        const files = (await getAllProjectFiles(false, targetFolder)).map(
+        const files = (await getAllProjectFiles({ targetFolder: targetFolder })).map(
             (file: string) => {
                 return vscode.Uri.file(file);
             }
@@ -3212,7 +3212,7 @@ export class BoostExtension {
         // if user provided a filelist, use that, otherwise grab everything from the target folder
         let files = options?.filelist;
         if (!files) {
-            files = (await getAllProjectFiles(false, options?.uri)).map(
+            files = (await getAllProjectFiles({ targetFolder: options?.uri })).map(
                 (file) => {
                     return vscode.Uri.file(file);
                 }
@@ -3892,7 +3892,7 @@ export class BoostExtension {
         }
 
         // get all the source files we're going to convert to output
-        const sourceFiles = await getAllProjectFiles(false, folderUri);
+        const sourceFiles = await getAllProjectFiles( { targetFolder: folderUri });
         const notebookFilesThatExist = sourceFiles.filter((file) => {
             if (!fs.existsSync(file)) {
                 boostLogging.debug(

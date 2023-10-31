@@ -67,10 +67,16 @@ export function getPrioritizedFileList() : string[] {
     return prioritizedFilelist?prioritizedFilelist:[];
 }
 
+interface GetAllProjectFilesOptions {
+    useRelativePaths?: boolean;
+    targetFolder?: vscode.Uri;
+    debugFileCounts?: boolean;
+}
+
 export async function getAllProjectFiles(
-    useRelativePaths: boolean = false,
-    targetFolder : vscode.Uri | undefined = undefined
+    options?: GetAllProjectFilesOptions
 ): Promise<string[]> {
+    let targetFolder: vscode.Uri | undefined = options?.targetFolder;
     if (!targetFolder) {
         if (vscode.workspace.workspaceFolders) {
             targetFolder = vscode.workspace.workspaceFolders![0].uri;
@@ -96,7 +102,7 @@ export async function getAllProjectFiles(
 
     let paths: string[] = [];
     files.forEach((file) => {
-        const pathToAdd = useRelativePaths ? vscode.workspace.asRelativePath(file) : file.fsPath;
+        const pathToAdd = options?.useRelativePaths ? vscode.workspace.asRelativePath(file) : file.fsPath;
         paths.push(pathToAdd);
     });
 
@@ -104,7 +110,7 @@ export async function getAllProjectFiles(
     for (let relativeFile of prioritizedFileList) {
         const absoluteFile = vscode.Uri.joinPath(targetFolder, relativeFile).fsPath;
         const index = paths.findIndex(p => {
-            const comparePath = useRelativePaths ? vscode.workspace.asRelativePath(p) : p;
+            const comparePath = options?.useRelativePaths ? vscode.workspace.asRelativePath(p) : p;
             return comparePath === absoluteFile;
         });
         
@@ -248,10 +254,18 @@ const defaultBoostIgnorePaths = [
     gitIgnoreFilename,
     boostIgnoreFilename,
 
-    '**/*.txt', // exclude all text files by default
-    '**/*.md', // exclude all markdown files by default
-
     'chat/**', // exclude all chat files by default
+];
+
+const potentiallyUsefulTextFiles = [
+    '**/*.md', // exclude all markdown files by default
+    '**/*.txt', // exclude all text files by default
+    "**/*.ipynb", // Jupyter notebooks
+    "**/*.sql", // SQL scripts
+    "**/*.rtf", // Rich text files
+    "**/*.csv", // Data files that might be read by scripts
+    "**/*.tsv", // Data files that might be read by scripts
+    "**/*.dist", // Often used for distribution config files
 ];
 
 const defaultIgnoredFolders = [
@@ -271,6 +285,9 @@ export async function createDefaultBoostIgnoreFile() {
     }
 
     const initialFilesToIgnore = new Set<string>(defaultBoostIgnorePaths);
+    potentiallyUsefulTextFiles.forEach((ignorePath) => {
+        initialFilesToIgnore.add(ignorePath);
+    });
 
     const files = await findExclusionItems();
     if (files) {
@@ -466,19 +483,9 @@ async function buildProjectSourceCodeIgnorePattern(
         "**/*.gitconfig",
     ];
 
-    const potentiallyUsefulTextFiles = [
-        "**/*.ipynb", // Jupyter notebooks
-        "**/*.sql", // SQL scripts
-        "**/*.rtf", // Rich text files
-        "**/*.csv", // Data files that might be read by scripts
-        "**/*.tsv", // Data files that might be read by scripts
-        "**/*.dist", // Often used for distribution config files
-    ];
-
     patterns.push(
         ...binaryFilePatterns,
         ...textFilePatterns,
-        ...potentiallyUsefulTextFiles
     );
 
     const invalidPatterns = patterns.filter(pattern => pattern.includes('{') || pattern.includes('}'));

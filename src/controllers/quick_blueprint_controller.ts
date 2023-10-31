@@ -196,7 +196,7 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
             "markdown"
         );
 
-        const files = await getAllProjectFiles(true);
+        const files = await getAllProjectFiles({ useRelativePaths: true });
         const projectName = getProjectName();
 
         const payloadDraft = {

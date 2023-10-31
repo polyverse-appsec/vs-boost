@@ -197,7 +197,7 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
 
         // get the list of files to analyze (or current file for single file analysis)
         const filteredFiles = projectWideAnalysis?
-            await getAllProjectFiles(true):
+            await getAllProjectFiles({ useRelativePaths: true }) :
             [notebook.metadata['sourceFile']];
 
         const targetFolder = vscode.workspace.workspaceFolders?.[0].uri;
