@@ -31,7 +31,6 @@ import { performanceFunctionKernelName } from "../controllers/performance_functi
 import { BoostProjectData } from "../data/BoostProjectData";
 import {
     FileSummaryItem,
-    AnalysisState,
 } from "../data/boostprojectdata_interface";
 import { quickBlueprintKernelName } from "../controllers/quick_blueprint_controller";
 import { performanceKernelName } from "../controllers/performance_controller";
