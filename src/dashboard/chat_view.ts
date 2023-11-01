@@ -61,6 +61,10 @@ export class BoostChatViewProvider extends BaseWebviewViewProvider {
         this.chatData = new ChatData(); // Initialize the ChatData
     }
 
+    public get data(): ChatData {
+        return this.chatData;
+    }
+
     async _resolveWebviewView(
         webviewView: vscode.WebviewView,
         context: vscode.WebviewViewResolveContext,

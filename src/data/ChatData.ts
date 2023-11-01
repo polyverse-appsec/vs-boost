@@ -1,8 +1,8 @@
 import * as fs from "fs";
-import * as path from "path";
-
 import * as vscode from "vscode";
 import { BoostFileType, getBoostFile } from "../extension/extension";
+import { IAnalysisContextData } from "./IAnalysisContextData";
+import { boostLogging } from "../utilities/boostLogging";
 
 export enum ChatMessageRole {
     user = "user",
@@ -12,14 +12,20 @@ export enum ChatMessageRole {
     ignore = "ignore",
 }
 
-export interface Message {
+export interface ChatMessage {
     role: ChatMessageRole;
     content: string;
+    context?: IAnalysisContextData[];
 }
 
 export interface Chat {
     title: string;
-    messages: Message[];
+    messages: ChatMessage[];
+}
+
+export interface PromptResponse {
+    prompt: ChatMessage;
+    response: ChatMessage;
 }
 
 export const aiName = "Sara";
@@ -32,16 +38,20 @@ export class ChatData {
     private readonly srcChatFoldername = "chat";
 
     constructor(initialPath?: string) {
-        if (!initialPath) {
-            this.chatFilename = getBoostFile(undefined, { format: BoostFileType.chat }).fsPath;
+        if (!initialPath && vscode.workspace.workspaceFolders) {
+            initialPath = getBoostFile(undefined, { format: BoostFileType.chat }).fsPath;
+        }
+
+        if (initialPath && fs.existsSync(initialPath)) {
+            this.load(initialPath);
         } else {
             this.chatFilename = initialPath;
         }
 
-        if (fs.existsSync(this.chatFilename)) {
-            this.load(this.chatFilename);
-        }
+        this.initialize();
+    }
 
+    initialize() {
         if (this.chats.length === 0) {
             this.addChat(); // ensure we always have at least one chat
         } else {
@@ -54,7 +64,30 @@ export class ChatData {
                     }
                 }
             });
+        }        
+    }
+
+    create(jsonString: string): void {
+        const chatData = JSON.parse(jsonString) as Chat[];
+        Object.assign(this.chats, chatData);
+    }
+
+    load(filePath: string = this.chatFilename!): void {
+        const jsonString = fs.readFileSync(filePath!, "utf8");
+        this.create(jsonString);
+        this.chatFilename = filePath;
+    }
+
+    save(filename: string): void {
+        fs.writeFileSync(filename, JSON.stringify(this.chats, null, 2), { encoding: "utf8" });
+    }
+
+    flushToFS(): void {
+        if (!this.chatFilename) {
+            boostLogging.warn("Filename for the Project Chat is not defined. Can't save data.");
+            return;
         }
+        this.save(this.chatFilename);
     }
 
     addResponse(
@@ -100,25 +133,39 @@ export class ChatData {
         this.flushToFS();
     }
 
-    create(jsonString: string): void {
-        const chatData = JSON.parse(jsonString) as Chat[];
-        Object.assign(this.chats, chatData);
-    }
+    getFavorites(maxFavorites: number =  5): PromptResponse[] {
+        const favorites: PromptResponse[] = [];
 
-    load(filePath: string = this.chatFilename!): void {
-        const jsonString = fs.readFileSync(filePath!, "utf8");
-        this.create(jsonString);
-        this.chatFilename = filePath;
-    }
+        for (let index = this.chats[this.activeid].messages.length - 1; index >= 0; index--) {
+            if (favorites.length >= maxFavorites) {
+                break;
+            }
 
-    save(filename: string): void {
-        fs.writeFileSync(filename, JSON.stringify(this.chats, null, 2), { encoding: "utf8" });
-    }
+            const message = this.chats[this.activeid].messages[index];
+            if (message.role !== ChatMessageRole.assistant) {
+                continue;
+            }
 
-    flushToFS(): void {
-        if (!this.chatFilename) {
-            throw new Error("Filename for the chat is not defined. Can't save data.");
+            if (index === 0) {
+                // if we need to read the previous message, but there isn't one, we'll skip this one
+                continue;
+            }
+            const promptMessage = this.chats[this.activeid].messages[index - 1];
+            // if previous message isn't the prompt, then skip this one
+            if (promptMessage.role !== ChatMessageRole.user) {
+                continue;
+            }
+
+            // favorites are assistant-tagged
+            favorites.push({
+                prompt: promptMessage,
+                response: message,
+            });
         }
-        this.save(this.chatFilename);
+
+        // reverse the messages - so earlier messages are first
+        favorites.reverse();
+
+        return favorites;
     }
 }

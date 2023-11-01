@@ -170,6 +170,7 @@ import {
 
 import { InlineBoostAnnotations } from "../inline/inline";
 import { ProjectContextData } from "../data/ProjectContextData";
+import { ChatData } from "../data/ChatData";
 
 export class BoostNotebookContentProvider
     implements vscode.TextDocumentContentProvider
@@ -4132,8 +4133,35 @@ export class BoostExtension {
         analysisContext.push(
             ...this.getBoostSummaryAnalysisContext(targetAnalysisSummaries)
         );
+        
+        const trainingData : analysis.IAnalysisContextData[] = this.getRelevantTrainingData(commandId);
+        if (trainingData.length > 0) {
+            analysisContext.push(...trainingData);
+        }
 
         return analysisContext;
+    }
+
+    getRelevantTrainingData(commandId?: string): analysis.IAnalysisContextData[] {
+
+        // if we're not chat, then just skip training
+        if (!commandId || commandId !== chatKernelName) {
+            return [];
+        }
+
+        const trainingData: analysis.IAnalysisContextData[] = [];
+
+        const chatData = this.chat?this.chat.data: new ChatData();
+
+        for (const promptResponse of chatData.getFavorites()) {
+            trainingData.push({
+                type: analysis.AnalysisContextType.training,
+                data: { prompt: promptResponse.prompt.content, response: promptResponse.response.content, context: promptResponse.prompt.context},
+                name: "chatHistory",
+            });
+        }
+
+        return trainingData;
     }
 
     getDetailedAnalysisForCurrentTabSelection(

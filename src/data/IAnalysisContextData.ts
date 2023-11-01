@@ -3,10 +3,11 @@ export enum AnalysisContextType {
     userFocus = "userFocus",
     history = "history",
     related = "related",
+    training = "training",
 }
 
 export interface IAnalysisContextData {
     type: AnalysisContextType;
-    data: string;
+    data: any;
     name: string;
 }
