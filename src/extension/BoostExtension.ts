@@ -702,8 +702,10 @@ export class BoostExtension {
         let total = 0;
         let exists = 0;
 
+        let previousSectionSummary;
         if (deepScan) {
             // reset the section summary - so we can rebuild it
+            previousSectionSummary = boostProjectData.sectionSummary;
             boostProjectData.sectionSummary = JSON.parse(JSON.stringify(emptyProjectData.sectionSummary));
         }
 
@@ -745,6 +747,10 @@ export class BoostExtension {
             if (!setOfAllFiles.has(fileName)) {
                 delete boostProjectData.files[fileName];
             }
+        }
+
+        if (deepScan && JSON.stringify(previousSectionSummary) !== JSON.stringify(boostProjectData.sectionSummary)) {
+            boostLogging.warn(`Project Analysis Info for Overall Project has changed after reset.`);
         }
 
         boostProjectData.summary.filesToAnalyze = total;

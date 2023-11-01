@@ -313,7 +313,14 @@ export class BoostProjectData implements IBoostProjectData {
         reset: boolean = false
     ): void {
         const previous = reset?null:this.files[relativePath];
+
         this.addFileSummaryToSectionSummaries(fileSummary, previous);
+
+        if (reset && this.files[relativePath] &&
+            JSON.stringify(this.files[relativePath]) !== JSON.stringify(fileSummary)) {
+            boostLogging.warn(`Project Analysis Info for ${relativePath} has changed after reset.`);
+        }
+
         this.files[relativePath] = fileSummary;
 
         // now update the overall summary
