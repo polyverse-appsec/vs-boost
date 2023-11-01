@@ -20,6 +20,7 @@ Polyverse Boost Automatic Application Modernization
 ### Bug Fixes
 - Ensure UI feedback (via popup window) when Sara Chat request encounters an error
 - Fix bug where closing a Sara Chat history would always delete the first Chat history
+- Fixed issues with project analysis status becoming out of sync when modifying source code in files, or changing list of files to analyze
 
 ## Version 1.6.3: October 27th, 2023
 

@@ -243,7 +243,7 @@ export class BoostProjectData implements IBoostProjectData {
 
     private addFileSummaryToSectionSummaries(
         fileSummary: FileSummaryItem,
-        previous: FileSummaryItem
+        previous: FileSummaryItem | null
     ): void {
         // first remove the previous file summary from the section summaries
         let sections = [];
@@ -255,7 +255,7 @@ export class BoostProjectData implements IBoostProjectData {
             );
             return;
         }
-
+    
         if (previous && previous.sections) {
             sections = Object.keys(previous.sections);
             sections.forEach((section) => {
@@ -272,10 +272,9 @@ export class BoostProjectData implements IBoostProjectData {
                     previous.sections[section].completedCells;
                 sectionSummary.errorCells -=
                     previous.sections[section].errorCells;
-                sectionSummary.filesAnalyzed -= 1;
             });
         }
-
+    
         sections = Object.keys(fileSummary.sections);
         sections.forEach((section) => {
             let sectionSummary = this.sectionSummary[section];
@@ -285,15 +284,19 @@ export class BoostProjectData implements IBoostProjectData {
                 };
                 sectionSummary = this.sectionSummary[section];
             }
-
+    
             sectionSummary.totalCells +=
                 fileSummary.sections[section].totalCells;
             sectionSummary.completedCells +=
                 fileSummary.sections[section].completedCells;
             sectionSummary.errorCells +=
                 fileSummary.sections[section].errorCells;
-            sectionSummary.filesAnalyzed += 1;
 
+            // Increment only if it's a new file (no previous)
+            if (!previous) {
+                sectionSummary.filesAnalyzed += 1;
+            }
+    
             if (sectionSummary.completedCells === sectionSummary.totalCells) {
                 sectionSummary.status = BoostProcessingStatus.completed;
             } else if (sectionSummary.completedCells > 0) {
@@ -303,12 +306,13 @@ export class BoostProjectData implements IBoostProjectData {
             }
         });
     }
-
+    
     updateWithFileSummary(
         fileSummary: FileSummaryItem,
-        relativePath: string
+        relativePath: string,
+        reset: boolean = false
     ): void {
-        const previous = this.files[relativePath];
+        const previous = reset?null:this.files[relativePath];
         this.addFileSummaryToSectionSummaries(fileSummary, previous);
         this.files[relativePath] = fileSummary;
 
