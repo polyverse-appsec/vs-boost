@@ -702,6 +702,11 @@ export class BoostExtension {
         let total = 0;
         let exists = 0;
 
+        if (deepScan) {
+            // reset the section summary - so we can rebuild it
+            boostProjectData.sectionSummary = JSON.parse(JSON.stringify(emptyProjectData.sectionSummary));
+        }
+
         const boostNotebooks: boostnb.BoostNotebook[] = [];
         for (const file of files) {
             total++;
@@ -731,7 +736,8 @@ export class BoostExtension {
                 workspaceFolder.fsPath,
                 file.fsPath
             );
-            boostProjectData.updateWithFileSummary(filesummary, relativePath);
+            // reset the project data for the file to baseline (from notebooks)
+            boostProjectData.updateWithFileSummary(filesummary, relativePath, true);
         }
 
         // cleanup stale or deleted/ignored files from project cache
