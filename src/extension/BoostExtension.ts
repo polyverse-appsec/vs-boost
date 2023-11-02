@@ -464,6 +464,7 @@ export class BoostExtension {
                 const folders = vscode.workspace.workspaceFolders;
                 if (!folders || folders.length === 0) {
                     this._boostProjectData.clear();
+                    resolve();
                     return;
                 }
 
