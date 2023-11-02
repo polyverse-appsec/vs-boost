@@ -70,8 +70,12 @@ export interface ProcessCurrentFolderOptions {
     fileLimit?: number;
 }
 
+let globalExtensionContext : vscode.ExtensionContext | undefined = undefined;
+
 export async function activate(context: vscode.ExtensionContext) {
     try {
+        globalExtensionContext = context;
+
         activateLogging(context);
         // we use a friendly name for the channel as this will be displayed to the user in the output pane
         boostLogging.log("Activating Boost Notebook Extension");
@@ -95,6 +99,8 @@ export async function deactivate(): Promise<void> {
 
     outputChannel.appendLine("Deactivating Boost Notebook Extension");
 
+    globalExtensionContext = undefined;
+
     return undefined;
 }
 
@@ -108,19 +114,29 @@ export interface BoostFileOptions {
     format?: BoostFileType;
     showUI?: boolean;
     outputType?: OutputType;
+    useGlobalStorage?: boolean;
 }
 
 export function getBoostFile(
     sourceFile: vscode.Uri | undefined,
     options?: BoostFileOptions,
 ): vscode.Uri {
-    // if we don't have a workspace folder, just place the Boost file in a new Boostdir - next to the source file
     let baseFolder;
+    // if a project isn't loaded, we use global storage if allowed
     if (!vscode.workspace.workspaceFolders) {
-        if (!sourceFile) {
-            throw new Error("Unable to determine source file for Boost file");
+        if (!options?.useGlobalStorage) {
+            if (!sourceFile) {
+                throw new Error("Unable to determine source file for Boost file");
+            }
+            // if we don't have a workspace folder, just place the Boost file in a new Boostdir - next to the source file
+            baseFolder = path.dirname(sourceFile.fsPath);
+        } else {
+            if (!globalExtensionContext?.globalStorageUri) {
+                throw new Error("Unable to determine global storage path for Boost file");
+            }
+            baseFolder = globalExtensionContext.globalStorageUri.fsPath;
+            sourceFile = globalExtensionContext.globalStorageUri;
         }
-        baseFolder = path.dirname(sourceFile.fsPath);
     } else {
         const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder
         baseFolder = workspaceFolder.uri.fsPath;
@@ -128,14 +144,14 @@ export function getBoostFile(
         if (!sourceFile) {
             sourceFile = workspaceFolder.uri;
         }
-    }
+    }    
 
     if (!sourceFile) {
         throw new Error("Unable to determine source file for Boost file");
     }
 
     // Check if baseFolder exists
-    if (!fs.existsSync(baseFolder)) {
+    if (!fs.existsSync(baseFolder) && !options?.useGlobalStorage) {
         throw new Error(`Base folder does not exist: ${baseFolder}`);
     }
 

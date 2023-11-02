@@ -3,6 +3,7 @@ import * as vscode from "vscode";
 import { BoostFileType, getBoostFile } from "../extension/extension";
 import { IAnalysisContextData } from "./IAnalysisContextData";
 import { boostLogging } from "../utilities/boostLogging";
+import { initial } from "lodash";
 
 export enum ChatMessageRole {
     user = "user",
@@ -38,13 +39,13 @@ export class ChatData {
     private readonly srcChatFoldername = "chat";
 
     constructor(initialPath?: string) {
-        if (!initialPath && vscode.workspace.workspaceFolders) {
-            initialPath = getBoostFile(undefined, { format: BoostFileType.chat }).fsPath;
+        if (!initialPath) {
+            initialPath = getBoostFile(undefined, { format: BoostFileType.chat, useGlobalStorage: true }).fsPath;
         }
 
         if (initialPath && fs.existsSync(initialPath)) {
             this.load(initialPath);
-        } else {
+        } else if (initialPath) {
             this.chatFilename = initialPath;
         }
 
@@ -72,7 +73,14 @@ export class ChatData {
         Object.assign(this.chats, chatData);
     }
 
-    load(filePath: string = this.chatFilename!): void {
+    load(filePath?: string): void {
+        if (!filePath) {
+            if (!this.chatFilename) {
+                filePath = getBoostFile(undefined, { format: BoostFileType.chat, useGlobalStorage: true }).fsPath;
+            } else {
+                filePath = this.chatFilename;
+            }
+        }
         const jsonString = fs.readFileSync(filePath!, "utf8");
         this.create(jsonString);
         this.chatFilename = filePath;

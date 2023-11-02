@@ -21,6 +21,7 @@ import sanitizeHtml from "sanitize-html";
 import { ICellMetadata } from "@jupyterlab/nbformat";
 import { errorToString } from "../utilities/error";
 import { BaseWebviewViewProvider } from "./BaseWebviewViewProvider";
+import { BoostProjectData } from "../data/BoostProjectData";
 
 import { ChatData, aiName, ChatMessageRole } from "../data/ChatData";
 
@@ -74,7 +75,7 @@ export class BoostChatViewProvider extends BaseWebviewViewProvider {
 
         this.chatData.load();
 
-        webviewView.webview.html = this._getHtmlForWebview(webviewView.webview, this._boostExtension.getBoostProjectData());
+        webviewView.webview.html = this._getHtmlForWebview(webviewView.webview, this._boostExtension.getBoostProjectData()!);
 
         webviewView.webview.onDidReceiveMessage(async (data) => {
             let refresh = true;
@@ -113,8 +114,11 @@ export class BoostChatViewProvider extends BaseWebviewViewProvider {
         });
     }
 
-    protected _getHtmlForWebview(webview: vscode.Webview, boostprojectdata: any): string {
+    protected onFinishedActivationHtmlForWebview(webview: vscode.Webview, boostprojectdata: BoostProjectData): string {
+        return "";
+    }
 
+    protected _getHtmlForWebview( webview: vscode.Webview, boostprojectdata: BoostProjectData) {
         const message = super._getHtmlForWebview(webview, boostprojectdata);
         if (message) {
             return message;

@@ -4211,8 +4211,12 @@ export class BoostExtension {
         let activeAnalysis: analysis.IAnalysisContextData[] = [];
         let isFirstFile = true;
 
+        const baseFolderPath = vscode.workspace.workspaceFolders?.[0].uri;
+        if (!baseFolderPath) {
+            return [];
+        }
+
         for (const activeTabFile of activeTabFiles) {
-            const baseFolderPath = vscode.workspace.workspaceFolders![0].uri;
 
             // we're going to skip getting analysis for files outside of the current project
             if (activeTabFile.startsWith("../")) {
@@ -4380,7 +4384,7 @@ export class BoostExtension {
 
     // get all active tab filenames (as relative paths)
     getActiveTabFilenames(): string[] {
-        const baseFolderPath = vscode.workspace.workspaceFolders![0].uri.fsPath;
+        const baseFolderPath = vscode.workspace.workspaceFolders?.[0].uri.fsPath;
         if (!baseFolderPath) {
             return [];
         }
@@ -4389,8 +4393,9 @@ export class BoostExtension {
         // grab all text editors (active and visible)
         vscode.window.visibleTextEditors.forEach((editor) => {
             if (editor.document.uri.scheme === "file") {
-                activeTabFiles.push(
-                    path.relative(baseFolderPath, editor.document.uri.fsPath)
+                activeTabFiles.push(vscode.workspace.workspaceFolders?
+                    path.relative(baseFolderPath, editor.document.uri.fsPath):
+                    editor.document.uri.fsPath
                 );
             } else {
                 // we're skipping other tabs, like output tabs
@@ -4400,8 +4405,9 @@ export class BoostExtension {
         // grab all notebook editors (active and visible)
         vscode.window.visibleNotebookEditors.forEach((notebook) => {
             if (notebook.notebook.uri.scheme === "file") {
-                activeTabFiles.push(
-                    path.relative(baseFolderPath, notebook.notebook.uri.fsPath)
+                activeTabFiles.push(vscode.workspace.workspaceFolders?
+                    path.relative(baseFolderPath, notebook.notebook.uri.fsPath):
+                    notebook.notebook.uri.fsPath
                 );
             } else {
                 // we're skipping other tabs, like non-filebased notebooks
@@ -4421,7 +4427,7 @@ export class BoostExtension {
     ): analysis.IAnalysisContextData[] {
         const analysisContext: any[] = [];
 
-        if (!analysisTypes || analysisTypes.length === 0) {
+        if (!analysisTypes || analysisTypes.length === 0 || !vscode.workspace.workspaceFolders) {
             return analysisContext;
         }
 

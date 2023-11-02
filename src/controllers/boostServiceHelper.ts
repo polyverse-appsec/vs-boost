@@ -244,6 +244,12 @@ export class BoostServiceHelper {
 
     getGuidelines(): string[] {
         const guidelines: string[] = [];
+
+        if (!vscode.workspace.workspaceFolders) {
+            return guidelines;
+        }
+
+
         const projectGuidelinesFile = getBoostFile(
             undefined,
             { format: BoostFileType.guidelines,

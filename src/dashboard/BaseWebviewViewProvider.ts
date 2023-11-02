@@ -84,6 +84,10 @@ export abstract class BaseWebviewViewProvider implements vscode.WebviewViewProvi
         this._view.show?.(true);
     }
 
+    protected onFinishedActivationHtmlForWebview(webview: vscode.Webview, boostprojectdata: BoostProjectData): string {
+        return noProjectOpenMessage;
+    }
+
     protected _getHtmlForWebview(webview: vscode.Webview, boostprojectdata: BoostProjectData): string {
 
         let message;
@@ -96,7 +100,7 @@ export abstract class BaseWebviewViewProvider implements vscode.WebviewViewProvi
         } else if (!this._boostExtension.successfullyActivated) {
             message = extensionFailedToActivate;
         } else if (!boostprojectdata || !vscode.workspace.workspaceFolders) {
-            message = noProjectOpenMessage;
+            message = this.onFinishedActivationHtmlForWebview(webview, boostprojectdata);
         }
         
         if (message) {
