@@ -51,7 +51,7 @@ async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : 
                     context);
 
                 // convert the html file to pdf using puppeteer
-                const browser = await puppeteer.launch();
+                const browser = await puppeteer.launch({executablePath: puppeteer.executablePath()});
                 try {
                     const page = await browser.newPage();
 
