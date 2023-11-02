@@ -4,7 +4,7 @@
 import { ControllerOutputType } from "../controllers/controllerOutputTypes";
 
 export const noProjectOpenMessage =
-    "Please open a project to chat with Sara, the Boost AI, about your project or analyze your project code.";
+    "Please open a project for Sara, the Boost AI, to help secure, optimize, modernize and supercharge your architecture and code.";
 export const extensionNotFullyActivated =
     "Boost has not fully initialized. Some features may not be fully available yet. Please wait before using Boost Chat AI and analyzing your project.";
 export const extensionFailedToActivate =
