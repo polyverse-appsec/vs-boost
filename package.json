@@ -9,7 +9,7 @@
     "bugs": {
         "email": "support@polyverse.com"
     },
-    "version": "1.6.3",
+    "version": "1.6.4",
     "engines": {
         "vscode": "^1.77.0"
     },
