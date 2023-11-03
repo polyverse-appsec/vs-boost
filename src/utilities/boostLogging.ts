@@ -21,7 +21,7 @@ export function activateLogging(context: ExtensionContext) {
         datePattern: 'YYYY-MM-DD-HH',
         zippedArchive: true,
         maxSize: '20m',
-        maxFiles: '7d'
+        maxFiles: '2d'
     });
 
     rollingLogger = winston.createLogger({
