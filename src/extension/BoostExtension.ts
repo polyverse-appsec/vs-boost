@@ -307,6 +307,8 @@ export class BoostExtension {
 
             this.registerShowGuidelinesCommand(context);
 
+            this.registerSpecCommands(context);
+
             this.inlineAnnotations = new InlineBoostAnnotations(context, this);
 
             this.successfullyActivated = true;

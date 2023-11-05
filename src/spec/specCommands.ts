@@ -1,6 +1,7 @@
 import { BoostExtension } from "../extension/BoostExtension";
 import { boostLogging } from "../utilities/boostLogging";
 import * as vscode from 'vscode';
+import { getSymbols } from "./callGraph";
 
 
 export class CallAndClassGraph {
@@ -17,5 +18,6 @@ export class CallAndClassGraph {
 
     public async generateCallGraph(){
         boostLogging.info("Generating Call Graph");
+        return getSymbols();
     }
 }
