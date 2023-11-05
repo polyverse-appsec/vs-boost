@@ -172,6 +172,8 @@ import { InlineBoostAnnotations } from "../inline/inline";
 import { ProjectContextData } from "../data/ProjectContextData";
 import { ChatData } from "../data/ChatData";
 
+import { CallAndClassGraph } from "../spec/specCommands";
+
 export class BoostNotebookContentProvider
     implements vscode.TextDocumentContentProvider
 {
@@ -221,6 +223,7 @@ export class BoostExtension {
     public start: BoostStartViewProvider | undefined;
     public chat: BoostChatViewProvider | undefined;
     public summary: BoostSummaryViewProvider | undefined;
+    public graph: CallAndClassGraph | undefined;
     private _accountInfo: any | undefined;
 
     public _context: vscode.ExtensionContext | undefined;
@@ -2297,6 +2300,30 @@ export class BoostExtension {
         );
         context.subscriptions.push(disposable);
     }
+
+    registerSpecCommands(context: vscode.ExtensionContext) {
+        this.graph = new CallAndClassGraph(context, this);
+        context.subscriptions.push(vscode.commands.registerCommand(
+            boostnb.NOTEBOOK_TYPE + "." + BoostCommands.generateCallGraph,
+            async () => {
+                await this.graph!.generateCallGraph()
+                    .then(() => {
+                        boostLogging.info(
+                            `Finished generating call graph.`,
+                            false
+                        );
+                    })
+                    .catch((error: any) => {
+                        boostLogging.error(
+                            `Unable to generate call graph due to error ${errorToString(
+                                error as Error
+                            )}`,
+                            false
+                        );
+                    });
+            }
+        ));
+        }
 
     registerProjectCommands(context: vscode.ExtensionContext) {
         context.subscriptions.push(vscode.commands.registerCommand(

@@ -1,10 +1,10 @@
 {
-  "dataFormatVersion": "1.6.1",
+  "dataFormatVersion": "1.6.4",
   "summary": {
     "projectName": "vs-boost",
     "summaryUrl": ".boost/vs-boost.summary.boost-notebook",
-    "filesToAnalyze": 86,
-    "filesAnalyzed": 86,
+    "filesToAnalyze": 104,
+    "filesAnalyzed": 85,
     "issues": []
   },
   "sectionSummary": {
@@ -20,47 +20,47 @@
     "explainCode": {
       "analysisType": "explainCode",
       "status": "incomplete",
-      "completedCells": 643,
+      "completedCells": 626,
       "errorCells": 38,
       "issueCells": 0,
-      "totalCells": 681,
-      "filesAnalyzed": 81
+      "totalCells": 664,
+      "filesAnalyzed": 80
     },
     "flowDiagram": {
       "analysisType": "flowDiagram",
       "status": "incomplete",
-      "completedCells": 605,
+      "completedCells": 588,
       "errorCells": 3,
       "issueCells": 0,
-      "totalCells": 608,
-      "filesAnalyzed": 69
+      "totalCells": 591,
+      "filesAnalyzed": 68
     },
     "bugAnalysisList": {
       "analysisType": "bugAnalysisList",
       "status": "incomplete",
-      "completedCells": 606,
+      "completedCells": 589,
       "errorCells": 2,
       "issueCells": 0,
-      "totalCells": 608,
-      "filesAnalyzed": 69
+      "totalCells": 591,
+      "filesAnalyzed": 68
     },
     "performanceList": {
       "analysisType": "performanceList",
       "status": "incomplete",
-      "completedCells": 594,
+      "completedCells": 577,
       "errorCells": 2,
       "issueCells": 0,
-      "totalCells": 596,
-      "filesAnalyzed": 68
+      "totalCells": 579,
+      "filesAnalyzed": 67
     },
     "complianceCodeList": {
       "analysisType": "complianceCodeList",
       "status": "incomplete",
-      "completedCells": 588,
+      "completedCells": 571,
       "errorCells": 8,
       "issueCells": 1,
-      "totalCells": 596,
-      "filesAnalyzed": 68,
+      "totalCells": 579,
+      "filesAnalyzed": 67,
       "details": [
         {
           "lineNumber": 23,
@@ -8129,357 +8129,6 @@
         }
       }
     },
-    "src/utilities/split.ts": {
-      "sourceRelFile": "./src/utilities/split.ts",
-      "notebookRelFile": ".boost/src/utilities/split.ts.boost-notebook",
-      "totalCells": 17,
-      "completedCells": 17,
-      "errorCells": 0,
-      "issueCells": 11,
-      "sections": {
-        "explainCode": {
-          "analysisType": "explainCode",
-          "status": "completed",
-          "completedCells": 17,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 17,
-          "filesAnalyzed": 1
-        },
-        "flowDiagram": {
-          "analysisType": "flowDiagram",
-          "status": "completed",
-          "completedCells": 17,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 17,
-          "filesAnalyzed": 1
-        },
-        "bugAnalysisList": {
-          "analysisType": "bugAnalysisList",
-          "status": "completed",
-          "completedCells": 17,
-          "errorCells": 0,
-          "issueCells": 0,
-          "totalCells": 17,
-          "filesAnalyzed": 1
-        },
-        "performanceList": {
-          "analysisType": "performanceList",
-          "status": "completed",
-          "completedCells": 17,
-          "errorCells": 0,
-          "issueCells": 11,
-          "totalCells": 17,
-          "filesAnalyzed": 1,
-          "details": [
-            {
-              "lineNumber": 7,
-              "severity": 2,
-              "bugType": "CPU",
-              "description": "The function `getFileExtension` uses `lastIndexOf` and `slice` to get the file extension. These operations have a time complexity of O(n) where n is the length of the string. For very long filenames, this could lead to a performance issue.",
-              "solution": "Consider using a regular expression or the `path` module's `extname` function in Node.js for more efficient file extension parsing. Here is an example: `const extension = path.extname(filename);`. Refer to the Node.js documentation for more information: https://nodejs.org/api/path.html#path_path_extname_path"
-            },
-            {
-              "lineNumber": 12,
-              "severity": 2,
-              "bugType": "Memory",
-              "description": "The languageMappings object is recreated every time the getVSCodeLanguageId function is called. This is not efficient as it consumes memory unnecessarily.",
-              "solution": "Move the languageMappings object outside of the function so it is only created once. This will also improve the speed of the function as it does not need to recreate the object every time."
-            },
-            {
-              "lineNumber": 16,
-              "severity": 1,
-              "bugType": "CPU",
-              "description": "The use of the path.parse and path.basename functions to parse the filename can be CPU intensive, especially for long filenames or a large number of calls.",
-              "solution": "Consider using a simpler string manipulation function to parse the filename, such as String.split, which can be faster and less CPU intensive."
-            },
-            {
-              "lineNumber": 97,
-              "severity": 3,
-              "bugType": "Memory",
-              "description": "The function `parseFunctions` creates a new object `parsers` every time it is called. This is not efficient because it unnecessarily uses up memory.",
-              "solution": "Move the `parsers` object outside of the function so it is only created once, and then referenced on subsequent calls. This will result in better memory usage."
-            },
-            {
-              "lineNumber": 106,
-              "severity": 3,
-              "bugType": "Memory",
-              "description": "The function `parseFunctions` creates a new Set `cStyleLanguages` every time it is called. This is not efficient because it unnecessarily uses up memory.",
-              "solution": "Move the `cStyleLanguages` Set outside of the function so it is only created once, and then referenced on subsequent calls. This will result in better memory usage."
-            },
-            {
-              "lineNumber": 113,
-              "severity": 2,
-              "bugType": "CPU",
-              "description": "The function `splitCode` or `splitCodeWithAggregation` is being called twice when `aggregationEnabled` is true and the language is not in `cStyleLanguages` or `parsers`. This is not efficient because it unnecessarily uses up CPU cycles.",
-              "solution": "Store the result of `splitCode` or `splitCodeWithAggregation` in a variable and use it for the return statement. This will result in better CPU usage."
-            },
-            {
-              "lineNumber": 150,
-              "severity": 5,
-              "bugType": "CPU",
-              "description": "The function `enc.encode` is being called multiple times for the same string which can be CPU intensive. The `enc.encode` function is called twice for 'currentString' and 'aggregatedString' which are essentially the same when 'tokenCount' exceeds 'maxTokenAggregationLength'.",
-              "solution": "Store the result of `enc.encode` in a variable when it is first calculated and reuse it. This will reduce the number of function calls and improve the performance."
-            },
-            {
-              "lineNumber": 156,
-              "severity": 3,
-              "bugType": "Memory",
-              "description": "The 'aggregatedString' is being created by concatenating 'currentString' and 'originalString'. This can be memory intensive for large strings.",
-              "solution": "Instead of concatenating strings, consider using an array of strings and join them when necessary. This approach is generally more efficient in JavaScript."
-            },
-            {
-              "lineNumber": 146,
-              "severity": 2,
-              "bugType": "Memory",
-              "description": "The 'splitResults' array is being destructured into 'originalStrings' and 'lineNumbers', but 'splitResults' is never used again. This can lead to unnecessary memory usage.",
-              "solution": "Consider directly destructuring 'splitResults' into 'originalStrings' and 'lineNumbers' without the need for the extra 'splitResults' variable."
-            },
-            {
-              "lineNumber": 202,
-              "severity": 2,
-              "bugType": "CPU",
-              "description": "The split() function is used to split the code into lines. This operation can be costly for large strings and can lead to high CPU usage.",
-              "solution": "Consider using a streaming approach for processing the string line by line. Node.js Readable streams can be used to handle large strings efficiently. Here is a link on how to use Node.js streams: https://nodejs.dev/learn/nodejs-streams"
-            },
-            {
-              "lineNumber": 210,
-              "severity": 3,
-              "bugType": "CPU",
-              "description": "The match() function is used twice per loop iteration to count the number of left and right braces. This can be inefficient for large strings and can lead to high CPU usage.",
-              "solution": "Consider using a single pass approach to count the number of braces. This can be done by iterating over each character in the line and incrementing or decrementing the count based on the character. This would reduce the time complexity from O(n) to O(1) per line."
-            },
-            {
-              "lineNumber": 224,
-              "severity": 1,
-              "bugType": "Memory",
-              "description": "The trim() function is used to check if the current chunk is not an empty string. This creates a new string and can lead to unnecessary memory usage.",
-              "solution": "Consider checking if the current chunk is not an empty string without using the trim() function. This can be done by keeping track of whether any non-whitespace characters have been added to the current chunk."
-            },
-            {
-              "lineNumber": 236,
-              "severity": 1,
-              "bugType": "Memory",
-              "description": "The slice() function is used to remove the last newline from the final chunk. This creates a new string and can lead to unnecessary memory usage.",
-              "solution": "Consider removing the last newline from the final chunk without using the slice() function. This can be done by not adding the newline to the final chunk in the first place."
-            },
-            {
-              "lineNumber": 247,
-              "severity": 4,
-              "bugType": "Memory",
-              "description": "The code uses the 'split' method to split the entire code string into lines. This can lead to high memory usage for large strings.",
-              "solution": "Consider using a streaming approach to read the code line by line. This can be done using the 'readline' module in Node.js. Here is a link to the documentation: https://nodejs.org/api/readline.html"
-            },
-            {
-              "lineNumber": 255,
-              "severity": 3,
-              "bugType": "CPU",
-              "description": "The code uses a for loop to iterate over each character in a string to count the opening and closing braces. This can be inefficient for long lines of code.",
-              "solution": "Consider using a regular expression to count the number of occurrences of a character in a string. This can be more efficient than iterating over each character. Here is a link to a StackOverflow post that shows how to do this: https://stackoverflow.com/questions/881085/count-the-number-of-occurrences-of-a-character-in-a-string-in-javascript"
-            },
-            {
-              "lineNumber": 250,
-              "severity": 2,
-              "bugType": "CPU",
-              "description": "The code uses the 'startsWith' method in a loop to check if each line starts with a specific string. This can be inefficient for large numbers of lines.",
-              "solution": "Consider using a regular expression with the '^' anchor to check if a line starts with a specific string. This can be more efficient than using the 'startsWith' method. Here is a link to a tutorial on regular expressions in JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions"
-            },
-            {
-              "lineNumber": 320,
-              "severity": 3,
-              "bugType": "Memory",
-              "description": "The code is using the split method to divide the entire source code into lines. This operation can be memory-intensive for large source code files as it creates a new array with potentially a large number of elements.",
-              "solution": "Consider using a streaming approach to read the source code line by line. This can be done using libraries like readline in Node.js. This approach will significantly reduce memory usage for large files."
-            },
-            {
-              "lineNumber": 334,
-              "severity": 2,
-              "bugType": "CPU",
-              "description": "The code is using the startsWith method to check for function or sub declaration. This operation is not very efficient as it has to check every character from the beginning of the string until it finds a match or reaches the end.",
-              "solution": "Consider using a regular expression to match function or sub declaration. Regular expressions are more efficient for this kind of task."
-            },
-            {
-              "lineNumber": 344,
-              "severity": 2,
-              "bugType": "CPU",
-              "description": "The code is using the startsWith method to check for end of function or sub declaration. This operation is not very efficient as it has to check every character from the beginning of the string until it finds a match or reaches the end.",
-              "solution": "Consider using a regular expression to match end of function or sub declaration. Regular expressions are more efficient for this kind of task."
-            },
-            {
-              "lineNumber": 373,
-              "severity": 3,
-              "bugType": "Memory",
-              "description": "The code splits the entire input into lines right at the beginning, which can be memory-intensive for large inputs. This is because the split operation creates a new array with as many elements as there are lines in the input.",
-              "solution": "Consider using a streaming approach to read the input line by line, which would be more memory-efficient. For example, you could use the readline module in Node.js, which allows you to read from a stream one line at a time. Here is a link to the readline documentation: https://nodejs.org/api/readline.html"
-            },
-            {
-              "lineNumber": 377,
-              "severity": 2,
-              "bugType": "CPU",
-              "description": "The code uses a loop to iterate over the lines of the code. While this is not inherently problematic, the loop contains several if statements that check the start of each line, which can be inefficient for large inputs.",
-              "solution": "Consider using a more efficient algorithm to parse the code. For example, you could use a regular expression to match method definitions in the code, which would likely be faster than checking the start of each line in a loop. Here is a link to a guide on regular expressions in JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions"
-            },
-            {
-              "lineNumber": 380,
-              "severity": 2,
-              "bugType": "Memory",
-              "description": "The code uses string concatenation to build the currentMethod string. In JavaScript, string concatenation creates a new string, which can be memory-intensive for large inputs.",
-              "solution": "Consider using an array to build the currentMethod string, and then join the array into a string at the end. This would be more memory-efficient, as arrays in JavaScript are mutable, so appending to an array does not create a new array. Here is a link to a guide on array methods in JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array"
-            },
-            {
-              "lineNumber": 430,
-              "severity": 2,
-              "bugType": "Memory",
-              "description": "The function splits the entire code into lines and stores them in memory, which can be memory-intensive for large files.",
-              "solution": "Use a streaming approach or a line reader library to read the file line by line without loading the entire file into memory. For example, you can use the 'readline' module in Node.js. Here is a link to the documentation: https://nodejs.org/api/readline.html"
-            },
-            {
-              "lineNumber": 439,
-              "severity": 3,
-              "bugType": "CPU",
-              "description": "The function uses regular expressions to identify block start and end keywords on each line, which can be CPU-intensive for large files.",
-              "solution": "Consider using a more efficient parsing algorithm or a library specifically designed for parsing Ruby code. This could potentially improve performance by reducing the CPU usage. Here is a link to a list of Ruby parsing libraries: https://ruby-toolbox.com/categories/parsing"
-            },
-            {
-              "lineNumber": 446,
-              "severity": 1,
-              "bugType": "Memory",
-              "description": "The function concatenates lines to form blocks, which can be memory-intensive for large blocks.",
-              "solution": "Consider using a more efficient data structure to store lines, such as a linked list, or write the blocks to a temporary file instead of storing them in memory. Here is a link to a discussion on efficient string concatenation in JavaScript: https://stackoverflow.com/questions/7299010/why-is-string-concatenation-faster-than-array-join"
-            },
-            {
-              "lineNumber": 485,
-              "severity": 4,
-              "bugType": "Memory",
-              "description": "The split operation on the entire code string can be memory-intensive for large inputs.",
-              "solution": "Consider using a streaming approach or a line reader library to read the code line by line, reducing the memory footprint."
-            },
-            {
-              "lineNumber": 494,
-              "severity": 3,
-              "bugType": "CPU",
-              "description": "The 'startsWith' function is being called for each line of code, which can be CPU-intensive for large inputs.",
-              "solution": "Consider using a more efficient approach to identify function definitions, such as a regular expression or a parser library."
-            },
-            {
-              "lineNumber": 498,
-              "severity": 2,
-              "bugType": "Memory",
-              "description": "Concatenating strings with the '+' operator can be inefficient, especially for large strings.",
-              "solution": "Consider using an array of strings and the 'join' method, which can be more efficient for large strings."
-            },
-            {
-              "lineNumber": 569,
-              "severity": 6,
-              "bugType": "Memory",
-              "description": "The 'split' method is used on the 'code' string to create an array of lines. This operation can be memory-intensive for large strings as it creates a new array in memory.",
-              "solution": "Consider using a streaming or line-by-line reading approach for large strings. This allows you to process the string one chunk at a time, reducing memory usage. You can use libraries like readline or line-reader for this. Readline documentation: https://nodejs.org/api/readline.html"
-            },
-            {
-              "lineNumber": 570,
-              "severity": 4,
-              "bugType": "Memory",
-              "description": "The 'currentChunk' variable is used to accumulate lines of code. This can lead to high memory usage for large code blocks as the entire block is stored in memory.",
-              "solution": "Consider using a streaming or chunking approach to process the code block. This allows you to process the block one chunk at a time, reducing memory usage. You can use libraries like through2 for this. Through2 documentation: https://www.npmjs.com/package/through2"
-            },
-            {
-              "lineNumber": 580,
-              "severity": 5,
-              "bugType": "CPU",
-              "description": "The 'startsWith' method is used in a loop to match start keywords. This can be CPU-intensive for large code blocks and many keywords as each line is checked against each keyword.",
-              "solution": "Consider using a more efficient data structure like a Trie or a prefix tree to store and match keywords. This can significantly reduce the number of comparisons and improve performance. You can use libraries like dawg-lookup for this. Dawg-lookup documentation: https://www.npmjs.com/package/dawg-lookup"
-            },
-            {
-              "lineNumber": 594,
-              "severity": 5,
-              "bugType": "CPU",
-              "description": "The 'match' method is used to count braces in a line. This can be CPU-intensive for long lines as the entire line is checked for each brace type.",
-              "solution": "Consider using a single pass approach to count braces. This involves iterating over the line once and incrementing the count for each brace type encountered. This reduces the number of checks and improves performance."
-            },
-            {
-              "lineNumber": 622,
-              "severity": 6,
-              "bugType": "Memory",
-              "description": "The 'trim' method is used on the 'currentChunk' string to check if it's empty. This operation can be memory-intensive for large strings as it creates a new string in memory.",
-              "solution": "Consider using a more efficient method to check if a string is empty. One approach is to use a regular expression to check for non-whitespace characters. This avoids creating a new string and reduces memory usage. Example: /\\S/.test(currentChunk)"
-            }
-          ]
-        },
-        "complianceCodeList": {
-          "analysisType": "complianceCodeList",
-          "status": "completed",
-          "completedCells": 17,
-          "errorCells": 0,
-          "issueCells": 4,
-          "totalCells": 17,
-          "filesAnalyzed": 1,
-          "details": [
-            {
-              "lineNumber": 1,
-              "severity": 3,
-              "bugType": "GDPR",
-              "description": "The 'path' module can be used to access and manipulate file paths, which could potentially be used to access sensitive data. While this isn't a direct violation of GDPR, it's a potential risk if misused.",
-              "solution": "Ensure that this module is only used to access and manipulate file paths in a way that respects the user's data privacy. Always get explicit consent from the user before accessing or manipulating their data."
-            },
-            {
-              "lineNumber": 2,
-              "severity": 5,
-              "bugType": "HIPAA",
-              "description": "The 'js-tiktoken' module is used to get the encoding of a file. If this file contains sensitive health information, this could potentially violate HIPAA if the data isn't properly encrypted and secured.",
-              "solution": "Ensure that any health information is properly encrypted and secured in compliance with HIPAA. Only access this data with the user's explicit consent and in a way that respects their privacy."
-            },
-            {
-              "lineNumber": 5,
-              "severity": 2,
-              "bugType": "Data Privacy",
-              "description": "The function 'getEncoding' could potentially be a source of data privacy issues if it doesn't handle encoding in a secure manner. Improper encoding can lead to data leaks or unauthorized data access.",
-              "solution": "Ensure that the 'getEncoding' function uses secure encoding methods and that the encoded data is properly handled and stored. Consider using encryption for sensitive data.",
-              "webLink": "https://owasp.org/www-community/Using_Encryption"
-            },
-            {
-              "lineNumber": 8,
-              "severity": 3,
-              "bugType": "Data Privacy",
-              "description": "The function 'getFileExtension' could potentially expose sensitive information if it's used to handle filenames of files containing sensitive data. Filenames can sometimes contain sensitive information or can be used to infer the nature of the data inside the file.",
-              "solution": "Ensure that filenames are anonymized or do not contain sensitive information. Additionally, make sure that the function does not expose filenames to unauthorized users or systems.",
-              "webLink": "https://gdpr.eu/data-masking/"
-            },
-            {
-              "lineNumber": 93,
-              "severity": 3,
-              "bugType": "GDPR",
-              "description": "The function 'parseFunctions' does not have any explicit data handling or privacy measures in place. While it does not directly handle sensitive data, it processes code which could potentially contain sensitive data. This could potentially lead to GDPR compliance issues.",
-              "solution": "Consider implementing a mechanism to sanitize or anonymize sensitive data before processing. Also, ensure that any logs or error messages do not reveal sensitive data. Review the GDPR guidelines on data processing: https://gdpr-info.eu/art-6-gdpr/"
-            },
-            {
-              "lineNumber": 142,
-              "severity": 5,
-              "bugType": "GDPR",
-              "description": "The function `splitCodeWithAggregation` processes the input `code` string, which might contain personal data. However, there is no mechanism in place to ensure that the personal data is being processed in accordance with GDPR principles, such as data minimization and purpose limitation.",
-              "solution": "Ensure that personal data is only processed when necessary and for a specific purpose. Implement a mechanism to obtain user consent before processing personal data. If the data is anonymized before processing, ensure that the anonymization is irreversible.",
-              "link": "https://gdpr-info.eu/art-5-gdpr/"
-            },
-            {
-              "lineNumber": 142,
-              "severity": 6,
-              "bugType": "PCI DSS",
-              "description": "The function `splitCodeWithAggregation` processes the input `code` string, which might contain cardholder data. However, there is no mechanism in place to ensure that the cardholder data is being processed in a secure manner in accordance with PCI DSS requirements.",
-              "solution": "Ensure that cardholder data is encrypted before processing. Implement strong access control measures to restrict access to cardholder data. Regularly monitor and test networks to ensure that cardholder data is not being compromised.",
-              "link": "https://www.pcisecuritystandards.org/pci_security/"
-            },
-            {
-              "lineNumber": 142,
-              "severity": 7,
-              "bugType": "HIPAA",
-              "description": "The function `splitCodeWithAggregation` processes the input `code` string, which might contain protected health information (PHI). However, there is no mechanism in place to ensure that the PHI is being processed in accordance with HIPAA requirements.",
-              "solution": "Ensure that PHI is encrypted before processing. Implement strong access control measures to restrict access to PHI. Regularly monitor and test networks to ensure that PHI is not being compromised.",
-              "link": "https://www.hhs.gov/hipaa/for-professionals/security/index.html"
-            }
-          ]
-        }
-      }
-    },
     "src/utilities/boostOnly.ts": {
       "sourceRelFile": "./src/utilities/boostOnly.ts",
       "notebookRelFile": ".boost/src/utilities/boostOnly.ts.boost-notebook",
@@ -15684,13 +15333,13 @@
     "enabled": true,
     "status": "paid",
     "trialRemaining": 0,
-    "usageThisMonth": 57.1,
-    "discountedUsage": 0,
-    "balanceDue": 57.1,
-    "couponType": "None",
+    "usageThisMonth": 911.48,
+    "discountedUsage": 100,
+    "balanceDue": 811.48,
+    "couponType": "Polyverse Boost Free Trial",
     "org": "polyverse-appsec",
     "owner": "alex@polyverse.io",
-    "created": "2023-05-02",
+    "created": "2023-05-06",
     "creditCardLinked": false
   },
   "uiState": {

@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 2
+    },
+    "auditLog": "/Users/alexgo/code/vs-boost/logs/.14029d7231afee5919a32c8341a576fc5797f616-audit.json",
+    "files": [
+        {
+            "date": 1699167935309,
+            "name": "/Users/alexgo/code/vs-boost/logs/boost-2023-11-05-00.log",
+            "hash": "4da5a1c1dc7001f308a33aa84ad1bf99b844cbb2782600c2d4624b583d2b063e"
+        }
+    ],
+    "hashType": "sha256"
+}

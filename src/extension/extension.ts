@@ -60,6 +60,7 @@ export enum BoostCommands {
     customerPortal = "customerPortal",
     selectOrganization = "selectOrganization",
     setOrganization = "setOrganization",
+    generateCallGraph = "generateCallGraph"
 }
 
 export interface ProcessCurrentFolderOptions {
