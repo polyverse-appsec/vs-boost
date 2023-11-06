@@ -3,6 +3,17 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 1.7.0: November 9th, 2023
+
+### New Features
+- .boostInclude file support - where you can specify required source files or folder patterns to include in analysis regardless of boostOnly or boostIgnore files
+
+### Enhancements
+- N/A
+
+### Bug Fixes
+- N/A
+
 ## Version 1.6.4: November 3rd, 2023
 
 ### New Features

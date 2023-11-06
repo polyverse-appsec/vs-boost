@@ -34,7 +34,11 @@ import {
     boostStatusCommand
 } from "./portal";
 
-import { addToBoostOnly, removeFromBoostOnly } from "../utilities/boostOnly";
+import {
+    addToBoostOnly,
+    removeFromBoostOnly,
+    addToBoostInclude,
+} from "../utilities/boostOnly";
 
 import {
     getOrCreateGuideline,
@@ -1588,7 +1592,7 @@ export class BoostExtension {
     registerFileExplorerRightClickAnalysisSelectionCommands(
         context: vscode.ExtensionContext
     ) {
-        let disposable = vscode.commands.registerCommand(
+        context.subscriptions.push(vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE +
                 "." +
                 BoostCommands.excludeTargetFromBoostAnalysis,
@@ -1608,10 +1612,9 @@ export class BoostExtension {
                     this.summary?.refresh();
                 });
             }
-        );
-        context.subscriptions.push(disposable);
+        ));
 
-        disposable = vscode.commands.registerCommand(
+        context.subscriptions.push(vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE +
                 "." +
                 BoostCommands.excludeTargetFolderFromBoostAnalysis,
@@ -1631,10 +1634,9 @@ export class BoostExtension {
                     this.summary?.refresh();
                 });
             }
-        );
-        context.subscriptions.push(disposable);
+        ));
 
-        disposable = vscode.commands.registerCommand(
+        context.subscriptions.push(vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE +
                 "." +
                 BoostCommands.analyzeOnlyTargetForBoostAnalysis,
@@ -1653,10 +1655,9 @@ export class BoostExtension {
                     this.summary?.refresh();
                 });
             }
-        );
-        context.subscriptions.push(disposable);
+        ));
 
-        disposable = vscode.commands.registerCommand(
+        context.subscriptions.push(vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE +
                 "." +
                 BoostCommands.analyzeOnlyTargetFolderForBoostAnalysis,
@@ -1675,8 +1676,49 @@ export class BoostExtension {
                     this.summary?.refresh();
                 });
             }
-        );
-        context.subscriptions.push(disposable);
+        ));
+
+        context.subscriptions.push(vscode.commands.registerCommand(
+            boostnb.NOTEBOOK_TYPE +
+                "." +
+                BoostCommands.includeTargetFromBoostAnalysis,
+            async (uri: vscode.Uri) => {
+                if (!uri) {
+                    boostLogging.warn(
+                        "No inclusion target was provided.",
+                        false
+                    );
+                    return;
+                }
+
+                addToBoostInclude(uri.fsPath);
+                await this.refreshBoostProjectsData().then(() => {
+                    this.start?.refresh();
+                    this.summary?.refresh();
+                });
+            }
+        ));
+
+        context.subscriptions.push(vscode.commands.registerCommand(
+            boostnb.NOTEBOOK_TYPE +
+                "." +
+                BoostCommands.includeTargetFolderFromBoostAnalysis,
+            async (uri: vscode.Uri) => {
+                if (!uri) {
+                    boostLogging.warn(
+                        "No inclusion target was provided.",
+                        false
+                    );
+                    return;
+                }
+
+                addToBoostInclude(uri.fsPath);
+                await this.refreshBoostProjectsData().then(() => {
+                    this.start?.refresh();
+                    this.summary?.refresh();
+                });
+            }
+        ));
     }
 
     registerFileExplorerRightClickOutputCommands(

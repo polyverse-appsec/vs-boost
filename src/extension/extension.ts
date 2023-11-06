@@ -46,6 +46,8 @@ export enum BoostCommands {
     showCurrentFolderAnalysisSummaryOutput = "showCurrentFolderAnalysisSummaryOutput",
     excludeTargetFromBoostAnalysis = "excludeTargetFromBoostAnalysis",
     excludeTargetFolderFromBoostAnalysis = "excludeTargetFolderFromBoostAnalysis",
+    includeTargetFromBoostAnalysis = "includeTargetFromBoostAnalysis",
+    includeTargetFolderFromBoostAnalysis = "includeTargetFolderFromBoostAnalysis",
     analyzeOnlyTargetForBoostAnalysis = "analyzeOnlyTargetForBoostAnalysis",
     analyzeOnlyTargetFolderForBoostAnalysis = "analyzeOnlyTargetFolderForBoostAnalysis",
 

@@ -128,10 +128,27 @@ export async function getAllProjectFiles(
         }
     }
 
-    let paths: string[] = [];
+    const paths: string[] = [];
+
+    const includeFilePatterns = _extractFilterPatternsFromFile(getBoostIncludeFile()!.fsPath);
+    if (includeFilePatterns.length > 0) {
+        const includeFiles = await vscode.workspace.findFiles(
+            new vscode.RelativePattern(targetFolder, `{${includeFilePatterns.join(',')}}`));
+        if (options?.debugFileCounts) {
+            boostLogging.log(`Source files included by Boost Include: ${includeFiles.length}`);
+            if (boostLogging.shouldLog("debug")) {
+                includeFiles.forEach(f => boostLogging.debug(`\tIncluded: ${vscode.workspace.asRelativePath(f.fsPath)}`));
+            }
+        }
+        paths.push(...includeFiles.map(f => options?.useRelativePaths ? vscode.workspace.asRelativePath(f) : f.fsPath));
+    }
+    const pathsSet : Set<string> = new Set<string>(paths);
+
     files.forEach((file) => {
         const pathToAdd = options?.useRelativePaths ? vscode.workspace.asRelativePath(file) : file.fsPath;
-        paths.push(pathToAdd);
+        if (!pathsSet.has(pathToAdd)) {
+            paths.push(pathToAdd);
+        }
     });
 
     let prioritizedPaths: string[] = [];
@@ -161,163 +178,100 @@ export async function getAllProjectFiles(
     return prioritizedPaths;
 }
 
-export function getBoostIgnoreFile(): vscode.Uri | undefined {
-    const workspaceFolder: vscode.Uri | undefined =
-        vscode.workspace.workspaceFolders?.[0]?.uri;
-
-    // if no workspace root folder, bail
-    if (!workspaceFolder) {
+// Common function to get a .gitignore or .boostignore file
+function getFilterFile(filterFile: string): vscode.Uri | undefined {
+    const workspaceFolders = vscode.workspace.workspaceFolders;
+    if (!workspaceFolders) {
         return undefined;
     }
-
-    // path to the the .boostignore file
-    const boostignoreFile = vscode.Uri.joinPath(
-        workspaceFolder,
-        constants.boostIgnoreFilename
-    );
-    return boostignoreFile;
+    const workspaceFolder = workspaceFolders[0].uri;
+    return vscode.Uri.joinPath(workspaceFolder, filterFile);
 }
 
-export function getGitIgnoreFile(): vscode.Uri | undefined {
-    const workspaceFolder: vscode.Uri | undefined =
-        vscode.workspace.workspaceFolders?.[0]?.uri;
-
-    // if no workspace root folder, bail
-    if (!workspaceFolder) {
-        return undefined;
-    }
-
-    // path to the the .gitignore file
-    const gitIgnoreUri = vscode.Uri.joinPath(
-        workspaceFolder,
-        constants.gitIgnoreFilename
-    );
-    return gitIgnoreUri;
-}
-
-export function updateGitIgnoreForTarget(
+// Common function to update either .gitignore or .boostignore files
+function updateFilterFileForTarget(
+    filterFilename: string,
     targetFilepath: string,
-    warnIfDoesntExist: boolean = true,
+    {
+        absolutePath = true,
+        warnIfDoesntExist = true,
+        showUI = false
+    } = {}
 ) {
-    const gitignoreFile = getGitIgnoreFile();
-    if (!gitignoreFile) {
-        return;
-    }
-
-    let patterns = _extractIgnorePatternsFromFile(gitignoreFile.fsPath);
-
-    // Convert path to relative path
-    let targetRelativePath: string;
-    targetRelativePath = vscode.workspace.asRelativePath(
-        vscode.Uri.parse(targetFilepath),
-        false
-    );
-
-    if (!fs.existsSync(targetFilepath)) {
+    const filterFileUri = getFilterFile(filterFilename);
+    if (!filterFileUri) {
         if (warnIfDoesntExist) {
-            boostLogging.warn(`Unable to determine existence of file: ${targetFilepath}`, true);
+            boostLogging.warn(`Workspace folder is not found. Cannot update ${filterFilename}.`, showUI);
         }
         return;
     }
 
-    // search if the new target is already excluded in the existing patterns
-    else if (
-        patterns.some((pattern) =>
-            micromatch.isMatch(targetRelativePath, pattern)
-        )
-    ) {
-        boostLogging.warn(`${targetRelativePath} is already excluded in ${gitignoreFile.fsPath}`, false);
+    const filterFilePath = filterFileUri.fsPath;
+
+    let patterns = _extractFilterPatternsFromFile(filterFilePath);
+
+    let targetRelativePath = targetFilepath;
+    if (absolutePath) {
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri;
+        if (!workspaceFolder) {
+            if (warnIfDoesntExist) {
+                boostLogging.warn(`Workspace folder is not found. Cannot update ${filterFilename}.`, showUI);
+            }
+            return;
+        }
+        targetRelativePath = vscode.workspace.asRelativePath(targetFilepath, false);
+    }
+
+    if (!fs.existsSync(targetFilepath) && warnIfDoesntExist) {
+        boostLogging.warn(`File ${targetFilepath} does not exist.`, showUI);
         return;
     }
 
-    // otherwise need to exclude the target in the ignore file
-    // Check if the target is a directory or a file
+    if (patterns.some(pattern => micromatch.isMatch(targetRelativePath, pattern))) {
+        boostLogging.warn(`${targetRelativePath} is already in ${filterFilePath}.`, showUI);
+        return;
+    }
 
     const stats = fs.statSync(targetFilepath);
     if (stats.isDirectory()) {
-        patterns.push(targetRelativePath + "/**"); // Add glob to match all files/folders under the directory
-    } else if (stats.isFile()) {
-        patterns.push(targetRelativePath); // If it's a file, just add the file path
+        patterns.push(targetRelativePath + "/**");
+    } else {
+        patterns.push(targetRelativePath);
     }
 
-    fs.writeFileSync(gitignoreFile.fsPath, patterns.join("\n"));
-
-    boostLogging.info(
-        `${targetFilepath} has been added to ${gitignoreFile.fsPath}`,
-        false
-    );
+    fs.writeFileSync(filterFilePath, patterns.join("\n"));
+    boostLogging.info(`${targetFilepath} has been added to ${filterFilePath}.`, showUI);
 }
 
+// Function to update .gitignore, uses the common function
+export function updateGitIgnoreForTarget(targetFilepath: string, warnIfDoesntExist: boolean = true) {
+    updateFilterFileForTarget(constants.gitIgnoreFilename, targetFilepath, { warnIfDoesntExist, showUI: false });
+}
+
+// Function to update .boostignore, uses the common function
 export function updateBoostIgnoreForTarget(
     targetFilepath: string,
     absolutePath: boolean = true,
     warnIfDoesntExist: boolean = true,
-    // we're going to assume this is a UI-based action, so we'll show a warning
     showUI: boolean = true
 ) {
-    const boostignoreFile = getBoostIgnoreFile();
-    if (!boostignoreFile) {
-        return;
-    }
-
-    let patterns = _extractIgnorePatternsFromFile(boostignoreFile.fsPath);
-
-    if (targetFilepath.startsWith("*")) {
-        patterns.push(targetFilepath);
-    } else {
-        // Convert path to relative path
-        let targetRelativePath: string;
-        if (absolutePath) {
-            targetRelativePath = vscode.workspace.asRelativePath(
-                vscode.Uri.parse(targetFilepath),
-                false
-            );
-        } else {
-            targetRelativePath = targetFilepath;
-            const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri;
-            if (!workspaceRoot) {
-                boostLogging.warn(`Please load a Project folder first`, showUI);
-                return;
-            }
-            targetFilepath = vscode.Uri.joinPath(
-                workspaceRoot,
-                targetFilepath
-            ).fsPath;
-        }
-
-        if (!fs.existsSync(targetFilepath)) {
-            if (warnIfDoesntExist) {
-                boostLogging.warn(`Unable to determine existence of file: ${targetFilepath}`, showUI);
-            }
-            return;
-        }
-        // search if the new target is already excluded in the existing patterns
-        else if (
-            patterns.some((pattern) =>
-                micromatch.isMatch(targetRelativePath, pattern)
-            )
-        ) {
-            boostLogging.warn(`${targetRelativePath} is already excluded in ${boostignoreFile.fsPath}`, false);
-            return;
-        }
-
-        // otherwise need to exclude the target in the ignore file
-        // Check if the target is a directory or a file
-        const stats = fs.statSync(targetFilepath);
-        if (stats.isDirectory()) {
-            patterns.push(targetRelativePath + "/**"); // Add glob to match all files/folders under the directory
-        } else if (stats.isFile()) {
-            patterns.push(targetRelativePath); // If it's a file, just add the file path
-        }
-    }
-
-    fs.writeFileSync(boostignoreFile.fsPath, patterns.join("\n"));
-
-    boostLogging.info(
-        `${targetFilepath} has been added to ${boostignoreFile.fsPath}`,
-        false
-    );
+    updateFilterFileForTarget(constants.boostIgnoreFilename, targetFilepath, { absolutePath, warnIfDoesntExist, showUI });
 }
+
+// Function to update .boostinclude, uses the common function
+export function updateBoostIncludeForTarget(
+    targetFilepath: string,
+    absolutePath: boolean = true,
+    warnIfDoesntExist: boolean = true,
+    showUI: boolean = true
+) {
+    updateFilterFileForTarget(constants.boostIncludeFilename, targetFilepath, { absolutePath, warnIfDoesntExist, showUI });
+}
+
+// Now we use the generic function for specific cases
+export const getBoostIgnoreFile = () => getFilterFile(constants.boostIgnoreFilename);
+export const getGitIgnoreFile = () => getFilterFile(constants.gitIgnoreFilename);
+export const getBoostIncludeFile = () => getFilterFile(constants.boostIncludeFilename);
 
 export async function createDefaultBoostIgnoreFile() {
     const boostIgnoreFileUri = getBoostIgnoreFile();
@@ -415,7 +369,7 @@ async function buildProjectSourceCodeIgnorePattern(
     for (const gitignoreFile of gitignoreFiles) {
         const relativeDir = path.relative(workspaceFolder.fsPath, path.dirname(gitignoreFile.fsPath));
         
-        const gitIgnorePatterns = _extractIgnorePatternsFromFile(gitignoreFile.fsPath);
+        const gitIgnorePatterns = _extractFilterPatternsFromFile(gitignoreFile.fsPath);
 
         // Adjust the paths to be relative to the root of the workspace
         const adjustedPatterns = gitIgnorePatterns.map(pattern => {
@@ -438,7 +392,7 @@ async function buildProjectSourceCodeIgnorePattern(
     }
     categorizedPatterns.push(
         {category: ".boostignore", patterns:
-            _extractIgnorePatternsFromFile(boostIgnoreFile.fsPath)});
+            _extractFilterPatternsFromFile(boostIgnoreFile.fsPath)});
 
     // Get all patterns from all categories for further checks and operations
     const allPatterns = categorizedPatterns.flatMap(cp => cp.patterns);
@@ -466,6 +420,12 @@ async function buildProjectSourceCodeIgnorePattern(
             {category: "Boost Ignore File", patterns: [`**/${constants.boostIgnoreFilename}`]});
     }
 
+    // never include the .boostInclude file since that's where we store our include patterns
+    if (!allPatterns.find((pattern) => pattern === `**/${constants.boostIncludeFilename}`)) {
+        categorizedPatterns.push(
+            {category: "Boost Include File", patterns: [`**/${constants.boostIncludeFilename}`]});
+    }
+
     categorizedPatterns.push(
         {category: "Binary Image/Build Files (e.g. mp4, jpg, gif, jar, elf, etc.)", patterns: constants.binaryFilePatterns});
     categorizedPatterns.push(
@@ -487,14 +447,14 @@ async function buildProjectSourceCodeIgnorePattern(
     return categorizedPatterns;
 }
 
-function _extractIgnorePatternsFromFile(ignoreFile: string): string[] {
-    // if no ignore file, bail
-    if (!fs.existsSync(ignoreFile)) {
+function _extractFilterPatternsFromFile(filterFile: string): string[] {
+    // if no filter file, bail
+    if (!fs.existsSync(filterFile)) {
         return [];
     }
 
-    const ignoreFileContent = fs.readFileSync(ignoreFile, "utf-8");
-    const patterns = ignoreFileContent.split(/\r?\n/).filter((line) => {
+    const filterFileContent = fs.readFileSync(filterFile, "utf-8");
+    const patterns = filterFileContent.split(/\r?\n/).filter((line) => {
         return line.trim() !== "" && !line.startsWith("#");
     });
     return patterns;

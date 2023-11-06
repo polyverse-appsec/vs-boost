@@ -1,0 +1,45 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 7
+    },
+    "auditLog": "/Users/stephenfisher/development/github-vs-boost/vs-boost/logs/.cc5e3ab6536e2cadd5b3d4d58a2ddc5240c772a6-audit.json",
+    "files": [
+        {
+            "date": 1698881932201,
+            "name": "/Users/stephenfisher/development/github-vs-boost/vs-boost/logs/boost-2023-11-01-16.log",
+            "hash": "c6ceab289f80188280a241f66431c53f5b2f1905ac28f7574d5dbd34b6d32b93"
+        },
+        {
+            "date": 1698883656524,
+            "name": "/Users/stephenfisher/development/github-vs-boost/vs-boost/logs/boost-2023-11-01-17.log",
+            "hash": "24ac44c09b55cec5fd8d4a6d122d091e89eb1a2be14698c0ed33bf5d6c5a63aa"
+        },
+        {
+            "date": 1698907010681,
+            "name": "/Users/stephenfisher/development/github-vs-boost/vs-boost/logs/boost-2023-11-01-23.log",
+            "hash": "b8b118a69cfc8fcf005aef990369294080a12dd71ba8217ef391b459dc9400d7"
+        },
+        {
+            "date": 1698908523337,
+            "name": "/Users/stephenfisher/development/github-vs-boost/vs-boost/logs/boost-2023-11-02-00.log",
+            "hash": "8402eb44575c7de37a16607f1b967f55ca89a8c5436a0e8e286ef7df7272ff7e"
+        },
+        {
+            "date": 1698912003776,
+            "name": "/Users/stephenfisher/development/github-vs-boost/vs-boost/logs/boost-2023-11-02-01.log",
+            "hash": "47895991a629ca93afc49ffad2b26fd22b4c11f8e516a0311dc78369c5ef8303"
+        },
+        {
+            "date": 1698915621934,
+            "name": "/Users/stephenfisher/development/github-vs-boost/vs-boost/logs/boost-2023-11-02-02.log",
+            "hash": "cf1bfdec8175e56eced19ac3c3df8e6cd993fabc8eb05136608d44726bbc9de7"
+        },
+        {
+            "date": 1699255015945,
+            "name": "/Users/stephenfisher/development/github-vs-boost/vs-boost/logs/boost-2023-11-05-23.log",
+            "hash": "9433fd231f82e7287d5a5189c4582c8814e77f9845c70f819448b94b14f7ff7d"
+        }
+    ],
+    "hashType": "sha256"
+}

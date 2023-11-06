@@ -6,21 +6,29 @@ import micromatch from 'micromatch';
 import { boostLogging } from './boostLogging';
 
 const BOOST_ONLY_FILE = '.boostOnly';
+const BOOST_INCLUDE_FILE = '.boostInclude';
 
-function readBoostOnlyFile(targetFolder: vscode.Uri): string[] {
-    const filePath = path.join(targetFolder.fsPath, BOOST_ONLY_FILE);
+function readBoostInclusionFile(inclusionFilename: string, targetFolder: vscode.Uri): string[] {
+    const filePath = path.join(targetFolder.fsPath, inclusionFilename);
     if (!fs.existsSync(filePath)) {
         return [];
     }
     return fs.readFileSync(filePath, 'utf-8').split('\n').filter(line => line.trim() !== '');
 }
 
-function writeBoostOnlyFile(targetFolder: vscode.Uri, patterns: string[]): void {
-    const filePath = path.join(targetFolder.fsPath, BOOST_ONLY_FILE);
+function writeBoostInclusionFile(inclusionFilename: string, targetFolder: vscode.Uri, patterns: string[]): void {
+    const filePath = path.join(targetFolder.fsPath, inclusionFilename);
     fs.writeFileSync(filePath, patterns.join('\n'), 'utf-8');
 }
 
+export function addToBoostInclude(fileOrFolder: string): void {
+    addToBoostIncludeOrOnlyFile(fileOrFolder, false);
+}
 export function addToBoostOnly(fileOrFolder: string): void {
+    addToBoostIncludeOrOnlyFile(fileOrFolder, true);
+}
+
+export function addToBoostIncludeOrOnlyFile(fileOrFolder: string, exclusiveInclude: boolean): void {
     // we're going to assume this is a UI-based action, so we'll show a warning
     const showUI = true;
 
@@ -30,7 +38,7 @@ export function addToBoostOnly(fileOrFolder: string): void {
         return;
     }
 
-    const currentPatterns = readBoostOnlyFile(targetFolder);
+    const currentPatterns = readBoostInclusionFile(exclusiveInclude?BOOST_ONLY_FILE:BOOST_INCLUDE_FILE, targetFolder);
     const targetRelativePath = vscode.workspace.asRelativePath(
         vscode.Uri.parse(fileOrFolder),
         false
@@ -55,7 +63,7 @@ export function addToBoostOnly(fileOrFolder: string): void {
         currentPatterns.push(targetRelativePath);
     }
 
-    writeBoostOnlyFile(targetFolder, currentPatterns);
+    writeBoostInclusionFile(exclusiveInclude?BOOST_ONLY_FILE:BOOST_INCLUDE_FILE, targetFolder, currentPatterns);
 }
 
 export function removeFromBoostOnly(fileOrFolder: string): void {
@@ -68,7 +76,7 @@ export function removeFromBoostOnly(fileOrFolder: string): void {
         return;
     }
     
-    const currentPatterns = readBoostOnlyFile(targetFolder);
+    const currentPatterns = readBoostInclusionFile(BOOST_ONLY_FILE, targetFolder);
     let targetRelativePath: string;
 
     // Convert path to relative path
@@ -89,10 +97,10 @@ export function removeFromBoostOnly(fileOrFolder: string): void {
         currentPatterns.filter(pattern => pattern !== targetRelativePath + "/**") :
         currentPatterns.filter(pattern => pattern !== targetRelativePath);
 
-    writeBoostOnlyFile(targetFolder, updatedPatterns);
+    writeBoostInclusionFile(BOOST_ONLY_FILE, targetFolder, updatedPatterns);
 
 }
 
 export function buildBoostOnlyPatterns(targetFolder: vscode.Uri): string[] {
-    return readBoostOnlyFile(targetFolder);
+    return readBoostInclusionFile(BOOST_ONLY_FILE, targetFolder);
 }

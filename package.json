@@ -9,7 +9,7 @@
     "bugs": {
         "email": "support@polyverse.com"
     },
-    "version": "1.6.4",
+    "version": "1.7.0",
     "engines": {
         "vscode": "^1.77.0"
     },
@@ -380,6 +380,16 @@
                 "icon": "$(folder)"
             },
             {
+                "command": "polyverse-boost-notebook.includeTargetFromBoostAnalysis",
+                "title": "Boost: Require File for Analysis",
+                "icon": "$(file)"
+            },
+            {
+                "command": "polyverse-boost-notebook.includeTargetFolderFromBoostAnalysis",
+                "title": "Boost: Require Folder for Analysis",
+                "icon": "$(folder)"
+            },
+            {
                 "command": "polyverse-boost-notebook.analyzeOnlyTargetForBoostAnalysis",
                 "title": "Boost: Include File for Analysis",
                 "icon": "$(file)"
@@ -515,6 +525,16 @@
                 },
                 {
                     "command": "polyverse-boost-notebook.excludeTargetFolderFromBoostAnalysis",
+                    "when": "(resourceScheme == 'file' && resourceLangId == 'unknown' && resourceExtname == '')",
+                    "group": "polyverseBoost"
+                },
+                {
+                    "command": "polyverse-boost-notebook.includeTargetFromBoostAnalysis",
+                    "when": "(resourceScheme == 'file' && !explorerResourceIsFolder)",
+                    "group": "polyverseBoost"
+                },
+                {
+                    "command": "polyverse-boost-notebook.includeTargetFolderFromBoostAnalysis",
                     "when": "(resourceScheme == 'file' && resourceLangId == 'unknown' && resourceExtname == '')",
                     "group": "polyverseBoost"
                 },
