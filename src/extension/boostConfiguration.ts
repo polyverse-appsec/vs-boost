@@ -190,11 +190,6 @@ export class BoostConfiguration {
             Defaults.runAllTargetAnalysisTypeValue;
     }
 
-    public static get processFilesInGroups(): boolean {
-        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.processFilesInGroupsName) as boolean)??
-            Defaults.processFilesInGroupsValue;
-    }
-
     static _cachedVersion: string = "";
     public static get version(): string {
         if (this._cachedVersion) {
@@ -272,9 +267,6 @@ class Defaults {
 
     public static readonly defaultOutputFormatName : string = "output.defaultOutputFormat";
     public static readonly defaultOutputFormatValue : string = "pdf";
-
-    public static readonly processFilesInGroupsName : string = "processFilesInGroups";
-    public static readonly processFilesInGroupsValue : boolean = true;
 
     public static readonly addBoostToAnalyzedProjectsName : string = "advanced.addBoostToAnalyzedProjects";
     public static readonly addBoostToAnalyzedProjectsValue : boolean = true;

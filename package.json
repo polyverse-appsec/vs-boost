@@ -413,6 +413,11 @@
                 "command": "polyverse-boost-notebook.cleanBoostFiles",
                 "title": "Boost: Cleanup Unneeded Boost Files",
                 "icon": "$(search)"
+            },
+            {
+                "command": "polyverse-boost-notebook.processAllFilesInRings",
+                "title": "Boost: Process All Files in Rings",
+                "icon": "$(folder)"
             }
         ],
         "notebooks": [

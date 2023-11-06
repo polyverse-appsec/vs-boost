@@ -37,6 +37,8 @@ export enum BoostCommands {
 
     processProject = "processProject",
 
+    processAllFilesInRings = "processAllFilesInRings",
+
     buildCurrentFileOutput = "buildCurrentFileOutput",
     buildCurrentFileSummaryOutput = "buildCurrentFileSummaryOutput",
     buildCurrentFolderOutput = "buildCurrentFolderOutput",

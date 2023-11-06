@@ -9,7 +9,7 @@ Polyverse Boost Automatic Application Modernization
 - .boostInclude file support - where you can specify required source files or folder patterns to include in analysis regardless of boostOnly or boostIgnore files
 
 ### Enhancements
-- N/A
+- "Run Selected Analyses" will run even if Activity Bar is closed
 
 ### Bug Fixes
 - N/A
