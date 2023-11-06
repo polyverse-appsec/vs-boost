@@ -5,12 +5,20 @@ type SymbolInformation = {
     name: string;
     kind: string;
     detail: string;
+    description: string;
     file: string;
-    symbol: vscode.DocumentSymbol;
+    code: string;
     items: vscode.CallHierarchyItem[];
-    incomingCalls: vscode.CallHierarchyIncomingCall[];
-    outgoingCalls: vscode.CallHierarchyOutgoingCall[];
+    incomingCalls: CallItem[];
+    outgoingCalls: CallItem[];
     implementations: vscode.Location[]; // Replace 'any[]' with the actual type if known
+};
+
+type CallItem = {
+    name: string;
+    detail: string | undefined;
+    kind: string;
+    file: string;
 };
 
 import * as fs from 'fs';
@@ -42,8 +50,9 @@ export async function getSymbols()
                     name: symbol.name,
                     kind: getSymbolKindName(symbol.kind),
                     detail: symbol.detail,
+                    description: "",
+                    code: getCodeSnippet(file.fsPath, symbol.range),
                     file: file.fsPath,
-                    symbol: symbol,
                     items: [],
                     incomingCalls: [],
                     outgoingCalls: [],
@@ -53,7 +62,7 @@ export async function getSymbols()
                 let items: vscode.CallHierarchyItem[];
                 try {
                     items = await vscode.commands.executeCommand<vscode.CallHierarchyItem[]>('vscode.prepareCallHierarchy', file, symbol.selectionRange.start);
-                    s.items = items;
+                    //s.items = items;
                 } catch (e) {
                     vscode.window.showErrorMessage(`${e}\n${file}\n${symbol.name}`);
                     continue;
@@ -62,7 +71,7 @@ export async function getSymbols()
                 for await (const item of items) {
                     await vscode.commands.executeCommand<vscode.CallHierarchyIncomingCall[]>('vscode.provideIncomingCalls', item)
                     .then(calls => {
-                        s.incomingCalls = calls;
+                        s.incomingCalls = convertIncomingCallsToCallItems(calls);
                     })
                     .then(undefined, err => {
                         console.error(err);
@@ -72,7 +81,7 @@ export async function getSymbols()
                 for await (const item of items) {
                     await vscode.commands.executeCommand<vscode.CallHierarchyOutgoingCall[]>('vscode.provideOutgoingCalls', item)
                     .then(calls => {
-                        s.outgoingCalls = calls;
+                        s.outgoingCalls = convertOutgoingCallsToCallItems(calls);
                     })
                     .then(undefined, err => {
                         console.error(err);
@@ -113,14 +122,11 @@ export async function getSymbols()
     // Define the path where you want to save the JSON file
     // For example, saving to the workspace's root
     const workspaceFolders = vscode.workspace.workspaceFolders;
-    console.log("workspaceFolders");
-    console.log(workspaceFolders);
     
     if (workspaceFolders) {
         const workspaceRootPath = workspaceFolders[0].uri.fsPath; // Take the first workspace folder
         const jsonFilePath = path.join(workspaceRootPath, 'symbols.json');
 
-        console.log("jsonFilePath", jsonFilePath);
         // Call the function to write the file
         writeSymbolsToFile(allSymbols, jsonFilePath);
     } else {
@@ -176,4 +182,35 @@ function writeSymbolsToFile(symbols: SymbolInformation[], filePath: string) {
             vscode.window.showInformationMessage(`JSON saved successfully to ${filePath}`);
         }
     });
+}
+
+//a function to convert an array of vscode.CallHierarchyOutgoingCall to CallItems
+function convertOutgoingCallsToCallItems(outgoingCalls: vscode.CallHierarchyOutgoingCall[]): CallItem[] {
+    let callItems: CallItem[] = [];
+    for (const call of outgoingCalls) {
+        callItems.push({name: call.to.name, detail: call.to.detail, kind: getSymbolKindName(call.to.kind), file: call.to.uri.fsPath});
+    }
+    return callItems;
+}
+
+//a function to convert an array of vscode.CallHierarchyIncomingCall to CallItems
+function convertIncomingCallsToCallItems(incomingCalls: vscode.CallHierarchyIncomingCall[]): CallItem[] {
+    let callItems: CallItem[] = [];
+    for (const call of incomingCalls) {
+        callItems.push({name: call.from.name, detail: call.from.detail, kind: getSymbolKindName(call.from.kind), file: call.from.uri.fsPath});
+    }
+    return callItems;
+}
+
+//a function that given a file path and a selection range, returns the code snippet
+function getCodeSnippet(filePath: string, range: vscode.Range): string {
+    const fileContent = fs.readFileSync(filePath, 'utf8');
+    const lines = fileContent.split(/\r?\n/g);
+    const startLine = range.start.line;
+    const endLine = range.end.line;
+    let snippet = "";
+    for (let i = startLine; i <= endLine; i++) {
+        snippet += lines[i] + "\n";
+    }
+    return snippet;
 }
