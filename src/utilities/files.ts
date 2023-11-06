@@ -195,6 +195,7 @@ function updateFilterFileForTarget(
     {
         absolutePath = true,
         warnIfDoesntExist = true,
+        createIfNotExists = true,
         showUI = false
     } = {}
 ) {
@@ -203,6 +204,9 @@ function updateFilterFileForTarget(
         if (warnIfDoesntExist) {
             boostLogging.warn(`Workspace folder is not found. Cannot update ${filterFilename}.`, showUI);
         }
+        return;
+    } else if (!fs.existsSync(filterFileUri.fsPath) && !createIfNotExists) {
+        boostLogging.warn(`Existing file not found; ignoring update: ${filterFilename}`);
         return;
     }
 
@@ -244,8 +248,9 @@ function updateFilterFileForTarget(
 }
 
 // Function to update .gitignore, uses the common function
-export function updateGitIgnoreForTarget(targetFilepath: string, warnIfDoesntExist: boolean = true) {
-    updateFilterFileForTarget(constants.gitIgnoreFilename, targetFilepath, { warnIfDoesntExist, showUI: false });
+export function updateGitIgnoreForTarget(targetFilepath: string, warnIfDoesntExist: boolean = true, createIfNotExists = true) {
+    updateFilterFileForTarget(constants.gitIgnoreFilename, targetFilepath,
+        { absolutePath: true, warnIfDoesntExist, showUI: false, createIfNotExists });
 }
 
 // Function to update .boostignore, uses the common function
