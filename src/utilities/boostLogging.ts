@@ -9,7 +9,7 @@ import { BoostConfiguration } from "../extension/boostConfiguration";
 export let rollingLogger : winston.Logger;
 
 export function activateLogging(context: ExtensionContext) {
-    const logDirectory = path.join(context.extensionPath, BoostConfiguration.defaultDir, 'logs');
+    const logDirectory = path.join(context.extensionPath, 'logs');
     
     if (!fs.existsSync(logDirectory)) {
         fs.mkdirSync(logDirectory, { recursive: true });
