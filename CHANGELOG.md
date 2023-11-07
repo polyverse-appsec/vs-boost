@@ -10,6 +10,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Enhancements
 - "Run Selected Analyses" will run even if Activity Bar is closed
+- "Process All Files in Rings" is a new command to launch background processing of all files in a project
 
 ### Bug Fixes
 - N/A
