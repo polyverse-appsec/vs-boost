@@ -22,8 +22,8 @@ export class BoostConvertKernel extends KernelControllerBase {
         super(
             collection,
             convertKernelName,
-            'Convert Legacy Code to New Code',
-            'Converts targeted source code into a new programming language, using the best practices of the target language',
+            'Code Conversion Advisor',
+            'Ask for advice and samples for converting legacy code to new code',
             ControllerOutputType.convert,
             DisplayGroupFriendlyName.deepcode,
             convertOutputHeader,
