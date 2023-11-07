@@ -825,6 +825,48 @@ export class KernelControllerBase extends BoostServiceHelper {
         return response;
     }
 
+    // returns undefined if missing or error content, otherwise returns the output
+    getCellOutput(
+        cell: vscode.NotebookCell | BoostNotebookCell,
+        outputType: string
+    ): string | undefined {
+        const usingBoostNotebook = cell ? "value" in cell : true; // look for the value property to see if its a BoostNotebookCell
+
+
+        if (usingBoostNotebook) {
+            const boostCell = cell as BoostNotebookCell;
+            const cellOutput = boostCell.outputs.find(
+                (output) => output.metadata.outputType === outputType
+            );
+            if (!cellOutput) {
+                return undefined;
+            }
+            
+            // if the cell output is error, then just return empty string
+            if (cellOutput.items.some((item) => item.mime === errorMimeType)) {
+                return undefined;
+            }
+    
+            return cellOutput.items[0].data;
+        }
+
+        const vscCell = cell as vscode.NotebookCell;
+        const vscOutput = vscCell.outputs.find(
+            (output) => output.metadata?.outputType === outputType
+        );
+        if (vscOutput) {
+            
+            // if the cell output is error, then just return empty string
+            if (vscOutput.items.some((item) => item.mime === errorMimeType)) {
+                return undefined;
+            }
+            const decodedText = new TextDecoder().decode(vscOutput.items[0].data);
+            return decodedText;
+        }
+        return undefined;
+
+    }
+
     updateCellOutput(
         execution: vscode.NotebookCellExecution | undefined,
         cell: vscode.NotebookCell | BoostNotebookCell,
