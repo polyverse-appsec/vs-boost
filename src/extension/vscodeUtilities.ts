@@ -8,7 +8,7 @@ import { ControllerOutputType, functionOutputTypeExtension } from '../controller
 import { KernelControllerBase, errorMimeType } from '../controllers/base_controller';
 import { fullPathFromSourceFile } from '../utilities/files';
 import { BoostExtension } from './BoostExtension';
-import { FunctionKernelControllerBase } from '../controllers/function_base_controller';
+import { BugFunctionKernelControllerBase } from '../controllers/bug_function_base_controller';
 import { BoostConfiguration, extensionId } from './boostConfiguration';
 import { boostLogging } from '../utilities/boostLogging';
 import { errorToString } from '../utilities/error';
@@ -199,11 +199,11 @@ export function generateSingleLineSummaryForAnalysisData(
             //if we have one of these in our output, set the display name.
             analysisFound[kernel.outputType].displayName = kernel.displayCategory;
         } 
-        if (!(kernel instanceof FunctionKernelControllerBase)) {
+        if (!(kernel instanceof BugFunctionKernelControllerBase)) {
             return;
         }
 
-        const functionController = kernel as FunctionKernelControllerBase;
+        const functionController = kernel as BugFunctionKernelControllerBase;
 
         const problemsIdentified = getAnalysisProblemMetaDataForSourceTarget(
             functionController.sourceLevelIssueCollection, analysisNotebook.metadata.sourceFile as string, selection);

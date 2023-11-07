@@ -1,13 +1,13 @@
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from '../extension/boostConfiguration';
-import { FunctionKernelControllerBase } from './function_base_controller';
+import { BugFunctionKernelControllerBase } from './bug_function_base_controller';
 import { analyzeKernelName } from './analyze_controller';
 import { ControllerOutputType } from './controllerOutputTypes';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 export const analyzeFunctionKernelName = analyzeKernelName + '_function';
 
-export class BoostAnalyzeFunctionKernel extends FunctionKernelControllerBase {
+export class BoostAnalyzeFunctionKernel extends BugFunctionKernelControllerBase {
 
 	constructor(context: ExtensionContext, onServiceResponseHandler: any, otherThis: any, collection: DiagnosticCollection) {
         super(

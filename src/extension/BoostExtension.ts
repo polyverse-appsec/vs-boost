@@ -154,7 +154,7 @@ import {
     BoostQuickBlueprintKernel,
     quickBlueprintKernelName,
 } from "../controllers/quick_blueprint_controller";
-import { FunctionKernelControllerBase } from "../controllers/function_base_controller";
+import { BugFunctionKernelControllerBase } from "../controllers/bug_function_base_controller";
 import {
     BoostQuickComplianceSummaryKernel,
     quickComplianceSummaryKernelName,
@@ -415,7 +415,7 @@ export class BoostExtension {
                 // if there are no cells left in the notebook, then clear all Problems
                 if (event.notebook.getCells().length === 0) {
                     this.kernels.forEach((kernel: KernelControllerBase) => {
-                        if (!(kernel instanceof FunctionKernelControllerBase)) {
+                        if (!(kernel instanceof BugFunctionKernelControllerBase)) {
                             return;
                         }
 
@@ -800,7 +800,7 @@ export class BoostExtension {
 
         // we walk all kernels to
         for (const value of this.kernels.values()) {
-            if (!(value instanceof FunctionKernelControllerBase)) {
+            if (!(value instanceof BugFunctionKernelControllerBase)) {
                 continue;
             }
             const cells = usingBoostNotebook

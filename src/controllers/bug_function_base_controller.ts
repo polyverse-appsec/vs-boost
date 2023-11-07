@@ -12,7 +12,7 @@ import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 import { ControllerOutputType } from './controllerOutputTypes';
 import { BoostConfiguration } from '../extension/boostConfiguration';
 
-export class FunctionKernelControllerBase extends KernelControllerBase {
+export class BugFunctionKernelControllerBase extends KernelControllerBase {
 
     public sourceLevelIssueCollection: vscode.DiagnosticCollection;
 

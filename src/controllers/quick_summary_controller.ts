@@ -11,8 +11,8 @@ import { BoostConfiguration } from '../extension/boostConfiguration';
 import { getAllProjectFiles } from '../utilities/files';
 
 import {
-    FunctionKernelControllerBase,
-} from './function_base_controller';
+    BugFunctionKernelControllerBase,
+} from './bug_function_base_controller';
 
 import * as vscode from 'vscode';
 import {
@@ -137,8 +137,8 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
         return true;
     }
 
-    private _parentController : FunctionKernelControllerBase | undefined = undefined;
-    private get parentController() : FunctionKernelControllerBase | undefined {
+    private _parentController : BugFunctionKernelControllerBase | undefined = undefined;
+    private get parentController() : BugFunctionKernelControllerBase | undefined {
         if (this._parentController) {
             return this._parentController;
         }
@@ -149,7 +149,7 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
         }
 
         for (const [kernelName, kernelController] of kernels) {
-            if (!(kernelController instanceof FunctionKernelControllerBase)) {
+            if (!(kernelController instanceof BugFunctionKernelControllerBase)) {
                 continue;
             }
             if (kernelController.outputType !== this._coreOutputType) {
@@ -163,7 +163,7 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
         }
 
         return this._parentController;
-}
+    }
 
     private async _runQuickSummary(
             notebook: BoostNotebook,
