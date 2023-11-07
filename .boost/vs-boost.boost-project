@@ -3,7 +3,7 @@
   "summary": {
     "projectName": "vs-boost",
     "summaryUrl": ".boost/vs-boost.summary.boost-notebook",
-    "filesToAnalyze": 104,
+    "filesToAnalyze": 106,
     "filesAnalyzed": 85,
     "issues": []
   },

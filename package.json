@@ -610,6 +610,7 @@
         "marked-highlight": "^1.0.2",
         "micromatch": "^4.0.5",
         "nodejs": "^0.0.0",
+        "openai": "^4.15.4",
         "p-queue": "v6.6.2",
         "puppeteer": "^20.2.1",
         "sanitize-html": "^2.11.0",

@@ -1,5 +1,5 @@
-import * as vscode from 'vscode';
-import { retryCommand } from '../extension/vscodeUtilities';    
+import * as vscode from "vscode";
+import { retryCommand } from "../extension/vscodeUtilities";
 
 type SymbolInformation = {
     name: string;
@@ -21,28 +21,49 @@ type CallItem = {
     file: string;
 };
 
-import * as fs from 'fs';
-import * as path from 'path';
-import { all } from 'micromatch';
+import * as fs from "fs";
+import * as path from "path";
+import { all } from "micromatch";
+import { generateQuickDescription } from "./aiAnalysis";
 
-export async function getSymbols()
-{
-    const files = await vscode.workspace.findFiles('**/*.ts', '{**/node_modules/**,**/*test*/**}');
+export async function getSymbols() {
+    const files = await vscode.workspace.findFiles(
+        "**/*.ts",
+        "{**/node_modules/**,**/*test*/**}"
+    );
+
+    let totalTime = 0;
+    let totalSymbols = 0;
 
     let allSymbols: SymbolInformation[] = [];
 
+    //for now just do 5 files to test
+    
     for await (const file of files) {
         // retry several times if the LSP server is not ready
-        let symbols = await retryCommand<vscode.DocumentSymbol[]>(5, 600, 'vscode.executeDocumentSymbolProvider', file);
+        let symbols = await retryCommand<vscode.DocumentSymbol[]>(
+            5,
+            600,
+            "vscode.executeDocumentSymbolProvider",
+            file
+        );
         if (symbols === undefined) {
-            vscode.window.showErrorMessage(`Document symbol information not available for '${file.fsPath}'`);
+            vscode.window.showErrorMessage(
+                `Document symbol information not available for '${file.fsPath}'`
+            );
             continue;
         }
 
         while (symbols.length > 0) {
-
             for await (const symbol of symbols) {
-                if (![vscode.SymbolKind.Function, vscode.SymbolKind.Method, vscode.SymbolKind.Constructor, vscode.SymbolKind.Interface].includes(symbol.kind)) {
+                if (
+                    ![
+                        vscode.SymbolKind.Function,
+                        vscode.SymbolKind.Method,
+                        vscode.SymbolKind.Constructor,
+                        vscode.SymbolKind.Interface,
+                    ].includes(symbol.kind)
+                ) {
                     continue;
                 }
 
@@ -56,155 +77,237 @@ export async function getSymbols()
                     items: [],
                     incomingCalls: [],
                     outgoingCalls: [],
-                    implementations: []
+                    implementations: [],
                 };
+
+                //time the amount of time it takes to generate the quick description
+                //const start = Date.now();
+                //s.description = await generateQuickDescription(s.code);
+                //const end = Date.now();
+                //console.log("time to generate quick description: " + (end - start) + "ms");
+                //totalTime += (end - start);
+                //totalSymbols += 1;
 
                 let items: vscode.CallHierarchyItem[];
                 try {
-                    items = await vscode.commands.executeCommand<vscode.CallHierarchyItem[]>('vscode.prepareCallHierarchy', file, symbol.selectionRange.start);
+                    items = await vscode.commands.executeCommand<
+                        vscode.CallHierarchyItem[]
+                    >(
+                        "vscode.prepareCallHierarchy",
+                        file,
+                        symbol.selectionRange.start
+                    );
                     //s.items = items;
                 } catch (e) {
-                    vscode.window.showErrorMessage(`${e}\n${file}\n${symbol.name}`);
+                    vscode.window.showErrorMessage(
+                        `${e}\n${file}\n${symbol.name}`
+                    );
                     continue;
                 }
 
                 for await (const item of items) {
-                    await vscode.commands.executeCommand<vscode.CallHierarchyIncomingCall[]>('vscode.provideIncomingCalls', item)
-                    .then(calls => {
-                        s.incomingCalls = convertIncomingCallsToCallItems(calls);
-                    })
-                    .then(undefined, err => {
-                        console.error(err);
-                    });
+                    await vscode.commands
+                        .executeCommand<vscode.CallHierarchyIncomingCall[]>(
+                            "vscode.provideIncomingCalls",
+                            item
+                        )
+                        .then((calls) => {
+                            s.incomingCalls =
+                                convertIncomingCallsToCallItems(calls);
+                        })
+                        .then(undefined, (err) => {
+                            console.error(err);
+                        });
                 }
 
                 for await (const item of items) {
-                    await vscode.commands.executeCommand<vscode.CallHierarchyOutgoingCall[]>('vscode.provideOutgoingCalls', item)
-                    .then(calls => {
-                        s.outgoingCalls = convertOutgoingCallsToCallItems(calls);
-                    })
-                    .then(undefined, err => {
-                        console.error(err);
-                    });
+                    await vscode.commands
+                        .executeCommand<vscode.CallHierarchyOutgoingCall[]>(
+                            "vscode.provideOutgoingCalls",
+                            item
+                        )
+                        .then((calls) => {
+                            s.outgoingCalls =
+                                convertOutgoingCallsToCallItems(calls);
+                        })
+                        .then(undefined, (err) => {
+                            console.error(err);
+                        });
                 }
 
                 if (symbol.kind === vscode.SymbolKind.Interface) {
-                    await vscode.commands.executeCommand<vscode.Location[] | vscode.LocationLink[]>('vscode.executeImplementationProvider', file, symbol.selectionRange.start)
-                    .then(result => {
-                        if (result.length <= 0) {
-                        return;
-                        }
+                    await vscode.commands
+                        .executeCommand<
+                            vscode.Location[] | vscode.LocationLink[]
+                        >(
+                            "vscode.executeImplementationProvider",
+                            file,
+                            symbol.selectionRange.start
+                        )
+                        .then((result) => {
+                            if (result.length <= 0) {
+                                return;
+                            }
 
-                        let locations: vscode.Location[];
-                        if (!(result[0] instanceof vscode.Location)) {
-                        locations = result.map(l => {
-                            let link = l as vscode.LocationLink;
-                            return new vscode.Location(link.targetUri, link.targetSelectionRange ?? link.targetRange);
+                            let locations: vscode.Location[];
+                            if (!(result[0] instanceof vscode.Location)) {
+                                locations = result.map((l) => {
+                                    let link = l as vscode.LocationLink;
+                                    return new vscode.Location(
+                                        link.targetUri,
+                                        link.targetSelectionRange ??
+                                            link.targetRange
+                                    );
+                                });
+                            } else {
+                                locations = result as vscode.Location[];
+                            }
+                            s.implementations = locations;
+                        })
+                        .then(undefined, (err) => {
+                            console.log(err);
                         });
-                        } else {
-                        locations = result as vscode.Location[];
-                        }
-                        s.implementations = locations;
-                    })
-                    .then(undefined, err => {
-                        console.log(err);
-                    });
                 }
                 allSymbols.push(s);
             }
-            symbols = symbols.flatMap(symbol => symbol.children);
+            symbols = symbols.flatMap((symbol) => symbol.children);
         }
         console.log("finished processing file " + file.fsPath);
     }
 
     console.log("finished");
+    console.log("average time: " + totalTime/totalSymbols + "ms");
 
     // Define the path where you want to save the JSON file
     // For example, saving to the workspace's root
     const workspaceFolders = vscode.workspace.workspaceFolders;
-    
+
     if (workspaceFolders) {
         const workspaceRootPath = workspaceFolders[0].uri.fsPath; // Take the first workspace folder
-        const jsonFilePath = path.join(workspaceRootPath, 'symbols.json');
+        const jsonFilePath = path.join(workspaceRootPath, "symbols.json");
 
         // Call the function to write the file
         writeSymbolsToFile(allSymbols, jsonFilePath);
     } else {
-        vscode.window.showErrorMessage('No workspace folder found.');
+        vscode.window.showErrorMessage("No workspace folder found.");
     }
 }
 
-
 function getSymbolKindName(kind: vscode.SymbolKind): string {
     switch (kind) {
-        case vscode.SymbolKind.File: return 'File';
-        case vscode.SymbolKind.Module: return 'Module';
-        case vscode.SymbolKind.Namespace: return 'Namespace';
-        case vscode.SymbolKind.Package: return 'Package';
-        case vscode.SymbolKind.Class: return 'Class';
-        case vscode.SymbolKind.Method: return 'Method';
-        case vscode.SymbolKind.Property: return 'Property';
-        case vscode.SymbolKind.Field: return 'Field';
-        case vscode.SymbolKind.Constructor: return 'Constructor';
-        case vscode.SymbolKind.Enum: return 'Enum';
-        case vscode.SymbolKind.Interface: return 'Interface';
-        case vscode.SymbolKind.Function: return 'Function';
-        case vscode.SymbolKind.Variable: return 'Variable';
-        case vscode.SymbolKind.Constant: return 'Constant';
-        case vscode.SymbolKind.String: return 'String';
-        case vscode.SymbolKind.Number: return 'Number';
-        case vscode.SymbolKind.Boolean: return 'Boolean';
-        case vscode.SymbolKind.Array: return 'Array';
-        case vscode.SymbolKind.Object: return 'Object';
-        case vscode.SymbolKind.Key: return 'Key';
-        case vscode.SymbolKind.Null: return 'Null';
-        case vscode.SymbolKind.EnumMember: return 'EnumMember';
-        case vscode.SymbolKind.Struct: return 'Struct';
-        case vscode.SymbolKind.Event: return 'Event';
-        case vscode.SymbolKind.Operator: return 'Operator';
-        case vscode.SymbolKind.TypeParameter: return 'TypeParameter';
-        default: return 'Unknown';
+        case vscode.SymbolKind.File:
+            return "File";
+        case vscode.SymbolKind.Module:
+            return "Module";
+        case vscode.SymbolKind.Namespace:
+            return "Namespace";
+        case vscode.SymbolKind.Package:
+            return "Package";
+        case vscode.SymbolKind.Class:
+            return "Class";
+        case vscode.SymbolKind.Method:
+            return "Method";
+        case vscode.SymbolKind.Property:
+            return "Property";
+        case vscode.SymbolKind.Field:
+            return "Field";
+        case vscode.SymbolKind.Constructor:
+            return "Constructor";
+        case vscode.SymbolKind.Enum:
+            return "Enum";
+        case vscode.SymbolKind.Interface:
+            return "Interface";
+        case vscode.SymbolKind.Function:
+            return "Function";
+        case vscode.SymbolKind.Variable:
+            return "Variable";
+        case vscode.SymbolKind.Constant:
+            return "Constant";
+        case vscode.SymbolKind.String:
+            return "String";
+        case vscode.SymbolKind.Number:
+            return "Number";
+        case vscode.SymbolKind.Boolean:
+            return "Boolean";
+        case vscode.SymbolKind.Array:
+            return "Array";
+        case vscode.SymbolKind.Object:
+            return "Object";
+        case vscode.SymbolKind.Key:
+            return "Key";
+        case vscode.SymbolKind.Null:
+            return "Null";
+        case vscode.SymbolKind.EnumMember:
+            return "EnumMember";
+        case vscode.SymbolKind.Struct:
+            return "Struct";
+        case vscode.SymbolKind.Event:
+            return "Event";
+        case vscode.SymbolKind.Operator:
+            return "Operator";
+        case vscode.SymbolKind.TypeParameter:
+            return "TypeParameter";
+        default:
+            return "Unknown";
     }
 }
 // Define a function to write the JSON file
 function writeSymbolsToFile(symbols: SymbolInformation[], filePath: string) {
     // Convert the array of SymbolInformation objects to a JSON string
     const jsonContent = JSON.stringify(symbols, null, 4); // Pretty print with 4 spaces
-    console.log('symbols', symbols);
+    console.log("symbols", symbols);
     // Write the JSON string to a file
-    fs.writeFile(filePath, jsonContent, 'utf8', (err) => {
+    fs.writeFile(filePath, jsonContent, "utf8", (err) => {
         if (err) {
             // If there was an error, log it and potentially show a message to the user
-            console.error('An error occurred while writing JSON to file:', err);
-            vscode.window.showErrorMessage('An error occurred while writing JSON to file.');
+            console.error("An error occurred while writing JSON to file:", err);
+            vscode.window.showErrorMessage(
+                "An error occurred while writing JSON to file."
+            );
         } else {
             // Optionally inform the user that the operation was successful
-            vscode.window.showInformationMessage(`JSON saved successfully to ${filePath}`);
+            vscode.window.showInformationMessage(
+                `JSON saved successfully to ${filePath}`
+            );
         }
     });
 }
 
 //a function to convert an array of vscode.CallHierarchyOutgoingCall to CallItems
-function convertOutgoingCallsToCallItems(outgoingCalls: vscode.CallHierarchyOutgoingCall[]): CallItem[] {
+function convertOutgoingCallsToCallItems(
+    outgoingCalls: vscode.CallHierarchyOutgoingCall[]
+): CallItem[] {
     let callItems: CallItem[] = [];
     for (const call of outgoingCalls) {
-        callItems.push({name: call.to.name, detail: call.to.detail, kind: getSymbolKindName(call.to.kind), file: call.to.uri.fsPath});
+        callItems.push({
+            name: call.to.name,
+            detail: call.to.detail,
+            kind: getSymbolKindName(call.to.kind),
+            file: call.to.uri.fsPath,
+        });
     }
     return callItems;
 }
 
 //a function to convert an array of vscode.CallHierarchyIncomingCall to CallItems
-function convertIncomingCallsToCallItems(incomingCalls: vscode.CallHierarchyIncomingCall[]): CallItem[] {
+function convertIncomingCallsToCallItems(
+    incomingCalls: vscode.CallHierarchyIncomingCall[]
+): CallItem[] {
     let callItems: CallItem[] = [];
     for (const call of incomingCalls) {
-        callItems.push({name: call.from.name, detail: call.from.detail, kind: getSymbolKindName(call.from.kind), file: call.from.uri.fsPath});
+        callItems.push({
+            name: call.from.name,
+            detail: call.from.detail,
+            kind: getSymbolKindName(call.from.kind),
+            file: call.from.uri.fsPath,
+        });
     }
     return callItems;
 }
 
 //a function that given a file path and a selection range, returns the code snippet
 function getCodeSnippet(filePath: string, range: vscode.Range): string {
-    const fileContent = fs.readFileSync(filePath, 'utf8');
+    const fileContent = fs.readFileSync(filePath, "utf8");
     const lines = fileContent.split(/\r?\n/g);
     const startLine = range.start.line;
     const endLine = range.end.line;
