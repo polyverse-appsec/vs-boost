@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
 
 import {
-    KernelControllerBase
- } from './base_controller';
+    FunctionKernelControllerBase
+ } from '././function_base_controller';
 import * as boostnb from '../data/jupyter_notebook';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { boostLogging } from '../utilities/boostLogging';
@@ -12,7 +12,7 @@ import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 import { ControllerOutputType } from './controllerOutputTypes';
 import { BoostConfiguration } from '../extension/boostConfiguration';
 
-export class BugFunctionKernelControllerBase extends KernelControllerBase {
+export class BugFunctionKernelControllerBase extends FunctionKernelControllerBase {
 
     public sourceLevelIssueCollection: vscode.DiagnosticCollection;
 
@@ -38,8 +38,6 @@ export class BugFunctionKernelControllerBase extends KernelControllerBase {
             outputType,
             displayGroup,
             outputHeader,
-            true,
-            true, 
             context,
             otherThis,
             onServiceResponseHandler);
