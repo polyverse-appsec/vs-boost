@@ -6,4 +6,4 @@ node_modules/@types/**
 .vscode-test/
 *.vsix
 .boost/logs/**
-.logs/**
+logs/**
