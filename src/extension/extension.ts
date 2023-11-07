@@ -232,22 +232,23 @@ export function getBoostFile(
                 );
                 const externalBoostFile = sourceFile.fsPath + extension;
                 return vscode.Uri.file(externalBoostFile);
-            } else {
-                // if we're targeting a folder, and the folder is the workspace name, then name it after the project
-                if (!relativePath) {
-                    relativePath = path.basename(baseFolder);
-                }
-                // create the .boost file path, from the new boost folder + amended relative source file path
-                const absoluteBoostNotebookFile = path.join(
-                    boostFolder,
-                    relativePath + extension
-                );
-                const normalizedAbsoluteBoostNotebookFile = path.normalize(
-                    absoluteBoostNotebookFile
-                );
-
-                return vscode.Uri.file(normalizedAbsoluteBoostNotebookFile);
             }
+            
+            // if we're targeting a folder, and the folder is the workspace name, then name it after the project
+            if (!relativePath) {
+                relativePath = path.basename(baseFolder);
+            }
+            // create the .boost file path, from the new boost folder + amended relative source file path
+            const absoluteBoostNotebookFile = path.join(
+                boostFolder,
+                relativePath + extension
+            );
+            const normalizedAbsoluteBoostNotebookFile = path.normalize(
+                absoluteBoostNotebookFile
+            );
+
+            return vscode.Uri.file(normalizedAbsoluteBoostNotebookFile);
+
         case BoostFileType.chat:
             const chatFolder = path.join(
                 boostFolder,
@@ -275,6 +276,7 @@ export function getBoostFile(
                 }
             }
             return chatFile;
+
         case BoostFileType.status:
             const absoluteboostProjectDataFile = path.join(
                 boostFolder,
@@ -288,6 +290,7 @@ export function getBoostFile(
                 normalizedAbsoluteBoostProjectDataFile
             );
             return boostProjectDataFile;
+
         case BoostFileType.output:
             const isNotebook = path.extname(sourceFile.fsPath) === boostnb.NOTEBOOK_EXTENSION;
 
