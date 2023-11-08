@@ -172,6 +172,10 @@ import {
     BoostChatKernel,
     chatKernelName,
 } from "../controllers/chat_controller";
+import {
+    BoostConvertFunctionKernel,
+    convertFunctionKernelName,
+} from "../controllers/convert_function_controller";
 
 import { InlineBoostAnnotations } from "../inline/inline";
 import { ProjectContextData } from "../data/ProjectContextData";
@@ -1219,6 +1223,7 @@ export class BoostExtension {
             BoostCustomQuickScanFunctionKernel,
         ];
         const devKernelTypes: any[] = [
+            BoostConvertFunctionKernel,
             BoostArchitectureBlueprintKernel,
             BoostCodeGuidelinesKernel,
             SummarizeKernel,

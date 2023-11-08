@@ -5,6 +5,7 @@ export enum ControllerOutputType {
     analyzeFunction = analyze + functionOutputTypeExtension,
     blueprint = 'archblueprintCode',
     testgen = 'testGeneration',
+    testgenFunction = testgen + functionOutputTypeExtension,
     compliance = 'complianceCode',
     complianceFunction = compliance + functionOutputTypeExtension,
     performance = 'performance',
@@ -15,6 +16,7 @@ export enum ControllerOutputType {
     chat = 'chat',
     codeGuidelines = 'guidelinesCode',
     convert = 'generatedCode',
+    convertFunction = convert + functionOutputTypeExtension,
     customProcess = 'customProcessCode',
     customQuickScanFunction = 'customQuickScanCode' + functionOutputTypeExtension,
 }
