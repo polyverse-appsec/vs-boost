@@ -8,6 +8,7 @@ import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { lineNumberBaseFromCell } from '../extension/vscodeUtilities';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 import { ControllerOutputType } from './controllerOutputTypes';
+import { boostLogging } from '../utilities/boostLogging';
 
 export class FunctionKernelControllerBase extends KernelControllerBase {
 
@@ -68,6 +69,25 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         __ : vscode.NotebookCell | boostnb.BoostNotebookCell,
         details: any) : string {
         return details?JSON.stringify(details):'';
+    }
+
+    readonly serviceSuccess : number = 1;
+    readonly serviceFailure : number = 0;
+
+    handleServiceResponse(
+        response: any,
+        cell: any,
+        outputType : ControllerOutputType,
+        usingBoostNotebook: boolean,
+        mimetype: any,
+        notebook: boostnb.BoostNotebook | vscode.NotebookDocument,
+        execution: vscode.NotebookCellExecution | undefined): any {
+
+        if (response.status === this.serviceFailure) {
+            boostLogging.debug(`${this.command} Boost Cloud Service failed to process request`);
+        }
+
+        return super.handleServiceResponse(response, cell, outputType, usingBoostNotebook, mimetype, notebook, execution);
     }
 
     onKernelProcessResponseDetails(
