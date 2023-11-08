@@ -146,8 +146,8 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
         };
         */
 
-        const convertedCode = details['convertedCode'];
-        const issuesDuringConversion : string[] = details['issuesDuringConversion'];
+        const convertedCode = ('convertedCode' in details)?details['convertedCode']:undefined;
+        const issuesDuringConversion : string[] = ('issuesDuringConversion' in details)?details['issuesDuringConversion']:undefined;
 
         // we're going to write the cell conversion file out to a hidden sub-folder with the cell as a file
         if (convertedCode) {
