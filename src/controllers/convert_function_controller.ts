@@ -46,13 +46,13 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
             case "local":
                 return 'http://127.0.0.1:8000/convert_code';
             case 'dev':
-                return '';
+                return 'https://7ir6xpnlnmrs35h4udftdmqrum0fqxrb.lambda-url.us-west-2.on.aws/';
             case "test":
-                return '';
+                return 'https://gq7pbc3hqd662tjlarkzxr7w740kuink.lambda-url.us-west-2.on.aws/';
             case 'staging':
             case 'prod':
             default:
-                return '';
+                return 'https://wk32ksn6ptwr6m66wsqf6r7opa0tdrkp.lambda-url.us-west-2.on.aws/';
         }
     }
 
