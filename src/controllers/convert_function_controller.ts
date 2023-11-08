@@ -194,4 +194,19 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
             fs.writeFileSync(issuesPath, JSON.stringify(issuesDuringConversion, null, 2));
         }
     }
+
+    generateMarkdownOutput(details: any) : string {
+        // const outputLanguage = this.getOutputLanguage(notebook);
+        const rawSourceBase = details['recommendedConvertedFilenameBase'];
+        const rawSourceExtension = details['convertedFileExtension'];
+        // const convertedCode = details['convertedCode'];
+
+        const markdownOutput =
+        "#### Successful Code Generation\n" +
+        `##### Recommended Filename: ${rawSourceBase}.${rawSourceExtension}\n` +
+        `##### Conversion Notes:\n` +
+        `* ${details['issuesDuringConversion'].join("\n* ")}\n`;
+
+        return markdownOutput;
+    }
 }
