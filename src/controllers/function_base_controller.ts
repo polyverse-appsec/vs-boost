@@ -58,12 +58,15 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
         let markdown = '';
         const baseLineNumber = lineNumberBaseFromCell(cell);
 
-        markdown = this.generateMarkdownOutput(response.details); 
+        markdown = this.generateMarkdownOutput(notebook, cell, response.details); 
 
         return generateCellOutputWithHeader(`${this.outputHeader}`, markdown);
     }
 
-    generateMarkdownOutput(details: any) : string {
+    generateMarkdownOutput(
+        _ : vscode.NotebookDocument | boostnb.BoostNotebook,
+        __ : vscode.NotebookCell | boostnb.BoostNotebookCell,
+        details: any) : string {
         return details?JSON.stringify(details):'';
     }
 
