@@ -1119,7 +1119,7 @@ export class BoostExtension {
                     //first get the framework from the metadata
                     const currentNotebook =
                         vscode.window.activeNotebookEditor?.notebook;
-                    let framework = "pytest";
+                    let framework = "";
                     if (currentNotebook) {
                         framework = currentNotebook.metadata.testFramework;
                     }

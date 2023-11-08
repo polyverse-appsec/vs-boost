@@ -197,12 +197,12 @@
                 "properties": {
                     "polyverse-boost-notebook.codeConversion.outputLanguage": {
                         "type": "string",
-                        "default": "python",
-                        "description": "Default output language for Polyverse Boost automatic code conversion"
+                        "default": "",
+                        "description": "Default code generastion language for Polyverse Boost automatic code generation"
                     },
                     "polyverse-boost-notebook.testGeneration.testFramework": {
                         "type": "string",
-                        "default": "pytest",
+                        "default": "",
                         "description": "Default test framework for Polyverse Boost automatic test code generation"
                     }
                 }

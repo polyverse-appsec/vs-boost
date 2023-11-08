@@ -65,7 +65,10 @@ export class BoostConvertKernel extends KernelControllerBase {
     ): Promise<any> {
 
         if (notebook) {
-            extraPayload.language = this.getOutputLanguage(notebook!);
+            const language = this.getOutputLanguage(notebook!);
+            if (language) {
+                extraPayload.language = language;
+            }
         }
 
         const usingBoostNotebook = notebook instanceof BoostNotebook;

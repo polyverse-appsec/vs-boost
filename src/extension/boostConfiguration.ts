@@ -209,7 +209,7 @@ export class BoostConfiguration {
 class Defaults {
     public static readonly defaultOutputLanguageName = "codeConversion.outputLanguage";
 
-    public static readonly defaultOutputLanguageValue = "python";
+    public static readonly defaultOutputLanguageValue = "";
 
     public static readonly testFrameworkName = "testGeneration.testFramework";
     public static readonly testFrameworkValue = "";
