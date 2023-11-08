@@ -98,7 +98,7 @@ export class BoostConvertKernel extends KernelControllerBase {
             if (outputLanguage === 'cpp' || outputLanguage === 'c') {
                 mimetype.str = textMimeType;
             } else if (outputLanguage === 'plaintext') {
-                mimetype.str = codeMimeType(textMimeType);
+                mimetype.str = textMimeType;
             } else {
                 mimetype.str = codeMimeType(outputLanguage);
             }

@@ -13,7 +13,7 @@ Polyverse Boost Automatic Application Modernization
 - "Process All Files in Rings" is a new command to launch background processing of all files in a project
 
 ### Bug Fixes
-- N/A
+- Fix issue with Test and File generation markdown rendering of plain-text
 
 ## Version 1.6.4: November 3rd, 2023
 
