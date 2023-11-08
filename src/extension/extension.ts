@@ -23,6 +23,8 @@ export enum BoostFileType {
     guidelines = "guidelines",
     output = "output",
     chat = "chat",
+    generated = "generated",
+    source = "source",
 }
 
 export const boostActivityBarId = "polyverse-boost-explorer";
@@ -119,6 +121,7 @@ export interface BoostFileOptions {
     showUI?: boolean;
     outputType?: OutputType;
     useGlobalStorage?: boolean;
+    subFolder?: string;
 }
 
 export function getBoostFile(
@@ -292,6 +295,7 @@ export function getBoostFile(
             return boostProjectDataFile;
 
         case BoostFileType.output:
+        {
             const isNotebook = path.extname(sourceFile.fsPath) === boostnb.NOTEBOOK_EXTENSION;
 
             // grab the requested output format, or the default format from config or markdown if not specified
@@ -330,6 +334,53 @@ export function getBoostFile(
             }
             
             return vscode.Uri.parse(outputFilePath);
+        }
+        case BoostFileType.source:
+        {
+            const isNotebook = path.extname(sourceFile.fsPath) === boostnb.NOTEBOOK_EXTENSION;
+        
+            let sourceFilePathRelative = path.relative(baseFolder, sourceFile.fsPath);
+            if (isNotebook) {
+                const dirName = path.dirname(sourceFile.path);
+                let baseNameWithoutExt = path.basename(sourceFile.path, path.extname(sourceFile.path));
+
+                const nonNormalizedSourceFilePathUnderBoost = path.join(dirName, baseNameWithoutExt);
+                const sourceFilePathUnderBoost = path.normalize(nonNormalizedSourceFilePathUnderBoost);
+                sourceFilePathRelative = path.relative(boostFolder, sourceFilePathUnderBoost);
+            }
+
+            const sourceFileAbsolute = path.join(baseFolder, sourceFilePathRelative);
+            
+            return vscode.Uri.parse(sourceFileAbsolute);
+        }
+        case BoostFileType.generated:
+            const generatedFolder = path.join(
+                boostFolder,
+                BoostFileType.generated.toString(),
+                options?.subFolder?options.subFolder:""
+            );
+            const absoluteGeneratedFile = path.join(
+                generatedFolder,
+                relativePath
+            );
+            const normalizedAbsoluteGeneratedFile = path.normalize(
+                absoluteGeneratedFile
+            );
+
+            let generatedFile = vscode.Uri.file(
+                normalizedAbsoluteGeneratedFile
+            );
+            // create generated folder if not found
+            if (!fs.existsSync(generatedFolder)) {
+                try {
+                    fs.mkdirSync(generatedFolder, { recursive: true });
+                } catch (error) {
+                    throw new Error(
+                        `Failed to create Boost Generated folder at ${generatedFolder} due to Error: ${errorToString(error)} - possible permission issue`
+                    );
+                }
+            }
+            return generatedFile;
 
         case BoostFileType.notebook:
         default:
