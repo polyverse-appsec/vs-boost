@@ -8,11 +8,9 @@ import {
 import * as vscode from 'vscode';
 import { BoostConfiguration } from '../extension/boostConfiguration';
 import { BoostNotebookCell, BoostNotebook } from '../data/jupyter_notebook';
-import { boostLogging } from '../utilities/boostLogging';
-import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
+import { generateCellOutputWithHeader, cleanCellOutput } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
-import { explainOutputHeader, getExplainEndpoint } from './explain_controller';
 
 export const convertKernelName = 'convert';
 const convertOutputHeader = `Code Conversion`;
@@ -58,90 +56,29 @@ export class BoostConvertKernel extends KernelControllerBase {
         return this.serviceEndpoint;
     }
 
-    get explainEndpoint(): string {
-        return getExplainEndpoint(BoostConfiguration.cloudServiceStage);
-    }
-
-    // override onProcessServiceRequest, since we are making two service requests (explain then generate)
-    async onProcessServiceRequest(
-        execution: vscode.NotebookCellExecution,
-        notebook : vscode.NotebookDocument | BoostNotebook,
-        cell: vscode.NotebookCell | BoostNotebookCell,
-        payload : any,
+    async doKernelExecution(
+        notebook: vscode.NotebookDocument | BoostNotebook | undefined,
+        cell: vscode.NotebookCell | BoostNotebookCell | undefined,
+        execution: vscode.NotebookCellExecution | undefined,
+        extraPayload: any,
         serviceEndpoint: string = this.serviceEndpoint
-        ): Promise<boolean> {
+    ): Promise<any> {
 
-        const usingBoostNotebook = "value" in cell;
-
-        const cellId = usingBoostNotebook?
-            (cell as BoostNotebookCell).id:
-            (cell as vscode.NotebookCell).document.uri.toString();
-
-                // First, get the explanation of the code
-        let startTime = Date.now();
-        let successfullyCompleted = false;
-        let explainResponse;
-        try {
-            const rawExplainResponse = await super.performServiceRequest(cell, this.explainEndpoint, payload);
-            if (rawExplainResponse instanceof Error) {
-                throw rawExplainResponse;
-            } else if (rawExplainResponse.explanation === undefined) {
-                throw new Error("Unexpected missing explanation data from Boost Service");
-            }
-
-            let mimetype = { str: markdownMimeType };
-            explainResponse = super.handleServiceResponse(rawExplainResponse, cell, ControllerOutputType.explain, usingBoostNotebook, mimetype, notebook, execution);
-            successfullyCompleted = true;
-        } finally {
-            const duration = Date.now() - startTime;
-            const minutes = Math.floor(duration / 60000);
-            const seconds = ((duration % 60000) / 1000).toFixed(0);
-
-            if (successfullyCompleted) {
-                boostLogging.info(`SUCCESS running ${"explain"} update of Notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
-            } else {
-                boostLogging.error(`Error while running ${"explain"} update of Notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
-            }
+        if (notebook) {
+            extraPayload.language = this.getOutputLanguage(notebook!);
         }
 
-        // now we need to generate the code
-        // if not specified on the notebook metadata, then default to the setting in the Extension User Settings
-        let outputLanguage = this.getOutputLanguage(notebook);
+        const usingBoostNotebook = notebook instanceof BoostNotebook;
 
-        // now take the summary and using axios send it to Boost web service with the summary
-        //      in a json object summary=summary
-        //    dynamically add extra payload properties
-        payload.explanation = explainResponse.explanation;
-        payload.language = outputLanguage;
-
-        successfullyCompleted = false;
-        startTime = Date.now();
-        try {
-            const rawConvertResponse = await super.performServiceRequest(cell, this.generateEndpoint, payload);
-            if (rawConvertResponse instanceof Error) {
-                throw rawConvertResponse;
-            } else if (rawConvertResponse.code === undefined) {
-                throw new Error("Unexpected missing code data from Boost Service");
-            }
-
-            // if the returned string has three backwards apostrophes, then it's in markdown format
-            let mimetypeCode = { str: rawConvertResponse.code.includes(markdownCodeMarker)?markdownMimeType:codeMimeType(outputLanguage) };
-            explainResponse = super.handleServiceResponse(rawConvertResponse, cell, ControllerOutputType.convert, usingBoostNotebook, mimetypeCode, notebook, execution);
-            successfullyCompleted = true;
-        }
-        finally {
-            const duration = Date.now() - startTime;
-            const minutes = Math.floor(duration / 60000);
-            const seconds = ((duration % 60000) / 1000).toFixed(0);
-
-            if (successfullyCompleted) {
-                boostLogging.info(`SUCCESS running ${this.command} update of Notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
-            } else {
-                boostLogging.error(`Error while running ${this.command} update of Notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()} on cell:${cellId} in ${minutes}m:${seconds.padStart(2, '0')}s`, false);
-            }
+        const explanation = this.getCellOutput(cell!, ControllerOutputType.explain);
+        // if empty or error, we'll error the code conversion
+        if (!explanation || explanation.trim().length === 0) {
+            throw new Error("Unable to convert code. Please make sure you have generated Explanation or Documentaiton first.");
         }
 
-        return true;
+        extraPayload.explanation = cleanCellOutput(explanation);
+
+        return super.doKernelExecution(notebook, cell, execution, extraPayload, serviceEndpoint);
     }
 
     onKernelOutputItem(
@@ -149,26 +86,23 @@ export class BoostConvertKernel extends KernelControllerBase {
         notebook : vscode.NotebookDocument | BoostNotebook,
         cell : vscode.NotebookCell | BoostNotebookCell,
         mimetype : any) : string {
-        if (response.explanation) {
-            mimetype.str = markdownMimeType;
-            return generateCellOutputWithHeader(explainOutputHeader, response.explanation);
-        } else if (response.code) {
-            if(response.code.includes(markdownCodeMarker)){
-                mimetype.str = markdownMimeType;
-                return generateCellOutputWithHeader(this.outputHeader, response.code);
-            } else {
-                let outputLanguage = this.getOutputLanguage(notebook);
-                if (outputLanguage === 'cpp' || outputLanguage === 'c') {
-                    mimetype.str = textMimeType;
-                } else if (outputLanguage === 'plaintext') {
-                    mimetype.str = codeMimeType(textMimeType);
-                } else {
-                    mimetype.str = codeMimeType(outputLanguage);
-                }
-                return response.code;
-            }
-        } else {
+
+        if (!response.code) {
             throw new Error("Unexpected missing data from Boost Service");
+        }
+        if(response.code.includes(markdownCodeMarker)){
+            mimetype.str = markdownMimeType;
+            return generateCellOutputWithHeader(this.outputHeader, response.code);
+        } else {
+            let outputLanguage = this.getOutputLanguage(notebook);
+            if (outputLanguage === 'cpp' || outputLanguage === 'c') {
+                mimetype.str = textMimeType;
+            } else if (outputLanguage === 'plaintext') {
+                mimetype.str = codeMimeType(textMimeType);
+            } else {
+                mimetype.str = codeMimeType(outputLanguage);
+            }
+            return response.code;
         }
     }
 
