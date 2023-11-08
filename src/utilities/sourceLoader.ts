@@ -12,7 +12,7 @@ import {
 
 import { defaultCodeSplitter } from "./languageParsers";
 import { splitCodeWithAggregation } from "./splitWithAggregation";
-import { languageMappings } from "./languageMappings";
+import { languageMappings, plaintext } from "./languageMappings";
 
 function getFileExtension(filename: string): string {
     const lastIndex = filename.lastIndexOf(".");
@@ -26,7 +26,7 @@ function getVSCodeLanguageId(filename: string): string {
         fileExtension = parsedFilename || path.basename(filename);
     }
 
-    return languageMappings[fileExtension] || "plaintext";
+    return languageMappings[fileExtension] || plaintext;
 }
 
 export function plainTextParser(code: string): [string[], number[]] {

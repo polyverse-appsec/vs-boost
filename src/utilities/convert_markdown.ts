@@ -16,6 +16,7 @@ import {
 } from "../extension/extension";
 import { ControllerOutputType } from "../controllers/controllerOutputTypes";
 import { formatDateTime } from "./datetime";
+import { plaintext } from "./languageMappings";
 
 export async function generateMarkdownforNotebook(
     boostNotebookPath: string,
@@ -149,7 +150,15 @@ async function generateMarkdownFromObject(
             
             markdownContent += `## Original Code:\n\n`;
 
-            markdownContent += `### Programming Language: ${boostCell.languageId}\n`;
+            // get the the source language if available
+            let sourceLanguage = boostCell.languageId??plaintext;;
+
+            if (sourceLanguage === plaintext) {
+                sourceLanguage = "General";
+            }
+            if (sourceLanguage !== "General") {
+                markdownContent += `### Programming Language: ${boostCell.languageId}\n`;
+            }
             markdownContent += `### ${prettySourceFile} ${lineText}\n\n`;
     
             let cellContent = boostCell.value.replace(/\t/g, " ");

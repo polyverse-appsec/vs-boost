@@ -14,6 +14,7 @@ import {
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
+import { plaintext } from '../utilities/languageMappings';
 
 export const testgenKernelName = 'testgen';
 const testgenOutputHeader = `Test Generation`;
@@ -71,6 +72,10 @@ export class BoostTestgenKernel extends KernelControllerBase {
 		let outputLanguage = usingBoostNotebook?cell.languageId:cell.document.languageId ??
             BoostConfiguration.defaultOutputLanguage;
 
+        if (outputLanguage === plaintext) {
+            outputLanguage = BoostConfiguration.defaultOutputLanguage;
+        }
+
         // only set the framework if it's already set
 		let framework = vscode.window.activeNotebookEditor?.notebook.metadata.testFramework;
 
@@ -109,7 +114,7 @@ export class BoostTestgenKernel extends KernelControllerBase {
         else {
             if (testLanguage === 'cpp' || testLanguage === 'c') {
                 mimetype.str = textMimeType;
-            } else if (testLanguage === 'plaintext') {
+            } else if (testLanguage === plaintext) {
                 mimetype.str = textMimeType;
             } else {
                 mimetype.str = codeMimeType(testLanguage);

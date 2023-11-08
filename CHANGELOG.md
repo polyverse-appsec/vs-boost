@@ -14,6 +14,8 @@ Polyverse Boost Automatic Application Modernization
 
 ### Bug Fixes
 - Fix issue with Test and File generation markdown rendering of plain-text
+- Fix issue with Test Generation for some historic languages (COBOL) that don't have dedicated Test Frameworks failing to generate any Test Cases
+- Fix issue with incorrect language being reported in PDF, HTML and Markdown output
 
 ## Version 1.6.4: November 3rd, 2023
 

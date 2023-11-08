@@ -20,6 +20,7 @@ import {
     NOTEBOOK_SUMMARY_EXTENSION
 } from "../data/jupyter_notebook";
 import { ControllerOutputType } from "../controllers/controllerOutputTypes";
+import { plaintext } from "./languageMappings";
 
 const cellStyleSheet =
     "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css";
@@ -192,9 +193,22 @@ async function convertNotebookToHTMLinMemory(
                     cellHtml += `<div>`;
                 }
 
+                // get the the source language if available
+                let sourceLanguage = cell.languageId??plaintext;;
+
+                if (sourceLanguage === plaintext) {
+                    sourceLanguage = "General";
+                }
+
                 cellHtml += `
-                    <h2>${sourceFile} ${lineText}</h2>
-                    <p>Programming Language: ${cell.languageId}</p>
+                    <h2>${sourceFile} ${lineText}</h2>`;
+
+                if (sourceLanguage && sourceLanguage !== "General") {
+                    cellHtml += `
+                        <p>Programming Language: ${cell.languageId}</p>`;
+                }
+
+                cellHtml += `
                     <pre><code>${hljs.highlightAuto(cell.value).value}</code></pre>
                 `;
                 cellHtml += "</div>";
