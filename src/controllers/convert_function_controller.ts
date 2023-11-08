@@ -149,15 +149,66 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
         const convertedCode = details['convertedCode'];
         const issuesDuringConversion : string[] = details['issuesDuringConversion'];
 
+        // we're going to write the cell conversion file out to a hidden sub-folder with the cell as a file
+        if (convertedCode) {
+            let convertedPath;
+            if (path.isAbsolute(details['generatedCodeWorkingPath'])) {
+                convertedPath = details['generatedCodeWorkingPath'];
+            } else {
+                convertedPath = Uri.joinPath(workspace.workspaceFolders![0].uri, details['generatedCodeWorkingPath']).fsPath;
+            }
+            const convertedFolderPath = path.dirname(convertedPath);
+            try {
+                // create the source working folder first
+                fs.mkdirSync(convertedFolderPath, { recursive: true });
+                // then write the cell conversion into it
+                fs.writeFileSync(convertedPath, convertedCode);
+            } catch (error : any) {
+                throw new Error(`Unable to save converted code to ${convertedPath}: ${errorToString(error)}`);
+            }
+        }
+
+        // then we'll also write out any issues found to a JSON file next to the cell source file
+        if (issuesDuringConversion && issuesDuringConversion.length > 0) {
+            let issuesPath;
+            if (path.isAbsolute(details['issuesFilePath'])) {
+                issuesPath = details['issuesFilePath'];
+            } else {
+                issuesPath = Uri.joinPath(workspace.workspaceFolders![0].uri, details['issuesFilePath']);
+            }
+            fs.writeFileSync(issuesPath.fsPath, JSON.stringify(issuesDuringConversion, null, 2));
+        }
+
+        if (!convertedCode) {
+            throw new Error(`Unable to convert code. Please see issues section or retry.`);
+        }
+
+        return details;
+    }
+
+    generateMarkdownOutput(
+        notebook : NotebookDocument | BoostNotebook,
+        cell : NotebookCell | BoostNotebookCell,
+        details: any) : string {
+
+        const usingBoostNotebook = notebook instanceof BoostNotebook;
+
         const outputLanguage = this.getOutputLanguage(notebook);
-        const rawSourceBase = details['recommendedConvertedFilenameBase'];
+        const rawSourceBase = ('recommendedConvertedFilenameBase' in details)?details['recommendedConvertedFilenameBase']:"DEFAULT_FILENAME_BASE";
+        let rawSourceExtension = ('convertedFileExtension' in details)?details['convertedFileExtension']:outputLanguage;
+        if (rawSourceExtension.startsWith('.')) {
+            // remove leading dot
+            rawSourceExtension = rawSourceExtension.substr(1);
+            details['convertedFileExtension'] = rawSourceExtension;
+        }
+        const convertedCode = details['convertedCode'];
+
         const originalSource = (notebook.metadata && 'sourceFile' in notebook.metadata)?
             fullPathFromSourceFile(notebook.metadata['sourceFile'] as string):
             (usingBoostNotebook?Uri.parse((notebook as BoostNotebook).fsPath):notebook.uri);
         const originalSourceFolder = path.dirname(originalSource.fsPath);
         const originalSourceBaseName = path.basename(originalSource.fsPath, path.extname(originalSource.fsPath));
         const sourceBase = rawSourceBase?rawSourceBase:originalSourceBaseName;
-        const rawSourceExtension = details['convertedFileExtension'];
         const sourceExtension = rawSourceExtension?rawSourceExtension:outputLanguage;
 
         // we use a leading dot in the filename so its generally hidden
@@ -176,42 +227,45 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
             (notebook.cells.indexOf(cell as BoostNotebookCell).toString()):(cell as NotebookCell).index.toString() +
             `.${sourceExtension}`;
 
-        // we're going to write the cell conversion file out to a hidden sub-folder with the cell as a file
-        try {
+        const currentNotebookPath = usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.fsPath;
+
+        let relativeLinkSourcePath;
+        if (convertedCode) {
             const nonNormalizedPath = path.join(convertedFile.fsPath, cellFilename);
             const convertedPath = path.normalize(nonNormalizedPath);
-            // create the source working folder first
-            fs.mkdirSync(convertedFile.fsPath, { recursive: true });
-            // then write the cell conversion into it
-            fs.writeFileSync(convertedPath, convertedCode);
-        } catch (error : any) {
-            throw new Error(`Unable to save converted code to ${convertedFile.fsPath}: ${errorToString(error)}`);
+
+            details['generatedCodeWorkingPath'] = workspace.asRelativePath(convertedPath);
+            details['recommendedConvertedFilePath'] = workspace.asRelativePath(sourcePath);
+            relativeLinkSourcePath = path.relative(currentNotebookPath, convertedPath);
         }
-        // then we'll also write out any issues found to a JSON file next to the cell source file
-        if (issuesDuringConversion && issuesDuringConversion.length > 0) {
+        let relativeLinkIssuesPath;
+        if (details['issuesDuringConversion'] && details['issuesDuringConversion'].length > 0) {
             const nonNormalizedPath = path.join(convertedFile.fsPath, `${cellFilename}.issues.json`);
             const issuesPath = path.normalize(nonNormalizedPath);
-            fs.writeFileSync(issuesPath, JSON.stringify(issuesDuringConversion, null, 2));
+            details['issuesFilePath'] = workspace.asRelativePath(issuesPath);
+
+            relativeLinkIssuesPath = path.relative(currentNotebookPath, issuesPath);
         }
 
-        return details;
-    }
+        let markdownOutput =
+            `#### ${convertedCode?"Successful":"Incomplete"} Code Generation with ${outputLanguage}\n`;
+        if (convertedCode) {
+            // markdown relative links don't work in Notebook in VSC - only filename is used
+            //     and we don't want to use absolute path because it won't work on other machines
+//            markdownOutput += `\n[Link to Converted Code](${relativeLinkSourcePath})\n`;
+            if ('recommendedConvertedFilenameBase' in details) {
+                markdownOutput += `##### Recommended Filename: ${rawSourceBase}.${rawSourceExtension}\n`;
+            }
+        }
 
-    generateMarkdownOutput(
-        notebook : NotebookDocument | BoostNotebook,
-        _ : NotebookCell | BoostNotebookCell,
-        details: any) : string {
-
-        const outputLanguage = this.getOutputLanguage(notebook);
-        const rawSourceBase = details['recommendedConvertedFilenameBase'];
-        const rawSourceExtension = details['convertedFileExtension'];
-        // const convertedCode = details['convertedCode'];
-
-        const markdownOutput =
-        `#### Successful Code Generation with ${outputLanguage}\n` +
-        `##### Recommended Filename: ${rawSourceBase}.${rawSourceExtension}\n` +
-        `##### Conversion Notes:\n` +
-        `* ${details['issuesDuringConversion'].join("\n* ")}\n`;
+        if ('issuesDuringConversion' in details && details['issuesDuringConversion'].length > 0) {
+            markdownOutput += `##### Conversion Notes:\n` +
+                `* ${details['issuesDuringConversion'].join("\n* ")}\n`;
+            // markdown relative links don't work in Notebook in VSC - only filename is used
+//            markdownOutput += `\n[Link to Issues](${relativeLinkIssuesPath})\n`;
+        } else {
+            markdownOutput += `##### Conversion Notes: None\n`;
+        }
 
         return markdownOutput;
     }

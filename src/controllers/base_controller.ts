@@ -900,7 +900,6 @@ export class KernelControllerBase extends BoostServiceHelper {
             (output) => output.metadata?.outputType === outputType
         );
         if (existingOutput) {
-            execution.replaceOutputItems(outputItems, existingOutput);
             // update existingOutput.metadata with details, replacing any existing details
             if (existingOutput.metadata?.details) {
                 delete existingOutput.metadata.details;
@@ -909,6 +908,7 @@ export class KernelControllerBase extends BoostServiceHelper {
                 ...existingOutput.metadata,
                 details: details,
             };
+            execution.replaceOutputItems(outputItems, existingOutput);
         } else {
             // create a new NotebookCellOutput with the outputItems array
             let metadata = {
