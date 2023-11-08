@@ -183,7 +183,7 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
             throw new Error(`Unable to convert code. Please see issues section or retry.`);
         }
 
-        return details;
+        return super.onKernelProcessResponseDetails(details, cell, notebook);
     }
 
     generateMarkdownOutput(
