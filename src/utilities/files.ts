@@ -28,15 +28,15 @@ import { errorToString } from "./error";
 export function fullPathFromSourceFile(sourceFile: string): vscode.Uri {
     let baseFolder: string;
     let fullPath = sourceFile;
-    if (vscode.workspace.workspaceFolders) {
-        if (sourceFile.startsWith("./")) {
-            const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder
-            baseFolder = workspaceFolder.uri.fsPath;
-            fullPath = path.join(baseFolder, sourceFile);
-            const normalizedFullPath = path.normalize(fullPath);
-            fullPath = normalizedFullPath;
-        }
+    if (!(vscode.workspace.workspaceFolders && sourceFile.startsWith("./"))) {
+        return vscode.Uri.parse(fullPath);
     }
+
+    const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder
+    baseFolder = workspaceFolder.uri.fsPath;
+    fullPath = path.join(baseFolder, sourceFile);
+    const normalizedFullPath = path.normalize(fullPath);
+    fullPath = normalizedFullPath;
     return vscode.Uri.parse(fullPath);
 }
 
