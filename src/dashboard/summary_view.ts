@@ -163,64 +163,6 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
         return htmlContent;
     }
 
-    public addJobs(
-        job: string,
-        files: [string],
-        boostprojectdata: BoostProjectData
-    ) {
-        //if this._jobs[jobs] exists, add count to it, otherwise set it to count
-        boostprojectdata.addJobs(job, files);
-        const payload = {
-            command: "refreshUI",
-            boostprojectdata: boostprojectdata,
-            error: null,
-        };
-        this._view?.webview.postMessage(payload);
-    }
-
-    public finishJob(
-        job: string,
-        file: string,
-        summary: FileSummaryItem | null,
-        boostprojectdata: BoostProjectData,
-        error: Error | null
-    ) {
-        boostprojectdata.finishJob(job, file, summary, error);
-        const payload = {
-            command: "refreshUI",
-            error: error,
-            boostprojectdata: boostprojectdata,
-        };
-        this._view?.webview.postMessage(payload);
-    }
-
-    public startBatchJob(boostprojectdata: BoostProjectData) {
-        boostprojectdata.startBatchJob();
-    }
-
-    public finishBatchJob(boostprojectdata: BoostProjectData) {
-        boostprojectdata.finishBatchJob();
-        const payload = {
-            command: "finishBatchJob",
-            boostprojectdata: boostprojectdata,
-        };
-        this._view?.webview.postMessage(payload);
-    }
-
-    public addQueue(
-        jobs: string[],
-        files: string[],
-        boostprojectdata: BoostProjectData
-    ) {
-        boostprojectdata.addQueue(jobs, files);
-        const payload = {
-            command: "refreshUI",
-            boostprojectdata: boostprojectdata,
-            error: null,
-        };
-        this._view?.webview.postMessage(payload);
-    }
-
     private async _openFile(relativePath: string, boostprojectdata: any) {
         if (!vscode.workspace.workspaceFolders?.[0]) {
             boostLogging.error(
@@ -277,25 +219,16 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
     }
 
     private async analyzeAll(analysisTypes: string[], fileLimit: number) {
-        this.startBatchJob(this._boostExtension.getBoostProjectData()!);
-        this.refresh();
-
-        try
-        {
+        try {
             await vscode.commands.executeCommand(
                 NOTEBOOK_TYPE + "." + BoostCommands.processAllFilesInRings,
                 {
                     analysisTypes: analysisTypes,
                     fileLimit: fileLimit,
                     showUI: true,
-                }
-                );
+                });
         } catch (e) {
             boostLogging.error(`Run Selected Analysis failed: ${e}`, true);
-        } finally {
-            // make sure we always restore the analysis state to quiescent after finishing analysis
-            this.finishBatchJob(this._boostExtension.getBoostProjectData()!);
-            this.refresh();
         }
     }
 

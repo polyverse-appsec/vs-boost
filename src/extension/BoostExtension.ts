@@ -3345,11 +3345,8 @@ export class BoostExtension {
                 return relativePath;
             });
 
-            this.summary?.addQueue(
-                [targetedKernel.outputType],
-                relFiles,
-                boostprojectdata
-            );
+            boostprojectdata.addQueue([targetedKernel.outputType], relFiles);
+            this.summary?.refresh();
 
             let processedNotebookWaits: Promise<
                 boostnb.BoostNotebook | undefined
@@ -3390,12 +3387,10 @@ export class BoostExtension {
                                     } secs`
                                 );
                             }
-
-                            this.summary?.addJobs(
+                            this.getBoostProjectData()!.addJobs(
                                 targetedKernel.outputType,
-                                [relativePath],
-                                boostprojectdata
-                            );
+                                [relativePath]);
+                            this.summary?.refresh();
 
                             await this.processCurrentFile(
                                 file,
@@ -3416,13 +3411,12 @@ export class BoostExtension {
                                             );
                                         const boostprojectdata =
                                             this.getBoostProjectData()!;
-                                        this.summary?.finishJob(
+                                        boostprojectdata.finishJob(
                                             targetedKernel.outputType,
                                             relativePath,
                                             summary,
-                                            boostprojectdata,
-                                            null
-                                        );
+                                            null);
+                                        this.summary?.refresh();
                                     }
                                     resolve(notebook);
                                 })
@@ -3435,13 +3429,12 @@ export class BoostExtension {
                                     );
                                     const boostprojectdata =
                                         this.getBoostProjectData()!;
-                                    this.summary?.finishJob(
+                                    boostprojectdata.finishJob(
                                         targetedKernel.outputType,
                                         relativePath,
                                         null,
-                                        boostprojectdata,
-                                        error
-                                    );
+                                        error);
+                                    this.summary?.refresh();
                                     reject(error);
                                 });
                         }, processingTime);
@@ -3788,17 +3781,26 @@ export class BoostExtension {
                 fileLimit?: number,
                 showUI? : boolean
                 ) => {
-                await this.waitForActivationToFinish();
 
-                return await this.processAllFilesInRings(
-                    {analysisTypes : analysisTypes, fileLimit : fileLimit, showUI : showUI }
-                ).catch((error: any) => {
-                    boostLogging.error(errorToString(error), showUI);
-                });
+                this.getBoostProjectData()!.startBatchJob();
+                this.summary?.refresh();
+                try{
+                    
+                    await this.waitForActivationToFinish();
+
+                    return await this.processAllFilesInRings(
+                        {analysisTypes : analysisTypes, fileLimit : fileLimit, showUI : showUI }
+                    ).catch((error: any) => {
+                        boostLogging.error(errorToString(error), showUI);
+                    });
+                } finally {
+                    // make sure we always restore the analysis state to quiescent after finishing analysis
+                    this.getBoostProjectData()!.finishBatchJob();
+                    this.summary?.refresh();
+                }
             }
         ));
     }
-
 
     readonly ringSummaryAnalysisMap = new Map([
         [
@@ -4035,7 +4037,8 @@ export class BoostExtension {
                 );
             });
 
-            this.summary?.addQueue(controllerOutputTypes, relFiles, this.getBoostProjectData()!);
+            this.getBoostProjectData()!.addQueue(controllerOutputTypes, relFiles);
+            this.summary?.refresh();
         };
  
         const beforeRun = [
@@ -4256,7 +4259,7 @@ export class BoostExtension {
             }
 
         } finally {
-            this.summary?.finishBatchJob(this.getBoostProjectData()!);
+            this.getBoostProjectData()!.finishBatchJob();
             this.summary?.refresh();
         }
     }
