@@ -12,6 +12,7 @@ Polyverse Boost Automatic Application Modernization
 - "Run Selected Analyses" will run even if Activity Bar is closed
 - "Process All Files in Rings" is a new command to launch background processing of all files in a project
 - Code Generation and Conversion/Cleanup will default to existing language unless explicitly changed - previously defaulted to Python
+- Live/Unsaved Edits to Project Guidelines are used in active Chat and live analysis
 
 ### Bug Fixes
 - Fix issue with Test and File generation markdown rendering of plain-text

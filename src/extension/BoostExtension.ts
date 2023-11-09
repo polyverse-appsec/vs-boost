@@ -4995,6 +4995,108 @@ export class BoostExtension {
         return lines;
     }
 
+    getGuidelines(command: string): string[] {
+        const guidelines: string[] = [];
+
+        if (!vscode.workspace.workspaceFolders) {
+            return guidelines;
+        }
+
+        const projectGuidelinesFile = getBoostFile(
+            undefined,
+            { format: BoostFileType.guidelines,
+              showUI: false }
+        );
+        if (projectGuidelinesFile) {
+            const unsavedGuidelines = this.getUnsavedActiveNotebookContent(projectGuidelinesFile);
+            // use unsaved guidelines only - if they are actively being edited
+            if (unsavedGuidelines && unsavedGuidelines.length > 0) {
+                unsavedGuidelines.forEach((unsavedGuideline: string) => {
+                    if (this.sampleGuidelineRegEx.test(unsavedGuideline)) {
+                        // ignore sample text
+                        return;
+                    }
+                    guidelines.push(unsavedGuideline);
+                });
+                const relativePath = path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, projectGuidelinesFile.fsPath);
+                boostLogging.warn(`Using unsaved Boost Project Guidelines for ${relativePath}`, false);
+            }
+            // only use saved guidelines if unsaved guidelines aren't found
+            if (!unsavedGuidelines && fs.existsSync(projectGuidelinesFile.fsPath)) {
+                const projectGuidelines = new boostnb.BoostNotebook();
+                projectGuidelines.load(projectGuidelinesFile.fsPath);
+                projectGuidelines.cells.forEach((cell) => {
+                    if (this.sampleGuidelineRegEx.test(cell.value)) {
+                        // ignore sample text
+                        return;
+                    }
+                    guidelines.push(cell.value);
+                });
+            }
+        }
+
+        // this kernel guideline file
+        const kernelGuidelinesFile = projectGuidelinesFile.fsPath.replace(
+            boostnb.NOTEBOOK_GUIDELINES_PRE_EXTENSION,
+            `.${this.getUserAnalysisType(
+                command
+            )}${boostnb.NOTEBOOK_GUIDELINES_PRE_EXTENSION}`
+        );
+
+        if (kernelGuidelinesFile) {
+            const kernelGuidelinesUri = vscode.Uri.parse(kernelGuidelinesFile);
+            const unsavedGuidelines = this.getUnsavedActiveNotebookContent(kernelGuidelinesUri);
+            // use unsaved guidelines only - if they are actively being edited
+            if (unsavedGuidelines && unsavedGuidelines.length > 0) {
+                unsavedGuidelines.forEach((unsavedGuideline: string) => {
+                    if (this.sampleGuidelineRegEx.test(unsavedGuideline)) {
+                        // ignore sample text
+                        return;
+                    }
+                    guidelines.push(unsavedGuideline);
+                });
+                const relativePath = path.relative(vscode.workspace.workspaceFolders[0].uri.fsPath, kernelGuidelinesUri.fsPath);
+                boostLogging.warn(`Using unsaved Boost Project ${command} Guidelines for ${relativePath}`, false);
+            }
+            if (!unsavedGuidelines && fs.existsSync(kernelGuidelinesFile)) {
+                const projectGuidelines = new boostnb.BoostNotebook();
+                projectGuidelines.load(kernelGuidelinesFile);
+                projectGuidelines.cells.forEach((cell) => {
+                    if (this.sampleGuidelineRegEx.test(cell.value)) {
+                        // ignore sample text
+                        return;
+                    }
+                    guidelines.push(cell.value);
+                });
+            }
+        }
+
+        return guidelines;
+    }
+
+    // returns matching in-editor cell contents
+    getUnsavedActiveNotebookContent(notebookUri: vscode.Uri): string[] | undefined {
+        let unsavedContent: string[] | undefined = undefined;
+        vscode.window.visibleNotebookEditors.forEach((editor) => {
+            if (editor.notebook.uri.scheme !== "file" ||
+                editor.notebook.uri.fsPath !== notebookUri.fsPath) {
+                return;
+            }
+
+            if (!editor.notebook.isDirty) {
+                return;
+            }
+
+            if (!unsavedContent) {
+                unsavedContent = [];
+            }
+            editor.notebook.getCells().forEach(cell => {
+                unsavedContent!.push(cell.document.getText());
+            });
+        });
+        return unsavedContent;
+    }
+    
     // get all active tab filenames (as relative paths)
     getActiveTabFilenames(): string[] {
         const baseFolderPath = vscode.workspace.workspaceFolders?.[0].uri.fsPath;
