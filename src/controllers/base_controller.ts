@@ -891,33 +891,34 @@ export class KernelControllerBase extends BoostServiceHelper {
         const outputItems: vscode.NotebookCellOutputItem[] = [
             outputItem as vscode.NotebookCellOutputItem,
         ];
-
-        // we will have one NotebookCellOutput per type of output.
-        // first scan the existing outputs of the cell and see if we already have an output of this type
-        // if so, replace it
+    
+        // We will have one NotebookCellOutput per type of output.
+        // First scan the existing outputs of the cell and see if we already have an output of this type
+        // If so, replace it
         let existingOutputs = cell.outputs;
-        let existingOutput = existingOutputs.find(
+        let outputIndex = existingOutputs.findIndex(
             (output) => output.metadata?.outputType === outputType
         );
-        if (existingOutput) {
-            // update existingOutput.metadata with details, replacing any existing details
-            if (existingOutput.metadata?.details) {
-                delete existingOutput.metadata.details;
-            }
-            existingOutput.metadata = {
-                ...existingOutput.metadata,
+    
+        if (outputIndex !== -1) {
+            // Update the metadata with details, replacing any existing details
+            const updatedMetadata = {
+                ...existingOutputs[outputIndex].metadata,
                 details: details,
             };
-            execution.replaceOutputItems(outputItems, existingOutput);
+            // Create a new NotebookCellOutput with the updated metadata and existing items
+            const updatedOutput = new vscode.NotebookCellOutput(existingOutputs[outputIndex].items, updatedMetadata);
+            // Replace the entire output to update both items and metadata
+            execution.replaceOutput(updatedOutput, cell);
         } else {
-            // create a new NotebookCellOutput with the outputItems array
+            // If the output doesn't exist, create a new one with the metadata
             let metadata = {
                 outputType: outputType,
                 details: details,
             };
-            const output = new vscode.NotebookCellOutput(outputItems, metadata);
-
-            execution.appendOutput(output);
+            const newOutput = new vscode.NotebookCellOutput(outputItems, metadata);
+            // Append the new output
+            execution.appendOutput(newOutput);
         }
     }
 
