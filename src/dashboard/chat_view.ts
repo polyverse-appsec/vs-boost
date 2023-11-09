@@ -86,7 +86,11 @@ export class BoostChatViewProvider extends BaseWebviewViewProvider {
                         if (data.chatindex) {
                             this.chatData.activeid = data.chatindex;
                         }
-                        await  this._updatePrompt(data.prompt, data.showUI, data.externalResponse);
+                        await this._updatePrompt(
+                            data.prompt,
+                            data.showUI,
+                            data.externalResponse,
+                            data.originalIndex);
                         break;
                     }
                     case "add-chat": {
@@ -98,7 +102,26 @@ export class BoostChatViewProvider extends BaseWebviewViewProvider {
                         break;
                     }
                     case "toggle-chat-status": {
-                        this.chatData.toggleChatStatus(data.messageIndex);
+                        const previousMessage = this.chatData.getChat(data.messageIndex - 1);
+                        const message = this.chatData.getChat(data.messageIndex);
+                        const nextMessage = this.chatData.getChat(data.messageIndex + 1);
+                        if (message?.role === ChatMessageRole.user && nextMessage?.role === ChatMessageRole.error) {
+                            this.postMessage({
+                                command: "chat-send-button-click",
+                                externalPromptData: nextMessage.content,
+                                newPrompt: true,
+                                originalIndex: data.messageIndex,
+                            });
+                        } else if (previousMessage?.role === ChatMessageRole.system && message?.role === ChatMessageRole.user) {
+                            this.postMessage({
+                                command: "chat-send-button-click",
+                                externalPromptData: message.content,
+                                newPrompt: true,
+                                originalIndex: data.messageIndex - 1,
+                            });
+                        } else {
+                            this.chatData.toggleChatStatus(data.messageIndex);
+                        }
                         break;
                     }
                     default: {
@@ -186,11 +209,12 @@ export class BoostChatViewProvider extends BaseWebviewViewProvider {
     async _updatePrompt(
         prompt: string,
         showUI: boolean,
-        externalResponse?: string
+        externalResponse?: string,
+        originalIndex?: number
     ) {
         try {
             if (externalResponse) {
-                this.chatData.addResponse(prompt, externalResponse);
+                this.chatData.addResponse(prompt, externalResponse, ChatMessageRole.assistant);
                 return;
             }
 
@@ -213,7 +237,7 @@ export class BoostChatViewProvider extends BaseWebviewViewProvider {
                         throw new Error("unknown server error");
                     } else {
                         const chatOutput = cleanCellOutput(tempProcessingCell.outputs[0]?.items[0]?.data);
-                        this.chatData.addResponse(prompt, chatOutput);
+                        this.chatData.addResponse(prompt, chatOutput, ChatMessageRole.assistant, originalIndex);
                     }
                     return success;
                 });
@@ -223,7 +247,7 @@ export class BoostChatViewProvider extends BaseWebviewViewProvider {
                 `Chat requested could not complete due to ${message}`,
                 showUI
             );
-            this.chatData.addResponse(prompt, message, ChatMessageRole.error);
+            this.chatData.addResponse(prompt, message, ChatMessageRole.error, originalIndex);
         }
     }
 }

@@ -101,17 +101,27 @@ export class ChatData {
     addResponse(
         prompt: string,
         response: string,
-        responseType : ChatMessageRole = ChatMessageRole.assistant): void {
-        this.chats[this.activeid].messages.push({
-            role: ChatMessageRole.user,
-            content: prompt,
-        });
+        responseType : ChatMessageRole,
+        promptIndex? : number ): void {
+        if (promptIndex === undefined) {
+            this.chats[this.activeid].messages.push({
+                role: ChatMessageRole.user,
+                content: prompt,
+            });
+        }
 
         if (response) {
-            this.chats[this.activeid].messages.push({
-                role: responseType,
-                content: response,
-            });
+            if (promptIndex !== undefined) {
+                this.chats[this.activeid].messages[promptIndex + 1] = {
+                    role: responseType,
+                    content: response,
+                };
+            } else {
+                this.chats[this.activeid].messages.push({
+                    role: responseType,
+                    content: response,
+                });
+            }
         }
 
         this.flushToFS();
@@ -129,6 +139,10 @@ export class ChatData {
     closeChat(chatindex: number): void {
         this.chats.splice(chatindex, 1);
         this.flushToFS();
+    }
+
+    getChat(messageIndex: number): ChatMessage {
+        return this.chats[this.activeid]?.messages?.[messageIndex];
     }
 
     toggleChatStatus(messageIndex: number): void {
