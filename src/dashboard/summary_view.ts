@@ -14,9 +14,6 @@ import { summarizeKernelName } from "../controllers/summary_controller";
 import { boostLogging } from "../utilities/boostLogging";
 import { BoostConfiguration } from "../extension/boostConfiguration";
 import { BoostProjectData } from "../data/BoostProjectData";
-import {
-    FileSummaryItem,
-} from "../data/boostprojectdata_interface";
 import { DisplayGroupFriendlyName } from "../data/userAnalysisType";
 import { marked } from "marked";
 import {
