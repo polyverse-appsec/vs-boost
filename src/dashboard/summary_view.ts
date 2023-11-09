@@ -229,6 +229,14 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
                 });
         } catch (e) {
             boostLogging.error(`Run Selected Analysis failed: ${e}`, true);
+        } finally {
+            // we need to queue a UI refresh since we just queued a checkbox change
+            //     we need to refresh UI AFTER the checkbox change is processed
+            const payload = {
+                command: "refreshUI",
+                boostprojectdata: this._boostExtension.getBoostProjectData()!,
+            };
+            this._view?.webview.postMessage(payload);
         }
     }
 
