@@ -13,7 +13,8 @@ Polyverse Boost Automatic Application Modernization
 - "Process All Files in Rings" is a new command to launch background processing of all files in a project
 - Code Generation and Conversion/Cleanup will default to existing language unless explicitly changed - previously defaulted to Python
 - Live/Unsaved Edits to Project Guidelines are used in active Chat and live analysis
-- Sara Chat requests that do not complete successfully can be restarted by clicking on the request or response that failed 
+- Sara Chat requests that do not complete successfully can be restarted by clicking on the request or response that failed
+- To refresh a Sara chat request for a different response, click on the request to refresh 
 
 ### Bug Fixes
 - Fix issue with Test and File generation markdown rendering of plain-text

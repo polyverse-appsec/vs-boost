@@ -104,18 +104,19 @@ export class BoostChatViewProvider extends BaseWebviewViewProvider {
                     case "toggle-chat-status": {
                         const previousMessage = this.chatData.getChat(data.messageIndex - 1);
                         const message = this.chatData.getChat(data.messageIndex);
-                        const nextMessage = this.chatData.getChat(data.messageIndex + 1);
-                        if (message?.role === ChatMessageRole.user && nextMessage?.role === ChatMessageRole.error) {
-                            this.postMessage({
-                                command: "chat-send-button-click",
-                                externalPromptData: nextMessage.content,
-                                newPrompt: true,
-                                originalIndex: data.messageIndex,
-                            });
-                        } else if (previousMessage?.role === ChatMessageRole.system && message?.role === ChatMessageRole.user) {
+                        if (message?.role === ChatMessageRole.user) {
+                            // make sure we don't use this old response when reprocessing
+                            this.chatData.ignoreChat(data.messageIndex + 1);
                             this.postMessage({
                                 command: "chat-send-button-click",
                                 externalPromptData: message.content,
+                                newPrompt: true,
+                                originalIndex: data.messageIndex,
+                            });
+                        } else if (message?.role === ChatMessageRole.error) {
+                            this.postMessage({
+                                command: "chat-send-button-click",
+                                externalPromptData: previousMessage.content,
                                 newPrompt: true,
                                 originalIndex: data.messageIndex - 1,
                             });

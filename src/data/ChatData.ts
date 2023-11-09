@@ -145,6 +145,18 @@ export class ChatData {
         return this.chats[this.activeid]?.messages?.[messageIndex];
     }
 
+    ignoreChat(messageIndex: number): void {
+        const message = this.chats[this.activeid].messages[messageIndex];
+        
+        if (message.role === ChatMessageRole.assistant) {
+            message.role = ChatMessageRole.ignore;
+        } else {
+            return;
+        }
+
+        this.flushToFS();
+    }
+
     toggleChatStatus(messageIndex: number): void {
         const message = this.chats[this.activeid].messages[messageIndex];
         if (message.role === ChatMessageRole.assistant) {
