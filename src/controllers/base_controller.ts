@@ -577,7 +577,7 @@ export class KernelControllerBase extends BoostServiceHelper {
             return false;
         }
 
-        this.updateCellMetadata(notebook, cell, i, {
+        await this.updateCellMetadata(notebook, cell, i, {
             id: cell.metadata?.id ?? i,
             type: cell.metadata?.type ?? "originalCode",
         });
@@ -867,7 +867,7 @@ export class KernelControllerBase extends BoostServiceHelper {
 
     }
 
-    updateCellOutput(
+    async updateCellOutput(
         execution: vscode.NotebookCellExecution | undefined,
         cell: vscode.NotebookCell | BoostNotebookCell,
         details: [],
@@ -909,7 +909,7 @@ export class KernelControllerBase extends BoostServiceHelper {
             // Create a new NotebookCellOutput with the updated metadata and existing items
             const updatedOutput = new vscode.NotebookCellOutput(existingOutputs[outputIndex].items, updatedMetadata);
             // Replace the entire output to update both items and metadata
-            execution.replaceOutput(updatedOutput, cell);
+            await execution.replaceOutput(updatedOutput, cell);
         } else {
             // If the output doesn't exist, create a new one with the metadata
             let metadata = {
@@ -918,7 +918,7 @@ export class KernelControllerBase extends BoostServiceHelper {
             };
             const newOutput = new vscode.NotebookCellOutput(outputItems, metadata);
             // Append the new output
-            execution.appendOutput(newOutput);
+            await execution.appendOutput(newOutput);
         }
     }
 
