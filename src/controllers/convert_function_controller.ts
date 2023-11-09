@@ -148,6 +148,9 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
             }
         };
         */
+        if (details === undefined) {
+            throw new Error("Unable to generate code. Please retry operation and if problem persists, contact Polyverse Support.");
+        }
 
         const convertedCode = ('convertedCode' in details)?details['convertedCode']:undefined;
         const issuesDuringConversion : string[] = ('issuesDuringConversion' in details)?details['issuesDuringConversion']:undefined;
