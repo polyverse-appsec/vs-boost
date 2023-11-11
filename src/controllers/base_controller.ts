@@ -454,7 +454,7 @@ export class KernelControllerBase extends BoostServiceHelper {
             return !(response instanceof Error);
         } catch (err) {
             successfullyCompleted = false;
-            this.updateCellOutput(
+            await this.updateCellOutput(
                 execution,
                 cell,
                 [],
@@ -757,7 +757,7 @@ export class KernelControllerBase extends BoostServiceHelper {
     
         const response = await this.performServiceRequest(cell, serviceEndpoint, payload);
         let mimetype = { str: markdownMimeType };
-        return this.handleServiceResponse(response, cell, this.outputType, usingBoostNotebook, mimetype, notebook, execution);
+        return await this.handleServiceResponse(response, cell, this.outputType, usingBoostNotebook, mimetype, notebook, execution);
     }
     
     protected async performServiceRequest(
@@ -781,14 +781,14 @@ export class KernelControllerBase extends BoostServiceHelper {
         }
     }
     
-    handleServiceResponse(
+    async handleServiceResponse(
         response: any,
         cell: any,
         outputType : ControllerOutputType,
         usingBoostNotebook: boolean,
         mimetype: any,
         notebook: BoostNotebook | vscode.NotebookDocument,
-        execution: vscode.NotebookCellExecution | undefined): any {
+        execution: vscode.NotebookCellExecution | undefined): Promise<any> {
 
         let successfullyCompleted = !(response instanceof Error);
     
@@ -821,7 +821,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         );
 
         // extend the outputItem.metadata field with the results of a call to onKernelOutputItemDetails
-        this.updateCellOutput(execution, cell, details, outputItem, outputType);
+        await this.updateCellOutput(execution, cell, details, outputItem, outputType);
         if (successfullyCompleted) {
             return response;
         }

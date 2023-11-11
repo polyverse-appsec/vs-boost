@@ -70,7 +70,6 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
 
         const result = await super.executeAllWithAuthorization(cells, notebook, forceAnalysisRefresh);
 
-
         // if an update happened, then regenrate the file
         if (result || this.shouldRefreshCell(notebook, undefined, forceAnalysisRefresh)) {
             await this.regenerateSingleSource(notebook);
@@ -243,11 +242,7 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
                 });
             });
         } else {
-            // seeming bug in Visual Studio code means the notebook isn't flushed to memory, marked
-            //      isDirty or accessible until we call save() - even though we updated the
-            //      cell data via the NotebookCellExecution and end()
-            await notebook.save();
-    
+
             const notebookDoc = notebook as NotebookDocument;
             notebookDoc.getCells().forEach((cell) => {
                 if (sourceFile) {

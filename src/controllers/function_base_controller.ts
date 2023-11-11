@@ -74,20 +74,20 @@ export class FunctionKernelControllerBase extends KernelControllerBase {
     readonly serviceSuccess : number = 1;
     readonly serviceFailure : number = 0;
 
-    handleServiceResponse(
+    async handleServiceResponse(
         response: any,
         cell: any,
         outputType : ControllerOutputType,
         usingBoostNotebook: boolean,
         mimetype: any,
         notebook: boostnb.BoostNotebook | vscode.NotebookDocument,
-        execution: vscode.NotebookCellExecution | undefined): any {
+        execution: vscode.NotebookCellExecution | undefined): Promise<any> {
 
         if (response.status === this.serviceFailure) {
             boostLogging.debug(`${this.command} Boost Cloud Service failed to process request`);
         }
 
-        return super.handleServiceResponse(response, cell, outputType, usingBoostNotebook, mimetype, notebook, execution);
+        return await super.handleServiceResponse(response, cell, outputType, usingBoostNotebook, mimetype, notebook, execution);
     }
 
     onKernelProcessResponseDetails(
