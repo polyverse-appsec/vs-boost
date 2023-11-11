@@ -21,6 +21,7 @@ Polyverse Boost Automatic Application Modernization
 - Fix issue with Test Generation for some historic languages (COBOL) that don't have dedicated Test Frameworks failing to generate any Test Cases
 - Fix issue with incorrect language being reported in PDF, HTML and Markdown output
 - Fix issue where details of analysis/code generation are not stored in Boost files when using the Notebook UI
+- Fix issue where analysis errors can incorrectly be reported as successful updates
 
 ## Version 1.6.4: November 3rd, 2023
 

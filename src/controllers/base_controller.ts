@@ -276,8 +276,9 @@ export class KernelControllerBase extends BoostServiceHelper {
                 this.doExecution(notebook, cell, session).then((result) => {
                     if (!result) {
                         successfullyCompleted = false;
+                    } else {
+                        refreshed = true;
                     }
-                    refreshed = true;
                     if (usingBoostNotebook) {
                         boostLogging.info(
                             `Finished ${this.command} of Notebook ${

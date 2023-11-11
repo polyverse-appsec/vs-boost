@@ -3121,11 +3121,6 @@ export class BoostExtension {
                         forceAnalysisRefresh
                     )
                     .then((refreshed: boolean) => {
-                        if (!refreshed) {
-                            boostLogging.log("File ");
-                            resolve(undefined);
-                            return;
-                        }
                         if (
                             [
                                 summarizeKernelName,
@@ -3137,11 +3132,26 @@ export class BoostExtension {
                             const summaryNotebookUri = getBoostFile(sourceUri, {
                                 format: BoostFileType.summary,
                             });
+                            if (!refreshed) {
+                                boostLogging.log(
+                                    `Update Skipped for Notebook for ${kernelCommand} in file:[${summaryNotebookUri.fsPath}]`,
+                                    );
+                                resolve(undefined);
+                                return;
+                            }
                             boostLogging.info(
                                 `Saved Updated Notebook for ${kernelCommand} in file:[${summaryNotebookUri.fsPath}]`,
                                 false
                             );
                         } else {
+                            if (!refreshed) {
+                                boostLogging.log(
+                                    `Update Skipped for Notebook for ${kernelCommand} in file:[${notebookUri.fsPath}]`,
+                                    );
+                                resolve(undefined);
+                                return;
+                            }
+
                             // ensure we save the notebook if we successfully processed it
                             notebook.save(notebookUri.fsPath);
                             boostLogging.info(
@@ -3583,7 +3593,7 @@ export class BoostExtension {
                 notebook.load(projectBoostFile.fsPath);
                 return targetedKernel
                     .executeAllWithAuthorization(notebook.cells, notebook, true)
-                    .then(async () => {
+                    .then(async (refreshed: boolean) => {
                         // ensure we save the notebook if we successfully processed it
                         notebook.flushToFS();
                         switch (targetedKernel.command) {
