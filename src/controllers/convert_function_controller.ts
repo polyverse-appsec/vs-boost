@@ -278,13 +278,13 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
 
         // collect all cell-level source code files - to reassemble into a single file
         const patternForSearch = new vscode.RelativePattern(
-            path.isAbsolute(sourceFileInfo.sourceFile)?"":
+            path.isAbsolute(sourceFileInfo.workingPath)?"":
             vscode.workspace.workspaceFolders![0],
-            sourceFileInfo.workingPath + "/**");
+            path.dirname(sourceFileInfo.workingPath) + "/**");
 
         const sourceFilesToAssemble = await vscode.workspace.findFiles(
             patternForSearch,
-            "*.issues.json");
+            "**/*.issues.json");
         let unifiedFile : string = "";
         sourceFilesToAssemble.forEach((sourceFileToAssemble) => {
             unifiedFile += fs.readFileSync(sourceFileToAssemble.fsPath, "utf8");
