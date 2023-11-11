@@ -167,6 +167,17 @@ export class KernelControllerBase extends BoostServiceHelper {
         });
     }
 
+    shouldRefreshCell(
+        notebook : vscode.NotebookDocument | BoostNotebook,
+        cell: vscode.NotebookCell | BoostNotebookCell,
+        forceAnalysisRefresh: boolean): boolean {
+        if (forceAnalysisRefresh) {
+            return true;
+        }
+        
+        return !this.isCellOutputMissingOrError(notebook, cell);
+    }
+
     async executeAll(
         cells: vscode.NotebookCell[] | BoostNotebookCell[],
         notebook: vscode.NotebookDocument | BoostNotebook,
@@ -236,10 +247,7 @@ export class KernelControllerBase extends BoostServiceHelper {
             }
 
             // if this cell has output, then skip it unless we're forcing analysis
-            if (
-                !forceAnalysisRefresh &&
-                !this.isCellOutputMissingOrError(notebook, cell)
-            ) {
+            if (!this.shouldRefreshCell(notebook, cell, forceAnalysisRefresh)) {
                 boostLogging.info(
                     `NO-Force-Refresh: Skipping re-analysis ${this.command} of Notebook ${notebook.metadata["sourceFile"]}` +
                         ` on cell ${
