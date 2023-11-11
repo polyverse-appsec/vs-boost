@@ -169,10 +169,14 @@ export class KernelControllerBase extends BoostServiceHelper {
 
     shouldRefreshCell(
         notebook : vscode.NotebookDocument | BoostNotebook,
-        cell: vscode.NotebookCell | BoostNotebookCell,
+        cell: vscode.NotebookCell | BoostNotebookCell | undefined,
         forceAnalysisRefresh: boolean): boolean {
         if (forceAnalysisRefresh) {
             return true;
+        }
+
+        if (!cell) {
+            return forceAnalysisRefresh;
         }
         
         return !this.isCellOutputMissingOrError(notebook, cell);

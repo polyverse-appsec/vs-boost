@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as vscode from 'vscode';
 
 import {
     DiagnosticCollection,
@@ -20,6 +21,7 @@ import { getBoostFile, BoostFileOptions, BoostFileType } from '../extension/exte
 import { errorToString } from '../utilities/error';
 import { cleanCellOutput } from '../extension/extensionUtilities';
 import { fullPathFromSourceFile } from '../utilities/files';
+import { boostLogging } from '../utilities/boostLogging';
 
 export const convertFunctionKernelName = convertKernelName + '_function';
 
@@ -60,6 +62,22 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
 		super.dispose();
 	}
 
+    async executeAllWithAuthorization(
+        cells: vscode.NotebookCell[] | BoostNotebookCell[],
+        notebook: vscode.NotebookDocument | BoostNotebook,
+        forceAnalysisRefresh: boolean = false
+    ): Promise<boolean> {
+
+        const result = await super.executeAllWithAuthorization(cells, notebook, forceAnalysisRefresh);
+
+
+        // if an update happened, then regenrate the file
+        if (result || this.shouldRefreshCell(notebook, undefined, forceAnalysisRefresh)) {
+            await this.regenerateSingleSource(notebook);
+        }
+        return result;
+    }
+
     async doKernelExecution(
         notebook: NotebookDocument | BoostNotebook | undefined,
         cell: NotebookCell | BoostNotebookCell | undefined,
@@ -84,6 +102,15 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
         extraPayload.originalFilename = source;
 
         return super.doKernelExecution(notebook, cell, execution, extraPayload, serviceEndpoint);
+    }
+
+    shouldRefreshCell(
+        notebook: vscode.NotebookDocument | BoostNotebook,
+        cell: vscode.NotebookCell | BoostNotebookCell | undefined,
+        forceAnalysisRefresh: boolean): boolean {
+
+            // never refresh unless its empty
+        return super.shouldRefreshCell(notebook, cell, forceAnalysisRefresh);
     }
 
     async onBoostServiceRequest(
@@ -192,6 +219,97 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
         return super.onKernelProcessResponseDetails(details, cell, notebook);
     }
 
+    // retrieve the first instance of a recommended generated source path - and use that for
+    //   the single source file reassmebly
+    async getSingleSourceInfo(notebook : NotebookDocument | BoostNotebook) : Promise<any> {
+        const usingBoostNotebook = notebook instanceof BoostNotebook;
+
+        let sourceFile : string = "";
+        let workingPath : string = "";
+        if (usingBoostNotebook) {
+            const boostNotebook = notebook as BoostNotebook;
+            boostNotebook.cells.forEach((cell) => {
+                if (sourceFile) {
+                    return;
+                }
+                cell.outputs.forEach((output) => {
+                    if (output.metadata.outputType !== ControllerOutputType.convertFunction) {
+                        return;
+                    }
+                    if (!sourceFile) {
+                        sourceFile = output.metadata?.details?.['generatedCodePath'];
+                        workingPath = output.metadata?.details?.['generatedCodeWorkingPath'];
+                    }
+                });
+            });
+        } else {
+            // seeming bug in Visual Studio code means the notebook isn't flushed to memory, marked
+            //      isDirty or accessible until we call save() - even though we updated the
+            //      cell data via the NotebookCellExecution and end()
+            await notebook.save();
+    
+            const notebookDoc = notebook as NotebookDocument;
+            notebookDoc.getCells().forEach((cell) => {
+                if (sourceFile) {
+                    return;
+                }
+                cell.outputs.forEach((output) => {
+                    if (output.metadata!.outputType !== ControllerOutputType.convertFunction) {
+                        return;
+                    }
+                    if (!sourceFile) {
+                        sourceFile = output.metadata?.details?.['generatedCodePath'];
+                        workingPath = output.metadata?.details?.['generatedCodeWorkingPath'];
+                    }
+                });
+            });
+        }
+        if (!sourceFile || !workingPath) {
+            return undefined;
+        }
+        return {
+            sourceFile: sourceFile,
+            workingPath: workingPath,
+        };
+    }
+
+    async regenerateSingleSource(notebook : NotebookDocument | BoostNotebook) {
+        const usingBoostNotebook = notebook instanceof BoostNotebook;
+        const sourceFileInfo : any = await this.getSingleSourceInfo(notebook);
+        if (!sourceFileInfo) {
+            boostLogging.debug(`No Generated source file for notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()}`);
+            return;
+        }
+
+        // collect all cell-level source code files - to reassemble into a single file
+        const patternForSearch = new vscode.RelativePattern(
+            path.isAbsolute(sourceFileInfo.sourceFile)?"":
+            vscode.workspace.workspaceFolders![0],
+            sourceFileInfo.workingPath + "/**");
+
+        const sourceFilesToAssemble = await vscode.workspace.findFiles(
+            patternForSearch,
+            "*.issues.json");
+        let unifiedFile : string = "";
+        sourceFilesToAssemble.forEach((sourceFileToAssemble) => {
+            unifiedFile += fs.readFileSync(sourceFileToAssemble.fsPath, "utf8");
+        });
+        if (sourceFilesToAssemble.length === 0) {
+            boostLogging.debug(`No generated source files found for notebook ${usingBoostNotebook?(notebook as BoostNotebook).fsPath:notebook.uri.toString()}`);
+            return;
+        }
+
+        // write out the unified file - but we don't want it to block or fail the overall process
+        if (!path.isAbsolute(sourceFileInfo.sourceFile)) {
+            sourceFileInfo.sourceFile = path.join(workspace.workspaceFolders![0].uri.fsPath, sourceFileInfo.sourceFile);
+        }
+        try {
+            fs.writeFileSync(sourceFileInfo.sourceFile, unifiedFile, { encoding: "utf8" });
+        } catch (error : any) {
+            boostLogging.error(`Unable to save unified file ${sourceFileInfo.sourceFile}: ${errorToString(error)}`);
+        }
+    }
+
     generateMarkdownOutput(
         notebook : NotebookDocument | BoostNotebook,
         cell : NotebookCell | BoostNotebookCell,
@@ -214,11 +332,13 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
             (usingBoostNotebook?Uri.parse((notebook as BoostNotebook).fsPath):notebook.uri);
         const originalSourceFolder = path.dirname(originalSource.fsPath);
         const originalSourceBaseName = path.basename(originalSource.fsPath, path.extname(originalSource.fsPath));
-        const sourceBase = rawSourceBase?rawSourceBase:originalSourceBaseName;
-        const sourceExtension = rawSourceExtension?rawSourceExtension:outputLanguage;
+        const originalSourceExt = path.extname(originalSource.fsPath).substring(1);
+        const sourceBase = originalSourceBaseName; // we ignore rawSourceBase since it can change by call or cell
+        const sourceExtension = outputLanguage?outputLanguage:originalSourceExt; // we ignore rawSourceExtension since it can change by call or cell
 
         // we use a leading dot in the filename so its generally hidden
-        const source = `.${sourceBase}.${sourceExtension}`;
+        const unifiedSource = `${sourceBase}.${sourceExtension}`;
+        const source = `.${unifiedSource}`;
         const nonNormalizedSourcePath = path.join(originalSourceFolder, source);
         const sourcePath = path.normalize(nonNormalizedSourcePath);
         const sourceUri = Uri.parse(sourcePath);
@@ -227,6 +347,16 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
             format: BoostFileType.generated,
             subFolder: outputLanguage,
         });
+
+        const nonNormalizedUnifiedSourcePath = path.join(originalSourceFolder, unifiedSource);
+        const unifiedSourcePath = path.normalize(nonNormalizedUnifiedSourcePath);
+        const unifiedSourceUri = Uri.parse(unifiedSourcePath);
+
+        const generatedCodePathUri = getBoostFile(unifiedSourceUri, {
+            format: BoostFileType.generated,
+            subFolder: outputLanguage,
+        });
+        details['generatedCodePath'] = workspace.asRelativePath(generatedCodePathUri.fsPath);
 
         // cell filename = the cell index
         const cellFilename = usingBoostNotebook?
