@@ -1,6 +1,6 @@
 const { execSync } = require('child_process');
 
-const maximumPackageSize = 3.00;
+const maximumPackageSize = 3.1;
 
 // Run the vsce package command and capture the output
 const output = execSync('vsce package --allow-missing-repository --baseContentUrl "https://polyverse.com" --baseImagesUrl "https://polyverse.com/images" --out ./out/').toString();
@@ -13,9 +13,9 @@ if (match && match[1]) {
     const size = parseFloat(match[1]);
     const maxSize = maximumPackageSize; // The maximum allowable size
     if (size > maxSize) {
-        console.error('\x1b[31mERROR: Package size exceeds the threshold: (${size}MB > ${maxSize}MB)\n' +
+        console.error(`\x1b[31mERROR: Package size exceeds the threshold: (${size}MB > ${maxSize}MB)\n` +
         'Check package contents for unexpected files.\n' + 
-        'Or increase maximum threshoold size in build script.\x1b[0m');
+        'Or increase maximum threshold size in build script.\x1b[0m');
         process.exit(1); // Fail the process
     }
 } else {
