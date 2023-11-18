@@ -3,6 +3,18 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 1.8.0: November 11th, 2023
+
+### New Features
+- New Code Generation Support can rewrite existing source code, generate new source code or convert source code to a new language
+- New Generate Test Capabilities will create a source file for each test case
+
+### Enhancements
+- Show Activity Bar whenever UI-based Notebook actions are complete
+
+### Bug Fixes
+- Fix issue with Test Framework choice only working with UI-based Notebooks
+
 ## Version 1.7.0: November 11th, 2023
 
 ### New Features

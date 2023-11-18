@@ -184,6 +184,7 @@ import { ChatData } from "../data/ChatData";
 import { addBoostToProjectExtensions } from "../extension/vscodeUtilities";
 
 import { WorkflowEngine, WorkflowError } from "../utilities/workflow_engine";
+import { BoostTestGenerateFunctionKernel } from "../controllers/testgen_function_controller";
 
 interface ProcessRingsOptions {
     analysisTypes?: string[];
@@ -1221,9 +1222,10 @@ export class BoostExtension {
             BoostQuickPerformanceSummaryKernel,
             BoostChatKernel,
             BoostCustomQuickScanFunctionKernel,
+            BoostConvertFunctionKernel,
+            BoostTestGenerateFunctionKernel,
         ];
         const devKernelTypes: any[] = [
-            BoostConvertFunctionKernel,
             BoostArchitectureBlueprintKernel,
             BoostCodeGuidelinesKernel,
             SummarizeKernel,

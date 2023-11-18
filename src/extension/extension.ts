@@ -25,6 +25,7 @@ export enum BoostFileType {
     chat = "chat",
     generated = "generated",
     source = "source",
+    test = "test",
 }
 
 export const boostActivityBarId = "polyverse-boost-explorer";
@@ -381,6 +382,34 @@ export function getBoostFile(
                 }
             }
             return generatedFile;
+        case BoostFileType.test:
+            const testFolder = path.join(
+                boostFolder,
+                BoostFileType.test.toString(),
+                options?.subFolder?options.subFolder:""
+            );
+            const absoluteTestFile = path.join(
+                testFolder,
+                relativePath
+            );
+            const normalizedAbsoluteTestFile = path.normalize(
+                absoluteTestFile
+            );
+
+            let testFile = vscode.Uri.file(
+                normalizedAbsoluteTestFile
+            );
+            // create test folder if not found
+            if (!fs.existsSync(testFolder)) {
+                try {
+                    fs.mkdirSync(testFolder, { recursive: true });
+                } catch (error) {
+                    throw new Error(
+                        `Failed to create Boost Test folder at ${testFolder} due to Error: ${errorToString(error)} - possible permission issue`
+                    );
+                }
+            }
+            return testFile;
 
         case BoostFileType.notebook:
         default:

@@ -212,7 +212,7 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
         }
 
         if (!convertedCode) {
-            throw new Error(`Unable to convert code. Please see issues section or retry.`);
+            boostLogging.warn(`Unable to convert code for ${usingBoostNotebook?(cell as BoostNotebookCell).id:(cell as NotebookCell).document.uri.toString()} . Please see issues section or retry.`, false);
         }
 
         return super.onKernelProcessResponseDetails(details, cell, notebook);
