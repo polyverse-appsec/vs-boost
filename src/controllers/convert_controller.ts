@@ -76,7 +76,7 @@ export class BoostConvertKernel extends KernelControllerBase {
         const explanation = this.getCellOutput(cell!, ControllerOutputType.explain);
         // if empty or error, we'll error the code conversion
         if (!explanation || explanation.trim().length === 0) {
-            throw new Error("Unable to convert code. Please make sure you have generated Explanation or Documentaiton first.");
+            throw new Error("Unable to convert code. Please make sure you have generated Explanation or Documentation first.");
         }
 
         extraPayload.explanation = cleanCellOutput(explanation);
