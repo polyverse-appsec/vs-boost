@@ -814,11 +814,10 @@ export class KernelControllerBase extends BoostServiceHelper {
                   );
         }
     
-        let details = this.onKernelProcessResponseDetails(
-            response?.details,
-            cell,
-            notebook
-        );
+        let details = response?.details;
+        if (details) {
+            this.onKernelProcessResponseDetails(details, cell, notebook);
+        }
 
         // extend the outputItem.metadata field with the results of a call to onKernelOutputItemDetails
         await this.updateCellOutput(execution, cell, details, outputItem, outputType);

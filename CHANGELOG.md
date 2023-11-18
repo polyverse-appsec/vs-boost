@@ -14,6 +14,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Bug Fixes
 - Fix issue with Test Framework choice only working with UI-based Notebooks
+- Fix issue where some processing errors can be lost and misreported
 
 ## Version 1.7.0: November 11th, 2023
 
