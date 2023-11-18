@@ -16,6 +16,7 @@ Polyverse Boost Automatic Application Modernization
 - Fix issue with Test Framework choice only working with UI-based Notebooks
 - Fix issue where some processing errors can be lost and misreported
 - Fix issue where files with '#' in the filename are not handled correctly
+- Fix issue where stale file cleanup is not run automatically on project analysis
 
 ## Version 1.7.0: November 11th, 2023
 

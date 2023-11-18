@@ -109,7 +109,7 @@ export class BoostConfiguration {
         return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.projectCleanupMethodValue) as string)??
             Defaults.projectCleanupMethodValue;
     }
-    public static set cleanupUnusedBoostFilesAutomatically(value: string) {
+    public static set projectCleanupMethod(value: string) {
         workspace.getConfiguration(NOTEBOOK_TYPE, null)
             .update(Defaults.projectCleanupMethodName, value, ConfigurationTarget.Global);
     }

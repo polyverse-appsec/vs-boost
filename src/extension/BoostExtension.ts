@@ -4079,7 +4079,7 @@ export class BoostExtension {
                     addBoostToProjectExtensions();
                 }
 
-                if (BoostConfiguration.cleanupUnusedBoostFilesAutomatically) {
+                if (BoostConfiguration.projectCleanupMethod) {
                     // clean up any previous analysis
                     await vscode.commands.executeCommand(
                         boostnb.NOTEBOOK_TYPE + "." + BoostCommands.cleanBoostFiles
