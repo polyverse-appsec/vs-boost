@@ -58,7 +58,7 @@ export async function generateHTMLforNotebook(
 ): Promise<string> {
     return new Promise<string>(async (resolve, reject) => {
         try {
-            const htmlFileUri = getBoostFile(vscode.Uri.parse(boostNotebookPath),
+            const htmlFileUri = getBoostFile(vscode.Uri.file(boostNotebookPath),
                 { format: BoostFileType.output, outputType: OutputType.html }).fsPath;
 
             const boostNotebook = new BoostNotebook();
@@ -129,7 +129,7 @@ async function convertNotebookToHTMLinMemory(
     if (projectLevel || buildingSummary) {
         summaryNotebook = notebook;
     } else {
-        const summaryBoostFile = getBoostFile(vscode.Uri.parse(path.join(baseFolderPath,sourceFile)), {
+        const summaryBoostFile = getBoostFile(vscode.Uri.file(path.join(baseFolderPath,sourceFile)), {
             format: BoostFileType.summary
         });
         // if summary exists, then print that 

@@ -3,7 +3,7 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 1.8.0: November 11th, 2023
+## Version 1.8.0: November 19th, 2023
 
 ### New Features
 - New Code Generation Support can rewrite existing source code, generate new source code or convert source code to a new language
@@ -15,6 +15,7 @@ Polyverse Boost Automatic Application Modernization
 ### Bug Fixes
 - Fix issue with Test Framework choice only working with UI-based Notebooks
 - Fix issue where some processing errors can be lost and misreported
+- Fix issue where files with '#' in the filename are not handled correctly
 
 ## Version 1.7.0: November 11th, 2023
 

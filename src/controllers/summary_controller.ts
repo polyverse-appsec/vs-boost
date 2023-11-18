@@ -113,7 +113,7 @@ export class SummarizeKernel extends KernelControllerBase {
             }
         } else {
             targetNotebook = notebook as BoostNotebook;
-            targetNotebookUri = vscode.Uri.parse(targetNotebook.fsPath);
+            targetNotebookUri = vscode.Uri.file(targetNotebook.fsPath);
         }
 
         let successfullyCompleted = true;

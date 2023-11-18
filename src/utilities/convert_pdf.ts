@@ -12,7 +12,7 @@ import { convertNotebookToHTML } from './convert_html';
 export async function generatePDFforNotebook(boostNotebookPath : string, baseFolderPath : string, context: vscode.ExtensionContext) : Promise<string> {
     return new Promise<string> (async (resolve, reject) => {
         try {
-            const pdfFilename = getBoostFile(vscode.Uri.parse(boostNotebookPath),
+            const pdfFilename = getBoostFile(vscode.Uri.file(boostNotebookPath),
                 { format: BoostFileType.output, outputType: OutputType.pdf }).fsPath;
 
             const boostNotebook = new BoostNotebook();
@@ -34,7 +34,7 @@ async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : 
             // Write the HTML to a temporary file with the random filename
             const tempHtmlPathUnderBaseFolder = path.join(baseFolderPath, randomFilename);
             const normalizedTempHtmlPath = path.normalize(tempHtmlPathUnderBaseFolder);
-            const tempHtmlUri = getBoostFile(vscode.Uri.parse(normalizedTempHtmlPath), { format: BoostFileType.output, outputType: OutputType.html });
+            const tempHtmlUri = getBoostFile(vscode.Uri.file(normalizedTempHtmlPath), { format: BoostFileType.output, outputType: OutputType.html });
 
             // convert the file path to a URL
             const sourceFile = boostNotebook.metadata["sourceFile"]?boostNotebook.metadata["sourceFile"] as string:"UNKNOWN-SOURCE-FILE";

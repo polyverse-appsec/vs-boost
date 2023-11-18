@@ -25,7 +25,7 @@ export async function generateMarkdownforNotebook(
     return new Promise<string>(async (resolve, reject) => {
         try {
             const mdFilename = getBoostFile(
-                vscode.Uri.parse(boostNotebookPath),
+                vscode.Uri.file(boostNotebookPath),
                 {
                     format: BoostFileType.output,
                     outputType: OutputType.markdown,
@@ -108,7 +108,7 @@ async function generateMarkdownFromObject(
     if (projectLevel || buildingSummary) {
         summaryNotebook = boostNotebook;
     } else {
-        const summaryBoostFile = getBoostFile(vscode.Uri.parse(path.join(baseFolderPath,sourceFile)), {
+        const summaryBoostFile = getBoostFile(vscode.Uri.file(path.join(baseFolderPath,sourceFile)), {
             format: BoostFileType.summary
         });
         // if summary exists, then print that 

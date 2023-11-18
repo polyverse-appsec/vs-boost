@@ -207,7 +207,7 @@ export class BoostNotebookContentProvider
             return "";
         }
         // strip off everything but path so we can load notebook file
-        uri = vscode.Uri.parse(uri.path);
+        uri = vscode.Uri.file(uri.path);
         const boostDoc = await vscode.workspace.openNotebookDocument(uri);
         await vscode.window.showNotebookDocument(boostDoc);
 
@@ -813,7 +813,7 @@ export class BoostExtension {
                 : notebook.getCells();
             if (deleteExisting) {
                 value.sourceLevelIssueCollection.delete(
-                    vscode.Uri.parse(notebook.metadata.sourceFile as string)
+                    vscode.Uri.file(notebook.metadata.sourceFile as string)
                 );
             } else {
                 // we're going to assume if we're just refreshing - not a full load/reset
@@ -823,7 +823,7 @@ export class BoostExtension {
                 if (!notebook.metadata.sourceFile) {
                     continue;
                 }
-                const sourceFile = vscode.Uri.parse(
+                const sourceFile = vscode.Uri.file(
                     fullPathFromSourceFile(notebook.metadata.sourceFile).fsPath
                 );
 
@@ -1861,7 +1861,7 @@ export class BoostExtension {
                                 await vscode.commands
                                     .executeCommand(
                                         "markdown.showPreview",
-                                        vscode.Uri.parse(outputFile)
+                                        vscode.Uri.file(outputFile)
                                     )
                                     .then(
                                         (success) => {
@@ -1883,7 +1883,7 @@ export class BoostExtension {
                             case "pdf":
                             case "html":
                                 await vscode.env
-                                    .openExternal(vscode.Uri.parse(outputFile))
+                                    .openExternal(vscode.Uri.file(outputFile))
                                     .then(
                                         (success) => {
                                             boostLogging.info(
@@ -2090,7 +2090,7 @@ export class BoostExtension {
                                 await vscode.commands
                                     .executeCommand(
                                         "markdown.showPreview",
-                                        vscode.Uri.parse(outputFile)
+                                        vscode.Uri.file(outputFile)
                                     )
                                     .then(
                                         (success) => {
@@ -2112,7 +2112,7 @@ export class BoostExtension {
                             case "pdf":
                             case "html":
                                 await vscode.env
-                                    .openExternal(vscode.Uri.parse(outputFile))
+                                    .openExternal(vscode.Uri.file(outputFile))
                                     .then(
                                         (success) => {
                                             boostLogging.info(
@@ -2285,7 +2285,7 @@ export class BoostExtension {
                                 await vscode.commands
                                     .executeCommand(
                                         "markdown.showPreview",
-                                        vscode.Uri.parse(outputFile)
+                                        vscode.Uri.file(outputFile)
                                     )
                                     .then(
                                         (success) => {
@@ -2307,7 +2307,7 @@ export class BoostExtension {
                             case "pdf":
                             case "html":
                                 await vscode.env
-                                    .openExternal(vscode.Uri.parse(outputFile))
+                                    .openExternal(vscode.Uri.file(outputFile))
                                     .then(
                                         (success) => {
                                             boostLogging.info(
@@ -2448,7 +2448,7 @@ export class BoostExtension {
                         );
                         return;
                     }
-                    vscode.env.openExternal(vscode.Uri.parse(url));
+                    vscode.env.openExternal(vscode.Uri.file(url));
                 }
             )
         );
@@ -2908,7 +2908,7 @@ export class BoostExtension {
                     if (boostNotebooks.length > 1) {
                         let notebookNames = boostNotebooks.map((doc) => {
                             return path.basename(
-                                vscode.Uri.parse(doc.uri.toString()).fsPath
+                                vscode.Uri.file(doc.uri.toString()).fsPath
                             );
                         });
 
@@ -2927,7 +2927,7 @@ export class BoostExtension {
                         currentNotebook = boostNotebooks.find((doc) => {
                             return (
                                 path.basename(
-                                    vscode.Uri.parse(doc.uri.toString()).fsPath
+                                    vscode.Uri.file(doc.uri.toString()).fsPath
                                 ) === selectedOption
                             );
                         });
@@ -2955,7 +2955,7 @@ export class BoostExtension {
                         );
                     } else {
                         // look up summary for raw source file by stripping off notebook extension
-                        const summaryBoostFile = vscode.Uri.parse(
+                        const summaryBoostFile = vscode.Uri.file(
                             sourceFileUri.fsPath
                                 .replace(boostnb.NOTEBOOK_SUMMARY_EXTENSION, "")
                                 .replace(
@@ -4001,7 +4001,7 @@ export class BoostExtension {
                                             if (!analysisTypes.includes(key)) {
                                                 throw new WorkflowError("skip", `Skipping File ${key} Analysis by user request`);
                                             }
-                                            const fileUri = vscode.Uri.parse(file);
+                                            const fileUri = vscode.Uri.file(file);
                                             const areaAnalysisWorkflowName = `${fileAnalysisWorkflowName}-${key}`;
                                             await this.processDepthOnRingFileTask(fileUri, value, areaAnalysisWorkflowName);
                                         };
@@ -4118,7 +4118,7 @@ export class BoostExtension {
                 } else {
                     await vscode.commands.executeCommand(
                         boostnb.NOTEBOOK_TYPE + "." + BoostCommands.buildCurrentFileOutput,
-                        vscode.Uri.parse(path),
+                        vscode.Uri.file(path),
                         "all" // build all outputs for this file
                     );
                 }
@@ -4134,7 +4134,7 @@ export class BoostExtension {
                     // build the summary notebook for this file
                     await vscode.commands.executeCommand(
                         boostnb.NOTEBOOK_TYPE + "." + BoostCommands.processCurrentFolder,
-                        vscode.Uri.parse(path),
+                        vscode.Uri.file(path),
                         getKernelName(summarizeKernelName)
                     );
                     this.checkAccountEnabledBeforeContinuingAnalysis();
@@ -4146,7 +4146,7 @@ export class BoostExtension {
                 } else {
                     await vscode.commands.executeCommand(
                         boostnb.NOTEBOOK_TYPE + "." + BoostCommands.buildCurrentFileSummaryOutput,
-                        vscode.Uri.parse(path),
+                        vscode.Uri.file(path),
                         "all" // build all outputs for this file
                     );
                 }
@@ -4544,7 +4544,7 @@ export class BoostExtension {
                 );
                 return false;
             }
-            const boostFile = getBoostFile(vscode.Uri.parse(file));
+            const boostFile = getBoostFile(vscode.Uri.file(file));
             return fs.existsSync(boostFile.fsPath);
         });
 
@@ -4561,7 +4561,7 @@ export class BoostExtension {
             notebookFilesThatExist.forEach((file: string) => {
                 convertedNotebookWaits.push(
                     this.buildCurrentFileOutput(
-                        vscode.Uri.parse(file),
+                        vscode.Uri.file(file),
                         false,
                         outputFormat,
                         context
@@ -5059,7 +5059,7 @@ export class BoostExtension {
         );
 
         if (kernelGuidelinesFile) {
-            const kernelGuidelinesUri = vscode.Uri.parse(kernelGuidelinesFile);
+            const kernelGuidelinesUri = vscode.Uri.file(kernelGuidelinesFile);
             const unsavedGuidelines = this.getUnsavedActiveNotebookContent(kernelGuidelinesUri);
             // use unsaved guidelines only - if they are actively being edited
             if (unsavedGuidelines && unsavedGuidelines.length > 0) {
@@ -5436,7 +5436,7 @@ export class BoostExtension {
         const usingBoostNotebook = "value" in cell;
 
         const cellUri = usingBoostNotebook
-            ? vscode.Uri.parse(cell.id as string)
+            ? vscode.Uri.file(cell.id as string)
             : cell.document.uri;
 
         // if no problems for this cell, skip it

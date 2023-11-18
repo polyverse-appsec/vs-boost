@@ -29,7 +29,7 @@ export function fullPathFromSourceFile(sourceFile: string): vscode.Uri {
     let baseFolder: string;
     let fullPath = sourceFile;
     if (!(vscode.workspace.workspaceFolders && sourceFile.startsWith("./"))) {
-        return vscode.Uri.parse(fullPath);
+        return vscode.Uri.file(fullPath);
     }
 
     const workspaceFolder = vscode.workspace.workspaceFolders[0]; // Get the first workspace folder
@@ -37,7 +37,7 @@ export function fullPathFromSourceFile(sourceFile: string): vscode.Uri {
     fullPath = path.join(baseFolder, sourceFile);
     const normalizedFullPath = path.normalize(fullPath);
     fullPath = normalizedFullPath;
-    return vscode.Uri.parse(fullPath);
+    return vscode.Uri.file(fullPath);
 }
 
 export function getPrioritizedFileList() : string[] {

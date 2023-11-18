@@ -324,7 +324,7 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
 
         const originalSource = (notebook.metadata && 'sourceFile' in notebook.metadata)?
             fullPathFromSourceFile(notebook.metadata['sourceFile'] as string):
-            (usingBoostNotebook?Uri.parse((notebook as BoostNotebook).fsPath):notebook.uri);
+            (usingBoostNotebook?Uri.file((notebook as BoostNotebook).fsPath):notebook.uri);
         const originalSourceFolder = path.dirname(originalSource.fsPath);
         const originalSourceBaseName = path.basename(originalSource.fsPath, path.extname(originalSource.fsPath));
         const originalSourceExt = path.extname(originalSource.fsPath).substring(1);
@@ -336,7 +336,7 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
         const source = `.${unifiedSource}`;
         const nonNormalizedSourcePath = path.join(originalSourceFolder, source);
         const sourcePath = path.normalize(nonNormalizedSourcePath);
-        const sourceUri = Uri.parse(sourcePath);
+        const sourceUri = Uri.file(sourcePath);
 
         const convertedFile = getBoostFile(sourceUri, {
             format: BoostFileType.generated,
@@ -345,7 +345,7 @@ export class BoostConvertFunctionKernel extends FunctionKernelControllerBase {
 
         const nonNormalizedUnifiedSourcePath = path.join(originalSourceFolder, unifiedSource);
         const unifiedSourcePath = path.normalize(nonNormalizedUnifiedSourcePath);
-        const unifiedSourceUri = Uri.parse(unifiedSourcePath);
+        const unifiedSourceUri = Uri.file(unifiedSourcePath);
 
         const generatedCodePathUri = getBoostFile(unifiedSourceUri, {
             format: BoostFileType.generated,

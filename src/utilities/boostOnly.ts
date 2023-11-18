@@ -40,11 +40,11 @@ export function addToBoostIncludeOrOnlyFile(fileOrFolder: string, exclusiveInclu
 
     const currentPatterns = readBoostInclusionFile(exclusiveInclude?BOOST_ONLY_FILE:BOOST_INCLUDE_FILE, targetFolder);
     const targetRelativePath = vscode.workspace.asRelativePath(
-        vscode.Uri.parse(fileOrFolder),
+        vscode.Uri.file(fileOrFolder),
         false
     );
     
-    if (!fs.existsSync(vscode.Uri.parse(fileOrFolder).fsPath)) {
+    if (!fs.existsSync(vscode.Uri.file(fileOrFolder).fsPath)) {
         boostLogging.warn(`Unable to determine existence of file: ${fileOrFolder}`, true);
         return;
     } else if (
@@ -56,7 +56,7 @@ export function addToBoostIncludeOrOnlyFile(fileOrFolder: string, exclusiveInclu
         return;
     }
 
-    const stats = fs.statSync(vscode.Uri.parse(fileOrFolder).fsPath);
+    const stats = fs.statSync(vscode.Uri.file(fileOrFolder).fsPath);
     if (stats.isDirectory()) {
         currentPatterns.push(targetRelativePath + "/**");
     } else if (stats.isFile()) {
@@ -81,7 +81,7 @@ export function removeFromBoostOnly(fileOrFolder: string): void {
 
     // Convert path to relative path
     targetRelativePath = vscode.workspace.asRelativePath(
-        vscode.Uri.parse(fileOrFolder),
+        vscode.Uri.file(fileOrFolder),
         false
     );
 
@@ -93,7 +93,7 @@ export function removeFromBoostOnly(fileOrFolder: string): void {
     }
 
     // If the target is a directory, consider removing the pattern with '/**', else just the relative path
-    const updatedPatterns = fs.statSync(vscode.Uri.parse(fileOrFolder).fsPath).isDirectory() ?
+    const updatedPatterns = fs.statSync(vscode.Uri.file(fileOrFolder).fsPath).isDirectory() ?
         currentPatterns.filter(pattern => pattern !== targetRelativePath + "/**") :
         currentPatterns.filter(pattern => pattern !== targetRelativePath);
 

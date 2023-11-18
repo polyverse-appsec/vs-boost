@@ -180,7 +180,7 @@ export function getBoostFile(
     }
 
     // if the source file is an output file, then we're going to use the original source file instead
-    const outputUri = vscode.Uri.joinPath(vscode.Uri.parse(boostFolder), BoostFileType.output.toString());
+    const outputUri = vscode.Uri.joinPath(vscode.Uri.file(boostFolder), BoostFileType.output.toString());
     if (sourceFile.fsPath.includes(outputUri.fsPath)) {
         const relativeToOutput = path.relative(outputUri.fsPath, sourceFile.fsPath);
 
@@ -196,7 +196,7 @@ export function getBoostFile(
         // Rejoin the segments to get the new path
         let newPath = pathSegments.join(path.sep);
 
-        sourceFile = vscode.Uri.joinPath(vscode.Uri.parse(baseFolder), newPath);
+        sourceFile = vscode.Uri.joinPath(vscode.Uri.file(baseFolder), newPath);
     }
 
     // get the distance from the workspace folder for the source file
@@ -224,7 +224,7 @@ export function getBoostFile(
 
                 // if we were given a notebook, and we are looking for guidelines or summary, then return same path with new extension
             } else if (sourceFile.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
-                return vscode.Uri.parse(sourceFile.fsPath.slice(0, boostnb.NOTEBOOK_EXTENSION.length * -1) + extension);
+                return vscode.Uri.file(sourceFile.fsPath.slice(0, boostnb.NOTEBOOK_EXTENSION.length * -1) + extension);
             }
 
             // if the new file is outside of our current workspace, then warn user
@@ -334,7 +334,7 @@ export function getBoostFile(
                 fs.mkdirSync(outputFileParentFolder, { recursive: true });
             }
             
-            return vscode.Uri.parse(outputFilePath);
+            return vscode.Uri.file(outputFilePath);
         }
         case BoostFileType.source:
         {
@@ -352,7 +352,7 @@ export function getBoostFile(
 
             const sourceFileAbsolute = path.join(baseFolder, sourceFilePathRelative);
             
-            return vscode.Uri.parse(sourceFileAbsolute);
+            return vscode.Uri.file(sourceFileAbsolute);
         }
         case BoostFileType.generated:
             const generatedFolder = path.join(

@@ -108,7 +108,7 @@ export class BugFunctionKernelControllerBase extends FunctionKernelControllerBas
         const linesOfText = (usingBoostNotebook?cell.value:cell.document.getText()).split('\n').length;
 
         // Retrieve existing diagnostics
-        const sourceUri = vscode.Uri.parse(sourceFile);
+        const sourceUri = vscode.Uri.file(sourceFile);
         const existingDiagnostics = this.sourceLevelIssueCollection.get(sourceUri);
 
         let diagnostics: vscode.Diagnostic[] = [];
@@ -181,7 +181,7 @@ export class BugFunctionKernelControllerBase extends FunctionKernelControllerBas
             if (bug.solution) {
                     // we use notebook for offline notebooks, and the cell for online notebooks
                 const solutionLocation =
-                    usingBoostNotebook?vscode.Uri.parse((notebook as boostnb.BoostNotebook).fsPath):cell.document.uri;
+                    usingBoostNotebook?vscode.Uri.file((notebook as boostnb.BoostNotebook).fsPath):cell.document.uri;
                     // we don't have a specific location for the solution beyond the cell or notebook, so use start of the location
                 const solutionSpecificLocation = new vscode.Range(new vscode.Position(0, 0), new vscode.Position(0, 0));
                 let relatedInformation = new vscode.DiagnosticRelatedInformation(

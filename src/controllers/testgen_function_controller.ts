@@ -216,7 +216,7 @@ export class BoostTestGenerateFunctionKernel extends FunctionKernelControllerBas
 
             const originalSource = (notebook.metadata && 'sourceFile' in notebook.metadata)?
                 fullPathFromSourceFile(notebook.metadata['sourceFile'] as string):
-                (usingBoostNotebook?Uri.parse((notebook as BoostNotebook).fsPath):notebook.uri);
+                (usingBoostNotebook?Uri.file((notebook as BoostNotebook).fsPath):notebook.uri);
 
             const generatedTestFile = getBoostFile(originalSource, {
                 format: BoostFileType.test,

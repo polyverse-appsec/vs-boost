@@ -980,7 +980,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         else if (!error) {
             let cellUri = !usingBoostNotebook
                 ? cell.document.uri
-                : vscode.Uri.parse(`${(notebook as BoostNotebook).fsPath}`);
+                : vscode.Uri.file(`${(notebook as BoostNotebook).fsPath}`);
 
             if (usingBoostNotebook) {
                 cellUri = cellUri.with({
@@ -1001,7 +1001,7 @@ export class KernelControllerBase extends BoostServiceHelper {
                     ? !cell?.metadata?.sourceFile
                     : !cell.notebook.metadata.sourceFile
             ) {
-                relatedUri = vscode.Uri.parse("file:///unknown", true);
+                relatedUri = vscode.Uri.file("file:///unknown");
             } else {
                 relatedUri = fullPathFromSourceFile(
                     usingBoostNotebook
@@ -1023,7 +1023,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         //      so our custom content provider will work
         let cellUri = !usingBoostNotebook
             ? cell.document.uri
-            : vscode.Uri.parse(`${(notebook as BoostNotebook).fsPath}`);
+            : vscode.Uri.file(`${(notebook as BoostNotebook).fsPath}`);
         if (usingBoostNotebook) {
             cellUri = cellUri.with({
                 scheme: boostUriSchema,

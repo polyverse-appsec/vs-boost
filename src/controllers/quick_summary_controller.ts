@@ -130,7 +130,7 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
         }
         if (!usingBoostNotebook) {
             const summaryNotebook = await vscode.workspace.openNotebookDocument(
-                vscode.Uri.parse((notebook as BoostNotebook).fsPath)
+                vscode.Uri.file((notebook as BoostNotebook).fsPath)
             );
             await vscode.window.showNotebookDocument(summaryNotebook);
         }

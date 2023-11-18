@@ -8,7 +8,7 @@ suite("Right Click Load File Command", function () {
 
     const randomFile = getRandomTestSourceFile();
     console.log(`${this.title} random source: ${randomFile}`);
-    const fileUri = vscode.Uri.parse(randomFile);
+    const fileUri = vscode.Uri.file(randomFile);
 
     const boostUri = getBoostFile(fileUri);
     console.log(`${this.title} Boost Uri: ${boostUri.fsPath}`);
