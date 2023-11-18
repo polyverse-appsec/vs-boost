@@ -370,11 +370,13 @@ export class BoostProjectData implements IBoostProjectData {
     startBatchJob() {
         this.setAnalysisState(AnalysisState.preparing);
         this.account.batchOperationCost = 0;
+        this.flushToFS();
     }
 
     finishBatchJob() {
         this.jobStatus = { ...emptyProjectData.jobStatus };
         this.setAnalysisState(AnalysisState.quiescent);
+        this.flushToFS();
     }
 
     addQueue(jobs: string[], relFiles: string[]) {
