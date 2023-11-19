@@ -63,11 +63,15 @@ export abstract class BaseWebviewViewProvider implements vscode.WebviewViewProvi
         };
     }
 
-    public refresh(): void {
+    public refresh(forceVisible : boolean = true): void {
         try {
-
             if (!this.visible) {
-                boostLogging.debug('Opening Boost Activity View during automatic refresh');
+                if (forceVisible) {
+                    boostLogging.debug('Opening Boost Activity View during automatic refresh');
+                } else {
+                    // skipping UI refresh since not visible and not forced
+                    return;
+                }
             }
 
             this._refresh();

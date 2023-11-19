@@ -160,6 +160,22 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
         return htmlContent;
     }
 
+    public refresh(forceVisible: boolean = true): void {
+        try {
+            return super.refresh(forceVisible);
+        } finally {
+            if (this.visible || forceVisible) {
+                // we need to queue a UI refresh since we just queued a checkbox change
+                //     we need to refresh UI AFTER the checkbox change is processed
+                const payload = {
+                    command: "refreshUI",
+                    boostprojectdata: this._boostExtension.getBoostProjectData()!,
+                };
+                this._view?.webview.postMessage(payload);
+            }
+        }
+    }
+
     private async _openFile(relativePath: string, boostprojectdata: any) {
         if (!vscode.workspace.workspaceFolders?.[0]) {
             boostLogging.error(

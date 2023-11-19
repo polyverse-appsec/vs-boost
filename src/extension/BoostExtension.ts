@@ -1239,7 +1239,7 @@ export class BoostExtension {
         for (const kernelType of kernelTypes) {
             const kernel = new kernelType(
                 context,
-                updateBoostStatusColors.bind(this),
+                this.updateBoostAccountStatus,
                 this,
                 collection
             );
@@ -2411,7 +2411,7 @@ export class BoostExtension {
         context: vscode.ExtensionContext,
         extension: BoostExtension
     ) {
-        const accountStatus = await updateBoostStatusColors(
+        const accountStatus = await this.updateBoostAccountStatus(
             context,
             undefined,
             extension
@@ -2474,7 +2474,7 @@ export class BoostExtension {
                             extension.statusBar.text =
                                 "Boost: Organization is " + organization;
     
-                            await updateBoostStatusColors(
+                            await this.updateBoostAccountStatus(
                                 context,
                                 undefined,
                                 extension
@@ -2504,7 +2504,7 @@ export class BoostExtension {
                             extension.statusBar.text =
                                 "Boost: Organization is " + organizationName;
     
-                            await updateBoostStatusColors(
+                            await this.updateBoostAccountStatus(
                                 context,
                                 undefined,
                                 extension
@@ -2523,6 +2523,21 @@ export class BoostExtension {
         );
     }
 
+    async updateBoostAccountStatus(
+        context: vscode.ExtensionContext,
+        extraData: any,
+        closure: BoostExtension
+    ): Promise<string> {
+        try {
+        return updateBoostStatusColors(context, extraData, closure);
+        } finally {
+            if (extraData) {
+                // if we're processing analysis, then refresh the UI if available
+                closure.summary?.refresh(false);
+            }
+        }
+    }
+    
     async setupBoostStatus(
         context: vscode.ExtensionContext,
     ) {
