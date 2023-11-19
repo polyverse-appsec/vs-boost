@@ -1597,11 +1597,15 @@ export class BoostExtension {
                     options.kernelCommand =
                         BoostConfiguration.currentKernelCommand;
                 }
-                return await this.processCurrentFolder(options, context).catch(
-                    (error) => {
-                        boostLogging.error(errorToString(error), likelyViaUI);
-                    }
-                );
+                try {
+                    return await this.processCurrentFolder(options, context).catch(
+                        (error) => {
+                            boostLogging.error(errorToString(error), likelyViaUI);
+                        }
+                    );
+                } finally {
+                    this.summary?.refresh(likelyViaUI);
+                }
             }
         );
         context.subscriptions.push(disposable);
