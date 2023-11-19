@@ -3810,7 +3810,7 @@ export class BoostExtension {
                 ) => {
 
                 this.getBoostProjectData()!.startBatchJob();
-                this.summary?.refresh();
+                this.summary?.refresh(true);
                 try{
                     
                     await this.waitForActivationToFinish();
@@ -3823,7 +3823,7 @@ export class BoostExtension {
                 } finally {
                     // make sure we always restore the analysis state to quiescent after finishing analysis
                     this.getBoostProjectData()!.finishBatchJob();
-                    this.summary?.refresh();
+                    this.summary?.refresh(true);
                 }
             }
         ));
@@ -4287,7 +4287,7 @@ export class BoostExtension {
 
         } finally {
             this.getBoostProjectData()!.finishBatchJob();
-            this.summary?.refresh();
+            this.summary?.refresh(true);
         }
     }
 

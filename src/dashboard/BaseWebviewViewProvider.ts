@@ -54,7 +54,7 @@ export abstract class BaseWebviewViewProvider implements vscode.WebviewViewProvi
         }
         return text;
     }
-    
+
     protected _resolveWebviewView(
         webviewView: vscode.WebviewView,
         context: vscode.WebviewViewResolveContext,
@@ -72,7 +72,7 @@ export abstract class BaseWebviewViewProvider implements vscode.WebviewViewProvi
         };
     }
 
-    public refresh(forceVisible : boolean = true): void {
+    public async refresh(forceVisible : boolean = false) {
         try {
             if (!this.visible) {
                 if (forceVisible) {
