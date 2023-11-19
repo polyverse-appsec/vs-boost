@@ -171,7 +171,7 @@ export class BoostChatViewProvider extends BaseWebviewViewProvider {
             "main.js"
         );
         const jsSrc = webview.asWebviewUri(jsPathOnDisk);
-        const nonce = "nonce-123456"; // TODO: add a real nonce here
+        const nonce = this.getNonce();
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, "utf8");
 
         const workspaceFolder = vscode.workspace.workspaceFolders

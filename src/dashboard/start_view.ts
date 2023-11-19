@@ -77,7 +77,7 @@ export class BoostStartViewProvider extends BaseWebviewViewProvider {
         const htmlPathOnDisk = vscode.Uri.joinPath(this._context.extensionUri, 'resources', 'dashboard', 'start.html');
         const jsPathOnDisk = vscode.Uri.joinPath(this._context.extensionUri, 'out', 'dashboard', 'start', 'main.js');
         const jsSrc = webview.asWebviewUri(jsPathOnDisk);
-        const nonce = 'nonce-123456'; // TODO: add a real nonce here
+        const nonce = this.getNonce();
 
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
 
