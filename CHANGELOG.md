@@ -18,6 +18,7 @@ Polyverse Boost Automatic Application Modernization
 - Fix issue where files with '#' in the filename are not handled correctly
 - Fix issue where stale file cleanup is not run automatically on project analysis
 - Fix issue with disabled "Run Selected Analyses" button when launch via Command Palette
+- Fix issue where refreshed analysis performed on a Notebook cell via the Notebook UI may not persist
 
 ## Version 1.7.0: November 11th, 2023
 

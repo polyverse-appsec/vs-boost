@@ -919,7 +919,7 @@ export class KernelControllerBase extends BoostServiceHelper {
                 details: details,
             };
             // Create a new NotebookCellOutput with the updated metadata and existing items
-            const updatedOutput = new vscode.NotebookCellOutput(existingOutputs[outputIndex].items, updatedMetadata);
+            const updatedOutput = new vscode.NotebookCellOutput(outputItems, updatedMetadata);
             // Replace the entire output to update both items and metadata
             await execution.replaceOutput(updatedOutput, cell);
         } else {
