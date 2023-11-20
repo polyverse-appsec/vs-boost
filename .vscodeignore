@@ -21,3 +21,4 @@ internal_readme.md
 raw_instructions.md
 .boostignore
 src/test/**
+logs/**

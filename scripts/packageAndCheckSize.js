@@ -1,6 +1,6 @@
 const { execSync } = require('child_process');
 
-const maximumPackageSize = 3.1;
+const maximumPackageSize = 3.0;
 
 // Run the vsce package command and capture the output
 const output = execSync('vsce package --allow-missing-repository --baseContentUrl "https://polyverse.com" --baseImagesUrl "https://polyverse.com/images" --out ./out/').toString();
