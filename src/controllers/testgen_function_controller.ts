@@ -7,7 +7,6 @@ import {
     ExtensionContext,
     NotebookCell,
     NotebookDocument,
-    NotebookCellExecution,
     Uri,
     workspace,
 } from 'vscode';
@@ -50,7 +49,7 @@ export class BoostTestGenerateFunctionKernel extends FunctionKernelControllerBas
             case 'dev':
                 return 'https://aj4pckbs5x4afro2wjzxrcvn7q0spbck.lambda-url.us-west-2.on.aws/';
             case "test":
-                return '';
+                return 'https://oh4zvvqpzfizj6n57ssp4a6mre0ptsjd.lambda-url.us-west-2.on.aws/';
             case 'staging':
             case 'prod':
             default:
