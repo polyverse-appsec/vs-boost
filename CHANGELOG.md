@@ -8,6 +8,7 @@ Polyverse Boost Automatic Application Modernization
 ### New Features
 - New Code Generation Support can rewrite existing source code, generate new source code or convert source code to a new language
 - New Generate Test Capabilities will create a source file for each test case
+- New Visual Studio Code Walkthough available for Boost and Sara Chat
 
 ### Enhancements
 - Show Activity Bar whenever UI-based Notebook actions are complete

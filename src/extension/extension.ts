@@ -31,6 +31,8 @@ export enum BoostFileType {
 export const boostActivityBarId = "polyverse-boost-explorer";
 
 export enum BoostCommands {
+    showWalkthrough = "showWalkthrough",
+
     loadCurrentFile = "loadCurrentFile",
     loadCurrentFolder = "loadCurrentFolder",
     loadSummaryFile = "loadSummaryFile",

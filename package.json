@@ -243,6 +243,10 @@
         ],
         "commands": [
             {
+                "command": "polyverse-boost-notebook.showWalkthrough",
+                "title": "Boost: Show Walkthrough"
+            },
+            {
                 "command": "polyverse-boost-notebook.customerPortal",
                 "title": "Boost: Open Account Dashboard"
             },
@@ -554,7 +558,62 @@
                     "group": "polyverseBoost"
                 }
             ]
-        }
+        },
+        "walkthroughs": [
+            {
+                "id": "gettingStarted",
+                "title": "Getting Started with Sara powered by Polyverse Boost",
+                "description": "Learn how to use Sara to modernize, rearchitect and improve your software projects.",
+                "primary": true,
+                "steps": [
+                    {
+                        "id": "boost.welcome",
+                        "title": "Welcome to Boost",
+                        "description": "Introduction and prerequisites for using Boost.",
+                        "media": {
+                            "markdown": "resources/walkthrough/welcome.md"
+                        },
+                        "when": "workspaceFolderCount = 0"
+                    },
+                    {
+                        "id": "boost.setup",
+                        "title": "Set Up Boost",
+                        "description": "How to install and set up Boost.",
+                        "media": {
+                            "markdown": "resources/walkthroughs/setup.md"
+                        }
+                    },
+                    {
+                        "id": "boost.firstUse",
+                        "title": "Boost In Action",
+                        "description": "Guide on how to use Boost for the first time.",
+                        "media": {
+                            "markdown": "resources/walkthroughs/firstUse.md"
+                        },
+                        "completionEvents": [
+                            "polyverse-boost-notebook.processAllFilesInRings"
+                        ]
+                    },
+                    {
+                        "id": "boost.faq",
+                        "title": "Frequently Asked Questions",
+                        "description": "Common queries about using Boost.",
+                        "media": {
+                            "markdown": "resources/walkthroughs/faq.md"
+                        }
+                    },
+					{
+						"id": "boost.trial",
+						"title": "Boost Trial",
+						"description": "During your Boost trial, [Confirm Your Organization](command:polyverse-boost-notebook.setOrganization)",
+						"media": {
+							"markdown": "resources/walkthroughs/trial.md"
+						},
+						"when": "polyverseboost.paid == false"
+					}
+                ]
+            }
+        ]
     },
     "scripts": {
         "clean": "rm -rf out",

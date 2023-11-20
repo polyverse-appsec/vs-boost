@@ -7,6 +7,7 @@ import { getCurrentOrganization } from "../utilities/authorization";
 import {
     getCustomerStatus
 } from "../controllers/customerPortal";
+import { SessionState } from "./SessionState";
 
 const gitHubAuthorizationFailureToolTip =
     "Unable to access your current account status. Please check your GitHub Authorization status, then network connection status.";
@@ -134,6 +135,9 @@ export async function updateBoostStatusColors(
                     "Your account is an active trial subscription. Please visit the Account Dashboard to add payment info.";
                 break;
         }
+
+        SessionState.paid.set(accountInfo["status"] === "paid");
+
         boostLogging.log(
             `Customer Status refresh: ${closure.statusBar.tooltip}`
         );

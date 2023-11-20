@@ -1356,6 +1356,19 @@ export class BoostExtension {
                 this.blueprint
             )
         );
+
+        context.subscriptions.push(
+            vscode.commands.registerCommand(
+                boostnb.NOTEBOOK_TYPE + "." + BoostCommands.showWalkthrough,
+                async () => {
+                    await vscode.commands.executeCommand(
+                        "workbench.action.openWalkthrough",
+                        "polyversecorporation" + "." + boostnb.NOTEBOOK_TYPE + "#" + "gettingStarted",
+                        false
+                    );
+                }
+            )
+        );
     }
 
     registerCreateNotebookCommand(
