@@ -11,6 +11,7 @@ Polyverse Boost Automatic Application Modernization
 
 ### Enhancements
 - Show Activity Bar whenever UI-based Notebook actions are complete
+- .gitignore, .boostignore, and .boostinclude files now include support for ! (not) patterns
 
 ### Bug Fixes
 - Fix issue with Test Framework choice only working with UI-based Notebooks

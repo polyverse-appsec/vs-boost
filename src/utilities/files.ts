@@ -102,7 +102,9 @@ export async function getAllProjectFiles(
     if (options?.debugFileCounts) {
         boostLogging.log(`Source files ignored by Category:`);
         for (const cp of ignoredPatternsByCategory!) {
-            const files = await vscode.workspace.findFiles( cp.relativePattern);
+            // we need to filter out of the patterns anything with a leading !
+            const filteredRelativePattern = new vscode.RelativePattern(cp.relativePattern.baseUri, `{${cp.patterns.filter(p => !p.startsWith('!')).join(",")}}`);
+            const files = await vscode.workspace.findFiles( filteredRelativePattern);
 
             boostLogging.log(`\tSource files ignored by Category ${cp.category}: ${files.length}`);
             if (boostLogging.shouldLog("debug")) {
@@ -111,11 +113,13 @@ export async function getAllProjectFiles(
         }
     }
 
-    const ignorePatterns = `{${ignoredPatternsByCategory!.flatMap(cp => cp.patterns) ?? [].join(",")}}`;
+        // Extract negation patterns and remove them from ignored patterns
+    const negationPatterns = ignoredPatternsByCategory?_extractNegationPatterns(ignoredPatternsByCategory.flatMap(cp => cp.patterns)):undefined;
+    const ignorePatterns = ignoredPatternsByCategory?`{${ignoredPatternsByCategory!.flatMap(cp => cp.patterns.filter(p => !p.startsWith('!'))) ?? [].join(",")}}`:undefined;
 
-    const allIgnoredPatterns = new vscode.RelativePattern(targetFolder, ignorePatterns);
+    const allIgnoredPatterns = ignorePatterns?new vscode.RelativePattern(targetFolder, ignorePatterns):undefined;
 
-    const files = boostOnlyPatterns.length?
+    let files = boostOnlyPatterns.length?
                 await vscode.workspace.findFiles( boostOnlySearchPattern, allIgnoredPatterns):
                 await vscode.workspace.findFiles( searchAllFilesPattern, allIgnoredPatterns);
     if (options?.debugFileCounts && boostOnlyPatterns.length) {
@@ -128,12 +132,36 @@ export async function getAllProjectFiles(
         }
     }
 
+    // Manually include files that match negation patterns
+    if (negationPatterns && negationPatterns.length > 0) {
+        let negatedFilesToAddBack : vscode.Uri[] = [];
+        for (const pattern of negationPatterns) {
+            const negationFiles = await vscode.workspace.findFiles(pattern, null, files.length);
+            negatedFilesToAddBack = negatedFilesToAddBack.concat(negationFiles);
+        }
+        if (options?.debugFileCounts && negatedFilesToAddBack.length) {
+            boostLogging.log(`Source files re-added by ! inversion syntax: ${negatedFilesToAddBack.length - files.length}`);
+            if (boostLogging.shouldLog("debug")) {
+                const readdedFiles : Set<string> = new Set(negatedFilesToAddBack.map(f => f.fsPath));
+                readdedFiles.forEach(f => boostLogging.debug(`\tRe-Added: ${vscode.workspace.asRelativePath(f)}`));
+            }
+        }
+        files = files.concat(negatedFilesToAddBack);
+    }    
     const paths: string[] = [];
 
     const includeFilePatterns = _extractFilterPatternsFromFile(getBoostIncludeFile()!.fsPath);
-    if (includeFilePatterns.length > 0) {
-        const includeFiles = await vscode.workspace.findFiles(
-            new vscode.RelativePattern(targetFolder, `{${includeFilePatterns.join(',')}}`));
+    const includeNegationPatterns = _extractNegationPatterns(includeFilePatterns);
+
+    // Remove the negation patterns from the include patterns
+    const filteredIncludePatterns = includeFilePatterns.filter(p => !p.startsWith('!'));
+    
+    if (filteredIncludePatterns.length > 0) {
+        const includePatterns = new vscode.RelativePattern(targetFolder, `{${filteredIncludePatterns.join(',')}}`);
+        const includeIgnorePatterns = includeNegationPatterns.length > 0 ?
+            new vscode.RelativePattern(targetFolder, `{${includeNegationPatterns.join(',')}}`) :
+            undefined;
+        const includeFiles = await vscode.workspace.findFiles(includePatterns, includeIgnorePatterns);
         if (options?.debugFileCounts) {
             boostLogging.log(`Source files included by Boost Include: ${includeFiles.length}`);
             if (boostLogging.shouldLog("debug")) {
@@ -464,6 +492,13 @@ function _extractFilterPatternsFromFile(filterFile: string): string[] {
     });
     return patterns;
 }
+
+function _extractNegationPatterns(patterns: string[]): string[] {
+    return patterns
+        .filter(pattern => pattern.startsWith('!'))
+        .map(pattern => pattern.substring(1)); // Remove '!' prefix
+}
+
 
 export async function removeOldBoostFiles() {
     let workspaceFolder: vscode.Uri | undefined =
