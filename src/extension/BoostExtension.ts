@@ -3960,10 +3960,8 @@ export class BoostExtension {
                     fileLimit = 0;
                     break;
                 case "top5-mode":
-                    fileLimit = 5;
-                    break;
                 default:
-                    fileLimit = 0;
+                        fileLimit = 5;
                     break;
             }
         }
