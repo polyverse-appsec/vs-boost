@@ -3,7 +3,7 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
-## Version 1.8.1: November 21st, 2023
+## Version 1.8.1: November 22st, 2023
 
 ### New Features
 - Sara can process 1 or 5 new files at a time by user request - via the Activity Bar
