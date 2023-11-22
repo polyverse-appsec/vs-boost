@@ -54,7 +54,7 @@ import {
     boostActivityBarId,
     ProcessCurrentFolderOptions,
 } from "./extension";
-import { cleanCellOutput, getKernelName } from "./extensionUtilities";
+import { cleanCellOutput, getKernelName, totalElements } from "./extensionUtilities";
 import { pendingBoostStatusBarText } from "./portal";
 import { fullPathFromSourceFile } from "../utilities/files";
 import {
@@ -3952,16 +3952,27 @@ export class BoostExtension {
         // check current account status before even starting
         this.checkAccountEnabledBeforeContinuingAnalysis();
 
-        let fileLimit : number = options?.fileLimit ?? 0;
-        if (!fileLimit) {
+        let requestedFileCount : number = options?.fileLimit ?? 0;
+        let refreshedFileCounter = 0;
+        let hardFileLimit = 0;
+        if (options?.fileLimit === undefined) {
             const rawAnalysisMode : string = this.getBoostProjectData()?.uiState?.activityBarState?.summaryViewState?.analysisMode ?? "";
             switch (rawAnalysisMode) {
                 case "analyze-all-mode":
-                    fileLimit = 0;
+                    requestedFileCount = 0;
+                    break;
+                case "process-next-1":
+                    requestedFileCount = 0;
+                    hardFileLimit = 1;
+                    break;
+                case "process-next-5":
+                    requestedFileCount = 0;
+                    hardFileLimit = 5;
                     break;
                 case "top5-mode":
                 default:
-                        fileLimit = 5;
+                    requestedFileCount = 5;
+                    hardFileLimit = 5;
                     break;
             }
         }
@@ -3988,8 +3999,8 @@ export class BoostExtension {
             boostLogging.info(`Total Project is ${allFiles.length} files`);
     
             // get the requested # of files only
-            const limitedFiles = (fileLimit !== 0)?allFiles.slice(0, fileLimit):allFiles;
-            if (fileLimit !== 0) {
+            const limitedFiles = (requestedFileCount !== 0)?allFiles.slice(0, requestedFileCount):allFiles;
+            if (requestedFileCount !== 0) {
                 boostLogging.info(`Processing only ${limitedFiles.length} files by request`);
             }
 
@@ -4029,10 +4040,16 @@ export class BoostExtension {
                                         const analysisTypeDynamicFunc = async () => {
                                             if (!analysisTypes.includes(key)) {
                                                 throw new WorkflowError("skip", `Skipping File ${key} Analysis by user request`);
+                                            } else if (hardFileLimit > 0 && refreshedFileCounter >= hardFileLimit) {
+
+                                                // if the user requested processing a limit of # files, then we asked for all files to refresh
+                                                //      but we stop processing once # files have actually refreshed
+                                                throw new WorkflowError("skip", `Skipping File ${key} Analysis because we've reached the file limit`);
                                             }
                                             const fileUri = vscode.Uri.file(file);
                                             const areaAnalysisWorkflowName = `${fileAnalysisWorkflowName}-${key}`;
-                                            await this.processDepthOnRingFileTask(fileUri, value, areaAnalysisWorkflowName);
+                                            const processedFile : boolean = await this.processDepthOnRingFileTask(fileUri, value, areaAnalysisWorkflowName);
+                                            return processedFile;
                                         };
                                         
                                         // Name the function dynamically based on the key
@@ -4050,16 +4067,16 @@ export class BoostExtension {
                             });
 
                             const fileAnalysisResults = await fileAnalysisEngine.run();
-                            const completed = fileAnalysisResults.filter((x) => !x || !(x instanceof Error));
-                            const skipped = fileAnalysisResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "skip");
-                            const aborted = fileAnalysisResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "abort");
-                            const canceled = fileAnalysisResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "abort");
-                            const errors = fileAnalysisResults.filter((x) => x && x instanceof Error && !(x instanceof WorkflowError));
+                            const completed = fileAnalysisResults.filter((x) => x[0] !== undefined && !(x[0] instanceof Error));
+                            const skipped = fileAnalysisResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "skip");
+                            const aborted = fileAnalysisResults.filter((x) => x && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "abort");
+                            const canceled = fileAnalysisResults.filter((x) => x && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "abort");
+                            const errors = fileAnalysisResults.filter((x) => x && x[0] instanceof Error && !(x[0] instanceof WorkflowError));
 
-                            boostLogging.info(`${relativePath} Analysis completed: ${completed.length}`);
-                            boostLogging.info(`${relativePath} Analysis skipped: ${skipped.length}`);
-                            boostLogging.info(`${relativePath} Analysis aborted: ${aborted.length}`);
-                            boostLogging.info(`${relativePath} Analysis errors: ${errors.length}`);
+                            boostLogging.info(`${relativePath} Analysis completed: ${totalElements(completed)}`);
+                            boostLogging.info(`${relativePath} Analysis skipped: ${totalElements(skipped)}`);
+                            boostLogging.info(`${relativePath} Analysis aborted: ${totalElements(aborted)}`);
+                            boostLogging.info(`${relativePath} Analysis errors: ${totalElements(errors)}`);
 
                             if (errors.length > 0) {
                                 throw errors[0];
@@ -4075,7 +4092,14 @@ export class BoostExtension {
                                 throw new WorkflowError("skip", `Skipping File ${relativePath} Analysis because all analysis types were skipped`);
                             }
 
-                            return file;
+                            // if the file was updated 
+                            const fileRefreshed = completed.some((x) => x[0]);
+                            if (fileRefreshed) {
+                                refreshedFileCounter++;
+                                return file;
+                            } else {
+                                throw new WorkflowError("skip", `Skipping File ${relativePath} Analysis because no analysis types were refreshed`);
+                            }
                         };
                         
                         // Name the function dynamically based on the file (to improve logging)
@@ -4214,7 +4238,8 @@ export class BoostExtension {
                                 if (!analysisTypes.includes(key)) {
                                     throw new WorkflowError("skip", `Skipping Summary Analysis ${key} by user request`);
                                 }
-                                return this.processQuickSummaryOfRingFileTaskGroup(value);
+                                const result = this.processQuickSummaryOfRingFileTaskGroup(value);
+                                return false; // we ignore the result - since this doesn't change the file processing itself
                             };
                             
                             // Name the function dynamically based on the key
@@ -4233,15 +4258,15 @@ export class BoostExtension {
                 });
 
                 const summaryResults = await summaryEngine.run();
-                const completed = summaryResults.filter((x) => !x || !(x instanceof Error));
-                const skipped = summaryResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "skip");
-                const aborted = summaryResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "abort");
-                const canceled = summaryResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "abort");
-                const errors = summaryResults.filter((x) => x && x instanceof Error && !(x instanceof WorkflowError));
-                boostLogging.info(`Workflow Analysis Summaries completed: ${completed.length}`);
-                boostLogging.info(`Workflow Analysis Summaries skipped: ${skipped.length}`);
-                boostLogging.info(`Workflow Analysis Summaries aborted: ${aborted.length}`);
-                boostLogging.info(`Workflow Analysis Summaries errors: ${errors.length}`);
+                const completed = summaryResults.filter((x) => x[0] !== undefined && !(x[0] instanceof Error));
+                const skipped = summaryResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "skip");
+                const aborted = summaryResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "abort");
+                const canceled = summaryResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "abort");
+                const errors = summaryResults.filter((x) => x[0] && x[0] instanceof Error && !(x[0] instanceof WorkflowError));
+                boostLogging.info(`Workflow Analysis Summaries completed: ${totalElements(completed)}`);
+                boostLogging.info(`Workflow Analysis Summaries skipped: ${totalElements(skipped)}`);
+                boostLogging.info(`Workflow Analysis Summaries aborted: ${totalElements(aborted)}`);
+                boostLogging.info(`Workflow Analysis Summaries errors: ${totalElements(errors)}`);
 
                 if (errors.length > 0) {
                     throw errors[0];
@@ -4255,6 +4280,9 @@ export class BoostExtension {
                 if (completed.length === 0 && skipped.length > 0) {
                     throw new WorkflowError("skip", `Skipping Workflow Analysis Summaries because all analysis types were skipped`);
                 }
+
+                // return true if any of the results did work, else false
+                return completed.some((x) => x[0]);
             },
         ];
         const afterRun = [
@@ -4283,7 +4311,7 @@ export class BoostExtension {
 
         // if we're doing a targeted limit, then process 1 sample then small batch at a time
         // if we have no limit, then double ring size each iteration
-        const pattern = (fileLimit === 0)?
+        const pattern = (requestedFileCount === 0)?
             [1, 2, 4, 8, 16]    // infinite limit, doubling in size each ring
             :[1, 4];            // limited (sample), 1 sample then 4 at a time
 
@@ -4298,8 +4326,8 @@ export class BoostExtension {
         });
 
         try {
-            const allResults = await engine.run();
-            const completed = allResults.filter((x) => x && !(x instanceof Error));
+            const allResults = (await engine.run()).flat();
+            const completed = allResults.filter((x) => x !== undefined && !(x instanceof Error));
             const skipped = allResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "skip");
             const aborted = allResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "abort");
             const canceled = allResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "abort");
@@ -4310,15 +4338,25 @@ export class BoostExtension {
 
             // we focus on errors first since those are likely the fatal cause of analysis ending
             if (errors.length > 0) {
-                throw errors[0];
+                throw errors;
             }
             if (aborted.length > 0) {
-                throw aborted[0];
+                throw aborted;
             }
             if (canceled.length > 0) {
-                throw canceled[0];
+                throw canceled
             }
 
+            // print the list of files we actually updated
+            boostLogging.info(`Overall Workflow Analysis Files Updated:`);
+            if (completed.length > 0) {
+                completed.forEach((x) => {
+                    boostLogging.info(`\t${vscode.workspace.asRelativePath(x)}`);
+                });
+            } else {
+                boostLogging.info(`\tNone`);
+            }
+            // return list of files updated
             return completed;
         } finally {
             this.getBoostProjectData()!.finishBatchJob();
@@ -4329,7 +4367,7 @@ export class BoostExtension {
     private async processDepthOnRingFileTask(
         fileUri: vscode.Uri,
         value: string[],
-        workflowName: string) {
+        workflowName: string): Promise<boolean> {
         // log the relative path for simplicity for user
         const rootPath = vscode.workspace.workspaceFolders?.[0].uri.fsPath as string;
         const relativePath = path.relative(rootPath, fileUri.fsPath);
@@ -4342,7 +4380,7 @@ export class BoostExtension {
                     const dynamicFunc = async () => {
                         if (BoostConfiguration.simulateServiceCalls) {
                             boostLogging.debug(`Simulate:executeCommand: processCurrentFolder(${fileUri}, ${analysisKernelName})`);
-                            return;
+                            return true; // simulate work happened
                         }
                         this.checkAccountEnabledBeforeContinuingAnalysis();
                         const refreshed = await vscode.commands.executeCommand(
@@ -4358,6 +4396,8 @@ export class BoostExtension {
                         if (!refreshed) {
                             throw new WorkflowError("skip", `Analysis for ${relativePath} was skipped - all analyzable content was already up to date`);
                         }
+                        // return if we did actual work (or think we did work)
+                        return refreshed as boolean;
                     };
                     
                     // Name the function dynamically
@@ -4375,15 +4415,15 @@ export class BoostExtension {
         });
 
         const analysisTypeResults = await fileAnalysisEngine.run();
-        const completed = analysisTypeResults.filter((x) => !x || !(x instanceof Error));
-        const skipped = analysisTypeResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "skip");
-        const aborted = analysisTypeResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "abort");
-        const canceled = analysisTypeResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "cancel");
-        const errors = analysisTypeResults.filter((x) => x && x instanceof Error && !(x instanceof WorkflowError));
-        boostLogging.info(`${relativePath} Analysis Kernels completed: ${completed.length}`);
-        boostLogging.info(`${relativePath} Analysis Kernels skipped: ${skipped.length}`);
-        boostLogging.info(`${relativePath} Analysis Kernels aborted: ${aborted.length}`);
-        boostLogging.info(`${relativePath} Analysis Kernels errored: ${errors.length}`);
+        const completed = analysisTypeResults.filter((x) => x[0] !== undefined && !(x[0] instanceof Error));
+        const skipped = analysisTypeResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "skip");
+        const aborted = analysisTypeResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "abort");
+        const canceled = analysisTypeResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "cancel");
+        const errors = analysisTypeResults.filter((x) => x[0] && x[0] instanceof Error && !(x[0] instanceof WorkflowError));
+        boostLogging.info(`${relativePath} Analysis Kernels completed: ${totalElements(completed)}`);
+        boostLogging.info(`${relativePath} Analysis Kernels skipped: ${totalElements(skipped)}`);
+        boostLogging.info(`${relativePath} Analysis Kernels aborted: ${totalElements(aborted)}`);
+        boostLogging.info(`${relativePath} Analysis Kernels errored: ${totalElements(errors)}`);
 
         if (errors.length > 0) {
             throw errors[0];
@@ -4397,6 +4437,11 @@ export class BoostExtension {
         if (completed.length === 0 && skipped.length > 0) {
             throw new WorkflowError("skip", `Skipping Analysis Kernels because all analysis types were skipped`);
         }
+
+        // we'll assume completed is an array of boolean values (since we filtered out errors)
+        //      but we need to return a single true (if any of the completed items are true and did work)
+        //      or false if all completed items are false
+        return completed.some((x) => x[0]);
     }
 
     private async processQuickSummaryOfRingFileTaskGroup(value: string[]) {

@@ -131,8 +131,10 @@ function setupListeners() {
 
     const analyzeAllMode = document.getElementById("analyze-all-mode") as HTMLInputElement;
     const top5Mode = document.getElementById("top5-mode") as HTMLInputElement;
+    const processNext1 = document.getElementById("process-next-1") as HTMLInputElement;
+    const processNext5 = document.getElementById("process-next-5") as HTMLInputElement;
 
-    const analysisModeButtons : HTMLElement[] = [analyzeAllMode, top5Mode];
+    const analysisModeButtons : HTMLElement[] = [analyzeAllMode, top5Mode, processNext1, processNext5];
     analysisModeButtons.forEach((button) => {
         // Attach event listeners to both radio buttons to detect changes
         button.addEventListener("change", (event) => {
@@ -224,7 +226,13 @@ function getFileLimit(): number {
     //get the limit from the UI
     let fileLimit = 0;
     const top5Mode = document.getElementById("top5-mode") as HTMLInputElement;
+    const processNext1 = document.getElementById("process-next-1") as HTMLInputElement;
+    const processNext5 = document.getElementById("process-next-5") as HTMLInputElement;
     if (top5Mode.checked) {
+        fileLimit = 5;
+    } else if (processNext1.checked) {
+        fileLimit = 1;
+    } else if (processNext5.checked) {
         fileLimit = 5;
     }
     return fileLimit;

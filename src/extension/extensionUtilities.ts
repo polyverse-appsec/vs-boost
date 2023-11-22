@@ -22,3 +22,8 @@ export function generateCellOutputWithHeader(
 ): string {
     return `\n\n---\n\n### Boost ${analysisType}\n\nLast Updated: ${getCurrentDateTime()}\n\n${analysisResults}`;
 }
+
+// Function to calculate the total sum of elements in arrays of arrays
+export function totalElements(arr : any[]) {
+    return arr.reduce((acc, curr : []) => acc + curr.reduce((subAcc, subCurr) => subAcc + subCurr, 0), 0);
+}

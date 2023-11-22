@@ -81,7 +81,9 @@
                     <vscode-radio-group orientation="vertical" id="analysis-mode">
                         <label slot="label">Analysis Mode</label>
                         <vscode-radio id="analyze-all-mode" checked="<%= boostprojectdata.uiState.activityBarState.summaryViewState.analysisMode === "analyze-all-mode" %> name="analysis-mode-buttons">Analyze all files</vscode-radio>
-                        <vscode-radio id="top5-mode" checked="<%= boostprojectdata.uiState.activityBarState.summaryViewState.analysisMode === "top5-mode" %> name="analysis-mode-buttons">Let Sara pick and analyze the top 5 files</vscode-radio>
+                        <vscode-radio id="top5-mode" checked="<%= boostprojectdata.uiState.activityBarState.summaryViewState.analysisMode === "top5-mode" %> name="analysis-mode-buttons">Ask Sara to refresh the existing top 5 files</vscode-radio>
+                        <vscode-radio id="process-next-1" checked="<%= boostprojectdata.uiState.activityBarState.summaryViewState.analysisMode === "process-next-1" %> name="analysis-mode-buttons">Ask Sara to choose a new file to analyze</vscode-radio>
+                        <vscode-radio id="process-next-5" checked="<%= boostprojectdata.uiState.activityBarState.summaryViewState.analysisMode === "process-next-5" %> name="analysis-mode-buttons">Ask Sara to pick 5 new files to analyze</vscode-radio>
                     </vscode-radio-group>
                     <div id="progress-text" align="left">
                     </div>

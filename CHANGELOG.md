@@ -6,7 +6,7 @@ Polyverse Boost Automatic Application Modernization
 ## Version 1.8.1: November 21st, 2023
 
 ### New Features
-- N/A
+- Sara can process 1 or 5 new files at a time by user request - via the Activity Bar
 
 ### Enhancements
 - Default Project Analysis File Limit set to 100 files - to avoid accidentally analyzing temporary files, log files, 3rd party libraries, etc.. Can be overriden by editing Polyverse Boost Project Settings. Or set to 0 for no limit.

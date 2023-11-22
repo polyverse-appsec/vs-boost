@@ -261,7 +261,8 @@ export class WorkflowEngine {
             try {
                 this.logger?.info(`${getFormattedDate()}:Workflow(${this.id}):${taskGroupId}:afterEachTaskGroup:starting`);
     
-                await this.executePromisesWithInputs(
+                // collect the after task results - but discard them since it won't affect the actual result
+                const afterTaskResults = await this.executePromisesWithInputs(
                     this.afterEachTaskGroup,
                     groupResults
                 );

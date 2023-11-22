@@ -244,7 +244,7 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
                 NOTEBOOK_TYPE + "." + BoostCommands.processAllFilesInRings,
                 {
                     analysisTypes: analysisTypes,
-                    fileLimit: fileLimit,
+                    // fileLimit: fileLimit,  // for now, we're going to let the project data config drive this
                     showUI: true,
                 });
         } catch (e) {
