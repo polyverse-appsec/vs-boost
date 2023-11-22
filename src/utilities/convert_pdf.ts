@@ -7,6 +7,7 @@ import * as vscode from 'vscode';
 import { BoostNotebook } from '../data/jupyter_notebook';
 import { BoostFileType, OutputType, getBoostFile } from "../extension/extension";
 import { convertNotebookToHTML } from './convert_html';
+import { boostLogging } from './boostLogging';
 
 
 export async function generatePDFforNotebook(boostNotebookPath : string, baseFolderPath : string, context: vscode.ExtensionContext) : Promise<string> {
@@ -51,6 +52,7 @@ async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : 
                     context);
 
                 // convert the html file to pdf using puppeteer
+                boostLogging.debug(`Puppeteer launch from ${puppeteer.executablePath()}`);
                 const browser = await puppeteer.launch({executablePath: puppeteer.executablePath()});
                 try {
                     const page = await browser.newPage();
@@ -66,6 +68,7 @@ async function generatePdfFromJson(boostNotebook: BoostNotebook, notebookPath : 
                 
                     await page.goto(tempHtmlUri.toString(), { waitUntil: 'networkidle0' });
 
+                    boostLogging.debug(`Puppeteer writing PDF to ${outputPath}`);
                     await page.pdf({
                         path: outputPath,
                         format: 'letter',
