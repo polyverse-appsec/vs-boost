@@ -4088,7 +4088,7 @@ export class BoostExtension {
         const beforeRun = [
             () => async () => {
                 // refresh ignore targets - to ensure we don't analyze files that should be ignored
-                createDefaultBoostIgnoreFile();
+                await createDefaultBoostIgnoreFile();
                 
                 if (BoostConfiguration.simulateServiceCalls) {
                     boostLogging.debug(`Simulate:executeCommand: processProject(${getKernelName(quickBlueprintKernelName)})`);
