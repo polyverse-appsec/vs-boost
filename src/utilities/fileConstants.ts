@@ -7,13 +7,13 @@ export const boostIncludeFilename = ".boostInclude";
 
 export const defaultBoostIgnorePaths = [
     '.vscode',
-    'node_modules',
+    'node_modules/',
 
     gitIgnoreFilename,
     boostIgnoreFilename,
     boostIncludeFilename,
 
-    'chat/**', // exclude all chat files by default
+    'chat/', // exclude all chat files by default
 ];
 
 export const boostFilterFiles = [

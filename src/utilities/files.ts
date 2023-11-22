@@ -242,34 +242,54 @@ function updateFilterFileForTarget(
 
     let patterns = _extractFilterPatternsFromFile(filterFilePath);
 
-    let targetRelativePath = targetFilepath;
-    if (absolutePath) {
+    // if the target filter is a wildcard, then skip actual file existence checks, and just add it directly
+    //      to default ignore list
+    let newPattern = targetFilepath;
+    if (!targetFilepath.includes("*")) {
+        let targetRelativePath = targetFilepath;
         const workspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri;
-        if (!workspaceFolder) {
-            if (warnIfDoesntExist) {
-                boostLogging.warn(`Workspace folder is not found. Cannot update ${filterFilename}.`, showUI);
+        if (absolutePath) {
+            if (!workspaceFolder) {
+                if (warnIfDoesntExist) {
+                    boostLogging.warn(`Workspace folder is not found. Cannot update ${filterFilename}.`, showUI);
+                }
+                return;
             }
+            targetRelativePath = vscode.workspace.asRelativePath(targetFilepath, false);
+        } else {
+            targetFilepath = vscode.Uri.joinPath(workspaceFolder!, targetFilepath).fsPath;
+        }
+
+        if (!fs.existsSync(targetFilepath) && warnIfDoesntExist) {
+            boostLogging.warn(`File ${targetFilepath} does not exist.`, showUI);
             return;
         }
-        targetRelativePath = vscode.workspace.asRelativePath(targetFilepath, false);
-    }
 
-    if (!fs.existsSync(targetFilepath) && warnIfDoesntExist) {
-        boostLogging.warn(`File ${targetFilepath} does not exist.`, showUI);
-        return;
-    }
-
-    if (patterns.some(pattern => micromatch.isMatch(targetRelativePath, pattern))) {
-        boostLogging.warn(`${targetRelativePath} is already in ${filterFilePath}.`, showUI);
-        return;
-    }
-
-    const stats = fs.statSync(targetFilepath);
-    if (stats.isDirectory()) {
-        patterns.push(targetRelativePath + "/**");
+        newPattern = targetRelativePath;
+        if (fs.existsSync(targetFilepath)) {
+            const stats = fs.statSync(targetFilepath);
+            if (stats.isDirectory()) {
+                newPattern = targetRelativePath + "/**";
+            } else {
+                newPattern = targetRelativePath;
+            }
+        } else if (targetFilepath.endsWith("/")) {
+            newPattern = targetRelativePath + "**";
+        } else {
+            newPattern = targetRelativePath;
+        }
     } else {
-        patterns.push(targetRelativePath);
+        // directly add the existing wildcard pattern, regardless of current file existence
+        boostLogging.debug(`${filterFilename} updated with: ${newPattern}`);
     }
+
+    if (patterns.some(pattern => micromatch.isMatch(newPattern, pattern))) {
+        boostLogging.warn(`${newPattern} is already in ${filterFilePath}.`, showUI);
+        return;
+    }
+
+    // add the new pattern to the end of the list
+    patterns.push(newPattern);
 
     fs.writeFileSync(filterFilePath, patterns.join("\n"));
     boostLogging.info(`${targetFilepath} has been added to ${filterFilePath}.`, showUI);
@@ -457,6 +477,13 @@ async function buildProjectSourceCodeIgnorePattern(
     if (!allPatterns.find((pattern) => pattern === `**/${constants.boostIncludeFilename}`)) {
         categorizedPatterns.push(
             {category: "Boost Include File", patterns: [`**/${constants.boostIncludeFilename}`]});
+    }
+
+    for (let i = 0; i < constants.defaultIgnoredFolders.length; i++) {
+        if (!allPatterns.find((pattern) => pattern === constants.defaultIgnoredFolders[i])) {
+            categorizedPatterns.push(
+                {category: `Default Ignored Folder: ${constants.defaultIgnoredFolders[i]}`, patterns: [constants.defaultIgnoredFolders[i]]});
+        }
     }
 
     categorizedPatterns.push(

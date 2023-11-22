@@ -3,6 +3,18 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 1.8.1: November 21st, 2023
+
+### New Features
+- N/A
+
+### Enhancements
+- N/A
+
+### Bug Fixes
+- Fix issue where default .boostignore file is not created
+- Fix issue where node_modules folder is accidentally analyzed by default (should be ignored by default)
+
 ## Version 1.8.0: November 19th, 2023
 
 ### New Features
