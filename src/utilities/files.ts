@@ -24,6 +24,7 @@ import {
 
 import * as boostnb from "../data/jupyter_notebook";
 import { errorToString } from "./error";
+import { BoostConfiguration } from "../extension/boostConfiguration";
 
 export function fullPathFromSourceFile(sourceFile: string): vscode.Uri {
     let baseFolder: string;
@@ -71,6 +72,8 @@ interface GetAllProjectFilesOptions {
     useRelativePaths?: boolean;
     targetFolder?: vscode.Uri;
     debugFileCounts?: boolean;
+    enforceFileLimit?: boolean;
+    projectFileLimit?: number;
 }
 
 export async function getAllProjectFiles(
@@ -119,9 +122,21 @@ export async function getAllProjectFiles(
 
     const allIgnoredPatterns = ignorePatterns?new vscode.RelativePattern(targetFolder, ignorePatterns):undefined;
 
+    // if 0 limit in config or we're not enforcing hard limit, then no limit to search
+    // NOTE: even if we don't enforce hard limit on search, we still will never return more results than the limit
+    //       this is just to allow us to search for more files than the limit, but still return the limit
+    const projectFileCountHardLimit = (BoostConfiguration.projectFileCountLimit === 0)?
+        undefined:
+        // NOTE: We allow the caller to override the project limit (e.g. file cleanup)
+        options?.projectFileLimit?
+            (options!.projectFileLimit === 0)?undefined:options!.projectFileLimit:
+            BoostConfiguration.projectFileCountLimit;
+    const projectFileCountSoftLimit = !projectFileCountHardLimit?undefined:
+        options?.enforceFileLimit?projectFileCountHardLimit + 1:undefined;
+
     let files = boostOnlyPatterns.length?
-                await vscode.workspace.findFiles( boostOnlySearchPattern, allIgnoredPatterns):
-                await vscode.workspace.findFiles( searchAllFilesPattern, allIgnoredPatterns);
+                await vscode.workspace.findFiles( boostOnlySearchPattern, allIgnoredPatterns, projectFileCountSoftLimit):
+                await vscode.workspace.findFiles( searchAllFilesPattern, allIgnoredPatterns, projectFileCountSoftLimit);
     if (options?.debugFileCounts && boostOnlyPatterns.length) {
         const totalFiles = await vscode.workspace.findFiles( searchAllFilesPattern, allIgnoredPatterns);
         boostLogging.log(`Source files excluded by Boost Only: ${totalFiles.length - files.length}`);
@@ -161,7 +176,7 @@ export async function getAllProjectFiles(
         const includeIgnorePatterns = includeNegationPatterns.length > 0 ?
             new vscode.RelativePattern(targetFolder, `{${includeNegationPatterns.join(',')}}`) :
             undefined;
-        const includeFiles = await vscode.workspace.findFiles(includePatterns, includeIgnorePatterns);
+        const includeFiles = await vscode.workspace.findFiles(includePatterns, includeIgnorePatterns, projectFileCountSoftLimit);
         if (options?.debugFileCounts) {
             boostLogging.log(`Source files included by Boost Include: ${includeFiles.length}`);
             if (boostLogging.shouldLog("debug")) {
@@ -171,6 +186,17 @@ export async function getAllProjectFiles(
         paths.push(...includeFiles.map(f => options?.useRelativePaths ? vscode.workspace.asRelativePath(f) : f.fsPath));
     }
     const pathsSet : Set<string> = new Set<string>(paths);
+
+    if (projectFileCountHardLimit && files.length > projectFileCountHardLimit) {
+        if (options?.enforceFileLimit) {
+            const fileLimitError = `Project file count limit of ${projectFileCountHardLimit} exceeded. Analysis aborted. To resume analysis, change Boost Settings for 'projectFileCountLimit' to a higher limit, or update file search via .gitignore, .boostignore, .boostinclude, and/or .boostonly`;
+            boostLogging.error(fileLimitError, false);
+            throw new Error(fileLimitError);
+        } else {
+            boostLogging.warn(`Project file count limit of ${projectFileCountHardLimit} exceeded (search resulted in ${files.length} files). Only the first ${projectFileCountHardLimit} files will be processed, excluding ${files.length - projectFileCountHardLimit} files.`, false);
+            files = files.slice(0, projectFileCountHardLimit);
+        }
+    }
 
     files.forEach((file) => {
         const pathToAdd = options?.useRelativePaths ? vscode.workspace.asRelativePath(file) : file.fsPath;
@@ -553,7 +579,8 @@ export async function removeOldBoostFiles() {
     const searchPattern = `${boostFolderDefaultName}/**/*.{${cleanupPatterns.join(",")}}`;
 
     const projectName = path.basename(workspaceFolder.fsPath);
-    const allFiles = await getAllProjectFiles();
+    // we're not going to enforce the limit here since we may need to cleanup a large amount of stale files from incorrect settings
+    const allFiles = await getAllProjectFiles({enforceFileLimit: false, projectFileLimit: 0});
     allFiles.push(workspaceFolder.fsPath);
     const setOfAllFiles : Set<string> = new Set(allFiles);
 

@@ -9,7 +9,7 @@
     "bugs": {
         "email": "support@polyverse.com"
     },
-    "version": "1.8.0",
+    "version": "1.8.1",
     "engines": {
         "vscode": "^1.77.0"
     },
@@ -63,6 +63,11 @@
                         "type": "string",
                         "default": ".boost",
                         "description": "Default directory for Polyverse Boost notebook save files"
+                    },
+                    "polyverse-boost-notebook.projectFileCountLimit": {
+                        "type": "number",
+                        "default": 100,
+                        "description": "Default limit on number of files to analyze per project. Set to 0 for no limit. Project analysis will not start if # of files in the project exceeds this limit - to avoid accidental inclusion of unexpected temporary files, 3rd party library files, etc.."
                     },
                     "polyverse-boost-notebook.logLevel": {
                         "type": "string",

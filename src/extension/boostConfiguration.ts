@@ -114,6 +114,15 @@ export class BoostConfiguration {
             .update(Defaults.projectCleanupMethodName, value, ConfigurationTarget.Global);
     }
 
+    public static get projectFileCountLimit(): number {
+        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.projectFileCountLimitName) as number)??
+            Defaults.projectFileCountLimitDefaultValue;
+    }
+    public static set projectFileCountLimit(value: string) {
+        workspace.getConfiguration(NOTEBOOK_TYPE, null)
+            .update(Defaults.projectFileCountLimitName, value, ConfigurationTarget.Global);
+    }
+
     public static get logLevel(): string {
         return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.logLevelName) as string)??
             Defaults.logLevelValue;
@@ -240,6 +249,9 @@ class Defaults {
 
     public static readonly currentKernelCommandName : string = "advanced.currentKernelCommand";
     public static readonly currentKernelCommandValue : string = "";
+
+    public static readonly projectFileCountLimitName : string = "projectFileCountLimit";
+    public static readonly projectFileCountLimitDefaultValue : number = 100;
 
     public static readonly logLevelName : string = "logLevel";
     public static readonly logLevelValue : string = "info";

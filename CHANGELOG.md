@@ -9,11 +9,14 @@ Polyverse Boost Automatic Application Modernization
 - N/A
 
 ### Enhancements
-- N/A
+- Default Project Analysis File Limit set to 100 files - to avoid accidentally analyzing temporary files, log files, 3rd party libraries, etc.. Can be overriden by editing Polyverse Boost Project Settings. Or set to 0 for no limit.
+     NOTE: Project Analysis will not initiate for projects with more files than the limit.
 
 ### Bug Fixes
 - Fix issue where default .boostignore file is not created
 - Fix issue where node_modules folder is accidentally analyzed by default (should be ignored by default)
+- Fix issue where Analysis errors are not shown in UI in some cases
+- Fix issue with Activity Bar UI not refreshing after analysis completes with errors
 
 ## Version 1.8.0: November 19th, 2023
 
