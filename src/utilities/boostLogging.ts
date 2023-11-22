@@ -34,6 +34,8 @@ export function activateLogging(context: ExtensionContext) {
             transport
         ]
     });
+
+    boostLogging.log("Offline logs in: " + logDirectory);
 }
 
 export class BoostLogger extends Disposable {
