@@ -1,16 +1,25 @@
 .vscode/**
 .vscode-test/**
-vsc-extension-quickstart.md
-**/tsconfig.json
-**/.eslintrc.json
-.boost/**
-node_modules/**
-node_modules/@types/**
-**/*.ts
-**/*.map
 **/src/test/**
 **/scripts/**
+
+# don't include the git internal data
+.github/**
+
+# don't include boost analysis
+.boost/**
+
+# don't include pre-build source/input, interim build output, or log output
+**/*.ts
+**/*.map
 **/**.vsix
+logs/**
+node_modules/**
+node_modules/@types/**
+
+# Ignore all files in the root except the ones we want to publish
+**/tsconfig.json
+**/.eslintrc.json
 build_instructions.sh
 .eslintignore
 .prettierrc
@@ -20,5 +29,4 @@ esbuild.js
 internal_readme.md
 raw_instructions.md
 .boostignore
-src/test/**
-logs/**
+vsc-extension-quickstart.md
