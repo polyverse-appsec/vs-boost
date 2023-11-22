@@ -595,11 +595,22 @@ export class BoostExtension {
                 workspaceFolder.uri
             );
 
+            let needsFlush = false;
+            // refresh the boost configuration for this project
+            if (boostProjectData.settings.fileLimit !== BoostConfiguration.projectFileCountLimit) {
+                boostProjectData.settings.fileLimit = BoostConfiguration.projectFileCountLimit;
+                needsFlush = true;
+            }
+
             // Set project name in boost project data if not already set
             if (!boostProjectData.summary.projectName) {
                 boostProjectData.summary.projectName = path.basename(
                     workspaceFolder.uri.fsPath
                 );
+                needsFlush = true;
+            }
+
+            if (needsFlush) {
                 boostProjectData.flushToFS();
             }
         }
@@ -4344,7 +4355,7 @@ export class BoostExtension {
                 throw aborted;
             }
             if (canceled.length > 0) {
-                throw canceled
+                throw canceled;
             }
 
             // print the list of files we actually updated

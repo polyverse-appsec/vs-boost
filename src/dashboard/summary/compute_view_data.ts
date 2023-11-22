@@ -344,10 +344,19 @@ export function statusViewData(
     }
 
     let filesTotal = 0;
-    if( fileLimit === 0 ) {
+    // if no limit requested, then potentially process all files
+    if ( fileLimit === 0 ) {
         filesTotal = boostprojectdata.summary.filesToAnalyze;
     } else {
-        filesTotal = 5;
+        // never process more than the number of files we can process
+        filesTotal = (fileLimit > boostprojectdata.summary.filesToAnalyze) ? boostprojectdata.summary.filesToAnalyze : fileLimit;
+    }
+
+    const hardLimit = boostprojectdata.settings.fileLimit;
+    // we will never process more than the global file limit set by user (or default) unless its
+    //      explicitly set to unlimited
+    if (hardLimit !== 0 && hardLimit < filesTotal) {
+        filesTotal = hardLimit;
     }
 
     return {

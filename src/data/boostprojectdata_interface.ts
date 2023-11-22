@@ -37,6 +37,10 @@ export interface UIState {
     activityBarState: ActivityBarState;
 }
 
+export interface ProjectSettings {
+    fileLimit: number;
+}
+
 export interface AccountStatus {
     refreshed: boolean;
     enabled: boolean;
@@ -108,6 +112,7 @@ export interface IBoostProjectData {
     };
     jobStatus: JobStatus;
     account: AccountStatus;
+    settings: ProjectSettings;
     uiState: UIState;
 }
 
@@ -147,6 +152,9 @@ export const emptyProjectData: IBoostProjectData = {
         owner: "",
         created: "",
         creditCardLinked: false,
+    },
+    settings: {
+        fileLimit: 0
     },
     uiState: {
         analysisState: AnalysisState.quiescent,

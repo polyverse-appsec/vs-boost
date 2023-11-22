@@ -19,6 +19,7 @@ import {
     AccountStatus,
     UIState,
     AnalysisState,
+    ProjectSettings,
 } from "./boostprojectdata_interface";
 import { ControllerOutputType } from "../controllers/controllerOutputTypes";
 import { BoostConfiguration } from "../extension/boostConfiguration";
@@ -36,6 +37,7 @@ export class BoostProjectData implements IBoostProjectData {
     jobStatus: JobStatus;
     account: AccountStatus;
     uiState: UIState;
+    settings: ProjectSettings;
 
     constructor() {
         this.dataFormatVersion = BoostConfiguration.version;
@@ -46,6 +48,7 @@ export class BoostProjectData implements IBoostProjectData {
         this.jobStatus = { ...emptyProjectData.jobStatus };
         this.account = { ...emptyProjectData.account };
         this.uiState = { ...emptyProjectData.uiState };
+        this.settings = { ...emptyProjectData.settings };
     }
 
     create(jsonString: string): void {
@@ -171,6 +174,18 @@ export class BoostProjectData implements IBoostProjectData {
             this.deepMerge(
                 this.uiState.activityBarState,
                 emptyProjectData.uiState.activityBarState
+            );
+        }
+        // Initialize `this.settings` if it doesn't exist
+        if (!this.settings) {
+            // Deep clone to avoid pointing to the same object
+            this.settings = JSON.parse(
+                JSON.stringify(emptyProjectData.settings)
+            );
+        } else {
+            this.deepMerge(
+                this.settings,
+                emptyProjectData.settings
             );
         }
     }
