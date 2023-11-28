@@ -3977,7 +3977,11 @@ export class BoostExtension {
             return;
         }
         boostLogging.debug("Cancelling global analysis");
+
         this.activeWorkflowEngine.values()?.next()?.value.cancel();
+
+        this.getBoostProjectData()!.cancelBatchJob();
+        this.summary?.refresh(true);
     }
 
     async processAllFilesInRings(options?: ProcessRingsOptions) {
@@ -4434,7 +4438,7 @@ export class BoostExtension {
                             boostLogging.debug(`Simulate:executeCommand: processCurrentFolder(${fileUri}, ${analysisKernelName})`);
 
                             // wait before continuing to simulate delay in processing
-                            await (new Promise(resolve => setTimeout(resolve, 1000)));
+                            await (new Promise(resolve => setTimeout(resolve, 100)));
                             return true; // simulate work happened
                         }
                         this.checkAccountEnabledBeforeContinuingAnalysis();

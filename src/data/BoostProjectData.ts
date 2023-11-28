@@ -394,6 +394,11 @@ export class BoostProjectData implements IBoostProjectData {
         this.flushToFS();
     }
 
+    cancelBatchJob() {
+        this.setAnalysisState(AnalysisState.cancelling);       
+        this.flushToFS(); 
+    }
+
     addQueue(jobs: string[], relFiles: string[]) {
         this.setAnalysisState(AnalysisState.analyzing);
         relFiles.forEach((file: string) => {

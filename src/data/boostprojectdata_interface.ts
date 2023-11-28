@@ -13,7 +13,8 @@ export const extensionFailedToActivate =
 export enum AnalysisState {
     quiescent = "quiescent",
     preparing = "preparing",
-    analyzing = "analyzing"
+    analyzing = "analyzing",
+    cancelling = "cancelling",
 }
 
 export interface SummaryViewState {

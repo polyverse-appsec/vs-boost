@@ -335,16 +335,31 @@ function refreshUI(boostprojectdata: IBoostProjectData) {
 
 function refreshSpinner(analysisState: AnalysisState) {
     const spinner = document.getElementById("job-progress");
-    const runbutton = document.getElementById("update-summary");
-    // set our spinner
+    const runbutton = document.getElementById("update-summary") as HTMLButtonElement;
 
-    if (analysisState !== AnalysisState.quiescent) {
-        spinner?.removeAttribute("hidden");
-        runbutton?.setAttribute("hidden", "");
-    } else {
-        //for finish
-        spinner?.setAttribute("hidden", "");
-        runbutton?.removeAttribute("hidden");
+    switch (analysisState) {
+        case AnalysisState.preparing:
+        case AnalysisState.analyzing:
+            spinner!.removeAttribute("hidden");
+            runbutton!.innerText = "Cancel Analysis";
+            runbutton!.style.backgroundColor = "green";
+            runbutton!.disabled = false;
+            // runbutton?.setAttribute("hidden", "");
+            break;
+        case AnalysisState.cancelling:
+            spinner!.setAttribute("hidden", "");
+            runbutton!.innerText = "Canceling Analysis";
+            runbutton!.style.backgroundColor = "yellow";
+            runbutton!.disabled = true;
+            break;
+        case AnalysisState.quiescent:
+            //for finish
+            spinner!.setAttribute("hidden", "");
+            runbutton!.innerText = "Run Selected Analysis";
+            runbutton!.style.backgroundColor = "";
+            // runbutton!.removeAttribute("hidden");
+            runbutton!.disabled = false;
+            break;
     }
 }
 

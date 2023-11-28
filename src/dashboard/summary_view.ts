@@ -27,6 +27,8 @@ import { ControllerOutputType } from "../controllers/controllerOutputTypes";
 import { getOrCreateBlueprintUri, getOrCreateGuideline } from "../extension/extension";
 import * as boostnb from "../data/jupyter_notebook";
 import { BaseWebviewViewProvider } from "./BaseWebviewViewProvider";
+import { AnalysisState } from "../data/boostprojectdata_interface";
+import { errorToString } from "../utilities/error";
 
 export const summaryViewType = "polyverse-boost-summary-view";
 
@@ -72,7 +74,15 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
                     break;
                 case "analyze_all":
                     {
-                        await this.analyzeAll(data.analysisTypes, data.fileLimit);
+                        switch (this._boostExtension.getBoostProjectData()!.uiState.analysisState) {
+                            case AnalysisState.preparing:
+                            case AnalysisState.analyzing:
+                                await this.cancelAll();
+                                break;
+                            case AnalysisState.quiescent:
+                                await this.analyzeAll(data.analysisTypes, data.fileLimit);
+                                break;
+                        }
                     }
                     break;
                 case "analysis_type_changed":
@@ -235,6 +245,22 @@ export class BoostSummaryViewProvider extends BaseWebviewViewProvider {
                 `Could not open file ${docAbsolutePath} due to ${e}`,
                 true
             );
+        }
+    }
+
+    private cancelAll() {
+        try {
+            vscode.commands.executeCommand(
+                NOTEBOOK_TYPE + "." + BoostCommands.cancelGlobalAnalysis
+            );
+        } catch (e) {
+            boostLogging.error(`Cancel Analysis failed: ${errorToString(e)}`, true);
+        } finally {
+            const payload = {
+                command: "refreshUI",
+                boostprojectdata: this._boostExtension.getBoostProjectData()!,
+            };
+            this._view?.webview.postMessage(payload);
         }
     }
 
