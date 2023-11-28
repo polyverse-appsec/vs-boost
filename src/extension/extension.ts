@@ -43,6 +43,7 @@ export enum BoostCommands {
     processProject = "processProject",
 
     processAllFilesInRings = "processAllFilesInRings",
+    cancelGlobalAnalysis = "cancelGlobalAnalysis",
 
     buildCurrentFileOutput = "buildCurrentFileOutput",
     buildCurrentFileSummaryOutput = "buildCurrentFileSummaryOutput",

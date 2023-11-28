@@ -9,7 +9,7 @@
     "bugs": {
         "email": "support@polyverse.com"
     },
-    "version": "1.8.1",
+    "version": "1.9.0",
     "engines": {
         "vscode": "^1.77.0"
     },
@@ -426,6 +426,11 @@
             {
                 "command": "polyverse-boost-notebook.processAllFilesInRings",
                 "title": "Boost: Process All Files in Rings",
+                "icon": "$(folder)"
+            },
+            {
+                "command": "polyverse-boost-notebook.cancelGlobalAnalysis",
+                "title": "Boost: Cancel Global Background Analysis",
                 "icon": "$(folder)"
             }
         ],

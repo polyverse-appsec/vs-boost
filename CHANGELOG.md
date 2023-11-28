@@ -3,6 +3,17 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 1.9.0: November 29th, 2023
+
+### New Features
+- Global Analysis workflows (launched from Activity Bar or Background Task) can be canceled
+
+### Enhancements
+- N/A
+
+### Bug Fixes
+- Fix issue with Command "Process All Rings" being launched in the background
+
 ## Version 1.8.1: November 22st, 2023
 
 ### New Features

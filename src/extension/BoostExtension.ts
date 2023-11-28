@@ -385,7 +385,7 @@ export class BoostExtension {
                     // in case we fire during extension startup constructor
                     return;
                 }
-                await this.configurationChanged();
+                await this.slowConfigurationChanged;
             }
         );
         context.subscriptions.push(disposable);
@@ -405,6 +405,7 @@ export class BoostExtension {
     slowConfigurationChanged = _.debounce(this.refreshBoostProjectsData, 5000, { leading: true });
 
     async configurationChanged() {
+        boostLogging.debug("Configuration changed");
         // debounce configuration changes so we don't refresh too often
         this.slowConfigurationChanged();
     }
@@ -477,6 +478,7 @@ export class BoostExtension {
         }
     }
     async refreshBoostProjectsData(): Promise<void> {
+        boostLogging.debug("refreshBoostProjectsData");
         return new Promise<void>(async (resolve, reject) => {
             try {
                 // future improvement - use changeEvent.added and changeEvent.removed to add or remove folders rather than resyncing everything
@@ -3832,10 +3834,7 @@ export class BoostExtension {
         context.subscriptions.push(vscode.commands.registerCommand(
             boostnb.NOTEBOOK_TYPE + "." + BoostCommands.processAllFilesInRings,
             async (
-                options: { analysisTypes?: string[], fileLimit?: number, showUI?: boolean }) => {
-
-                // Extracting individual options
-                const { analysisTypes, fileLimit, showUI } = options;
+                options: { analysisTypes?: string[], fileLimit?: number, showUI?: boolean } | undefined) => {
 
                 this.getBoostProjectData()!.startBatchJob();
                 this.summary?.refresh(true);
@@ -3843,10 +3842,24 @@ export class BoostExtension {
                     
                     await this.waitForActivationToFinish();
 
-                    return await this.processAllFilesInRings(
-                        {analysisTypes : analysisTypes, fileLimit : fileLimit, showUI : showUI });
+                    return await this.processAllFilesInRings(options);
                 } catch (error) {
-                    boostLogging.error(errorToString(error), showUI);
+                    boostLogging.error(errorToString(error), options?.showUI);
+                } finally {
+                    // make sure we always restore the analysis state to quiescent after finishing analysis
+                    this.getBoostProjectData()!.finishBatchJob();
+                    this.summary?.refresh(true);
+                }
+            }
+        ));
+
+        context.subscriptions.push(vscode.commands.registerCommand(
+            boostnb.NOTEBOOK_TYPE + "." + BoostCommands.cancelGlobalAnalysis,
+            async (options: { showUI?: boolean } | undefined) => {
+                try {
+                    await this.cancelGlobalAnalysis({ showUI: options?.showUI } as ProcessRingsOptions);
+                } catch (error) {
+                    boostLogging.error(errorToString(error), options?.showUI);
                 } finally {
                     // make sure we always restore the analysis state to quiescent after finishing analysis
                     this.getBoostProjectData()!.finishBatchJob();
@@ -3953,8 +3966,17 @@ export class BoostExtension {
         }
         const processingEnabled = projectData.account.enabled;
         if (!processingEnabled) {
-            throw new WorkflowError("abort", `Account is ${projectData.account.status} and cannot perform analysis. Please update your account in the Account Dashboard.`);
+            throw new WorkflowError("abort", `Account is ${projectData.account.status?projectData.account.status:"unknown status"} and cannot perform analysis. Please update your account in the Account Dashboard.`);
         }
+    }
+
+    cancelGlobalAnalysis(options?: ProcessRingsOptions) {
+        if (this.activeWorkflowEngine.size === 0) {
+            const warning = "Unable to cancel global analysis; no analysis is currently running";
+            boostLogging.warn(warning, options?.showUI);
+            return;
+        }
+        this.activeWorkflowEngine.values()?.next()?.value.cancel();
     }
 
     async processAllFilesInRings(options?: ProcessRingsOptions) {
@@ -4326,7 +4348,14 @@ export class BoostExtension {
             [1, 2, 4, 8, 16]    // infinite limit, doubling in size each ring
             :[1, 4];            // limited (sample), 1 sample then 4 at a time
 
-        const engine = new WorkflowEngine(tasks, {
+        if (this.activeWorkflowEngine.size > 0) {
+            const error = `Active Global Analysis Workflow detected - ${this.activeWorkflowEngine.keys().next().value}. Please cancel current Analysis Workflow or wait for it to finish before starting a new global analysis`;
+            boostLogging.error(error, options?.showUI);
+            throw new Error(error);
+        }
+
+        const globalWorkflowName = `${workflowName} ${options?.showUI?`(Activity Bar launched)`:`(Background Silent)`} started  at ${new Date().toLocaleTimeString()}`;
+        const globalWorkflowEngine = new WorkflowEngine(tasks, {
             beforeRun: beforeRun,
             afterEachTask: afterEachTask,
             afterEachTaskGroup: afterEachTaskGroup,
@@ -4335,9 +4364,10 @@ export class BoostExtension {
             logger: boostLogging,
             name: workflowName,
         });
+        this.activeWorkflowEngine.set(globalWorkflowName, globalWorkflowEngine);
 
         try {
-            const allResults = (await engine.run()).flat();
+            const allResults = (await globalWorkflowEngine.run()).flat();
             const completed = allResults.filter((x) => x !== undefined && !(x instanceof Error));
             const skipped = allResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "skip");
             const aborted = allResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "abort");
@@ -4370,10 +4400,15 @@ export class BoostExtension {
             // return list of files updated
             return completed;
         } finally {
+            // clear active global workflow
+            this.activeWorkflowEngine.clear();
+
             this.getBoostProjectData()!.finishBatchJob();
             this.summary?.refresh(true);
         }
     }
+
+    readonly activeWorkflowEngine : Map<string, WorkflowEngine> = new Map();
 
     private async processDepthOnRingFileTask(
         fileUri: vscode.Uri,
@@ -4391,6 +4426,9 @@ export class BoostExtension {
                     const dynamicFunc = async () => {
                         if (BoostConfiguration.simulateServiceCalls) {
                             boostLogging.debug(`Simulate:executeCommand: processCurrentFolder(${fileUri}, ${analysisKernelName})`);
+
+                            // wait before continuing to simulate delay in processing
+                            await (new Promise(resolve => setTimeout(resolve, 1000)));
                             return true; // simulate work happened
                         }
                         this.checkAccountEnabledBeforeContinuingAnalysis();
