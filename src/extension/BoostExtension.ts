@@ -3976,6 +3976,7 @@ export class BoostExtension {
             boostLogging.warn(warning, options?.showUI);
             return;
         }
+        boostLogging.debug("Cancelling global analysis");
         this.activeWorkflowEngine.values()?.next()?.value.cancel();
     }
 
@@ -4103,7 +4104,7 @@ export class BoostExtension {
                             const completed = fileAnalysisResults.filter((x) => x[0] !== undefined && !(x[0] instanceof Error));
                             const skipped = fileAnalysisResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "skip");
                             const aborted = fileAnalysisResults.filter((x) => x && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "abort");
-                            const canceled = fileAnalysisResults.filter((x) => x && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "abort");
+                            const canceled = fileAnalysisResults.filter((x) => x && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "cancel");
                             const errors = fileAnalysisResults.filter((x) => x && x[0] instanceof Error && !(x[0] instanceof WorkflowError));
 
                             boostLogging.info(`${relativePath} Analysis completed: ${totalElements(completed)}`);
@@ -4294,7 +4295,7 @@ export class BoostExtension {
                 const completed = summaryResults.filter((x) => x[0] !== undefined && !(x[0] instanceof Error));
                 const skipped = summaryResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "skip");
                 const aborted = summaryResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "abort");
-                const canceled = summaryResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "abort");
+                const canceled = summaryResults.filter((x) => x[0] && x[0] instanceof WorkflowError && (x[0] as WorkflowError).type === "cancel");
                 const errors = summaryResults.filter((x) => x[0] && x[0] instanceof Error && !(x[0] instanceof WorkflowError));
                 boostLogging.info(`Workflow Analysis Summaries completed: ${totalElements(completed)}`);
                 boostLogging.info(`Workflow Analysis Summaries skipped: ${totalElements(skipped)}`);
@@ -4371,31 +4372,33 @@ export class BoostExtension {
             const completed = allResults.filter((x) => x !== undefined && !(x instanceof Error));
             const skipped = allResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "skip");
             const aborted = allResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "abort");
-            const canceled = allResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "abort");
+            const canceled = allResults.filter((x) => x && x instanceof WorkflowError && (x as WorkflowError).type === "cancel");
             const errors = allResults.filter((x) => x && x instanceof Error && !(x instanceof WorkflowError));
 
             boostLogging.info(`Overall Workflow File Analysis completed: ${completed.length}`);
             boostLogging.info(`Overall Workflow File Analysis skipped: ${skipped.length}`);
 
             // we focus on errors first since those are likely the fatal cause of analysis ending
-            if (errors.length > 0) {
-                throw errors;
-            }
-            if (aborted.length > 0) {
-                throw aborted;
-            }
-            if (canceled.length > 0) {
-                throw canceled;
-            }
-
-            // print the list of files we actually updated
-            boostLogging.info(`Overall Workflow Analysis Files Updated:`);
-            if (completed.length > 0) {
-                completed.forEach((x) => {
-                    boostLogging.info(`\t${vscode.workspace.asRelativePath(x)}`);
-                });
-            } else {
-                boostLogging.info(`\tNone`);
+            try {
+                if (errors.length > 0) {
+                    throw errors;
+                }
+                if (aborted.length > 0) {
+                    throw aborted;
+                }
+                if (canceled.length > 0) {
+                    throw canceled;
+                }
+            } finally {
+                // print the list of files we actually updated
+                boostLogging.info(`Overall Workflow Analysis Files Updated:`);
+                if (completed.length > 0) {
+                    completed.forEach((x) => {
+                        boostLogging.info(`\t${vscode.workspace.asRelativePath(x)}`);
+                    });
+                } else {
+                    boostLogging.info(`\tNone`);
+                }
             }
             // return list of files updated
             return completed;
@@ -4424,6 +4427,9 @@ export class BoostExtension {
             analysisTypeKernelTasks.push(
                 () => {
                     const dynamicFunc = async () => {
+                        if (this.activeWorkflowEngine.values().next().value?.canceled) {
+                            throw new WorkflowError("cancel", `Analysis for ${relativePath} was canceled`);
+                        }
                         if (BoostConfiguration.simulateServiceCalls) {
                             boostLogging.debug(`Simulate:executeCommand: processCurrentFolder(${fileUri}, ${analysisKernelName})`);
 
