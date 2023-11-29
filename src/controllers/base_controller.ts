@@ -178,8 +178,8 @@ export class KernelControllerBase extends BoostServiceHelper {
         if (!cell) {
             return forceAnalysisRefresh;
         }
-        
-        return !this.isCellOutputMissingOrError(notebook, cell);
+
+        return this.isCellOutputMissingOrError(notebook, cell);
     }
 
     async executeAll(
