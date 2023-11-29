@@ -23,7 +23,15 @@ export function generateCellOutputWithHeader(
     return `\n\n---\n\n### Boost ${analysisType}\n\nLast Updated: ${getCurrentDateTime()}\n\n${analysisResults}`;
 }
 
-// Function to calculate the total sum of elements in arrays of arrays
-export function totalElements(arr : any[]) {
-    return arr.reduce((acc, curr : []) => acc + curr.reduce((subAcc, subCurr) => subAcc + subCurr, 0), 0);
+// Function to calculate the total count of objects
+export function totalElements(arr: any[]) {
+    return arr.reduce((acc, curr) => {
+        if (Array.isArray(curr)) {
+            // If it's an array, sum the elements in it
+            return acc + curr.reduce((subAcc, subCurr) => subAcc + (Array.isArray(subCurr)?0:1), 0);
+        } else {
+            // If it's an object, count it
+            return acc + 1;
+        }
+    }, 0);
 }
