@@ -4114,6 +4114,7 @@ export class BoostExtension {
                             boostLogging.info(`${relativePath} Analysis completed: ${totalElements(completed)}`);
                             boostLogging.info(`${relativePath} Analysis skipped: ${totalElements(skipped)}`);
                             boostLogging.info(`${relativePath} Analysis aborted: ${totalElements(aborted)}`);
+                            boostLogging.info(`${relativePath} Analysis canceled: ${totalElements(canceled)}`);
                             boostLogging.info(`${relativePath} Analysis errors: ${totalElements(errors)}`);
 
                             if (errors.length > 0) {
@@ -4304,6 +4305,7 @@ export class BoostExtension {
                 boostLogging.info(`Workflow Analysis Summaries completed: ${totalElements(completed)}`);
                 boostLogging.info(`Workflow Analysis Summaries skipped: ${totalElements(skipped)}`);
                 boostLogging.info(`Workflow Analysis Summaries aborted: ${totalElements(aborted)}`);
+                boostLogging.info(`Workflow Analysis Summaries canceled: ${totalElements(canceled)}`);
                 boostLogging.info(`Workflow Analysis Summaries errors: ${totalElements(errors)}`);
 
                 if (errors.length > 0) {
@@ -4482,6 +4484,7 @@ export class BoostExtension {
         boostLogging.info(`${relativePath} Analysis Kernels completed: ${totalElements(completed)}`);
         boostLogging.info(`${relativePath} Analysis Kernels skipped: ${totalElements(skipped)}`);
         boostLogging.info(`${relativePath} Analysis Kernels aborted: ${totalElements(aborted)}`);
+        boostLogging.info(`${relativePath} Analysis Kernels canceled: ${totalElements(canceled)}`);
         boostLogging.info(`${relativePath} Analysis Kernels errored: ${totalElements(errors)}`);
 
         if (errors.length > 0) {
