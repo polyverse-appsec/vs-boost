@@ -408,7 +408,23 @@ function refreshProgressText(statusData: StatusViewData) {
 }
 
 function refreshPrediction(statusData: StatusViewData) {
-    if (!statusData.accountRefreshed) {
+    // if we don't have refreshed account info (and no account status), don't do anything
+    //      unless we don't have existing text... then go generate it (and don't exit early)
+    if (!statusData.accountRefreshed && !statusData.accountStatus && currentProgressText) {
+        return;
+    }
+
+    if (!statusData.accountStatus) {
+        const unknownPrediction = `Sara needs to refresh your account information before she assess analysis cost and time. Please update your account info.`;
+        if (currentProgressText === unknownPrediction) {
+            return;
+        }
+        currentProgressText = unknownPrediction;
+        typewriter.
+            deleteAll(1)
+            .pauseFor(300)
+            .typeString(unknownPrediction)
+            .start();
         return;
     }
 
@@ -416,20 +432,22 @@ function refreshPrediction(statusData: StatusViewData) {
     let predictionFinish =
         ` $${statusData.spendLowerBound.toFixed(
             2
-        )} and $${statusData.spendUpperBound.toFixed(2)}.` +
-        ` Your account is ${
+        )} and $${statusData.spendUpperBound.toFixed(2)}.`;
+    if (statusData.accountRefreshed) {
+        predictionFinish += ` Your account is ${
             statusData.accountStatus
         } and you have spent $${statusData.currentSpend.toFixed(
             2
         )} so far this month.`;
-    if (statusData.couponRemaining > 0) {
-        predictionFinish += ` You have $${statusData.couponRemaining.toFixed(
-            2
-        )} of a free trial remaining ($${statusData.discountedUsage.toFixed(
-            2
-        )} used already).`;
+        if (statusData.couponRemaining > 0) {
+            predictionFinish += ` You have $${statusData.couponRemaining.toFixed(
+                2
+            )} of a free trial remaining ($${statusData.discountedUsage.toFixed(
+                2
+            )} used already).`;
+        }
     }
-
+    
     const newText = `${predictionStart}${predictionFinish}`;
     // if the text is the same, don't do anything
     if (currentProgressText === newText) {
