@@ -150,8 +150,10 @@ export async function getAllProjectFiles(
     // Manually include files that match negation patterns
     if (negationPatterns && negationPatterns.length > 0) {
         let negatedFilesToAddBack : vscode.Uri[] = [];
+        // never include .boost folder, no matter what
+        const ignoreBoostFolders = new vscode.RelativePattern(targetFolder, `**/${boostFolderDefaultName}/**`);
         for (const pattern of negationPatterns) {
-            const negationFiles = await vscode.workspace.findFiles(pattern, null, files.length);
+            const negationFiles = await vscode.workspace.findFiles(pattern, ignoreBoostFolders, files.length);
             negatedFilesToAddBack = negatedFilesToAddBack.concat(negationFiles);
         }
         if (options?.debugFileCounts && negatedFilesToAddBack.length) {
@@ -173,6 +175,10 @@ export async function getAllProjectFiles(
     
     if (filteredIncludePatterns.length > 0) {
         const includePatterns = new vscode.RelativePattern(targetFolder, `{${filteredIncludePatterns.join(',')}}`);
+        // make sure we never include the boost folder
+        if (includeNegationPatterns.length > 0) {
+            includeNegationPatterns.push(`**/${boostFolderDefaultName}/**`);
+        }
         const includeIgnorePatterns = includeNegationPatterns.length > 0 ?
             new vscode.RelativePattern(targetFolder, `{${includeNegationPatterns.join(',')}}`) :
             undefined;

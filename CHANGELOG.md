@@ -13,6 +13,8 @@ Polyverse Boost Automatic Application Modernization
 
 ### Bug Fixes
 - Fix issue with Command "Process All Rings" being launched in the background
+- Fix debug logging issue with skipped files during global analysis
+- Fix issue with extra .boost files being included in analysis using ! (not) patternss
 
 ## Version 1.8.1: November 22st, 2023
 
