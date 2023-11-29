@@ -381,7 +381,8 @@ export class KernelControllerBase extends BoostServiceHelper {
             typeof inputData === "string" &&
             (inputData as string).trim().length === 0
         ) {
-            return true;
+            // no input found to process, and we need string input, so we'll return False - no processing done
+            return false;
         } else if (!cell.metadata.type) {
             const reinitialized = await this.initializeMetaData(notebook, cell);
             if (!reinitialized) {
@@ -400,8 +401,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         // we basically run two executions, one for the original code to generate a summary
         // and one for the generated code
         // if the cell is original code, run the summary generation
-        if (
-            !this.useOriginalCodeCheck ||
+        if (!this.useOriginalCodeCheck ||
             cell.metadata.type === "originalCode"
         ) {
             return await this._doKernelExecutionWithExecutionTracking(
