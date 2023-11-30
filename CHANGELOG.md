@@ -16,6 +16,7 @@ Polyverse Boost Automatic Application Modernization
 - Fix debug logging issue with skipped files during global analysis
 - Fix issue with extra .boost files being included in analysis using ! (not) patternss
 - Fix issue that can cause new source files not to be analyzed by default
+- Fix issue where Details of file Analysis is empty or missing some files that have not been analyzed yet
 
 ## Version 1.8.1: November 22st, 2023
 

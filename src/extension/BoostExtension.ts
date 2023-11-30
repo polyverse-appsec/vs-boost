@@ -76,7 +76,7 @@ import { generateMarkdownforNotebook } from "../utilities/convert_markdown";
 import { generateHTMLforNotebook } from "../utilities/convert_html";
 import { BoostProjectData } from "../data/BoostProjectData";
 import { IncompatibleVersionException } from "../data/incompatibleVersionException";
-import { emptyProjectData } from "../data/boostprojectdata_interface";
+import { FileSummaryItem, emptyProjectData } from "../data/boostprojectdata_interface";
 
 // UI imports
 import { BoostMarkdownViewProvider } from "../dashboard/markdown_view";
@@ -748,32 +748,49 @@ export class BoostExtension {
             total++;
             const boostFileUri = getBoostFile(file);
             const fileExists = fs.existsSync(boostFileUri.fsPath);
-            setOfAllFiles.add(vscode.workspace.asRelativePath(file.fsPath));
-
-            if (!fileExists) {
-                continue;
-            }
-            exists++;
-            if (!deepScan) {
-                continue;
-            }
-            const boostNotebook = new boostnb.BoostNotebook();
-            boostNotebook.load(boostFileUri.fsPath);
-            boostNotebooks.push(boostNotebook);
-
-            // get the summary of the notebook file
-            const filesummary = boostNotebookToFileSummaryItem(
-                workspaceFolder.fsPath,
-                boostNotebook
-            );
 
             // now add it to boostprojectdata
             let relativePath = path.relative(
                 workspaceFolder.fsPath,
                 file.fsPath
             );
-            // reset the project data for the file to baseline (from notebooks)
-            boostProjectData.updateWithFileSummary(filesummary, relativePath, true);
+
+            setOfAllFiles.add(relativePath);
+
+            if (fileExists) {
+                exists++;
+            }
+
+            if (!deepScan) {
+                continue;
+            }
+
+            if (fileExists) {
+                const boostNotebook = new boostnb.BoostNotebook();
+                boostNotebook.load(boostFileUri.fsPath);
+                boostNotebooks.push(boostNotebook);
+
+                // get the summary of the notebook file
+                const filesummary = boostNotebookToFileSummaryItem(
+                    workspaceFolder.fsPath,
+                    boostNotebook
+                );
+                // reset the project data for the file to baseline (from notebooks)
+                boostProjectData.updateWithFileSummary(filesummary, relativePath, true);
+            } else {
+                const nonExistentFileSummary : FileSummaryItem = {
+                        sourceRelFile: relativePath,
+                        notebookRelFile: vscode.workspace.asRelativePath(boostFileUri),
+                        totalCells: 0,
+                        completedCells: 0,
+                        errorCells: 0,
+                        issueCells: 0,
+                        sections: {},
+                    };
+                
+                // reset the project data for the file to baseline (from notebooks)
+                boostProjectData.updateWithFileSummary(nonExistentFileSummary, relativePath, true);
+            }
         }
 
         // cleanup stale or deleted/ignored files from project cache
