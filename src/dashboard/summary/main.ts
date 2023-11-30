@@ -408,9 +408,9 @@ function refreshProgressText(statusData: StatusViewData) {
 
     // if there is no existing text, type it in
     if (oldText) {
-        typewriter.deleteAll(1).typeString(text).start();
+        typewriter.stop().deleteAll(1).typeString(text).start();
     } else {
-        typewriter.deleteAll(1).pasteString(text).start();
+        typewriter.stop().deleteAll(1).pasteString(text).start();
     }
 }
 
@@ -428,6 +428,7 @@ function refreshPrediction(statusData: StatusViewData) {
         }
         currentProgressText = unknownPrediction;
         typewriter.
+            stop().
             deleteAll(1)
             .pauseFor(300)
             .typeString(unknownPrediction)
@@ -481,6 +482,7 @@ function refreshPrediction(statusData: StatusViewData) {
         currentProgressText = newText;
 
         typewriter.
+            stop().
             deleteAll(1)
             .pauseFor(300)
             .typeString(predictionStart)
@@ -513,7 +515,7 @@ function refreshAnalysisState(analysisState: AnalysisState) {
 
     currentProgressText = prepareText;
 
-    typewriter.deleteAll(1).typeString(
+    typewriter.stop().deleteAll(1).typeString(
             currentProgressText
         )
         .start();
