@@ -132,7 +132,11 @@ export class BoostQuickBlueprintKernel extends KernelControllerBase {
 
         let successfullyCompleted = true;
         try {
-            await this._runQuickBlueprintStages(notebook, authPayload);
+            if (BoostConfiguration.simulateServiceCalls) {
+                boostLogging.debug(`Simulate:Controller:${this.command}`);
+            } else {
+                await this._runQuickBlueprintStages(notebook, authPayload);
+            }
         } catch (rethrow) {
             successfullyCompleted = false;
             boostLogging.error(

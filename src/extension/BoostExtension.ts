@@ -2441,6 +2441,9 @@ export class BoostExtension {
         context: vscode.ExtensionContext,
         extension: BoostExtension
     ) {
+        if (BoostConfiguration.simulateServiceCalls) {
+            return;
+        }
         const accountStatus = await this.updateBoostAccountStatus(
             context,
             undefined,
@@ -4436,6 +4439,7 @@ export class BoostExtension {
                         if (this.activeWorkflowEngine.values().next().value?.canceled) {
                             throw new WorkflowError("cancel", `Analysis for ${relativePath} was canceled`);
                         }
+                        /* we're going to let the actual controller simulate the service calls to get maximim code coverage
                         if (BoostConfiguration.simulateServiceCalls) {
                             boostLogging.debug(`Simulate:executeCommand: processCurrentFolder(${fileUri}, ${analysisKernelName})`);
 
@@ -4443,6 +4447,7 @@ export class BoostExtension {
                             await (new Promise(resolve => setTimeout(resolve, 100)));
                             return true; // simulate work happened
                         }
+                        */
                         this.checkAccountEnabledBeforeContinuingAnalysis();
                         const refreshed = await vscode.commands.executeCommand(
                             boostnb.NOTEBOOK_TYPE +

@@ -130,8 +130,12 @@ export class SummarizeKernel extends KernelControllerBase {
                 if (controller[1].command === summarizeKernelName) {
                     continue;
                 }
-                await this._summarizeCellsForKernel(controller[1].outputType, controller[1].kernelLabel, summarizeProject,
-                    sourceCells, targetNotebook, notebook, session, usingBoostNotebook);
+                if (BoostConfiguration.simulateServiceCalls) {
+                    boostLogging.debug(`Simulate:Controller:${this.command}`);
+                } else {
+                    await this._summarizeCellsForKernel(controller[1].outputType, controller[1].kernelLabel, summarizeProject,
+                        sourceCells, targetNotebook, notebook, session, usingBoostNotebook);
+                }
             }
         } catch (rethrow) {
             successfullyCompleted = false;

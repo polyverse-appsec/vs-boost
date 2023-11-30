@@ -119,8 +119,11 @@ export class BoostQuickSummaryKernelControllerBase extends KernelControllerBase 
         const relativePath = vscode.workspace.asRelativePath((notebook as BoostNotebook).fsPath);
         try
         {
-            await this._runQuickSummary(notebook as BoostNotebook, authPayload, projectWideAnalysis);
-
+            if (BoostConfiguration.simulateServiceCalls) {
+                boostLogging.debug(`Simulate:Controller:${this.command}`);
+            } else {
+                await this._runQuickSummary(notebook as BoostNotebook, authPayload, projectWideAnalysis);
+            }
         } catch (rethrow) {
             boostLogging.error(`Error during ${this.command} of ${projectWideAnalysis?"Project":"Source"}-level Notebook (${relativePath}) at ${new Date().toLocaleTimeString()}`, false);
             throw rethrow;

@@ -276,25 +276,57 @@ export class KernelControllerBase extends BoostServiceHelper {
                     !usingBoostNotebook
                 );
             }
-            promises.push(
-                this.doExecution(notebook, cell, session).then((result) => {
-                    if (!result) {
-                        successfullyCompleted = false;
-                    } else {
+            if (BoostConfiguration.simulateServiceCalls) {
+                promises.push(
+                    new Promise<void>((resolve) => {
+                        setTimeout(() => {
+                            resolve();
+                        }, 25);
+                    }).then(() => {
+                        boostLogging.debug(`Simulate:Controller:${this.command}: file:${usingBoostNotebook
+                            ? notebook.fsPath
+                            : notebook.uri.toString()}, cell:${
+                                usingBoostNotebook
+                                    ? (cell as BoostNotebookCell).id
+                                    : (
+                                          cell as vscode.NotebookCell
+                                      ).document.uri.toString()
+                            }`);
+            
+                        if (usingBoostNotebook) {
+                            boostLogging.info(
+                                `Finished ${this.command} of Notebook ${
+                                    notebook.metadata["sourceFile"]
+                                } on cell ${
+                                    (cell as BoostNotebookCell).id
+                                } at ${new Date().toLocaleTimeString()}`,
+                                !usingBoostNotebook
+                            );
+                        }
                         refreshed = true;
-                    }
-                    if (usingBoostNotebook) {
-                        boostLogging.info(
-                            `Finished ${this.command} of Notebook ${
-                                notebook.metadata["sourceFile"]
-                            } on cell ${
-                                (cell as BoostNotebookCell).id
-                            } at ${new Date().toLocaleTimeString()}`,
-                            !usingBoostNotebook
-                        );
-                    }
-                }) as Promise<boolean>
-            );
+                    }) as Promise<boolean>
+                );
+            }  else {
+                promises.push(
+                    this.doExecution(notebook, cell, session).then((result) => {
+                        if (!result) {
+                            successfullyCompleted = false;
+                        } else {
+                            refreshed = true;
+                        }
+                        if (usingBoostNotebook) {
+                            boostLogging.info(
+                                `Finished ${this.command} of Notebook ${
+                                    notebook.metadata["sourceFile"]
+                                } on cell ${
+                                    (cell as BoostNotebookCell).id
+                                } at ${new Date().toLocaleTimeString()}`,
+                                !usingBoostNotebook
+                            );
+                        }
+                    }) as Promise<boolean>
+                );
+            }
         }
 
         function reflect(promise: Promise<boolean>){
@@ -354,12 +386,12 @@ export class KernelControllerBase extends BoostServiceHelper {
         if (!session) {
             session = await this.doAuthorizationExecution();
         }
-        //if still not authorized, give up
+        // if still not authorized, give up
         if (!session) {
             return false;
         }
 
-        //if cell is undefined or metadata is undefined, seems like this should never happen
+        // if cell is undefined or metadata is undefined, seems like this should never happen
         //  since all cells have metadata
         if (!cell || !cell.metadata) {
             return false;
@@ -382,6 +414,11 @@ export class KernelControllerBase extends BoostServiceHelper {
             (inputData as string).trim().length === 0
         ) {
             // no input found to process, and we need string input, so we'll return False - no processing done
+            boostLogging.debug(`Skipping processing for cell ${
+                cell instanceof BoostNotebookCell
+                    ? cell.id
+                    : cell.document.uri.toString()
+            } due to missing input data`);
             return false;
         } else if (!cell.metadata.type) {
             const reinitialized = await this.initializeMetaData(notebook, cell);
