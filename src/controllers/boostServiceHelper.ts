@@ -13,10 +13,8 @@ import {
 import {
     BoostNotebook,
     BoostNotebookCell,
-    NOTEBOOK_GUIDELINES_PRE_EXTENSION,
 } from "../data/jupyter_notebook";
 
-import { getBoostFile, BoostFileType } from "../extension/extension";
 import { BoostConfiguration } from "../extension/boostConfiguration";
 import { boostLogging } from "../utilities/boostLogging";
 import { fetchGithubSession, getCurrentOrganization } from "../utilities/authorization";
