@@ -72,7 +72,7 @@ export class BoostLogger extends Disposable {
         rollingLogger.info(message);
     }
 
-    _log(message: string) {
+    private _log(message: string) {
         this._outputChannel?.appendLine(message);
     }
 
