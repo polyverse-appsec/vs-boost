@@ -92,13 +92,12 @@ export class BugFunctionKernelControllerBase extends FunctionKernelControllerBas
         if (!details || Object.keys(details).length === 0) {
             return {};
         }
-        //now add the bugs to the issue collection
 
         const usingBoostNotebook = 'value' in cell;
     
         let sourceFile : string;
+            // if there is no source file, this was a new notebook created in memory. 
         if (!notebook.metadata.sourceFile) {
-            //if there is no source file, this was a new notebook created in memory. 
             sourceFile = notebook.uri.fsPath;
         } else {
             sourceFile = fullPathFromSourceFile(notebook.metadata.sourceFile).fsPath;
@@ -122,6 +121,7 @@ export class BugFunctionKernelControllerBase extends FunctionKernelControllerBas
             solution: string;
         }
 
+        //now add the bugs to the issue collection
         details.forEach((bug: BoostBug, _: number) => {
             if (bug.lineNumber < 1) {
                 boostLogging.debug(`${this.command}:${relativeFile} - Problem reported in negative line number ` +

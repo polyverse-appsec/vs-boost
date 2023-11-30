@@ -3,6 +3,17 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 1.9.1: December 5th, 2023
+
+### New Features
+- N/A
+
+### Enhancements
+- Flow diagram generation will be skipped for non-code files (e.g. JSON)
+
+### Bug Fixes
+- N/A
+
 ## Version 1.9.0: November 29th, 2023
 
 ### New Features
@@ -17,7 +28,7 @@ Polyverse Boost Automatic Application Modernization
 - Fix issue with extra .boost files being included in analysis using ! (not) patternss
 - Fix issue that can cause new source files not to be analyzed by default
 - Fix issue where Details of file Analysis is empty or missing some files that have not been analyzed yet
-- Fixes for issues related to streaming Sara status updates (duplicate and overlapping updates))
+- Fixes for issues related to streaming Sara status updates (duplicate and overlapping updates)
 
 ## Version 1.8.1: November 22st, 2023
 

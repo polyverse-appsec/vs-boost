@@ -1,16 +1,22 @@
 import {
     KernelControllerBase
  } from './base_controller';
-import { DiagnosticCollection, ExtensionContext } from 'vscode';
+import { AuthenticationSession, DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from '../extension/boostConfiguration';
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 import { NotebookCell, NotebookDocument } from 'vscode';
 import { BoostNotebook, BoostNotebookCell } from '../data/jupyter_notebook';
 import { ControllerOutputType } from './controllerOutputTypes';
+import * as path from 'path';
+import { boostLogging } from '../utilities/boostLogging';
 
 export const flowDiagramKernelName = 'flowdiagram';
 const flowDiagramOutputHeader = `Flow Diagram`;
+
+const nonCodeFileExtensions = [
+    '.json',
+];
 
 export class BoostFlowDiagramKernel extends KernelControllerBase {
 	constructor(context: ExtensionContext, onServiceResponseHandler: any, otherThis : any, collection: DiagnosticCollection) {
@@ -48,6 +54,26 @@ export class BoostFlowDiagramKernel extends KernelControllerBase {
                 return 'https://b3pflzry5l5wbaenwtdytiv7se0ykzkc.lambda-url.us-west-2.on.aws/';
         }
         
+    }
+
+    executeAll(
+        cells: NotebookCell[] | BoostNotebookCell[],
+        notebook: NotebookDocument | BoostNotebook,
+        session: AuthenticationSession, forceAnalysisRefresh?: boolean): Promise<boolean> {
+
+        const usingBoostNotebook = notebook instanceof BoostNotebook;
+
+        const sourceFile = notebook.metadata?.sourceFile;
+        if (sourceFile) {
+            const extension = path.extname(sourceFile);
+            if (nonCodeFileExtensions.includes(extension.toLowerCase())) {
+                // don't execute on non-code files
+                boostLogging.info(`Skipping flow diagram analysis on non-code file ${sourceFile}`);
+                return Promise.resolve(false);
+            }
+        }
+
+        return super.executeAll(cells, notebook, session, forceAnalysisRefresh);
     }
     
     onKernelOutputItem(
