@@ -33,6 +33,7 @@ import {
     AnalysisState,
     AnalysisTypesState,
 } from "../../data/boostprojectdata_interface";
+    // https://github.com/tameemsafi/typewriterjs
 import Typewritter from "typewriter-effect/dist/core";
 import { BoostUserAnalysisType } from "../../data/userAnalysisType";
 
@@ -370,13 +371,15 @@ function refreshProgressText(statusData: StatusViewData) {
         return refreshAnalysisState(statusData.analysisState);
     }
 
+    /*
     const progressText = document.getElementById(
         "progress-text"
     ) as HTMLElement;
+    */
     let remaining = "";
 
+    const oldText = currentProgressText;
     if (!statusData.busy) {
-        const oldText = currentProgressText;
         refreshPrediction(statusData);
         if (oldText !== currentProgressText) {
             vscode.postMessage({ command: "refreshUI"});
@@ -397,13 +400,17 @@ function refreshProgressText(statusData: StatusViewData) {
             : `processing ${statusData.jobsRunning} ${filesText}`;
     const text = `Sara (the Boost AI) is ${processingText} right now, with ${statusData.jobsQueued} ${queuesText} queued. ETA ${remaining}. You can continue to use Visual Studio Code in the meantime.`;
 
+    if (oldText === text) {
+        return;
+    }
+
     currentProgressText = text;
 
     // if there is no existing text, type it in
-    if (!currentProgressText) {
-        typewriter.typeString(text).start();
+    if (oldText) {
+        typewriter.deleteAll(1).typeString(text).start();
     } else {
-        typewriter.pasteString(text).start();
+        typewriter.deleteAll(1).pasteString(text).start();
     }
 }
 
@@ -470,7 +477,9 @@ function refreshPrediction(statusData: StatusViewData) {
             .start();
 */
     } else {
+
         currentProgressText = newText;
+
         typewriter.
             deleteAll(1)
             .pauseFor(300)
@@ -495,14 +504,16 @@ function refreshAnalysisState(analysisState: AnalysisState) {
         "progress-text"
     ) as HTMLElement;
 
+    const prepareText = "Sara is preparing the analysis. This may take a few minutes.";
+
     // get the current text of the progress text, delete it if it exists
-    if (currentProgressText) {
-        currentProgressText = "";
-        typewriter.deleteAll(1).pauseFor(300).start();
+    if (prepareText === currentProgressText) {
+        return;
     }
-    currentProgressText = "Sara is preparing the analysis. This may take a few minutes.";
-    typewriter
-        .typeString(
+
+    currentProgressText = prepareText;
+
+    typewriter.deleteAll(1).typeString(
             currentProgressText
         )
         .start();
