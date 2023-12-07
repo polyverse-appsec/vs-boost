@@ -3,6 +3,43 @@ Polyverse Boost Automatic Application Modernization
 
 # Release Notes
 
+## Version 1.8.0: November 19th, 2023
+
+### New Features
+- New Code Generation Support can rewrite existing source code, generate new source code or convert source code to a new language
+- New Generate Test Capabilities will create a source file for each test case
+
+### Enhancements
+- Show Activity Bar whenever UI-based Notebook actions are complete
+
+### Bug Fixes
+- Fix issue with Test Framework choice only working with UI-based Notebooks
+- Fix issue where some processing errors can be lost and misreported
+- Fix issue where files with '#' in the filename are not handled correctly
+- Fix issue where stale file cleanup is not run automatically on project analysis
+- Fix issue with disabled "Run Selected Analyses" button when launch via Command Palette
+- Fix issue where refreshed analysis performed on a Notebook cell via the Notebook UI may not persist
+
+## Version 1.7.0: November 11th, 2023
+
+### New Features
+- .boostInclude file support - where you can specify required source files or folder patterns to include in analysis regardless of boostOnly or boostIgnore files
+
+### Enhancements
+- "Run Selected Analyses" will run even if Activity Bar is closed
+- "Process All Files in Rings" is a new command to launch background processing of all files in a project
+- Code Generation and Conversion/Cleanup will default to existing language unless explicitly changed - previously defaulted to Python
+- Live/Unsaved Edits to Project Guidelines are used in active Chat and live analysis
+- Sara Chat requests that do not complete successfully can be restarted by clicking on the request or response that failed
+- To refresh a Sara chat request for a different response, click on the request to refresh 
+
+### Bug Fixes
+- Fix issue with Test and File generation markdown rendering of plain-text
+- Fix issue with Test Generation for some historic languages (COBOL) that don't have dedicated Test Frameworks failing to generate any Test Cases
+- Fix issue with incorrect language being reported in PDF, HTML and Markdown output
+- Fix issue where details of analysis/code generation are not stored in Boost files when using the Notebook UI
+- Fix issue where analysis errors can incorrectly be reported as successful updates
+
 ## Version 1.6.4: November 3rd, 2023
 
 ### New Features

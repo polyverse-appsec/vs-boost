@@ -213,11 +213,6 @@ function handleIncomingSummaryMessage(event: MessageEvent) {
     const message = event.data; // The JSON data our extension sent
 
     switch (message.command) {
-        case "finishBatchJob":
-            // this could just be refreshUI, but keeping the command
-            // in here for now in case we ever need to do something different
-            // when all jobs are finished.
-
         case "refreshUI":
             boostprojectdata = message.boostprojectdata;
             slowRefreshUI(message.boostprojectdata);

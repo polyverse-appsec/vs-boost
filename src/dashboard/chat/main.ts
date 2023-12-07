@@ -72,7 +72,8 @@ function handleIncomingChatMessage(event: MessageEvent) {
 
     switch (message.command) {
         case "chat-send-button-click": {
-            updateChatButtonForProcessing(event.data.externalPromptData);
+            updateChatButtonForProcessing(
+                event.data.externalPromptData, event.data.newPrompt, event.data.originalIndex);
             break;
         }
         case "new-prompt": {
@@ -120,7 +121,10 @@ function handleSendClick() {
     updateChatButtonForProcessing();
 }
 
-function updateChatButtonForProcessing(externalPromptData? : string) {
+function updateChatButtonForProcessing(
+    externalPromptData? : string,
+    newPrompt? : boolean,
+    originalIndex? : number) {
     // get the value of the radio button
     const chatGroup = document.getElementById("chat-group") as HTMLElement;
     const chatid = chatGroup.getAttribute("activeid");
@@ -146,7 +150,7 @@ function updateChatButtonForProcessing(externalPromptData? : string) {
 
     // if processing in external code, then just returm without
     //  sending the prompt to this service
-    if (externalPromptData) {
+    if (externalPromptData && newPrompt === undefined) {
         return;
     }
 
@@ -155,6 +159,6 @@ function updateChatButtonForProcessing(externalPromptData? : string) {
         chatindex: chatindex,
         showUI: true,
         prompt: promptData,
-        externalProcessing: externalPromptData !== undefined
+        originalIndex: originalIndex
     });
 }

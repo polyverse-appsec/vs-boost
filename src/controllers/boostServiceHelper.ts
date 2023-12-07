@@ -120,7 +120,7 @@ export class BoostServiceHelper {
         }
 
         // inject guidelines into the payload to guide analysis with user input
-        const guidelines = this.getGuidelines();
+        const guidelines = this.hostExtension.getGuidelines();
         // Add guidelines to the payload only if it's not undefined or an empty array
         if (guidelines && guidelines.length > 0) {
             // we mark it as the system role since it may be used as hints
@@ -240,56 +240,6 @@ export class BoostServiceHelper {
         } else {
             throw serviceError;
         }
-    }
-
-    getGuidelines(): string[] {
-        const guidelines: string[] = [];
-
-        if (!vscode.workspace.workspaceFolders) {
-            return guidelines;
-        }
-
-
-        const projectGuidelinesFile = getBoostFile(
-            undefined,
-            { format: BoostFileType.guidelines,
-              showUI: false }
-        );
-        if (
-            projectGuidelinesFile &&
-            fs.existsSync(projectGuidelinesFile.fsPath)
-        ) {
-            const projectGuidelines = new BoostNotebook();
-            projectGuidelines.load(projectGuidelinesFile.fsPath);
-            projectGuidelines.cells.forEach((cell) => {
-                if (this.hostExtension.sampleGuidelineRegEx.test(cell.value)) {
-                    // ignore sample text
-                    return;
-                }
-                guidelines.push(cell.value);
-            });
-        }
-
-        // this kernel guideline file
-        const kernelGuidelinesFile = projectGuidelinesFile.fsPath.replace(
-            NOTEBOOK_GUIDELINES_PRE_EXTENSION,
-            `.${this.hostExtension.getUserAnalysisType(
-                this.command
-            )}${NOTEBOOK_GUIDELINES_PRE_EXTENSION}`
-        );
-        if (fs.existsSync(kernelGuidelinesFile)) {
-            const projectGuidelines = new BoostNotebook();
-            projectGuidelines.load(kernelGuidelinesFile);
-            projectGuidelines.cells.forEach((cell) => {
-                if (this.hostExtension.sampleGuidelineRegEx.test(cell.value)) {
-                    // ignore sample text
-                    return;
-                }
-                guidelines.push(cell.value);
-            });
-        }
-
-        return guidelines;
     }
 
     async makeBoostServiceRequest(

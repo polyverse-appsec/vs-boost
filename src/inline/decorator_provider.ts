@@ -112,12 +112,12 @@ export class DecoratorProvider {
     private buildHoverHeaderMarkdown() : vscode.MarkdownString {
 
         const polyverseLogoPath = vscode.Uri.joinPath(
-            vscode.Uri.parse(this._context.extensionPath),
+            vscode.Uri.file(this._context.extensionPath),
             'resources',
             'polyverse_vs_boost_logo_decorator.jpg'); // 285x250
 
         const boostLogoPath = vscode.Uri.joinPath(
-            vscode.Uri.parse(this._context.extensionPath),
+            vscode.Uri.file(this._context.extensionPath),
             'resources',
             'polyverse_boost_name_decorator.jpg'); // 1100x414
 

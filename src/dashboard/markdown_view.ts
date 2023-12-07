@@ -71,7 +71,7 @@ export class BoostMarkdownViewProvider extends BaseWebviewViewProvider {
         const htmlPathOnDisk = vscode.Uri.joinPath(this._context.extensionUri, 'resources', 'dashboard', 'markdown.html');
 		const jsPathOnDisk = vscode.Uri.joinPath(this._context.extensionUri, 'out', 'dashboard', 'markdown', 'main.js');
         const jsSrc = webview.asWebviewUri(jsPathOnDisk);
-		const nonce = 'nonce-123456'; // TODO: add a real nonce here
+		const nonce = this.getNonce();
         const rawHtmlContent = fs.readFileSync(htmlPathOnDisk.fsPath, 'utf8');
     
         const template = _.template(rawHtmlContent);

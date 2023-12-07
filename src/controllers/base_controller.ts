@@ -167,6 +167,21 @@ export class KernelControllerBase extends BoostServiceHelper {
         });
     }
 
+    shouldRefreshCell(
+        notebook : vscode.NotebookDocument | BoostNotebook,
+        cell: vscode.NotebookCell | BoostNotebookCell | undefined,
+        forceAnalysisRefresh: boolean): boolean {
+        if (forceAnalysisRefresh) {
+            return true;
+        }
+
+        if (!cell) {
+            return forceAnalysisRefresh;
+        }
+        
+        return !this.isCellOutputMissingOrError(notebook, cell);
+    }
+
     async executeAll(
         cells: vscode.NotebookCell[] | BoostNotebookCell[],
         notebook: vscode.NotebookDocument | BoostNotebook,
@@ -236,10 +251,7 @@ export class KernelControllerBase extends BoostServiceHelper {
             }
 
             // if this cell has output, then skip it unless we're forcing analysis
-            if (
-                !forceAnalysisRefresh &&
-                !this.isCellOutputMissingOrError(notebook, cell)
-            ) {
+            if (!this.shouldRefreshCell(notebook, cell, forceAnalysisRefresh)) {
                 boostLogging.info(
                     `NO-Force-Refresh: Skipping re-analysis ${this.command} of Notebook ${notebook.metadata["sourceFile"]}` +
                         ` on cell ${
@@ -268,8 +280,9 @@ export class KernelControllerBase extends BoostServiceHelper {
                 this.doExecution(notebook, cell, session).then((result) => {
                     if (!result) {
                         successfullyCompleted = false;
+                    } else {
+                        refreshed = true;
                     }
-                    refreshed = true;
                     if (usingBoostNotebook) {
                         boostLogging.info(
                             `Finished ${this.command} of Notebook ${
@@ -441,7 +454,7 @@ export class KernelControllerBase extends BoostServiceHelper {
             return !(response instanceof Error);
         } catch (err) {
             successfullyCompleted = false;
-            this.updateCellOutput(
+            await this.updateCellOutput(
                 execution,
                 cell,
                 [],
@@ -577,7 +590,7 @@ export class KernelControllerBase extends BoostServiceHelper {
             return false;
         }
 
-        this.updateCellMetadata(notebook, cell, i, {
+        await this.updateCellMetadata(notebook, cell, i, {
             id: cell.metadata?.id ?? i,
             type: cell.metadata?.type ?? "originalCode",
         });
@@ -744,7 +757,7 @@ export class KernelControllerBase extends BoostServiceHelper {
     
         const response = await this.performServiceRequest(cell, serviceEndpoint, payload);
         let mimetype = { str: markdownMimeType };
-        return this.handleServiceResponse(response, cell, this.outputType, usingBoostNotebook, mimetype, notebook, execution);
+        return await this.handleServiceResponse(response, cell, this.outputType, usingBoostNotebook, mimetype, notebook, execution);
     }
     
     protected async performServiceRequest(
@@ -768,14 +781,14 @@ export class KernelControllerBase extends BoostServiceHelper {
         }
     }
     
-    handleServiceResponse(
+    async handleServiceResponse(
         response: any,
         cell: any,
         outputType : ControllerOutputType,
         usingBoostNotebook: boolean,
         mimetype: any,
         notebook: BoostNotebook | vscode.NotebookDocument,
-        execution: vscode.NotebookCellExecution | undefined): any {
+        execution: vscode.NotebookCellExecution | undefined): Promise<any> {
 
         let successfullyCompleted = !(response instanceof Error);
     
@@ -801,14 +814,13 @@ export class KernelControllerBase extends BoostServiceHelper {
                   );
         }
     
-        let details = this.onKernelProcessResponseDetails(
-            response?.details,
-            cell,
-            notebook
-        );
+        let details = response?.details;
+        if (details) {
+            this.onKernelProcessResponseDetails(details, cell, notebook);
+        }
 
         // extend the outputItem.metadata field with the results of a call to onKernelOutputItemDetails
-        this.updateCellOutput(execution, cell, details, outputItem, outputType);
+        await this.updateCellOutput(execution, cell, details, outputItem, outputType);
         if (successfullyCompleted) {
             return response;
         }
@@ -825,7 +837,49 @@ export class KernelControllerBase extends BoostServiceHelper {
         return response;
     }
 
-    updateCellOutput(
+    // returns undefined if missing or error content, otherwise returns the output
+    getCellOutput(
+        cell: vscode.NotebookCell | BoostNotebookCell,
+        outputType: string
+    ): string | undefined {
+        const usingBoostNotebook = cell ? "value" in cell : true; // look for the value property to see if its a BoostNotebookCell
+
+
+        if (usingBoostNotebook) {
+            const boostCell = cell as BoostNotebookCell;
+            const cellOutput = boostCell.outputs.find(
+                (output) => output.metadata.outputType === outputType
+            );
+            if (!cellOutput) {
+                return undefined;
+            }
+            
+            // if the cell output is error, then just return empty string
+            if (cellOutput.items.some((item) => item.mime === errorMimeType)) {
+                return undefined;
+            }
+    
+            return cellOutput.items[0].data;
+        }
+
+        const vscCell = cell as vscode.NotebookCell;
+        const vscOutput = vscCell.outputs.find(
+            (output) => output.metadata?.outputType === outputType
+        );
+        if (vscOutput) {
+            
+            // if the cell output is error, then just return empty string
+            if (vscOutput.items.some((item) => item.mime === errorMimeType)) {
+                return undefined;
+            }
+            const decodedText = new TextDecoder().decode(vscOutput.items[0].data);
+            return decodedText;
+        }
+        return undefined;
+
+    }
+
+    async updateCellOutput(
         execution: vscode.NotebookCellExecution | undefined,
         cell: vscode.NotebookCell | BoostNotebookCell,
         details: [],
@@ -849,33 +903,34 @@ export class KernelControllerBase extends BoostServiceHelper {
         const outputItems: vscode.NotebookCellOutputItem[] = [
             outputItem as vscode.NotebookCellOutputItem,
         ];
-
-        // we will have one NotebookCellOutput per type of output.
-        // first scan the existing outputs of the cell and see if we already have an output of this type
-        // if so, replace it
+    
+        // We will have one NotebookCellOutput per type of output.
+        // First scan the existing outputs of the cell and see if we already have an output of this type
+        // If so, replace it
         let existingOutputs = cell.outputs;
-        let existingOutput = existingOutputs.find(
+        let outputIndex = existingOutputs.findIndex(
             (output) => output.metadata?.outputType === outputType
         );
-        if (existingOutput) {
-            execution.replaceOutputItems(outputItems, existingOutput);
-            // update existingOutput.metadata with details, replacing any existing details
-            if (existingOutput.metadata?.details) {
-                delete existingOutput.metadata.details;
-            }
-            existingOutput.metadata = {
-                ...existingOutput.metadata,
+    
+        if (outputIndex !== -1) {
+            // Update the metadata with details, replacing any existing details
+            const updatedMetadata = {
+                ...existingOutputs[outputIndex].metadata,
                 details: details,
             };
+            // Create a new NotebookCellOutput with the updated metadata and existing items
+            const updatedOutput = new vscode.NotebookCellOutput(outputItems, updatedMetadata);
+            // Replace the entire output to update both items and metadata
+            await execution.replaceOutput(updatedOutput, cell);
         } else {
-            // create a new NotebookCellOutput with the outputItems array
+            // If the output doesn't exist, create a new one with the metadata
             let metadata = {
                 outputType: outputType,
                 details: details,
             };
-            const output = new vscode.NotebookCellOutput(outputItems, metadata);
-
-            execution.appendOutput(output);
+            const newOutput = new vscode.NotebookCellOutput(outputItems, metadata);
+            // Append the new output
+            await execution.appendOutput(newOutput);
         }
     }
 
@@ -925,7 +980,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         else if (!error) {
             let cellUri = !usingBoostNotebook
                 ? cell.document.uri
-                : vscode.Uri.parse(`${(notebook as BoostNotebook).fsPath}`);
+                : vscode.Uri.file(`${(notebook as BoostNotebook).fsPath}`);
 
             if (usingBoostNotebook) {
                 cellUri = cellUri.with({
@@ -946,7 +1001,7 @@ export class KernelControllerBase extends BoostServiceHelper {
                     ? !cell?.metadata?.sourceFile
                     : !cell.notebook.metadata.sourceFile
             ) {
-                relatedUri = vscode.Uri.parse("file:///unknown", true);
+                relatedUri = vscode.Uri.file("file:///unknown");
             } else {
                 relatedUri = fullPathFromSourceFile(
                     usingBoostNotebook
@@ -968,7 +1023,7 @@ export class KernelControllerBase extends BoostServiceHelper {
         //      so our custom content provider will work
         let cellUri = !usingBoostNotebook
             ? cell.document.uri
-            : vscode.Uri.parse(`${(notebook as BoostNotebook).fsPath}`);
+            : vscode.Uri.file(`${(notebook as BoostNotebook).fsPath}`);
         if (usingBoostNotebook) {
             cellUri = cellUri.with({
                 scheme: boostUriSchema,

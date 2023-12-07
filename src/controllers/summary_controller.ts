@@ -113,7 +113,7 @@ export class SummarizeKernel extends KernelControllerBase {
             }
         } else {
             targetNotebook = notebook as BoostNotebook;
-            targetNotebookUri = vscode.Uri.parse(targetNotebook.fsPath);
+            targetNotebookUri = vscode.Uri.file(targetNotebook.fsPath);
         }
 
         let successfullyCompleted = true;
@@ -309,33 +309,9 @@ export class SummarizeKernel extends KernelControllerBase {
         // grab all the cell contents by type/command/kernel for submission
         const inputs: string[] = [];
         for (const cellToSummarize of sourceCells) {
-            if (usingBoostNotebook) {
-                const cell = cellToSummarize as BoostNotebookCell;
-                cell.outputs.filter((output) => output.metadata?.outputType === outputType).forEach((output) => {
-                    output.items.forEach((item) => {
-                        if (item.data &&
-                                // ignore error cells
-                            item.mime !== errorMimeType &&
-                            !this._isEmptySummary(item.data)) {
-                            inputs.push(cleanCellOutput(item.data));
-                        }
-                    });
-                });
-            } else {
-                const cell = cellToSummarize as vscode.NotebookCell;
-                cell.outputs.filter((output) => output.metadata?.outputType === outputType).forEach((output) => {
-                    output.items.forEach((item) => {
-                        // ignore error blocks
-                        if (item.mime === errorMimeType) {
-                            return;
-                        }
-
-                        const decodedText = new TextDecoder().decode(item.data);
-                        if (decodedText && !this._isEmptySummary(decodedText)) {
-                            inputs.push(cleanCellOutput(decodedText));
-                        }
-                    });
-                });
+            const cellContents = this.getCellOutput(cellToSummarize, outputType);
+            if (cellContents && !this._isEmptySummary(cellContents)) {
+                inputs.push(cleanCellOutput(cellContents));
             }
         }
     

@@ -20,6 +20,7 @@ import {
     NOTEBOOK_SUMMARY_EXTENSION
 } from "../data/jupyter_notebook";
 import { ControllerOutputType } from "../controllers/controllerOutputTypes";
+import { plaintext } from "./languageMappings";
 
 const cellStyleSheet =
     "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css";
@@ -57,7 +58,7 @@ export async function generateHTMLforNotebook(
 ): Promise<string> {
     return new Promise<string>(async (resolve, reject) => {
         try {
-            const htmlFileUri = getBoostFile(vscode.Uri.parse(boostNotebookPath),
+            const htmlFileUri = getBoostFile(vscode.Uri.file(boostNotebookPath),
                 { format: BoostFileType.output, outputType: OutputType.html }).fsPath;
 
             const boostNotebook = new BoostNotebook();
@@ -128,7 +129,7 @@ async function convertNotebookToHTMLinMemory(
     if (projectLevel || buildingSummary) {
         summaryNotebook = notebook;
     } else {
-        const summaryBoostFile = getBoostFile(vscode.Uri.parse(path.join(baseFolderPath,sourceFile)), {
+        const summaryBoostFile = getBoostFile(vscode.Uri.file(path.join(baseFolderPath,sourceFile)), {
             format: BoostFileType.summary
         });
         // if summary exists, then print that 
@@ -192,9 +193,22 @@ async function convertNotebookToHTMLinMemory(
                     cellHtml += `<div>`;
                 }
 
+                // get the the source language if available
+                let sourceLanguage = cell.languageId??plaintext;;
+
+                if (sourceLanguage === plaintext) {
+                    sourceLanguage = "General";
+                }
+
                 cellHtml += `
-                    <h2>${sourceFile} ${lineText}</h2>
-                    <p>Programming Language: ${cell.languageId}</p>
+                    <h2>${sourceFile} ${lineText}</h2>`;
+
+                if (sourceLanguage && sourceLanguage !== "General") {
+                    cellHtml += `
+                        <p>Programming Language: ${cell.languageId}</p>`;
+                }
+
+                cellHtml += `
                     <pre><code>${hljs.highlightAuto(cell.value).value}</code></pre>
                 `;
                 cellHtml += "</div>";

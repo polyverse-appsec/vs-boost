@@ -1,7 +1,7 @@
 
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from '../extension/boostConfiguration';
-import { FunctionKernelControllerBase } from './function_base_controller';
+import { BugFunctionKernelControllerBase } from './bug_function_base_controller';
 import { complianceKernelName } from './compliance_controller';
 import { ControllerOutputType } from './controllerOutputTypes';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
@@ -9,7 +9,7 @@ import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 export const complianceFunctionKernelName = complianceKernelName + '_function';
 const complianceOutputHeader = 'compliance';
 
-export class BoostComplianceFunctionKernel extends FunctionKernelControllerBase {
+export class BoostComplianceFunctionKernel extends BugFunctionKernelControllerBase {
 
 	constructor(context: ExtensionContext, onServiceResponseHandler: any, otherThis: any, collection: DiagnosticCollection) {
         super(

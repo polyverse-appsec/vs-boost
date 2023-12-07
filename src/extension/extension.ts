@@ -23,6 +23,9 @@ export enum BoostFileType {
     guidelines = "guidelines",
     output = "output",
     chat = "chat",
+    generated = "generated",
+    source = "source",
+    test = "test",
 }
 
 export const boostActivityBarId = "polyverse-boost-explorer";
@@ -37,6 +40,8 @@ export enum BoostCommands {
 
     processProject = "processProject",
 
+    processAllFilesInRings = "processAllFilesInRings",
+
     buildCurrentFileOutput = "buildCurrentFileOutput",
     buildCurrentFileSummaryOutput = "buildCurrentFileSummaryOutput",
     buildCurrentFolderOutput = "buildCurrentFolderOutput",
@@ -46,6 +51,8 @@ export enum BoostCommands {
     showCurrentFolderAnalysisSummaryOutput = "showCurrentFolderAnalysisSummaryOutput",
     excludeTargetFromBoostAnalysis = "excludeTargetFromBoostAnalysis",
     excludeTargetFolderFromBoostAnalysis = "excludeTargetFolderFromBoostAnalysis",
+    includeTargetFromBoostAnalysis = "includeTargetFromBoostAnalysis",
+    includeTargetFolderFromBoostAnalysis = "includeTargetFolderFromBoostAnalysis",
     analyzeOnlyTargetForBoostAnalysis = "analyzeOnlyTargetForBoostAnalysis",
     analyzeOnlyTargetFolderForBoostAnalysis = "analyzeOnlyTargetFolderForBoostAnalysis",
 
@@ -116,6 +123,7 @@ export interface BoostFileOptions {
     showUI?: boolean;
     outputType?: OutputType;
     useGlobalStorage?: boolean;
+    subFolder?: string;
 }
 
 export function getBoostFile(
@@ -173,7 +181,7 @@ export function getBoostFile(
     }
 
     // if the source file is an output file, then we're going to use the original source file instead
-    const outputUri = vscode.Uri.joinPath(vscode.Uri.parse(boostFolder), BoostFileType.output.toString());
+    const outputUri = vscode.Uri.joinPath(vscode.Uri.file(boostFolder), BoostFileType.output.toString());
     if (sourceFile.fsPath.includes(outputUri.fsPath)) {
         const relativeToOutput = path.relative(outputUri.fsPath, sourceFile.fsPath);
 
@@ -189,7 +197,7 @@ export function getBoostFile(
         // Rejoin the segments to get the new path
         let newPath = pathSegments.join(path.sep);
 
-        sourceFile = vscode.Uri.joinPath(vscode.Uri.parse(baseFolder), newPath);
+        sourceFile = vscode.Uri.joinPath(vscode.Uri.file(baseFolder), newPath);
     }
 
     // get the distance from the workspace folder for the source file
@@ -217,7 +225,7 @@ export function getBoostFile(
 
                 // if we were given a notebook, and we are looking for guidelines or summary, then return same path with new extension
             } else if (sourceFile.fsPath.endsWith(boostnb.NOTEBOOK_EXTENSION)) {
-                return vscode.Uri.parse(sourceFile.fsPath.slice(0, boostnb.NOTEBOOK_EXTENSION.length * -1) + extension);
+                return vscode.Uri.file(sourceFile.fsPath.slice(0, boostnb.NOTEBOOK_EXTENSION.length * -1) + extension);
             }
 
             // if the new file is outside of our current workspace, then warn user
@@ -229,22 +237,23 @@ export function getBoostFile(
                 );
                 const externalBoostFile = sourceFile.fsPath + extension;
                 return vscode.Uri.file(externalBoostFile);
-            } else {
-                // if we're targeting a folder, and the folder is the workspace name, then name it after the project
-                if (!relativePath) {
-                    relativePath = path.basename(baseFolder);
-                }
-                // create the .boost file path, from the new boost folder + amended relative source file path
-                const absoluteBoostNotebookFile = path.join(
-                    boostFolder,
-                    relativePath + extension
-                );
-                const normalizedAbsoluteBoostNotebookFile = path.normalize(
-                    absoluteBoostNotebookFile
-                );
-
-                return vscode.Uri.file(normalizedAbsoluteBoostNotebookFile);
             }
+            
+            // if we're targeting a folder, and the folder is the workspace name, then name it after the project
+            if (!relativePath) {
+                relativePath = path.basename(baseFolder);
+            }
+            // create the .boost file path, from the new boost folder + amended relative source file path
+            const absoluteBoostNotebookFile = path.join(
+                boostFolder,
+                relativePath + extension
+            );
+            const normalizedAbsoluteBoostNotebookFile = path.normalize(
+                absoluteBoostNotebookFile
+            );
+
+            return vscode.Uri.file(normalizedAbsoluteBoostNotebookFile);
+
         case BoostFileType.chat:
             const chatFolder = path.join(
                 boostFolder,
@@ -272,6 +281,7 @@ export function getBoostFile(
                 }
             }
             return chatFile;
+
         case BoostFileType.status:
             const absoluteboostProjectDataFile = path.join(
                 boostFolder,
@@ -285,7 +295,9 @@ export function getBoostFile(
                 normalizedAbsoluteBoostProjectDataFile
             );
             return boostProjectDataFile;
+
         case BoostFileType.output:
+        {
             const isNotebook = path.extname(sourceFile.fsPath) === boostnb.NOTEBOOK_EXTENSION;
 
             // grab the requested output format, or the default format from config or markdown if not specified
@@ -323,7 +335,82 @@ export function getBoostFile(
                 fs.mkdirSync(outputFileParentFolder, { recursive: true });
             }
             
-            return vscode.Uri.parse(outputFilePath);
+            return vscode.Uri.file(outputFilePath);
+        }
+        case BoostFileType.source:
+        {
+            const isNotebook = path.extname(sourceFile.fsPath) === boostnb.NOTEBOOK_EXTENSION;
+        
+            let sourceFilePathRelative = path.relative(baseFolder, sourceFile.fsPath);
+            if (isNotebook) {
+                const dirName = path.dirname(sourceFile.path);
+                let baseNameWithoutExt = path.basename(sourceFile.path, path.extname(sourceFile.path));
+
+                const nonNormalizedSourceFilePathUnderBoost = path.join(dirName, baseNameWithoutExt);
+                const sourceFilePathUnderBoost = path.normalize(nonNormalizedSourceFilePathUnderBoost);
+                sourceFilePathRelative = path.relative(boostFolder, sourceFilePathUnderBoost);
+            }
+
+            const sourceFileAbsolute = path.join(baseFolder, sourceFilePathRelative);
+            
+            return vscode.Uri.file(sourceFileAbsolute);
+        }
+        case BoostFileType.generated:
+            const generatedFolder = path.join(
+                boostFolder,
+                BoostFileType.generated.toString(),
+                options?.subFolder?options.subFolder:""
+            );
+            const absoluteGeneratedFile = path.join(
+                generatedFolder,
+                relativePath
+            );
+            const normalizedAbsoluteGeneratedFile = path.normalize(
+                absoluteGeneratedFile
+            );
+
+            let generatedFile = vscode.Uri.file(
+                normalizedAbsoluteGeneratedFile
+            );
+            // create generated folder if not found
+            if (!fs.existsSync(generatedFolder)) {
+                try {
+                    fs.mkdirSync(generatedFolder, { recursive: true });
+                } catch (error) {
+                    throw new Error(
+                        `Failed to create Boost Generated folder at ${generatedFolder} due to Error: ${errorToString(error)} - possible permission issue`
+                    );
+                }
+            }
+            return generatedFile;
+        case BoostFileType.test:
+            const testFolder = path.join(
+                boostFolder,
+                BoostFileType.test.toString(),
+                options?.subFolder?options.subFolder:""
+            );
+            const absoluteTestFile = path.join(
+                testFolder,
+                relativePath
+            );
+            const normalizedAbsoluteTestFile = path.normalize(
+                absoluteTestFile
+            );
+
+            let testFile = vscode.Uri.file(
+                normalizedAbsoluteTestFile
+            );
+            // create test folder if not found
+            if (!fs.existsSync(testFolder)) {
+                try {
+                    fs.mkdirSync(testFolder, { recursive: true });
+                } catch (error) {
+                    throw new Error(
+                        `Failed to create Boost Test folder at ${testFolder} due to Error: ${errorToString(error)} - possible permission issue`
+                    );
+                }
+            }
+            return testFile;
 
         case BoostFileType.notebook:
         default:

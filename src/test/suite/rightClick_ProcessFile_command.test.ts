@@ -20,7 +20,7 @@ suite("Right Click Process File Command", function () {
     before(async function () {
         randomFile = getRandomTestSourceFile();
         console.log(`${parent?.title} random source: ${randomFile}`);
-        fileUri = vscode.Uri.parse(randomFile);
+        fileUri = vscode.Uri.file(randomFile);
 
         // now open up the file to get vscode initialized properly
         await vscode.commands.executeCommand("vscode.open", fileUri);

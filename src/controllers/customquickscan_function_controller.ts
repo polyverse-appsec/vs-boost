@@ -1,6 +1,6 @@
 import { DiagnosticCollection, ExtensionContext } from 'vscode';
 import { BoostConfiguration } from '../extension/boostConfiguration';
-import { FunctionKernelControllerBase } from './function_base_controller';
+import { BugFunctionKernelControllerBase } from './bug_function_base_controller';
 import { ControllerOutputType } from './controllerOutputTypes';
 import { BoostNotebookCell, BoostNotebook } from '../data/jupyter_notebook';
 import * as vscode from 'vscode';
@@ -9,7 +9,7 @@ import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
 
 const customQuickScanFunctionKernelName = "customQuickScan";
 
-export class BoostCustomQuickScanFunctionKernel extends FunctionKernelControllerBase {
+export class BoostCustomQuickScanFunctionKernel extends BugFunctionKernelControllerBase {
 
     // use a default scan for async or multi-threading issues
     customScanGuidance : string =

@@ -46,6 +46,15 @@ export abstract class BaseWebviewViewProvider implements vscode.WebviewViewProvi
         return this._view?.webview.postMessage(message) ?? Promise.resolve(false);
     }
 
+    protected getNonce(): string {
+        let text = '';
+        const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        for (let i = 0; i < 32; i++) {
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        return text;
+    }
+
     protected _resolveWebviewView(
         webviewView: vscode.WebviewView,
         context: vscode.WebviewViewResolveContext,
@@ -63,8 +72,17 @@ export abstract class BaseWebviewViewProvider implements vscode.WebviewViewProvi
         };
     }
 
-    public refresh(): void {
+    public async refresh(forceVisible : boolean = false) {
         try {
+            if (!this.visible) {
+                if (forceVisible) {
+                    boostLogging.debug('Opening Boost Activity View during automatic refresh');
+                } else {
+                    // skipping UI refresh since not visible and not forced
+                    return;
+                }
+            }
+
             this._refresh();
         } catch (e) {
             boostLogging.error(`Could not refresh Boost ${this._title} View due to ${e}`, false);

@@ -109,7 +109,7 @@ export class BoostConfiguration {
         return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.projectCleanupMethodValue) as string)??
             Defaults.projectCleanupMethodValue;
     }
-    public static set cleanupUnusedBoostFilesAutomatically(value: string) {
+    public static set projectCleanupMethod(value: string) {
         workspace.getConfiguration(NOTEBOOK_TYPE, null)
             .update(Defaults.projectCleanupMethodName, value, ConfigurationTarget.Global);
     }
@@ -190,11 +190,6 @@ export class BoostConfiguration {
             Defaults.runAllTargetAnalysisTypeValue;
     }
 
-    public static get processFilesInGroups(): boolean {
-        return (workspace.getConfiguration(NOTEBOOK_TYPE, null).get(Defaults.processFilesInGroupsName) as boolean)??
-            Defaults.processFilesInGroupsValue;
-    }
-
     static _cachedVersion: string = "";
     public static get version(): string {
         if (this._cachedVersion) {
@@ -214,7 +209,7 @@ export class BoostConfiguration {
 class Defaults {
     public static readonly defaultOutputLanguageName = "codeConversion.outputLanguage";
 
-    public static readonly defaultOutputLanguageValue = "python";
+    public static readonly defaultOutputLanguageValue = "";
 
     public static readonly testFrameworkName = "testGeneration.testFramework";
     public static readonly testFrameworkValue = "";
@@ -272,9 +267,6 @@ class Defaults {
 
     public static readonly defaultOutputFormatName : string = "output.defaultOutputFormat";
     public static readonly defaultOutputFormatValue : string = "pdf";
-
-    public static readonly processFilesInGroupsName : string = "processFilesInGroups";
-    public static readonly processFilesInGroupsValue : boolean = true;
 
     public static readonly addBoostToAnalyzedProjectsName : string = "advanced.addBoostToAnalyzedProjects";
     public static readonly addBoostToAnalyzedProjectsValue : boolean = true;

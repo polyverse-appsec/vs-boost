@@ -1,4 +1,6 @@
 
+export const plaintext = "plaintext";
+
 export const languageMappings: { [key: string]: string } = {
     js: "javascript",
     ts: "typescript",
@@ -14,9 +16,9 @@ export const languageMappings: { [key: string]: string } = {
     tsx: "typescript",
 
     // Cobol support
-    cob: "plaintext",
-    cbl: "plaintext",
-    cpl: "plaintext",
+    cob: plaintext,
+    cbl: plaintext,
+    cpl: plaintext,
 
     css: "css",
     json: "json",
@@ -52,17 +54,17 @@ export const languageMappings: { [key: string]: string } = {
     fs: "fsharp",
     fsx: "fsharp",
     vb: "vb",
-    txt: "plaintext",
+    txt: plaintext,
     sql: "sql",
-    gradle: "plaintext",
-    csproj: "plaintext",
-    vbproj: "plaintext",
-    fsproj: "plaintext",
-    sln: "plaintext",
-    toml: "plaintext",
-    xcodeproj: "plaintext",
-    rakefile: "plaintext",
-    makefile: "plaintext",
+    gradle: plaintext,
+    csproj: plaintext,
+    vbproj: plaintext,
+    fsproj: plaintext,
+    sln: plaintext,
+    toml: plaintext,
+    xcodeproj: plaintext,
+    rakefile: plaintext,
+    makefile: plaintext,
 
     // Salesforce Apex support, we're going to treat as Java for now
     //  but they're really Apex language files (requiring an Apex extension plugin

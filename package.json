@@ -9,7 +9,7 @@
     "bugs": {
         "email": "support@polyverse.com"
     },
-    "version": "1.6.4",
+    "version": "1.8.0",
     "engines": {
         "vscode": "^1.77.0"
     },
@@ -197,12 +197,12 @@
                 "properties": {
                     "polyverse-boost-notebook.codeConversion.outputLanguage": {
                         "type": "string",
-                        "default": "python",
-                        "description": "Default output language for Polyverse Boost automatic code conversion"
+                        "default": "",
+                        "description": "Default code generastion language for Polyverse Boost automatic code generation"
                     },
                     "polyverse-boost-notebook.testGeneration.testFramework": {
                         "type": "string",
-                        "default": "pytest",
+                        "default": "",
                         "description": "Default test framework for Polyverse Boost automatic test code generation"
                     }
                 }
@@ -380,6 +380,16 @@
                 "icon": "$(folder)"
             },
             {
+                "command": "polyverse-boost-notebook.includeTargetFromBoostAnalysis",
+                "title": "Boost: Require File for Analysis",
+                "icon": "$(file)"
+            },
+            {
+                "command": "polyverse-boost-notebook.includeTargetFolderFromBoostAnalysis",
+                "title": "Boost: Require Folder for Analysis",
+                "icon": "$(folder)"
+            },
+            {
                 "command": "polyverse-boost-notebook.analyzeOnlyTargetForBoostAnalysis",
                 "title": "Boost: Include File for Analysis",
                 "icon": "$(file)"
@@ -408,6 +418,11 @@
                 "command": "polyverse-boost-notebook.generateCallGraph",
                 "title": "Boost: Generate Call Graph",
                 "icon": "$(file)"
+            },
+            {
+                "command": "polyverse-boost-notebook.processAllFilesInRings",
+                "title": "Boost: Process All Files in Rings",
+                "icon": "$(folder)"
             }
         ],
         "notebooks": [
@@ -520,6 +535,16 @@
                 },
                 {
                     "command": "polyverse-boost-notebook.excludeTargetFolderFromBoostAnalysis",
+                    "when": "(resourceScheme == 'file' && resourceLangId == 'unknown' && resourceExtname == '')",
+                    "group": "polyverseBoost"
+                },
+                {
+                    "command": "polyverse-boost-notebook.includeTargetFromBoostAnalysis",
+                    "when": "(resourceScheme == 'file' && !explorerResourceIsFolder)",
+                    "group": "polyverseBoost"
+                },
+                {
+                    "command": "polyverse-boost-notebook.includeTargetFolderFromBoostAnalysis",
                     "when": "(resourceScheme == 'file' && resourceLangId == 'unknown' && resourceExtname == '')",
                     "group": "polyverseBoost"
                 },

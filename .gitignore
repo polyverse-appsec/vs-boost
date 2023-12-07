@@ -5,4 +5,5 @@ node_modules/**
 node_modules/@types/**
 .vscode-test/
 *.vsix
-logs
+.boost/logs/**
+logs/**

@@ -14,9 +14,10 @@ import {
 import { generateCellOutputWithHeader } from '../extension/extensionUtilities';
 import { ControllerOutputType } from './controllerOutputTypes';
 import { DisplayGroupFriendlyName } from '../data/userAnalysisType';
+import { plaintext } from '../utilities/languageMappings';
 
 export const testgenKernelName = 'testgen';
-const testgenOutputHeader = `Test Generation`;
+export const testgenOutputHeader = `Test Generation`;
 
 export class BoostTestgenKernel extends KernelControllerBase {
 	constructor(
@@ -60,29 +61,40 @@ export class BoostTestgenKernel extends KernelControllerBase {
         }
     }
 
-    async onBoostServiceRequest(
-        cell : vscode.NotebookCell | BoostNotebookCell,
-        serviceEndpoint : string,
-        payload : any) : Promise<string>
-    {
+    async doKernelExecution(
+        notebook: vscode.NotebookDocument | BoostNotebook | undefined,
+        cell: vscode.NotebookCell | BoostNotebookCell | undefined,
+        execution: vscode.NotebookCellExecution | undefined,
+        extraPayload: any,
+        serviceEndpoint: string = this.serviceEndpoint
+    ): Promise<any> {
+        if (!cell) {
+            return super.doKernelExecution(notebook, cell, execution, extraPayload, serviceEndpoint);
+        }
+
         const usingBoostNotebook = "value" in cell; // if the cell has a value property, then it's a BoostNotebookCell
 
-        //get the outputLanguage from the language set on the cell, NOT the language set on the notebook
+        // get the outputLanguage from the language set on the cell, NOT the language set on the notebook
 		let outputLanguage = usingBoostNotebook?cell.languageId:cell.document.languageId ??
             BoostConfiguration.defaultOutputLanguage;
 
+        if (outputLanguage === plaintext) {
+            outputLanguage = BoostConfiguration.defaultOutputLanguage;
+        }
+
         // only set the framework if it's already set
-		let framework = vscode.window.activeNotebookEditor?.notebook.metadata.testFramework;
+		let framework = usingBoostNotebook?(notebook as BoostNotebook).metadata.testFramework:
+            vscode.window.activeNotebookEditor?.notebook.metadata.testFramework;
 
         //  dynamically add payload properties to send to Boost service
-        payload.language = outputLanguage;
+        extraPayload.language = outputLanguage;
 
         // otherwise don't send it so we can use the best one for the language
         if (framework) {
-            payload.framework = framework;
+            extraPayload.framework = framework;
         }
 
-        return super.onBoostServiceRequest(cell, serviceEndpoint, payload);
+        return super.doKernelExecution(notebook, cell, execution, extraPayload, serviceEndpoint);
     }
 
     onKernelOutputItem(
@@ -109,8 +121,8 @@ export class BoostTestgenKernel extends KernelControllerBase {
         else {
             if (testLanguage === 'cpp' || testLanguage === 'c') {
                 mimetype.str = textMimeType;
-            } else if (testLanguage === 'plaintext') {
-                mimetype.str = codeMimeType(textMimeType);
+            } else if (testLanguage === plaintext) {
+                mimetype.str = textMimeType;
             } else {
                 mimetype.str = codeMimeType(testLanguage);
             }

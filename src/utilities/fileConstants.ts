@@ -3,14 +3,24 @@ export const boostIgnoreFilename = ".boostignore";
 
 export const gitIgnoreFilename = ".gitignore";
 
+export const boostIncludeFilename = ".boostInclude";
+
 export const defaultBoostIgnorePaths = [
     '.vscode',
     'node_modules',
 
     gitIgnoreFilename,
     boostIgnoreFilename,
+    boostIncludeFilename,
 
     'chat/**', // exclude all chat files by default
+];
+
+export const boostFilterFiles = [
+    `**/${boostIgnoreFilename}`,
+    `**/${boostIncludeFilename}`,
+    `**/${boostIgnoreFilename.toLowerCase()}`,
+    `**/${boostIncludeFilename.toLowerCase()}`,
 ];
 
 export const potentiallyUsefulTextFiles = [
